@@ -1,18 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Net12.Maze
 {
     public class MazeBuilder
     {
+        private MazeLevel maze;
+        private Random random = new Random();
+
         public MazeLevel Build(int width, int height)
         {
-            var maze = new MazeLevel();
+            maze = new MazeLevel();
 
             maze.Width = width;
             maze.Height = height;
 
+            BuildWall();
+
+            BuildGround();
+
+            return maze;
+        }
+
+        private void BuildGround()
+        {
+            var minerX = 0;
+            var minerY = 0;
+
+            var wallToBreak = new List<BaseCell>();
+
+            do
+            {
+                maze[minerX, minerY] = new Ground(minerX, minerY);
+
+                var cell = maze[minerX, minerY];
+                var nearWalls = GetNear<Wall>(cell);
+                wallToBreak.AddRange(nearWalls);
+
+                wallToBreak = wallToBreak.Where(x => GetNear<Ground>(x).Count() <= 1).ToList();
+
+                var randomCell = GetRandom(wallToBreak);
+                wallToBreak.Remove(randomCell);
+                minerX = randomCell.X;
+                minerY = randomCell.Y;
+            } while (wallToBreak.Any());
+        }
+
+        private BaseCell GetRandom(List<BaseCell> cells)
+        {
+            var index = random.Next(cells.Count);
+
+            return cells[index];
+        }
+
+        private List<TypeOfCell> GetNear<TypeOfCell>(BaseCell currentCell)
+            where TypeOfCell : BaseCell
+        {
+            return maze.Cells
+                .Where(cell => cell.X == currentCell.X && Math.Abs(cell.Y - currentCell.Y) == 1
+                    || Math.Abs(cell.X - currentCell.X) == 1 && cell.Y == currentCell.Y)
+                .OfType<TypeOfCell>()
+                .ToList();
+        }
+
+        private void BuildWall()
+        {
             for (int y = 0; y < maze.Height; y++)
             {
                 for (int x = 0; x < maze.Width; x++)
@@ -21,8 +75,6 @@ namespace Net12.Maze
                     maze.Cells.Add(wall);
                 }
             }
-
-            return maze;
         }
     }
 }

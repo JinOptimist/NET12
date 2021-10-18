@@ -16,7 +16,7 @@ namespace Net12
             {
                 for (int x = 0; x < maze.Width; x++)
                 {
-                    var cell = maze.Cells.Single(cell => cell.X == x && cell.Y == y);
+                    var cell = maze[x, y];
 
                     if (cell is Wall)
                     {

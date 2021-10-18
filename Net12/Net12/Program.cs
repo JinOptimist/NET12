@@ -10,7 +10,7 @@ namespace Net12
         static void Main(string[] args)
         {
             var mazeBuilder = new MazeBuilder();
-            var maze = mazeBuilder.Build(12, 5);
+            var maze = mazeBuilder.Build(4, 4);
 
             var drawer = new MazeDrawer();
             drawer.Draw(maze);
