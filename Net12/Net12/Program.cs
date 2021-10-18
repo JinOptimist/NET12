@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Net12.Maze;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,6 +8,15 @@ namespace Net12
     class Program
     {
         static void Main(string[] args)
+        {
+            var mazeBuilder = new MazeBuilder();
+            var maze = mazeBuilder.Build(12, 5);
+
+            var drawer = new MazeDrawer();
+            drawer.Draw(maze);
+        }
+
+        private static void Les1()
         {
             var users = new List<User>();
 
