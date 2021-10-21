@@ -35,6 +35,9 @@ namespace Net12
                     }
                 }
 
+
+                //добавить лужу
+
                 Console.WriteLine();
             }
         }
