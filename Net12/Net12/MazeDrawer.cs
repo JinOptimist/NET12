@@ -41,7 +41,7 @@ namespace Net12
                 
                 Console.WriteLine();
             }
-            Console.WriteLine($"HP: {maze.Hero.hp}");
+            Console.WriteLine($"HP: {maze.Hero.Hp}");
         }
     }
 }
