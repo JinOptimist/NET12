@@ -22,12 +22,21 @@ namespace Net12.Maze
 
             BuildGround();
 
+            BuildCoin();
+
             BuildTrap();
 
             var hero = new Hero(0, 0, maze, 10);
             maze.Hero = hero;
 
             return maze;
+        }
+
+        private void BuildCoin()
+        {
+            var grounds = maze.Cells.Where(x=> x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Coin(randomGround.X, randomGround.Y, maze, 3);
         }
 
         private void BuildTrap()
