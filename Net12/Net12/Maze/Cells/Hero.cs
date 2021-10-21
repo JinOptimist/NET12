@@ -7,7 +7,7 @@ namespace Net12.Maze.Cells
     public class Hero : BaseCell
     {
         public int Money { get; set; }
-
+        public int hp = 100;
         public Hero(int x, int y, MazeLevel maze) : base(x, y, maze) { }
 
         public override bool TryToStep()
