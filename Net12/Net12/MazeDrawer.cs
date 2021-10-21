@@ -17,16 +17,19 @@ namespace Net12
                 for (int x = 0; x < maze.Width; x++)
                 {
                     var cell = maze[x, y];
-
-                    if (cell is Wall)
+                    if (maze.Hero.X == x && maze.Hero.Y == y)
+                    {
+                        Console.Write("@");
+                    }
+                    else  if (cell is Wall)
                     {
                         Console.Write("#");
                     }
-                    if (cell is Coin)
+                    else if (cell is Coin)
                     {
                         Console.Write("c");
                     }
-                    if (cell is Ground)
+                    else if (cell is Ground)
                     {
                         Console.Write(".");
                     }

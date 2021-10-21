@@ -6,7 +6,7 @@ namespace Net12.Maze
 {
     class Coin : BaseCell
     {
-        public Coin(int x, int y, int coinCount) : base(x, y)
+        public Coin(int x, int y, MazeLevel maze, int coinCount) : base(x, y, maze)
         {
             CoinCount = coinCount;
         }
@@ -15,6 +15,8 @@ namespace Net12.Maze
 
         public override bool TryToStep()
         {
+            Maze.Hero.Money++;
+            Maze[X, Y] = new Ground(X, Y, Maze);
             return true;
         }
     }

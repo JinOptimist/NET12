@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Net12.Maze.Cells;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,22 @@ namespace Net12.Maze
 
             BuildGround();
 
+            var hero = new Hero(0, 0, maze);
+            maze.Hero = hero;
+
             return maze;
+        }
+
+        private void BuildWall()
+        {
+            for (int y = 0; y < maze.Height; y++)
+            {
+                for (int x = 0; x < maze.Width; x++)
+                {
+                    var wall = new Wall(x, y, maze);
+                    maze.Cells.Add(wall);
+                }
+            }
         }
 
         private void BuildGround()
@@ -33,14 +49,17 @@ namespace Net12.Maze
 
             do
             {
-                maze[minerX, minerY] = new Ground(minerX, minerY);
+                maze[minerX, minerY] = new Ground(minerX, minerY, maze);
 
                 var cell = maze[minerX, minerY];
                 var nearWalls = GetNear<Wall>(cell);
                 wallToBreak.AddRange(nearWalls);
 
-                wallToBreak = wallToBreak.Where(x => GetNear<Ground>(x).Count() <= 1).ToList();
-
+                wallToBreak = wallToBreak.Where(cell => GetNear<Ground>(cell).Count() <= 1).ToList();
+                if (!wallToBreak.Any())
+                {
+                    break;
+                }
                 var randomCell = GetRandom(wallToBreak);
                 wallToBreak.Remove(randomCell);
                 minerX = randomCell.X;
@@ -65,16 +84,6 @@ namespace Net12.Maze
                 .ToList();
         }
 
-        private void BuildWall()
-        {
-            for (int y = 0; y < maze.Height; y++)
-            {
-                for (int x = 0; x < maze.Width; x++)
-                {
-                    var wall = new Wall(x, y);
-                    maze.Cells.Add(wall);
-                }
-            }
-        }
+
     }
 }
