@@ -25,6 +25,7 @@ namespace Net12.Maze
             var hero = new Hero(0, 0, maze);
             maze.Hero = hero;
 
+            BuildBless();
             
 
             return maze;
@@ -36,7 +37,9 @@ namespace Net12.Maze
             {
                 for (int x = 0; x < maze.Height && check; x++)
                 {
-                    if (  maze.Cells.Where(point => Math.Abs(point.X - x) == 1 && Math.Abs(point.Y - y) == 1).ToList().Count == 3 )
+                    var count = maze.Cells.Where(point => Math.Abs(point.X - x) == 1 && point.Y ==y || Math.Abs(point.Y - y) == 1 && point.X ==x)
+                                          .Where(point => point is Wall).ToList().Count;
+                    if (  count == 3 )
                     {
                         maze[x, y] = new Bless(x, y, maze);
                         check = false;

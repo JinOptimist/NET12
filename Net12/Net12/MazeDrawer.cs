@@ -22,7 +22,7 @@ namespace Net12
                     {
                         Console.Write("@");
                     }
-                    else  if (cell is Wall)
+                    else if (cell is Wall)
                     {
                         Console.Write("#");
                     }
@@ -33,11 +33,15 @@ namespace Net12
                     else if (cell is Ground)
                     {
                         Console.Write(".");
+                    } else if (cell is Bless)
+                    {
+                        Console.Write("$");
                     }
                 }
-
+                
                 Console.WriteLine();
             }
+            Console.WriteLine($"HP: {maze.Hero.hp}");
         }
     }
 }

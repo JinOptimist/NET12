@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Net12.Maze.Cells
+namespace Net12.Maze
 {
     class Bless : BaseCell
     {
