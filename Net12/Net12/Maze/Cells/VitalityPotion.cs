@@ -10,15 +10,15 @@ namespace Net12.Maze
         public VitalityPotion(int x, int y, MazeLevel maze, int addMaxFatigue) : base(x, y, maze)
         {
 
-            valueVitalityPotion = addMaxFatigue;
+            AddMaxFatigue = addMaxFatigue;
 
         }
 
-        public int valueVitalityPotion { get; set; }
+        public int AddMaxFatigue { get; set; }
 
         public override bool TryToStep()
         {
-            Maze.Hero.MaxFatigue += valueVitalityPotion;
+            Maze.Hero.MaxFatigue += AddMaxFatigue;
             Maze[X, Y] = new Ground(X, Y, Maze);
 
             return true;

@@ -21,7 +21,7 @@ namespace Net12
                     {
                         Console.Write("@");
                     }
-                    else  if (cell is Wall)
+                    else if (cell is Wall)
                     {
                         Console.Write("#");
                     }
