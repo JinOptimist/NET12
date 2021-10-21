@@ -17,7 +17,7 @@ namespace Net12
                 for (int x = 0; x < maze.Width; x++)
                 {
                     var cell = maze[x, y];
-                    if (maze.Hero.X == x && maze.Hero.Y == y)
+                    if (maze.Hero.X == x && maze.Hero.Y == y)//
                     {
                         Console.Write("@");
                     }
