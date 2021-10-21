@@ -37,8 +37,7 @@ namespace Net12.Maze
             {
                 for (int x = 0; x < maze.Height && check; x++)
                 {
-                    var count = maze.Cells.Where(point => Math.Abs(point.X - x) == 1 && point.Y ==y)
-                                          .Where(point => Math.Abs(point.X - x) == 1 && point.X ==x)
+                    var count = maze.Cells.Where(point => (Math.Abs(point.X - x) == 1 && point.Y ==y)  ||(  Math.Abs(point.Y - y) == 1 && point.X ==x))
                                           .Where(point => point is Wall).ToList().Count;
                     if (  count == 3 )
                     {
