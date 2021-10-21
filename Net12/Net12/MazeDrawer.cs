@@ -11,6 +11,9 @@ namespace Net12
         public void Draw(MazeLevel maze)
         {
             Console.Clear();
+            Console.WriteLine($"Health: {maze.Hero.Health} ");
+
+            Console.WriteLine("");
 
             for (int y = 0; y < maze.Height; y++)
             {
@@ -33,10 +36,17 @@ namespace Net12
                     {
                         Console.Write(".");
                     }
+                    else if (cell is Trap)
+                    {
+                        Console.Write("~");
+                    }
                 }
 
                 Console.WriteLine();
+
+                
             }
+            
         }
     }
 }

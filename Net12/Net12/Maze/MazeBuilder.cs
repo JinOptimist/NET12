@@ -1,4 +1,4 @@
-﻿using Net12.Maze.Cells;
+﻿using Net12.Maze;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +22,22 @@ namespace Net12.Maze
 
             BuildGround();
 
-            var hero = new Hero(0, 0, maze);
+            BuildTrap();
+
+            var hero = new Hero(0, 0, maze, 10);
             maze.Hero = hero;
 
             return maze;
+        }
+
+        private void BuildTrap()
+        {
+            var groundToTrap = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGroundToTrap = GetRandom(groundToTrap);
+
+            var nearWalls = GetNear<Ground>(randomGroundToTrap);
+            if(nearWalls.Count <= 2) maze[randomGroundToTrap.X, randomGroundToTrap.Y] = new Trap(randomGroundToTrap.X, randomGroundToTrap.Y, maze);
+
         }
 
         private void BuildWall()
