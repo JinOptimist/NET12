@@ -33,10 +33,17 @@ namespace Net12
                     {
                         Console.Write(".");
                     }
+                    else if (cell is VitalityPotion)
+                    {
+                        Console.Write("V");
+                    }
                 }
 
                 Console.WriteLine();
             }
+
+            Console.WriteLine();
+            Console.WriteLine($"Fatigue: {maze.Hero.MaxFatigue}");
         }
     }
 }

@@ -22,10 +22,19 @@ namespace Net12.Maze
 
             BuildGround();
 
+            PlaceVitalityPotion();
+
             var hero = new Hero(0, 0, maze);
             maze.Hero = hero;
 
             return maze;
+        }
+
+        private void PlaceVitalityPotion()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new VitalityPotion(randomGround.X, randomGround.Y, maze, 5);
         }
 
         private void BuildWall()
