@@ -10,7 +10,7 @@ namespace Net12.Maze
 
         public override bool TryToStep()
         {
-            Maze.Hero.hp = 100;   
+            Maze.Hero.Hp = Maze.Hero.Max_hp;   
             return true;
         }
     }

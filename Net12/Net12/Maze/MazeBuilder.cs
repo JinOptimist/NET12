@@ -11,7 +11,7 @@ namespace Net12.Maze
         private MazeLevel maze;
         private Random random = new Random();
 
-        public MazeLevel Build(int width, int height)
+        public MazeLevel Build(int width, int height, int hp, int max_hp)
         {
             maze = new MazeLevel();
 
@@ -22,7 +22,7 @@ namespace Net12.Maze
 
             BuildGround();
 
-            var hero = new Hero(0, 0, maze);
+            var hero = new Hero(0, 0, maze, hp, max_hp);
             maze.Hero = hero;
 
             BuildBless();
@@ -32,19 +32,12 @@ namespace Net12.Maze
         }
         private void BuildBless()
         {
-            bool check = true;
-            for (int y = 0; y < maze.Width && check; y++)
+            var res_point = maze.Cells.FirstOrDefault(point => GetNear<Wall>(point).Count == 3);
+    
+            if(res_point != null)
             {
-                for (int x = 0; x < maze.Height && check; x++)
-                {
-                    var count = maze.Cells.Where(point => (Math.Abs(point.X - x) == 1 && point.Y ==y)  ||(  Math.Abs(point.Y - y) == 1 && point.X ==x))
-                                          .Where(point => point is Wall).ToList().Count;
-                    if (  count == 3 )
-                    {
-                        maze[x, y] = new Bless(x, y, maze);
-                        check = false;
-                    }
-                }
+                maze[res_point.X, res_point.Y] = new Bless(res_point.X, res_point.Y, maze);
+              
             }
         }
 
