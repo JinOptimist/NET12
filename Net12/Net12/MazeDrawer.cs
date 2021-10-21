@@ -6,6 +6,7 @@ using System.Text;
 
 namespace Net12
 {
+    // test
     public class MazeDrawer
     {
         public void Draw(MazeLevel maze)
