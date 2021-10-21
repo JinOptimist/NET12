@@ -8,6 +8,9 @@ namespace Net12.Maze.Cells
     {
         public int Money { get; set; }
 
+        public int MaxFatigue { get; set; }
+        public int CurrentFatigue { get; set; }
+        
         public Hero(int x, int y, MazeLevel maze) : base(x, y, maze) { }
 
         public override bool TryToStep()
