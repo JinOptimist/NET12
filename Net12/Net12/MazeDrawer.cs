@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Net12.Maze.Cells;
 
 namespace Net12
 {
+    
     public class MazeDrawer
     {
         public void Draw(MazeLevel maze)
@@ -21,9 +23,15 @@ namespace Net12
                     {
                         Console.Write("@");
                     }
-                    else  if (cell is Wall)
+                    else if (cell is Wall)
                     {
+                        if (cell is WeakWall)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                        }
                         Console.Write("#");
+                        Console.ResetColor();
+
                     }
                     else if (cell is Coin)
                     {

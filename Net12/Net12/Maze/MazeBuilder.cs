@@ -22,6 +22,8 @@ namespace Net12.Maze
 
             BuildGround();
 
+            BildWeakWalls();
+
             var hero = new Hero(0, 0, maze);
             maze.Hero = hero;
 
@@ -56,10 +58,12 @@ namespace Net12.Maze
                 wallToBreak.AddRange(nearWalls);
 
                 wallToBreak = wallToBreak.Where(cell => GetNear<Ground>(cell).Count() <= 1).ToList();
+
                 if (!wallToBreak.Any())
                 {
                     break;
                 }
+
                 var randomCell = GetRandom(wallToBreak);
                 wallToBreak.Remove(randomCell);
                 minerX = randomCell.X;
@@ -84,6 +88,31 @@ namespace Net12.Maze
                 .ToList();
         }
 
+        private void BildWeakWalls()
+        {
 
+
+            var wallsOfMaze = maze.Cells.OfType<Wall>().ToList();
+            var countOfWallInTheMaze = wallsOfMaze.Count;
+            var countOfWeakWall = Math.Round(countOfWallInTheMaze / 10.0);
+
+
+            while (countOfWeakWall > 0)
+            {
+                var randomWall = GetRandom(wallsOfMaze);
+                var wallX = randomWall.X;
+                var wallY = randomWall.Y;
+                wallsOfMaze.Remove(randomWall);
+                maze[wallX, wallY] = new WeakWall(wallX, wallY, maze);
+                countOfWeakWall--;
+            }
+        }
+
+        private Wall GetRandom(List<Wall> wallOfMaze)
+        {
+            var index = random.Next(wallOfMaze.Count);
+
+            return wallOfMaze[index];
+        }
     }
 }
