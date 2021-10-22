@@ -22,9 +22,9 @@ namespace Net12.Maze
 
             BuildGround();
 
-            var hero = new Hero(0, 0, maze, hp, max_hp);
-            maze.Hero = hero;
 
+           
+            maze.Hero = new Hero(0, 0, maze, hp, max_hp);
             BuildBless();
 
 

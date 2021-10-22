@@ -11,8 +11,8 @@ namespace Net12.Maze.Cells
         public int Max_hp { get; set; }
         public Hero(int x, int y, MazeLevel maze, int hp, int max_hp) : base(x, y, maze)
         {
-            this.Hp = hp;
-            this.Max_hp = max_hp;
+            Hp = hp;
+            Max_hp = max_hp;
         }
 
         public override bool TryToStep()
