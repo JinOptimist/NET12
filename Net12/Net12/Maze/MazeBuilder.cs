@@ -18,14 +18,16 @@ namespace Net12.Maze
             maze.Width = width;
             maze.Height = height;
 
+            var hero = new Hero(0, 0, maze, hp, max_hp);
+            maze.Hero = hero;
+          
             BuildWall();
 
             BuildGround();
 
 
-            var hero = new Hero(0, 0, maze, hp, max_hp);
-            maze.Hero = hero;
-
+            BuildCoin();
+                 
             BuildBless();
 
 
@@ -40,6 +42,13 @@ namespace Net12.Maze
                 maze[res_point.X, res_point.Y] = new Bless(res_point.X, res_point.Y, maze);
 
             }
+        }
+
+        private void BuildCoin()
+        {
+            var grounds = maze.Cells.Where(x=> x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Coin(randomGround.X, randomGround.Y, maze, 3);
         }
 
         private void BuildWall()
