@@ -20,14 +20,14 @@ namespace Net12.Maze
 
             var hero = new Hero(0, 0, maze, hp, max_hp);
             maze.Hero = hero;
-          
+
             BuildWall();
 
             BuildGround();
 
 
             BuildCoin();
-                 
+
             BuildBless();
 
 
@@ -46,7 +46,7 @@ namespace Net12.Maze
 
         private void BuildCoin()
         {
-            var grounds = maze.Cells.Where(x=> x is Ground).ToList();
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new Coin(randomGround.X, randomGround.Y, maze, 3);
         }
