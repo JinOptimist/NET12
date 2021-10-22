@@ -26,18 +26,18 @@ namespace Net12.Maze
             maze.Hero = hero;
 
             BuildBless();
-            
+
 
             return maze;
         }
         private void BuildBless()
         {
             var res_point = maze.Cells.FirstOrDefault(point => GetNear<Wall>(point).Count == 3);
-    
-            if(res_point != null)
+
+            if (res_point != null)
             {
                 maze[res_point.X, res_point.Y] = new Bless(res_point.X, res_point.Y, maze);
-              
+
             }
         }
 
