@@ -93,13 +93,14 @@ namespace Net12.Maze
 
 
             var wallsOfMaze = maze.Cells.OfType<Wall>().ToList();
+            var wallToCheckForFourWall = wallsOfMaze.Where(cell => GetNear<Wall>(cell).Count <= 2).ToList();
             var countOfWallInTheMaze = wallsOfMaze.Count;
             var countOfWeakWall = Math.Round(countOfWallInTheMaze / 10.0);
 
 
             while (countOfWeakWall > 0)
             {
-                var randomWall = GetRandom(wallsOfMaze);
+                var randomWall = GetRandom(wallToCheckForFourWall);
                 var wallX = randomWall.X;
                 var wallY = randomWall.Y;
                 wallsOfMaze.Remove(randomWall);
