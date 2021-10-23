@@ -33,10 +33,16 @@ namespace Net12
                     {
                         Console.Write(".");
                     }
+                    else if (cell is Healer)
+                    {
+                        Console.Write("+");
+                    }
                 }
 
                 Console.WriteLine();
             }
+            //Console.WriteLine($"Здоровье {.Maze.Hero.Healt}");
+
         }
     }
 }
