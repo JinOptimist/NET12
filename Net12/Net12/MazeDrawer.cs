@@ -43,7 +43,7 @@ namespace Net12
             }
 
             Console.WriteLine();
-            Console.WriteLine($"Fatigue: {maze.Hero.MaxFatigue}");
+            Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
         }
     }
 }
