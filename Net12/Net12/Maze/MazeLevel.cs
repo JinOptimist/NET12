@@ -42,15 +42,19 @@ namespace Net12.Maze
             {
                 case Direction.Up:
                     heroPositionY--;
+                    Hero.CurrentFatigue++;
                     break;
                 case Direction.Right:
                     heroPositionX++;
+                    Hero.CurrentFatigue++;
                     break;
                 case Direction.Down:
                     heroPositionY++;
+                    Hero.CurrentFatigue++;
                     break;
                 case Direction.Left:
                     heroPositionX--;
+                    Hero.CurrentFatigue++;
                     break;
                 default:
                     break;

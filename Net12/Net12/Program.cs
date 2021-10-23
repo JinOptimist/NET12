@@ -10,7 +10,8 @@ namespace Net12
         static void Main(string[] args)
         {
             var mazeBuilder = new MazeBuilder();
-            var maze = mazeBuilder.Build(6, 10);
+            var maze = mazeBuilder.Build(10, 10);
+
             var drawer = new MazeDrawer();
             while (true)
             {
@@ -38,12 +39,7 @@ namespace Net12
                     default:
                         break;
                 }
-
             }
-
-
-
-
         }
 
         private static void Les1()

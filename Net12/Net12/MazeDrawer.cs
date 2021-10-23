@@ -21,7 +21,7 @@ namespace Net12
                     {
                         Console.Write("@");
                     }
-                    else  if (cell is Wall)
+                    else if (cell is Wall)
                     {
                         Console.Write("#");
                     }
@@ -33,10 +33,20 @@ namespace Net12
                     {
                         Console.Write(".");
                     }
+                    else if (cell is Fountain)
+                    {
+                        Console.Write("F");
+                    }
+                    else if (cell is Bed)
+                    {
+                        Console.Write("B");
+                    }
                 }
 
                 Console.WriteLine();
             }
+
+            Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}");
         }
     }
 }

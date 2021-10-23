@@ -22,11 +22,42 @@ namespace Net12.Maze
 
             BuildGround();
 
+            BuildCoin();
+
+            BuildFountain();
+
+            BuildBed();
+
             var hero = new Hero(0, 0, maze);
             maze.Hero = hero;
 
             return maze;
         }
+
+
+        private void BuildFountain()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Fountain(randomGround.X, randomGround.Y, maze);
+
+        }
+
+        private void BuildBed()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Bed(randomGround.X, randomGround.Y, maze);
+        }
+
+
+        private void BuildCoin()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randonGround = GetRandom(grounds);
+            maze[randonGround.X, randonGround.Y] = new Coin(randonGround.X, randonGround.Y, maze, 3);
+        }
+
 
         private void BuildWall()
         {
@@ -39,6 +70,7 @@ namespace Net12.Maze
                 }
             }
         }
+
 
         private void BuildGround()
         {

@@ -10,7 +10,14 @@ namespace Net12.Maze
 
         public override bool TryToStep()
         {
-            Maze.Hero.CurrentFatigue -= 5;
+            if (Maze.Hero.CurrentFatigue > 20)
+            {
+                Maze.Hero.CurrentFatigue -= 20;
+            }
+            else if (Maze.Hero.CurrentFatigue <= 20)
+            {
+                Maze.Hero.CurrentFatigue = 0;
+            }
 
 
             return true;
