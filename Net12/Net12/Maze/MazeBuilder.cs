@@ -22,7 +22,7 @@ namespace Net12.Maze
 
             BuildGround();
 
-            BildWeakWalls();
+            BuildWeakWalls();
 
             var hero = new Hero(0, 0, maze);
             maze.Hero = hero;
@@ -88,7 +88,7 @@ namespace Net12.Maze
                 .ToList();
         }
 
-        private void BildWeakWalls()
+        private void BuildWeakWalls()
         {
 
 
