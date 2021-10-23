@@ -33,7 +33,8 @@ namespace Net12
                     else if (cell is Ground)
                     {
                         Console.Write(".");
-                    } else if (cell is Bless)
+                    } 
+                    else if (cell is Bless)
                     {
                         Console.Write("$");
                     }
