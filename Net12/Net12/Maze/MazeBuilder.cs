@@ -93,7 +93,8 @@ namespace Net12.Maze
 
 
             var wallsOfMaze = maze.Cells.OfType<Wall>().ToList();
-            var wallToCheckForFourWall = wallsOfMaze.Where(cell => GetNear<Wall>(cell).Count <= 2).ToList();
+            var wallToCheckForFourWall = wallsOfMaze.Where(cell => GetNear<Wall>(cell).Count <= 2 &&
+                                                                   GetNear<Bless>(cell).Count == 0).ToList();
             var countOfWallInTheMaze = wallsOfMaze.Count;
             var countOfWeakWall = Math.Round(countOfWallInTheMaze / 10.0);
 
