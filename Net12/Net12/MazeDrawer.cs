@@ -33,6 +33,10 @@ namespace Net12
                     {
                         Console.Write(".");
                     }
+                    else if (cell is GoldMine)
+                    {
+                        Console.Write("M");
+                    }
                 }
 
                 Console.WriteLine();

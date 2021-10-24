@@ -22,6 +22,8 @@ namespace Net12.Maze
 
             BuildGround();
 
+            BuildGoldMine();
+
             var hero = new Hero(0, 0, maze);
             maze.Hero = hero;
 
@@ -65,6 +67,17 @@ namespace Net12.Maze
                 minerX = randomCell.X;
                 minerY = randomCell.Y;
             } while (wallToBreak.Any());
+        }
+
+        private void BuildGoldMine()
+        {
+            var currentPlaceToBuildGoldMine = maze.Cells.Where(cell => cell is Wall).ToList();
+            double chanceToBuild = (currentPlaceToBuildGoldMine.Count * 0.1); 
+            for (var i = 0; i < chanceToBuild; i++)
+            {
+                var placeToBuildGoldMine = GetRandom(currentPlaceToBuildGoldMine);
+                maze[placeToBuildGoldMine.X, placeToBuildGoldMine.Y] = new GoldMine(placeToBuildGoldMine.X, placeToBuildGoldMine.Y, maze);
+            }
         }
 
         private BaseCell GetRandom(List<BaseCell> cells)
