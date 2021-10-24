@@ -40,9 +40,6 @@ namespace Net12
                 }
             }
 
-
-
-
         }
 
         private static void Les1()

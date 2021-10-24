@@ -12,7 +12,6 @@ namespace Net12.Maze
 
         public int Width { get; set; }
         public int Height { get; set; }
-
         public Hero Hero { get; set; }
 
         public BaseCell this[int x, int y]
@@ -38,6 +37,7 @@ namespace Net12.Maze
         {
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;
+
             switch (direction)
             {
                 case Direction.Up:
@@ -62,6 +62,12 @@ namespace Net12.Maze
             {
                 Hero.X = heroPositionX;
                 Hero.Y = heroPositionY;
+
+                if(cellToStep is TeleportIn)
+                {
+                    Hero.X = ((TeleportIn)cellToStep).TeleportExit.X;
+                    Hero.Y = ((TeleportIn)cellToStep).TeleportExit.Y;
+                }
             }
         }
     }

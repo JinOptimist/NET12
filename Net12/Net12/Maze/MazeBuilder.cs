@@ -22,6 +22,10 @@ namespace Net12.Maze
 
             BuildGround();
 
+            BuildTeleport();
+            
+            
+
             var hero = new Hero(0, 0, maze);
             maze.Hero = hero;
 
@@ -84,6 +88,12 @@ namespace Net12.Maze
                 .ToList();
         }
 
+        private void BuildTeleport()
+        {
+            var cellOut = new TeleportOut(3, 3, maze);
+            maze[3, 3] = cellOut;
+            maze[1, 1] = new TeleportIn(1, 1, maze, cellOut);
+        }
 
     }
 }
