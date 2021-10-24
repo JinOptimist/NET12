@@ -14,7 +14,7 @@ namespace Net12.Maze.Cells
         public override bool TryToStep()
         {
             _vitalityOfWeakWall--;
-
+             Maze.Hero.Hp--;
             if (_vitalityOfWeakWall == 0)
             {
                 Maze[X, Y] = new Ground(X, Y, Maze);
