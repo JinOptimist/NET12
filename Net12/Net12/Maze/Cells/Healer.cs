@@ -11,16 +11,13 @@ namespace Net12.Maze
             
         }
 
-        
-        
         public override bool TryToStep()
         {
-            if (Maze.Hero.Money >= 1 && Maze.Hero.Healt < 100)
+            if (Maze.Hero.Money >= 1 && Maze.Hero.Healt < Maze.Hero.MaxHealt)
             {
-            Maze.Hero.Money /= 2;
-            Maze.Hero.Healt = 100;
-            Maze[X, Y] = new Ground(X, Y, Maze);
-
+                Maze.Hero.Money /= 2;
+                Maze.Hero.Healt = Maze.Hero.MaxHealt;
+               
             }
             return true;
         }

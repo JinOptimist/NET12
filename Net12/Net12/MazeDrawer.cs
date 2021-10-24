@@ -35,13 +35,17 @@ namespace Net12
                     }
                     else if (cell is Healer)
                     {
-                        Console.Write("+");
+                        Console.ForegroundColor = ConsoleColor.Red; // устанавливаем цвет
+                        Console.Write("H");
+                        Console.ResetColor(); // сбрасываем в стандартный
+                        
                     }
                 }
 
                 Console.WriteLine();
             }
-            //Console.WriteLine($"Здоровье {.Maze.Hero.Healt}");
+            Console.WriteLine($"Здоровье {maze.Hero.Healt}");
+            Console.WriteLine($"Деньги   {maze.Hero.Money}");
 
         }
     }

@@ -22,11 +22,14 @@ namespace Net12.Maze
 
             BuildGround();
 
+            BuildHeler();
+
             var hero = new Hero(0, 0, maze);
             maze.Hero = hero;
 
             return maze;
         }
+
 
         private void BuildWall()
         {
@@ -65,6 +68,19 @@ namespace Net12.Maze
                 minerX = randomCell.X;
                 minerY = randomCell.Y;
             } while (wallToBreak.Any());
+        }
+        private void BuildHeler()
+        {
+            int CounSotoc = (maze.Width * maze.Height) / 400;
+            do
+            {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGrounds = GetRandom(grounds);
+            maze[randomGrounds.X, randomGrounds.Y] = new Healer(randomGrounds.X, randomGrounds.Y, maze);
+                CounSotoc--;
+            } while (CounSotoc > 0);
+
+           
         }
 
         private BaseCell GetRandom(List<BaseCell> cells)
