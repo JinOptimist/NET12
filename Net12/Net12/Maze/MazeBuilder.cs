@@ -27,7 +27,7 @@ namespace Net12.Maze
 
             LocateHealPotion();
 
-            var hero = new Hero(0, 0, maze, 0, 0);
+            
             
             maze.Hero = hero;
 
