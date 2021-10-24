@@ -62,12 +62,6 @@ namespace Net12.Maze
             {
                 Hero.X = heroPositionX;
                 Hero.Y = heroPositionY;
-
-                if(cellToStep is TeleportIn)
-                {
-                    Hero.X = ((TeleportIn)cellToStep).TeleportExit.X;
-                    Hero.Y = ((TeleportIn)cellToStep).TeleportExit.Y;
-                }
             }
         }
     }

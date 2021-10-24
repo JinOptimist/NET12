@@ -11,11 +11,13 @@ namespace Net12.Maze
             TeleportExit = teleportExit;
         }
 
-        public TeleportOut TeleportExit { get; set; }
+        private TeleportOut TeleportExit { get; set; }
 
         public override bool TryToStep()
         {
-            return true;
+            Maze.Hero.X = TeleportExit.X;
+            Maze.Hero.Y = TeleportExit.Y;
+            return false;
         }
     }
 }
