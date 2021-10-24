@@ -33,10 +33,17 @@ namespace Net12
                     {
                         Console.Write(".");
                     }
+                    else if (cell is HealPotion)
+                    {
+                        Console.Write("h");
+                    }
+
                 }
 
                 Console.WriteLine();
             }
+
+            Console.WriteLine($"Количество HP = {maze.Hero.Hp}");
         }
     }
 }

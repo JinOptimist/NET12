@@ -22,7 +22,11 @@ namespace Net12.Maze
 
             BuildGround();
 
+            LocateHealPotion();
+
             var hero = new Hero(0, 0, maze);
+            hero.Hp = 10;
+            hero.Max_hp = 100;
             maze.Hero = hero;
 
             return maze;
@@ -65,6 +69,21 @@ namespace Net12.Maze
                 minerX = randomCell.X;
                 minerY = randomCell.Y;
             } while (wallToBreak.Any());
+        }
+
+       private void LocateHealPotion()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            for (int i = 0; i < 3; i++)
+            {
+                var randomGround = GetRandom(grounds);
+
+                while ((randomGround.X == 0) && (randomGround.Y == 0))
+                {
+                    randomGround = GetRandom(grounds);
+                } 
+                maze[randomGround.X, randomGround.Y] = new HealPotion(randomGround.X, randomGround.Y, maze);
+            }
         }
 
         private BaseCell GetRandom(List<BaseCell> cells)
