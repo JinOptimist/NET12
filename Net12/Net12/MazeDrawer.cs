@@ -6,6 +6,7 @@ using System.Text;
 
 namespace Net12
 {
+    // test
     public class MazeDrawer
     {
         public void Draw(MazeLevel maze)
@@ -21,7 +22,7 @@ namespace Net12
                     {
                         Console.Write("@");
                     }
-                    else  if (cell is Wall)
+                    else if (cell is Wall)
                     {
                         Console.Write("#");
                     }
@@ -32,6 +33,9 @@ namespace Net12
                     else if (cell is Ground)
                     {
                         Console.Write(".");
+                    } else if (cell is Bless)
+                    {
+                        Console.Write("$");
                     }
                     else if (cell is HealPotion)
                     {
@@ -42,8 +46,7 @@ namespace Net12
 
                 Console.WriteLine();
             }
-
-            Console.WriteLine($"Количество HP = {maze.Hero.Hp}");
+            Console.WriteLine($"HP: {maze.Hero.Hp}");
         }
     }
 }

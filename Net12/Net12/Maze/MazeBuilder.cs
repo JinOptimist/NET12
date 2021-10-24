@@ -11,12 +11,15 @@ namespace Net12.Maze
         private MazeLevel maze;
         private Random random = new Random();
 
-        public MazeLevel Build(int width, int height)
+        public MazeLevel Build(int width, int height, int hp, int max_hp)
         {
             maze = new MazeLevel();
 
             maze.Width = width;
             maze.Height = height;
+
+            var hero = new Hero(0, 0, maze, hp, max_hp);
+            maze.Hero = hero;
 
             BuildWall();
 
@@ -24,12 +27,33 @@ namespace Net12.Maze
 
             LocateHealPotion();
 
-            var hero = new Hero(0, 0, maze);
-            hero.Hp = 10;
-            hero.Max_hp = 100;
+            var hero = new Hero(0, 0, maze, 0, 0);
+            
             maze.Hero = hero;
 
+            BuildCoin();
+
+            BuildBless();
+
+
             return maze;
+        }
+        private void BuildBless()
+        {
+            var res_point = maze.Cells.FirstOrDefault(point => GetNear<Wall>(point).Count == 3);
+
+            if (res_point != null)
+            {
+                maze[res_point.X, res_point.Y] = new Bless(res_point.X, res_point.Y, maze);
+
+            }
+        }
+
+        private void BuildCoin()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Coin(randomGround.X, randomGround.Y, maze, 3);
         }
 
         private void BuildWall()
