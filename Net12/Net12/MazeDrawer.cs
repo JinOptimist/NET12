@@ -89,7 +89,12 @@ namespace Net12
                     {
                         Console.Write("*");
                     }
+                    else if (cell is Tavern)
+                    {
+                        Console.Write("T");
+                    }
                 }
+                
                 Console.WriteLine();
             }
 

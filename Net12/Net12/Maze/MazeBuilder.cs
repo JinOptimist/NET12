@@ -106,6 +106,12 @@ namespace Net12.Maze
             }
         }
 
+        private void BuildTavern()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Tavern(randomGround.X, randomGround.Y, maze);
+        }
         private void BuildPudder()
         {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
