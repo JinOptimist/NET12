@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Net12.Maze
 {
-    public class Wall : BaseCell
+    public class TeleportOut :BaseCell
     {
-        public Wall(int x, int y, MazeLevel maze) : base(x, y, maze) { }
+        public TeleportOut(int x, int y, MazeLevel maze) : base(x, y, maze) { }
 
         public override bool TryToStep()
         {
-            return false;
+            return true;
         }
     }
 }

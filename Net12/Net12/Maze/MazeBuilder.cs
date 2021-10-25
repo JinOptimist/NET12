@@ -11,23 +11,86 @@ namespace Net12.Maze
         private MazeLevel maze;
         private Random random = new Random();
 
-        public MazeLevel Build(int width, int height)
+        public MazeLevel Build(int width, int height, int hp, int max_hp)
         {
             maze = new MazeLevel();
 
             maze.Width = width;
             maze.Height = height;
 
+            var hero = new Hero(0, 0, maze, hp, max_hp);
+            maze.Hero = hero;
+
             BuildWall();
 
             BuildGround();
 
+            BuildWolfPit();
+
+            
+            BuildGoldMine();
+
+            BuildPudder();
+
+            PlaceVitalityPotion();
+
+            LocateHealPotion();
+
+            BuildTeleport();
+
+            BuildCoin();
             BuildWeakWalls();
 
-            var hero = new Hero(0, 0, maze);
-            maze.Hero = hero;
+
+            BuildBless();
+
+            BuildTrap();
 
             return maze;
+        }
+        private void BuildBless()
+        {
+            var res_point = maze.Cells.FirstOrDefault(point => GetNear<Wall>(point).Count == 3 && GetNear<BaseCell>(point).Count == 4);
+
+            if (res_point != null)
+            {
+                maze[res_point.X, res_point.Y] = new Bless(res_point.X, res_point.Y, maze);
+
+            }
+        }
+
+        private void BuildCoin()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Coin(randomGround.X, randomGround.Y, maze, 3);
+        }
+
+        private void PlaceVitalityPotion()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new VitalityPotion(randomGround.X, randomGround.Y, maze, 5);
+        }
+
+        private void BuildTrap()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            grounds = grounds.Where(x => GetNear<Ground>(x).Count >= 2).ToList();
+
+            if (grounds.Any())
+            {
+                var groundToTrap = GetRandom(grounds);
+                maze[groundToTrap.X, groundToTrap.Y] = new Trap(groundToTrap.X, groundToTrap.Y, maze);
+            }
+        }
+
+        private void BuildPudder()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Puddle(randomGround.X, randomGround.Y, maze);
         }
 
         private void BuildWall()
@@ -70,11 +133,47 @@ namespace Net12.Maze
                 minerY = randomCell.Y;
             } while (wallToBreak.Any());
         }
+        private void BuildHeler()
+        {
+            int amountHealer = (maze.Width * maze.Height) / 400;
+
+            for (int i = 0; i <= amountHealer; i++)
+            {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGrounds = GetRandom(grounds);
+            maze[randomGrounds.X, randomGrounds.Y] = new Healer(randomGrounds.X, randomGrounds.Y, maze);
+              
+            }
+
+           
+        }
+
+
+        private void BuildGoldMine()
+        {
+            var currentPlaceToBuildGoldMine = maze.Cells.Where(cell => cell is Wall).ToList();
+            double chanceToBuild = (currentPlaceToBuildGoldMine.Count * 0.1);
+            for (var i = 0; i < chanceToBuild; i++)
+            {
+                var placeToBuildGoldMine = GetRandom(currentPlaceToBuildGoldMine);
+                maze[placeToBuildGoldMine.X, placeToBuildGoldMine.Y] = new GoldMine(placeToBuildGoldMine.X, placeToBuildGoldMine.Y, maze);
+            }
+        }
+
+        private void LocateHealPotion()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).Where(x => (x.X != maze.Hero.X && x.Y != maze.Hero.Y)).ToList();
+            for (int i = 0; i < 3; i++)
+            {
+                var randomGround = GetRandom(grounds);
+                maze[randomGround.X, randomGround.Y] = new HealPotion(randomGround.X, randomGround.Y, maze);
+
+            }
+        }
 
         private BaseCell GetRandom(List<BaseCell> cells)
         {
             var index = random.Next(cells.Count);
-
             return cells[index];
         }
 
@@ -86,6 +185,36 @@ namespace Net12.Maze
                     || Math.Abs(cell.X - currentCell.X) == 1 && cell.Y == currentCell.Y)
                 .OfType<TypeOfCell>()
                 .ToList();
+        }
+
+        private void BuildTeleport()
+        {
+            var grounds = maze.Cells.OfType<Ground>().Cast<BaseCell>().ToList();
+            if (grounds.Count < 2)
+            {
+                return;
+            }
+
+            var randomGroundOut = GetRandom(grounds);
+            var cellOut = new TeleportOut(randomGroundOut.X, randomGroundOut.Y, maze);
+            maze[randomGroundOut.X, randomGroundOut.Y] = cellOut;
+
+            grounds.Remove(cellOut);
+
+            var randomGroundIn = GetRandom(grounds);
+            maze[randomGroundIn.X, randomGroundIn.Y] = new TeleportIn(randomGroundIn.X, randomGroundIn.Y, maze, cellOut);
+        }
+        private void BuildWolfPit()
+        {
+            {
+                var groundCenter = maze.Cells.FirstOrDefault(cell => GetNear<Ground>(cell).Count() == 4 );
+
+                if (groundCenter == null)
+                {
+                    return;
+                }
+                maze[groundCenter.X, groundCenter.Y] = new WolfPit(groundCenter.X, groundCenter.Y, maze);
+            }
         }
 
         private void BuildWeakWalls()
@@ -106,6 +235,5 @@ namespace Net12.Maze
                 countOfWeakWall--;
             }
         }
-
     }
 }

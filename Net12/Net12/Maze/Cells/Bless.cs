@@ -4,14 +4,13 @@ using System.Text;
 
 namespace Net12.Maze
 {
-    public class Ground : BaseCell
+    class Bless : BaseCell
     {
-        public Ground(int x, int y, MazeLevel maze) : base(x, y, maze) { }
-
-    
+        public Bless(int x, int y, MazeLevel maze) : base(x,y,maze) { }
 
         public override bool TryToStep()
         {
+            Maze.Hero.Hp = Maze.Hero.Max_hp;   
             return true;
         }
     }

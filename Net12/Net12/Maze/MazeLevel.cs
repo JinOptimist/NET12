@@ -1,4 +1,5 @@
 ﻿using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,28 @@ namespace Net12.Maze
     {
         public List<BaseCell> Cells { get; set; } = new List<BaseCell>();
 
+        public List<BaseEnemy> Enemies { get; set; } = new List<BaseEnemy>();
+
         public int Width { get; set; }
         public int Height { get; set; }
-
         public Hero Hero { get; set; }
+
+        public string Message { get; set; } = "";
+
+        public BaseCell GetCellOrUnit(int x, int y)
+        {
+            if (Hero.X == x && Hero.Y == y)
+            {
+                return Hero;
+            }
+            var enemy = Enemies.SingleOrDefault(enemy => enemy.X == x && enemy.Y == y);
+            if (enemy != null)
+            {
+                return enemy;
+            }
+
+            return this[x, y];
+        }
 
         public BaseCell this[int x, int y]
         {
@@ -37,8 +56,11 @@ namespace Net12.Maze
 
         public void HeroStep(Direction direction)
         {
+            Message = "";
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;
+            Hero.CurrentFatigue++;
+
             switch (direction)
             {
                 case Direction.Up:
@@ -64,6 +86,13 @@ namespace Net12.Maze
                 Hero.X = heroPositionX;
                 Hero.Y = heroPositionY;
             }
+
+            Enemies.ForEach(x => x.Step());
+
+            //foreach (var enemy in Enemies)
+            //{
+            //    enemy.Step();
+            //}
         }
     }
 }
