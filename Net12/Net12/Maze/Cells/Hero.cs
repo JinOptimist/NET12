@@ -12,10 +12,15 @@ namespace Net12.Maze.Cells
 
         public int CurrentFatigue { get; set; }
 
-        public Hero(int x, int y, MazeLevel maze) : base(x, y, maze)
+        public int Hp { get; set; }
+
+        public int Max_hp { get; set; }
+
+        public Hero(int x, int y, MazeLevel maze, int hp, int max_hp) : base(x, y, maze)
         {
-            CurrentFatigue = 0;
-            MaxFatigue = 100;
+            Hp = hp;
+            Max_hp = max_hp;
+            MaxFatigue = 10;
         }
 
         public override bool TryToStep()
