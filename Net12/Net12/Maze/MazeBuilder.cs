@@ -29,23 +29,17 @@ namespace Net12.Maze
 
             BuildPudder();
 
-            maze.Hero = hero;
-
             PlaceVitalityPotion();
 
             LocateHealPotion();
-            var hero = new Hero(0, 0, maze);
-            maze.Hero = hero;
 
             BuildTeleport();
 
             BuildCoin();
 
             BuildBless();
+
             BuildTrap();
-
-            maze.Hero = hero;
-
 
             return maze;
         }
