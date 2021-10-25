@@ -1,4 +1,5 @@
 ﻿using Net12.Maze;
+using Net12.Maze.Cells;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace Net12
         {
             Console.Clear();
 
+            Console.WriteLine(maze.Message);
+
             for (int y = 0; y < maze.Height; y++)
             {
                 for (int x = 0; x < maze.Width; x++)
@@ -23,6 +26,10 @@ namespace Net12
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.Write("@");
                         Console.ResetColor();
+                    }
+                    else if (cell is GoldMine)
+                    {
+                        Console.Write("M");
                     }
                     else if (cell is Wall)
                     {
@@ -42,6 +49,10 @@ namespace Net12
                         Console.ForegroundColor = ConsoleColor.Black;
                         Console.Write(".");
                         Console.ResetColor();
+                    }
+                    else if (cell is Puddle)
+                    {
+                        Console.Write("+");
                     }
                     else if (cell is VitalityPotion)
                     {
@@ -85,11 +96,13 @@ namespace Net12
                 }
 
                 Console.WriteLine();
-            }
 
-            Console.WriteLine();
+            }
+          
+            Console.WriteLine($"\nMoney :{ maze.Hero.Money}");
             Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
             Console.WriteLine($"HP: {maze.Hero.Hp}");
+          
         }
     }
 }

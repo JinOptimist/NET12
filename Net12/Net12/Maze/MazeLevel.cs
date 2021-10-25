@@ -17,6 +17,8 @@ namespace Net12.Maze
         public int Height { get; set; }
         public Hero Hero { get; set; }
 
+        public string Message { get; set; } = "";
+
         public BaseCell GetCellOrUnit(int x, int y)
         {
             if (Hero.X == x && Hero.Y == y)
@@ -53,6 +55,7 @@ namespace Net12.Maze
 
         public void HeroStep(Direction direction)
         {
+            Message = "";
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;
 
