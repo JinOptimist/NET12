@@ -107,13 +107,10 @@ namespace Net12.Maze
             var cellOut = new TeleportOut(randomGroundOut.X, randomGroundOut.Y, maze);
             maze[randomGroundOut.X, randomGroundOut.Y] = cellOut;
 
-            var randomGroundIn = GetRandom(grounds);
-            while (randomGroundIn.X == cellOut.X && randomGroundIn.Y == cellOut.Y)
-            {
-                randomGroundIn = GetRandom(grounds);
-            }
+            grounds.Remove(cellOut);
 
-             maze[randomGroundIn.X, randomGroundIn.Y] = new TeleportIn(randomGroundIn.X, randomGroundIn.Y, maze, cellOut);
+            var randomGroundIn = GetRandom(grounds);                
+            maze[randomGroundIn.X, randomGroundIn.Y] = new TeleportIn(randomGroundIn.X, randomGroundIn.Y, maze, cellOut);
         }
     }
 }
