@@ -17,7 +17,7 @@ namespace Net12
             {
                 for (int x = 0; x < maze.Width; x++)
                 {
-                    var cell = maze[x, y];
+                    var cell = maze.GetCellOrUnit(x, y);
                     if (maze.Hero.X == x && maze.Hero.Y == y)
                     {
                         Console.Write("@");
@@ -41,6 +41,11 @@ namespace Net12
                     else if (cell is Bless)
                     {
                         Console.Write("$");
+                    }
+                               
+                    else if (cell is Trap)
+                    {
+                        Console.Write("~");
                     }
                     else if (cell is HealPotion)
                     {
