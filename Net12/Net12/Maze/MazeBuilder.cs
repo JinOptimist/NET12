@@ -30,9 +30,15 @@ namespace Net12.Maze
             maze.Hero = hero;
             PlaceVitalityPotion();
 
+            BuildTeleport();
+
             BuildCoin();
 
             BuildBless();
+            BuildTrap();
+
+            var hero = new Hero(0, 0, maze, hp, max_hp);
+            maze.Hero = hero;
 
 
             return maze;
@@ -60,6 +66,18 @@ namespace Net12.Maze
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new VitalityPotion(randomGround.X, randomGround.Y, maze, 5);
+        }
+
+        private void BuildTrap()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            grounds = grounds.Where(x => GetNear<Ground>(x).Count >= 2).ToList();
+
+            if (grounds.Any())
+            {
+                var groundToTrap = GetRandom(grounds);
+                maze[groundToTrap.X, groundToTrap.Y] = new Trap(groundToTrap.X, groundToTrap.Y, maze);
+            }
         }
 
         private void BuildPudder()
@@ -123,6 +141,24 @@ namespace Net12.Maze
                     || Math.Abs(cell.X - currentCell.X) == 1 && cell.Y == currentCell.Y)
                 .OfType<TypeOfCell>()
                 .ToList();
+        }
+
+        private void BuildTeleport()
+        {
+            var grounds = maze.Cells.OfType<Ground>().Cast<BaseCell>().ToList();
+            if (grounds.Count<2)
+            {
+                return;
+            }
+
+            var randomGroundOut = GetRandom(grounds);
+            var cellOut = new TeleportOut(randomGroundOut.X, randomGroundOut.Y, maze);
+            maze[randomGroundOut.X, randomGroundOut.Y] = cellOut;
+
+            grounds.Remove(cellOut);
+
+            var randomGroundIn = GetRandom(grounds);                
+            maze[randomGroundIn.X, randomGroundIn.Y] = new TeleportIn(randomGroundIn.X, randomGroundIn.Y, maze, cellOut);
         }
     }
 }

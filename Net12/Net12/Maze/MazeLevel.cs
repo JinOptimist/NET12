@@ -58,6 +58,7 @@ namespace Net12.Maze
             Message = "";
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;
+
             switch (direction)
             {
                 case Direction.Up:

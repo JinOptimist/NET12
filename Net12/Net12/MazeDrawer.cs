@@ -49,6 +49,19 @@ namespace Net12
                     {
                         Console.Write("$");
                     }
+                    else if (cell is TeleportIn)
+                    {
+                        Console.Write(":");
+                    }
+                    else if (cell is TeleportOut)
+                    {
+                        Console.Write(";");
+                    }
+                               
+                    else if (cell is Trap)
+                    {
+                        Console.Write("~");
+                    }
                 }
 
                 Console.WriteLine();
