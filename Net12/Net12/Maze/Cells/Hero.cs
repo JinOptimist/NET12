@@ -6,7 +6,7 @@ namespace Net12.Maze.Cells
 {
     public class Hero : BaseCell
     {
-        public int Money { get; set; } = 1;
+        public int Money { get; set; }
         public int Healt { get; set; } = 50;
         public int MaxHealt { get; set; } = 100;
 
