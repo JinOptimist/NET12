@@ -61,7 +61,7 @@ namespace Net12
                     {
                         Console.Write(";");
                     }
-                               
+
                     else if (cell is Trap)
                     {
                         Console.Write("~");
@@ -75,17 +75,12 @@ namespace Net12
                         Console.Write("*");
                     }
                 }
-
-                }
-
                 Console.WriteLine();
-
             }
-          
+
             Console.WriteLine($"\nMoney :{ maze.Hero.Money}");
             Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
             Console.WriteLine($"HP: {maze.Hero.Hp}");
-          
         }
     }
 }
