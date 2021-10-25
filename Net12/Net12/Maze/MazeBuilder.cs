@@ -30,8 +30,7 @@ namespace Net12.Maze
             return maze;
         }
 
-
-        private void BuildWall()
+                private void BuildWall()
         {
             for (int y = 0; y < maze.Height; y++)
             {
