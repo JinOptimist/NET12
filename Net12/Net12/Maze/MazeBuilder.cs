@@ -39,6 +39,8 @@ namespace Net12.Maze
             BuildTeleport();
 
             BuildCoin();
+            BuildWeakWalls();
+
 
             BuildBless();
 
@@ -119,10 +121,12 @@ namespace Net12.Maze
                 wallToBreak.AddRange(nearWalls);
 
                 wallToBreak = wallToBreak.Where(cell => GetNear<Ground>(cell).Count() <= 1).ToList();
+
                 if (!wallToBreak.Any())
                 {
                     break;
                 }
+
                 var randomCell = GetRandom(wallToBreak);
                 wallToBreak.Remove(randomCell);
                 minerX = randomCell.X;
@@ -210,6 +214,25 @@ namespace Net12.Maze
                     return;
                 }
                 maze[groundCenter.X, groundCenter.Y] = new WolfPit(groundCenter.X, groundCenter.Y, maze);
+            }
+        }
+
+        private void BuildWeakWalls()
+        {
+
+
+            var wallsOfMaze = maze.Cells.OfType<Wall>().Cast<BaseCell>().ToList();
+            var wallToCheckForFourWall = wallsOfMaze.Where(cell => GetNear<Wall>(cell).Count <= 2).Cast<BaseCell>().ToList();
+            var countOfWallInTheMaze = wallsOfMaze.Count;
+            var countOfWeakWall = Math.Round(countOfWallInTheMaze / 10.0);
+
+
+            for (int i = 0; countOfWeakWall > i; i++)
+            {
+                var randomWall = GetRandom(wallToCheckForFourWall);
+                wallsOfMaze.Remove(randomWall);
+                maze[randomWall.X, randomWall.Y] = new WeakWall(randomWall.X, randomWall.Y, maze);
+                countOfWeakWall--;
             }
         }
     }
