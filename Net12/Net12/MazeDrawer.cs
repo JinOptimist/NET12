@@ -55,8 +55,13 @@ namespace Net12
                     {
                         Console.Write("~");
                     }
+                    else if (cell is HealPotion)
+                    {
+                        Console.Write("h");
+                    }
+
                 }
-                
+
                 Console.WriteLine();
             }
 

@@ -26,6 +26,8 @@ namespace Net12.Maze
             BuildGround();
 
             PlaceVitalityPotion();
+            LocateHealPotion();
+
 
             BuildTeleport();
 
@@ -114,6 +116,16 @@ namespace Net12.Maze
                 minerX = randomCell.X;
                 minerY = randomCell.Y;
             } while (wallToBreak.Any());
+        }
+
+       private void LocateHealPotion()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).Where(x => (x.X != maze.Hero.X && x.Y != maze.Hero.Y)).ToList();
+            for (int i = 0; i < 3; i++)
+            {
+                var randomGround = GetRandom(grounds);              
+                maze[randomGround.X, randomGround.Y] = new HealPotion(randomGround.X, randomGround.Y, maze);
+            }
         }
 
         private BaseCell GetRandom(List<BaseCell> cells)
