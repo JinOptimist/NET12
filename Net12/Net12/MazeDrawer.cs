@@ -70,6 +70,11 @@ namespace Net12
                     {
                         Console.Write("h");
                     }
+                    else if (cell is WolfPit)
+                    {
+                        Console.Write("*");
+                    }
+                }
 
                 }
 

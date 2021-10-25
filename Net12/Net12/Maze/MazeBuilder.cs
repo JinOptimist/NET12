@@ -25,6 +25,9 @@ namespace Net12.Maze
 
             BuildGround();
 
+            BuildWolfPit();
+
+            
             BuildGoldMine();
 
             BuildPudder();
@@ -196,6 +199,18 @@ namespace Net12.Maze
 
             var randomGroundIn = GetRandom(grounds);
             maze[randomGroundIn.X, randomGroundIn.Y] = new TeleportIn(randomGroundIn.X, randomGroundIn.Y, maze, cellOut);
+        }
+        private void BuildWolfPit()
+        {
+            {
+                var groundCenter = maze.Cells.FirstOrDefault(cell => GetNear<Ground>(cell).Count() == 4 );
+
+                if (groundCenter == null)
+                {
+                    return;
+                }
+                maze[groundCenter.X, groundCenter.Y] = new WolfPit(groundCenter.X, groundCenter.Y, maze);
+            }
         }
     }
 }
