@@ -50,8 +50,13 @@ namespace Net12
                     {
                         Console.Write(";");
                     }
+                               
+                    else if (cell is Trap)
+                    {
+                        Console.Write("~");
+                    }
                 }
-
+                
                 Console.WriteLine();
             }
 
