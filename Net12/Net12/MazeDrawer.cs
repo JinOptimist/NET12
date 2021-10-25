@@ -25,6 +25,10 @@ namespace Net12
                     {
                         Console.Write("@");
                     }
+                    else if (cell is GoldMine)
+                    {
+                        Console.Write("M");
+                    }
                     else if (cell is Wall)
                     {
                         Console.Write("#");
@@ -72,8 +76,11 @@ namespace Net12
                 Console.WriteLine();
 
             }
+          
+            Console.WriteLine($"\nMoney :{ maze.Hero.Money}");
             Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
             Console.WriteLine($"HP: {maze.Hero.Hp}");
+          
         }
     }
 }
