@@ -85,12 +85,6 @@ namespace Net12.Maze
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new VitalityPotion(randomGround.X, randomGround.Y, maze, 5);
         }
-        private void BuildBed()
-        {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
-            var randomGround = GetRandom(grounds);
-            maze[randomGround.X, randomGround.Y] = new Bed(randomGround.X, randomGround.Y, maze);
-        }
 
         private void BuildTrap()
         {
