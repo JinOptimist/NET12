@@ -46,9 +46,10 @@ namespace Net12
                 
                     else if (cell is Healer)
                     {
+                        var originColor = Console.ForegroundColor; // Предыдущий цвет
                         Console.ForegroundColor = ConsoleColor.Red; // устанавливаем цвет
                         Console.Write("H");
-                        Console.ResetColor(); // сбрасываем в стандартный
+                        Console.ForegroundColor = originColor; // сбрасываем в стандартный
                         
                     }
                 }
