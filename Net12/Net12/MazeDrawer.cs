@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Net12.Maze.Cells;
 
 namespace Net12
 {
-    // test
+
     public class MazeDrawer
     {
         public void Draw(MazeLevel maze)
@@ -25,9 +26,20 @@ namespace Net12
                     {
                         Console.Write("@");
                     }
+                    else if (cell is GoldMine)
+                    {
+                        Console.Write("M");
+                    }
                     else if (cell is Wall)
                     {
+                        var origenalColor = Console.ForegroundColor;
+                        if (cell is WeakWall)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                        }
                         Console.Write("#");
+                        Console.ForegroundColor = origenalColor;
+
                     }
                     else if (cell is Coin)
                     {
@@ -53,11 +65,44 @@ namespace Net12
                     {
                         Console.Write("$");
                     }
+                    else if (cell is TeleportIn)
+                    {
+                        Console.Write(":");
+                    }
+                    else if (cell is TeleportOut)
+                    {
+                        Console.Write(";");
+                    }
+                    else if (cell is Fountain)
+                    {
+                        Console.Write("F");
+                    }
+                    else if (cell is Bed)
+                    {
+                        Console.Write("B");
+                    }
+                    else if (cell is Trap)
+                    {
+                        Console.Write("~");
+                    }
+                    else if (cell is HealPotion)
+                    {
+                        Console.Write("h");
+                    }
+                    else if (cell is WolfPit)
+                    {
+                        Console.Write("*");
+                    }
+                    else if (cell is Tavern)
+                    {
+                        Console.Write("T");
+                    }
                 }
-
+                
                 Console.WriteLine();
-
             }
+
+            Console.WriteLine($"\nMoney :{ maze.Hero.Money}");
             Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
             Console.WriteLine($"HP: {maze.Hero.Hp}");
         }

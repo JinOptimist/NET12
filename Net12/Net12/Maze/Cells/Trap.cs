@@ -4,14 +4,19 @@ using System.Text;
 
 namespace Net12.Maze
 {
-    class Bed : BaseCell
+    public class Trap : BaseCell
     {
-        public Bed(int x, int y, MazeLevel Maze) : base(x, y, Maze) { }
+        public Trap(int x, int y, MazeLevel maze) : base(x, y, maze) { }
 
         public override bool TryToStep()
         {
-            Maze.Hero.CurrentFatigue = 0;
+            if (Maze.Hero.Hp > 0)
+            {
+                Maze.Hero.Hp--;
+            }
+            
             Maze[X, Y] = new Ground(X, Y, Maze);
+
             return true;
         }
     }
