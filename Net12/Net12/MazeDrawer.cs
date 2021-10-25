@@ -20,44 +20,66 @@ namespace Net12
                     var cell = maze.GetCellOrUnit(x, y);
                     if (maze.Hero.X == x && maze.Hero.Y == y)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.Write("@");
+                        Console.ResetColor();
                     }
                     else if (cell is Wall)
                     {
+                        Console.ForegroundColor = ConsoleColor.Gray;
                         Console.Write("#");
+                        Console.ResetColor();
+
                     }
                     else if (cell is Coin)
                     {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.Write("c");
+                        Console.ResetColor();
                     }
                     else if (cell is Ground)
                     {
+                        Console.ForegroundColor = ConsoleColor.Black;
                         Console.Write(".");
+                        Console.ResetColor();
                     }
                     else if (cell is VitalityPotion)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkBlue;
                         Console.Write("V");
+                        Console.ResetColor();
+
                     } 
                     else if (cell is Bless)
                     {
+                        Console.ForegroundColor = ConsoleColor.Cyan;
                         Console.Write("$");
+                        Console.ResetColor();
                     }
                     else if (cell is TeleportIn)
                     {
+                        Console.ForegroundColor = ConsoleColor.Magenta;
                         Console.Write(":");
+                        Console.ResetColor();
                     }
                     else if (cell is TeleportOut)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta;
                         Console.Write(";");
+                        Console.ResetColor();
                     }
                                
                     else if (cell is Trap)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.Write("~");
+                        Console.ResetColor();
                     }
                     else if (cell is HealPotion)
                     {
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("h");
+                        Console.ResetColor();
                     }
 
                 }
