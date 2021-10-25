@@ -34,7 +34,7 @@ namespace Net12.Maze
             PlaceVitalityPotion();
 
             LocateHealPotion();
-            var hero = new Hero(0, 0, maze);
+            
             maze.Hero = hero;
 
             BuildTeleport();
