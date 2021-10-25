@@ -41,10 +41,7 @@ namespace Net12
                         Console.Write("~");
                     }
                 }
-
-                Console.WriteLine();
-
-                
+                Console.WriteLine();  
             }
             
         }

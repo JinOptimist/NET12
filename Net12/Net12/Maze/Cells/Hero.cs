@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Net12.Maze
+namespace Net12.Maze.Cells
 {
     public class Hero : BaseCell
     {
@@ -10,8 +10,8 @@ namespace Net12.Maze
 
         public int Health { get; set; }
 
-        public Hero(int x, int y, MazeLevel maze, int HeroHealth) : base(x, y, maze) {
-            Health = HeroHealth;
+        public Hero(int x, int y, MazeLevel maze, int heroHealth) : base(x, y, maze) {
+            Health = heroHealth;
         }
 
         public override bool TryToStep()

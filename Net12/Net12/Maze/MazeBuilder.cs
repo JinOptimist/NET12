@@ -1,4 +1,4 @@
-﻿using Net12.Maze;
+﻿using Net12.Maze.Cells;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,11 +41,15 @@ namespace Net12.Maze
 
         private void BuildTrap()
         {
-            var groundToTrap = maze.Cells.Where(x => x is Ground).ToList();
-            var randomGroundToTrap = GetRandom(groundToTrap);
 
-            var nearWalls = GetNear<Ground>(randomGroundToTrap);
-            if(nearWalls.Count <= 2) maze[randomGroundToTrap.X, randomGroundToTrap.Y] = new Trap(randomGroundToTrap.X, randomGroundToTrap.Y, maze);
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            grounds = grounds.Where(x => GetNear<Ground>(x).Count >= 2).ToList();
+
+            if(grounds.Any())
+            {
+                var groundToTrap = GetRandom(grounds);
+                maze[groundToTrap.X, groundToTrap.Y] = new Trap(groundToTrap.X, groundToTrap.Y, maze);
+            }
 
         }
 
@@ -104,7 +108,5 @@ namespace Net12.Maze
                 .OfType<TypeOfCell>()
                 .ToList();
         }
-
-
     }
 }

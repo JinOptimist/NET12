@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace Net12
 {
-    
     class Program
     {
         static void Main(string[] args)
@@ -40,10 +39,6 @@ namespace Net12
                         break;
                 }
             }
-
-
-
-
         }
 
         private static void Les1()

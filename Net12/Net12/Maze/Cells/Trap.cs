@@ -10,7 +10,11 @@ namespace Net12.Maze
 
         public override bool TryToStep()
         {
-            Maze.Hero.Health--;
+            if (Maze.Hero.Health != 0)
+            {
+                Maze.Hero.Health--;
+            }
+
             Maze[X, Y] = new Ground(X, Y, Maze);
 
             return true;
