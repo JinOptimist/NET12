@@ -22,10 +22,20 @@ namespace Net12.Maze
 
             BuildGround();
 
+            BuildPudder();
+
             var hero = new Hero(0, 0, maze);
             maze.Hero = hero;
 
             return maze;
+        }
+
+        private void BuildPudder()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Puddle(randomGround.X, randomGround.Y, maze);
         }
 
         private void BuildWall()
@@ -70,7 +80,6 @@ namespace Net12.Maze
         private BaseCell GetRandom(List<BaseCell> cells)
         {
             var index = random.Next(cells.Count);
-
             return cells[index];
         }
 
@@ -83,7 +92,5 @@ namespace Net12.Maze
                 .OfType<TypeOfCell>()
                 .ToList();
         }
-
-
     }
 }
