@@ -59,6 +59,7 @@ namespace Net12.Maze
             Message = "";
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;
+
             Hero.CurrentFatigue++;
 
             switch (direction)
@@ -75,8 +76,13 @@ namespace Net12.Maze
                 case Direction.Left:
                     heroPositionX--;
                     break;
+
+
                 default:
                     break;
+
+                    
+
             }
 
             var cellToStep = this[heroPositionX, heroPositionY];

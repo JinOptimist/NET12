@@ -46,7 +46,35 @@ namespace Net12.Maze
 
             BuildTrap();
 
+            BuildFountain();
+
+            BuildBed();
+
             return maze;
+        }
+
+
+        private void BuildFountain()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Fountain(randomGround.X, randomGround.Y, maze);
+
+        }
+
+        private void BuildBed()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Bed(randomGround.X, randomGround.Y, maze);
+        }
+
+
+        private void BuildCoin()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randonGround = GetRandom(grounds);
+            maze[randonGround.X, randonGround.Y] = new Coin(randonGround.X, randonGround.Y, maze, 3);
         }
         private void BuildBless()
         {
@@ -57,13 +85,6 @@ namespace Net12.Maze
                 maze[res_point.X, res_point.Y] = new Bless(res_point.X, res_point.Y, maze);
 
             }
-        }
-
-        private void BuildCoin()
-        {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
-            var randomGround = GetRandom(grounds);
-            maze[randomGround.X, randomGround.Y] = new Coin(randomGround.X, randomGround.Y, maze, 3);
         }
 
         private void PlaceVitalityPotion()
@@ -104,6 +125,7 @@ namespace Net12.Maze
                 }
             }
         }
+
 
         private void BuildGround()
         {

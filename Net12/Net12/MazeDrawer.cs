@@ -69,7 +69,14 @@ namespace Net12
                     {
                         Console.Write(";");
                     }
-
+                    else if (cell is Fountain)
+                    {
+                        Console.Write("F");
+                    }
+                    else if (cell is Bed)
+                    {
+                        Console.Write("B");
+                    }
                     else if (cell is Trap)
                     {
                         Console.Write("~");
