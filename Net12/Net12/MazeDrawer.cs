@@ -4,16 +4,39 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Net12.Maze.Cells;
 
 namespace Net12
 {
-    // test
+
     public class MazeDrawer
     {
+        private Dictionary<Type, string> TypeSymbolDictionary =
+            new Dictionary<Type, string>()
+            {
+                { typeof(Hero), "@"},
+                { typeof(Wall), "#"},
+                { typeof(WeakWall), "#"},
+                { typeof(Ground), "."},
+                { typeof(GoldMine), "M"},
+                { typeof(Coin), "c"},
+                { typeof(Bed), "п"},
+                { typeof(Puddle), "+"},
+                { typeof(VitalityPotion), "V"},
+                { typeof(Bless), "$"},
+                { typeof(TeleportIn), ":"},
+                { typeof(TeleportOut), ";"},
+                { typeof(Fountain), "F"},
+                { typeof(Trap), "~"},
+                { typeof(HealPotion), "h"},
+                { typeof(WolfPit), "*"},
+                { typeof(Tavern), "T"},
+                { typeof(Healer), "H"},
+            };
+
         public void Draw(MazeLevel maze)
         {
             Console.Clear();
-
             Console.WriteLine(maze.Message);
 
             for (int y = 0; y < maze.Height; y++)
@@ -21,93 +44,33 @@ namespace Net12
                 for (int x = 0; x < maze.Width; x++)
                 {
                     var cell = maze.GetCellOrUnit(x, y);
-                    
-                    if (maze.Hero.X == x && maze.Hero.Y == y)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.Write("@");
-                        Console.ResetColor();
-                    }
-                    else if (cell is GoldMine)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write("M");
-                        Console.ResetColor();
-                    }
-                    else if (cell is Wall)
+                   
+                    var symbol = GetSymbolByCellType(cell);
+
+                    var origenalColor = Console.ForegroundColor;
+                    if (cell is WeakWall)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.Write("#");
-                        Console.ResetColor();
+                    }
+                    
+                    Console.Write(symbol);
 
-                    }
-                    else if (cell is Coin)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write("c");
-                        Console.ResetColor();
-                    }
-                    else if (cell is Ground)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Black;
-                        Console.Write(".");
-                        Console.ResetColor();
-                    }
-                    else if (cell is Puddle)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkCyan;
-                        Console.Write("+");
-                        Console.ResetColor();
-                    }
-                    else if (cell is VitalityPotion)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkBlue;
-                        Console.Write("V");
-                        Console.ResetColor();
-
-                    } 
-                    else if (cell is Bless)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.Write("$");
-                        Console.ResetColor();
-                    }
-                    else if (cell is TeleportIn)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                        Console.Write(":");
-                        Console.ResetColor();
-                    }
-                    else if (cell is TeleportOut)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                        Console.Write(";");
-                        Console.ResetColor();
-                    }
-                               
-                    else if (cell is Trap)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.Write("~");
-                        Console.ResetColor();
-                    }
-                    else if (cell is HealPotion)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.Write("h");
-                        Console.ResetColor();
-                    }
-
+                    Console.ForegroundColor = origenalColor;
                 }
 
                 Console.WriteLine();
-
             }
-          
+
             Console.WriteLine($"\nMoney :{ maze.Hero.Money}");
             Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
             Console.WriteLine($"HP: {maze.Hero.Hp}");
-          
+        }
+
+        private string GetSymbolByCellType(BaseCell cell)
+        {
+            var type = cell.GetType();
+
+            return TypeSymbolDictionary[type];
         }
     }
 }
