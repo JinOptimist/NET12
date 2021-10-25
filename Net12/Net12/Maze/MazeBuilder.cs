@@ -71,14 +71,14 @@ namespace Net12.Maze
         }
         private void BuildHeler()
         {
-            int amountHeler = (maze.Width * maze.Height) / 400;
+            int amountHealer = (maze.Width * maze.Height) / 400;
             do
             {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randomGrounds = GetRandom(grounds);
             maze[randomGrounds.X, randomGrounds.Y] = new Healer(randomGrounds.X, randomGrounds.Y, maze);
-                amountHeler--;
-            } while (amountHeler > 0);
+                amountHealer--;
+            } while (amountHealer > 0);
 
            
         }
