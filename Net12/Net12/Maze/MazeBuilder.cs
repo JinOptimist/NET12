@@ -1,4 +1,4 @@
-﻿using Net12.Maze.Cells;
+﻿using Net12.Maze;
 using System;
 using System.Collections.Generic;
 using System.Linq;
