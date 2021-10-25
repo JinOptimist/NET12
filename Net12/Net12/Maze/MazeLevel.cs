@@ -57,7 +57,17 @@ namespace Net12.Maze
         {
             Message = "";
             var heroPositionX = Hero.X;
-            var heroPositionY = Hero.Y;
+            var heroPositionY = Hero.Y;            
+            if (Hero.CurrentFatigue < Hero.MaxFatigue)
+            {
+                Hero.CurrentFatigue++;
+            }
+            else
+            {
+                Message = "WASTED";
+                return;
+            }       
+            
             switch (direction)
             {
                 case Direction.Up:

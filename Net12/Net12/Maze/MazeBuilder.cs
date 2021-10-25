@@ -25,6 +25,8 @@ namespace Net12.Maze
 
             BuildGround();
 
+            BuildBed();
+
             BuildPudder();
 
             maze.Hero = hero;
@@ -53,6 +55,12 @@ namespace Net12.Maze
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new Coin(randomGround.X, randomGround.Y, maze, 3);
+        }
+        private void BuildBed()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Bed(randomGround.X, randomGround.Y, maze);
         }
 
         private void PlaceVitalityPotion()
