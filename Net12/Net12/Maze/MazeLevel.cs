@@ -36,6 +36,7 @@ namespace Net12.Maze
 
         public void HeroStep(Direction direction)
         {
+            Message = "";
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;
             switch (direction)
@@ -63,6 +64,7 @@ namespace Net12.Maze
                 Hero.X = heroPositionX;
                 Hero.Y = heroPositionY;
             }
+
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Net12.Maze
 
         public override bool TryToStep()
         {
-            Maze.Message = "";
+            //Maze.Message = "";
             return true;
         }
     }

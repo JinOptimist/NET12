@@ -15,7 +15,7 @@ namespace Net12.Maze
 
         public override bool TryToStep()
         {
-            Maze.Message = "";
+            //Maze.Message = "";
             Maze.Hero.Money++;
             Maze[X, Y] = new Ground(X, Y, Maze);
             return true;
