@@ -29,7 +29,7 @@ namespace Net12.Maze
 
             BuildPudder();
 
-            maze.Hero = hero;
+            
 
             PlaceVitalityPotion();
 
