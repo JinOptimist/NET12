@@ -27,9 +27,6 @@ namespace Net12.Maze
 
             LocateHealPotion();
 
-            
-            
-            maze.Hero = hero;
 
             BuildCoin();
 
@@ -102,7 +99,7 @@ namespace Net12.Maze
             {
                 var randomGround = GetRandom(grounds);
 
-                while ((randomGround.X == 0) && (randomGround.Y == 0))
+                while ((randomGround.X == maze.Hero.X) && (randomGround.Y == maze.Hero.Y))
                 {
                     randomGround = GetRandom(grounds);
                 } 
