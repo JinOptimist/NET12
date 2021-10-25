@@ -1,4 +1,5 @@
 ﻿using Net12.Maze;
+using Net12.Maze.Cells;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace Net12
         public void Draw(MazeLevel maze)
         {
             Console.Clear();
+
+            Console.WriteLine(maze.Message);
 
             for (int y = 0; y < maze.Height; y++)
             {
@@ -34,10 +37,14 @@ namespace Net12
                     {
                         Console.Write(".");
                     }
+                    else if (cell is Puddle)
+                    {
+                        Console.Write("+");
+                    }
                     else if (cell is VitalityPotion)
                     {
                         Console.Write("V");
-                    } 
+                    }
                     else if (cell is Bless)
                     {
                         Console.Write("$");
@@ -63,9 +70,8 @@ namespace Net12
                 }
 
                 Console.WriteLine();
-            }
 
-            Console.WriteLine();
+            }
             Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
             Console.WriteLine($"HP: {maze.Hero.Hp}");
         }

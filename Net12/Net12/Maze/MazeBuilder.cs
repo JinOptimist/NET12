@@ -25,6 +25,9 @@ namespace Net12.Maze
 
             BuildGround();
 
+            BuildPudder();
+
+            maze.Hero = hero;
             PlaceVitalityPotion();
             LocateHealPotion();
 
@@ -36,7 +39,6 @@ namespace Net12.Maze
             BuildBless();
             BuildTrap();
 
-            var hero = new Hero(0, 0, maze, hp, max_hp);
             maze.Hero = hero;
 
 
@@ -77,6 +79,14 @@ namespace Net12.Maze
                 var groundToTrap = GetRandom(grounds);
                 maze[groundToTrap.X, groundToTrap.Y] = new Trap(groundToTrap.X, groundToTrap.Y, maze);
             }
+        }
+
+        private void BuildPudder()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Puddle(randomGround.X, randomGround.Y, maze);
         }
 
         private void BuildWall()
@@ -131,7 +141,6 @@ namespace Net12.Maze
         private BaseCell GetRandom(List<BaseCell> cells)
         {
             var index = random.Next(cells.Count);
-
             return cells[index];
         }
 
