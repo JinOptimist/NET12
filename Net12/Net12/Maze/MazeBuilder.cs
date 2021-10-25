@@ -30,7 +30,6 @@ namespace Net12.Maze
             return maze;
         }
 
-
         private void BuildWall()
         {
             for (int y = 0; y < maze.Height; y++)
@@ -72,13 +71,14 @@ namespace Net12.Maze
         private void BuildHeler()
         {
             int amountHealer = (maze.Width * maze.Height) / 400;
-            do
+
+            for (int i = 0; i <= amountHealer; i++)
             {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randomGrounds = GetRandom(grounds);
             maze[randomGrounds.X, randomGrounds.Y] = new Healer(randomGrounds.X, randomGrounds.Y, maze);
-                amountHealer--;
-            } while (amountHealer > 0);
+              
+            }
 
            
         }
