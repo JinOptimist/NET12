@@ -14,7 +14,7 @@ namespace Net12.Maze
             {
                 Maze.Hero.CurrentFatigue -= 20;
             }
-            else if (Maze.Hero.CurrentFatigue <= 20)
+            else
             {
                 Maze.Hero.CurrentFatigue = 0;
             }
