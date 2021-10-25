@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Net12.Maze
+namespace Net12.Maze.Cells
 {
-    public class Ground : BaseCell
+    public class WolfPit : BaseCell
     {
-        public Ground(int x, int y, MazeLevel maze) : base(x, y, maze) { }
+        public WolfPit(int x, int y, MazeLevel maze) : base(x, y, maze) { }
 
-    
 
         public override bool TryToStep()
         {
+            Maze.Hero.Health--;
             return true;
         }
     }
 }
+

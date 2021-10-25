@@ -22,6 +22,8 @@ namespace Net12.Maze
 
             BuildGround();
 
+            BuildWolfPit();
+
             var hero = new Hero(0, 0, maze);
             maze.Hero = hero;
 
@@ -85,5 +87,17 @@ namespace Net12.Maze
         }
 
 
+        private void BuildWolfPit()
+        {
+            {
+                var groundCenter = maze.Cells.FirstOrDefault(cell => GetNear<Ground>(cell).Count() == 4 );
+
+                if (groundCenter == null)
+                {
+                    return;
+                }
+                maze[groundCenter.X, groundCenter.Y] = new WolfPit(groundCenter.X, groundCenter.Y, maze);
+            }
+        }
     }
 }
