@@ -49,14 +49,13 @@ namespace Net12
                     {
                         Console.Write("$");
                     }
-
-
-                    Console.WriteLine();
                 }
 
                 Console.WriteLine();
-                Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
-                Console.WriteLine($"HP: {maze.Hero.Hp}");
+
             }
+            Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
+            Console.WriteLine($"HP: {maze.Hero.Hp}");
         }
     }
+}
