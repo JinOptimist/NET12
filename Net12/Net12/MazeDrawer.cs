@@ -1,4 +1,5 @@
 ﻿using Net12.Maze;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,11 @@ namespace Net12
                     {
                         Console.Write("$");
                     }
+                    else if(cell is Walker)
+                    {
+                        Console.Write("E");
+                    }
+                   
                 }
                 
                 Console.WriteLine();

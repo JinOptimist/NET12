@@ -1,4 +1,5 @@
 ﻿using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,8 +32,16 @@ namespace Net12.Maze
 
             BuildBless();
 
+            BuildWalker();
 
             return maze;
+        }
+        private void BuildWalker()
+        {
+            var list = maze.Cells.Where(point => point is Ground).ToList();
+            var point = GetRandom(list);
+            var enemy = new Walker(point.X, point.Y, point.Maze);
+            maze.Enemies.Add(enemy);
         }
         private void BuildBless()
         {

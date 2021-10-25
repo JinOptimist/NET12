@@ -9,17 +9,17 @@ namespace Net12.Maze.Cells.Enemies
     {
         enum Rotation
         {
-            left,
-            right,
-            up,
-            down
+            Left,
+            Right,
+            Up,
+            Down
         }
         Rotation Rot { get; set; }
-        private BaseCell _poswall;
+        private BaseCell _leftwall;
         public Walker(int x, int y, MazeLevel maze) : base(x, y, maze)
         {
-            Rot = Rotation.left;
-            _poswall = maze[X - 1, Y];
+            Rot = Rotation.Up;
+            _leftwall = maze[X - 1, Y];
 
         }
 
@@ -27,81 +27,93 @@ namespace Net12.Maze.Cells.Enemies
         {
             //var poses = Maze.Cells.Where(cell => Math.Abs(this.X - cell.X) == 1 && this.Y == cell.Y || Math.Abs(this.Y - cell.Y) == 1 && this.X == cell.X).OfType<Wall>().ToList();
 
-            if (Rot == Rotation.left)
+           if(Rot == Rotation.Up)
             {
-                if (Maze[this.X, this.Y - 1] is Ground && _poswall is Wall)
+                if(Maze[X,Y-1] is Ground && _leftwall is Wall)
                 {
                     Y--;
-                    _poswall = Maze[X - 1, Y];
+                    _leftwall.X = X-1;
+                    _leftwall.Y = Y;
+
                 }
-                else if (Maze[this.X - 1, this.Y] is Ground)
+                else if(_leftwall.Equals(typeof(Wall)) == false )
                 {
                     X--;
-                    Rot = Rotation.down;
-                    _poswall = Maze[X, Y + 1];
+                    _leftwall.X = X;
+                    _leftwall.Y = Y+1;
+                    Rot = Rotation.Left;
                 }
                 else
                 {
-                    Rot = Rotation.down;
+                    Rot = Rotation.Left;
+                    Step();
                 }
-
             }
-            if (Rot == Rotation.down)
+            else if (Rot == Rotation.Left)
             {
-                if (Maze[this.X - 1, this.Y] is Ground && _poswall is Wall)
+                if (Maze[X-1, Y] is Ground && _leftwall is Wall)
                 {
                     X--;
-                    _poswall = Maze[X, Y + 1];
+                    _leftwall.X = X;
+                    _leftwall.Y = Y+1;
+
                 }
-                else if (Maze[this.X, this.Y + 1] is Ground)
+                else if (_leftwall.Equals(typeof(Wall)) == false)
                 {
-                    Y--;
-                    Rot = Rotation.right;
-                    _poswall = Maze[X + 1, Y];
+                    Y++;
+                    _leftwall.X = X+1;
+                    _leftwall.Y = Y;
+                    Rot = Rotation.Down;
                 }
                 else
                 {
-                    Rot = Rotation.right;
+                    Rot = Rotation.Down;
+                    Step();
                 }
-
             }
-            if (Rot == Rotation.right)
+            else if (Rot == Rotation.Down)
             {
-                if (Maze[this.X, this.Y + 1] is Ground && _poswall is Wall)
+                if (Maze[X, Y+1] is Ground && _leftwall is Wall)
                 {
-                    Y--;
-                    _poswall = Maze[X, Y + 1];
+                    Y++;
+                    _leftwall.X = X+1;
+                    _leftwall.Y = Y;
+
                 }
-                else if (Maze[this.X + 1, this.Y] is Ground)
+                else if (_leftwall.Equals(typeof(Wall)) == false)
                 {
                     X++;
-                    Rot = Rotation.up;
-                    _poswall = Maze[X, Y + 1];
+                    _leftwall.X = X;
+                    _leftwall.Y = Y-1;
+                    Rot = Rotation.Right;
                 }
                 else
                 {
-                    Rot = Rotation.up;
+                    Rot = Rotation.Right;
+                    Step();
                 }
-
             }
-            if (Rot == Rotation.up)
+            else if (Rot == Rotation.Right)
             {
-                if (Maze[this.X + 1, this.Y] is Ground && _poswall is Wall)
-                {
-                    Y--;
-                    _poswall = Maze[X + 1, Y];
-                }
-                else if (Maze[this.X, this.Y+1] is Ground)
+                if (Maze[X+1, Y] is Ground && _leftwall is Wall)
                 {
                     X++;
-                    Rot = Rotation.left;
-                    _poswall = Maze[X-1, Y];
+                    _leftwall.X = X;
+                    _leftwall.Y = Y-1;
+
+                }
+                else if (_leftwall.Equals(typeof(Wall)) == false)
+                {
+                    Y--;
+                    _leftwall.X = X-1;
+                    _leftwall.Y = Y;
+                    Rot = Rotation.Up;
                 }
                 else
                 {
-                    Rot = Rotation.left;
+                    Rot = Rotation.Up;
+                    Step();
                 }
-
             }
 
 
@@ -111,5 +123,6 @@ namespace Net12.Maze.Cells.Enemies
         {
             throw new NotImplementedException();
         }
+        
     }
 }
