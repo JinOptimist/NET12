@@ -87,13 +87,6 @@ namespace Net12.Maze
             }
         }
 
-        private void BuildCoin()
-        {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
-            var randomGround = GetRandom(grounds);
-            maze[randomGround.X, randomGround.Y] = new Coin(randomGround.X, randomGround.Y, maze, 3);
-        }
-
         private void PlaceVitalityPotion()
         {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();

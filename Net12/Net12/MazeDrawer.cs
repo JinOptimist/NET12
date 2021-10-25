@@ -77,8 +77,6 @@ namespace Net12
                     {
                         Console.Write("B");
                     }
-                }
-
                     else if (cell is Trap)
                     {
                         Console.Write("~");
