@@ -49,6 +49,10 @@ namespace Net12
                     {
                         Console.Write(".");
                     }
+                    else if (cell is Bed)
+                    {
+                        Console.Write("п");
+                    }
                     else if (cell is Puddle)
                     {
                         Console.Write("+");

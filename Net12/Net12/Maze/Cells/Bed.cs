@@ -14,6 +14,5 @@ namespace Net12.Maze
             Maze[X, Y] = new Ground(X, Y, Maze);
             return true;
         }
-
     }
 }
