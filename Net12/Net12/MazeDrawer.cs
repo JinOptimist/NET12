@@ -1,4 +1,5 @@
 ﻿using Net12.Maze;
+using Net12.Maze.Cells;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,10 @@ namespace Net12
                     else if (cell is Bless)
                     {
                         Console.Write("$");
+                    }
+                    else if (cell is Tavern)
+                    {
+                        Console.Write("T");
                     }
                 }
                 

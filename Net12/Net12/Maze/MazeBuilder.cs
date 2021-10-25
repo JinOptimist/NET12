@@ -31,6 +31,8 @@ namespace Net12.Maze
 
             BuildBless();
 
+            BuildTavern();
+
 
             return maze;
         }
@@ -50,6 +52,13 @@ namespace Net12.Maze
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new Coin(randomGround.X, randomGround.Y, maze, 3);
+        }
+
+        private void BuildTavern()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Tavern(randomGround.X, randomGround.Y, maze, 3);
         }
 
         private void PlaceVitalityPotion()
