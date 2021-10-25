@@ -33,6 +33,10 @@ namespace Net12
                     else if (cell is Ground)
                     {
                         Console.Write(".");
+                    }
+                    else if (cell is VitalityPotion)
+                    {
+                        Console.Write("V");
                     } 
                     else if (cell is Bless)
                     {
@@ -47,6 +51,9 @@ namespace Net12
 
                 Console.WriteLine();
             }
+
+            Console.WriteLine();
+            Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
             Console.WriteLine($"HP: {maze.Hero.Hp}");
         }
     }
