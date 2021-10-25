@@ -92,29 +92,20 @@ namespace Net12.Maze
         {
 
 
-            var wallsOfMaze = maze.Cells.OfType<Wall>().ToList();
-            var wallToCheckForFourWall = wallsOfMaze.Where(cell => GetNear<Wall>(cell).Count <= 2 &&
-                                                                   GetNear<Bless>(cell).Count == 0).ToList();
+            var wallsOfMaze = maze.Cells.OfType<Wall>().Cast<BaseCell>().ToList();
+            var wallToCheckForFourWall = wallsOfMaze.Where(cell => GetNear<Wall>(cell).Count <= 2).Cast<BaseCell>().ToList();
             var countOfWallInTheMaze = wallsOfMaze.Count;
             var countOfWeakWall = Math.Round(countOfWallInTheMaze / 10.0);
 
 
-            while (countOfWeakWall > 0)
+            for (int i = 0; countOfWeakWall > i; i++)
             {
                 var randomWall = GetRandom(wallToCheckForFourWall);
-                var wallX = randomWall.X;
-                var wallY = randomWall.Y;
                 wallsOfMaze.Remove(randomWall);
-                maze[wallX, wallY] = new WeakWall(wallX, wallY, maze);
+                maze[randomWall.X, randomWall.Y] = new WeakWall(randomWall.X, randomWall.Y, maze);
                 countOfWeakWall--;
             }
         }
 
-        private Wall GetRandom(List<Wall> wallOfMaze)
-        {
-            var index = random.Next(wallOfMaze.Count);
-
-            return wallOfMaze[index];
-        }
     }
 }
