@@ -38,26 +38,30 @@ namespace Net12.Maze
         {
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;
+
+            Hero.CurrentFatigue++;
+
             switch (direction)
             {
                 case Direction.Up:
                     heroPositionY--;
-                    Hero.CurrentFatigue++;
                     break;
                 case Direction.Right:
                     heroPositionX++;
-                    Hero.CurrentFatigue++;
                     break;
                 case Direction.Down:
                     heroPositionY++;
-                    Hero.CurrentFatigue++;
                     break;
                 case Direction.Left:
                     heroPositionX--;
-                    Hero.CurrentFatigue++;
                     break;
+
+
                 default:
                     break;
+
+                    
+
             }
 
             var cellToStep = this[heroPositionX, heroPositionY];
