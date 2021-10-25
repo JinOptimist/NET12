@@ -35,7 +35,7 @@ namespace Net12
                     }
                     else if (cell is Wall)
                     {
-                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
                         Console.Write("#");
                         Console.ResetColor();
 
