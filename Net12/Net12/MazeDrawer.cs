@@ -6,6 +6,7 @@ using System.Text;
 
 namespace Net12
 {
+    // test
     public class MazeDrawer
     {
         public void Draw(MazeLevel maze)
@@ -16,12 +17,12 @@ namespace Net12
             {
                 for (int x = 0; x < maze.Width; x++)
                 {
-                    var cell = maze[x, y];
+                    var cell = maze.GetCellOrUnit(x, y);
                     if (maze.Hero.X == x && maze.Hero.Y == y)
                     {
                         Console.Write("@");
                     }
-                    else  if (cell is Wall)
+                    else if (cell is Wall)
                     {
                         Console.Write("#");
                     }
@@ -33,6 +34,16 @@ namespace Net12
                     {
                         Console.Write(".");
                     }
+                    else if (cell is VitalityPotion)
+                    {
+                        Console.Write("V");
+                    } 
+                    else if (cell is Bless)
+                    {
+                        Console.Write("$");
+                    }
+                }
+                
                     else if (cell is Healer)
                     {
                         Console.ForegroundColor = ConsoleColor.Red; // устанавливаем цвет
@@ -44,9 +55,10 @@ namespace Net12
 
                 Console.WriteLine();
             }
-            Console.WriteLine($"Здоровье {maze.Hero.Healt}");
-            Console.WriteLine($"Деньги   {maze.Hero.Money}");
 
+            Console.WriteLine();
+            Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
+            Console.WriteLine($"HP: {maze.Hero.Hp}");
         }
     }
 }
