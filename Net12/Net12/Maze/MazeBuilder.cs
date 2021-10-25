@@ -34,10 +34,6 @@ namespace Net12.Maze
             BuildBless();
             BuildTrap();
 
-            var hero = new Hero(0, 0, maze, hp, max_hp);
-            maze.Hero = hero;
-
-
             return maze;
         }
         private void BuildBless()
