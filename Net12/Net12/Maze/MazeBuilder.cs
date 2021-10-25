@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace Net12.Maze
 {
@@ -202,5 +203,15 @@ namespace Net12.Maze
             var randomGroundIn = GetRandom(grounds);
             maze[randomGroundIn.X, randomGroundIn.Y] = new TeleportIn(randomGroundIn.X, randomGroundIn.Y, maze, cellOut);
         }
+
+        private static Random _random = new Random();
+        private static ConsoleColor GetRandomConsoleColor(BaseCell currentCell)
+        {
+            var consoleColors = Enum.GetValues(typeof(ConsoleColor));
+            return (ConsoleColor)consoleColors.GetValue(_random.Next(consoleColors.Length));
+        }
+
+        
+
     }
 }

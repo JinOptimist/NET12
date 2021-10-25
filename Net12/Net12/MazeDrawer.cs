@@ -21,6 +21,7 @@ namespace Net12
                 for (int x = 0; x < maze.Width; x++)
                 {
                     var cell = maze.GetCellOrUnit(x, y);
+                    
                     if (maze.Hero.X == x && maze.Hero.Y == y)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
