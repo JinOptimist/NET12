@@ -3,15 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace Net12
 {
     class Program
     {
         static void Main(string[] args)
-        {
+        {        
             var mazeBuilder = new MazeBuilder();
-            var maze = mazeBuilder.Build(10, 10);
+
+            var maze = mazeBuilder.Build(10, 10, 10, 100);
+
             var drawer = new MazeDrawer();
+
             while (true)
             {
                 drawer.Draw(maze);
@@ -39,7 +43,6 @@ namespace Net12
                         break;
                 }
             }
-
         }
 
         private static void Les1()
