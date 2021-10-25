@@ -30,6 +30,8 @@ namespace Net12.Maze
             maze.Hero = hero;
             PlaceVitalityPotion();
             LocateHealPotion();
+            var hero = new Hero(0, 0, maze);
+            maze.Hero = hero;
 
 
             BuildTeleport();
@@ -126,6 +128,20 @@ namespace Net12.Maze
                 minerX = randomCell.X;
                 minerY = randomCell.Y;
             } while (wallToBreak.Any());
+        }
+        private void BuildHeler()
+        {
+            int amountHealer = (maze.Width * maze.Height) / 400;
+
+            for (int i = 0; i <= amountHealer; i++)
+            {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGrounds = GetRandom(grounds);
+            maze[randomGrounds.X, randomGrounds.Y] = new Healer(randomGrounds.X, randomGrounds.Y, maze);
+              
+            }
+
+           
         }
 
        private void LocateHealPotion()
