@@ -30,6 +30,10 @@ namespace Net12.Maze
             BuildCoin();
 
             BuildBless();
+            BuildTrap();
+
+            var hero = new Hero(0, 0, maze, hp, max_hp);
+            maze.Hero = hero;
 
 
             return maze;
@@ -57,6 +61,18 @@ namespace Net12.Maze
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new VitalityPotion(randomGround.X, randomGround.Y, maze, 5);
+        }
+
+        private void BuildTrap()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            grounds = grounds.Where(x => GetNear<Ground>(x).Count >= 2).ToList();
+
+            if (grounds.Any())
+            {
+                var groundToTrap = GetRandom(grounds);
+                maze[groundToTrap.X, groundToTrap.Y] = new Trap(groundToTrap.X, groundToTrap.Y, maze);
+            }
         }
 
         private void BuildWall()
@@ -114,7 +130,5 @@ namespace Net12.Maze
                 .OfType<TypeOfCell>()
                 .ToList();
         }
-
-
     }
 }
