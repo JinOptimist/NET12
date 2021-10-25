@@ -11,7 +11,7 @@ namespace Net12
         public void Draw(MazeLevel maze)
         {
             Console.Clear();
-            Console.WriteLine($"Health: {maze.Hero.Health} ");
+            Console.WriteLine($"Health: {maze.Hero.Hp} ");
 
             Console.WriteLine("");
 
@@ -41,10 +41,7 @@ namespace Net12
                         Console.Write("~");
                     }
                 }
-
                 Console.WriteLine();
-
-                
             }
             
         }

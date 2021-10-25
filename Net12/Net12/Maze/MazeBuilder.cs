@@ -11,7 +11,7 @@ namespace Net12.Maze
         private MazeLevel maze;
         private Random random = new Random();
 
-        public MazeLevel Build(int width, int height)
+        public MazeLevel Build(int width, int height, int hp, int max_hp)
         {
             maze = new MazeLevel();
 
@@ -26,7 +26,7 @@ namespace Net12.Maze
 
             BuildTrap();
 
-            var hero = new Hero(0, 0, maze, 10);
+            var hero = new Hero(0, 0, maze, hp, max_hp);
             maze.Hero = hero;
 
             return maze;
@@ -41,12 +41,14 @@ namespace Net12.Maze
 
         private void BuildTrap()
         {
-            var groundToTrap = maze.Cells.Where(x => x is Ground).ToList();
-            var randomGroundToTrap = GetRandom(groundToTrap);
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            grounds = grounds.Where(x => GetNear<Ground>(x).Count >= 2).ToList();
 
-            var nearWalls = GetNear<Ground>(randomGroundToTrap);
-            if(nearWalls.Count <= 2) maze[randomGroundToTrap.X, randomGroundToTrap.Y] = new Trap(randomGroundToTrap.X, randomGroundToTrap.Y, maze);
-
+            if (grounds.Any())
+            {
+                var groundToTrap = GetRandom(grounds);
+                maze[groundToTrap.X, groundToTrap.Y] = new Trap(groundToTrap.X, groundToTrap.Y, maze);
+            }
         }
 
         private void BuildWall()
@@ -104,7 +106,5 @@ namespace Net12.Maze
                 .OfType<TypeOfCell>()
                 .ToList();
         }
-
-
     }
 }
