@@ -27,6 +27,8 @@ namespace Net12.Maze
 
             PlaceVitalityPotion();
 
+            BuildTeleport();
+
             BuildCoin();
 
             BuildBless();
@@ -129,6 +131,24 @@ namespace Net12.Maze
                     || Math.Abs(cell.X - currentCell.X) == 1 && cell.Y == currentCell.Y)
                 .OfType<TypeOfCell>()
                 .ToList();
+        }
+
+        private void BuildTeleport()
+        {
+            var grounds = maze.Cells.OfType<Ground>().Cast<BaseCell>().ToList();
+            if (grounds.Count<2)
+            {
+                return;
+            }
+
+            var randomGroundOut = GetRandom(grounds);
+            var cellOut = new TeleportOut(randomGroundOut.X, randomGroundOut.Y, maze);
+            maze[randomGroundOut.X, randomGroundOut.Y] = cellOut;
+
+            grounds.Remove(cellOut);
+
+            var randomGroundIn = GetRandom(grounds);                
+            maze[randomGroundIn.X, randomGroundIn.Y] = new TeleportIn(randomGroundIn.X, randomGroundIn.Y, maze, cellOut);
         }
     }
 }

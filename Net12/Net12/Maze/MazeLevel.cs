@@ -15,7 +15,6 @@ namespace Net12.Maze
 
         public int Width { get; set; }
         public int Height { get; set; }
-
         public Hero Hero { get; set; }
 
         public BaseCell GetCellOrUnit(int x, int y)
@@ -56,6 +55,7 @@ namespace Net12.Maze
         {
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;
+
             switch (direction)
             {
                 case Direction.Up:
