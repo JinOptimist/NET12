@@ -37,7 +37,7 @@ namespace Net12.Maze
         }
         private void BuildBless()
         {
-            var res_point = maze.Cells.FirstOrDefault(point => GetNear<Wall>(point).Count == 3);
+            var res_point = maze.Cells.FirstOrDefault(point => GetNear<Wall>(point).Count == 3 && GetNear<BaseCell>(point).Count == 4);
 
             if (res_point != null)
             {
