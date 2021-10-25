@@ -1,4 +1,4 @@
-﻿using Net12.Maze;
+﻿using Net12.Maze.Cells;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,25 +18,49 @@ namespace Net12.Maze
             maze.Width = width;
             maze.Height = height;
 
+            var hero = new Hero(0, 0, maze, hp, max_hp);
+            maze.Hero = hero;
+
             BuildWall();
 
             BuildGround();
 
+            PlaceVitalityPotion();
+
             BuildCoin();
 
+            BuildBless();
             BuildTrap();
 
             var hero = new Hero(0, 0, maze, hp, max_hp);
             maze.Hero = hero;
 
+
             return maze;
+        }
+        private void BuildBless()
+        {
+            var res_point = maze.Cells.FirstOrDefault(point => GetNear<Wall>(point).Count == 3 && GetNear<BaseCell>(point).Count == 4);
+
+            if (res_point != null)
+            {
+                maze[res_point.X, res_point.Y] = new Bless(res_point.X, res_point.Y, maze);
+
+            }
         }
 
         private void BuildCoin()
         {
-            var grounds = maze.Cells.Where(x=> x is Ground).ToList();
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new Coin(randomGround.X, randomGround.Y, maze, 3);
+        }
+
+        private void PlaceVitalityPotion()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new VitalityPotion(randomGround.X, randomGround.Y, maze, 5);
         }
 
         private void BuildTrap()

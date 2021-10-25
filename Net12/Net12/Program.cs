@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace Net12
 {
     class Program
@@ -10,7 +11,7 @@ namespace Net12
         static void Main(string[] args)
         {
             var mazeBuilder = new MazeBuilder();
-            var maze = mazeBuilder.Build(6, 10, 10, 100);
+            var maze = mazeBuilder.Build(10, 10, 10, 100);
             var drawer = new MazeDrawer();
             while (true)
             {
