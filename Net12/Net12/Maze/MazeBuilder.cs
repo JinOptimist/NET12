@@ -102,15 +102,10 @@ namespace Net12.Maze
 
        private void LocateHealPotion()
         {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var grounds = maze.Cells.Where(x => x is Ground).Where(x => (x.X != maze.Hero.X && x.Y != maze.Hero.Y)).ToList();
             for (int i = 0; i < 3; i++)
             {
-                var randomGround = GetRandom(grounds);
-
-                while ((randomGround.X == maze.Hero.X) && (randomGround.Y == maze.Hero.Y))
-                {
-                    randomGround = GetRandom(grounds);
-                } 
+                var randomGround = GetRandom(grounds);              
                 maze[randomGround.X, randomGround.Y] = new HealPotion(randomGround.X, randomGround.Y, maze);
             }
         }

@@ -9,9 +9,12 @@ namespace Net12.Maze
         public HealPotion(int x, int y, MazeLevel maze) : base(x, y, maze) { }
 
         public override bool TryToStep()
-        {                    
-            Maze.Hero.Hp = Maze.Hero.Hp + 10;
-            
+        {
+            if (Maze.Hero.Hp <= 90)
+                Maze.Hero.Hp = Maze.Hero.Hp + 10;
+            else
+                Maze.Hero.Hp = 100;
+
             Maze[X, Y] = new Ground(X, Y, Maze);
             return true;
         }
