@@ -97,10 +97,23 @@ namespace Net12.Maze
 
         private void BuildTeleport()
         {
-            var cellOut = new TeleportOut(3, 3, maze);
-            maze[3, 3] = cellOut;
-            maze[1, 1] = new TeleportIn(1, 1, maze, cellOut);
-        }
+            var grounds = maze.Cells.OfType<Ground>().Cast<BaseCell>().ToList();
+            if (grounds.Count<2)
+            {
+                return;
+            }
 
+            var randomGroundOut = GetRandom(grounds);
+            var cellOut = new TeleportOut(randomGroundOut.X, randomGroundOut.Y, maze);
+            maze[randomGroundOut.X, randomGroundOut.Y] = cellOut;
+
+            var randomGroundIn = GetRandom(grounds);
+            while (randomGroundIn.X == cellOut.X && randomGroundIn.Y == cellOut.Y)
+            {
+                randomGroundIn = GetRandom(grounds);
+            }
+
+             maze[randomGroundIn.X, randomGroundIn.Y] = new TeleportIn(randomGroundIn.X, randomGroundIn.Y, maze, cellOut);
+        }
     }
 }
