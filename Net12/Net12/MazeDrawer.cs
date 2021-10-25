@@ -29,7 +29,9 @@ namespace Net12
                     }
                     else if (cell is GoldMine)
                     {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.Write("M");
+                        Console.ResetColor();
                     }
                     else if (cell is Wall)
                     {
@@ -52,7 +54,9 @@ namespace Net12
                     }
                     else if (cell is Puddle)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;
                         Console.Write("+");
+                        Console.ResetColor();
                     }
                     else if (cell is VitalityPotion)
                     {
