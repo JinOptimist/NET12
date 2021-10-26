@@ -31,10 +31,6 @@ namespace Net12
                     {
                         Console.Write("c");
                     }
-                    else if (cell is Ground)
-                    {
-                        Console.Write(".");
-                    }
                     else if (cell is VitalityPotion)
                     {
                         Console.Write("V");
@@ -47,7 +43,11 @@ namespace Net12
                     {
                         Console.Write("E");
                     }
-                   
+                    else if (cell is Ground)
+                    {
+                        Console.Write(".");
+                    }
+
                 }
                 
                 Console.WriteLine();
