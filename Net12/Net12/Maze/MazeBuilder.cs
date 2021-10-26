@@ -1,4 +1,5 @@
 ﻿using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,11 +39,18 @@ namespace Net12.Maze
             BuildTrap();
             BuildFountain();
             BuildBed();
+            BuildSlime();
 
             return maze;
         }
 
-
+        private void BuildSlime()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+//            maze[randomGround.X, randomGround.Y] = new Slime(randomGround.X, randomGround.Y, maze);
+            maze.Enemies.Add(new Slime(randomGround.X, randomGround.Y, maze));
+        }
         private void BuildFountain()
         {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
