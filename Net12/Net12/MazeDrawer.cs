@@ -32,7 +32,6 @@ namespace Net12
                 { typeof(WolfPit), "*"},
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
-                { typeof(Slime),"☺" },
             };
 
         public void Draw(MazeLevel maze)
