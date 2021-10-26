@@ -8,8 +8,6 @@ namespace Net12.Maze.Cells.Enemies
     public class Slime : BaseEnemy
     {
         public int Hp { get; set; } = 1;
-        public int X { get; set; }
-        public int Y { get; set; }
 
         private Random random = new Random();
 
