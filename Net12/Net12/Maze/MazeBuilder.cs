@@ -39,7 +39,7 @@ namespace Net12.Maze
             BuildTrap();
             BuildFountain();
             BuildBed();
-
+            BuildWalker();
             return maze;
         }
 
@@ -50,7 +50,7 @@ namespace Net12.Maze
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new Fountain(randomGround.X, randomGround.Y, maze);
 
-            BuildWalker();
+           
         }
 
         private void BuildBed()

@@ -33,6 +33,7 @@ namespace Net12
                 { typeof(WolfPit), "*"},
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
+                { typeof(Walker), "E"},
             };
 
         public void Draw(MazeLevel maze)
@@ -48,19 +49,8 @@ namespace Net12
                    
                     var symbol = GetSymbolByCellType(cell);
 
-                    var origenalColor = Console.ForegroundColor;
-                    if (cell is WeakWall)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                    } 
-                    
                     Console.Write(symbol);
-
-                    Console.ForegroundColor = origenalColor;
-                    else if (cell is Bless)
-                    {
-                        Console.Write("$");
-                    }
+                   
                 }
 
                 Console.WriteLine();

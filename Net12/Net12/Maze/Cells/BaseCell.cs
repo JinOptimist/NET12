@@ -18,6 +18,5 @@ namespace Net12.Maze
         }
 
        public abstract bool TryToStep();
-
     }
 }

@@ -8,8 +8,6 @@ namespace Net12.Maze
     {
         public Ground(int x, int y, MazeLevel maze) : base(x, y, maze) { }
 
-    
-
         public override bool TryToStep()
         {
             return true;

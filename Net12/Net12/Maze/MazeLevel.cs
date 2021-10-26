@@ -6,8 +6,7 @@ using System.Linq;
 using System.Text;
 
 namespace Net12.Maze
-{
-    
+{   
     public class MazeLevel
     {
         public List<BaseCell> Cells { get; set; } = new List<BaseCell>();
@@ -16,10 +15,9 @@ namespace Net12.Maze
 
         public int Width { get; set; }
         public int Height { get; set; }
+
         public Hero Hero { get; set; }
-
-        public string Message { get; set; } = "";
-
+       public string Message { get; set; } = "";
         public BaseCell GetCellOrUnit(int x, int y)
         {
             if (Hero.X == x && Hero.Y == y)
@@ -83,13 +81,8 @@ namespace Net12.Maze
                 case Direction.Left:
                     heroPositionX--;
                     break;
-
-
                 default:
                     break;
-
-                    
-
             }
 
             var cellToStep = this[heroPositionX, heroPositionY];

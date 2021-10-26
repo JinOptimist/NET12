@@ -11,11 +11,8 @@ namespace Net12
         static void Main(string[] args)
         {        
             var mazeBuilder = new MazeBuilder();
-
             var maze = mazeBuilder.Build(10, 10, 10, 100);
-
             var drawer = new MazeDrawer();
-
             while (true)
             {
                 drawer.Draw(maze);
