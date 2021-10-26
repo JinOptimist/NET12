@@ -1,5 +1,4 @@
 ﻿using Net12.Maze.Cells;
-using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +38,6 @@ namespace Net12.Maze
             BuildTrap();
             BuildFountain();
             BuildBed();
-            BuildSlime();
 
             return maze;
         }
