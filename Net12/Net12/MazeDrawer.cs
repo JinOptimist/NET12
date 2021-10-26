@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Net12.Maze.Cells;
 
 namespace Net12
 {
@@ -64,6 +63,7 @@ namespace Net12
             Console.WriteLine($"\nMoney :{ maze.Hero.Money}");
             Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
             Console.WriteLine($"HP: {maze.Hero.Hp}");
+            Console.WriteLine($"стчетчик {maze.Wallworm.CounterStep}");
         }
 
         private string GetSymbolByCellType(BaseCell cell)
@@ -71,7 +71,6 @@ namespace Net12
             var type = cell.GetType();
 
             return TypeSymbolDictionary[type];
-            Console.WriteLine($"стчетчик {maze.Wallworm.CounterStep}");
 
         }
     }

@@ -23,6 +23,7 @@ namespace Net12.Maze
             maze.Hero = hero;
             var wallworm = new Wallworm(-1, -1, maze);
             maze.Wallworm = wallworm;
+            maze.Enemies.Add(wallworm);
             BuildWall();
             BuildGround();
             BuildWolfPit();
@@ -66,7 +67,7 @@ namespace Net12.Maze
             var randonGround = GetRandom(grounds);
             maze[randonGround.X, randonGround.Y] = new Coin(randonGround.X, randonGround.Y, maze, 3);
         }
-        
+
         private void BuildBless()
         {
             var res_point = maze.Cells.FirstOrDefault(point => GetNear<Wall>(point).Count == 3 && GetNear<BaseCell>(point).Count == 4);
@@ -103,7 +104,7 @@ namespace Net12.Maze
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new Tavern(randomGround.X, randomGround.Y, maze);
         }
-        
+
         private void BuildPudder()
         {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
@@ -152,7 +153,7 @@ namespace Net12.Maze
                 minerY = randomCell.Y;
             } while (wallToBreak.Any());
         }
-        
+
         private void BuildHeler()
         {
             int amountHealer = (maze.Width * maze.Height) / 400;
@@ -187,7 +188,7 @@ namespace Net12.Maze
 
             }
         }
-        
+
         private void BuildTeleport()
         {
             var grounds = maze.Cells.OfType<Ground>().Cast<BaseCell>().ToList();
@@ -237,7 +238,7 @@ namespace Net12.Maze
                 countOfWeakWall--;
             }
         }
-        
+
         private BaseCell GetRandom(List<BaseCell> cells)
         {
             var index = random.Next(cells.Count);
@@ -254,6 +255,6 @@ namespace Net12.Maze
                 .ToList();
         }
 
-       
+
     }
 }
