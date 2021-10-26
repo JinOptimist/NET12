@@ -139,7 +139,7 @@ namespace Net12.Maze.Cells.Enemies
                     Y++;
                     _leftwallX = X + 1;
                     _leftwallY = Y;
-                    Rot = Rotation.Up;
+                    Rot = Rotation.Down;
                 }
                 else
                 {
