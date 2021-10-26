@@ -48,7 +48,6 @@ namespace Net12.Maze
         {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randomGround = GetRandom(grounds);
-//            maze[randomGround.X, randomGround.Y] = new Slime(randomGround.X, randomGround.Y, maze);
             maze.Enemies.Add(new Slime(randomGround.X, randomGround.Y, maze));
         }
         private void BuildFountain()
