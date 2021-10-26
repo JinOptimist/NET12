@@ -7,6 +7,7 @@ using System.Text;
 
 namespace Net12.Maze
 {
+    
     public class MazeLevel
     {
         public List<BaseCell> Cells { get; set; } = new List<BaseCell>();
@@ -58,8 +59,17 @@ namespace Net12.Maze
         {
             Message = "";
             var heroPositionX = Hero.X;
-            var heroPositionY = Hero.Y;
-
+            var heroPositionY = Hero.Y;            
+            if (Hero.CurrentFatigue < Hero.MaxFatigue)
+            {
+                Hero.CurrentFatigue++;
+            }
+            else
+            {
+                Message = "WASTED";
+                return;
+            }       
+            
             switch (direction)
             {
                 case Direction.Up:
@@ -74,8 +84,13 @@ namespace Net12.Maze
                 case Direction.Left:
                     heroPositionX--;
                     break;
+
+
                 default:
                     break;
+
+                    
+
             }
 
             var cellToStep = this[heroPositionX, heroPositionY];
