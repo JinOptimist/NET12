@@ -16,6 +16,7 @@ namespace Net12.Maze
         public int Width { get; set; }
         public int Height { get; set; }
         public Hero Hero { get; set; }
+        public Wallworm Wallworm { get; set; }
 
         public string Message { get; set; } = "";
 

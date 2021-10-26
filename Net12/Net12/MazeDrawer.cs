@@ -80,7 +80,8 @@ namespace Net12
             Console.WriteLine($"\nMoney :{ maze.Hero.Money}");
             Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
             Console.WriteLine($"HP: {maze.Hero.Hp}");
-          
+            Console.WriteLine($"стчетчик {maze.Wallworm.CounterStep}");
+
         }
     }
 }

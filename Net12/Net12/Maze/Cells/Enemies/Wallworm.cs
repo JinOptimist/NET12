@@ -4,8 +4,22 @@ using System.Text;
 
 namespace Net12.Maze.Cells.Enemies
 {
-    class Wallworm : BaseEnemy
+    public class Wallworm : BaseEnemy
     {
-        public abstract void Step();
+        public Wallworm(int x, int y, MazeLevel maze) : base(x, y, maze)
+        {
+        }
+        public int CounterStep { get; set; } = 0;
+
+        public override void Step()
+        {
+            CounterStep++;
+
+        }
+
+        public override bool TryToStep()
+        {
+            return true;
+        }
     }
 }

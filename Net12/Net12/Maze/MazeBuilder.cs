@@ -1,4 +1,5 @@
 ﻿using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,8 @@ namespace Net12.Maze
 
             var hero = new Hero(0, 0, maze, hp, max_hp);
             maze.Hero = hero;
-
+            var wallworm = new Wallworm(-1, -1, maze);
+            maze.Wallworm = wallworm;
             BuildWall();
 
             BuildGround();
