@@ -39,6 +39,7 @@ namespace Net12.Maze
             BuildTrap();
             BuildFountain();
             BuildBed();
+            BuildBullEnemy();
 
             return maze;
         }
@@ -58,10 +59,7 @@ namespace Net12.Maze
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new Bed(randomGround.X, randomGround.Y, maze);
         }
-
-            BuildBullEnemy();
-
-            return maze;
+     
         private void BuildCoin()
         {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
@@ -254,16 +252,6 @@ namespace Net12.Maze
                     || Math.Abs(cell.X - currentCell.X) == 1 && cell.Y == currentCell.Y)
                 .OfType<TypeOfCell>()
                 .ToList();
-        }
-
-            var randomGroundOut = GetRandom(grounds);
-            var cellOut = new TeleportOut(randomGroundOut.X, randomGroundOut.Y, maze);
-            maze[randomGroundOut.X, randomGroundOut.Y] = cellOut;
-
-            grounds.Remove(cellOut);
-
-            var randomGroundIn = GetRandom(grounds);
-            maze[randomGroundIn.X, randomGroundIn.Y] = new TeleportIn(randomGroundIn.X, randomGroundIn.Y, maze, cellOut);
         }
 
         private void BuildBullEnemy()

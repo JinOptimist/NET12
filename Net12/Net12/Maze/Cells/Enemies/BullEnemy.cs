@@ -80,7 +80,7 @@ namespace Net12.Maze.Cells.Enemies
         {
             if (Maze.Hero.X == X && Maze.Hero.Y == Y)
             {
-                Maze.Hero.Healt -= 20;
+                Maze.Hero.Hp--;
             }
         }
 

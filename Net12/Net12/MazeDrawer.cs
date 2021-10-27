@@ -33,6 +33,7 @@ namespace Net12
                 { typeof(WolfPit), "*"},
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
+                { typeof(BullEnemy), "!"},
             };
 
         public void Draw(MazeLevel maze)
@@ -53,23 +54,8 @@ namespace Net12
                     {
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                     }
-                    else if (cell is TeleportOut)
-                    {
-                        Console.Write(";");
-                    }
-                               
-                    else if (cell is Trap)
-                    {
-                        Console.Write("~");
-                    }
-                    else if (cell is HealPotion)
-                    {
-                        Console.Write("h");
-                    }
-                    else if (cell is BullEnemy)
-                    {
-                        Console.Write("!");
-                    }
+
+                    Console.Write(symbol);
 
                     Console.ForegroundColor = origenalColor;
                 }
