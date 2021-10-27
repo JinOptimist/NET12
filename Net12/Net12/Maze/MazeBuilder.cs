@@ -66,6 +66,7 @@ namespace Net12.Maze
             var randonGround = GetRandom(grounds);
             maze[randonGround.X, randonGround.Y] = new Coin(randonGround.X, randonGround.Y, maze, 3);
         }
+
         private void BuildBless()
         {
             var res_point = maze.Cells.FirstOrDefault(point => GetNear<Wall>(point).Count == 3 && GetNear<BaseCell>(point).Count == 4);
@@ -150,6 +151,7 @@ namespace Net12.Maze
                 minerY = randomCell.Y;
             } while (wallToBreak.Any());
         }
+
         private void BuildHeler()
         {
             int amountHealer = (maze.Width * maze.Height) / 400;
@@ -184,6 +186,7 @@ namespace Net12.Maze
 
             }
         }
+
         private void BuildTeleport()
         {
             var grounds = maze.Cells.OfType<Ground>().Cast<BaseCell>().ToList();
