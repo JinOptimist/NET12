@@ -152,7 +152,6 @@ namespace Net12.Maze
                 minerY = randomCell.Y;
             } while (wallToBreak.Any());
         }
-
         private void BuildHeler()
         {
             int amountHealer = (maze.Width * maze.Height) / 400;
@@ -187,7 +186,6 @@ namespace Net12.Maze
 
             }
         }
-
         private void BuildTeleport()
         {
             var grounds = maze.Cells.OfType<Ground>().Cast<BaseCell>().ToList();
@@ -258,7 +256,6 @@ namespace Net12.Maze
                 .OfType<TypeOfCell>()
                 .ToList();
         }
-
 
     }
 }

@@ -7,8 +7,7 @@ using System.Text;
 
 namespace Net12.Maze
 {
-
-    public class MazeLevel
+        public class MazeLevel
     {
         public List<BaseCell> Cells { get; set; } = new List<BaseCell>();
 
@@ -87,7 +86,6 @@ namespace Net12.Maze
 
                 default:
                     break;
-
 
 
             }
