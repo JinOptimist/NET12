@@ -13,10 +13,10 @@ namespace Net12.Maze
 
         public override bool TryToStep()
         {
-            if (Maze.Hero.Money >= 1 && Maze.Hero.Healt < Maze.Hero.MaxHealt)
+            if (Maze.Hero.Money >= 1 && Maze.Hero.Hp < Maze.Hero.Max_hp)
             {
                 Maze.Hero.Money /= 2;
-                Maze.Hero.Healt = Maze.Hero.MaxHealt;
+                Maze.Hero.Hp = Maze.Hero.Max_hp;
                
             }
             return true;

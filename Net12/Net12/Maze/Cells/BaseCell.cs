@@ -17,6 +17,7 @@ namespace Net12.Maze
             Maze = maze;
         }
 
-        public abstract bool TryToStep();
+       public abstract bool TryToStep();
+
     }
 }
