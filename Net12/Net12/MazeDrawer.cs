@@ -97,6 +97,10 @@ namespace Net12
                     {
                         Console.Write("T");
                     }
+                    else if (cell is Geyser)
+                    {
+                        Console.Write("G");
+                    }
                 }
                 
                 Console.WriteLine();

@@ -19,6 +19,7 @@ namespace Net12.Maze
             maze.Height = height;
 
             var hero = new Hero(0, 0, maze, hp, max_hp);
+
             maze.Hero = hero;
 
             BuildWall();
@@ -52,9 +53,17 @@ namespace Net12.Maze
 
             BuildBed();
 
+            //BuildGeyser();
+
             return maze;
         }
 
+        //private void BuildGeyser()
+        //{
+        //    var grounds = maze.Cells.Where(x => x is Ground).ToList();
+        //    var randomGround = GetRandom(grounds);
+        //    maze.Enemies.Add
+        //}
 
         private void BuildFountain()
         {
