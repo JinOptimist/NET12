@@ -66,7 +66,6 @@ namespace Net12.Maze
             var randonGround = GetRandom(grounds);
             maze[randonGround.X, randonGround.Y] = new Coin(randonGround.X, randonGround.Y, maze, 3);
         }
-
         private void BuildBless()
         {
             var res_point = maze.Cells.FirstOrDefault(point => GetNear<Wall>(point).Count == 3 && GetNear<BaseCell>(point).Count == 4);
@@ -103,7 +102,6 @@ namespace Net12.Maze
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new Tavern(randomGround.X, randomGround.Y, maze);
         }
-
         private void BuildPudder()
         {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
