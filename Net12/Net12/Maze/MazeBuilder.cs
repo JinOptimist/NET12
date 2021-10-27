@@ -39,17 +39,18 @@ namespace Net12.Maze
             BuildFountain();
             BuildBed();
 
-            //BuildGeyser();
+            BuildGeyser();
 
             return maze;
         }
 
-        //private void BuildGeyser()
-        //{
-        //    var grounds = maze.Cells.Where(x => x is Ground).ToList();
-        //    var randomGround = GetRandom(grounds);
-        //    maze.Enemies.Add
-        //}
+        private void BuildGeyser()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze.Cells.Remove(maze[randomGround.X, randomGround.Y]);
+            maze.Enemies.Add(new Geyser(randomGround.X, randomGround.Y, maze));
+        }
 
         private void BuildFountain()
         {
