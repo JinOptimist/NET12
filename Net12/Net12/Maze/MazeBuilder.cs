@@ -1,4 +1,5 @@
 ﻿using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,8 @@ namespace Net12.Maze
             BuildBless();
 
             BuildTrap();
+
+            BuildBullEnemy();
 
             return maze;
         }
@@ -196,6 +199,13 @@ namespace Net12.Maze
 
             var randomGroundIn = GetRandom(grounds);
             maze[randomGroundIn.X, randomGroundIn.Y] = new TeleportIn(randomGroundIn.X, randomGroundIn.Y, maze, cellOut);
+        }
+
+        private void BuildBullEnemy()
+        {
+            var grounds = maze.Cells.OfType<Ground>().Cast<BaseCell>().ToList();
+            var randomGround = GetRandom(grounds);
+            maze.Enemies.Add(new BullEnemy(randomGround.X, randomGround.Y, maze));
         }
     }
 }
