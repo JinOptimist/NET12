@@ -21,8 +21,7 @@ namespace Net12.Maze
 
             var hero = new Hero(0, 0, maze, hp, maxHp);
             maze.Hero = hero;
-           
-            BuildWallworm();
+
             BuildWall();
             BuildGround();
             BuildWolfPit();
@@ -40,6 +39,7 @@ namespace Net12.Maze
             BuildTrap();
             BuildFountain();
             BuildBed();
+            BuildWallworm();
 
             return maze;
         }
@@ -240,7 +240,6 @@ namespace Net12.Maze
         private void BuildWallworm()
         {
             var wallworm = new Wallworm(-1, -1, maze);
-            maze.Wallworm = wallworm;
             maze.Enemies.Add(wallworm);
         }
 
