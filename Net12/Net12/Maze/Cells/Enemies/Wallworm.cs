@@ -19,12 +19,12 @@ namespace Net12.Maze.Cells.Enemies
             if (CounterStep > StepsBeforeEating)
             {
                 Random random = new Random();
-
                 BaseCell GetRandom(List<BaseCell> cells)
                 {
                     var index = random.Next(cells.Count);
                     return cells[index];
                 }
+
                 var grounds = Maze.Cells.Where(x => x is Wall).ToList();
                 var randomGrounds = GetRandom(grounds);
                 Maze[randomGrounds.X, randomGrounds.Y] = new WeakWall(randomGrounds.X, randomGrounds.Y, Maze);
