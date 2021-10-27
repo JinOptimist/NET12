@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Net12.Maze.Cells;
+using System.Drawing;
 
 namespace Net12
 {
@@ -34,9 +35,17 @@ namespace Net12
                 { typeof(Healer), "H"},
             };
 
+        private Dictionary<Type, ConsoleColor> ColorSymbolDictionary =
+            new Dictionary<Type, ConsoleColor>()
+            {               
+
+            };
+
+        private static Random rand = new Random();
+
         public void Draw(MazeLevel maze)
         {
-            Console.Clear();
+            Console.Clear();           
             Console.WriteLine(maze.Message);
 
             for (int y = 0; y < maze.Height; y++)
@@ -46,16 +55,13 @@ namespace Net12
                     var cell = maze.GetCellOrUnit(x, y);
                    
                     var symbol = GetSymbolByCellType(cell);
+                  
+                    var color = GetColorByCellType(cell);
+                    Console.ForegroundColor = color;
 
-                    var origenalColor = Console.ForegroundColor;
-                    if (cell is WeakWall)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                    }
-                    
                     Console.Write(symbol);
 
-                    Console.ForegroundColor = origenalColor;
+                    Console.ResetColor();
                 }
 
                 Console.WriteLine();
@@ -71,6 +77,29 @@ namespace Net12
             var type = cell.GetType();
 
             return TypeSymbolDictionary[type];
+        }
+
+        private ConsoleColor GetColorByCellType(BaseCell cell)
+        {
+            var type = cell.GetType();
+
+            if (!ColorSymbolDictionary.ContainsKey(type))
+            {               
+                
+                var color = (ConsoleColor)rand.Next(0,16);
+
+                while (ColorSymbolDictionary.ContainsValue(color))
+                {                                      
+                    if (ColorSymbolDictionary.Count >= 15)
+                    {
+                        break;
+                    }
+                    color = (ConsoleColor)rand.Next(0, 16);
+                }
+                ColorSymbolDictionary.Add(type, color);
+            }
+
+            return ColorSymbolDictionary[type];
         }
     }
 }
