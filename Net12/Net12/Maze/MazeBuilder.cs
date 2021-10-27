@@ -21,9 +21,8 @@ namespace Net12.Maze
 
             var hero = new Hero(0, 0, maze, hp, maxHp);
             maze.Hero = hero;
-            var wallworm = new Wallworm(-1, -1, maze);
-            maze.Wallworm = wallworm;
-            maze.Enemies.Add(wallworm);
+           
+            BuildWallworm();
             BuildWall();
             BuildGround();
             BuildWolfPit();
@@ -237,6 +236,12 @@ namespace Net12.Maze
                 maze[randomWall.X, randomWall.Y] = new WeakWall(randomWall.X, randomWall.Y, maze);
                 countOfWeakWall--;
             }
+        }
+        private void BuildWallworm()
+        {
+            var wallworm = new Wallworm(-1, -1, maze);
+            maze.Wallworm = wallworm;
+            maze.Enemies.Add(wallworm);
         }
 
         private BaseCell GetRandom(List<BaseCell> cells)
