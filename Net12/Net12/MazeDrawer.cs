@@ -71,7 +71,7 @@ namespace Net12
             Console.WriteLine($"HP: {maze.Hero.Hp}");
         }
 
-        private string GetSymbolByCellType(BaseCell cell)
+        private string GetSymbolByCellType(IBaseCell cell)
         {
             var type = cell.GetType();
 
