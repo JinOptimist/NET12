@@ -1,4 +1,5 @@
 ﻿using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,10 +39,18 @@ namespace Net12.Maze
             BuildTrap();
             BuildFountain();
             BuildBed();
+            BuildGeyser();
 
             return maze;
         }
 
+        private void BuildGeyser()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze.Cells.Remove(maze[randomGround.X, randomGround.Y]);
+            maze.Enemies.Add(new Geyser(randomGround.X, randomGround.Y, maze));
+        }
 
         private void BuildFountain()
         {
