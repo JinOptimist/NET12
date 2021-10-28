@@ -45,6 +45,17 @@ namespace Net12
                 { typeof(Puddle), ConsoleColor.Cyan},
             };
 
+        private Dictionary<Type, ConsoleColor> ColorBackgroundDictionary =
+            new Dictionary<Type, ConsoleColor>()
+            {
+                { typeof(WeakWall), ConsoleColor.Black},
+                { typeof(Coin), ConsoleColor.DarkBlue},
+                { typeof(GoldMine), ConsoleColor.DarkMagenta},
+                { typeof(HealPotion), ConsoleColor.White},
+                { typeof(Trap), ConsoleColor.Yellow},
+                { typeof(Puddle), ConsoleColor.Magenta},
+            };
+
         private Random rand = new Random();
 
         public void Draw(MazeLevel maze)
@@ -61,13 +72,17 @@ namespace Net12
                     var symbol = GetSymbolByCellType(cell);
 
                     var origenalColor = Console.ForegroundColor;
-
-                    var color = GetColorByCellType(cell);
+                    var currentBackground = Console.BackgroundColor;
+                    
+                    var color = GetSymbolColorByCellType(cell);
+                    var background = GetBackgroundColorByCellType(cell);
                     Console.ForegroundColor = color;
+                    Console.BackgroundColor = background;
 
                     Console.Write(symbol);
 
                     Console.ForegroundColor = origenalColor;
+                    Console.BackgroundColor = currentBackground;
                     Console.ResetColor();
                 }
 
@@ -86,7 +101,7 @@ namespace Net12
             return TypeSymbolDictionary[type];
         }
 
-        private ConsoleColor GetColorByCellType(IBaseCell cell)
+        private ConsoleColor GetSymbolColorByCellType(IBaseCell cell)
         {
             var type = cell.GetType();
 
@@ -102,6 +117,24 @@ namespace Net12
             }
 
             return ColorSymbolDictionary[type];
+        }
+
+        private ConsoleColor GetBackgroundColorByCellType(IBaseCell cell)
+        {
+            var type = cell.GetType();
+
+            if (!ColorBackgroundDictionary.ContainsKey(type))
+            {
+                ConsoleColor color;
+                do
+                {
+                    color = (ConsoleColor)rand.Next(0, 16);
+                } while ((ColorBackgroundDictionary.ContainsValue(color) && ColorBackgroundDictionary.Count < 16) || ColorSymbolDictionary[type] == color);
+
+                ColorBackgroundDictionary.Add(type, color);
+            }
+
+            return ColorBackgroundDictionary[type];
         }
     }
 }
