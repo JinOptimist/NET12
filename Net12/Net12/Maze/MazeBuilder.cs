@@ -1,4 +1,5 @@
 ﻿using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,10 +39,20 @@ namespace Net12.Maze
             BuildTrap();
             BuildFountain();
             BuildBed();
+            BuildAgressiveTroll();
 
             return maze;
         }
 
+
+        private void BuildAgressiveTroll()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var agressiveTrollSpawn = GetRandom(grounds);
+
+            var agressiveTroll = new AgressiveTroll(agressiveTrollSpawn.X, agressiveTrollSpawn.Y, maze);
+            maze.Enemies.Add(agressiveTroll);
+        }
 
         private void BuildFountain()
         {
