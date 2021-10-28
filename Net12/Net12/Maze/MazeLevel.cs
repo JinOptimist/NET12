@@ -18,8 +18,6 @@ namespace Net12.Maze
         public int Height { get; set; }
         public Hero Hero { get; set; }
 
-        public Geyser Geyser { get; set; }
-
         public string Message { get; set; } = "";
 
         public BaseCell GetCellOrUnit(int x, int y)
@@ -90,8 +88,7 @@ namespace Net12.Maze
                 default:
                     break;
 
-                    
-
+                 
             }
 
             var cellToStep = this[heroPositionX, heroPositionY];
