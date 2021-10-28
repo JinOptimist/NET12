@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 
 namespace Net12
 {
@@ -19,7 +20,8 @@ namespace Net12
                 { typeof(WeakWall), "#"},
                 { typeof(Ground), "."},
                 { typeof(GoldMine), "M"},
-                { typeof(Coin), "c"},
+                { typeof(Coin), "C"},
+                { typeof(CoinCoward), "c"},
                 { typeof(Bed), "п"},
                 { typeof(Puddle), "+"},
                 { typeof(VitalityPotion), "V"},
