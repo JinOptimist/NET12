@@ -4,14 +4,14 @@ using System.Text;
 
 namespace Net12.Maze.Cells
 {
-    public class Hero : BaseCell
+    public class Hero : BaseCell, IHero
     {
         public int Money { get; set; }
 
         public int MaxFatigue { get; set; }
 
         public int CurrentFatigue { get; set; }
-        
+
         public int Hp { get; set; }
 
         public int Max_hp { get; set; }
