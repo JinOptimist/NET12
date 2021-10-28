@@ -19,18 +19,21 @@ namespace Net12.Maze.Cells.Enemies
         public override void Step()
         {
 
-            var isStep = Maze.Cells
-                .Where(cell => cell.X == base.X && Math.Abs(cell.Y - base.Y) == 1
-                    || Math.Abs(cell.X - base.X) == 1 && cell.Y == base.Y)
+            var nearStep = Maze.Cells
+                .Where(cell => cell.X == X && Math.Abs(cell.Y - Y) == 1
+                    || Math.Abs(cell.X - X) == 1 && cell.Y == Y)
                 .OfType<Ground>()
                 .ToList();
 
-            var newCoinX = base.X;
-            var newCoinY = base.Y;
-
-            if (isStep.Count > 0)
+            if (random.Next(0, 100) < 33)
             {
-                var toStep = isStep[random.Next(isStep.Count)];
+                Maze.Cells.Remove(Maze[X, Y]);
+                Maze.Cells.Add(new Coin(X, Y, Maze, 5));
+            }
+
+            if (nearStep.Count > 0)
+            {
+                var toStep = nearStep[random.Next(nearStep.Count)];
 
                 base.X = toStep.X;
                 base.Y = toStep.Y;
@@ -39,15 +42,9 @@ namespace Net12.Maze.Cells.Enemies
             {
                 var grounds = Maze.Cells.Where(x => x is Ground).ToList();
                 var randomGround = GetRandom(grounds);
-                base.X = randomGround.X;
-                base.Y = randomGround.Y;
+                X = randomGround.X;
+                Y = randomGround.Y;
 
-            }
-
-            if (random.Next(0, 100) < 33)
-            {
-                Maze.Cells.Remove(base.Maze[newCoinX, newCoinY]);
-                Maze.Cells.Add(new Coin(newCoinX, newCoinY, base.Maze, 5));
             }
 
         }
