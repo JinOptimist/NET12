@@ -1,4 +1,5 @@
 ﻿using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,7 @@ namespace Net12.Maze
             BuildTrap();
             BuildFountain();
             BuildBed();
+            BuildGoblin();
 
             return maze;
         }
@@ -46,9 +48,17 @@ namespace Net12.Maze
         private void BuildFountain()
         {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            //grounds.Remove(Hero.X, Hero.Y,);
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new Fountain(randomGround.X, randomGround.Y, maze);
 
+        }
+        private void BuildGoblin()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze[randomGround.X, randomGround.Y] = new Goblin(randomGround.X, randomGround.Y, maze);
+            
         }
 
         private void BuildBed()
