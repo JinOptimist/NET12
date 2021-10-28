@@ -32,7 +32,6 @@ namespace Net12
                 { typeof(WolfPit), "*"},
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
-                { typeof(Geyser), "G"},
             };
 
         public void Draw(MazeLevel maze)
@@ -67,7 +66,7 @@ namespace Net12
             Console.WriteLine($"HP: {maze.Hero.Hp}");
         }
 
-        private string GetSymbolByCellType(BaseCell cell)
+        private string GetSymbolByCellType(IBaseCell cell)
         {
             var type = cell.GetType();
 
