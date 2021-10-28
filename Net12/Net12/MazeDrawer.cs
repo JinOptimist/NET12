@@ -89,7 +89,7 @@ namespace Net12
 
                 while (ColorSymbolDictionary.ContainsValue(color))
                 {                                      
-                    if (ColorSymbolDictionary.Count >= 15)
+                    if (ColorSymbolDictionary.Count >= 16)
                     {
                         break;
                     }
