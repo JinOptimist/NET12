@@ -33,8 +33,7 @@ namespace Net12.Maze.Cells.Enemies
                 if(CanBeStepByDirection(direction))
                 {
                     StepByDirection(direction);
-                    _heroDirection = direction;
-                    DetectedHero();
+                    _heroDirection = direction;                    
                     return;
                 }
 
@@ -74,6 +73,7 @@ namespace Net12.Maze.Cells.Enemies
             var cell = GetCellByDirection(direction);
             X = cell.X;
             Y = cell.Y;
+            DetectedHero();
         }
 
         private void DetectedHero()
