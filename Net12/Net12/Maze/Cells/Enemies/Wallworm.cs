@@ -11,7 +11,7 @@ namespace Net12.Maze.Cells.Enemies
         {
         }
         public int CounterStep { get; set; } = 0;
-        public int StepsBeforeEating { get; set; } = 3;
+        public int StepsBeforeEating { get; set; } = 1;
 
         public override void Step()
         {
@@ -25,9 +25,11 @@ namespace Net12.Maze.Cells.Enemies
                     return cells[index];
                 }
 
-                var grounds = Maze.Cells.Where(x => x is Wall).ToList();
-                var randomGrounds = GetRandom(grounds);
-                Maze[randomGrounds.X, randomGrounds.Y] = new Ground(randomGrounds.X, randomGrounds.Y, Maze);
+                var allWalls = Maze.Cells.Where(x => x is Wall).ToList();
+               
+                var onlyWall = allWalls.SkipWhile(x => x is WeakWall).ToList();
+                                var randomGrounds = GetRandom(onlyWall);
+                Maze[randomGrounds.X, randomGrounds.Y] = new WeakWall(randomGrounds.X, randomGrounds.Y, Maze);
 
                 CounterStep = 0;
             }

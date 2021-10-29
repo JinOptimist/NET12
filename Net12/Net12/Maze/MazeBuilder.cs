@@ -39,6 +39,7 @@ namespace Net12.Maze
             BuildTrap();
             BuildFountain();
             BuildBed();
+            BuildWallworm();
 
             return maze;
         }
