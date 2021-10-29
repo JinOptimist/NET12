@@ -1,4 +1,5 @@
 ﻿using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -235,7 +236,13 @@ namespace Net12.Maze
                 countOfWeakWall--;
             }
         }
-        
+
+        private void BuildWallworm()
+        {
+            var wallworm = new Wallworm(-1, -1, maze);
+            maze.Enemies.Add(wallworm);
+        }
+
         private BaseCell GetRandom(List<BaseCell> cells)
         {
             var index = random.Next(cells.Count);
