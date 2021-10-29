@@ -27,7 +27,7 @@ namespace Net12.Maze.Cells.Enemies
 
                 var grounds = Maze.Cells.Where(x => x is Wall).ToList();
                 var randomGrounds = GetRandom(grounds);
-                Maze[randomGrounds.X, randomGrounds.Y] = new WeakWall(randomGrounds.X, randomGrounds.Y, Maze);
+                Maze[randomGrounds.X, randomGrounds.Y] = new Ground(randomGrounds.X, randomGrounds.Y, Maze);
 
                 CounterStep = 0;
             }
