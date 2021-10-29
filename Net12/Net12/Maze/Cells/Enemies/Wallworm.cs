@@ -18,27 +18,32 @@ namespace Net12.Maze.Cells.Enemies
             CounterStep++;
             if (CounterStep > StepsBeforeEating)
             {
-                Random random = new Random();
-                BaseCell GetRandom(List<BaseCell> cells)
-                {
-                    var index = random.Next(cells.Count);
-                    return cells[index];
-                }
-
-                var allWalls = Maze.Cells.Where(x => x is Wall).ToList();
-               
-                var onlyWall = allWalls.SkipWhile(x => x is WeakWall).ToList();
-                                var randomGrounds = GetRandom(onlyWall);
-                Maze[randomGrounds.X, randomGrounds.Y] = new WeakWall(randomGrounds.X, randomGrounds.Y, Maze);
-
-                CounterStep = 0;
+                EatingTheWall();
             }
 
         }
 
         public override bool TryToStep()
         {
-            return true;
+            return false;
         }
+
+        public void EatingTheWall()
+        {
+            var allWall = Maze.Cells.Where(x => x is Wall && !(x is WeakWall) && !(x is GoldMine)).ToList();
+            if (allWall.Count > 0)
+            {
+                var randomWall = GetRandom(allWall);
+                Maze[randomWall.X, randomWall.Y] = new WeakWall(randomWall.X, randomWall.Y, Maze);
+            }
+            CounterStep = 0;
+        }
+        BaseCell GetRandom(List<BaseCell> cells)
+        {
+            Random random = new Random();
+            var index = random.Next(cells.Count);
+            return cells[index];
+        }
+
     }
 }

@@ -20,7 +20,7 @@ namespace Net12.Maze.Cells
         {
             Hp = hp;
             Max_hp = max_hp;
-            MaxFatigue = 30;
+            MaxFatigue = 3000;
         }
 
         public override bool TryToStep()
