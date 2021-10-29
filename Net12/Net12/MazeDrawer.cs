@@ -32,7 +32,7 @@ namespace Net12
                 { typeof(WolfPit), "*"},
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
-                 { typeof(Geyser), "G"},
+                { typeof(Geyser), "G"},
             };
 
         public void Draw(MazeLevel maze)
@@ -45,7 +45,7 @@ namespace Net12
                 for (int x = 0; x < maze.Width; x++)
                 {
                     var cell = maze.GetCellOrUnit(x, y);
-                   
+
                     var symbol = GetSymbolByCellType(cell);
 
                     var origenalColor = Console.ForegroundColor;
@@ -53,7 +53,7 @@ namespace Net12
                     {
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                     }
-                    
+
                     Console.Write(symbol);
 
                     Console.ForegroundColor = origenalColor;

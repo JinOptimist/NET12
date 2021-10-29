@@ -13,18 +13,11 @@ namespace Net12.Maze.Cells.Enemies
 
         public override void Step()
         {
-            var geyser = Maze.GetCellOrUnit(X, Y);
-
-            var nearCells = Maze.Cells.Where(cell => cell.X == geyser.X && Math.Abs(cell.Y - geyser.Y) == 1
-                      || Math.Abs(cell.X - geyser.X) == 1 && cell.Y == geyser.Y)
-                .OfType<Ground>()
-                .ToList();
-
-            foreach (var item in nearCells)
-            {
-                Maze.Cells.Remove(Maze[item.X, item.Y]);
-                Maze.Cells.Add(new Puddle(item.X, item.Y, Maze));
-            }
+            Maze.Cells.Where(cell => cell.X == X && Math.Abs(cell.Y - Y) == 1
+                                 || Math.Abs(cell.X - X) == 1 && cell.Y == Y)
+                           .OfType<Ground>()
+                           .ToList()
+                           .ForEach(item => Maze[item.X, item.Y] = new Puddle(item.X, item.Y, Maze));
         }
 
         public override bool TryToStep()
