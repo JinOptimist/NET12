@@ -43,11 +43,37 @@ namespace Net12.Maze.Cells.Enemies
                 }
             }
 
-
-
-
-            if (Rot == Direction.Up)
+            switch (Rot)
             {
+                case Direction.Up:
+                    _rotUp(no_wall);
+                    break;
+                     
+                case Direction.Down:
+                    _rotDown(no_wall);
+                    break;
+                
+                case Direction.Left:
+                    _rotLeft(no_wall);
+                    break;
+                
+                case Direction.Right:
+                    _rotRight(no_wall);
+                    break;
+
+            }
+
+
+         
+         
+           
+           
+
+
+        }
+        private void _rotUp(bool no_wall)
+        {
+         
                 if (Maze[X, Y - 1] is Ground && (Maze[_leftwallX, _leftwallY] is Wall || no_wall == false))
                 {
                     Y--;
@@ -78,9 +104,12 @@ namespace Net12.Maze.Cells.Enemies
                     Rot = Direction.Left;
                     Step();
                 }
-            }
-            else if (Rot == Direction.Left)
-            {
+            
+        }
+        private void _rotLeft(bool no_wall)
+        {
+              
+            
                 if (Maze[X - 1, Y] is Ground && (Maze[_leftwallX, _leftwallY] is Wall || no_wall == false))
                 {
                     X--;
@@ -111,9 +140,11 @@ namespace Net12.Maze.Cells.Enemies
                     Rot = Direction.Down;
                     Step();
                 }
-            }
-            else if (Rot == Direction.Down)
-            {
+            
+        }
+        private void _rotDown(bool no_wall)
+        {
+          
                 if (Maze[X, Y + 1] is Ground && (Maze[_leftwallX, _leftwallY] is Wall || no_wall == false))
                 {
                     Y++;
@@ -144,9 +175,11 @@ namespace Net12.Maze.Cells.Enemies
                     Rot = Direction.Right;
                     Step();
                 }
-            }
-            else if (Rot == Direction.Right)
-            {
+            
+        }    
+        private void _rotRight(bool no_wall)
+        {
+            
                 if (Maze[X + 1, Y] is Ground && (Maze[_leftwallX, _leftwallY] is Wall || no_wall == false))
                 {
                     X++;
@@ -177,9 +210,7 @@ namespace Net12.Maze.Cells.Enemies
                     Rot = Direction.Up;
                     Step();
                 }
-            }
-
-
+            
         }
 
         public override bool TryToStep()
