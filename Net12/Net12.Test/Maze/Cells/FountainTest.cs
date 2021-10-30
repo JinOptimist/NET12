@@ -11,7 +11,8 @@ namespace Net12.Test.Maze.Cells
     public class FountainTest
     {
         [Test]
-        [TestCase (21, 1)]
+        [TestCase(21, 1)]
+        [TestCase(20, 0)]
         [TestCase(19, 0)]
         public void TryToStepTest(int fatiqueInit, int fatiqueResult)
         {
@@ -24,10 +25,9 @@ namespace Net12.Test.Maze.Cells
             heroMock.Object.CurrentFatigue = fatiqueInit;
             //Act
             var answer = fount.TryToStep();
-
             //Assert
-            Assert.AreEqual(true, answer);
-            Assert.AreEqual(fatiqueResult, heroMock.Object.CurrentFatigue);
+            Assert.AreEqual(true, answer, "The ability to step on the cell is violated");
+            Assert.AreEqual(fatiqueResult, heroMock.Object.CurrentFatigue, "Fatigue calculation is violated. ");
 
 
         }
