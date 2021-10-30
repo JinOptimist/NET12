@@ -11,7 +11,7 @@ namespace Net12.Maze.Cells.Enemies
         Direction Rot { get; set; }
         private int _leftwallX;
         private int _leftwallY;
-        public Walker(int x, int y, MazeLevel maze) : base(x, y, maze)
+        public Walker(int x, int y, IMazeLevel maze) : base(x, y, maze)
         {
             Rot = Direction.Up;
             _leftwallX = X - 1;
@@ -63,16 +63,21 @@ namespace Net12.Maze.Cells.Enemies
 
             }
 
-            if(X == Maze.Hero.X && Y == Maze.Hero.Y)
+
+
+
+
+            hit();
+
+
+        }
+
+        private void hit()
+        {
+            if (X == Maze.Hero.X && Y == Maze.Hero.Y)
             {
                 Maze.Hero.Hp--;
             }
-         
-         
-           
-           
-
-
         }
         private void _rotUp(bool no_wall)
         {
