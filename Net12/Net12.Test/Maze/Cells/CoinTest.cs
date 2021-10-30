@@ -13,27 +13,32 @@ namespace Net12.Test.Maze.Cells
         [Test]
         [TestCase(10, 11)]
         [TestCase(1, 2)]
-        public void TryToStep(int coinCountInit, int coinCountInitResult)
+        public void TryToStep(int coinCountInit, int heroMoneyInit)
         {
             //Preparing
             var mazeMock = new Mock<IMazeLevel>();
             var heroMock = new Mock<IHero>();
 
             heroMock.SetupProperty(x => x.Money);
-            heroMock.Object.Money = coinCountInit;
+            heroMock.Object.Money = heroMoneyInit;
+
 
             mazeMock
                 .Setup(x => x.Hero)
                 .Returns(heroMock.Object);
+            
 
-            //var coin = new Coin(0, 0, mazeMock.Object, heroMock.Object.Money);
+            var coin = new Coin(0, 0, mazeMock.Object, coinCountInit);
+
+
             //Act
-            //var answer = coin.TryToStep();
+            var answer = coin.TryToStep();
 
             //Assert
-            //Assert.AreEqual(true, answer, "possibility to step exist");
-            //Assert.AreEqual(coinCountInitResult, heroMock.Object.Money);
-            //mazeMock.Verify(x => x.ReplaceCell(It.IsAny<BaseCell>()), Times.AtLeastOnce);
+            Assert.AreEqual(coinCountInit, coin.CoinCount, "initian cointCount is incorrect");
+            Assert.AreEqual(true, answer, "We must have possibility to step on the trap");
+            Assert.AreEqual(coin.CoinCount+ heroMoneyInit, heroMock.Object.Money);
+            //mazeMock.Verify(x => x[(It.IsAny<BaseCell>()), Times.AtLeastOnce);
         }
     }
 }

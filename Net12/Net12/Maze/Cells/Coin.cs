@@ -6,7 +6,7 @@ namespace Net12.Maze
 {
     public class Coin : BaseCell
     {
-        public Coin(int x, int y, MazeLevel maze, int coinCount) : base(x, y, maze)
+        public Coin(int x, int y, IMazeLevel maze, int coinCount) : base(x, y, maze)
         {
             CoinCount = coinCount;
         }
