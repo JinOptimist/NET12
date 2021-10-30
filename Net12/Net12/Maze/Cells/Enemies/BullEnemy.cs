@@ -21,25 +21,27 @@ namespace Net12.Maze.Cells.Enemies
             if (CanBeStepByDirection(_heroDirection))
             {
                 StepByDirection(_heroDirection);
+                DetectedHero();
                 return;
             }
 
-            var directions = (Direction[])Enum.GetValues(typeof(Direction));
-            directions = directions.Where(x => x != _heroDirection).ToArray();
+            var AllPossibleDirections = (Direction[])Enum.GetValues(typeof(Direction));
+            AllPossibleDirections = AllPossibleDirections.Where(x => x != _heroDirection).ToArray();
 
             do
             {
-                var direction = GetRandomDirection(directions);
+                var direction = GetRandomDirection(AllPossibleDirections);
                 if(CanBeStepByDirection(direction))
                 {
                     StepByDirection(direction);
-                    _heroDirection = direction;                    
+                    _heroDirection = direction;
+                    DetectedHero();
                     return;
                 }
 
-                directions = directions.Where(x => x != direction).ToArray();
+                AllPossibleDirections = AllPossibleDirections.Where(x => x != direction).ToArray();
             }
-            while (directions.Length > 0);
+            while (AllPossibleDirections.Length > 0);
         }
 
         private Direction GetRandomDirection(Direction[] listOfDirections = null)
@@ -52,20 +54,33 @@ namespace Net12.Maze.Cells.Enemies
         private bool CanBeStepByDirection(Direction direction)
         {
             var cell = GetCellByDirection(direction);
-
+            //null isn't a wall so if we had null cell, return would be true instead false
             return cell != null && !(cell is Wall);
         }
 
         private BaseCell GetCellByDirection(Direction direction)
-        {
-            var x = X + (direction == Direction.Up || direction == Direction.Down ? 0 : direction == Direction.Right ? 1 : -1);
-            var y = Y + (direction == Direction.Left || direction == Direction.Right ? 0 : direction == Direction.Up ? 1 : -1);
-            if(x<0 || x== Maze.Width || y<0 || y==Maze.Height)
+        {            
+            var newLocationX = X;
+            var newLocationY = Y;
+            switch (direction)
             {
-                return null;
+                case Direction.Up:
+                    newLocationY--;
+                    break;
+                case Direction.Right:
+                    newLocationX++;
+                    break;
+                case Direction.Down:
+                    newLocationY++;
+                    break;
+                case Direction.Left:
+                    newLocationX--;
+                    break;
+                default:
+                    break;
             }
 
-            return Maze[x, y];
+            return Maze[newLocationX, newLocationY];
         }
 
         private void StepByDirection(Direction direction)
@@ -73,7 +88,6 @@ namespace Net12.Maze.Cells.Enemies
             var cell = GetCellByDirection(direction);
             X = cell.X;
             Y = cell.Y;
-            DetectedHero();
         }
 
         private void DetectedHero()
