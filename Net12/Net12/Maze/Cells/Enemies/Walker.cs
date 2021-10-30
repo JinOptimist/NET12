@@ -63,7 +63,10 @@ namespace Net12.Maze.Cells.Enemies
 
             }
 
-
+            if(X == Maze.Hero.X && Y == Maze.Hero.Y)
+            {
+                Maze.Hero.Hp--;
+            }
          
          
            
