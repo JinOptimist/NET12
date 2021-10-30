@@ -19,10 +19,16 @@ namespace Net12.Test.Maze.Cells
             //Arrange
             var mazeMock = new Mock<IMazeLevel>();
             var heroMock = new Mock<IHero>();
-            mazeMock.Setup(x => x.Hero).Returns(heroMock.Object);
-            var fount = new Fountain(0, 0, mazeMock.Object);
+
+            mazeMock.
+                Setup(x => x.Hero).
+                Returns(heroMock.Object);
+
             heroMock.SetupProperty(x => x.CurrentFatigue);
             heroMock.Object.CurrentFatigue = fatiqueInit;
+
+            var fount = new Fountain(0, 0, mazeMock.Object);
+
             //Act
             var answer = fount.TryToStep();
             //Assert
