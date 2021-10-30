@@ -8,29 +8,27 @@ namespace Net12.Maze.Cells.Enemies
     class AgressiveTroll : BaseEnemy
     {
         public AgressiveTroll(int x, int y, MazeLevel maze) : base(x, y, maze) { }
-
         public List<BaseCell> DeadEnd { get; set; } = new List<BaseCell>();
-        public List<BaseCell> PreviousCell { get; set; } = new List<BaseCell>();
+        public BaseCell PreviousCell { get; set; }
+        public int stepCount { get; set; } = 0;
 
-        int prevCount = 0;
         public override void Step()
         {
             int count = 0;
-            
 
-            if (Maze[X + 1, Y] is Wall || X + 1 > Maze.Width - 1)
+            if (Maze[X + 1, Y] is Wall || X + 1 == Maze.Width)
             {
                 count++;
             }
-            if (Maze[X - 1, Y] is Wall || X - 1 < 0)
+            if (Maze[X - 1, Y] is Wall || X - 1 == -1)
             {
                 count++;
             }
-            if (Maze[X, Y + 1] is Wall || Y + 1 > Maze.Height - 1)
+            if (Maze[X, Y + 1] is Wall || Y + 1 == Maze.Height)
             {
                 count++;
             }
-            if (Maze[X, Y - 1] is Wall || Y - 1 < 0)
+            if (Maze[X, Y - 1] is Wall || Y - 1 == -1)
             {
                 count++;
             }
@@ -44,39 +42,54 @@ namespace Net12.Maze.Cells.Enemies
 
             if (Maze.Hero.X < X)
             {
-                if (X - 1 >= 0 && Maze[X - 1, Y].TryToStep() == true && !(DeadEnd.Where(cell => cell.X == X - 1 && cell.Y == Y).Any())
-                                                                     && !(PreviousCell.Where(cell => cell.X == X - 1 && cell.Y == Y).Any()))
+                if (X - 1 > -1
+                    && Maze[X - 1, Y].TryToStep()
+                    && !(DeadEnd.Where(cell => cell.X == X - 1 && cell.Y == Y).Any())
+                    && Maze[X - 1, Y] != PreviousCell
+                   )
                 {
                     X--;
-                    PreviousCell.Add(Maze[X + 1, Y]);
+                    PreviousCell = Maze[X + 1, Y];
 
                     return;
                 }
                 else
                 {
-                    if (Y + 1 <= Maze.Height - 1 && Maze[X, Y + 1].TryToStep() == true && Maze.Hero.Y >= Y && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y + 1).Any())
-                                                                                                          && !(PreviousCell.Where(cell => cell.X == X && cell.Y == Y + 1).Any()))
+                    if (Y + 1 < Maze.Height
+                        && Maze[X, Y + 1].TryToStep()
+                        && Maze.Hero.Y >= Y
+                        && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y + 1).Any())
+                        && Maze[X, Y + 1] != PreviousCell
+                       )
                     {
                         Y++;
-                        PreviousCell.Add(Maze[X, Y - 1]);
+                        PreviousCell = Maze[X, Y - 1];
 
                         return;
                     }
 
-                    if (Y - 1 >= 0 && Maze[X, Y - 1].TryToStep() == true && Maze.Hero.Y <= Y && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y - 1).Any())
-                                                                                             && !(PreviousCell.Where(cell => cell.X == X && cell.Y == Y - 1).Any()))
+                    if (Y - 1 > -1
+                        && Maze[X, Y - 1].TryToStep()
+                        && Maze.Hero.Y <= Y
+                        && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y - 1).Any())
+                        && Maze[X, Y - 1] != PreviousCell
+                       )
                     {
                         Y--;
-                        PreviousCell.Add(Maze[X, Y + 1]);
+                        PreviousCell = Maze[X, Y + 1];
 
                         return;
                     }
 
-                    if (X + 1 <= Maze.Width - 1 && Maze[X + 1, Y].TryToStep() == true && !(DeadEnd.Where(cell => cell.X == X + 1 && cell.Y == Y).Any())
-                                                                                     && !(PreviousCell.Where(cell => cell.X == X + 1 && cell.Y == Y).Any()))
+                    if (X + 1 < Maze.Width
+                        && Maze[X + 1, Y].TryToStep()
+                        && !(DeadEnd.Where(cell => cell.X == X + 1 && cell.Y == Y).Any())
+                        && Maze[X + 1, Y] != PreviousCell
+                        )
+
                     {
                         X++;
-                        PreviousCell.Add(Maze[X - 1, Y]);
+                        PreviousCell = Maze[X - 1, Y];
 
                         return;
                     }
@@ -86,39 +99,53 @@ namespace Net12.Maze.Cells.Enemies
 
             if (Maze.Hero.X > X)
             {
-                if (X + 1 <= Maze.Width - 1 && Maze[X + 1, Y].TryToStep() == true && !(DeadEnd.Where(cell => cell.X == X + 1 && cell.Y == Y).Any())
-                                                                                  && !(PreviousCell.Where(cell => cell.X == X + 1 && cell.Y == Y).Any()))
+                if (X + 1 < Maze.Width
+                    && Maze[X + 1, Y].TryToStep()
+                    && !(DeadEnd.Where(cell => cell.X == X + 1 && cell.Y == Y).Any())
+                    && Maze[X + 1, Y] != PreviousCell
+                    )
                 {
                     X++;
-                    PreviousCell.Add(Maze[X - 1, Y]);
+                    PreviousCell = Maze[X - 1, Y];
 
                     return;
                 }
                 else
                 {
-                    if (Y + 1 <= Maze.Height - 1 && Maze[X, Y + 1].TryToStep() == true && Maze.Hero.Y >= Y && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y + 1).Any())
-                                                                                                           && !(PreviousCell.Where(cell => cell.X == X && cell.Y == Y + 1).Any()))
+                    if (Y + 1 < Maze.Height
+                        && Maze[X, Y + 1].TryToStep()
+                        && Maze.Hero.Y >= Y
+                        && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y + 1).Any())
+                        && Maze[X, Y + 1] != PreviousCell
+                        )
                     {
                         Y++;
-                        PreviousCell.Add(Maze[X, Y - 1]);
+                        PreviousCell = Maze[X, Y - 1];
 
                         return;
                     }
 
-                    if (Y - 1 >= 0 && Maze[X, Y - 1].TryToStep() == true && Maze.Hero.Y <= Y && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y - 1).Any())
-                                                                                             && !(PreviousCell.Where(cell => cell.X == X && cell.Y == Y - 1).Any()))
+                    if (Y - 1 > -1
+                        && Maze[X, Y - 1].TryToStep()
+                        && Maze.Hero.Y <= Y
+                        && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y - 1).Any())
+                        && Maze[X, Y - 1] != PreviousCell
+                        )
                     {
                         Y--;
-                        PreviousCell.Add(Maze[X, Y + 1]);
+                        PreviousCell = Maze[X, Y + 1];
 
                         return;
                     }
 
-                    if (X - 1 >= 0 && Maze[X - 1, Y].TryToStep() == true && !(DeadEnd.Where(cell => cell.X == X - 1 && cell.Y == Y).Any())
-                                                                         && !(PreviousCell.Where(cell => cell.X == X - 1 && cell.Y == Y).Any()))
+                    if (X - 1 > -1
+                        && Maze[X - 1, Y].TryToStep()
+                        && !(DeadEnd.Where(cell => cell.X == X - 1 && cell.Y == Y).Any())
+                        && Maze[X - 1, Y] != PreviousCell
+                        )
                     {
                         X--;
-                        PreviousCell.Add(Maze[X + 1, Y]);
+                        PreviousCell = Maze[X + 1, Y];
 
                         return;
                     }
@@ -128,40 +155,53 @@ namespace Net12.Maze.Cells.Enemies
 
             if (Maze.Hero.Y < Y)
             {
-                if (Y - 1 >= 0 && Maze[X, Y - 1].TryToStep() == true && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y - 1).Any())
-                                                                     && !(PreviousCell.Where(cell => cell.X == X && cell.Y == Y - 1).Any()))
+                if (Y - 1 > -1
+                    && Maze[X, Y - 1].TryToStep()
+                    && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y - 1).Any())
+                    && Maze[X, Y - 1] != PreviousCell
+                    )
                 {
                     Y--;
-                    PreviousCell.Add(Maze[X, Y + 1]);
+                    PreviousCell = Maze[X, Y + 1];
 
                     return;
                 }
                 else
                 {
-                    if (X + 1 <= Maze.Width - 1 && Maze[X + 1, Y].TryToStep() == true && Maze.Hero.X >= X && !(DeadEnd.Where(cell => cell.X == X + 1 && cell.Y == Y).Any())
-                                                                                                          && !(PreviousCell.Where(cell => cell.X == X + 1 && cell.Y == Y).Any()))
+                    if (X + 1 < Maze.Width
+                        && Maze[X + 1, Y].TryToStep()
+                        && Maze.Hero.X >= X
+                        && !(DeadEnd.Where(cell => cell.X == X + 1 && cell.Y == Y).Any())
+                        && Maze[X + 1, Y] != PreviousCell
+                        )
                     {
                         X++;
-                        PreviousCell.Add(Maze[X - 1, Y]);
+                        PreviousCell = Maze[X - 1, Y];
 
                         return;
                     }
 
-                    if (X - 1 >= 0 && Maze[X - 1, Y].TryToStep() == true && Maze.Hero.X <= X && !(DeadEnd.Where(cell => cell.X == X - 1 && cell.Y == Y).Any())
-                                                                                             && !(PreviousCell.Where(cell => cell.X == X - 1 && cell.Y == Y).Any()))
+                    if (X - 1 > -1
+                        && Maze[X - 1, Y].TryToStep()
+                        && Maze.Hero.X <= X
+                        && !(DeadEnd.Where(cell => cell.X == X - 1 && cell.Y == Y).Any())
+                        && Maze[X - 1, Y] != PreviousCell
+                        )
                     {
                         X--;
-                        PreviousCell.Add(Maze[X + 1, Y]);
+                        PreviousCell = Maze[X + 1, Y];
 
                         return;
                     }
 
-                    if (Y + 1 <= Maze.Height - 1 && Maze[X, Y + 1].TryToStep() == true && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y + 1).Any())
-                                                                                       && !(PreviousCell.Where(cell => cell.X == X && cell.Y == Y + 1).Any()))
+                    if (Y + 1 < Maze.Height
+                        && Maze[X, Y + 1].TryToStep()
+                        && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y + 1).Any())
+                        && Maze[X, Y + 1] != PreviousCell
+                        )
                     {
                         Y++;
-                        PreviousCell.Add(Maze[X, Y - 1]);
-
+                        PreviousCell = Maze[X, Y - 1];
 
                         return;
                     }
@@ -171,60 +211,74 @@ namespace Net12.Maze.Cells.Enemies
 
             if (Maze.Hero.Y > Y)
             {
-                if (Y + 1 <= Maze.Height - 1 && Maze[X, Y + 1].TryToStep() == true && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y + 1).Any())
-                                                                                   && !(PreviousCell.Where(cell => cell.X == X && cell.Y == Y + 1).Any()))
+                if (Y + 1 < Maze.Height
+                    && Maze[X, Y + 1].TryToStep()
+                    && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y + 1).Any())
+                    && Maze[X, Y + 1] != PreviousCell
+                    )
                 {
                     Y++;
-                    PreviousCell.Add(Maze[X, Y - 1]);
-
+                    PreviousCell = Maze[X, Y - 1];
 
                     return;
                 }
                 else
                 {
-                    if (X + 1 <= Maze.Width - 1 && Maze[X + 1, Y].TryToStep() == true && Maze.Hero.X >= X && !(DeadEnd.Where(cell => cell.X == X + 1 && cell.Y == Y).Any())
-                                                                                                          && !(PreviousCell.Where(cell => cell.X == X + 1 && cell.Y == Y).Any()))
+                    if (X + 1 < Maze.Width
+                        && Maze[X + 1, Y].TryToStep()
+                        && Maze.Hero.X >= X
+                        && !(DeadEnd.Where(cell => cell.X == X + 1 && cell.Y == Y).Any())
+                        && Maze[X + 1, Y] != PreviousCell
+                        )
                     {
                         X++;
-                        PreviousCell.Add(Maze[X - 1, Y]);
-
+                        PreviousCell = Maze[X - 1, Y];
 
                         return;
                     }
 
-                    if (X - 1 >= 0 && Maze[X - 1, Y].TryToStep() == true && Maze.Hero.X <= X && !(DeadEnd.Where(cell => cell.X == X - 1 && cell.Y == Y).Any())
-                                                                                             && !(PreviousCell.Where(cell => cell.X == X - 1 && cell.Y == Y).Any()))
+                    if (X - 1 > -1
+                        && Maze[X - 1, Y].TryToStep()
+                        && Maze.Hero.X <= X
+                        && !(DeadEnd.Where(cell => cell.X == X - 1 && cell.Y == Y).Any())
+                        && Maze[X - 1, Y] != PreviousCell
+                        )
                     {
                         X--;
-                        PreviousCell.Add(Maze[X + 1, Y]);
+                        PreviousCell = Maze[X + 1, Y];
 
 
                         return;
                     }
 
-                    if (Y - 1 >= 0 && Maze[X, Y - 1].TryToStep() == true && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y - 1).Any())
-                                                                         && !(PreviousCell.Where(cell => cell.X == X && cell.Y == Y - 1).Any()))
+                    if (Y - 1 > -1
+                        && Maze[X, Y - 1].TryToStep()
+                        && !(DeadEnd.Where(cell => cell.X == X && cell.Y == Y - 1).Any())
+                        && Maze[X, Y - 1] != PreviousCell
+                        )
                     {
                         Y--;
-                        PreviousCell.Add(Maze[X, Y + 1]);
-
+                        PreviousCell = Maze[X, Y + 1];
 
                         return;
                     }
                 }
 
             }
-            prevCount++;
+
+
+
+            stepCount++;
+            if (stepCount > 1)
+            {
+                PreviousCell = null;
+                stepCount = 0;
+            }
+
 
             if (DeadEnd.Where(cell => cell.X == X && cell.Y == Y).Any())
             {
-                PreviousCell.Clear();
-            }
-
-            if (prevCount > 1)
-            {
-                PreviousCell.Clear();
-                prevCount = 0;
+                PreviousCell = null;
             }
 
             return;
@@ -232,7 +286,7 @@ namespace Net12.Maze.Cells.Enemies
 
         public override bool TryToStep()
         {
-            throw new NotImplementedException();
+            return false;
         }
     }
 }
