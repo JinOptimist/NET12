@@ -51,7 +51,7 @@ namespace Net12.Maze.Cells.Enemies
             else
             {
                 var allWall = Maze.Cells.Where(x => x is Wall && !(x is WeakWall)).ToList();
-                if (allWall.Count > 0)
+                if (allWall.Count != 0)
                 {
                     var randomWall = GetRandom(allWall);
                     X = randomWall.X; Y = randomWall.Y;
