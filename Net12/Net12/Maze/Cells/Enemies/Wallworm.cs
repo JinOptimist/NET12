@@ -21,7 +21,6 @@ namespace Net12.Maze.Cells.Enemies
                 StepNexWall();
                 CounterStep = 0;
             }
-
         }
 
         public override bool TryToStep()
@@ -29,7 +28,6 @@ namespace Net12.Maze.Cells.Enemies
             return false;
         }
         public void StepNexWall()
-
         {
             var wallsNear = new List<BaseCell>();
 
@@ -58,9 +56,7 @@ namespace Net12.Maze.Cells.Enemies
                     var randomWall = GetRandom(allWall);
                     X = randomWall.X; Y = randomWall.Y;
                 }
-
             }
-
         }
         BaseCell GetRandom(List<BaseCell> cells)
         {
@@ -68,6 +64,5 @@ namespace Net12.Maze.Cells.Enemies
             var index = random.Next(cells.Count);
             return cells[index];
         }
-
     }
 }
