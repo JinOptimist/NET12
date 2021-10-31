@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 
 namespace Net12
 {
@@ -32,6 +33,7 @@ namespace Net12
                 { typeof(WolfPit), "*"},
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
+                { typeof(Wallworm), "W"},
             };
 
         public void Draw(MazeLevel maze)

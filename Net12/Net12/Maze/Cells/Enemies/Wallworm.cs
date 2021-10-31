@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Net12.Maze.Cells.Enemies
 {
@@ -11,14 +10,16 @@ namespace Net12.Maze.Cells.Enemies
         {
         }
         public int CounterStep { get; set; } = 0;
-        public int StepsBeforeEating { get; set; } = 1;
+        public int StepsBeforeEating { get; set; } = 2;
 
         public override void Step()
         {
             CounterStep++;
             if (CounterStep > StepsBeforeEating)
             {
-                EatingTheWall();
+                Maze[X, Y] = new WeakWall(X, Y, Maze);
+                StepNexWall();
+                CounterStep = 0;
             }
 
         }
@@ -27,16 +28,39 @@ namespace Net12.Maze.Cells.Enemies
         {
             return false;
         }
+        public void StepNexWall()
 
-        public void EatingTheWall()
         {
-            var allWall = Maze.Cells.Where(x => x is Wall && !(x is WeakWall) && !(x is GoldMine)).ToList();
-            if (allWall.Count > 0)
+            var wallsNear = new List<BaseCell>();
+
+            for (int i = X - 1; i < X + 2; i++)
             {
-                var randomWall = GetRandom(allWall);
-                Maze[randomWall.X, randomWall.Y] = new WeakWall(randomWall.X, randomWall.Y, Maze);
+                for (int j = Y - 1; j < Y + 2; j++)
+                {
+                    var a = Maze[i, j];
+                    if (a is Wall && !(a is WeakWall))
+                    {
+                        wallsNear.Add(a);
+                    }
+                }
             }
-            CounterStep = 0;
+
+            if (wallsNear.Count != 0)
+            {
+                var randomWall = GetRandom(wallsNear);
+                X = randomWall.X; Y = randomWall.Y;
+            }
+            else
+            {
+                var allWall = Maze.Cells.Where(x => x is Wall && !(x is WeakWall)).ToList();
+                if (allWall.Count > 0)
+                {
+                    var randomWall = GetRandom(allWall);
+                    X = randomWall.X; Y = randomWall.Y;
+                }
+
+            }
+
         }
         BaseCell GetRandom(List<BaseCell> cells)
         {
