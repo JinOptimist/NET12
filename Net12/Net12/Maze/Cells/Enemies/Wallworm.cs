@@ -35,10 +35,10 @@ namespace Net12.Maze.Cells.Enemies
             {
                 for (int j = Y - 1; j < Y + 2; j++)
                 {
-                    var a = Maze[i, j];
-                    if (a is Wall && !(a is WeakWall))
+                    var cell = Maze[i, j];
+                    if (cell is Wall && !(cell is WeakWall))
                     {
-                        wallsNear.Add(a);
+                        wallsNear.Add(cell);
                     }
                 }
             }
