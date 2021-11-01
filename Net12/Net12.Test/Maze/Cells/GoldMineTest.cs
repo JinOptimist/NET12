@@ -36,7 +36,6 @@ namespace Net12.Test.Maze.Cells
 
             //Assert
             Assert.AreEqual(false, answer, "We mustn't have possibility to step on the goldmine");
-
             Assert.AreEqual(moneyResult, heroMock.Object.Money);
             mazeMock.Verify(x => x.ReplaceCell(It.IsAny<BaseCell>()), Times.AtLeastOnce);
         }
