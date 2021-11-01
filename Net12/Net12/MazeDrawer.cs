@@ -85,7 +85,7 @@ namespace Net12
 
                     Console.ForegroundColor = origenalColor;
                     Console.BackgroundColor = currentBackground;
-                    Console.ResetColor();
+                   
                 }
 
                 Console.WriteLine();
