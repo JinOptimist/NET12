@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 
 namespace Net12
 {
@@ -34,6 +34,7 @@ namespace Net12
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
                 { typeof(BullEnemy), "!"},
+                { typeof(Geyser), "G"},
             };
 
         public void Draw(MazeLevel maze)
@@ -46,7 +47,7 @@ namespace Net12
                 for (int x = 0; x < maze.Width; x++)
                 {
                     var cell = maze.GetCellOrUnit(x, y);
-                   
+
                     var symbol = GetSymbolByCellType(cell);
 
                     var origenalColor = Console.ForegroundColor;

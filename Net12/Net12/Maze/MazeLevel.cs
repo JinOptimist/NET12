@@ -99,8 +99,6 @@ namespace Net12.Maze
                 default:
                     break;
 
-
-
             }
 
             var cellToStep = this[heroPositionX, heroPositionY];
