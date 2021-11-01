@@ -21,32 +21,18 @@ namespace Net12.Maze.Cells.Enemies
 
         public override void Step()
         {
-            bool no_wall;
-
             //var poses = Maze.Cells.Where(cell => Math.Abs(this.X - cell.X) == 1 && this.Y == cell.Y || Math.Abs(this.Y - cell.Y) == 1 && this.X == cell.X).OfType<Wall>().ToList();
-            if (_leftwallX < 0 || _leftwallX >= Maze.Width || _leftwallY < 0 || _leftwallY >= Maze.Height)
-            {
-
-
-                no_wall = false;
-
-            }
-            else
-            {
-                if (Maze[_leftwallX, _leftwallY] is Wall)
-                {
-                    no_wall = false;
-                }
-                else
-                {
-                    no_wall = true;
-                }
-            }
+            var no_wall =
+                !(_leftwallX < 0
+                    || _leftwallX >= Maze.Width
+                    || _leftwallY < 0
+                    || _leftwallY >= Maze.Height)
+                && !(Maze[_leftwallX, _leftwallY] is Wall);
 
             switch (Rot)
             {
                 case Direction.Up:
-                    _rotUp(no_wall);
+                    RotUp(no_wall);
                     break;
                      
                 case Direction.Down:
@@ -60,16 +46,9 @@ namespace Net12.Maze.Cells.Enemies
                 case Direction.Right:
                     _rotRight(no_wall);
                     break;
-
             }
 
-
-
-
-
             hit();
-
-
         }
 
         private void hit()
@@ -79,17 +58,16 @@ namespace Net12.Maze.Cells.Enemies
                 Maze.Hero.Hp--;
             }
         }
-        private void _rotUp(bool no_wall)
+        private void RotUp(bool noWall)
         {
-         
-                if (Maze[X, Y - 1] is Ground && (Maze[_leftwallX, _leftwallY] is Wall || no_wall == false))
+                if (Maze[X, Y - 1] is Ground && (Maze[_leftwallX, _leftwallY] is Wall || noWall == false))
                 {
                     Y--;
                     _leftwallX = X - 1;
                     _leftwallY = Y;
 
                 }
-                else if (no_wall && Maze[X - 1, Y] is Ground)
+                else if (noWall && Maze[X - 1, Y] is Ground)
                 {
 
                     X--;
@@ -98,7 +76,7 @@ namespace Net12.Maze.Cells.Enemies
                     Rot = Direction.Left;
 
                 }
-                else if (no_wall == false && Maze[X + 1, Y] is Ground)
+                else if (noWall == false && Maze[X + 1, Y] is Ground)
                 {
 
                     X++;
