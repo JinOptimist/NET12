@@ -9,27 +9,59 @@ namespace CoolFormulaString
     {
         public string Calc(string formula)
         {
-            var regex = new Regex(@"\d{1,}[+-]\d{1,}");
+            var bra = new Regex(@"\([^()]+\)");
+            var match = bra.Match(formula);
+            while (match.Success)
+            {
+                var phrase = match.Value.Substring(1, match.Value.Length - 2);
+                var answer = CalcWithoutBreakets(phrase);
+                formula = formula.Replace(match.Value, answer);
+                match = bra.Match(formula);
+            }
+
+            formula = CalcWithoutBreakets(formula);
+
+            return formula;
+        }
+
+        private string CalcWithoutBreakets(string formula)
+        {
+            formula = CalcComplex(formula, @"\d{1,}[\\*/]\d{1,}");
+            formula = CalcComplex(formula, @"-{0,1}\d{1,}[+-]\d{1,}");
+            return formula;
+        }
+
+        private string CalcComplex(string formula, string regexPattern)
+        {
+            var regex = new Regex(regexPattern);
             var match = regex.Match(formula);
-            if (match.Success)
+            while (match.Success)
             {
                 var answer = CalcBasicPhares(match.Value);
                 formula = formula.Replace(match.Value, answer);
+                match = regex.Match(formula);
             }
-
             return formula;
         }
 
         private string CalcBasicPhares(string formula)
         {
             var operations = new char[] { '+', '*', '-', '/' };
-            var operationIndex = formula.IndexOfAny(operations);
+            var operationIndex = formula.IndexOfAny(operations, 1);
             var operationSymbol = formula[operationIndex];
+
+            var isNegative = false;
+            if (formula[0] == '-')
+            {
+                formula = formula.Substring(1);
+                isNegative = true;
+            }
 
             var numbers = formula
                 .Split(operations)
                 .Select(str => int.Parse(str))
                 .ToList();
+            numbers[0] *= isNegative ? -1 : 1;
 
             switch (operationSymbol)
             {
