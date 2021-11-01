@@ -40,7 +40,7 @@ namespace Net12.Maze.Cells.Enemies
                     break;
                 
                 case Direction.Left:
-                    RitLeft(no_wall);
+                    RotLeft(no_wall);
                     break;
                 
                 case Direction.Right:
@@ -92,7 +92,7 @@ namespace Net12.Maze.Cells.Enemies
                 }
             
         }
-        private void RitLeft(bool noWall)
+        private void RotLeft(bool noWall)
         {
               
             
