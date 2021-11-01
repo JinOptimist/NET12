@@ -3,9 +3,6 @@ using Net12.Maze.Cells;
 using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Net12.Maze.Cells.Enemies;
 
 namespace Net12
 {
@@ -34,9 +31,34 @@ namespace Net12
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
                 { typeof(BullEnemy), "!"},
+                { typeof(Wallworm), "W"},
                 { typeof(Geyser), "G"},
                 { typeof(Slime), "☺"},
             };
+
+        private Dictionary<Type, ConsoleColor> ColorSymbolDictionary =
+            new Dictionary<Type, ConsoleColor>()
+            {
+                { typeof(WeakWall), ConsoleColor.DarkGray},
+                { typeof(Coin), ConsoleColor.DarkYellow},
+                { typeof(GoldMine), ConsoleColor.Yellow},
+                { typeof(HealPotion), ConsoleColor.Green},
+                { typeof(Trap), ConsoleColor.Red},
+                { typeof(Puddle), ConsoleColor.Cyan},
+            };
+
+        private Dictionary<Type, ConsoleColor> ColorBackgroundDictionary =
+            new Dictionary<Type, ConsoleColor>()
+            {
+                { typeof(WeakWall), ConsoleColor.Black},
+                { typeof(Coin), ConsoleColor.DarkBlue},
+                { typeof(GoldMine), ConsoleColor.DarkMagenta},
+                { typeof(HealPotion), ConsoleColor.White},
+                { typeof(Trap), ConsoleColor.Yellow},
+                { typeof(Puddle), ConsoleColor.Magenta},
+            };
+
+        private Random rand = new Random();
 
         public void Draw(MazeLevel maze)
         {
@@ -52,14 +74,18 @@ namespace Net12
                     var symbol = GetSymbolByCellType(cell);
 
                     var origenalColor = Console.ForegroundColor;
-                    if (cell is WeakWall)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                    }
+                    var currentBackground = Console.BackgroundColor;
+
+                    var color = GetSymbolColorByCellType(cell);
+                    var background = GetBackgroundColorByCellType(cell);
+                    Console.ForegroundColor = color;
+                    Console.BackgroundColor = background;
 
                     Console.Write(symbol);
 
                     Console.ForegroundColor = origenalColor;
+                    Console.BackgroundColor = currentBackground;
+                    Console.ResetColor();
                 }
 
                 Console.WriteLine();
@@ -75,6 +101,42 @@ namespace Net12
             var type = cell.GetType();
 
             return TypeSymbolDictionary[type];
+        }
+
+        private ConsoleColor GetSymbolColorByCellType(IBaseCell cell)
+        {
+            var type = cell.GetType();
+
+            if (!ColorSymbolDictionary.ContainsKey(type))
+            {
+                ConsoleColor color;
+                do
+                {
+                    color = (ConsoleColor)rand.Next(0, 16);
+                } while (ColorSymbolDictionary.ContainsValue(color) && ColorSymbolDictionary.Count < 16);
+
+                ColorSymbolDictionary.Add(type, color);
+            }
+
+            return ColorSymbolDictionary[type];
+        }
+
+        private ConsoleColor GetBackgroundColorByCellType(IBaseCell cell)
+        {
+            var type = cell.GetType();
+
+            if (!ColorBackgroundDictionary.ContainsKey(type))
+            {
+                ConsoleColor color;
+                do
+                {
+                    color = (ConsoleColor)rand.Next(0, 16);
+                } while ((ColorBackgroundDictionary.ContainsValue(color) && ColorBackgroundDictionary.Count < 16) || ColorSymbolDictionary[type] == color);
+
+                ColorBackgroundDictionary.Add(type, color);
+            }
+
+            return ColorBackgroundDictionary[type];
         }
     }
 }

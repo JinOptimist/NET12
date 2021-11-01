@@ -11,13 +11,15 @@ namespace Net12
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Enter formula");
-            var formulaString = Console.ReadLine();
+            //Console.WriteLine("Enter formula");
+            //var formulaString = Console.ReadLine();
 
-            var calculator = new Formula();
-            var answer = calculator.Calc(formulaString);
+            //var calculator = new Formula();
+            //var answer = calculator.Calc(formulaString);
 
-            Console.WriteLine($"Answer: {answer}");
+            //Console.WriteLine($"Answer: {answer}");
+
+            MazeStuff();
         }
 
         private static void MazeStuff()
@@ -50,6 +52,9 @@ namespace Net12
                     case ConsoleKey.DownArrow:
                     case ConsoleKey.S:
                         maze.HeroStep(Direction.Down);
+                        break;
+                    case ConsoleKey.Spacebar:
+                        maze.HeroStep(Direction.Spacebar);
                         break;
                     default:
                         break;
