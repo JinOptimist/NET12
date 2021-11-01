@@ -112,7 +112,7 @@ namespace Net12.Maze
             }
 
             Enemies.ForEach(x => x.Step());
-
+            
             //foreach (var enemy in Enemies)
             //{
             //    enemy.Step();

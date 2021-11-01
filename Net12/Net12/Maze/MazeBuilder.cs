@@ -1,4 +1,5 @@
 ﻿using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace Net12.Maze
             BuildTeleport();
             BuildHeler();
             BuildCoin();
+            BuildCoinCoward();
             BuildWeakWalls();
             BuildTavern();
             BuildBless();
@@ -62,7 +64,13 @@ namespace Net12.Maze
         {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randonGround = GetRandom(grounds);
-            maze[randonGround.X, randonGround.Y] = new Coin(randonGround.X, randonGround.Y, maze, 3);
+            maze[randonGround.X, randonGround.Y] = new Coin(randonGround.X, randonGround.Y, maze, 5);
+        }
+        private void BuildCoinCoward()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randonGround = GetRandom(grounds);
+            maze[randonGround.X, randonGround.Y] = new CoinCoward(randonGround.X, randonGround.Y, maze, 2);
         }
         
         private void BuildBless()
@@ -251,7 +259,5 @@ namespace Net12.Maze
                 .OfType<TypeOfCell>()
                 .ToList();
         }
-
-       
     }
 }
