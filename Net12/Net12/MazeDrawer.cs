@@ -1,5 +1,6 @@
 ﻿using Net12.Maze;
 using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace Net12
                 { typeof(WolfPit), "*"},
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
+                { typeof(BullEnemy), "!"},
             };
 
         private Dictionary<Type, ConsoleColor> ColorSymbolDictionary =
