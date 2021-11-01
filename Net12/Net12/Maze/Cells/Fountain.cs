@@ -6,7 +6,7 @@ namespace Net12.Maze
     public class Fountain : BaseCell
     {
 
-        public Fountain(int x, int y, MazeLevel maze) : base(x, y, maze) { }
+        public Fountain(int x, int y, IMazeLevel maze) : base(x, y, maze) { }
 
         public override bool TryToStep()
         {
