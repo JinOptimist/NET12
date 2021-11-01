@@ -1,5 +1,6 @@
 ﻿using Net12.Maze;
 using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,8 @@ namespace Net12
                 { typeof(WolfPit), "*"},
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
+                { typeof(BullEnemy), "!"},
+                { typeof(Geyser), "G"},
                 { typeof(Slime), "☺"},
             };
 
@@ -67,7 +70,7 @@ namespace Net12
             Console.WriteLine($"HP: {maze.Hero.Hp}");
         }
 
-        private string GetSymbolByCellType(BaseCell cell)
+        private string GetSymbolByCellType(IBaseCell cell)
         {
             var type = cell.GetType();
 
