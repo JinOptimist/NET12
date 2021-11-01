@@ -53,6 +53,9 @@ namespace Net12
                     case ConsoleKey.S:
                         maze.HeroStep(Direction.Down);
                         break;
+                    case ConsoleKey.Spacebar:
+                        maze.HeroStep(Direction.Spacebar);
+                        break;
                     default:
                         break;
                 }
