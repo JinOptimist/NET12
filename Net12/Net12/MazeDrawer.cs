@@ -3,10 +3,6 @@ using Net12.Maze.Cells;
 using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Net12.Maze.Cells.Enemies;
-using System.Drawing;
 
 namespace Net12
 {
@@ -34,6 +30,9 @@ namespace Net12
                 { typeof(WolfPit), "*"},
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
+                { typeof(BullEnemy), "!"},
+                { typeof(Wallworm), "W"},
+                { typeof(Geyser), "G"},
             };
 
         private Dictionary<Type, ConsoleColor> ColorSymbolDictionary =
@@ -62,7 +61,7 @@ namespace Net12
 
         public void Draw(MazeLevel maze)
         {
-            Console.Clear();           
+            Console.Clear();
             Console.WriteLine(maze.Message);
 
             for (int y = 0; y < maze.Height; y++)
@@ -75,7 +74,7 @@ namespace Net12
 
                     var origenalColor = Console.ForegroundColor;
                     var currentBackground = Console.BackgroundColor;
-                    
+
                     var color = GetSymbolColorByCellType(cell);
                     var background = GetBackgroundColorByCellType(cell);
                     Console.ForegroundColor = color;
@@ -114,7 +113,7 @@ namespace Net12
                 {
                     color = (ConsoleColor)rand.Next(0, 16);
                 } while (ColorSymbolDictionary.ContainsValue(color) && ColorSymbolDictionary.Count < 16);
-                    
+
                 ColorSymbolDictionary.Add(type, color);
             }
 
