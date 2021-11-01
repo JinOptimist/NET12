@@ -48,10 +48,10 @@ namespace Net12.Maze.Cells.Enemies
                     break;
             }
 
-            hit();
+            Hit();
         }
 
-        private void hit()
+        private void Hit()
         {
             if (X == Maze.Hero.X && Y == Maze.Hero.Y)
             {
