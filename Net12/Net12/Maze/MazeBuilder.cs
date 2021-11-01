@@ -41,6 +41,7 @@ namespace Net12.Maze
             BuildBed();
             BuildBullEnemy();
             BuildGeyser();
+            BuildWallworm();
 
             return maze;
         }
@@ -244,6 +245,13 @@ namespace Net12.Maze
                 maze[randomWall.X, randomWall.Y] = new WeakWall(randomWall.X, randomWall.Y, maze);
                 countOfWeakWall--;
             }
+        }
+
+        private void BuildWallworm()
+        {
+            var wall = maze.Cells.Where(x => x is Wall && !(x is GoldMine)).ToList();
+            var randomWall = GetRandom(wall);
+            maze.Enemies.Add(new Wallworm(randomWall.X, randomWall.Y, maze));
         }
 
         private BaseCell GetRandom(List<BaseCell> cells)

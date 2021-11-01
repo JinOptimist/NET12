@@ -34,8 +34,6 @@ namespace Net12
                 { typeof(WolfPit), "*"},
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
-                { typeof(BullEnemy), "!"},
-                { typeof(Geyser), "G"},
             };
 
         private Dictionary<Type, ConsoleColor> ColorSymbolDictionary =
