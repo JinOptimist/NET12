@@ -96,6 +96,12 @@ namespace Net12.Maze
                 case Direction.Left:
                     heroPositionX--;
                     break;
+                case Direction.Spacebar:
+                    if (Hero.CurrentFatigue < Hero.MaxFatigue)
+                    {
+                        Hero.CurrentFatigue++;
+                    }
+                    break;
                 default:
                     break;
 
