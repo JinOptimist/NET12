@@ -10,6 +10,7 @@ namespace Net12.Maze
         Up,
         Right,
         Down,
-        Left
+        Left,
+        Spacebar
     }
 }
