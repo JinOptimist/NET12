@@ -9,6 +9,7 @@ namespace CoolFormulaString
     {
         public string Calc(string formula)
         {
+            formula = String.Concat(formula.Split(" "));
             var bra = new Regex(@"\([^()]+\)");
             var match = bra.Match(formula);
             while (match.Success)
@@ -26,6 +27,7 @@ namespace CoolFormulaString
 
         private string CalcWithoutBreakets(string formula)
         {
+            formula = CalcComplex(formula, @"\d+\^\d+");
             formula = CalcComplex(formula, @"\d{1,}[\\*/]\d{1,}");
             formula = CalcComplex(formula, @"-{0,1}\d{1,}[+-]\d{1,}");
             return formula;
@@ -46,7 +48,7 @@ namespace CoolFormulaString
 
         private string CalcBasicPhares(string formula)
         {
-            var operations = new char[] { '+', '*', '-', '/' };
+            var operations = new char[] { '+', '*', '-', '/', '^' };
             var operationIndex = formula.IndexOfAny(operations, 1);
             var operationSymbol = formula[operationIndex];
 
@@ -73,6 +75,8 @@ namespace CoolFormulaString
                     return (numbers[0] * numbers[1]).ToString();
                 case '/':
                     return (numbers[0] / numbers[1]).ToString();
+                case '^':
+                    return Math.Pow(numbers[0], numbers[1]).ToString();
             }
 
             return "Error";
