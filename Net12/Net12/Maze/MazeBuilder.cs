@@ -39,6 +39,9 @@ namespace Net12.Maze
             BuildTrap();
             BuildFountain();
             BuildBed();
+<<<<<<<<< Temporary merge branch 1
+            BuildWalker();
+=========
             BuildBullEnemy();
             BuildGeyser();
             BuildWallworm();
@@ -77,6 +80,7 @@ namespace Net12.Maze
             var randonGround = GetRandom(grounds);
             maze[randonGround.X, randonGround.Y] = new Coin(randonGround.X, randonGround.Y, maze, 3);
         }
+
         private void BuildWalker()
         {
             var list = maze.Cells.Where(point => point is Ground).ToList();
@@ -84,6 +88,7 @@ namespace Net12.Maze
             var enemy = new Walker(point.X, point.Y, point.Maze);
             maze.Enemies.Add(enemy);
         }
+
         private void BuildBless()
         {
             var res_point = maze.Cells.FirstOrDefault(point => GetNear<Wall>(point).Count == 3 && GetNear<BaseCell>(point).Count == 4);

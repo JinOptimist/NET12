@@ -31,6 +31,9 @@ namespace Net12
                 { typeof(WolfPit), "*"},
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
+                { typeof(Walker), "E"},
+
+                { typeof(Walker), "E"},
                 { typeof(BullEnemy), "!"},
                 { typeof(Wallworm), "W"},
                 { typeof(Geyser), "G"},
@@ -42,10 +45,10 @@ namespace Net12
             {
                 { typeof(WeakWall), ConsoleColor.DarkGray},
                 { typeof(Coin), ConsoleColor.DarkYellow},
-                { typeof(GoldMine), ConsoleColor.Yellow},
                 { typeof(HealPotion), ConsoleColor.Green},
                 { typeof(Trap), ConsoleColor.Red},
                 { typeof(Puddle), ConsoleColor.Cyan},
+
             };
 
         private Dictionary<Type, ConsoleColor> ColorBackgroundDictionary =
@@ -70,9 +73,10 @@ namespace Net12
             {
                 for (int x = 0; x < maze.Width; x++)
                 {
-                    var cell = maze.GetCellOrUnit(x, y);
 
-                    var symbol = GetSymbolByCellType(cell);
+
+                    Console.Write(symbol);
+                   
 
                     var origenalColor = Console.ForegroundColor;
                     var currentBackground = Console.BackgroundColor;
@@ -87,6 +91,7 @@ namespace Net12
                     Console.ForegroundColor = origenalColor;
                     Console.BackgroundColor = currentBackground;
                     Console.ResetColor();
+
                 }
 
                 Console.WriteLine();
