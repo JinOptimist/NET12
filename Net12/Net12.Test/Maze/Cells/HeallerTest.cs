@@ -13,6 +13,8 @@ namespace Net12.Test.Maze.Cells
         [Test]
         [TestCase(4, 2, 20, 100)]
         [TestCase(10, 5, 50, 100)]
+        [TestCase(0, 0, 50, 50)]
+        [TestCase(6, 6, 100, 100)]
 
         public void TryToStepTest(int moneyInput, int moneyResult, int hpInput, int hpResult)
         {
@@ -25,12 +27,10 @@ namespace Net12.Test.Maze.Cells
                .Returns(heroMock.Object);
 
             heroMock.SetupProperty(x => x.Hp);
-            //heroMock.SetupProperty(x => x.Max_hp);
             heroMock.SetupProperty(x => x.Money);
             heroMock.Setup(x => x.Max_hp).Returns(100);
-
+            
             heroMock.Object.Hp = hpInput;
-            //heroMock.Object.Max_hp = 100;
             heroMock.Object.Money = moneyInput;
 
             var answer = healler.TryToStep();
