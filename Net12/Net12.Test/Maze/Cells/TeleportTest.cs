@@ -44,8 +44,8 @@ namespace Net12.Test.Maze.Cells
             teleportIn.TryToStep();
 
             // Assert
-            Assert.AreEqual(mazeHero.Object.X, TeleportOutMock.Object.X, "Coord X not match");
-            Assert.AreEqual(mazeHero.Object.Y, TeleportOutMock.Object.Y, "Coord Y not match");
+            Assert.AreEqual(TeleportOutMock.Object.X, mazeHero.Object.X, "Coord X not match");
+            Assert.AreEqual(TeleportOutMock.Object.Y, mazeHero.Object.Y, "Coord Y not match");
           
 
 
