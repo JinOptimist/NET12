@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Net12.Maze
 {
-    class Coin : BaseCell
+    class Coin : Ground
     {
         public Coin(int x, int y, MazeLevel maze, int coinCount) : base(x, y, maze)
         {
