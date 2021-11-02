@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Net12.Maze
 {
-    class VitalityPotion : BaseCell
+    class VitalityPotion : Ground
     {
 
         public VitalityPotion(int x, int y, MazeLevel maze, int addMaxFatigue) : base(x, y, maze)
