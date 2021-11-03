@@ -11,9 +11,10 @@ namespace Net12.Test.Maze.Cells
     public class CoinTest
     {
         [Test]
-        [TestCase(10, 11)]
-        [TestCase(1, 2)]
-        public void TryToStep(int coinCountInit, int heroMoneyInit)
+        [TestCase(10, 11, 21)]
+        [TestCase(1, 2, 3)]
+        [TestCase(10, 20, 30)]
+        public void TryToStep(int coinCountInit, int heroMoneyInit, int heroMoneyResult)
         {
             //Preparing
             var mazeMock = new Mock<IMazeLevel>();
@@ -22,23 +23,20 @@ namespace Net12.Test.Maze.Cells
             heroMock.SetupProperty(x => x.Money);
             heroMock.Object.Money = heroMoneyInit;
 
-
             mazeMock
                 .Setup(x => x.Hero)
                 .Returns(heroMock.Object);
             
-
             var coin = new Coin(0, 0, mazeMock.Object, coinCountInit);
 
+            Assert.AreEqual(coinCountInit, coin.CoinCount, "initian cointCount is incorrect");
 
             //Act
             var answer = coin.TryToStep();
 
-            //Assert
-            Assert.AreEqual(coinCountInit, coin.CoinCount, "initian cointCount is incorrect");
+            //Assert            
             Assert.AreEqual(true, answer, "We must have possibility to step on the trap");
-            Assert.AreEqual(coin.CoinCount+ heroMoneyInit, heroMock.Object.Money);
-            //mazeMock.Verify(x => x[(It.IsAny<BaseCell>()), Times.AtLeastOnce);
+            Assert.AreEqual(heroMoneyResult, heroMock.Object.Money);            
         }
     }
 }
