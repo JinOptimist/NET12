@@ -10,19 +10,25 @@ namespace CoolFormulaString
         public string Calc(string formula)
         {
             formula = String.Concat(formula.Split(" "));
-            var bra = new Regex(@"\([^()]+\)");
-            var match = bra.Match(formula);
-            while (match.Success)
+
+            var normalSymbol = new Regex(@"[^0-9\+\-\*\/()^]").Match(formula);
+            if (!normalSymbol.Success)
             {
-                var phrase = match.Value.Substring(1, match.Value.Length - 2);
-                var answer = CalcWithoutBreakets(phrase);
-                formula = formula.Replace(match.Value, answer);
-                match = bra.Match(formula);
+                var bra = new Regex(@"\([^()]+\)");
+                var match = bra.Match(formula);
+                while (match.Success)
+                {
+                    var phrase = match.Value.Substring(1, match.Value.Length - 2);
+                    var answer = CalcWithoutBreakets(phrase);
+                    formula = formula.Replace(match.Value, answer);
+                    match = bra.Match(formula);
+                }
+
+                formula = CalcWithoutBreakets(formula);
+
+                return formula;
             }
-
-            formula = CalcWithoutBreakets(formula);
-
-            return formula;
+            else return "Недопустимый символ";
         }
 
         private string CalcWithoutBreakets(string formula)
@@ -74,6 +80,10 @@ namespace CoolFormulaString
                 case '*':
                     return (numbers[0] * numbers[1]).ToString();
                 case '/':
+                    if (numbers[1] == 0)
+                    {
+                        return "Деление на 0";
+                    }
                     return (numbers[0] / numbers[1]).ToString();
                 case '^':
                     return Math.Pow(numbers[0], numbers[1]).ToString();
