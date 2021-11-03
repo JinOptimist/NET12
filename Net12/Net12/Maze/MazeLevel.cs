@@ -6,9 +6,10 @@ using System.Linq;
 using System.Text;
 
 namespace Net12.Maze
-{
-
+{   
+  
     public class MazeLevel : IMazeLevel
+
     {
         public List<BaseCell> Cells { get; set; } = new List<BaseCell>();
 
@@ -16,6 +17,7 @@ namespace Net12.Maze
 
         public int Width { get; set; }
         public int Height { get; set; }
+
         public IHero Hero { get; set; }
 
         public string Message { get; set; } = "";
@@ -94,12 +96,14 @@ namespace Net12.Maze
                 case Direction.Left:
                     heroPositionX--;
                     break;
-
-
+                case Direction.Spacebar:
+                    if (Hero.CurrentFatigue < Hero.MaxFatigue)
+                    {
+                        Hero.CurrentFatigue++;
+                    }
+                    break;
                 default:
                     break;
-
-
 
             }
 

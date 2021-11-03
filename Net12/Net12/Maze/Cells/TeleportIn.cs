@@ -6,12 +6,14 @@ namespace Net12.Maze
 {
     public class TeleportIn : BaseCell
     {
-        public TeleportIn(int x, int y, MazeLevel maze, TeleportOut teleportExit) : base(x, y, maze) 
+        public TeleportIn(int x, int y, IMazeLevel maze, ITeleportOut teleportExit) : base(x, y, maze) 
         {
             TeleportExit = teleportExit;
+            
         }
 
-        private TeleportOut TeleportExit { get; set; }
+        public ITeleportOut TeleportExit { get; set; }
+     
 
         public override bool TryToStep()
         {

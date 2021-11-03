@@ -9,7 +9,7 @@ namespace Net12.Maze.Cells
     {
         private int _vitalityOfWeakWall = 3;
 
-        public WeakWall(int x, int y, MazeLevel maze) : base(x, y, maze) { }
+        public WeakWall(int x, int y, IMazeLevel maze) : base(x, y, maze) { }
 
         public override bool TryToStep()
         {

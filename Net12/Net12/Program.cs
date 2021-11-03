@@ -1,4 +1,5 @@
-﻿using Net12.Maze;
+﻿using CoolFormulaString;
+using Net12.Maze;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,23 @@ namespace Net12
     class Program
     {
         static void Main(string[] args)
-        {        
+        {
+            //Console.WriteLine("Enter formula");
+            //var formulaString = Console.ReadLine();
+
+            //var calculator = new Formula();
+            //var answer = calculator.Calc(formulaString);
+
+            //Console.WriteLine($"Answer: {answer}");
+
+            MazeStuff();
+        }
+
+        private static void MazeStuff()
+        {
             var mazeBuilder = new MazeBuilder();
-
             var maze = mazeBuilder.Build(10, 10, 10, 100);
-
             var drawer = new MazeDrawer();
-
             while (true)
             {
                 drawer.Draw(maze);
@@ -38,6 +49,9 @@ namespace Net12
                     case ConsoleKey.DownArrow:
                     case ConsoleKey.S:
                         maze.HeroStep(Direction.Down);
+                        break;
+                    case ConsoleKey.Spacebar:
+                        maze.HeroStep(Direction.Spacebar);
                         break;
                     default:
                         break;
