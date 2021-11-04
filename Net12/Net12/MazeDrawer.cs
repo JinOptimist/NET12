@@ -1,4 +1,5 @@
 ﻿using Net12.Maze;
+using Net12.Maze.Cells.Enemies;
 using Net12.Maze.Cells;
 using Net12.Maze.Cells.Enemies;
 using System;
@@ -30,9 +31,11 @@ namespace Net12
                 { typeof(WolfPit), "*"},
                 { typeof(Tavern), "T"},
                 { typeof(Healer), "H"},
+                { typeof(Walker), "E"},
                 { typeof(BullEnemy), "!"},
                 { typeof(Wallworm), "W"},
                 { typeof(Geyser), "G"},
+                { typeof(Slime), "☺"},
             };
 
         private Dictionary<Type, ConsoleColor> ColorSymbolDictionary =
@@ -44,6 +47,7 @@ namespace Net12
                 { typeof(HealPotion), ConsoleColor.Green},
                 { typeof(Trap), ConsoleColor.Red},
                 { typeof(Puddle), ConsoleColor.Cyan},
+
             };
 
         private Dictionary<Type, ConsoleColor> ColorBackgroundDictionary =
@@ -72,6 +76,7 @@ namespace Net12
 
                     var symbol = GetSymbolByCellType(cell);
 
+
                     var origenalColor = Console.ForegroundColor;
                     var currentBackground = Console.BackgroundColor;
 
@@ -85,6 +90,7 @@ namespace Net12
                     Console.ForegroundColor = origenalColor;
                     Console.BackgroundColor = currentBackground;
                     Console.ResetColor();
+
                 }
 
                 Console.WriteLine();
