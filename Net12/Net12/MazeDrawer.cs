@@ -4,6 +4,8 @@ using Net12.Maze.Cells;
 using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Net12
 {
