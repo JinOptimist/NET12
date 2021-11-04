@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Net12.Maze.Cells.Enemies
@@ -7,19 +8,39 @@ namespace Net12.Maze.Cells.Enemies
     public class Goblin : BaseEnemy
     {
         public Goblin(int x, int y, MazeLevel maze) : base(x, y, maze) { }
-        public List<BaseEnemy> AroundGoblin = new List<BaseEnemy>();
-        
-                
+
+        private Random random = new Random();
 
         public override void Step()
         {
+            var cellsAroundGoblin =
+                Maze.Cells.Where(cell =>
+                   Math.Abs(cell.X - X) <= 1 && Math.Abs(cell.Y - Y) <= 1).ToList();
 
+            var cellsWhereGoblinCanStep =
+                Maze.Cells.Where(cell =>
+                    (cell.X == X && Math.Abs(cell.Y - Y) == 1 || cell.Y == Y && Math.Abs(cell.X - X) == 1)
+                       && !(cell.X == Maze.Hero.X && cell.Y == Maze.Hero.Y))
+                          .OfType<Ground>().ToList();
+
+            if (cellsAroundGoblin.Any(x => x.X == Maze.Hero.X && x.Y == Maze.Hero.Y))
+            {
+                var newGoblinsPosition = GetRandom(cellsWhereGoblinCanStep);
+                Maze[newGoblinsPosition.X, newGoblinsPosition.Y] = new Goblin(newGoblinsPosition.X, newGoblinsPosition.Y, Maze);
+            }
         }
+
         public override bool TryToStep()
         {
-            //MazeBuilder.BuildCoin;
-            Maze[X, Y] = new Ground(X, Y, Maze);
+            Maze[X, Y] = new Coin(X, Y, Maze, 10);
             return true;
+        }
+
+        private BaseCell GetRandom(IEnumerable<BaseCell> cells)
+        {
+            var list = cells.ToList();
+            var index = random.Next(list.Count);
+            return list[index];
         }
     }
 }
