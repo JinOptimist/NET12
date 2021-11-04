@@ -16,11 +16,9 @@ namespace Net12.Test.Maze.Cells
         {
             //Preparing
             var mazeMock = new Mock<IMazeLevel>();
-            var heroMock = new Mock<IHero>();
 
-            mazeMock
-                .Setup(x => x.Hero)
-                .Returns(heroMock.Object);
+
+
             var wall = new Wall(0, 0, mazeMock.Object);
 
 
