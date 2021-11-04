@@ -64,14 +64,14 @@ namespace Net12
            
             Console.SetCursorPosition(0, 0);
             Console.WriteLine(new string(' ', 100));
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine(maze.Message);
             Console.CursorVisible = false;
 
             for (int y = 0; y < maze.Height; y++)
             {
                 for (int x = 0; x < maze.Width; x++)
                 {
-                    Console.SetCursorPosition(0, 0);
-                    Console.WriteLine(maze.Message);
                     Console.SetCursorPosition(x, y + 1);
                     var cell = maze.GetCellOrUnit(x, y);
 
