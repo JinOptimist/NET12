@@ -1,0 +1,19 @@
+.header{
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 3px #ccc solid;
+}
+
+.login-block{
+	display: flex;
+}
+
+.text-block{
+	display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.button-blcok input{
+	height: 100%;
+}
