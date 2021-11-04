@@ -39,9 +39,6 @@ namespace Net12.Maze
             BuildTrap();
             BuildFountain();
             BuildBed();
-<<<<<<<<< Temporary merge branch 1
-            BuildWalker();
-=========
             BuildBullEnemy();
             BuildGeyser();
             BuildWallworm();
