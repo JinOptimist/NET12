@@ -25,11 +25,8 @@ namespace Net12
         private static void MazeStuff()
         {
             var mazeBuilder = new MazeBuilder();
-
             var maze = mazeBuilder.Build(10, 10, 10, 100);
-
             var drawer = new MazeDrawer();
-
             while (true)
             {
                 drawer.Draw(maze);
@@ -52,6 +49,9 @@ namespace Net12
                     case ConsoleKey.DownArrow:
                     case ConsoleKey.S:
                         maze.HeroStep(Direction.Down);
+                        break;
+                    case ConsoleKey.Spacebar:
+                        maze.HeroStep(Direction.Spacebar);
                         break;
                     default:
                         break;

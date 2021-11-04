@@ -42,7 +42,9 @@ namespace Net12.Maze
             BuildBullEnemy();
             BuildGeyser();
             BuildWallworm();
+            BuildSlime();
 
+            BuildWalker();
             return maze;
         }
 
@@ -54,12 +56,19 @@ namespace Net12.Maze
             maze.Enemies.Add(new Geyser(randomGround.X, randomGround.Y, maze));
         }
 
+        private void BuildSlime()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var randomGround = GetRandom(grounds);
+            maze.Enemies.Add(new Slime(randomGround.X, randomGround.Y, maze));
+        }
         private void BuildFountain()
         {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new Fountain(randomGround.X, randomGround.Y, maze);
 
+           
         }
 
         private void BuildBed()
@@ -74,6 +83,14 @@ namespace Net12.Maze
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randonGround = GetRandom(grounds);
             maze[randonGround.X, randonGround.Y] = new Coin(randonGround.X, randonGround.Y, maze, 3);
+        }
+
+        private void BuildWalker()
+        {
+            var list = maze.Cells.Where(point => point is Ground).ToList();
+            var point = GetRandom(list);
+            var enemy = new Walker(point.X, point.Y, point.Maze);
+            maze.Enemies.Add(enemy);
         }
 
         private void BuildBless()

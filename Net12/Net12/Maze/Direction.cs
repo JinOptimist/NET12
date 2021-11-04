@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Net12.Maze
 {
-    
     public enum Direction
     {
         Up,
         Right,
         Down,
-        Left
+        Left,
+        Spacebar
     }
 }
