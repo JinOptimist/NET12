@@ -1,0 +1,17 @@
+.header{
+	display: flex;
+	justify-content: center;
+	border-bottom: 3px dashed;
+	font-size: xxx-large;
+}
+.cell{
+	display: flex;
+	justify-content: space-between;
+}
+.cellPicture{
+	width: 100px;
+}
+.cellParameters{
+	text-align: center;
+
+}
