@@ -25,17 +25,21 @@ namespace Net12.Test.Maze.Cells
             mazeMock
                 .Setup(x => x.Hero)
                 .Returns(heroMock.Object);
+
             var goldMine = new GoldMine(0, 0, mazeMock.Object);
 
-            //Act
-            var answer = true;
-            for (var i = goldMine.currentGoldMineMp; i < goldMine.goldMineMaxHp; i++)
+            //Act      
+            var i = goldMine.currentGoldMineMp;
+            bool answer;
+            do 
             {
-                answer = goldMine.TryToStep();
-            }
+                mazeMock.Verify(x => x.ReplaceCell(It.IsAny<BaseCell>()), Times.Never);
+                answer = goldMine.TryToStep();              
+                i++;
+            } while (i < goldMine.goldMineMaxHp && !answer);
 
             //Assert
-            Assert.AreEqual(false, answer, "We mustn't have possibility to step on the goldmine");
+            Assert.AreEqual(i, goldMine.goldMineMaxHp, "We mustn't have possibility to step on the goldmine");
             Assert.AreEqual(moneyResult, heroMock.Object.Money);
             mazeMock.Verify(x => x.ReplaceCell(It.IsAny<BaseCell>()), Times.AtLeastOnce);
         }
