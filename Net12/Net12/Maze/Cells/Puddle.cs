@@ -6,7 +6,7 @@ namespace Net12.Maze.Cells
 {
     public class Puddle : BaseCell
     {
-        public Puddle(int x, int y, MazeLevel maze):base(x,y,maze)
+        public Puddle(int x, int y, IMazeLevel maze):base(x,y,maze)
         {
         }
 
