@@ -1,0 +1,40 @@
+.menu-panel {
+    justify-content: space-between;
+    border: 0;
+    border-bottom: gray dashed;
+}
+
+body {
+    justify-content: center;
+}
+
+.menu-text {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 50px;
+}
+
+.obj-info {
+    margin: 50px;
+    display: flex;
+    height: 100;
+    justify-content: space-evenly;
+}
+
+.obj-info .ico-info {
+    height: 100;
+    display: flex;
+    width: 300;
+    justify-content: center;
+}
+
+.obj-info .ico-info .ico-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.obj-info .obj-text {
+    margin-top: auto;
+    margin-bottom: auto;
+}
