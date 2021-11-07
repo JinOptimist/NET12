@@ -1,0 +1,23 @@
+.header{
+	display: flex;
+	justify-content: center;
+	border-bottom: 5px #ccc solid;
+}
+.weak-wall{
+	display: flex;
+	justify-content: space-around;
+	border-bottom: 5px #ccc solid
+}
+.imeges{
+	display: flex;
+	justify-content: space-around;
+}
+.weak-wall1{
+	display: flex;
+	justify-content: space-around;
+	border-bottom: 5px #ccc solid
+
+.imeges1{
+	display: flex;
+	justify-content: far-right;
+}
