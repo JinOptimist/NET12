@@ -17,3 +17,6 @@
 .button-blcok input{
 	height: 100%;
 }
+.ruleHealer{
+    display: flex;
+}

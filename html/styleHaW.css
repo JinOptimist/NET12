@@ -1,0 +1,39 @@
+body
+{
+    
+    background: url(img/001.jpg);
+}
+.block001{
+    background: url(img/001.jpg);
+    border: 1px solid black;
+    max-width: 800px;
+    height: 1200px;
+    margin: 0 auto;
+}
+.block002
+{
+   height: 100px;
+   border-bottom: 5px dashed #2f2a2a;
+}
+.rule
+{
+    
+    
+}
+.container
+{
+ height: 190px;
+ border: 1px solid black;
+}
+.block003-1
+{
+ height: 180px;
+ width: 180px;
+ border: 1px solid black;  
+}
+.block003-2
+{
+ height: 180px;
+ width: 180px;
+ border: 1px solid black;  
+}
