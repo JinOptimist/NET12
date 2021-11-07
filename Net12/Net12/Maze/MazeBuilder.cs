@@ -57,7 +57,8 @@ namespace Net12.Maze
         {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randomGround = GetRandom(grounds);
-            maze[randomGround.X, randomGround.Y] = new Goblin(randomGround.X, randomGround.Y, maze);
+           var g = new Goblin(randomGround.X, randomGround.Y, maze);
+            maze.Enemies.Add(g);
             
         }
 
