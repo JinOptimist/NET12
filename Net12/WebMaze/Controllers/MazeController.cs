@@ -23,9 +23,9 @@ namespace WebMaze.Controllers
         {
             var model = new CellInfoViewModel();
 
-            model.CanStep = false;
-            model.ImageUrl = "/images/weakwall.jpg";
-            model.Desc = "Bad cell. Trap";
+            //model.CanStep = false;
+            //model.ImageUrl = "/images/weakwall.jpg";
+            //model.Desc = "Netral cell. Weak wall";
 
             return View(model);
         }

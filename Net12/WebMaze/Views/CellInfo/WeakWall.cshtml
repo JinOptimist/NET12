@@ -1,9 +1,19 @@
 ﻿@model CellInfoViewModel
 
-<div>
-    <img src='@Model.ImageUrl' />
-    Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled"  />
-</div>
-<div>
-    @Model.Desc
+<div class='weak-wall'>
+    <div class='imeges'>
+        <div>
+            <img width='200px;'
+                 height='200px;'
+                 src='/images/weakwall.jpg' />
+        </div>
+        <div class='imeges-text'>
+            <div>HP: Vitality=3</div>
+            <div>USE: You can destroy them </div>
+        </div>
+    </div>
+    <div class='description'>
+        A weak wall after three attempts to step on it breaks and earth appears in its place.
+    </div>
+
 </div>
