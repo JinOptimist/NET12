@@ -19,5 +19,25 @@ namespace WebMaze.Controllers
 
             return View(model);
         }
+        public IActionResult Bed()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = true;
+            model.ImageUrl = "/images/Bed.png";
+            model.Desc = "Hero is getting tired while he is walking. You'll lost if Hero's fatigue reached a maximum value. Use the bed just not to be wasted.";
+
+            return View(model);
+        }
+        public IActionResult Goblin()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = true;
+            model.ImageUrl = "/images/Goblin.png";
+            model.Desc = "Goblin always rans off when Hero gets closer to him. Drive Goblin into a corner and grab him to get coins.";
+
+            return View(model);
+        }
     }
 }
