@@ -1,0 +1,31 @@
+﻿@model CellInfoViewModel
+
+
+<div class='title1'>
+    HealPotion
+</div>
+
+<div class='HealthPotion'>
+    <div class='image-text1'>
+        <img height='130px;' src='@Model.ImageUrl' />
+
+        <div class='text-block1'>
+            <div>
+                HP: +10
+            </div>
+
+            <div>
+                USE: once
+            </div>
+        </div>
+    </div>
+
+    <div class='check1'>
+        Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled" />
+    </div>
+
+    <div class='description1'>
+        @Model.Desc
+    </div>
+
+</div>
