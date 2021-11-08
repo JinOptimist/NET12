@@ -1,28 +1,29 @@
 .header {
-    justify-content: center;
     display: flex;
+    justify-content: center;
     border-bottom: 3px rgb(164, 10, 236) solid;
 }
 
 .text{
-    height: 210px;
+    display: flex;
+    justify-content:space-around;
+    padding: 10px;
 }
 .pic1{
-    float: left;
-    width:200px;
+    display: flex;
+    justify-content: start;
 }
 
 .t11{
-    margin: 0 600px 0 300px;
-    width: 200px;
-    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
 }
 
 .t12{
-    float: right;
-    margin: -172px 400px -101px 501px;
-    width: 400px;
-    height: 200px;
+    display: flex;
+    align-items: center;
 }
 
 .p_with_color{
