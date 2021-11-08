@@ -19,5 +19,20 @@ namespace WebMaze.Controllers
 
             return View(model);
         }
+        public IActionResult WeakWall()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.ImageUrl = "/images/weakwall.jpg";
+            model.Desc = "Bad cell. Trap";
+
+            return View(model);
+        }
+
+
+
+
+
     }
 }
