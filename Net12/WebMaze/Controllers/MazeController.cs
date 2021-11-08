@@ -19,5 +19,17 @@ namespace WebMaze.Controllers
 
             return View(model);
         }
+
+        public IActionResult VitalityPotion()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.ImageUrl = "/images/VitalityPotion.webp";
+            model.Desc = "Увеличивает максимальное количество усталости на 5";
+
+
+            return View(model);
+        }
     }
 }
