@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using Moq;
 using Net12.Maze;
 using Net12.Maze.Cells;
 using NUnit.Framework;
