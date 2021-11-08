@@ -9,33 +9,45 @@ border-bottom: 8px #ccc double;
 .firstcell
 {
 display: flex;
-	justify-content: space-between;
-    width: -webkit-fill-available;
+	justify-content: space-between;;
 }
 
 .secondcell
 {
 display: flex;
-	justify-content: space-between;
+	justify-content: space-between;;
+}
+
+.image_puddle
+{
+	padding: 20px;
+}
+
+.image_geyser
+{
+	padding: 20px;
 }
 
 .properties_puddle
 {
+	padding: 20px;
 font-size: 30px;
 }
 
 .properties_geyser
 {
+	padding: 20px;
 font-size: 30px;
-    width: -webkit-fill-available;
 }
 
 .description_puddle
 {
+	padding: 20px;
 font-size: 30px;
 }
 
 .description_geyser
 {
 font-size: 30px;
+padding: 20px;
 }
