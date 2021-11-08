@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Net12.Maze
 {
-    class VitalityPotion : Ground
+   public class VitalityPotion : BaseCell
     {
 
-        public VitalityPotion(int x, int y, MazeLevel maze, int addMaxFatigue) : base(x, y, maze)
+        public VitalityPotion(int x, int y, IMazeLevel maze, int addMaxFatigue) : base(x, y, maze)
         {
 
             AddMaxFatigue = addMaxFatigue;
@@ -19,7 +19,7 @@ namespace Net12.Maze
         public override bool TryToStep()
         {
             Maze.Hero.MaxFatigue += AddMaxFatigue;
-            Maze[X, Y] = new Ground(X, Y, Maze);
+            Maze.ReplaceCell(new Ground(X, Y, Maze));
 
             return true;
         }
