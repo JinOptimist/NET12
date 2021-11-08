@@ -1,0 +1,59 @@
+.header{
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 3px #ccc solid;
+}
+
+.login-block{
+	display: flex;
+}
+
+.text-block{
+	display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.button-blcok input{
+	height: 100%;
+}
+
+.main-content{
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+
+.main-content .action img{
+	max-width: 300px;
+	max-height: 300px;
+}
+
+.action-text{
+	width: 300px;
+    height: 300px;
+    position: absolute;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-text span{
+	background: #99828294;
+    color: #fff8ec;
+    font-size: 50px;
+    padding: 20px;
+}
+
+/* .gate{ */
+	/* width: 200px; */
+    /* background: violet; */
+    /* height: 200px; */
+    /* background-image: url(../images/gate.jpg); */
+    /* background-size: contain; */
+    /* color: wheat; */
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* font-size: 60px; */
+/* } */
