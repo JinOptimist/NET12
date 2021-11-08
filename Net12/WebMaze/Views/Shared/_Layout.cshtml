@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebMaze</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js"></script>
+    @RenderSection("Scripts", required: false)
+</head>
+<body>
+    <header>
+        Maze!!!
+    </header>
+    <div>
+        <a href="/CellInfo/Trap">Trap info</a>
+    </div>
+    <div class="container">
+        <div>
+            @RenderBody()
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - WebMaze
+        </div>
+    </footer>
+</body>
+</html>
