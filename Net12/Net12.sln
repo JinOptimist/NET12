@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net12.Test", "Net12.Test\Ne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoolFormulaString", "CoolFormulaString\CoolFormulaString.csproj", "{A7012974-6E54-470C-B771-4047A7189E96}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMaze", "WebMaze\WebMaze.csproj", "{2D5E609B-6F46-473E-AE7B-D931BB2C4521}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A7012974-6E54-470C-B771-4047A7189E96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7012974-6E54-470C-B771-4047A7189E96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7012974-6E54-470C-B771-4047A7189E96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D5E609B-6F46-473E-AE7B-D931BB2C4521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D5E609B-6F46-473E-AE7B-D931BB2C4521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D5E609B-6F46-473E-AE7B-D931BB2C4521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D5E609B-6F46-473E-AE7B-D931BB2C4521}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
