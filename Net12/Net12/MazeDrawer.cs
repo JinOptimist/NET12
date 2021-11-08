@@ -61,9 +61,7 @@ namespace Net12
 
         public void Draw(MazeLevel maze)
         {
-           
-            Console.SetCursorPosition(0, 0);
-            Console.WriteLine(new string(' ', 100));
+
             Console.SetCursorPosition(0, 0);
             Console.WriteLine(maze.Message);
             Console.CursorVisible = false;
