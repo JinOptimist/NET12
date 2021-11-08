@@ -19,5 +19,16 @@ namespace WebMaze.Controllers
 
             return View(model);
         }
+        public IActionResult Tavern()
+        {
+            var model = new CellInfoViewModel();
+   
+            model.CanStep = true;
+            model.ImageUrl = "img/tavern.jpg";
+            model.Desc = "Tavern, where you can spend your time.";
+            model.Spec = "HP: Building";
+
+            return View(model);
+        }
     }
 }

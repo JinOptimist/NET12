@@ -1,0 +1,29 @@
+﻿@model CellInfoViewModel
+
+@*<div>
+    <img src='@Model.ImageUrl' />
+    Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled"  />
+</div>
+<div>
+    @Model.Desc
+</div>*@
+
+
+
+
+  <div class="obj-info">
+        <div class="ico-info">
+            <img src="img/tavern.jpg" />
+            <div class="ico-text">
+                <div>@Model.Spec</div>
+                <div>Can use: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled" /></div>
+            </div>
+        </div>
+        <div class="obj-text">Tavern, where you can spend your time.</div>
+    </div>
+
+
+
+
+
+
