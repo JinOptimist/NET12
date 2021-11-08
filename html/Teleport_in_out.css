@@ -1,0 +1,47 @@
+.header {
+    justify-content: center;
+    display: flex;
+    border-bottom: 3px rgb(164, 10, 236) solid;
+}
+
+.text{
+    height: 210px;
+}
+.pic1{
+    float: left;
+    width:200px;
+}
+
+.t11{
+    margin: 0 600px 0 300px;
+    width: 200px;
+    height: 200px;
+}
+
+.t12{
+    float: right;
+    margin: -172px 400px -101px 501px;
+    width: 400px;
+    height: 200px;
+}
+
+.p_with_color{
+    color: blueviolet;
+    font-weight:bold;
+    font-size: 150%;
+}
+
+.t21{
+    float: left;
+    margin: 50px 400px 0 0;
+    width: 600px;
+    height: 200px;
+}
+
+.pic2{
+    float: right;
+    margin: -170px 0 0 0;
+    width:200px;
+   
+}
+
