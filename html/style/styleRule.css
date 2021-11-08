@@ -10,14 +10,21 @@
 }
 .imeges{
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
+	
 }
 .weak-wall1{
 	display: flex;
 	justify-content: space-around;
 	border-bottom: 5px #ccc solid
-
-.imeges1{
+}
+.imeges-text{
 	display: flex;
-	justify-content: far-right;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.description{
+	display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
