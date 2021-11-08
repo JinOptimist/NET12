@@ -1,0 +1,41 @@
+.header{
+
+display: flex;
+    justify-content: center;
+font-size: 60px;
+border-bottom: 8px #ccc double;
+}
+
+.firstcell
+{
+display: flex;
+	justify-content: space-between;
+    width: -webkit-fill-available;
+}
+
+.secondcell
+{
+display: flex;
+	justify-content: space-between;
+}
+
+.properties_puddle
+{
+font-size: 30px;
+}
+
+.properties_geyser
+{
+font-size: 30px;
+    width: -webkit-fill-available;
+}
+
+.description_puddle
+{
+font-size: 30px;
+}
+
+.description_geyser
+{
+font-size: 30px;
+}
