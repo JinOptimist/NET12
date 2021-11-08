@@ -9,13 +9,23 @@ namespace Net12
     class Program
     {
         static void Main(string[] args)
-        {        
+        {
+            //Console.WriteLine("Enter formula");
+            //var formulaString = Console.ReadLine();
+
+            //var calculator = new Formula();
+            //var answer = calculator.Calc(formulaString);
+
+            //Console.WriteLine($"Answer: {answer}");
+
+            MazeStuff();
+        }
+
+        private static void MazeStuff()
+        {
             var mazeBuilder = new MazeBuilder();
-
-            var maze = mazeBuilder.Build(10, 10, 10, 100);
-
+            var maze = mazeBuilder.Build(5, 5, 10, 100);
             var drawer = new MazeDrawer();
-
             while (true)
             {
                 drawer.Draw(maze);
@@ -39,6 +49,7 @@ namespace Net12
                     case ConsoleKey.S:
                         maze.HeroStep(Direction.Down);
                         break;
+                   
                     default:
                         break;
                 }

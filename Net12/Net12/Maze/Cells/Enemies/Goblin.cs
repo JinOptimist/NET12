@@ -34,6 +34,7 @@ namespace Net12.Maze.Cells.Enemies
         public override bool TryToStep()
         {
             Maze[X, Y] = new Coin(X, Y, Maze, 10);
+            Maze.Enemies.Remove(this);
             return true;
         }
 
