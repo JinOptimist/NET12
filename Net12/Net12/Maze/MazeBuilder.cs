@@ -43,9 +43,21 @@ namespace Net12.Maze
             BuildGeyser();
             BuildWallworm();
             BuildSlime();
-
+            BuildAgressiveEnemy();
             BuildWalker();
             return maze;
+        }
+
+        private void BuildAgressiveEnemy()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var agressiveEnemySpawn = GetRandom(grounds);
+            while (agressiveEnemySpawn.X == maze.Hero.X && agressiveEnemySpawn.Y == maze.Hero.Y)
+            {
+                agressiveEnemySpawn = GetRandom(grounds);
+            }            
+            var agressiveTroll = new AgressiveEnemy(agressiveEnemySpawn.X, agressiveEnemySpawn.Y, maze);
+            maze.Enemies.Add(agressiveTroll);
         }
 
         private void BuildGeyser()
