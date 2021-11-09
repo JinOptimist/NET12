@@ -19,5 +19,23 @@ namespace WebMaze.Controllers
 
             return View(model);
         }
+        public IActionResult Healer()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = true;
+            model.ImageUrl = "/img/healer.jpg";
+            model.Desc = "A kind doctor will help you to improve your health. But the money will take half of all. Come in with one coin in hand.";
+            return View(model);
+        }
+        public IActionResult Wallworm()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = true;
+            model.ImageUrl = "/img/worm.jpg";
+            model.Desc = "This worm lives in the wall and will help you make a hole in the wall. But do not yawn, he eats not only a wall but also a gold mine.";
+            return View(model);
+        }
     }
 }

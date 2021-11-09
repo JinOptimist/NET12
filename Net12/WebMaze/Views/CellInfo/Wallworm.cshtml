@@ -1,0 +1,14 @@
+﻿@model CellInfoViewModel
+
+<div>
+    <img src='@Model.ImageUrl' />
+    Can step: <input type="checkbox" checked="@(Model.CanStep ? " checked" : null)" disabled="disabled" />
+              <ul class="list">
+                  <li>Breaks down the walls.</li>
+                  <li>Destroys gold mines.</li>
+                  <li>Creates weak walls. </li>
+              </ul>
+</div>
+<div>
+    @Model.Desc
+</div>

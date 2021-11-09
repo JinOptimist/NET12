@@ -1,0 +1,13 @@
+﻿@model CellInfoViewModel
+
+<div>
+    <img src='@Model.ImageUrl' />
+    Can step: <input type="checkbox" checked="@(Model.CanStep ? " checked" : null)" disabled="disabled" />
+    <ul class="list">
+        <li>Cuts money in half. </li>
+        <li>Increases health to maximum. </li>
+    </ul>
+</div>
+<div>
+    @Model.Desc
+</div>
