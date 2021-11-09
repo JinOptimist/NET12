@@ -23,16 +23,30 @@ namespace WebMaze.Controllers
         {
             var model = new CellInfoViewModel();
 
-            //model.CanStep = false;
-            //model.ImageUrl = "/images/weakwall.jpg";
-            //model.Desc = "Netral cell. Weak wall";
+            model.CanStep = false;
+            model.ImageUrl = "/images/weakwall.jpg";
+            model.Desc = "";
 
             return View(model);
         }
 
+        public IActionResult CellInfo()
+        {
+            var model = new CellInfoViewModel();
 
+            return View(model);
+        }
 
+        public IActionResult AgressiveTroll()
+        {
+            var model = new CellInfoViewModel();
 
+            model.CanStep = false;
+            model.ImageUrl = "/images/";
+            model.Desc = "";
 
+            return View(model);
+
+        }
     }
 }
