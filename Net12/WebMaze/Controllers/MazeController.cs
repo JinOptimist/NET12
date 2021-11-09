@@ -29,13 +29,7 @@ namespace WebMaze.Controllers
 
             return View(model);
         }
-
-        public IActionResult CellInfo()
-        {
-            var model = new CellInfoViewModel();
-
-            return View(model);
-        }
+       
 
         public IActionResult AgressiveTroll()
         {
