@@ -1,10 +1,10 @@
 body
 {
     
-    background: url(img/007.jpg);
+    background: url(img/fon.jpg);
 }
 .block001{
-    background: url(img/007.jpg);
+    background: url(img/fon.jpg);
     border: 1px solid black;
     max-width: 1000px;
     height: 1000px;
