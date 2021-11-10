@@ -11,7 +11,7 @@
 }
 
 .block002 {
-    height: 100px;
+    height: 90px;
     border-bottom: 5px dashed #2f2a2a;
 }
 
@@ -27,7 +27,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 320px;
+    height: 300px;
 }
 
 .block003-1 {
@@ -41,8 +41,8 @@
 
 .block003-2 {
   
-    height: 130px;
-    width: 280px;
+    height: 120px;
+    width: 310px;
     border: 2px solid black;
     border-radius: 10px;
     background-color: white;
@@ -57,14 +57,7 @@
     padding: 13px;
 }
 
-.block003-4 {
-    height: 160px;
-    width: 160px;
-    border: 1px solid black;
-    border-radius: 10px;
-    background-image: url(img/healer.jpg);
-    background-size: cover;
-}
+
 
 .list {
     font-size: 18px;
@@ -74,8 +67,14 @@
     font-size: 20px;
     text-align: center;
 }
+.name {
+    margin-left: 100px;
+    margin-inline: 5px;
+    padding-left: 100px;
+    font-size: 35px;
+}
 
 .canStep {
-    margin: 100px;
+    margin-left: 100px;
     font-size: 28px;
 }
