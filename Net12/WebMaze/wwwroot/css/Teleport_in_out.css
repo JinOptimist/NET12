@@ -1,0 +1,39 @@
+.cell-info-contener > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.cell-info-contener h3, .cell-info-contener h1 {
+    color: blueviolet;
+}
+
+.cell-info-contener > div:first-child {
+    justify-content: center;
+    text-transform: uppercase;
+    border-bottom: 3px rgb(164, 10, 236) solid;
+}
+
+.cell-info-contener > div:last-child {
+    justify-content: space-evenly;
+}
+
+.cell-info-contener > div:last-child img {
+    width: 200px;
+    height: 200px;
+}
+
+.cell-info-contener > div:last-child > div {
+    flex-grow: 1;
+}
+
+.cell-info-contener.in > div:last-child > div:last-child {
+    flex-grow: 2;
+}
+
+.cell-info-contener.out > div:last-child > div:first-child {
+    flex-grow: 2;
+}
+
+
+
