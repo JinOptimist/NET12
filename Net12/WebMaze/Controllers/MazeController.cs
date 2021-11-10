@@ -19,7 +19,7 @@ namespace WebMaze.Controllers
 
             return View(model);
         }
-        public IActionResult Healer()
+        public IActionResult HealerYT()
         {
             var model = new CellInfoViewModel();
 

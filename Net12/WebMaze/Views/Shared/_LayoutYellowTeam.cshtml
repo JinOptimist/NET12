@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WebMaze</title>
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/siteYellowTeam.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
     @RenderSection("Scripts", required: false)
@@ -14,8 +14,9 @@
         Maze!!!
     </header>
     <div>
+        <img src='@Model.ImageUrl' />
         <a href="/CellInfo/Trap">Trap info</a>
-        <a href="/CellInfo/HealerYT">HealerYT info</a>
+        <a href="/Home/Index">Home</a>
         <a href="/CellInfo/Wallworm">Wallworm info</a>
     </div>
     <div class="container">
