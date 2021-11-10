@@ -1,4 +1,5 @@
-﻿using Net12.Maze;
+﻿using CoolFormulaString;
+using Net12.Maze;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,9 @@ namespace Net12
                     case ConsoleKey.S:
                         maze.HeroStep(Direction.Down);
                         break;
-                   
+                    case ConsoleKey.Spacebar:
+                        maze.HeroStep(Direction.Spacebar);
+                        break;
                     default:
                         break;
                 }

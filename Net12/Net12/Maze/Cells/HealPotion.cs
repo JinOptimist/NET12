@@ -6,7 +6,7 @@ namespace Net12.Maze
 {
     public class HealPotion : BaseCell
     {
-        public HealPotion(int x, int y, MazeLevel maze) : base(x, y, maze) { }
+        public HealPotion(int x, int y, IMazeLevel maze) : base(x, y, maze) { }
 
         public override bool TryToStep()
         {

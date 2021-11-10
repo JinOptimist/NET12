@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Net12.Maze
 {
-    class Healer : BaseCell
+    public class Healer : BaseCell
     {
-        public Healer(int x, int y, MazeLevel maze) : base(x, y, maze)
+        public Healer(int x, int y, IMazeLevel maze) : base(x, y, maze)
         {
             
         }
