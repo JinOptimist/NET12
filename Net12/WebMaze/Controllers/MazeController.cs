@@ -26,6 +26,8 @@ namespace WebMaze.Controllers
             model.CanStep = true;
             model.ImageUrl = "/img/healer.jpg";
             model.Desc = "A kind doctor will help you to improve your health. But the money will take half of all. Come in with one coin in hand.";
+            model.ShortDesc[0] = "Cuts money in half.";
+            model.ShortDesc[1] = "Increases health to maximum.";
             return View(model);
         }
         public IActionResult Wallworm()
