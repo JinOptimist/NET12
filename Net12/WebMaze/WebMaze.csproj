@@ -15,8 +15,4 @@
     <None Remove="wwwroot\Новая папка\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\images\" />
-  </ItemGroup>
-
 </Project>

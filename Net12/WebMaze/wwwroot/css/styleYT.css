@@ -1,0 +1,55 @@
+.block001 {
+    background: url(../images/fon.jpg);
+    border: 1px solid black;
+    max-width: 1000px;
+    height: 1000px;
+    margin: 0 auto;
+}
+.block002
+{
+   height: 100px;
+   border-bottom: 5px dashed #2f2a2a;
+}
+.rule
+{
+    display: flex;
+    justify-content: center;
+    align-items:center; 
+    font-family: Arial;
+    font-size: 60px;
+    
+    
+}
+.block003
+{
+ display: flex;
+ justify-content: space-around;
+ align-items:center;   
+ height: 300px;
+ 
+}
+.block003-1 {
+    
+    height: 200px;
+    width: 200px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-size: cover;
+}
+.block003-2
+{
+ height: 100px;
+ width: 230px;
+ border: 2px solid black;
+ border-radius: 10px;
+ background-color: white;
+}
+.block003-3
+{
+ height: 130px;
+ width: 380px;
+ border: 2px solid black; 
+ border-radius: 10px;
+ background-color: #e6b88d;
+ padding: 13px;
+}

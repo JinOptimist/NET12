@@ -1,19 +1,29 @@
 ﻿@model CellInfoViewModel
 
-<div class='Cells'>
-    <div class='imeges'>
-        <div>
-            <img width='200px;'
-                 height='200px;'
-                 src='/images/weakwall.jpg' />
+    <html>
+    <head>
+        <link rel="stylesheet" href="~/css/styleYT.css" />
+    </head>
+    <body>
+        <div class="block001">
+            <div class="block002">
+                <h1 class="rule">RULE</h1>
+            </div>
+            <div class="block003">
+                <div >
+                    <img class="block003-1" src='@Model.ImageUrl' />                    
+                </div>
+                <div class="block003-2">
+                    <ul class="list">
+                        <li> = 3.</li>
+                    </ul>
+                    <div>Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled" /> </div>
+                </div>
+                <div class="block003-3">
+                    <p class=text001> After three hits, it breaks and instead of it, earth appears. </p>
+                </div>
+            </div>
         </div>
-        <div class='imeges-text'>
-            <div>HP: Vitality=3</div>
-            <div>USE: You can destroy them </div>
-        </div>
-    </div>
-    <div class='description'>
-        A weak wall after three attempts to step on it breaks and earth appears in its place.
-    </div>
 
-</div>
+    </body>
+    </html>

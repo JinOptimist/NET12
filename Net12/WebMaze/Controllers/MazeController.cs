@@ -24,7 +24,7 @@ namespace WebMaze.Controllers
             var model = new CellInfoViewModel();
 
             model.CanStep = false;
-            model.ImageUrl = "/images/weakwall.jpg";
+            model.ImageUrl = "/images/Weakwall.jpg";
             model.Desc = "";
 
             return View(model);
@@ -36,8 +36,15 @@ namespace WebMaze.Controllers
             var model = new CellInfoViewModel();
 
             model.CanStep = false;
-            model.ImageUrl = "/images/";
+            model.ImageUrl = "/images/Troll.jpg";
             model.Desc = "";
+
+            return View(model);
+
+        }
+        public IActionResult CellsInfo()
+        {
+            var model = new CellInfoViewModel();
 
             return View(model);
 
