@@ -6,7 +6,7 @@ namespace Net12.Maze.Cells
 {
     public class Tavern : BaseCell
     {
-        public Tavern(int x, int y, MazeLevel maze) : base(x, y, maze) { }
+        public Tavern(int x, int y, IMazeLevel maze) : base(x, y, maze) { }
 
         public override bool TryToStep()
         {
