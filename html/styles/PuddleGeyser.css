@@ -1,53 +1,37 @@
-.header{
+.firstcell {
+        display: flex;
+        justify-content: space-between;
+    }
 
-display: flex;
-    justify-content: center;
-font-size: 60px;
-border-bottom: 8px #ccc double;
-}
+    .secondcell {
+        display: flex;
+        justify-content: space-between;
+    }
 
-.firstcell
-{
-display: flex;
-	justify-content: space-between;;
-}
+    .image_puddle {
+        padding: 20px;
+    }
 
-.secondcell
-{
-display: flex;
-	justify-content: space-between;;
-}
+    .image_geyser {
+        padding: 20px;
+    }
 
-.image_puddle
-{
-	padding: 20px;
-}
+    .properties_puddle {
+        padding: 20px;
+        font-size: 30px;
+    }
 
-.image_geyser
-{
-	padding: 20px;
-}
+    .properties_geyser {
+        padding: 20px;
+        font-size: 30px;
+    }
 
-.properties_puddle
-{
-	padding: 20px;
-font-size: 30px;
-}
+    .description_puddle {
+        padding: 20px;
+        font-size: 30px;
+    }
 
-.properties_geyser
-{
-	padding: 20px;
-font-size: 30px;
-}
-
-.description_puddle
-{
-	padding: 20px;
-font-size: 30px;
-}
-
-.description_geyser
-{
-font-size: 30px;
-padding: 20px;
-}
+    .description_geyser {
+        font-size: 30px;
+        padding: 20px;
+    }

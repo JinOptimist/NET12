@@ -1,0 +1,21 @@
+.allContent {
+    display: flex;
+    justify-content: space-between;
+}
+    .image {
+        padding: 20px;
+    }
+
+
+    .properties {
+        padding: 20px;
+        font-size: 30px;
+        width:stretch;
+    }
+
+
+    .description {
+        padding: 20px;
+        font-size: 30px;
+    }
+
