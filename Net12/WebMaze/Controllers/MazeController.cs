@@ -27,6 +27,7 @@ namespace WebMaze.Controllers
             model.CanStep = true;
             model.ImageUrl = "/images/Fountain.jpg";
             model.Desc = "Fountain";
+            //model.Desc[0] = "Hello";
 
             return View(model);
         }
@@ -38,11 +39,12 @@ namespace WebMaze.Controllers
             model.CanStep = true;
             model.ImageUrl = "/images/Coin.jpg";
             model.Desc = "Coin";
+            //model.Desc[0] = "Hello";
 
             return View(model);
         }
 
-
+        
 
     }
 }
