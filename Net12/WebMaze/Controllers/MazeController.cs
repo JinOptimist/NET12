@@ -19,5 +19,30 @@ namespace WebMaze.Controllers
 
             return View(model);
         }
+
+        public IActionResult Fountain()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = true;
+            model.ImageUrl = "/images/Fountain.jpg";
+            model.Desc = "Fountain";
+
+            return View(model);
+        }
+
+        public IActionResult Coin()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = true;
+            model.ImageUrl = "/images/Coin.jpg";
+            model.Desc = "Coin";
+
+            return View(model);
+        }
+
+
+
     }
 }
