@@ -9,8 +9,8 @@
 
 .Picture
 {
-	filter: contrast(0.9);
-	margin: 40px
+	filter: contrast(1);
+	margin: 40px;
 }
 
 .Bed

@@ -1,13 +1,13 @@
 ﻿<div class='Bed'>
     <div class='Picture'>
-        <img width='240px' src='@Model.ImageUrl' />
+        <img src='@Model.ImageUrl'/>
     </div>
     <div class='BedRemainder'>
         <div>
-            Fatigue decreases to zero.
+            @Model.Remainder
         </div>
-        <div>
-            Use:
+        <div class='Use'>
+            @Model.Use
         </div>
     </div>
     <div class='BedDescription'>

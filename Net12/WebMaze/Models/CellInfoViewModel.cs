@@ -9,6 +9,8 @@ namespace WebMaze.Models
     {
         public string ImageUrl { get; set; }
         public string Desc { get; set; }
+        public string Remainder { get; set; }
+        public string Use { get; set; }
         public bool CanStep { get; set; }
     }
 }

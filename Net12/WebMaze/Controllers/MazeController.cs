@@ -26,6 +26,8 @@ namespace WebMaze.Controllers
             model.CanStep = true;
             model.ImageUrl = "/images/Bed.png";
             model.Desc = "Hero is getting tired while he is walking. You'll lost if Hero's fatigue reached a maximum value. Use the bed just not to be wasted.";
+            model.Remainder = "Fatigue decreases to zero.";
+            model.Use = "Use: once.";
 
             return View(model);
         }
@@ -36,6 +38,8 @@ namespace WebMaze.Controllers
             model.CanStep = true;
             model.ImageUrl = "/images/Goblin.png";
             model.Desc = "Goblin always rans off when Hero gets closer to him. Drive Goblin into a corner and grab him to get coins.";
+            model.Remainder = "Hero will get great deal of money, but catch me first.";
+            model.Use = "Use: once.";
 
             return View(model);
         }

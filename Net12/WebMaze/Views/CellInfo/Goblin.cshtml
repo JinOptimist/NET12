@@ -1,13 +1,13 @@
 ﻿<div class='Goblin'>
     <div class='Picture'>
-        <img width='200px;' src=@Model.ImageUrl />
+        <img src=@Model.ImageUrl />
     </div>
     <div class='GoblinRemainder'>
         <div>
-            Hero will get great deal of money, but catch me first.
+            @Model.Remainder
         </div>
-        <div>
-            Use:
+        <div class='Use'>
+            @Model.Use
         </div>
     </div>
     <div class='GoblinDescription'>

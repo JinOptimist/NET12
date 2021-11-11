@@ -1,27 +1,30 @@
 /* .Main-content */
 /* { */
-
-/* flex-wrap: wrap; */
-/* height: 80%; */
-/* width: 80%; */
-/* background: green;  */
+	
+	/* flex-wrap: wrap; */
+	/* height: 80%; */
+	/* width: 80%; */
+	/* background: green;  */
 /* } */
 
-.Rule {
+.Rule
+{
 	display: flex;
 	justify-content: center;
 	font-size: 80px;
 	border-bottom: dashed;
-	margin: 40px;
+	margin: 40px;	
 }
 
-.Picture img {
+.Picture img
+{
 	width: 300px;
 	filter: contrast(1);
 	margin: 40px;
 }
 
-.Bed {
+.Bed
+{
 	display: flex;
 	justify-content: space-around;
 	border-bottom: 1px solid;
@@ -29,21 +32,24 @@
 	margin-right: 40px;
 }
 
-.BedRemainder {
+.BedRemainder 
+{
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	font-size: 25px;
+	justify-content: center;	
+	font-size: 25px;	
 }
 
-.BedDescription {
+.BedDescription
+{
 	display: flex;
 	font-size: 19px;
 	align-items: center;
 	margin: 40px
 }
 
-.Goblin {
+.Goblin
+{
 	display: flex;
 	justify-content: space-around;
 	flex-direction: row-reverse;
@@ -52,14 +58,17 @@
 	margin-right: 40px;
 }
 
-.GoblinRemainder {
+.GoblinRemainder 
+{
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: center;	
 	font-size: 25px;
+	
 }
 
-.GoblinDescription {
+.GoblinDescription
+{
 	display: flex;
 	font-size: 19px;
 	align-items: center;
