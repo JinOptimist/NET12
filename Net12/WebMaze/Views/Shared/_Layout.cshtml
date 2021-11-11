@@ -11,25 +11,28 @@
     @RenderSection("Scripts", required: false)
 </head>
 <body>
-    <header>
+      <header>
         Maze!!!
     </header>
-   <div>
-       <div class="List-of-cells">
-           <div>
-               <a href="/CellInfo/Trap">Trap info</a>
-           </div>
-           <div>
-               <a href="/CellInfo/CellsInfo">Cells info</a>
-           </div>
+    <div>
+        <div>
+            <div>
+                <a href="/CellInfo/Trap">Trap info</a>
+            </div>
+            <div>
+                <a href="/CellInfo/AgressiveTroll">Agressive troll info</a>
+            </div>
+            <div>
+                <a href="/CellInfo/WeakWall">Weak wall info</a>
+            </div>
 
-       </div>
+        </div>
         <div class="container">
             <div>
                 @RenderBody()
             </div>
-       </div>
-   </div>
+        </div>
+    </div>
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - WebMaze

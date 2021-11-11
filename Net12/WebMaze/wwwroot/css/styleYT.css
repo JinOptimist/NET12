@@ -1,3 +1,4 @@
+
 .block001 {
     background: url(../images/fon.jpg);
     border: 1px solid black;
@@ -10,15 +11,15 @@
    height: 100px;
    border-bottom: 5px dashed #2f2a2a;
 }
-.rule
-{
+.rule {
+    color: #9d3a1d;
     display: flex;
     justify-content: center;
-    align-items:center; 
-    font-family: Arial;
-    font-size: 60px;
-    
-    
+    align-items: center;
+    font-family: Chiller;
+    font-size: 90px;
+   
+
 }
 .block003
 {

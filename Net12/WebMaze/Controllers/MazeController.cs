@@ -42,12 +42,6 @@ namespace WebMaze.Controllers
             return View(model);
 
         }
-        public IActionResult CellsInfo()
-        {
-            var model = new CellInfoViewModel();
-
-            return View(model);
-
-        }
+        
     }
 }

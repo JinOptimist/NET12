@@ -59,8 +59,8 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    background: url(../images/fon.jpg);
+    margin-bottom: 60px;
 }
 .footer {
   position: absolute;
