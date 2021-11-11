@@ -68,13 +68,16 @@ namespace Net12
 
         public void Draw(MazeLevel maze)
         {
-            Console.Clear();
+
+            Console.SetCursorPosition(0, 0);
             Console.WriteLine(maze.Message);
+            Console.CursorVisible = false;
 
             for (int y = 0; y < maze.Height; y++)
             {
                 for (int x = 0; x < maze.Width; x++)
                 {
+                    Console.SetCursorPosition(x, y + 1);
                     var cell = maze.GetCellOrUnit(x, y);
 
                     var symbol = GetSymbolByCellType(cell);
@@ -96,12 +99,25 @@ namespace Net12
 
                 }
 
+
                 Console.WriteLine();
             }
 
+            Console.SetCursorPosition(0, maze.Height);
+            Console.WriteLine(new string(' ', 100));
+            Console.SetCursorPosition(0, maze.Height);
             Console.WriteLine($"\nMoney :{ maze.Hero.Money}");
+
+            Console.SetCursorPosition(0, maze.Height + 2);
+            Console.WriteLine(new string(' ', 100));
+            Console.SetCursorPosition(0, maze.Height + 2);
             Console.WriteLine($"Fatigue: {maze.Hero.CurrentFatigue}/{maze.Hero.MaxFatigue}");
+
+            Console.SetCursorPosition(0, maze.Height + 3);
+            Console.WriteLine(new string(' ', 100));
+            Console.SetCursorPosition(0, maze.Height + 3);
             Console.WriteLine($"HP: {maze.Hero.Hp}");
+
         }
 
         private string GetSymbolByCellType(IBaseCell cell)
@@ -148,3 +164,4 @@ namespace Net12
         }
     }
 }
+
