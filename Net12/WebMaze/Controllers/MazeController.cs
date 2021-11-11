@@ -25,7 +25,8 @@ namespace WebMaze.Controllers
 
             model.CanStep = false;
             model.ImageUrl = "/images/Weakwall.jpg";
-            model.Desc = "";
+            model.Desc = "After three hits, it breaks and instead of it, earth appears";
+            model.ShortDesc[0] = "Strength = 3.";
 
             return View(model);
         }
@@ -37,11 +38,23 @@ namespace WebMaze.Controllers
 
             model.CanStep = false;
             model.ImageUrl = "/images/Troll.jpg";
+            model.Desc = "Aggressive troll tries to catch up with the hero";
+            model.ShortDesc[0] = "Enemy.";
+
+            return View(model);
+
+        }
+        public IActionResult CellsInfo()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.ImageUrl = "";
             model.Desc = "";
 
             return View(model);
 
         }
-        
+
     }
 }

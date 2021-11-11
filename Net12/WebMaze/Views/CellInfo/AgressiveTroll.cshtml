@@ -1,8 +1,12 @@
 ﻿@model CellInfoViewModel
+@{
+    Layout = "_LayoutYellowTeam";
+}
+
 
 <html>
 <head>
-    <link rel="stylesheet" href="~/css/styleYT.css" />
+    <link rel="stylesheet" href="~/css/styleYellowTeam.css" />
 </head>
 <body>
     <div class="block001">
@@ -12,18 +16,24 @@
         <div class="block003">
             <div>
                 <img class="block003-1" src='@Model.ImageUrl' />
+                <div class="name">
+                    <text class=" name001">Agressive troll</text>
+                </div>
             </div>
             <div class="block003-2">
                 <ul class="list">
-                    <li>Enemy.</li>
+                    <li>@Model.ShortDesc[0]</li>
                 </ul>
             </div>
             <div class="block003-3">
                 <p class=text001> Aggressive troll tries to catch up with the hero </p>
             </div>
         </div>
-        <div>Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled" /> </div>
+        <div class=" canStep"> 
+        Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled" /> 
+        </div>
     </div>
+
 
 </body>
 </html>
