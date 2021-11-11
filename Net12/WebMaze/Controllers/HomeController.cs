@@ -86,7 +86,11 @@ namespace WebMaze.Controllers
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             foreach(var users in _webContext.Reviews)
             {
-
+                var fbuser = new FeedBackUserViewModel()
+                {
+                    UserName = users.Name,
+                    TextInfo = users.Text
+                };
             }
             return View();
         }
