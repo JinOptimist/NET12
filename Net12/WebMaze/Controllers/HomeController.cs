@@ -86,13 +86,14 @@ namespace WebMaze.Controllers
         public IActionResult Reviews()
         {
             var FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Name, TextInfo = rev.Text }).ToList();
-            return View();
+            return View(FeedBackUsers);
         }
 
         [HttpPost]
-        public IActionResult Reviews()
+        public IActionResult Reviews(Review review)
         {
-            var FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Name, TextInfo = rev.Text }).ToList();
+            _webContext.Add(review);
+            _webContext.SaveChanges();
             return View();
         }
 
