@@ -1,0 +1,12 @@
+﻿@model int
+
+    <div>
+        <form action="/Home/Sum" method="post">
+            <input type="number" name="x" placeholder="x" />
+            <input type="number" name="y" placeholder="y" />
+            <input type="submit" value="Calc" />
+        </form>
+    </div>
+<div>
+    Sum = @Model
+</div>
