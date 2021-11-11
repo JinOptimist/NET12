@@ -1,0 +1,50 @@
+hr{
+    border-style: dashed;
+}
+
+h1{
+    position: relative;
+    text-align: center;
+}
+
+.MainDiv{
+    width: 800px;
+    height: 500px;
+    border: 2px;
+    border-style: solid;
+    border-color: black;
+
+}
+
+.WolfPitFlexbox{
+    
+    margin-left: 3%;
+    margin-right: 3%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.WolfPitIcon{
+    width: 628px;
+    height: 418px;
+}
+
+.WolfPitDescription{
+    
+}
+
+.ShortDescriptionWP{
+    
+}
+
+.CoinFlexbox{
+    margin-left: 3%;
+    margin-right: 3%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.CoinIcon {
+    width: 528px;
+    height: 528px;
+}

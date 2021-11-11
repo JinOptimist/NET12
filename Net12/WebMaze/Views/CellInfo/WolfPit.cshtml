@@ -1,0 +1,19 @@
+﻿@model CellInfoViewModel
+
+<div class="WolfPitFlexbox">
+    <img src='@Model.ImageUrl' alt="WolfPitIcon" class="WolfPitIcon" />
+    <article class="ShortDescriptionWP">
+        <ul>
+            <li>
+                hp: @Model.HP
+            </li>
+
+            <li>
+                multiplicity: @Model.Multiplicity
+            </li>
+        </ul>
+    </article>
+    <article class="WolfPitDescription">
+        <p>If you step on wolf pit, you lose 1 h.p.</p>
+    </article>
+</div>

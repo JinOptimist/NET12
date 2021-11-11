@@ -1,0 +1,20 @@
+﻿@model CellInfoViewModel
+
+    <div class="CoinFlexbox">
+        <img src='@Model.ImageUrl' alt="CoinIcon" class="CoinIcon">
+        <article class="ShortDescriptionCoin">
+            <ul>
+                <li>
+                    money: + @Model.Money
+                </li>
+
+                <li>
+                    multiplicity: @Model.Multiplicity
+                </li>
+            </ul>
+        </article>
+        <article class="CoinDescription">
+            <p>If you step on coin, your money increases by 1</p>
+        </article>
+    </div>
+
