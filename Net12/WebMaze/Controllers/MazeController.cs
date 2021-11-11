@@ -9,6 +9,7 @@ namespace WebMaze.Controllers
 {
     public class MazeController : Controller
     {
+      
         public IActionResult Index(int width, int height)
         {
             var mazeBuilder = new MazeBuilder();
