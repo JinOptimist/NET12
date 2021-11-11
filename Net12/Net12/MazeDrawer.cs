@@ -38,6 +38,7 @@ namespace Net12
                 { typeof(Wallworm), "W"},
                 { typeof(Geyser), "G"},
                 { typeof(Slime), "☺"},
+                { typeof(Goblin), "g"},
             };
 
         private Dictionary<Type, ConsoleColor> ColorSymbolDictionary =
