@@ -12,7 +12,7 @@ namespace Net12.Maze
         private MazeLevel maze;
         private Random random = new Random();
 
-        public MazeLevel Build(int width, int height, int hp, int maxHp)
+        public MazeLevel Build(int width, int height, int hp, int maxHp, bool onlyWall = false)
         {
             maze = new MazeLevel();
 
@@ -24,27 +24,31 @@ namespace Net12.Maze
 
             BuildWall();
             BuildGround();
-            BuildWolfPit();
-            BuildGoldMine();
-            BuildBed();
-            BuildPudder();
-            BuildVitalityPotion();
-            BuildHealPotion();
-            BuildTeleport();
-            BuildHeler();
-            BuildCoin();
-            BuildWeakWalls();
-            BuildTavern();
-            BuildBless();
-            BuildTrap();
-            BuildFountain();
-            BuildBed();
-            BuildBullEnemy();
-            BuildGeyser();
-            BuildWallworm();
-            BuildSlime();
 
-            BuildWalker();
+            if (!onlyWall)
+            {
+                BuildWolfPit();
+                BuildGoldMine();
+                BuildBed();
+                BuildPudder();
+                BuildVitalityPotion();
+                BuildHealPotion();
+                BuildTeleport();
+                BuildHeler();
+                BuildCoin();
+                BuildWeakWalls();
+                BuildTavern();
+                BuildBless();
+                BuildTrap();
+                BuildFountain();
+                BuildBed();
+                BuildBullEnemy();
+                BuildGeyser();
+                BuildWallworm();
+                BuildSlime();
+                BuildWalker();
+            }
+           
             return maze;
         }
 
