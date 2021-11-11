@@ -27,6 +27,7 @@ namespace WebMaze.Controllers
             model.ImageUrl = "/images/Weakwall.jpg";
             model.Desc = "After three hits, it breaks and instead of it, earth appears";
             model.ShortDesc[0] = "Strength = 3.";
+            model.ShortDesc[1] = "Can be destroyed.";
 
             return View(model);
         }
