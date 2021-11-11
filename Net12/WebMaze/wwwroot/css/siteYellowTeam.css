@@ -27,7 +27,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 300px;
+    height: 350px;
 }
 
 .block003-1 {
@@ -57,8 +57,6 @@
     padding: 13px;
 }
 
-
-
 .list {
     font-size: 18px;
 }
@@ -67,10 +65,14 @@
     font-size: 20px;
     text-align: center;
 }
+
 .name {
-    margin-left: 100px;
-    margin-inline: 5px;
-    padding-left: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.name001 {
     font-size: 35px;
 }
 

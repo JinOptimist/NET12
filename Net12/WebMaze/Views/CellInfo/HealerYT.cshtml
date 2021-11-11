@@ -10,6 +10,10 @@
     <div class="block003">
         <div>
             <img class="block003-1" src='@Model.ImageUrl' />
+            <div class="name">
+               <text class="name001">Healer</text>
+            </div>
+
         </div>
         <div class="block003-2">
             <ul class="list">
@@ -23,11 +27,7 @@
 
 
     </div>
-    <div >
-        <h2 class="name">
-        Healer
-        </h2>
-    </div>
+
     <div class="canStep">
 
         Can step: <input type="checkbox" checked="@(Model.CanStep ? " checked" : null)" disabled="disabled" />
