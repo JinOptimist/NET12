@@ -81,18 +81,20 @@ namespace WebMaze.Controllers
             return View(model);
         }
 
+
+        [HttpGet]
         public IActionResult Reviews()
         {
-            var FeedBackUsers = new List<FeedBackUserViewModel>();
-            foreach(var users in _webContext.Reviews)
-            {
-                var fbuser = new FeedBackUserViewModel()
-                {
-                    UserName = users.Name,
-                    TextInfo = users.Text
-                };
-            }
+            var FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Name, TextInfo = rev.Text }).ToList();
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Reviews()
+        {
+            var FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Name, TextInfo = rev.Text }).ToList();
+            return View();
+        }
+
     }
 }
