@@ -11,24 +11,21 @@
    height: 100px;
    border-bottom: 5px dashed #2f2a2a;
 }
-.rule {
-    color: #9d3a1d;
+.rule {    
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: Chiller;
-    font-size: 90px;
+    font-family: Arial;
+    font-size: 60px;
 }
 .block003
 {
  display: flex;
  justify-content: space-around;
  align-items:center;   
- height: 300px;
- 
+ height: 300px; 
 }
-.block003-1 {
-    
+.block003-1 {    
     height: 200px;
     width: 200px;
     border: 2px solid black;
@@ -51,4 +48,12 @@
  border-radius: 10px;
  background-color: #e6b88d;
  padding: 13px;
+}
+.list {
+    font-size: 18px;
+}
+.text001 {
+    
+    font-size: 20px;
+    text-align: center;
 }
