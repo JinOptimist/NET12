@@ -21,5 +21,18 @@ namespace WebMaze.Controllers
             var smile = DateTime.Now.Second;
             return View(smile);
         }
+
+        [HttpGet]
+        public IActionResult Sum()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Sum(int x, int y)
+        {
+            var model = x + y;
+            return View(model);
+        }
     }
 }
