@@ -80,5 +80,15 @@ namespace WebMaze.Controllers
             var model = x + y;
             return View(model);
         }
+
+        public IActionResult Reviews()
+        {
+            var FeedBackUsers = new List<FeedBackUserViewModel>();
+            foreach(var users in _webContext.Reviews)
+            {
+
+            }
+            return View();
+        }
     }
 }
