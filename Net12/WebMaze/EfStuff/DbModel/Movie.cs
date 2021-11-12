@@ -13,5 +13,6 @@ namespace WebMaze.EfStuff.DbModel
         public int release { get; set; }
         public string Link { get; set; }
 
+
     }
 }
