@@ -1,5 +1,5 @@
 ﻿@model List<SuggestedEnemysViewModel>
-    <link rel="stylesheet" href="~/css/site.css" />
+   
 <div class="text-center">
     <div>
     SUGGESTED ENEMYS
@@ -9,17 +9,17 @@
         @foreach (var suggestedEnemys in Model)
         {
         <div class="suggested-enemy">
-            <div>
-                <div>
+            <div class="suggested-enemy-1">
+                <div class="suggested-enemy-2">
                     @suggestedEnemys.Name
                 </div>
-                <div>
+                <div class="suggested-enemy-3">
                     @suggestedEnemys.Description
                 </div>
                 
             </div>
-            <div class="block003-1">
-                <img src='@suggestedEnemys.Url' />
+            <div >
+                <img src=:'@suggestedEnemys.Url' />
             </div>
         </div>
         }

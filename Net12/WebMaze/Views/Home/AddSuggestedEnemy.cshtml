@@ -1,9 +1,12 @@
 ﻿@model SuggestedEnemysViewModel
 
 <div class="text-center">
+    <div>
+       ADD SUGGESTED ENEMYS
+    </div>
     <form action="/Home/AddSuggestedEnemy" method="post">
         <div>
-            Name @Html.TextBoxFor(x => x.Name)
+            Enemy name @Html.TextBoxFor(x => x.Name)
         </div>
         <div>
             Image @Html.TextBoxFor(x => x.Url, new { @placeholder = "url" })

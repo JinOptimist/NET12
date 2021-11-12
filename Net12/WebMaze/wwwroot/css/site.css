@@ -12,7 +12,7 @@
     color: red;
 }
 .text-center {
-    display: flex;
+    
     justify-content: center;
 }
 .suggested-enemy {
@@ -20,10 +20,18 @@
     justify-content: space-around;
     align-items: center;
 }
-.block003-1 {
-    height: 260px;
-    width: 260px;
-    border: 2px solid black;
-    border-radius: 10px;
-    background-image: url('@Model.ImageUrl');
-    background-size: cover;
+.suggested-enemy-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.suggested-enemy-2 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.suggested-enemy-3 {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
