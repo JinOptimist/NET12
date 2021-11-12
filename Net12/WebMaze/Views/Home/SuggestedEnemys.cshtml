@@ -1,0 +1,28 @@
+﻿@model List<SuggestedEnemysViewModel>
+    <link rel="stylesheet" href="~/css/site.css" />
+<div class="text-center">
+    <div>
+    SUGGESTED ENEMYS
+    </div>
+    
+    <div>
+        @foreach (var suggestedEnemys in Model)
+        {
+        <div class="suggested-enemy">
+            <div>
+                <div>
+                    @suggestedEnemys.Name
+                </div>
+                <div>
+                    @suggestedEnemys.Description
+                </div>
+                
+            </div>
+            <div class="block003-1">
+                <img src='@suggestedEnemys.Url' />
+            </div>
+        </div>
+        }
+    </div>
+    
+</div>
