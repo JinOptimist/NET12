@@ -26,12 +26,12 @@ namespace WebMaze.Controllers
             model.CanStep = false;
             model.ImageUrl = "/images/Weakwall.jpg";
             model.Desc = "After three hits, it breaks and instead of it, earth appears";
-            model.ShortDesc[0] = "Strength = 3.";
-            model.ShortDesc[1] = "Can be destroyed.";
+            model.ShortsDescriptions.Add("Strength = 3.");
+            model.ShortsDescriptions.Add("Can be destroyed.");
 
             return View(model);
         }
-       
+
 
         public IActionResult AgressiveTroll()
         {
@@ -40,11 +40,11 @@ namespace WebMaze.Controllers
             model.CanStep = false;
             model.ImageUrl = "/images/Troll.jpg";
             model.Desc = "Aggressive troll tries to catch up with the hero";
-            model.ShortDesc[0] = "Enemy.";
+            model.ShortsDescriptions.Add("Enemy.");
 
             return View(model);
 
         }
-       
+
     }
 }

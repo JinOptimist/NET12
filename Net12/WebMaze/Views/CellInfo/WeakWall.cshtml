@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <link rel="stylesheet" href="~/css/styleYellowTeam.css" />
+    <link rel="stylesheet" href="~/css/stileYellowTeam.css" />
 </head>
 <body>
     <div class="block001">
@@ -21,20 +21,19 @@
             </div>
             <div class="block003-2">
                 <ul class="list">
-                    <li>@Model.ShortDesc[0]</li>
-                    <li>@Model.ShortDesc[1]</li>
+                    <li>@Model.ShortsDescriptions.ElementAt(0)</li>
+                    <li>@Model.ShortsDescriptions.ElementAt(1)</li>
                 </ul>
-                <div>Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled" /> </div>
             </div>
             <div class="block003-3">
                 <p class=text001> @Model.Desc </p>
             </div>
         </div>
-        
-        <div class=" canStep"> 
-        Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled" /> 
+
+        <div class=" canStep">
+            Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled" />
         </div>
-    
+
     </div>
 
 </body>
