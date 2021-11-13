@@ -1,0 +1,61 @@
+﻿@model List<NewsViewModel>
+
+<div class="text-center">
+    <h1>NEWS</h1>
+</div>
+
+<div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>
+                    <span>Title</span>
+                </th>
+                <th>
+                    <span>Text</span>
+                </th>
+                <th>
+                    <span>Location</span>
+                </th>
+                <th>
+                    <span>Date of new</span>
+                </th>
+                <th>
+                    <span>Name of athor</span>
+                </th>
+                <th>
+                    <span>Date now</span>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>
+                        @item.Text
+                    </td>
+
+                    <td>
+                        @item.Location
+                    </td>
+                    <td>
+                        @item.DateOfNew
+                    </td>
+                    <td>
+                        @item.NameOfAthor
+                    </td>
+                    <td>
+                        @item.DatNow
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a href="/News/AddNew" style="color:red; font-size:x-large">ADD NEW</a>
+</div>
