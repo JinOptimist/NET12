@@ -88,7 +88,7 @@ namespace WebMaze.Controllers
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             if (_webContext.Reviews.Any())
             {
-                FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Name, TextInfo = rev.Text }).ToList();
+                FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Name, TextInfo = rev.Text , Rate = rev.Rate}).ToList();
             }
 
                 return View(FeedBackUsers);

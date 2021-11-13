@@ -8,7 +8,7 @@ namespace WebMaze.Models
     public class FeedBackUserViewModel
     {
         public string UserName { get; set; }
-
+        public int Rate { get; set; }
         public string TextInfo { get; set; }
     }
 }
