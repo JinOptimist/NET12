@@ -1,13 +1,13 @@
-﻿.review{
-    display: flex;
-    flex-direction: column;
-}
-.name-review{
+﻿.reviews-all {
     
-    margin-left: 100px;
 }
 
-.text-review{
-    margin-left: auto;
-    margin-right:auto;
+
+.text-review {
+    
 }
+
+.reviews-all :nth-child(even) {
+
+}
+
