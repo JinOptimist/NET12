@@ -1,0 +1,32 @@
+﻿@model MazeDifficultProfileViewModel
+
+<div class="text-center">
+    <form method="post">
+        <div class="add-maze-difficult">
+            <div>
+                Name: @Html.TextBoxFor(x => x.Name)
+            </div>
+            <div>
+                Width: @Html.TextBoxFor(x => x.Width)
+            </div>
+            <div>
+                Height: @Html.TextBoxFor(x => x.Height)
+            </div>
+            <div>
+                HeroMoney: @Html.TextBoxFor(x => x.HeroMoney)
+            </div>
+            <div>
+                HeroMaxHp: @Html.TextBoxFor(x => x.HeroMaxHp)
+            </div>
+            <div>
+                HeroMaxFatigue: @Html.TextBoxFor(x => x.HeroMaxFatigue)
+            </div>
+            <div>
+                CoinCount: @Html.TextBoxFor(x => x.CoinCount)
+            </div>
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+</div>

@@ -38,6 +38,8 @@ namespace WebMaze.Controllers
             var dbMazeDifficult = new MazeDifficultProfile()
             {
                 Name = mazeDifficultProfileViewModel.Name,
+                Width = mazeDifficultProfileViewModel.Width,
+                Height = mazeDifficultProfileViewModel.Height,
                 HeroMoney = mazeDifficultProfileViewModel.HeroMoney,
                 HeroMaxHp = mazeDifficultProfileViewModel.HeroMaxHp,
                 HeroMaxFatigue = mazeDifficultProfileViewModel.HeroMaxFatigue,
@@ -48,6 +50,25 @@ namespace WebMaze.Controllers
             _webContext.SaveChanges();
 
             return View();
+        }
+
+        public IActionResult ManageMazeDifficult()
+        {
+            var mazeDifficultProfileViewModels = new List<MazeDifficultProfileViewModel>();
+            foreach(var dbMazeDifficult in _webContext.MazeDifficultProfiles)
+            {
+                var mazeDifficultProfileViewModel = new MazeDifficultProfileViewModel();
+                mazeDifficultProfileViewModel.Name = dbMazeDifficult.Name;
+                mazeDifficultProfileViewModel.Width = dbMazeDifficult.Width;
+                mazeDifficultProfileViewModel.Height = dbMazeDifficult.Height;
+                mazeDifficultProfileViewModel.HeroMoney = dbMazeDifficult.HeroMoney;
+                mazeDifficultProfileViewModel.HeroMaxHp = dbMazeDifficult.HeroMaxHp;
+                mazeDifficultProfileViewModel.HeroMaxFatigue = dbMazeDifficult.HeroMaxFatigue;
+                mazeDifficultProfileViewModel.CoinCount = dbMazeDifficult.CoinCount;
+                mazeDifficultProfileViewModels.Add(mazeDifficultProfileViewModel);
+            }
+
+            return View(mazeDifficultProfileViewModels);
         }
 
     }

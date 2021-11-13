@@ -11,3 +11,17 @@
 .poor {
     color: red;
 }
+
+.add-maze-difficult {
+    width: min-content;
+    margin: 10px;
+}
+
+.manage-maze-difficult {
+    display: flex;
+    padding: 10px;
+}
+
+    .manage-maze-difficult div {
+        margin-right: 10px;
+    }

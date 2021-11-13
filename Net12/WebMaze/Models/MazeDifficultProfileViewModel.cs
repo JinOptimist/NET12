@@ -8,6 +8,8 @@ namespace WebMaze.Models
     public class MazeDifficultProfileViewModel
     {
         public string Name { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
         public int HeroMoney { get; set; }
         public int HeroMaxHp { get; set; }
         public int HeroMaxFatigue { get; set; }
