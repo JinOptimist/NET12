@@ -99,7 +99,13 @@ namespace WebMaze.Controllers
         {
             _webContext.Add(review);
             _webContext.SaveChanges();
-            return View();
+
+            var FeedBackUsers = new List<FeedBackUserViewModel>();
+            if (_webContext.Reviews.Any())
+            {
+                FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Name, TextInfo = rev.Text, Rate = rev.Rate }).ToList();
+            }
+            return View(FeedBackUsers);
         }
 
     }

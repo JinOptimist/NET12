@@ -4,63 +4,64 @@
 <div class="reviews-all">
 
     @{
-        foreach (var item in new int[] { 1, 2, 3 })
+        if(Model.Any())
+        foreach (var item in Model)
         {
 
             <div class="review">
 
                 <div class="rname-ico">
-                    <img src="https://icdn.lenta.ru/images/2021/04/27/16/20210427163138131/square_320_c09ebae17387b7d6eeb9fa0d42afe5ee.jpg" />
+                    <img src="https://media.pn.am/media/issue/197/297/photo/197297.jpg" />
                 </div>
                 <div class="rname-ico-text">
                     <div>
-                        My name:
+                        Name: @item.UserName
                     </div>
-                    <div class="rname-ico-text-rate">
-                        <> <> <>
+                    <div>
+                        @{ if (item.Rate > 5)
+                            {
+                                <div>Rating: 5</div>
+                            }
+                            else if (item.Rate <= 0)
+                            {
+                                <div>Rating: 1</div>
+                            }
+                            else
+                            {
+                                <div>Rating: @item.Rate</div>
+                            }
+                        }
                     </div>
                 </div>
                 <div class="rate-text">
-                    PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB
-                    PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB
+                    @item.TextInfo
                 </div>
 
             </div>
 
         }
     }
-
-    <div class="rate-put">
-        <form>
+</div>
+    <div style="margin-top: 3%;">
+        <form action="/Home/Reviews" method="post" class="rate-put">
             <div>Оставить отзыв</div>
             <div>
                 <div>
-                    <input type="text" placeholder="Name" />
+                    <input type="text" placeholder="Name" name="Name" />
                 </div>
                 <div>
-                    <input type="number" placeholder="Age" />
+                    <input type="number" placeholder="Age" name="Age" />
                 </div>
                 <div>
-                    <select>
-                        <option disabled="disabled" selected>Rating</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
+                    <input type="number" placeholder="Rate" name="Rate" />
                 </div>
                 <div>
-                    <textarea></textarea>
+                    <textarea name="Text"></textarea>
                 </div>
                 <div>
-                    <input type="submit" />
+                    <input type="submit" value="Отправить" />
                 </div>
             </div>
         </form>
     </div>
-
-
-
-</div>
 
