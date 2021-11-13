@@ -1,0 +1,13 @@
+﻿.review{
+    display: flex;
+    flex-direction: column;
+}
+.name-review{
+    
+    margin-left: 100px;
+}
+
+.text-review{
+    margin-left: auto;
+    margin-right:auto;
+}
