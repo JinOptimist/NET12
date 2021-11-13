@@ -4,22 +4,61 @@
 <div class="reviews-all">
 
     @{
-        foreach (var item in new int[]{ 1,2,3})
+        foreach (var item in new int[] { 1, 2, 3 })
         {
 
             <div class="review">
-                
-                
-                    <div>Оставил отзыв: *Имя*</div>
-                
-                <div class="text-review">
-                    <div>Отзыв</div>
+
+                <div class="rname-ico">
+                    <img src="https://icdn.lenta.ru/images/2021/04/27/16/20210427163138131/square_320_c09ebae17387b7d6eeb9fa0d42afe5ee.jpg" />
                 </div>
-                
+                <div class="rname-ico-text">
+                    <div>
+                        My name:
+                    </div>
+                    <div class="rname-ico-text-rate">
+                        <> <> <>
+                    </div>
+                </div>
+                <div class="rate-text">
+                    PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB
+                    PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB PROSTO WEB
+                </div>
+
             </div>
 
         }
     }
+
+    <div class="rate-put">
+        <form>
+            <div>Оставить отзыв</div>
+            <div>
+                <div>
+                    <input type="text" placeholder="Name" />
+                </div>
+                <div>
+                    <input type="number" placeholder="Age" />
+                </div>
+                <div>
+                    <select>
+                        <option disabled="disabled" selected>Rating</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div>
+                    <textarea></textarea>
+                </div>
+                <div>
+                    <input type="submit" />
+                </div>
+            </div>
+        </form>
+    </div>
 
 
 

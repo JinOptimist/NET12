@@ -2,12 +2,35 @@
     
 }
 
-
-.text-review {
-    
+.review {
+    margin-top: 3%;
+    flex-direction: row;
+    border: 1px solid black;
+    display: flex;
 }
-
-.reviews-all :nth-child(even) {
-
+.rname-ico {
+    display: flex;
+    width: 15%;
+    border-right: 1px solid black;
+}
+.rname-ico-text {
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid black;
+}
+.rname-ico-text-rate {
+    writing-mode: vertical-lr;
+    align-items: center;
+    display: flex;
+}
+.rate-text {
+    width: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+img{
+    width: 100%;
 }
 
