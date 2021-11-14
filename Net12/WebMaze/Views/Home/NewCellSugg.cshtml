@@ -4,11 +4,23 @@
     <div>
         <h3>List of new cells:</h3>
     </div>
-    <div>
+       <div>
+        @{int i = 0;}    
         @foreach (var newCellSuggestionViewModel in Model)
         {
             <div>
                 @newCellSuggestionViewModel.Title
+                <a href="#hidden @i " onclick="view('hidden @i'); return false">Details... </a>
+                <div id="hidden @i" style="display: none;">
+                    <p>Description: @newCellSuggestionViewModel.Description</p>
+                    <p>
+                        Money:@newCellSuggestionViewModel.MoneyChange
+                        Healts:@newCellSuggestionViewModel.HealtsChange
+                        Fatigue:@newCellSuggestionViewModel.FatigueChange
+                    </p>
+                    <p>User Name: @newCellSuggestionViewModel.UserName</p>
+                    @{++i;}
+                </div>
             </div>
         }
     </div>
@@ -16,3 +28,8 @@
         <a href="/Home/AddNewCellSugg">Add New Cell.</a>
     </div>
 </div>
+<script>
+    function view(n) {
+        style = document.getElementById(n).style;
+        style.display = (style.display == 'block') ? 'none' : 'block';
+    }</script>
