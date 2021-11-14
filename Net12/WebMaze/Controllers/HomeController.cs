@@ -62,6 +62,8 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        
+
         public IActionResult Time()
         {
             var smile = DateTime.Now.Second;
