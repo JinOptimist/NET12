@@ -98,7 +98,28 @@ namespace WebMaze.Controllers
             }
             return View("/Views/Home/NewCellSugg.cshtml", newCellSuggestionsViewModel);
         }
+        [HttpGet]
+        public IActionResult AddNewCellSugg()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCell)
+        {
+            var NewCS = new NewCellSuggestion()
+            {
+                Title = newCell.Title,
+                Description = newCell.Description,
+                MoneyChange = newCell.MoneyChange,
+                HealtsChange = newCell.HealtsChange,
+                FatigueChange = newCell.FatigueChange,
+                UserName = newCell.UserName
+            };
 
+            _webContext.NewCellSuggestions.Add(NewCS);
+            _webContext.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
 
 
     }
