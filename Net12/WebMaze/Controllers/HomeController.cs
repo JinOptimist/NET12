@@ -95,7 +95,7 @@ namespace WebMaze.Controllers
 
             _webContext.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
         }
 
         public IActionResult Time()
