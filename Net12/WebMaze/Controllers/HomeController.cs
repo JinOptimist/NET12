@@ -13,7 +13,7 @@ namespace WebMaze.Controllers
 {
     public class HomeController : Controller
     {
-        private WebContext _webContext;
+        private readonly WebContext _webContext;
 
         public HomeController(WebContext webContext)
         {
@@ -62,7 +62,46 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        
+        public IActionResult Stuff()
+        {
+            var staffsForHero = new List<StaffForHeroViewModel>();
+            foreach (var dbStaff in _webContext.StuffsForHero)
+            {
+                var staffForHeroViewModel = new StaffForHeroViewModel();
+                staffForHeroViewModel.Name = dbStaff.Name;
+                staffForHeroViewModel.Description = dbStaff.Description;
+                staffForHeroViewModel.PictureLink = dbStaff.PictureLink;
+                staffForHeroViewModel.Price = dbStaff.Price;
+                staffsForHero.Add(staffForHeroViewModel);
+            }
+
+            //var staffsForHero = _webContext.StuffsForHero.Select(dbModel => new StaffForHeroViewModel {
+            //    Name = dbModel.Name, Description = dbModel.Description, 
+            //    PictureLink = dbModel.PictureLink, Price = dbModel.Price});
+
+            return View(staffsForHero);
+        }
+
+        [HttpGet]
+        public IActionResult AddStuffForHero()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddStuffForHero(StaffForHeroViewModel staffForHeroViewModel)
+        {
+            var dbStuffForHero = new StuffForHero()
+            {
+                Name = staffForHeroViewModel.Name,
+                Description = staffForHeroViewModel.Description,
+                PictureLink = staffForHeroViewModel.PictureLink,
+                Price = staffForHeroViewModel.Price
+            };
+            _webContext.StuffsForHero.Add(dbStuffForHero);
+            _webContext.SaveChanges();
+            return View();
+        }
 
         public IActionResult Time()
         {
