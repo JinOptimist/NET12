@@ -74,11 +74,6 @@ namespace WebMaze.Controllers
                 staffForHeroViewModel.Price = dbStaff.Price;
                 staffsForHero.Add(staffForHeroViewModel);
             }
-
-            //var staffsForHero = _webContext.StuffsForHero.Select(dbModel => new StaffForHeroViewModel {
-            //    Name = dbModel.Name, Description = dbModel.Description, 
-            //    PictureLink = dbModel.PictureLink, Price = dbModel.Price});
-
             return View(staffsForHero);
         }
 
