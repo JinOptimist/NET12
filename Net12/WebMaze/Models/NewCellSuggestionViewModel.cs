@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebMaze.Models
 {
-    public class NewCellSuggestionsViewModel
+    public class NewCellSuggestionViewModel
     {
         public string Title { get; set; }
         public string Description { get; set; }

@@ -80,5 +80,27 @@ namespace WebMaze.Controllers
             var model = x + y;
             return View(model);
         }
+
+        public IActionResult NewCellSugg()
+        {
+            var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
+            foreach (var dbNewCellSuggestions in _webContext.NewCellSuggestions)
+            {
+                var newCellSuggestionViewModel = new NewCellSuggestionViewModel();
+                newCellSuggestionViewModel.Title = dbNewCellSuggestions.Title;
+                newCellSuggestionViewModel.Description = dbNewCellSuggestions.Description;
+                newCellSuggestionViewModel.MoneyChange = dbNewCellSuggestions.MoneyChange;
+                newCellSuggestionViewModel.HealtsChange = dbNewCellSuggestions.HealtsChange;
+                newCellSuggestionViewModel.FatigueChange = dbNewCellSuggestions.FatigueChange;
+                newCellSuggestionViewModel.UserName = dbNewCellSuggestions.UserName;
+
+                newCellSuggestionsViewModel.Add(newCellSuggestionViewModel);
+            }
+            return View("/Views/Home/NewCellSugg.cshtml", newCellSuggestionsViewModel);
+        }
+
+
+
     }
+
 }

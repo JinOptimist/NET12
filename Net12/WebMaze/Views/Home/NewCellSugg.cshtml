@@ -1,0 +1,15 @@
+﻿@model List<NewCellSuggestionViewModel>
+
+<div class="text-center">
+    <div>
+        List of new cells.
+    </div>
+    <div>
+        @foreach (var newCellSuggestionViewModel in Model)
+        {
+            <span>
+                @newCellSuggestionViewModel.Title
+            </span>
+        }
+    </div>
+</div>

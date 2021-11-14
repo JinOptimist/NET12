@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebMaze.EfStuff.DbModel
 {
-    public class NewCellSuggestions
+    public class NewCellSuggestion
     {
         public long Id { get; set; }
         public string Title { get; set; }
