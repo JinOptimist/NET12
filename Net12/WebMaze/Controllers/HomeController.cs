@@ -40,6 +40,41 @@ namespace WebMaze.Controllers
             return View(userViewModels);
         }
 
+        public IActionResult Reports()
+        {
+            var bugReportViewModels = new List<BugReportViewModel>();
+            foreach (var dbBugReport in _webContext.BugReports)
+            {
+                var bugReportViewModel = new BugReportViewModel();
+                bugReportViewModel.UserName = dbBugReport.Name;
+                bugReportViewModel.Description = dbBugReport.Description;
+                bugReportViewModels.Add(bugReportViewModel);
+
+            }
+            return View(bugReportViewModels);
+        }
+
+        [HttpGet]
+        public IActionResult AddBugReport()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddBugReport(BugReportViewModel bugReportViewModel)
+        {
+
+            var dbBugReport = new BugReport()
+            {
+                Name = bugReportViewModel.UserName,
+                Description = bugReportViewModel.Description
+            };
+            _webContext.BugReports.Add(dbBugReport);
+            _webContext.SaveChanges();
+
+            return RedirectToAction("Reports", "Home");
+        }
+
         [HttpGet]
         public IActionResult AddUser()
         {
