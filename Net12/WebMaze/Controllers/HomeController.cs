@@ -80,5 +80,39 @@ namespace WebMaze.Controllers
             var model = x + y;
             return View(model);
         }
+
+        public IActionResult Movie()
+        {
+            var MovieViewModels = new List<MovieViewModel>();
+            foreach(var dbMovie in _webContext.Movies)
+            {
+                var movieViewModel = new MovieViewModel()
+                {
+                    TitleGame = dbMovie.TitleGame,
+                    TitleMovie = dbMovie.TitleMovie
+                };
+                MovieViewModels.Add(movieViewModel);
+            }
+            return View(MovieViewModels);
+        }
+
+        [HttpGet]
+        public IActionResult AddMovie()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddMovie(MovieViewModel movieViewModel)
+        {
+            var dbMovie = new Movie()
+            {
+                TitleGame = movieViewModel.TitleGame,
+                TitleMovie = movieViewModel.TitleMovie
+            };
+            _webContext.Movies.Add(dbMovie);
+            _webContext.SaveChanges();
+            return View();
+        }
     }
 }

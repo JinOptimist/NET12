@@ -1,0 +1,16 @@
+﻿@model List<MovieViewModel>
+
+    <div>
+        Movies!!!
+    </div>
+
+    <div>
+        @foreach(var MovieViewModels in Model)
+            {
+            
+                <span>
+                    @MovieViewModels.TitleGame
+                    @MovieViewModels.TitleMovie
+                </span>
+            }
+    </div>
