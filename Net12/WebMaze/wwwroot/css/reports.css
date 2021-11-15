@@ -2,6 +2,9 @@
     text-align: center;
     font-size: 40px;
 }
+.title-link {
+    font-size: 15px;
+}
 
 .content-all{
      display: flex;
