@@ -1,0 +1,22 @@
+﻿@model List<GameViewModel>
+
+               <div>
+                   @foreach (var game in Model)
+                   {
+                       <div>
+
+
+                           <div class="title">
+                               <p>@game.Name</p>
+                           </div>
+                           <p>Genre: @game.Genre</p>
+                           <p>Year of Production: @game.YearOfProd</p>
+                           <p>Description: @game.Desc<p>
+                           <p>Rating: @game.Rating/10 </p>
+                           <p>Username: @game.Username</p>
+
+                           
+                       </div>
+                   }
+
+                   </div>

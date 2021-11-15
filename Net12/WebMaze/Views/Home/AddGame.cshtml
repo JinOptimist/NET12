@@ -1,0 +1,27 @@
+﻿@model GameViewModel
+
+<div class="text-center">
+    <form action="/Home/AddGame" method="post">
+        <div>
+            Title @Html.TextBoxFor(x => x.Name)
+        </div>
+        <div>
+            Genre @Html.TextBoxFor(x => x.Genre)
+        </div>
+        <div>
+            Year of Production @Html.TextBoxFor(x => x.YearOfProd)
+        </div>
+        <div>
+            Description @Html.TextBoxFor(x => x.Desc)
+        </div>
+        <div>
+            Rating @Html.TextBoxFor(x => x.Rating)
+        </div>
+        <div>
+            Your username @Html.TextBoxFor(x => x.Username)
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+</div>

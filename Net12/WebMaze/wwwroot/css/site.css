@@ -11,3 +11,8 @@
 .poor {
     color: red;
 }
+
+.title {
+    font-size: 40px;
+    font-style: italic;
+}
