@@ -14,7 +14,7 @@ namespace WebMaze.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TitleGame = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TitleMovie = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    release = table.Column<int>(type: "int", nullable: false),
+                    Release = table.Column<int>(type: "int", nullable: false),
                     Link = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
