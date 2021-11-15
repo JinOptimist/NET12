@@ -15,5 +15,27 @@ namespace WebMaze.EfStuff
         public WebContext(DbContextOptions options) : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.MyCellSuggestions)
+                .WithOne(x => x.Creater);
+
+            //modelBuilder.Entity<User>()
+            //   .HasMany(x => x.CellSuggestionsWhichIAprove)
+            //   .WithOne(x => x.Approver);
+            modelBuilder.Entity<NewCellSuggestion>()
+               .HasOne(x => x.Approver)
+               .WithMany(x => x.CellSuggestionsWhichIAprove);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 }

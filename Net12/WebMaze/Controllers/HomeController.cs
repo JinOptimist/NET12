@@ -84,7 +84,8 @@ namespace WebMaze.Controllers
         public IActionResult NewCellSugg()
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
-            foreach (var dbNewCellSuggestions in _webContext.NewCellSuggestions)
+            var suggestions = _webContext.NewCellSuggestions.ToList();
+            foreach (var dbNewCellSuggestions in suggestions)
             {
                 var newCellSuggestionViewModel = new NewCellSuggestionViewModel();
                 newCellSuggestionViewModel.Title = dbNewCellSuggestions.Title;
@@ -92,7 +93,7 @@ namespace WebMaze.Controllers
                 newCellSuggestionViewModel.MoneyChange = dbNewCellSuggestions.MoneyChange;
                 newCellSuggestionViewModel.HealtsChange = dbNewCellSuggestions.HealtsChange;
                 newCellSuggestionViewModel.FatigueChange = dbNewCellSuggestions.FatigueChange;
-                newCellSuggestionViewModel.UserName = dbNewCellSuggestions.UserName;
+                newCellSuggestionViewModel.UserName = dbNewCellSuggestions.Creater.Name;
 
                 newCellSuggestionsViewModel.Add(newCellSuggestionViewModel);
             }
@@ -106,6 +107,11 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCell)
         {
+            //TODO user current user after login
+            var creater = _webContext
+                .Users
+                .OrderByDescending(x => x.Coins)
+                .FirstOrDefault();
             var NewCS = new NewCellSuggestion()
             {
                 Title = newCell.Title,
@@ -113,7 +119,7 @@ namespace WebMaze.Controllers
                 MoneyChange = newCell.MoneyChange,
                 HealtsChange = newCell.HealtsChange,
                 FatigueChange = newCell.FatigueChange,
-                UserName = newCell.UserName
+                Creater = creater
             };
 
             _webContext.NewCellSuggestions.Add(NewCS);
