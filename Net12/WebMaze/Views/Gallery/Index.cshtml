@@ -1,0 +1,27 @@
+﻿@model List<ImageViewModel>
+
+<div>
+    <a href="/Gallery/AddImage">Add new image</a>
+</div>
+
+<div class="text-center">
+    <h1>Users gallery</h1>
+    
+    <div class="pic-to-gallery">
+        @foreach (var image in Model)
+        {
+            <div>
+                <img src="@image.Picture">
+            </div>
+            <div>
+                @image.Assessment
+            </div>
+            <div>
+                @image.Description
+            </div>
+        }
+    </div>
+    <div>
+        Average assessment: @Model.Sum(x => x.Assessment)
+    </div>
+</div>

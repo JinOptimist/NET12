@@ -1,0 +1,21 @@
+﻿@model ImageViewModel
+ 
+<div class="text-center">
+    <form action="/Gallery/AddImage" method="post">
+        <div>
+            UserName @Html.TextBoxFor(x => x.UserName)
+        </div>
+        <div>
+            Picture URL @Html.TextBoxFor(x => x.Picture)
+        </div>
+        <div>
+            Foto description's @Html.TextBoxFor(x => x.Description)
+        </div>
+        <div>
+            Assessment @Html.TextBoxFor(x => x.Assessment)
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+</div>

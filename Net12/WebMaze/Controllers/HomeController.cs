@@ -80,5 +80,9 @@ namespace WebMaze.Controllers
             var model = x + y;
             return View(model);
         }
-    }
+
+        
+
+        
+    }  
 }
