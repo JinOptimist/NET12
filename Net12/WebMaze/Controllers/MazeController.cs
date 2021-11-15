@@ -24,7 +24,7 @@ namespace WebMaze.Controllers
             var model = new CellInfoViewModel();
 
             model.CanStep = true;
-            model.ImageUrl = "/img/healer.jpg";
+            model.ImageUrl = "/imgYellowTeam/healer.jpg";
             model.Desc = "A kind doctor will help you to improve your health. But the money will take half of all." +
                 " Come in with one coin in hand.";
             model.ShortDesc[0] = "Cuts money in half.";
@@ -36,7 +36,7 @@ namespace WebMaze.Controllers
             var model = new CellInfoViewModel();
 
             model.CanStep = false;
-            model.ImageUrl = "/img/worm.jpg";
+            model.ImageUrl = "/imgYellowTeam/worm.jpg";
             model.Desc = "This worm lives in the wall and will help you make a hole in the wall. " +
                 "But do not yawn, he eats not only a wall but also a gold mine.";
             model.ShortDesc[0] = "Breaks down the walls.";
