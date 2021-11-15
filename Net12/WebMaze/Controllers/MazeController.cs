@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.Models;
 
 namespace WebMaze.Controllers
 {
@@ -16,26 +17,6 @@ namespace WebMaze.Controllers
             var maze = mazeBuilder.Build(width, height, 50, 100, true);
             return View(maze);
         }
-        public IActionResult Tavern()
-        {
-            var model = new CellInfoViewModel();
-            model.CanStep = true;
-            model.ImageUrl = "/images/tavern.jpg";
-            model.Desc = "Tavern, where you can spend your time.";
-            model.Spec = "HP: Building";
 
-            return View(model);
-        }
-
-        public IActionResult Walker()
-        {
-            var model = new CellInfoViewModel();
-            model.CanStep = true;
-            model.ImageUrl = "/images/walkerico.jpg";
-            model.Desc = "A walking enemy of the hero who, when meeting the hero, deals damage to him.";
-            model.Spec = "HP: Divine protection";
-
-            return View(model);
-        }
     }
 }
