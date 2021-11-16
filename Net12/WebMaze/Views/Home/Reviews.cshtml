@@ -4,68 +4,56 @@
 <div class="reviews-all">
 
     @{
-        if(Model.Any())
-        foreach (var item in Model)
-        {
+        if (Model.Any())
+            foreach (var item in Model)
+            {
 
-            <div class="review">
+                <div class="review">
 
-                <div class="rname-ico">
-                    <img src="https://media.pn.am/media/issue/197/297/photo/197297.jpg" />
-                </div>
-                <div class="rname-ico-text">
-                    <div>
-                        Name: @item.UserName
+                    <div class="rname-ico">
+                        <img src="https://media.pn.am/media/issue/197/297/photo/197297.jpg" />
                     </div>
-                    <div>
-                        @{ if (item.Rate > 5)
-                            {
-                                <div>Rating: 5</div>
-                            }
-                            else if (item.Rate <= 0)
-                            {
-                                <div>Rating: 1</div>
-                            }
-                            else
-                            {
-                                <div>Rating: @item.Rate</div>
-                            }
-                        }
+                    <div class="rname-ico-text">
+                        <div>
+                            Name: @item.UserName
+                        </div>
+                        <div>
+                            <div>Rating: @item.Rate</div>
+                        </div>
                     </div>
-                </div>
-                <div class="rate-text">
-                    @item.TextInfo
+                    <div class="rate-text">
+                        @item.TextInfo
+                    </div>
+
                 </div>
 
-            </div>
-
-        }
+            }
     }
 </div>
-    <div style="margin-top: 3%;">
-        <form action="/Home/Reviews" method="post" class="rate-put">
-            <div>Оставить отзыв</div>
+<div style="margin-top: 3%;">
+    <form action="/Home/Reviews" method="post" class="rate-put">
+        <div>Оставить отзыв</div>
+        <div>
             <div>
-                <div>
-                    <input type="number" placeholder="Age" name="Age" />
-                </div>
-                <div>
-                    <select name="Rate" size="2">
-                        <option disabled="disabled" >Оцените проект</option>
-                        <option value="1">Rate: 1</option>
-                        <option value="2">Rate: 2</option>
-                        <option value="3">Rate: 3</option>
-                        <option value="4">Rate: 4</option>
-                        <option value="5">Rate: 5</option>
-                    </select>
-                </div>
-                <div>
-                    <textarea name="Text"></textarea>
-                </div>
-                <div>
-                    <input type="submit" value="Отправить" />
-                </div>
+                <input type="number" placeholder="Age" name="Age" />
             </div>
-        </form>
-    </div>
+            <div>
+                <select name="Rate" size="2">
+                    <option disabled="disabled">Оцените проект</option>
+                    <option value="1">Rate: 1</option>
+                    <option value="2">Rate: 2</option>
+                    <option value="3">Rate: 3</option>
+                    <option value="4">Rate: 4</option>
+                    <option value="5">Rate: 5</option>
+                </select>
+            </div>
+            <div>
+                <textarea name="Text"></textarea>
+            </div>
+            <div>
+                <input type="submit" value="Отправить" />
+            </div>
+        </div>
+    </form>
+</div>
 
