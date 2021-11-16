@@ -88,7 +88,7 @@ namespace WebMaze.Controllers
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             if (_webContext.Reviews.Any())
             {
-                FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Creater.Name, TextInfo = rev.Text , Rate = rev.Rate}).ToList();
+                FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text , Rate = rev.Rate}).ToList();
             }
 
                 return View(FeedBackUsers);
@@ -98,14 +98,14 @@ namespace WebMaze.Controllers
         public IActionResult Reviews(Review review)
         {
             // TODO: Selected User
-            review.Creater = _webContext.Users.First();
+            review.Creator = _webContext.Users.First();
             _webContext.Add(review);
             _webContext.SaveChanges();
 
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             if (_webContext.Reviews.Any())
             {
-                FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Creater.Name, TextInfo = rev.Text, Rate = rev.Rate }).ToList();
+                FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate }).ToList();
             }
             return View(FeedBackUsers);
         }
