@@ -18,5 +18,18 @@ namespace WebMaze.Controllers
             return View(maze);
         }
 
+            return View(model);
+        }
+
+        public IActionResult Goldmine()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.ImageUrl = "/images/goldmine.jpg";
+            model.Desc = "Goldmine has 3 hp and gives you 1 coin every hit.";
+
+            return View(model);
+        }
     }
 }
