@@ -11,13 +11,13 @@
 .rname-ico {
     display: flex;
     width: 15%;
-    border-right: 1px solid black;
-}
+  }
 .rname-ico-text {
     justify-content: space-evenly;
     display: flex;
     flex-direction: column;
     border-right: 1px solid black;
+    border-left: 1px solid black;
 }
 .rname-ico-text-rate {
     align-items: center;
@@ -35,3 +35,6 @@
     margin-top: 3%;
 }
 
+.img-review {
+    width: 100%;
+}
