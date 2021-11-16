@@ -31,7 +31,6 @@ namespace WebMaze.EfStuff
                .WithMany(x => x.CellSuggestionsWhichIAprove);
 
             modelBuilder.Entity<User>().HasMany(x => x.MyReviews).WithOne(x => x.Creator);
-            modelBuilder.Entity<Review>().HasOne(x => x.Creator).WithMany(x => x.MyReviews);
 
             base.OnModelCreating(modelBuilder);
         }
