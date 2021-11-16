@@ -21,9 +21,7 @@
     justify-content: space-evenly;
 }
 
-body :nth-child(2n+3) {
-    flex-direction: row-reverse;
-}
+
 
 .obj-info .ico-info {
     height: 100;
