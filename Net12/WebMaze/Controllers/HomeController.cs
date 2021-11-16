@@ -108,7 +108,6 @@ namespace WebMaze.Controllers
             return View(FeedBackUsers);
         }
 
-    }
 
         public IActionResult NewCellSugg()
         {
