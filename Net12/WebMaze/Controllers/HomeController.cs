@@ -20,7 +20,6 @@ namespace WebMaze.Controllers
         {
             var smile = DateTime.Now.Second;
             return View(smile);
-        }
-       
+        }       
     }
 }
