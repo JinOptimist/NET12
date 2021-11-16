@@ -29,7 +29,7 @@ namespace Net12.Test.Maze.Cells
 
             var answer = vitalityPotion.TryToStep();
 
-            Assert.AreEqual(true, answer, "We must have possibility to step on the trap");
+            Assert.AreEqual(true, answer, "We must have possibility to step on the VitalityPotion");
             Assert.AreEqual(maxFatigueResult, heroMock.Object.MaxFatigue);
             mazeMock.Verify(x => x.ReplaceCell(It.IsAny<BaseCell>()), Times.AtLeastOnce);
         }
