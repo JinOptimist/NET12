@@ -53,5 +53,30 @@ namespace WebMaze.Controllers
 
             return View(model);
         }
+        public IActionResult WeakWall()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.Url = "/imgYellowTeam/Weakwall.jpg";
+            model.Desc = "After three hits, it breaks and instead of it, earth appears";
+            model.ShortsDescriptions.Add("Strength = 3.");
+            model.ShortsDescriptions.Add("Can be destroyed.");
+
+            return View(model);
+        }
+
+
+        public IActionResult AgressiveTroll()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.Url = "/imgYellowTeam/Troll.jpg";
+            model.Desc = "Aggressive troll tries to catch up with the hero";
+            model.ShortsDescriptions.Add("Enemy.");
+
+            return View(model);
+        }
     }
 }
