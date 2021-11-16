@@ -7,8 +7,9 @@ namespace WebMaze.Models
 {
     public class CellInfoViewModel
     {
-        public string ImageUrl { get; set; }
+        public string Url { get; set; }
         public string Desc { get; set; }
         public bool CanStep { get; set; }
+        public string Spec { get; set; }
     }
 }
