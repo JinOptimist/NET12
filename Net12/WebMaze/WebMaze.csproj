@@ -6,13 +6,13 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\Новая папка1\**" />
-    <Compile Remove="wwwroot\Новая папка\**" />
     <Content Remove="wwwroot\Новая папка1\**" />
-    <Content Remove="wwwroot\Новая папка\**" />
     <EmbeddedResource Remove="wwwroot\Новая папка1\**" />
-    <EmbeddedResource Remove="wwwroot\Новая папка\**" />
     <None Remove="wwwroot\Новая папка1\**" />
-    <None Remove="wwwroot\Новая папка\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\imgYellowTeam\" />
   </ItemGroup>
 
 </Project>

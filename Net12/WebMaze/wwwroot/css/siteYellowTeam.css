@@ -1,9 +1,9 @@
 body {
-    background: url(../images/fon.jpg);
+    background: url(/imgYellowTeam/fon.jpg);
 }
 
 .block001 {
-    background: url(../images/fon.jpg);
+    background: url(/imgYellowTeam/fon.jpg);
     border: 1px solid black;
     max-width: 1150px;
     height: 1000px;
@@ -13,7 +13,6 @@ body {
 .block002 {
     height: 90px;
     border-bottom: 5px dashed #2f2a2a;
-
 }
 
 .rule {
