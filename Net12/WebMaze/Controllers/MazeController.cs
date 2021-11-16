@@ -17,7 +17,5 @@ namespace WebMaze.Controllers
             var maze = mazeBuilder.Build(width, height, 50, 100, true);
             return View(maze);
         }
-
-    
     }
 }
