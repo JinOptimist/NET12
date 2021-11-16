@@ -16,5 +16,6 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<NewCellSuggestion> MyCellSuggestions { get; set; }
 
         public virtual List<NewCellSuggestion> CellSuggestionsWhichIAprove { get; set; }
+        public virtual List<BugReport> MyBugReports { get; set; }
     }
 }

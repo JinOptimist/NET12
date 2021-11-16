@@ -19,6 +19,11 @@ namespace WebMaze.EfStuff
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.MyBugReports)
+                .WithOne(x => x.Creater);
+
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MyCellSuggestions)
                 .WithOne(x => x.Creater);

@@ -43,10 +43,11 @@ namespace WebMaze.Controllers
         public IActionResult Reports()
         {
             var bugReportViewModels = new List<BugReportViewModel>();
-            foreach (var dbBugReport in _webContext.BugReports)
+            var BugReports = _webContext.BugReports.ToList();
+            foreach (var dbBugReport in BugReports)
             {
                 var bugReportViewModel = new BugReportViewModel();
-                bugReportViewModel.UserName = dbBugReport.Name;
+                bugReportViewModel.UserName = dbBugReport.Creater.Name;
                 bugReportViewModel.Description = dbBugReport.Description;
                 bugReportViewModels.Add(bugReportViewModel);
 
@@ -63,10 +64,13 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddBugReport(BugReportViewModel bugReportViewModel)
         {
-
+            var creater = _webContext
+                .Users
+                .OrderBy(x=>x.Id).
+                FirstOrDefault();
             var dbBugReport = new BugReport()
             {
-                Name = bugReportViewModel.UserName,
+                Creater = creater,
                 Description = bugReportViewModel.Description
             };
             _webContext.BugReports.Add(dbBugReport);
