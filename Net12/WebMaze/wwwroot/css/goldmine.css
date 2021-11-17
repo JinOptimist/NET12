@@ -1,0 +1,29 @@
+﻿.goldmine-info-title {
+    text-align: center;
+    font-size: 40px;
+
+    border-bottom: 3px #000000 solid;
+
+    margin: 0 0 15px 0;
+}
+
+.goldmine-info-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.goldmine-info-content-img img {
+    max-height: 200px;
+    max-width: 200px;
+}
+
+.goldmine-info-content-description-title {
+    text-align: center;
+    font-size: 40px;
+
+    margin: 0 0 15px 0;
+}
+
+.goldmine-info-content-description-text {
+    color: #e2c40e;
+}

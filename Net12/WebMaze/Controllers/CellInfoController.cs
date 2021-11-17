@@ -22,6 +22,17 @@ namespace WebMaze.Controllers
             return View("/Views/CellInfo/BaseCell.cshtml", model);
         }
 
+        public IActionResult Goldmine()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.Url = "/images/goldmine.jpg";
+            model.Desc = "Has 3 hp and gives you 1 coin every hit.";
+
+            return View(model);
+        }
+
         public IActionResult Trap()
         {
             var model = new CellInfoViewModel();
