@@ -12,7 +12,7 @@
     @RenderSection("Scripts", required: false)
 </head>
 <body>
-    <header>
+      <header>
         Maze!!!
     </header>
     <div>
@@ -24,6 +24,8 @@
         <a href="/CellInfo/Trap">Trap info</a>
         <a href="/CellInfo/Tavern">Tavern info</a> 
         <a href="/CellInfo/Walker">Walker info</a>
+        <a href="/CellInfo/AgressiveTroll">Agressive troll info</a>
+        <a href="/CellInfo/WeakWall">Weak wall info</a>
     </div>
     <div class="container">
         <div>
@@ -31,6 +33,16 @@
         </div>
     </div>
 
+        <div>
+            
+           
+        </div>
+        <div class="container">
+            <div>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - WebMaze
