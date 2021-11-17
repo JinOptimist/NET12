@@ -11,6 +11,8 @@ namespace WebMaze.EfStuff
     {
         public DbSet<User> Users { get; set; }
 
+        public DbSet<StoresAndAddresses> StoreAddress { get; set; }
+
         public WebContext(DbContextOptions options) : base(options)
         {
         }

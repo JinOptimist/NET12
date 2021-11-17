@@ -62,6 +62,21 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult AddStoreAndAddress(StoresAndAddressesViewModel stores_adressesViewMode)
+        {
+            var dbStoresAndAddresses = new StoresAndAddresses()
+            {
+                ShopName = stores_adressesViewMode.ShopName,
+                AdressOfShop = stores_adressesViewMode.AdressOfShop,
+                
+            };
+            _webContext.StoreAddress.Add(dbStoresAndAddresses);
+
+            _webContext.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
+
         public IActionResult Time()
         {
             var smile = DateTime.Now.Second;
