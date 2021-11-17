@@ -82,3 +82,7 @@ body {
     .manage-maze-difficult div {
         margin-right: 10px;
     }
+
+.task-sheet a{
+    margin-right: 10px;
+}

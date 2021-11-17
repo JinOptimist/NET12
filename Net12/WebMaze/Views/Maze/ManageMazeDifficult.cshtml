@@ -1,31 +1,35 @@
 ﻿@model List<MazeDifficultProfileViewModel>
 
-<div>
-
-    @foreach(var difficult in Model)
-    {
-    <div class="manage-maze-difficult">
-        <div>
-            Name: @difficult.Name
-        </div>
-        <div>
-            Width: @difficult.Width
-        </div>
-        <div>
-            Height: @difficult.Height
-        </div>
-        <div>
-            HeroMoney: @difficult.HeroMoney
-        </div>
-        <div>
-            HeroMaxHp: @difficult.HeroMaxHp
-        </div>
-        <div>
-            HeroMaxFatigue: @difficult.HeroMaxFatigue
-        </div>
-        <div>
-            CoinCount: @difficult.CoinCount
-        </div>
+    <div class="task-sheet">
+        <a href="/Maze/AddMazeDifficult">Add Maze Difficult</a>
     </div>
-    }
-</div>
+
+    <div>
+
+        @foreach (var difficult in Model)
+        {
+            <div class="manage-maze-difficult">
+                <div>
+                    Name: @difficult.Name
+                </div>
+                <div>
+                    Width: @difficult.Width
+                </div>
+                <div>
+                    Height: @difficult.Height
+                </div>
+                <div>
+                    HeroMoney: @difficult.HeroMoney
+                </div>
+                <div>
+                    HeroMaxHp: @difficult.HeroMaxHp
+                </div>
+                <div>
+                    HeroMaxFatigue: @difficult.HeroMaxFatigue
+                </div>
+                <div>
+                    CoinCount: @difficult.CoinCount
+                </div>
+            </div>
+        }
+    </div>
