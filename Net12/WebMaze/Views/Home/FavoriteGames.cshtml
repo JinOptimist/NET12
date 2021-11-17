@@ -1,22 +1,41 @@
 ﻿@model List<GameViewModel>
 
-               <div>
+    <div class="title">
+        Favorite Games 
+    </div>           
+    
+    <div>
                    @foreach (var game in Model)
                    {
-                       <div>
+        <div>
 
 
-                           <div class="title">
-                               <p>@game.Name</p>
-                           </div>
-                           <p>Genre: @game.Genre</p>
-                           <p>Year of Production: @game.YearOfProd</p>
-                           <p>Description: @game.Desc<p>
-                           <p>Rating: @game.Rating/10 </p>
-                           <p>Username: @game.Username</p>
+            <div class="title1">
+                <b>@game.Name</b>
+            </div>
+            <div class="desc">
+                <div class="elements">
+                    <p>
+                        <b>Genre:</b> @game.Genre
+                    </p>
+                    <p>
+                        <b>Year of Production:</b> @game.YearOfProd
+                    </p>
+                    <p>
+                        <b>Rating:</b> @game.Rating/10
+                    </p>
+                </div>
+                <div class="desc1">
+                    <p><b>Description:</b> @game.Desc</p>
+                </div>
+                <div class="el">
+                    <p><b>Username:</b> @game.Username</p>
+                </div>
+            </div>
 
-                           
-                       </div>
+
+
+        </div>
                    }
 
-                   </div>
+    </div>
