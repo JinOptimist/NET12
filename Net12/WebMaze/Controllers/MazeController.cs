@@ -17,30 +17,6 @@ namespace WebMaze.Controllers
             var maze = mazeBuilder.Build(width, height, 50, 100, true);
             return View(maze);
         }
-        public IActionResult Healer()
-        {
-            var model = new CellInfoViewModel();
-
-            model.CanStep = true;
-            model.Url = "/imgYellowTeam/healer.jpg";
-            model.Desc = "A kind doctor will help you to improve your health. But the money will take half of all." +
-                " Come in with one coin in hand.";
-            model.ShortsDescriptions.Add("Cuts money in half.");
-            model.ShortsDescriptions.Add("Increases health to maximum.");
-            return View(model);
-        }
-        public IActionResult Wallworm()
-        {
-            var model = new CellInfoViewModel();
-
-            model.CanStep = false;
-            model.Url = "/imgYellowTeam/worm.jpg";
-            model.Desc = "This worm lives in the wall and will help you make a hole in the wall. " +
-                "But do not yawn, he eats not only a wall but also a gold mine.";
-            model.ShortsDescriptions.Add("Breaks down the walls.");
-            model.ShortsDescriptions.Add("Destroys gold mines.");
-            model.ShortsDescriptions.Add("Creates weak walls");
-            return View(model);
-        }
+   
     }
 }
