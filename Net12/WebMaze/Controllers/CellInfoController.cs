@@ -103,5 +103,24 @@ namespace WebMaze.Controllers
             model.ShortsDescriptions.Add("Creates weak walls");
             return View(model);
         }
+        public IActionResult VitalityPotion()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = true;
+            model.Url = "/images/VitalityPotion.webp";
+            model.Desc = "Увеличивает максимальное количество усталости на 5";
+            return View(model);
+        }
+        public IActionResult Slime()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.Url = "/images/Slime.png";
+            model.Desc = "Ходит по лабиринту и с некоторой вероятностью создает Монетку. При отсуствии пути перепрыгивает на случайную землю.";
+            return View(model);
+        }
+
     }
 }
