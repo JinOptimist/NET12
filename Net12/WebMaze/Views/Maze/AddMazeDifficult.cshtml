@@ -3,9 +3,13 @@
     <div class="task-sheet">
         <a href="/Maze/ManageMazeDifficult">Manage Maze Difficult</a>
     </div>
+
 <div class="text-center">
     <form method="post">
         <div class="add-maze-difficult">
+            <div>
+                Author: @Html.TextBoxFor(x => x.Author)
+            </div>
             <div>
                 Name: @Html.TextBoxFor(x => x.Name)
             </div>
