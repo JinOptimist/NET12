@@ -1,0 +1,15 @@
+﻿@model UserViewModel
+
+<div class="text-center">
+    <form action="/Home/AddUser" method="post">
+        <div>
+            Name @Html.TextBoxFor(x => x.UserName)
+        </div>
+        <div>
+            Coin @Html.TextBoxFor(x => x.Coins)
+        </div>
+        <div>
+            <input type="submit" value="Save" /> 
+        </div>
+    </form>
+</div>

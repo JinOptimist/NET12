@@ -107,7 +107,7 @@ namespace Net12.Maze
 
             }
 
-            var cellToStep = this[heroPositionX, heroPositionY];
+            var cellToStep = GetCellOrUnit(heroPositionX, heroPositionY);
 
             if (cellToStep?.TryToStep() ?? false)
             {

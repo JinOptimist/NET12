@@ -1,0 +1,16 @@
+﻿@model CellInfoViewModel
+
+<form action="/CellInfo/AddCell" method="post">
+    <div>
+        @Html.TextBoxFor(x => x.Url, new { @placeholder = "url" })
+    </div>
+    <div>
+        CanStep : @Html.CheckBoxFor(x => x.CanStep)
+    </div>
+    <div>
+        Desc: @Html.TextAreaFor(x => x.Desc)
+    </div>
+    <div>
+        <input type="submit" value="Save" />
+    </div>
+</form>
