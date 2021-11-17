@@ -18,24 +18,5 @@ namespace WebMaze.Controllers
             return View(maze);
         }
 
-        public IActionResult VitalityPotion()
-        {
-            var model = new CellInfoViewModel();
-
-            model.CanStep = true;
-            model.ImageUrl = "/images/VitalityPotion.webp";
-            model.Desc = "Увеличивает максимальное количество усталости на 5";
-            return View(model);
-        }
-        public IActionResult Slime()
-        {
-            var model = new CellInfoViewModel();
-
-            model.CanStep = false;
-            model.ImageUrl = "/images/Slime.png";
-            model.Desc = "Ходит по лабиринту и с некоторой вероятностью создает Монетку. При отсуствии пути перепрыгивает на случайную землю.";
-            return View(model);
-        }
-
     }
 }
