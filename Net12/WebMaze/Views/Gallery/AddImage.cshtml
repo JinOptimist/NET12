@@ -3,7 +3,7 @@
 <div class="text-center">
     <form action="/Gallery/AddImage" method="post">
         <div>
-            UserName @Html.TextBoxFor(x => x.UserName)
+            UserName @Html.DropDownListFor(x => x.Author, ViewBag.Users as SelectList)
         </div>
         <div>
             Picture URL @Html.TextBoxFor(x => x.Picture)

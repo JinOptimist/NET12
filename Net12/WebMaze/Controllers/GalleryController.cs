@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.Models;
@@ -25,7 +26,7 @@ namespace WebMaze.Controllers
             foreach (var dbImage in _webContext.Gallery)
             {
                 var imageViewModel = new ImageViewModel();
-                imageViewModel.UserName = dbImage.Name;
+                imageViewModel.Author = dbImage.Author;
                 imageViewModel.Description = dbImage.Description;
                 imageViewModel.Assessment = dbImage.Assessment;
                 imageViewModel.Picture = dbImage.Picture;
@@ -38,7 +39,7 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult AddImage()
         {
-
+            ViewBag.Users = new SelectList(_webContext.Users, "Id", "Name");
             return View();
         }
 
@@ -47,7 +48,7 @@ namespace WebMaze.Controllers
         {
             var dbImage = new Image()
             {
-                Name = imageViewModel.UserName,
+                //Author = imageViewModel.Au,
                 Description = imageViewModel.Description,
                 Picture = imageViewModel.Picture,
                 Assessment = imageViewModel.Assessment
@@ -56,7 +57,7 @@ namespace WebMaze.Controllers
 
             _webContext.SaveChanges();
 
-            return View();
+            return RedirectToAction("Index", "Gallery");            
         }
     }
 }
