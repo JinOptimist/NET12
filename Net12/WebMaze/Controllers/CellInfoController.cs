@@ -32,5 +32,51 @@ namespace WebMaze.Controllers
 
             return View(model);
         }
+        public IActionResult Tavern()
+        {
+            var model = new CellInfoViewModel();
+            model.CanStep = true;
+            model.Url = "/images/tavern.jpg";
+            model.Desc = "Tavern, where you can spend your time.";
+            model.Spec = "HP: Building";
+
+            return View(model);
+        }
+
+        public IActionResult Walker()
+        {
+            var model = new CellInfoViewModel();
+            model.CanStep = true;
+            model.Url = "/images/walkerico.jpg";
+            model.Desc = "A walking enemy of the hero who, when meeting the hero, deals damage to him.";
+            model.Spec = "HP: Divine protection";
+
+            return View(model);
+        }
+        public IActionResult WeakWall()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.Url = "/imgYellowTeam/Weakwall.jpg";
+            model.Desc = "After three hits, it breaks and instead of it, earth appears";
+            model.ShortsDescriptions.Add("Strength = 3.");
+            model.ShortsDescriptions.Add("Can be destroyed.");
+
+            return View(model);
+        }
+
+
+        public IActionResult AgressiveTroll()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.Url = "/imgYellowTeam/Troll.jpg";
+            model.Desc = "Aggressive troll tries to catch up with the hero";
+            model.ShortsDescriptions.Add("Enemy.");
+
+            return View(model);
+        }
     }
 }
