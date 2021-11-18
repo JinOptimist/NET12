@@ -31,7 +31,8 @@ namespace WebMaze
             services.AddScoped<UserRepository>(diContainer =>
                 {
                     var webContext = diContainer.GetService<WebContext>();
-                    var repository = new UserRepository(webContext);
+                    var reviewRepository = diContainer.GetService<ReviewRepository>();
+                    var repository = new UserRepository(webContext, reviewRepository);
                     return repository;
                 }
             );
