@@ -63,21 +63,6 @@ namespace WebMaze.Controllers
             _webContext.News.Add(dbNews);
             _webContext.SaveChanges();
             return RedirectToAction("Index", "News");
-
-            //var dbNews = new News()
-            //{
-            //    EventDate = newsViewModel.EventDate,
-            //    CreationDate = DateTime.Now.Date,
-            //    Location = newsViewModel.Location,
-            //    NameOfAuthor = newsViewModel.NameOfAuthor,
-            //    Text = newsViewModel.Text,
-            //    Title = newsViewModel.Title
-            //};
-            //_webContext.News.Add(dbNews);
-
-            //_webContext.SaveChanges();
-
-            //return RedirectToAction("Index", "News");
         }
     }
 }
