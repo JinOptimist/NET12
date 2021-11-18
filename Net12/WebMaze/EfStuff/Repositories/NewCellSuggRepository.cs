@@ -23,14 +23,13 @@ namespace WebMaze.EfStuff.Repositories
         public List<NewCellSuggestion> GetAll()
         {
             return _webContext
-                .Users
-                .Where(x => x.IsActive)
-                .ToList();
+            .NewCellSuggestions
+            .ToList();
         }
 
         public NewCellSuggestion GetRandomUser()
         {
-            return _webContext.Users.First();
+            return _webContext.NewCellSuggestions.First();
         }
 
         public void Save(NewCellSuggestion user)
@@ -41,15 +40,15 @@ namespace WebMaze.EfStuff.Repositories
             }
             else
             {
-                _webContext.Users.Add(user);
+                _webContext.NewCellSuggestions.Add(user);
             }
 
             _webContext.SaveChanges();
         }
 
-        public void Remove(UNewCellSuggestion user)
+        public void Remove(NewCellSuggestion user)
         {
-            user.IsActive = false;
+           
             Save(user);
         }
 

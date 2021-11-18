@@ -35,7 +35,13 @@ namespace WebMaze
                     return repository;
                 }
             );
-
+            services.AddScoped<NewCellSuggRepository>(diContainer =>
+                {
+                    var webContext = diContainer.GetService<WebContext>();
+                    var repository = new NewCellSuggRepository(webContext);
+                    return repository;
+                }
+            );
 
 
             services.AddControllersWithViews();
