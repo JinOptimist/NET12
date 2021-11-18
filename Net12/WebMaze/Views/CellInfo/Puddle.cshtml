@@ -1,12 +1,12 @@
 ﻿@model CellInfoViewModel
 
 
-    <div class='allContent'>
-        <div class='image'>
+    <div class='allContentPG'>
+        <div class='imagePG'>
             <img width="400px" src='@Model.Url' />
         </div>
 
-        <div class='properties'>
+        <div class='propertiesPG'>
             <a>
                 Can step: <input type="checkbox" checked="@(Model.CanStep ? " checked" : null)" disabled="disabled" />
             </a>
@@ -15,7 +15,7 @@
             </p>
         </div>
 
-        <div class='description'>
+        <div class='descriptionPG'>
             @Model.Desc
         </div>
     </div>

@@ -1,20 +1,20 @@
-.allContent {
+.allContentPG {
     display: flex;
     justify-content: space-between;
 }
-    .image {
+    .imagePG {
         padding: 20px;
     }
 
 
-    .properties {
+    .propertiesPG {
         padding: 20px;
         font-size: 30px;
         width:stretch;
     }
 
 
-    .description {
+    .descriptionPG {
         padding: 20px;
         font-size: 30px;
     }
