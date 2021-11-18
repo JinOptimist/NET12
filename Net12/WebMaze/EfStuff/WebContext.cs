@@ -22,6 +22,12 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MyFavGames)
                 .WithOne(x => x.Creater);
+
+            modelBuilder.Entity<Game>()
+               .HasOne(x => x.Creater)
+               .WithMany(x => x.MyFavGames); 
         }
+
+
     }
 }
