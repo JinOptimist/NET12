@@ -63,7 +63,7 @@ namespace WebMaze.Controllers
                 Coins = userViewMode.Coins,
                 Age = DateTime.Now.Second % 10 + 20,
                 IsActive = true
-                
+
             };
 
             _userRepository.Save(dbUser);
