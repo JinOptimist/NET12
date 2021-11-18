@@ -27,7 +27,7 @@ namespace WebMaze.Controllers
                     CreationDate = x.CreationDate,
                     EventDate = x.EventDate,
                     Location = x.Location,
-                    NameOfAuthor = x.NameOfAuthor,
+                    NameOfAuthor = x.Author.Name,
                     Text = x.Text,
                     Title = x.Title
                 }).ToList();
@@ -45,20 +45,39 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddNews(NewsViewModel newsViewModel)
         {
+            var author = _webContext
+                .Users
+                .OrderBy(x => x.Name)
+                .FirstOrDefault();
+
             var dbNews = new News()
             {
                 EventDate = newsViewModel.EventDate,
                 CreationDate = DateTime.Now.Date,
                 Location = newsViewModel.Location,
-                NameOfAuthor = newsViewModel.NameOfAuthor,
+                Author = author,
                 Text = newsViewModel.Text,
                 Title = newsViewModel.Title
             };
+
             _webContext.News.Add(dbNews);
-
             _webContext.SaveChanges();
-
             return RedirectToAction("Index", "News");
+
+            //var dbNews = new News()
+            //{
+            //    EventDate = newsViewModel.EventDate,
+            //    CreationDate = DateTime.Now.Date,
+            //    Location = newsViewModel.Location,
+            //    NameOfAuthor = newsViewModel.NameOfAuthor,
+            //    Text = newsViewModel.Text,
+            //    Title = newsViewModel.Title
+            //};
+            //_webContext.News.Add(dbNews);
+
+            //_webContext.SaveChanges();
+
+            //return RedirectToAction("Index", "News");
         }
     }
 }
