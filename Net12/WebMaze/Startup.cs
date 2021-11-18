@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff;
+using WebMaze.EfStuff.Repositories;
 
 namespace WebMaze
 {
@@ -26,6 +27,16 @@ namespace WebMaze
         {
             var connectString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=WebMaze12;Integrated Security=True;";
             services.AddDbContext<WebContext>(x => x.UseSqlServer(connectString));
+
+            services.AddScoped<UserRepository>(diContainer =>
+                {
+                    var webContext = diContainer.GetService<WebContext>();
+                    var repository = new UserRepository(webContext);
+                    return repository;
+                }
+            );
+
+
 
             services.AddControllersWithViews();
         }

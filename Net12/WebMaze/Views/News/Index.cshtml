@@ -1,0 +1,82 @@
+﻿@model List<NewsViewModel>
+
+@{ 
+    Layout = "~/Views/Shared/_LayoutNews.cshtml";
+}
+
+<div class="offset-lg-0 col col-12">
+            <a asp-action="Index" asp-controller="Home">Home/</a>
+            <a>News</a>
+</div>
+
+<div>
+    <h2 style="text-align:center">NEWS</h2>
+</div>
+
+<div>
+    <table border="1" width="100%">
+        <thead>
+            <tr>
+                <th>
+                    <h2>Title of news</h2>
+                </th>
+                <th>
+                    <h2>Text of news</h2>
+                </th>
+                <th>
+                    <h2>Location of news</h2>
+                </th>
+                <th>
+                    <h2>Date of event</h2>
+                </th>
+                <th>
+                    <h2>Author</h2>
+                </th>
+                <th>
+                    <h2>Date of creation</h2>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var news in Model)
+            {
+                <tr>
+                    <td>
+                        <span>@news.Title</span>
+                    </td>
+                    <td>
+                        <span>@news.Text</span>
+                    </td>
+
+                    <td>
+                        <span>@news.Location</span>
+                    </td>
+                    <td>
+                        <span>@news.EventDate.ToShortDateString()</span>
+                    </td>
+                    <td>
+                        <span>@news.NameOfAuthor</span>
+                    </td>
+                    <td>
+                        <span>@news.CreationDate.ToShortDateString()</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+   <p>
+       <a href="/News/AddNews" style="color:red; font-size:x-large">ADD NEWS &raquo;</a>
+   </p>
+    
+
+</div>
+
+
+<style>
+    table > tbody > tr >td>span
+   {
+        font-size:18px;
+    }
+</style>

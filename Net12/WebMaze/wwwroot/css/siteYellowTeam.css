@@ -1,0 +1,81 @@
+﻿body {
+    background: url(/imgYellowTeam/fon.jpg);
+}
+
+.block001 {
+    background: url(/imgYellowTeam/fon.jpg);
+    border: 1px solid black;
+    max-width: 1150px;
+    height: 1000px;
+    margin: 0 auto;
+}
+
+.block002 {
+    height: 90px;
+    border-bottom: 5px dashed #2f2a2a;
+}
+
+.rule {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial;
+    font-size: 60px;
+}
+
+.block003 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 350px;
+}
+
+.block003-1 {
+    height: 260px;
+    width: 260px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-image: url('@Model.ImageUrl');
+    background-size: cover;
+}
+
+.block003-2 {
+    height: 120px;
+    width: 310px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.block003-3 {
+    height: 130px;
+    width: 380px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: #e6b88d;
+    padding: 13px;
+}
+
+.list {
+    font-size: 18px;
+}
+
+.text001 {
+    font-size: 20px;
+    text-align: center;
+}
+
+.name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.name001 {
+    font-size: 35px;
+}
+
+.canStep {
+    margin-left: 100px;
+    font-size: 28px;
+}
