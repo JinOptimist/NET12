@@ -11,5 +11,6 @@ namespace WebMaze.Models
         public string Desc { get; set; }
         public bool CanStep { get; set; }
         public string Spec { get; set; }
+        public List<string> ShortsDescriptions { get; set; } = new List<string>();
     }
 }
