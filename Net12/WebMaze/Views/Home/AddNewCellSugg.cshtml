@@ -1,0 +1,29 @@
+﻿@model NewCellSuggestionViewModel
+
+<div class="text-center">
+    <h3>You can suggest your cell here.</h3>
+    <form action="/Home/AddNewCellSugg" method="post">
+        <div>
+            Enter a name for the cell. @Html.TextBoxFor(x => x.Title)
+        </div>
+        <div>
+            Describe your cell. @Html.TextAreaFor(x => x.Description)
+        </div>
+        <div>
+            Money will be subtracted or added by the cell. @Html.TextBoxFor(x => x.MoneyChange)
+        </div>
+        <div>
+            Health will be subtracted or added by the cell. @Html.TextBoxFor(x => x.HealtsChange)
+        </div>
+        <div>
+            Fatigue will be subtracted or added by the cell. @Html.TextBoxFor(x => x.FatigueChange)
+        </div>
+        <div>
+            Enter your name.  @Html.TextBoxFor(x => x.UserName)
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+</div>
+
