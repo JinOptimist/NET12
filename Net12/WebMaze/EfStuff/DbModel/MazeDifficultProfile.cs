@@ -15,6 +15,7 @@ namespace WebMaze.EfStuff.DbModel
         public int HeroMaxHp { get; set; }
         public int HeroMaxFatigue { get; set; }
         public int CoinCount { get; set; }
+        public bool IsActive { get; set; }
         public virtual User Creater { get; set; }
     }
 }

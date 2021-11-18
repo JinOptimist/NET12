@@ -6,17 +6,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 
 namespace WebMaze.Controllers
 {
     public class MazeController : Controller
     {
-        private WebContext _webContext;
+        private MazeDifficultRepository _mazeDifficultRepository;
 
-        public MazeController(WebContext webContext)
+        public MazeController(MazeDifficultRepository mazzeDifficultRepository)
         {
-            _webContext = webContext;
+            _mazeDifficultRepository = mazzeDifficultRepository;
         }
 
         public IActionResult Index(int width, int height)
@@ -44,11 +45,10 @@ namespace WebMaze.Controllers
                 HeroMaxHp = mazeDifficultProfileViewModel.HeroMaxHp,
                 HeroMaxFatigue = mazeDifficultProfileViewModel.HeroMaxFatigue,
                 CoinCount = mazeDifficultProfileViewModel.CoinCount,
+                IsActive = true,
                 //Creater = mazeDifficultProfileViewModel.Author       
             };
-            _webContext.MazeDifficultProfiles.Add(dbMazeDifficult);
-
-            _webContext.SaveChanges();
+            _mazeDifficultRepository.Save(dbMazeDifficult);
 
             return View();
         }
@@ -56,7 +56,7 @@ namespace WebMaze.Controllers
         public IActionResult ManageMazeDifficult()
         {
             var mazeDifficultProfileViewModels = new List<MazeDifficultProfileViewModel>();
-            var suggestions = _webContext.MazeDifficultProfiles.ToList();
+            var suggestions = _mazeDifficultRepository.GetAll();
             foreach (var dbMazeDifficult in suggestions)
             {
                 var mazeDifficultProfileViewModel = new MazeDifficultProfileViewModel();

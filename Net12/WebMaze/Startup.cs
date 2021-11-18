@@ -36,7 +36,7 @@ namespace WebMaze
                 }
             );
 
-
+            services.AddScoped<MazeDifficultRepository>(x => new MazeDifficultRepository(x.GetService<WebContext>()));
 
             services.AddControllersWithViews();
         }
