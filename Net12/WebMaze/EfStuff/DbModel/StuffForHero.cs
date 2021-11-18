@@ -8,9 +8,10 @@ namespace WebMaze.EfStuff.DbModel
     public class StuffForHero
     {
         public long Id { get; set; }
-        public string Name { get; set; }
         public string Description { get; set; }
         public int Price { get; set; }
         public string PictureLink { get; set; }
+
+        public virtual User Proposer { get; set; }
     }
 }

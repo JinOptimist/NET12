@@ -68,7 +68,7 @@ namespace WebMaze.Controllers
             foreach (var dbStaff in _webContext.StuffsForHero)
             {
                 var staffForHeroViewModel = new StaffForHeroViewModel();
-                staffForHeroViewModel.Name = dbStaff.Name;
+                staffForHeroViewModel.Name = dbStaff.Proposer.Name;
                 staffForHeroViewModel.Description = dbStaff.Description;
                 staffForHeroViewModel.PictureLink = dbStaff.PictureLink;
                 staffForHeroViewModel.Price = dbStaff.Price;
@@ -86,12 +86,19 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddStuffForHero(StaffForHeroViewModel staffForHeroViewModel)
         {
+            //TODO user current user after login
+            var proposer = _webContext
+                .Users
+                .OrderByDescending(x => x.Coins)
+                .FirstOrDefault();
+
             var dbStuffForHero = new StuffForHero()
             {
-                Name = staffForHeroViewModel.Name,
+                //Name = staffForHeroViewModel.Name,
                 Description = staffForHeroViewModel.Description,
                 PictureLink = staffForHeroViewModel.PictureLink,
-                Price = staffForHeroViewModel.Price
+                Price = staffForHeroViewModel.Price,
+                Proposer = proposer
             };
             _webContext.StuffsForHero.Add(dbStuffForHero);
             _webContext.SaveChanges();
