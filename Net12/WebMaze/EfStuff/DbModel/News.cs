@@ -14,6 +14,5 @@ namespace WebMaze.EfStuff.DbModel
         public string Location { get; set; }
         public DateTime EventDate { get; set; }
         public string NameOfAuthor { get; set; }
-        public virtual User Author { get; set; }
     }
 }
