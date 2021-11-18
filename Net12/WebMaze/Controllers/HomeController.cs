@@ -40,6 +40,46 @@ namespace WebMaze.Controllers
             return View(userViewModels);
         }
 
+        public IActionResult Book()
+        {
+            var bookViewModels = new List<BookViewModel>();
+            foreach (var dbBook in _webContext.Books)
+            {
+                var bookViewModel = new BookViewModel();
+                bookViewModel.Name = dbBook.Name;
+                bookViewModel.Link = dbBook.Link;
+                bookViewModel.Author = dbBook.Author;
+                bookViewModel.Desc = dbBook.Desc;
+                bookViewModel.ReleaseDate = dbBook.ReleaseDate;
+                bookViewModels.Add(bookViewModel);
+            }
+
+            return View(bookViewModels);
+        }
+        
+        [HttpGet]
+        public IActionResult AddBook()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddBook(BookViewModel bookViewModel)
+        {
+            var dbBook = new Book()
+            {
+                Name = bookViewModel.Name,
+                Link = bookViewModel.Link,
+                Author = bookViewModel.Author,
+                Desc = bookViewModel.Desc,
+                ReleaseDate= bookViewModel.ReleaseDate  
+            };
+            _webContext.Books.Add(dbBook);
+
+            _webContext.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpGet]
         public IActionResult AddUser()
         {

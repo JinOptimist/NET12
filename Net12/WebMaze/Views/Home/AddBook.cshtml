@@ -1,0 +1,28 @@
+﻿@model BookViewModel
+
+<div class="text-center">
+    <form action="/Home/AddBook" method="post">
+            <fieldset>
+                <legend>Enter Data:</legend>
+                <label>Book Name:</label><br>
+                <div>@Html.TextBoxFor(x => x.Name)</div>
+                <label>Book Author:</label><br>
+                <div>@Html.TextBoxFor(x => x.Author)</div>
+                <label>Date of Release:</label><br>
+                <div>@Html.TextBoxFor(x => x.ReleaseDate, new{@type="date"})</div>
+                <label>Link of book(if exist):</label><br>
+                <div>@Html.TextBoxFor(x => x.Link)</div>
+                <label for="comment">Book description:</label><br/>
+                <div>@Html.TextAreaFor(x => x.Desc)</div>
+                <div><input type="submit" value="Save"/></div>
+            </fieldset>
+    </form>
+</div>
+
+<style>
+	legend 
+	{
+		font-size: 22px;
+		margin: 5px;
+	}
+</style>

@@ -1,0 +1,66 @@
+﻿@model List<BookViewModel>
+
+ <fieldset>
+	<legend>Books:</legend>
+
+<div>
+	@foreach (var book in Model)
+	{
+		<details>
+			<summary>@book.Name</summary>
+			<div class="desc">
+				<div class="elements">
+					<p>
+						<b>Author:</b> @book.Author
+					</p>
+					<p>
+						<b>Release Date: </b> @book.ReleaseDate
+					</p>
+				</div>
+				<div class="desc1">
+					<p><b>Description:</b></p>
+					<p>@book.Desc</p>
+				</div>
+				<div class="link">
+					@if(book.Link != null)
+					{
+						<b><a href="@book.Link" target="_blank">Link</a></b>
+					}
+				</div>
+			</div>
+		</details>
+	}
+</div>
+</fieldset>
+
+<style>
+    details > summary {
+		margin: 5px;
+        padding: 5px;
+        background-color: #eee;
+        color: #333;
+        border: 1px #ccc solid;
+        cursor: pointer;
+    }
+ 
+    details > div {
+        border: 1px #ccc solid;
+        padding: 10px;
+    }
+    details[open] > summary {
+        color:#eee; 
+        background-color:#333;
+    }
+
+	legend 
+	{
+		font-size: 22px;
+		margin: 5px;
+	}
+
+	.desc1
+	{
+		padding-bottom: 5px;
+	}
+</style>
+
