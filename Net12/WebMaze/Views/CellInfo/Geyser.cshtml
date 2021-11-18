@@ -1,0 +1,25 @@
+﻿@model CellInfoViewModel
+
+
+<div class='allContentPG'>
+    <div class='imagePG'>
+        <img width="400px" src='@Model.Url' />
+    </div>
+
+
+    <div class='propertiesPG'>
+        <a>
+            Number of puddles: +
+        </a>
+
+        <p>
+            Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled" />
+        </p>
+
+    </div>
+
+    <div class='descriptionPG'>
+        @Model.Desc
+    </div>
+
+</div>
