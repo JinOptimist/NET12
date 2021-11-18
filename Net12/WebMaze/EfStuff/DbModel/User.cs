@@ -13,10 +13,14 @@ namespace WebMaze.EfStuff.DbModel
         public int Age { get; set; }
         public int Coins { get; set; }
 
+        public bool IsActive { get; set; }
+
         public virtual List<NewCellSuggestion> MyCellSuggestions { get; set; }
 
         public virtual List<NewCellSuggestion> CellSuggestionsWhichIAprove { get; set; }
 
         public virtual List<NewCellSuggestion> AddedSStuff { get; set; }
+
+        public virtual List<Review> MyReviews { get; set; }
     }
 }

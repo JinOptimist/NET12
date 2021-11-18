@@ -21,14 +21,12 @@
     justify-content: space-evenly;
 }
 
-body :nth-child(2n+3) {
-    flex-direction: row-reverse;
-}
+
 
 .obj-info .ico-info {
-    height: 100;
+    height: 100px;
     display: flex;
-    width: 300;
+    width: 300px;
     justify-content: center;
 }
 
