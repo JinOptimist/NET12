@@ -20,5 +20,7 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<SuggestedEnemys> MyEnemySuggested { get; set; }
 
         public virtual List<SuggestedEnemys> EnemySuggestedWhichIAprove { get; set; }
+
+        public virtual List<Review> MyReviews { get; set; }
     }
 }
