@@ -30,6 +30,14 @@ namespace WebMaze.EfStuff
                .HasOne(x => x.Approver)
                .WithMany(x => x.CellSuggestionsWhichIAprove);
 
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.MyEnemySuggested)
+                .WithOne(x => x.Creater);
+
+            modelBuilder.Entity<User>()
+               .HasMany(x => x.EnemySuggestedWhichIAprove)
+               .WithOne(x => x.Approver);
+
             base.OnModelCreating(modelBuilder);
         }
 

@@ -10,6 +10,8 @@ namespace WebMaze.EfStuff.DbModel
         public long Id { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
-        public string Description { get; set; } 
+        public string Description { get; set; }
+        public virtual User Creater { get; set; }
+        public virtual User Approver { get; set; }
     }
 }

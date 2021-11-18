@@ -65,12 +65,15 @@ namespace WebMaze.Controllers
         public IActionResult SuggestedEnemys()
         {
             var suggestedEnemyViewModels = new List<SuggestedEnemysViewModel>();
-            foreach (var dbSuggestedEnemys in _webContext.SuggestedEnemys)
+            var suggestedEnemy = _webContext.SuggestedEnemys.ToList();
+
+            foreach (var dbSuggestedEnemys in suggestedEnemy)
             {
                 var suggestedEnemyViewModel = new SuggestedEnemysViewModel();
                 suggestedEnemyViewModel.Name = dbSuggestedEnemys.Name;
                 suggestedEnemyViewModel.Url = dbSuggestedEnemys.Url;
                 suggestedEnemyViewModel.Description = dbSuggestedEnemys.Description;
+                suggestedEnemyViewModel.UserName = dbSuggestedEnemys.Creater.Name;
                 suggestedEnemyViewModels.Add(suggestedEnemyViewModel);
             }
 
@@ -85,11 +88,16 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
         {
+            var creater = _webContext
+               .Users
+               .OrderByDescending(x => x.Coins)
+               .FirstOrDefault();
             var dbSuggestedEnemy = new SuggestedEnemys()
             {
                 Name = suggestedEnemysViewModel.Name,
                 Url = suggestedEnemysViewModel.Url,
-                Description = suggestedEnemysViewModel.Description
+                Description = suggestedEnemysViewModel.Description,
+                Creater = creater
             };
             _webContext.SuggestedEnemys.Add(dbSuggestedEnemy);
 
