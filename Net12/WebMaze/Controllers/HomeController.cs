@@ -80,5 +80,84 @@ namespace WebMaze.Controllers
             var model = x + y;
             return View(model);
         }
+
+
+        [HttpGet]
+        public IActionResult Reviews()
+        {
+            var FeedBackUsers = new List<FeedBackUserViewModel>();
+            if (_webContext.Reviews.Any())
+            {
+                FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text , Rate = rev.Rate}).ToList();
+            }
+
+                return View(FeedBackUsers);
+        }
+
+        [HttpPost]
+        public IActionResult Reviews(Review review)
+        {
+            // TODO: Selected User
+            review.Creator = _webContext.Users.First();
+            _webContext.Add(review);
+            _webContext.SaveChanges();
+
+            var FeedBackUsers = new List<FeedBackUserViewModel>();
+            if (_webContext.Reviews.Any())
+            {
+                FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate }).ToList();
+            }
+            return View(FeedBackUsers);
+        }
+
+
+        public IActionResult NewCellSugg()
+        {
+            var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
+            var suggestions = _webContext.NewCellSuggestions.ToList();
+            foreach (var dbNewCellSuggestions in suggestions)
+            {
+                var newCellSuggestionViewModel = new NewCellSuggestionViewModel();
+                newCellSuggestionViewModel.Title = dbNewCellSuggestions.Title;
+                newCellSuggestionViewModel.Description = dbNewCellSuggestions.Description;
+                newCellSuggestionViewModel.MoneyChange = dbNewCellSuggestions.MoneyChange;
+                newCellSuggestionViewModel.HealtsChange = dbNewCellSuggestions.HealtsChange;
+                newCellSuggestionViewModel.FatigueChange = dbNewCellSuggestions.FatigueChange;
+                newCellSuggestionViewModel.UserName = dbNewCellSuggestions.Creater.Name;
+
+                newCellSuggestionsViewModel.Add(newCellSuggestionViewModel);
+            }
+            return View("/Views/Home/NewCellSugg.cshtml", newCellSuggestionsViewModel);
+        }
+        [HttpGet]
+        public IActionResult AddNewCellSugg()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCell)
+        {
+            //TODO user current user after login
+            var creater = _webContext
+                .Users
+                .OrderByDescending(x => x.Coins)
+                .FirstOrDefault();
+            var NewCS = new NewCellSuggestion()
+            {
+                Title = newCell.Title,
+                Description = newCell.Description,
+                MoneyChange = newCell.MoneyChange,
+                HealtsChange = newCell.HealtsChange,
+                FatigueChange = newCell.FatigueChange,
+                Creater = creater
+            };
+
+            _webContext.NewCellSuggestions.Add(NewCS);
+            _webContext.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
+
     }
+
 }

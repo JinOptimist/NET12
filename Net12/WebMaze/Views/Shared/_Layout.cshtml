@@ -5,20 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WebMaze</title>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel='stylesheet' href='~/css/ruleobj.css'>
+    <link rel="stylesheet" href="~/css/reviews.css"/>
+    <link rel="stylesheet" href="~/css/VitalityPotion_Slime.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
     @RenderSection("Scripts", required: false)
 </head>
 <body>
-    <header>
+      <header>
         Maze!!!
     </header>
     <div>
+        <a href="/Home/NewCellSugg">New CellSugg</a>
         <a href="/Home/Index">Home</a>
+        <a href="/Home/Reviews">Reviews</a>
         <a href="/Home/AddUser">Add User</a>
         <a href="/CellInfo/AddCell">Add Cell</a>
         <a href="/CellInfo/Trap">Trap info</a>
         <a style="color:cornflowerblue" href="/News/Index">NEWS</a>
+        <a href="/CellInfo/Tavern">Tavern info</a> 
+        <a href="/CellInfo/Walker">Walker info</a>
+        <a href="/CellInfo/AgressiveTroll">Agressive troll info</a>
+        <a href="/CellInfo/WeakWall">Weak wall info</a>
+        <a href="/CellInfo/Healer">Healer info</a>
+        <a href="/CellInfo/Wallworm">Wallworm info</a>
+        <a href="/CellInfo/VitalityPotion">VitalityPotion info</a>
+        <a href="/CellInfo/Slime">Slime info</a>
     </div>
     <div class="container">
         <div>
@@ -26,6 +39,16 @@
         </div>
     </div>
 
+        <div>
+            
+           
+        </div>
+        <div class="container">
+            <div>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - WebMaze
