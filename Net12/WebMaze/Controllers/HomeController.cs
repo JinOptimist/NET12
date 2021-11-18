@@ -81,6 +81,36 @@ namespace WebMaze.Controllers
             return View(model);
         }
 
+
+        [HttpGet]
+        public IActionResult Reviews()
+        {
+            var FeedBackUsers = new List<FeedBackUserViewModel>();
+            if (_webContext.Reviews.Any())
+            {
+                FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text , Rate = rev.Rate}).ToList();
+            }
+
+                return View(FeedBackUsers);
+        }
+
+        [HttpPost]
+        public IActionResult Reviews(Review review)
+        {
+            // TODO: Selected User
+            review.Creator = _webContext.Users.First();
+            _webContext.Add(review);
+            _webContext.SaveChanges();
+
+            var FeedBackUsers = new List<FeedBackUserViewModel>();
+            if (_webContext.Reviews.Any())
+            {
+                FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate }).ToList();
+            }
+            return View(FeedBackUsers);
+        }
+
+
         public IActionResult NewCellSugg()
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
