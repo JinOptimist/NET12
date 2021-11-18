@@ -17,12 +17,14 @@ namespace WebMaze.Controllers
         private WebContext _webContext;
 
         private UserRepository _userRepository;
+        private ReviewRepository _reviewRepository;
 
         public HomeController(WebContext webContext, 
-            UserRepository userRepository)
+            UserRepository userRepository, ReviewRepository reviewRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
+            _reviewRepository = reviewRepository;
         }
 
         public IActionResult Index()
@@ -60,7 +62,8 @@ namespace WebMaze.Controllers
                 Name = userViewMode.UserName,
                 Coins = userViewMode.Coins,
                 Age = DateTime.Now.Second % 10 + 20,
-                IsActive = true 
+                IsActive = true
+
             };
 
             _userRepository.Save(dbUser);
@@ -142,9 +145,9 @@ namespace WebMaze.Controllers
         public IActionResult Reviews()
         {
             var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_webContext.Reviews.Any())
+            if (_userRepository.GetAll().Any())
             {
-                FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text , Rate = rev.Rate}).ToList();
+                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text , Rate = rev.Rate}).ToList();
             }
 
                 return View(FeedBackUsers);
@@ -155,13 +158,13 @@ namespace WebMaze.Controllers
         {
             // TODO: Selected User
             review.Creator = _userRepository.GetRandomUser();
-            _webContext.Add(review);
-            _webContext.SaveChanges();
+            review.IsActive = true;
+            _reviewRepository.Save(review);
 
             var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_webContext.Reviews.Any())
+            if (_reviewRepository.GetAll().Any())
             {
-                FeedBackUsers = _webContext.Reviews.Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate }).ToList();
+                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate}).ToList();
             }
             return View(FeedBackUsers);
         }
