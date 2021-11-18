@@ -38,46 +38,7 @@ namespace WebMaze.Controllers
             //    });
 
             return View(userViewModels);
-        }
-
-        public IActionResult Reports()
-        {
-            var bugReportViewModels = new List<BugReportViewModel>();
-            var BugReports = _webContext.BugReports.ToList();
-            foreach (var dbBugReport in BugReports)
-            {
-                var bugReportViewModel = new BugReportViewModel();
-                bugReportViewModel.UserName = dbBugReport.Creater.Name;
-                bugReportViewModel.Description = dbBugReport.Description;
-                bugReportViewModels.Add(bugReportViewModel);
-
-            }
-            return View(bugReportViewModels);
-        }
-
-        [HttpGet]
-        public IActionResult AddBugReport()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddBugReport(BugReportViewModel bugReportViewModel)
-        {
-            var creater = _webContext
-                .Users
-                .OrderBy(x=>x.Id).
-                FirstOrDefault();
-            var dbBugReport = new BugReport()
-            {
-                Creater = creater,
-                Description = bugReportViewModel.Description
-            };
-            _webContext.BugReports.Add(dbBugReport);
-            _webContext.SaveChanges();
-
-            return RedirectToAction("Reports", "Home");
-        }
+        }        
 
         [HttpGet]
         public IActionResult AddUser()
