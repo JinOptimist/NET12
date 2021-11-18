@@ -12,5 +12,6 @@ namespace WebMaze.EfStuff.DbModel
         public int Age { get; set; }
 
         public int Coins { get; set; }
+        public virtual List<Game> MyFavGames { get; set; }
     }
 }

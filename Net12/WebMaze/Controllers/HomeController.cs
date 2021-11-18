@@ -43,7 +43,8 @@ namespace WebMaze.Controllers
         public IActionResult FavoriteGames()
         {
             var GamesViewModels = new List<GameViewModel>();
-            foreach (var dbGame in _webContext.FavGames)
+            var games = _webContext.FavGames.ToList();
+            foreach (var dbGame in games)
             {
                 var gameViewModel = new GameViewModel();
                 gameViewModel.Name = dbGame.Name;
@@ -51,7 +52,7 @@ namespace WebMaze.Controllers
                 gameViewModel.YearOfProd = dbGame.YearOfProd;
                 gameViewModel.Desc = dbGame.Desc;
                 gameViewModel.Rating = dbGame.Rating;
-                gameViewModel.Username = dbGame.Username;
+                gameViewModel.Username = dbGame.Creater.Name;
                 GamesViewModels.Add(gameViewModel);
             }
 
@@ -67,6 +68,10 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddGame(GameViewModel gameViewMode)
         {
+            var creater = _webContext.Users
+                .OrderBy(x => x.Coins)
+                .FirstOrDefault();
+
             var dbGame = new Game()
             {
                 Name = gameViewMode.Name,
@@ -74,7 +79,7 @@ namespace WebMaze.Controllers
                 YearOfProd = gameViewMode.YearOfProd,
                 Desc = gameViewMode.Desc,
                 Rating = gameViewMode.Rating,
-                Username = gameViewMode.Username,
+                Creater = creater,
             };
             _webContext.FavGames.Add(dbGame);
 

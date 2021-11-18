@@ -15,5 +15,13 @@ namespace WebMaze.EfStuff
         public WebContext(DbContextOptions options) : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.MyFavGames)
+                .WithOne(x => x.Creater);
+        }
     }
 }

@@ -13,6 +13,6 @@ namespace WebMaze.EfStuff.DbModel
         public int YearOfProd { get; set; }
         public string Desc { get; set; }
         public int Rating { get; set; }
-        public string Username { get; set; }
+        public virtual User Creater { get; set; }
     }
 }
