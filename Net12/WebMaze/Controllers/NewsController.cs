@@ -21,41 +21,40 @@ namespace WebMaze.Controllers
         public IActionResult Index()
         {
             var newsViewModels = new List<NewsViewModel>();
-            foreach (var dbNew in _webContext.News)
-            {
-                var newsViewModel = new NewsViewModel();
-                newsViewModel.DateOfNew = dbNew.DateOfNew;
-                newsViewModel.DatNow = dbNew.DatNow;
-                newsViewModel.Location = dbNew.Location;
-                newsViewModel.NameOfAthor = dbNew.NameOfAthor;
-                newsViewModel.Text = dbNew.Text;
-                newsViewModel.Title = dbNew.Title;
-                newsViewModels.Add(newsViewModel);
-            }
+            newsViewModels = _webContext.News.Select(
+                x => new NewsViewModel
+                {
+                    CreationDate = x.CreationDate,
+                    EventDate = x.EventDate,
+                    Location = x.Location,
+                    NameOfAuthor = x.NameOfAuthor,
+                    Text = x.Text,
+                    Title = x.Title
+                }).ToList();
 
             return View(newsViewModels);
         }
 
         [HttpGet]
-        public IActionResult AddNew()
+        public IActionResult AddNews()
         {
             return View();
         }
 
 
         [HttpPost]
-        public IActionResult AddNew(NewsViewModel newsViewModel)
+        public IActionResult AddNews(NewsViewModel newsViewModel)
         {
-            var dbNew = new New()
+            var dbNews = new News()
             {
-                DateOfNew = newsViewModel.DateOfNew,
-                DatNow = DateTime.Now.Date,
+                EventDate = newsViewModel.EventDate,
+                CreationDate = DateTime.Now.Date,
                 Location = newsViewModel.Location,
-                NameOfAthor = newsViewModel.NameOfAthor,
+                NameOfAuthor = newsViewModel.NameOfAuthor,
                 Text = newsViewModel.Text,
                 Title = newsViewModel.Title
             };
-            _webContext.News.Add(dbNew);
+            _webContext.News.Add(dbNews);
 
             _webContext.SaveChanges();
 

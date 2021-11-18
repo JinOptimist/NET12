@@ -1,61 +1,82 @@
 ﻿@model List<NewsViewModel>
 
-<div class="text-center">
-    <h1>NEWS</h1>
+@{ 
+    Layout = "~/Views/Shared/_LayoutNews.cshtml";
+}
+
+<div class="offset-lg-0 col col-12">
+            <a asp-action="Index" asp-controller="Home">Home/</a>
+            <a>News</a>
 </div>
 
 <div>
-    <table border="1">
+    <h2 style="text-align:center">NEWS</h2>
+</div>
+
+<div>
+    <table border="1" width="100%">
         <thead>
             <tr>
                 <th>
-                    <span>Title</span>
+                    <h2>Title of news</h2>
                 </th>
                 <th>
-                    <span>Text</span>
+                    <h2>Text of news</h2>
                 </th>
                 <th>
-                    <span>Location</span>
+                    <h2>Location of news</h2>
                 </th>
                 <th>
-                    <span>Date of new</span>
+                    <h2>Date of event</h2>
                 </th>
                 <th>
-                    <span>Name of athor</span>
+                    <h2>Author</h2>
                 </th>
                 <th>
-                    <span>Date now</span>
+                    <h2>Date of creation</h2>
                 </th>
             </tr>
         </thead>
 
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var news in Model)
             {
                 <tr>
                     <td>
-                        @item.Title
+                        <span>@news.Title</span>
                     </td>
                     <td>
-                        @item.Text
+                        <span>@news.Text</span>
                     </td>
 
                     <td>
-                        @item.Location
+                        <span>@news.Location</span>
                     </td>
                     <td>
-                        @item.DateOfNew
+                        <span>@news.EventDate.ToShortDateString()</span>
                     </td>
                     <td>
-                        @item.NameOfAthor
+                        <span>@news.NameOfAuthor</span>
                     </td>
                     <td>
-                        @item.DatNow
+                        <span>@news.CreationDate.ToShortDateString()</span>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 
-    <a href="/News/AddNew" style="color:red; font-size:x-large">ADD NEW</a>
+   <p>
+       <a href="/News/AddNews" style="color:red; font-size:x-large">ADD NEWS &raquo;</a>
+   </p>
+    
+
 </div>
+
+
+<style>
+    table > tbody > tr >td>span
+   {
+        font-size:18px;
+    }
+</style>
