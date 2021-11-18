@@ -32,5 +32,16 @@ namespace WebMaze.Controllers
 
             return View(model);
         }
+
+        public IActionResult StoresAndAddresses()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.Url = "/images/trap.jfif";
+            model.Desc = "Bad cell. Trap";
+
+            return View(model);
+        }
     }
 }
