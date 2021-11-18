@@ -50,6 +50,7 @@ namespace WebMaze.EfStuff.Repositories
         public void Remove(User user)
         {
             user.IsActive = false;
+            new ReviewRepository(_webContext).Remove(user.MyReviews);
             Save(user);
         }
 

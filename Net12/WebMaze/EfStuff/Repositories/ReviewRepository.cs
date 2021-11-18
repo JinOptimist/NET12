@@ -47,6 +47,15 @@ namespace WebMaze.EfStuff.Repositories
             _webContext.Reviews.Update(review);
             _webContext.SaveChanges();
         }
+        public void Remove(List<Review> reviews)
+        {
+            foreach (Review review in reviews)
+            {
+                review.IsActive = false;
+                _webContext.Reviews.Update(review);
+            }
+            _webContext.SaveChanges();
 
+        }
     }
 }
