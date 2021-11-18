@@ -10,8 +10,8 @@ using WebMaze.EfStuff;
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    [Migration("20211115172430_ConnecteUserToCell")]
-    partial class ConnecteUserToCell
+    [Migration("20211118165057_SecondLife")]
+    partial class SecondLife
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,6 +58,59 @@ namespace WebMaze.Migrations
                     b.ToTable("NewCellSuggestions");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.News", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EventDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameOfAuthor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("News");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long?>("CreatorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Rate")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Reviews");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
                     b.Property<long>("Id")
@@ -94,11 +147,22 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
+                        .WithMany("MyReviews")
+                        .HasForeignKey("CreatorId");
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
                     b.Navigation("CellSuggestionsWhichIAprove");
 
                     b.Navigation("MyCellSuggestions");
+
+                    b.Navigation("MyReviews");
                 });
 #pragma warning restore 612, 618
         }

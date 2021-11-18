@@ -2,22 +2,22 @@
 
 namespace WebMaze.Migrations
 {
-    public partial class AddCointColumn : Migration
+    public partial class SoftDeleteForUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "Coins",
+            migrationBuilder.AddColumn<bool>(
+                name: "IsActive",
                 table: "Users",
-                type: "int",
+                type: "bit",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Coins",
+                name: "IsActive",
                 table: "Users");
         }
     }
