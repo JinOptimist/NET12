@@ -12,5 +12,6 @@ namespace WebMaze.EfStuff.DbModel
         public string Text { get; set; }
         public virtual User Creator { get; set; }
 
+        public bool IsActive { get; set; }
     }
 }
