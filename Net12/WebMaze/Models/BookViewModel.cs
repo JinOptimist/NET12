@@ -13,5 +13,8 @@ namespace WebMaze.Models
         public string ReleaseDate { get; set; }
 
         public string Link { get; set; }
+        public string ImageLink { get; set; }
+
+        public string PublicationDate { get; set; } = DateTime.Now.ToShortDateString();
     }
 }

@@ -16,7 +16,9 @@ namespace WebMaze.Migrations
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Desc = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReleaseDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Link = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PublicationDate = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

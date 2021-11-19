@@ -31,10 +31,16 @@ namespace WebMaze.Migrations
                     b.Property<string>("Desc")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageLink")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicationDate")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReleaseDate")

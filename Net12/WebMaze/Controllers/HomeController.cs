@@ -48,9 +48,11 @@ namespace WebMaze.Controllers
                 var bookViewModel = new BookViewModel();
                 bookViewModel.Name = dbBook.Name;
                 bookViewModel.Link = dbBook.Link;
+                bookViewModel.ImageLink = dbBook.ImageLink;
                 bookViewModel.Author = dbBook.Author;
                 bookViewModel.Desc = dbBook.Desc;
                 bookViewModel.ReleaseDate = dbBook.ReleaseDate;
+                bookViewModel.PublicationDate = dbBook.PublicationDate;
                 bookViewModels.Add(bookViewModel);
             }
 
@@ -69,10 +71,12 @@ namespace WebMaze.Controllers
             {
                 Name = bookViewModel.Name,
                 Link = bookViewModel.Link,
+                ImageLink = bookViewModel.ImageLink,
                 Author = bookViewModel.Author,
                 Desc = bookViewModel.Desc,
-                ReleaseDate= bookViewModel.ReleaseDate  
-            };
+                ReleaseDate = bookViewModel.ReleaseDate,
+                PublicationDate = bookViewModel.PublicationDate
+        };
             _webContext.Books.Add(dbBook);
 
             _webContext.SaveChanges();

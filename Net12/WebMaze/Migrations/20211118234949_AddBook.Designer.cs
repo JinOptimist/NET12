@@ -9,8 +9,8 @@ using WebMaze.EfStuff;
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    [Migration("20211118145717_AddCointColumn")]
-    partial class AddCointColumn
+    [Migration("20211118234949_AddBook")]
+    partial class AddBook
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,10 +33,16 @@ namespace WebMaze.Migrations
                     b.Property<string>("Desc")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageLink")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicationDate")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReleaseDate")

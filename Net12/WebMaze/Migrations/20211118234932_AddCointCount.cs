@@ -2,7 +2,7 @@
 
 namespace WebMaze.Migrations
 {
-    public partial class AddCointColumn : Migration
+    public partial class AddCointCount : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
