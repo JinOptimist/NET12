@@ -15,7 +15,7 @@ namespace WebMaze.EfStuff
         public DbSet<News> News { get; set; }
 
         public DbSet<SuggestedEnemys> SuggestedEnemys { get; set; }
-        public DbSet<News> News { get; set; }
+        
         public WebContext(DbContextOptions options) : base(options)
         {
         }
