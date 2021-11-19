@@ -1,27 +1,42 @@
 ﻿@model List<SuggestedEnemysViewModel>
-   
-<div class="text-center">
-    <div>
-    SUGGESTED ENEMYS
-    </div>
-    
-    <div>
-        @foreach (var suggestedEnemys in Model)
-        {
-        <div class="suggested-enemy">
-            <div class="suggested-enemy-1">
-                <div class="suggested-enemy-2">
-                    @suggestedEnemys.Name
-                </div>
-            </div>
-            <div class="suggested-enemy-3">
-                @suggestedEnemys.Description
-            </div>
-            <div>
-                <img src="@suggestedEnemys.Url" />
-            </div>
+
+@{
+    Layout = "_LayoutYellowTeam";
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/siteYellowTeam.css" />
+</head>
+
+<body>
+
+    <div class="text-center">
+        <div>
+            SUGGESTED ENEMYS
         </div>
-        }
+
+        <div>
+            @foreach (var suggestedEnemys in Model)
+            {
+                <div class="enemy">
+                    <div class="enemy_001">
+                         <div>
+                            @suggestedEnemys.Name
+                         </div>
+                             <div>
+                                @suggestedEnemys.Description
+                             </div>
+                        
+                    </div>
+                        <div>
+                            <img class=" enemy_002" src="@suggestedEnemys.Url" />
+                        </div>
+                </div>
+
+            }
+        </div>
+
     </div>
-    
-</div>
+</body>
+</html>

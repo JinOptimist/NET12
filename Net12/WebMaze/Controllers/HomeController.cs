@@ -18,13 +18,15 @@ namespace WebMaze.Controllers
 
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
+        private SuggestedEnemysRepository _suggestedEnemysRepository;
 
         public HomeController(WebContext webContext, 
-            UserRepository userRepository, ReviewRepository reviewRepository)
+            UserRepository userRepository, ReviewRepository reviewRepository, SuggestedEnemysRepository suggestedEnemysRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
+            _suggestedEnemysRepository = suggestedEnemysRepository;           
         }
 
         public IActionResult Index()
@@ -63,7 +65,6 @@ namespace WebMaze.Controllers
                 Coins = userViewMode.Coins,
                 Age = DateTime.Now.Second % 10 + 20,
                 IsActive = true
-
             };
 
             _userRepository.Save(dbUser);
@@ -112,7 +113,8 @@ namespace WebMaze.Controllers
                 Name = suggestedEnemysViewModel.Name,
                 Url = suggestedEnemysViewModel.Url,
                 Description = suggestedEnemysViewModel.Description,
-                Creater = creater
+                Creater = creater,
+                IsActive = true
             };
             _webContext.SuggestedEnemys.Add(dbSuggestedEnemy);
 

@@ -31,7 +31,7 @@ namespace WebMaze
             services.AddScoped<UserRepository>(diContainer =>
                 {
                     var webContext = diContainer.GetService<WebContext>();
-                    var reviewRepository = diContainer.GetService<ReviewRepository>();
+                    var reviewRepository = diContainer.GetService<ReviewRepository>();                
                     var repository = new UserRepository(webContext, reviewRepository);
                     return repository;
                 }
@@ -43,7 +43,15 @@ namespace WebMaze
                 var repository = new ReviewRepository(webContext);
                 return repository;
             }
-       );
+            );
+
+            services.AddScoped<SuggestedEnemysRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var suggestedEnemysRepository = new SuggestedEnemysRepository(webContext);
+                return suggestedEnemysRepository;
+            }
+            );
 
             services.AddControllersWithViews();
         }
