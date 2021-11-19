@@ -130,7 +130,7 @@ namespace WebMaze.Controllers
             model.CanStep = false;
             model.Url = "/images/Geyser.jpg";
             model.Desc = "When the hero steps on a geyser , if there are earth - type cells around it , they change to the puddle type";
-
+            
             return View(model);
         }
 

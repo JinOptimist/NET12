@@ -35,33 +35,40 @@
                 <th>
                     <h2>Date of creation</h2>
                 </th>
+                <th>
+                    <h2>Delete</h2>
+                </th>
+
             </tr>
         </thead>
 
         <tbody>
             @foreach (var news in Model)
             {
-                <tr>
-                    <td>
-                        <span>@news.Title</span>
-                    </td>
-                    <td>
-                        <span>@news.Text</span>
-                    </td>
+            <tr>
+                <td>
+                    <span>@news.Title</span>
+                </td>
+                <td>
+                    <span>@news.Text</span>
+                </td>
 
-                    <td>
-                        <span>@news.Location</span>
-                    </td>
-                    <td>
-                        <span>@news.EventDate.ToShortDateString()</span>
-                    </td>
-                    <td>
-                        <span>@news.NameOfAuthor</span>
-                    </td>
-                    <td>
-                        <span>@news.CreationDate.ToShortDateString()</span>
-                    </td>
-                </tr>
+                <td>
+                    <span>@news.Location</span>
+                </td>
+                <td>
+                    <span>@news.EventDate.ToShortDateString()</span>
+                </td>
+                <td>
+                    <span>@news.NameOfAuthor</span>
+                </td>
+                <td>
+                    <span>@news.CreationDate.ToShortDateString()</span>
+                </td>
+                <td>
+                    <a href="/News/RemoveNews?newsId=@news.Id">X</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
