@@ -21,8 +21,8 @@ namespace WebMaze.Controllers
         private NewCellSuggRepository _newCellSuggRepository; 
 
         public HomeController(WebContext webContext, 
-            UserRepository userRepository, ReviewRepository reviewRepository)
-            UserRepository userRepository, NewCellSuggRepository newCellSuggRepository)
+            UserRepository userRepository, ReviewRepository reviewRepository,
+             NewCellSuggRepository newCellSuggRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
@@ -168,7 +168,7 @@ namespace WebMaze.Controllers
                 HealtsChange = newCell.HealtsChange,
                 FatigueChange = newCell.FatigueChange,
                 Creater = creater,
-                //IsActive = true
+                IsActive = true
             };
 
             _webContext.NewCellSuggestions.Add(NewCS);
