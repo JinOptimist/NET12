@@ -1,0 +1,37 @@
+.firstcell {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .secondcell {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .image_puddle {
+        padding: 20px;
+    }
+
+    .image_geyser {
+        padding: 20px;
+    }
+
+    .properties_puddle {
+        padding: 20px;
+        font-size: 30px;
+    }
+
+    .properties_geyser {
+        padding: 20px;
+        font-size: 30px;
+    }
+
+    .description_puddle {
+        padding: 20px;
+        font-size: 30px;
+    }
+
+    .description_geyser {
+        font-size: 30px;
+        padding: 20px;
+    }
