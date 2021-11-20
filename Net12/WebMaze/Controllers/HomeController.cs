@@ -164,7 +164,7 @@ namespace WebMaze.Controllers
                 HealtsChange = newCell.HealtsChange,
                 FatigueChange = newCell.FatigueChange,
                 Creater = creater,
-                IsActive = true
+                //IsActive = true
             };
 
             _webContext.NewCellSuggestions.Add(NewCS);
