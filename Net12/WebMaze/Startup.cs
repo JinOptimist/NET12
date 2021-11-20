@@ -31,10 +31,19 @@ namespace WebMaze
             services.AddScoped<UserRepository>(diContainer =>
                 {
                     var webContext = diContainer.GetService<WebContext>();
-                    var repository = new UserRepository(webContext);
+                    var reviewRepository = diContainer.GetService<ReviewRepository>();
+                    var repository = new UserRepository(webContext, reviewRepository);
                     return repository;
                 }
             );
+
+            services.AddScoped<ReviewRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new ReviewRepository(webContext);
+                return repository;
+            }
+       );
             services.AddScoped<NewCellSuggRepository>(diContainer =>
                 {
                     var webContext = diContainer.GetService<WebContext>();
