@@ -20,18 +20,14 @@ namespace WebMaze.Controllers
         private NewCellSuggRepository _newCellSuggRepository; 
 
         public HomeController(WebContext webContext, 
-            UserRepository userRepository)
+            UserRepository userRepository, NewCellSuggRepository newCellSuggRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
-        }
-
-        public HomeController(WebContext webContext,
-           NewCellSuggRepository newCellSuggRepository)
-        {
-            _webContext = webContext;
             _newCellSuggRepository = newCellSuggRepository;
         }
+
+        
 
         public IActionResult Index()
         {
@@ -159,7 +155,7 @@ namespace WebMaze.Controllers
         {
             //TODO user current user after login
             var creater = _userRepository.GetRandomUser();
-               
+
             var NewCS = new NewCellSuggestion()
             {
                 Title = newCell.Title,
@@ -167,7 +163,8 @@ namespace WebMaze.Controllers
                 MoneyChange = newCell.MoneyChange,
                 HealtsChange = newCell.HealtsChange,
                 FatigueChange = newCell.FatigueChange,
-                Creater = creater
+                Creater = creater,
+                IsActive = true
             };
 
             _webContext.NewCellSuggestions.Add(NewCS);
