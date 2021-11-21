@@ -11,6 +11,10 @@ namespace WebMaze.EfStuff.Repositories
         public MazeDifficultRepository(WebContext webContext) : base(webContext)
         {
         }
+        public User GetRandomUser()
+        {
+            return _webContext.Users.First();
+        }
     }
 
 }

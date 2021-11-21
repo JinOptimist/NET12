@@ -46,7 +46,7 @@ namespace WebMaze.Controllers
                 HeroMaxFatigue = mazeDifficultProfileViewModel.HeroMaxFatigue,
                 CoinCount = mazeDifficultProfileViewModel.CoinCount,
                 IsActive = true,
-                //Creater = mazeDifficultProfileViewModel.Author       
+                Creater = _mazeDifficultRepository.GetRandomUser(),
             };
             _mazeDifficultRepository.Save(dbMazeDifficult);
 
@@ -60,6 +60,7 @@ namespace WebMaze.Controllers
             foreach (var dbMazeDifficult in suggestions)
             {
                 var mazeDifficultProfileViewModel = new MazeDifficultProfileViewModel();
+
                 mazeDifficultProfileViewModel.Id = dbMazeDifficult.Id;
                 mazeDifficultProfileViewModel.Name = dbMazeDifficult.Name;
                 mazeDifficultProfileViewModel.Width = dbMazeDifficult.Width;
@@ -68,7 +69,8 @@ namespace WebMaze.Controllers
                 mazeDifficultProfileViewModel.HeroMaxHp = dbMazeDifficult.HeroMaxHp;
                 mazeDifficultProfileViewModel.HeroMaxFatigue = dbMazeDifficult.HeroMaxFatigue;
                 mazeDifficultProfileViewModel.CoinCount = dbMazeDifficult.CoinCount;
-//                mazeDifficultProfileViewModel.Author = dbMazeDifficult.Creater.Name;
+                mazeDifficultProfileViewModel.Author = dbMazeDifficult.Creater.Name;
+
                 mazeDifficultProfileViewModels.Add(mazeDifficultProfileViewModel);
             }
 
