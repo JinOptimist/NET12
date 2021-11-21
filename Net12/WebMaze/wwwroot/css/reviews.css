@@ -1,5 +1,4 @@
 ﻿.reviews-all {
-    
 }
 
 .review {
@@ -8,10 +7,12 @@
     border: 1px solid black;
     display: flex;
 }
+
 .rname-ico {
     display: flex;
     width: 15%;
-  }
+}
+
 .rname-ico-text {
     justify-content: space-evenly;
     display: flex;
@@ -19,15 +20,19 @@
     border-right: 1px solid black;
     border-left: 1px solid black;
 }
+
 .rname-ico-text-rate {
     align-items: center;
     display: flex;
 }
+
 .rate-text {
     width: 700px;
     display: flex;
     justify-content: center;
     align-items: center;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .rate-put {
