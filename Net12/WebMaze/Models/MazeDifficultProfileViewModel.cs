@@ -7,6 +7,7 @@ namespace WebMaze.Models
 {
     public class MazeDifficultProfileViewModel
     {
+        public long Id { get; set; }
         public string Name { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
