@@ -7,7 +7,6 @@ namespace WebMaze.EfStuff.DbModel
 {
     public class MazeDifficultProfile : BaseModel
     {
-        public long Id { get; set; }
         public string Name { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
@@ -15,7 +14,6 @@ namespace WebMaze.EfStuff.DbModel
         public int HeroMaxHp { get; set; }
         public int HeroMaxFatigue { get; set; }
         public int CoinCount { get; set; }
-        public bool IsActive { get; set; }
         public virtual User Creater { get; set; }
     }
 }

@@ -60,6 +60,7 @@ namespace WebMaze.Controllers
             foreach (var dbMazeDifficult in suggestions)
             {
                 var mazeDifficultProfileViewModel = new MazeDifficultProfileViewModel();
+                mazeDifficultProfileViewModel.Id = dbMazeDifficult.Id;
                 mazeDifficultProfileViewModel.Name = dbMazeDifficult.Name;
                 mazeDifficultProfileViewModel.Width = dbMazeDifficult.Width;
                 mazeDifficultProfileViewModel.Height = dbMazeDifficult.Height;
@@ -74,5 +75,10 @@ namespace WebMaze.Controllers
             return View(mazeDifficultProfileViewModels);
         }
 
+        public IActionResult RemoveMazeDifficult(long Id)
+        {
+            _mazeDifficultRepository.Remove(Id);
+            return RedirectToAction("ManageMazeDifficult", "Maze");
+        }
     }
 }
