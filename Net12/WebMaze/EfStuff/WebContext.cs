@@ -13,8 +13,8 @@ namespace WebMaze.EfStuff
         public DbSet<Image> Gallery { get; set; }
         public DbSet<NewCellSuggestion> NewCellSuggestions { get; set; }
         public DbSet<Review> Reviews { get; set; }
-
         public DbSet<News> News { get; set; }
+
         public WebContext(DbContextOptions options) : base(options)
         {
         }
