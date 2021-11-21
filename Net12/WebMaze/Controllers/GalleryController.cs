@@ -6,24 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 
 namespace WebMaze.Controllers
 {
     public class GalleryController : Controller
-    {
-        private WebContext _webContext;
+    {        
+        private ImageRepository _repository;
+        private UserRepository _userRepository;
 
-        public GalleryController(WebContext webContext)
+        public GalleryController(ImageRepository repository, UserRepository userRepository)
         {
-            _webContext = webContext;
+            _repository = repository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
             var imageViewModels = new List<ImageViewModel>();
-            foreach (var dbImage in _webContext.Gallery)
+            foreach (var dbImage in _repository.GetAll())
             {
                 var imageViewModel = new ImageViewModel();
                 imageViewModel.Author = dbImage.Author;
@@ -39,7 +42,7 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult AddImage()
         {
-            ViewBag.Users = new SelectList(_webContext.Users, "Id", "Name");
+            ViewBag.Users = new SelectList(_userRepository.GetAll(), "Id", "Name");
             return View();
         }
 
@@ -48,14 +51,14 @@ namespace WebMaze.Controllers
         {
             var dbImage = new Image()
             {
-                //Author = imageViewModel.Au,
+                Author = _userRepository.Get(imageViewModel.Author.Id),
                 Description = imageViewModel.Description,
                 Picture = imageViewModel.Picture,
-                Assessment = imageViewModel.Assessment
+                Assessment = imageViewModel.Assessment,
+                IsActive = true
             };
-            _webContext.Gallery.Add(dbImage);
-
-            _webContext.SaveChanges();
+            
+            _repository.Save(dbImage);            
 
             return RedirectToAction("Index", "Gallery");            
         }
