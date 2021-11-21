@@ -19,7 +19,7 @@ namespace WebMaze.EfStuff.DbModel
 
         public virtual List<NewCellSuggestion> CellSuggestionsWhichIAprove { get; set; }
 
-        public virtual List<NewCellSuggestion> AddedSStuff { get; set; }
+        public virtual List<StuffForHero> AddedSStuff { get; set; }
 
         public virtual List<Review> MyReviews { get; set; }
     }

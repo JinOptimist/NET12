@@ -10,8 +10,8 @@ using WebMaze.EfStuff;
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    [Migration("20211118165057_SecondLife")]
-    partial class SecondLife
+    [Migration("20211121123149_again ")]
+    partial class again
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,6 +111,32 @@ namespace WebMaze.Migrations
                     b.ToTable("Reviews");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.StuffForHero", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PictureLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("ProposerId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProposerId");
+
+                    b.ToTable("StuffsForHero");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
                     b.Property<long>("Id")
@@ -123,6 +149,9 @@ namespace WebMaze.Migrations
 
                     b.Property<int>("Coins")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -156,8 +185,19 @@ namespace WebMaze.Migrations
                     b.Navigation("Creator");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.StuffForHero", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Proposer")
+                        .WithMany("AddedSStuff")
+                        .HasForeignKey("ProposerId");
+
+                    b.Navigation("Proposer");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
+                    b.Navigation("AddedSStuff");
+
                     b.Navigation("CellSuggestionsWhichIAprove");
 
                     b.Navigation("MyCellSuggestions");

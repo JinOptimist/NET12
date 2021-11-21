@@ -32,6 +32,10 @@ namespace WebMaze.EfStuff
                .HasOne(x => x.Approver)
                .WithMany(x => x.CellSuggestionsWhichIAprove);
 
+            modelBuilder.Entity<StuffForHero>()
+               .HasOne(x => x.Proposer)
+               .WithMany(x => x.AddedSStuff); 
+
             modelBuilder.Entity<User>().HasMany(x => x.MyReviews).WithOne(x => x.Creator);
 
             base.OnModelCreating(modelBuilder);

@@ -106,7 +106,6 @@ namespace WebMaze.Controllers
 
             var dbStuffForHero = new StuffForHero()
             {
-                //Name = staffForHeroViewModel.Name,
                 Description = staffForHeroViewModel.Description,
                 PictureLink = staffForHeroViewModel.PictureLink,
                 Price = staffForHeroViewModel.Price,
