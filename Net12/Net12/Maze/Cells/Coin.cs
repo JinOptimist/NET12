@@ -10,7 +10,7 @@ namespace Net12.Maze
         {
             CoinCount = coinCount;
         }
-
+        
         public int CoinCount { get; set; }
 
         public override bool TryToStep()
