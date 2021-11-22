@@ -10,12 +10,10 @@ namespace WebMaze.EfStuff
     public class WebContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<Book> Books { get; set; }
         public DbSet<NewCellSuggestion> NewCellSuggestions { get; set; }
         public DbSet<StuffForHero> StuffsForHero { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<News> News { get; set; }
-
 
         public WebContext(DbContextOptions options) : base(options)
         {
