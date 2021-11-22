@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebMaze.Models
+namespace WebMaze.EfStuff.DbModel
 {
-    public class UserViewModel
+    public abstract class BaseModel
     {
         public long Id { get; set; }
-
-        public string UserName { get; set; }
-
-        public int Coins { get; set; }
+        public bool IsActive { get; set; }
     }
 }

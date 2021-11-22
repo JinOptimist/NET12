@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace WebMaze.Models
 {
-    public class UserViewModel
+    public class FeedBackUserViewModel
     {
-        public long Id { get; set; }
-
         public string UserName { get; set; }
-
-        public int Coins { get; set; }
+        public int Rate { get; set; }
+        public string TextInfo { get; set; }
     }
 }

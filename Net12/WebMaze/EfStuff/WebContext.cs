@@ -11,6 +11,8 @@ namespace WebMaze.EfStuff
     {
         public DbSet<User> Users { get; set; }
         public DbSet<NewCellSuggestion> NewCellSuggestions { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<News> News { get; set; }
 
         public WebContext(DbContextOptions options) : base(options)
         {
@@ -28,6 +30,12 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<NewCellSuggestion>()
                .HasOne(x => x.Approver)
                .WithMany(x => x.CellSuggestionsWhichIAprove);
+
+            modelBuilder.Entity<User>().HasMany(x => x.MyReviews).WithOne(x => x.Creator);
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.MyNews)
+                .WithOne(x => x.Author);
 
             base.OnModelCreating(modelBuilder);
         }
