@@ -14,11 +14,14 @@ namespace WebMaze.Controllers
     {
         private WebContext _webContext;
 
+        private UserRepository _userRepository;
         private NewsRepository _newsRepository;
-        public NewsController(WebContext webContext, NewsRepository newsRepository)
+
+        public NewsController(WebContext webContext, UserRepository userRepository,NewsRepository newsRepository)
         {
             _webContext = webContext;
             _newsRepository = newsRepository;
+            _userRepository = userRepository;
         }
 
         public IActionResult Index()
@@ -47,24 +50,12 @@ namespace WebMaze.Controllers
 
 
         [HttpPost]
-        public IActionResult AddNews(NewsViewModel newsViewModel)
+        public IActionResult AddNews(News news)
         {
-            var author = _webContext
-                   .Users
-                   .OrderBy(x => x.Name)
-                   .FirstOrDefault();
-
-            var dbNews = new News()
-            {
-                EventDate = newsViewModel.EventDate,
-                CreationDate = DateTime.Now.Date,
-                Location = newsViewModel.Location,
-                Author = author,
-                Text = newsViewModel.Text,
-                Title = newsViewModel.Title
-            };
-            _newsRepository.Save(dbNews);
-
+            news.Author = _userRepository.GetRandomUser();
+            news.IsActive = true;
+            news.CreationDate = DateTime.Now;
+            _newsRepository.Save(news);
             return RedirectToAction("Index", "News");
         }
 
