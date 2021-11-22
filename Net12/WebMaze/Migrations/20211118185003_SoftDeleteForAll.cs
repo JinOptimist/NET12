@@ -6,12 +6,12 @@ namespace WebMaze.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "IsActive",
-                table: "News",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
+            //migrationBuilder.AddColumn<bool>(
+            //    name: "IsActive",
+            //    table: "News",
+            //    type: "bit",
+            //    nullable: false,
+            //    defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
                 name: "IsActive",
@@ -23,9 +23,9 @@ namespace WebMaze.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "IsActive",
-                table: "News");
+            //migrationBuilder.DropColumn(
+            //    name: "IsActive",
+            //    table: "News");
 
             migrationBuilder.DropColumn(
                 name: "IsActive",
