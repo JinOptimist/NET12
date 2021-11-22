@@ -10,9 +10,9 @@
 .title-favGames {
     display: flex;
     justify-content: center;
-    font-size: 60px;
+    font-size: 70px;
     font-style: italic; 
-    margin: 5px 0 20px 0;
+    margin: 5px 0 10px 0;
 }
 
 .add-favGame-title {
