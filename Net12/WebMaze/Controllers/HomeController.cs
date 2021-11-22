@@ -18,13 +18,15 @@ namespace WebMaze.Controllers
 
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
+        private StuffForHeroRepository _staffForHeroRepository;
 
         public HomeController(WebContext webContext, 
-            UserRepository userRepository, ReviewRepository reviewRepository)
+            UserRepository userRepository, ReviewRepository reviewRepository, StuffForHeroRepository staffForHeroRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
+            _staffForHeroRepository = staffForHeroRepository;
         }
 
         public IActionResult Index()
@@ -80,7 +82,7 @@ namespace WebMaze.Controllers
         public IActionResult Stuff()
         {
             var staffsForHero = new List<StaffForHeroViewModel>();
-            foreach (var dbStaff in _webContext.StuffsForHero)
+            foreach (var dbStaff in _staffForHeroRepository.GetAll())
             {
                 var staffForHeroViewModel = new StaffForHeroViewModel();
                 staffForHeroViewModel.Name = dbStaff.Proposer.Name;
@@ -102,8 +104,7 @@ namespace WebMaze.Controllers
         public IActionResult AddStuffForHero(StaffForHeroViewModel staffForHeroViewModel)
         {
             //TODO user current user after login
-            var proposer = _webContext
-                .Users
+            var proposer = _userRepository.GetAll()
                 .OrderByDescending(x => x.Coins)
                 .FirstOrDefault();
 
