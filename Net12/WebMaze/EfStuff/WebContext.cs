@@ -35,6 +35,10 @@ namespace WebMaze.EfStuff
 
             modelBuilder.Entity<User>().HasMany(x => x.MyReviews).WithOne(x => x.Creator);
 
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.MyNews)
+                .WithOne(x => x.Author);
+
             base.OnModelCreating(modelBuilder);
         }
 
