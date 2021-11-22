@@ -3,10 +3,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebMaze.Migrations
 {
-    public partial class SecondLife : Migration
+    public partial class AddUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Desc = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReleaseDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PublicationDate = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "News",
                 columns: table => new
@@ -18,7 +37,8 @@ namespace WebMaze.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EventDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NameOfAuthor = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    NameOfAuthor = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,7 +53,8 @@ namespace WebMaze.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Age = table.Column<int>(type: "int", nullable: false),
-                    Coins = table.Column<int>(type: "int", nullable: false)
+                    Coins = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,7 +73,8 @@ namespace WebMaze.Migrations
                     HealtsChange = table.Column<int>(type: "int", nullable: false),
                     FatigueChange = table.Column<int>(type: "int", nullable: false),
                     CreaterId = table.Column<long>(type: "bigint", nullable: true),
-                    ApproverId = table.Column<long>(type: "bigint", nullable: true)
+                    ApproverId = table.Column<long>(type: "bigint", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,7 +101,8 @@ namespace WebMaze.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Rate = table.Column<int>(type: "int", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatorId = table.Column<long>(type: "bigint", nullable: true)
+                    CreatorId = table.Column<long>(type: "bigint", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,6 +133,9 @@ namespace WebMaze.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Books");
+
             migrationBuilder.DropTable(
                 name: "NewCellSuggestions");
 

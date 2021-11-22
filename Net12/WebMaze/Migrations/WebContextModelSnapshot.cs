@@ -19,11 +19,7 @@ namespace WebMaze.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Book", b =>
-            
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>
-
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +45,20 @@ namespace WebMaze.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReleaseDate")
-                    
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<long?>("ApproverId")
                         .HasColumnType("bigint");
 
@@ -133,17 +142,13 @@ namespace WebMaze.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
-
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Books");
-
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Reviews");
-
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
