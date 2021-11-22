@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebMaze.Migrations
 {
-    public partial class SecondLife : Migration
+    public partial class Update : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,11 +33,32 @@ namespace WebMaze.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Age = table.Column<int>(type: "int", nullable: false),
-                    Coins = table.Column<int>(type: "int", nullable: false)
+                    Coins = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BugReports",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreaterId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BugReports", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BugReports_Users_CreaterId",
+                        column: x => x.CreaterId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,6 +114,11 @@ namespace WebMaze.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_BugReports_CreaterId",
+                table: "BugReports",
+                column: "CreaterId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_NewCellSuggestions_ApproverId",
                 table: "NewCellSuggestions",
                 column: "ApproverId");
@@ -110,6 +136,9 @@ namespace WebMaze.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "BugReports");
+
             migrationBuilder.DropTable(
                 name: "NewCellSuggestions");
 

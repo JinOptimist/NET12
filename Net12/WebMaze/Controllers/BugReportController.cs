@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 
 namespace WebMaze.Controllers
@@ -13,22 +14,25 @@ namespace WebMaze.Controllers
     public class BugReportController : Controller
     {
         private WebContext _webContext;
+        private UserRepository _userRepository;
+        private BugReportRepository _bugReportRepository;
 
-        public BugReportController(WebContext webContext)
+        public BugReportController(WebContext webContext,
+            UserRepository userRepository, BugReportRepository bugReportRepository)
         {
             _webContext = webContext;
+            _userRepository = userRepository;
+            _bugReportRepository = bugReportRepository;
         }
         public IActionResult Reports()
         {
             var bugReportViewModels = new List<BugReportViewModel>();
-            var BugReports = _webContext.BugReports.ToList();
-            foreach (var dbBugReport in BugReports)
+            foreach (var dbBugReport in _bugReportRepository.GetAllBugReports())
             {
                 var bugReportViewModel = new BugReportViewModel();
                 bugReportViewModel.UserName = dbBugReport.Creater.Name;
                 bugReportViewModel.Description = dbBugReport.Description;
                 bugReportViewModels.Add(bugReportViewModel);
-
             }
             return View(bugReportViewModels);
         }
@@ -42,17 +46,13 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddBugReport(BugReportViewModel bugReportViewModel)
         {
-            var creater = _webContext
-                .Users
-                .OrderBy(x => x.Id).
-                FirstOrDefault();
+            var creater = _userRepository.GetRandomUser();
             var dbBugReport = new BugReport()
             {
                 Creater = creater,
                 Description = bugReportViewModel.Description
             };
-            _webContext.BugReports.Add(dbBugReport);
-            _webContext.SaveChanges();
+            _bugReportRepository.dbAddBugReport(dbBugReport);
 
             return RedirectToAction("Reports", "BugReport");
         }
