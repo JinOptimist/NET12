@@ -14,13 +14,12 @@
     <link rel='stylesheet' href='~/css/ruleobj.css'>
     <link rel="stylesheet" href="~/css/reviews.css" />
     <link rel="stylesheet" href="~/css/VitalityPotion_Slime.css" />
-
+    <link rel="stylesheet" href="~/css/Teleport_in_out.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
 
     @RenderSection("Scripts", required: false)
 </head>
-
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -67,11 +66,14 @@
             </div>
         </nav>
     </header>
-
-
+    <div>
+        <a href="/CellInfo/TeleportIn">Teleport in info</a>
+        <a href="/CellInfo/TeleportOut">Teleport out info</a>
+    </div>   
         <div>
             @RenderBody()
         </div>
+
 
     <footer class="border-top footer text-muted">
         <div class="container">

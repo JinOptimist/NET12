@@ -144,5 +144,27 @@ namespace WebMaze.Controllers
 
             return View(model);
         }
+
+        public IActionResult TeleportIn()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = true;
+            model.Url = "/images/TeleportIn.jpg";
+            model.Desc = "If hero stepped on teleport in cell, he would have appeared on teleport out cell ";
+
+            return View(model);
+        }
+
+        public IActionResult TeleportOut()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.Url = "/images/TeleportOut.jpg";
+            model.Desc = " If hero stepped on teleport in cell, he would have appeared on teleport out cell ";
+
+            return View(model);
+        }
     }
 }
