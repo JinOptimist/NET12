@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace WebMaze.EfStuff.DbModel
 {
-    public class BugReport : BaseModel
+    public class BugReport
     {
+        public long Id { get; set; }
         public string Description { get; set; }
         public virtual User Creater { get; set; }
     }

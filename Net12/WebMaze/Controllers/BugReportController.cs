@@ -27,7 +27,7 @@ namespace WebMaze.Controllers
         public IActionResult Reports()
         {
             var bugReportViewModels = new List<BugReportViewModel>();
-            foreach (var dbBugReport in _bugReportRepository.GetAll())
+            foreach (var dbBugReport in _bugReportRepository.GetAllBugReports())
             {
                 var bugReportViewModel = new BugReportViewModel();
                 bugReportViewModel.UserName = dbBugReport.Creater.Name;
@@ -50,10 +50,9 @@ namespace WebMaze.Controllers
             var dbBugReport = new BugReport()
             {
                 Creater = creater,
-                Description = bugReportViewModel.Description,
-                IsActive = true
+                Description = bugReportViewModel.Description
             };
-            _bugReportRepository.Save(dbBugReport);
+            _bugReportRepository.dbAddBugReport(dbBugReport);
 
             return RedirectToAction("Reports", "BugReport");
         }
