@@ -1,27 +1,58 @@
 ﻿@model GameViewModel
 
-<div class="text-center">
-    <form action="/Home/AddGame" method="post">
-        <div>
-            Title: @Html.TextBoxFor(x => x.Name)
-        </div>
-        <div>
-            Genre: @Html.TextBoxFor(x => x.Genre)
-        </div>
-        <div>
-            Year of Production: @Html.TextBoxFor(x => x.YearOfProd)
-        </div>
-        <div>
-            Description: @Html.TextBoxFor(x => x.Desc)
-        </div>
-        <div>
-            Rating (0 to 10): @Html.TextBoxFor(x => x.Rating)
-        </div>
-        <div>
-            Your username: @Html.TextBoxFor(x => x.Username)
-        </div>
-        <div>
-            <input type="submit" value="Save" />
-        </div>
-    </form>
+@{
+    Layout = "~/Views/Shared/_LayoutFavGames.cshtml";
+}
+
+
+<div class="add-favGame-page">
+    <div class="favGame-links">
+        <a href="/Home/Index" class="favGame-link">Back</a>
+        <a href="/Home/FavoriteGames" class="favGame-link">FavGames</a>
+    </div>
+    <div>
+        <form action="/Home/AddGame" method="post">
+            <div class="add-favGame-title">
+                <b>Add your favorite game</b>
+            </div>
+
+            <div class="add-favGame-form">
+                <div class="add-favGame-desc">
+                    You can add your favorite game here.
+                </div>
+                <div>
+                    <p>Title:</p>
+                    <textarea class="textarea" name="Name" cols="40" rows="1"></textarea>
+                </div>
+                <div>
+                    <p>Genre:</p>
+                    <textarea class="textarea" name="Genre" cols="40" rows="1"></textarea>
+
+                </div>
+                <div>
+                    <p>Year of Production:</p>
+                    <textarea class="textarea" name="YearOfProd" cols="40" rows="1"></textarea>
+
+                </div>
+                <div>
+                    <p>Description:</p>
+                    <textarea class="textarea" name="Desc" cols="40" rows="1"></textarea>
+
+                </div>
+                <div>
+                    <p>Rating (0 to 10):</p>
+                    <textarea class="textarea" name="Rating" cols="40" rows="1"></textarea>
+
+                </div>
+                <div>
+                    <p>Your username:</p>
+                    <textarea class="textarea" name="Username" cols="40" rows="1"></textarea>
+
+                </div>
+                <div>
+                    <input type="submit" class="input" value="Save" />
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

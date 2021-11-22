@@ -1,6 +1,6 @@
 ﻿@model List<GameViewModel>
 
-    <div class="title">
+    <div class="title-favGames">
         Favorite Games 
     </div>           
     
@@ -10,11 +10,11 @@
         <div>
 
 
-            <div class="title1">
+            <div class="title-favGame">
                 <b>@game.Name</b>
             </div>
-            <div class="desc">
-                <div class="elements">
+            <div class="favGame-desc">
+                <div class="game-elements">
                     <p>
                         <b>Genre:</b> @game.Genre
                     </p>
@@ -25,11 +25,12 @@
                         <b>Rating:</b> @game.Rating/10
                     </p>
                 </div>
-                <div class="desc1">
+                <div class="favGame-desc1">
                     <p><b>Description:</b> @game.Desc</p>
                 </div>
-                <div class="el">
+                <div class="favGame-user-elements">
                     <p><b>Username:</b> @game.Username</p>
+                    <p><b>Age:</b> @game.Age</p>                   
                 </div>
             </div>
 

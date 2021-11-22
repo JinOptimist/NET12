@@ -59,6 +59,7 @@ namespace WebMaze.Controllers
                 gameViewModel.Desc = dbGame.Desc;
                 gameViewModel.Rating = dbGame.Rating;
                 gameViewModel.Username = dbGame.Creater.Name;
+                gameViewModel.Age = dbGame.Creater.Age;
                 GamesViewModels.Add(gameViewModel);
             }
 
@@ -75,7 +76,7 @@ namespace WebMaze.Controllers
         public IActionResult AddGame(GameViewModel gameViewMode)
         {
             var creater = _webContext.Users
-                .OrderBy(x => x.Coins)
+                .Where(x => x.Name == gameViewMode.Username)
                 .FirstOrDefault();
 
             var dbGame = new Game()

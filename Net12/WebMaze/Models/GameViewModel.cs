@@ -13,5 +13,6 @@ namespace WebMaze.Models
         public string Desc { get; set; }
         public int Rating { get; set; }
         public string Username { get; set; }
+        public int Age { get; set; }
     }
 }
