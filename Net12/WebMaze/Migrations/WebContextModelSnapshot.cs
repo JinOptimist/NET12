@@ -48,7 +48,7 @@ namespace WebMaze.Migrations
                     b.Property<string>("PublicationDate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ReleaseDate")
+                    b.Property<string>("ReleaseDate");
                     
                     b.Property<long?>("ApproverId")
                         .HasColumnType("bigint");
