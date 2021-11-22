@@ -50,7 +50,7 @@ namespace WebMaze.Controllers
             };
             _mazeDifficultRepository.Save(dbMazeDifficult);
 
-            return View();
+            return RedirectToAction("ManageMazeDifficult", "Maze");
         }
 
         public IActionResult ManageMazeDifficult()
