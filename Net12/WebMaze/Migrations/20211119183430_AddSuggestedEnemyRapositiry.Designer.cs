@@ -10,8 +10,8 @@ using WebMaze.EfStuff;
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    [Migration("20211118222653__AddSuggestedEnemys")]
-    partial class _AddSuggestedEnemys
+    [Migration("20211119183430_AddSuggestedEnemyRapositiry")]
+    partial class _AddSuggestedEnemyRapositiry
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
