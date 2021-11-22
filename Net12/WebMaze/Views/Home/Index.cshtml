@@ -8,9 +8,11 @@
     <div>
         @foreach (var user in Model)
         {
-            <span class="@(user.Coins > 0 ? "rich" : "poor")">
+            <div class="@(user.Coins > 0 ? "rich" : "poor")">
                 @user.UserName
-            </span>
+
+                <a href="/Home/RemoveUser?userId=@user.Id">X</a>
+            </div>
         }
     </div>
     <div>

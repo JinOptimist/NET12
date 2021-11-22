@@ -1,0 +1,29 @@
+﻿@model NewsViewModel
+
+<div class=text-center>
+    <h2>Adding news</h2>
+</div>
+
+
+<div>
+    <form action="/News/AddNews" method="post">
+        <div>
+            <div>
+                <p>Title of news: @Html.TextBoxFor(x => x.Title)</p>
+            </div>
+            <div>
+                <p>Text of news: @Html.TextAreaFor(x => x.Text)</p>
+            </div>
+            <div>
+                <p>Location of news: @Html.TextBoxFor(x => x.Location)</p>
+            </div>
+            <div>
+                <p>Date of event: @Html.TextBoxFor(x => x.EventDate)</p>
+            </div>
+        </div>
+
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+</div>

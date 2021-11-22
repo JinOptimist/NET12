@@ -1,0 +1,34 @@
+﻿@model CellInfoViewModel
+
+<div class="cell-info-contener out">
+    <div>
+        <h1>
+            rule
+        </h1>
+    </div>
+
+    <div>
+        <div>
+            @Model.Desc
+        </div>
+
+        <div>
+            <h3>
+                Teleport out cell
+            </h3>
+            <div>
+                Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled" />
+            </div>
+            <div>
+                USE: impossible to use
+            </div>
+            <div>
+                COST: free
+            </div>
+        </div>
+
+        <div>           
+            <img src='@Model.Url' />
+        </div>
+    </div>
+</div>
