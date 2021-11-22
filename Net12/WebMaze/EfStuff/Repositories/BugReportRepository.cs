@@ -6,26 +6,12 @@ using WebMaze.EfStuff.DbModel;
 
 namespace WebMaze.EfStuff.Repositories
 {
-    public class BugReportRepository
+    public class BugReportRepository: BaseRepository<BugReport>
     {
-        private WebContext _webContext;
-
-        public BugReportRepository(WebContext webContext)
+        public BugReportRepository(WebContext webContext) : base(webContext)
         {
             _webContext = webContext;
-        }    
+        }
 
-        public List<BugReport> GetAllBugReports()
-        {
-            return _webContext
-                .BugReports
-                .Where(x => x.Creater.IsActive)
-                .ToList();
-        }
-        public void dbAddBugReport(BugReport bugReport)
-        {            
-            _webContext.BugReports.Add(bugReport);
-            _webContext.SaveChanges();
-        }
     }
 }
