@@ -61,7 +61,7 @@ namespace WebMaze.Controllers
             {
                 var mazeDifficultProfileViewModel = new MazeDifficultProfileViewModel();
 
-                mazeDifficultProfileViewModel.Id = dbMazeDifficult.Id;
+                mazeDifficultProfileViewModel.MazeDifficultId = dbMazeDifficult.Id;
                 mazeDifficultProfileViewModel.Name = dbMazeDifficult.Name;
                 mazeDifficultProfileViewModel.Width = dbMazeDifficult.Width;
                 mazeDifficultProfileViewModel.Height = dbMazeDifficult.Height;
