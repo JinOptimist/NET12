@@ -3,11 +3,7 @@
     Layout = "_LayoutYellowTeam";
 }
 
-<html>
-<head>
-    <link rel="stylesheet" href="~/css/styleYellowTeam.css" />
-</head>
-<body>
+
     <div class="block001">
         <div class="block002">
             <h1 class="rule">RULE</h1>
@@ -21,7 +17,10 @@
             </div>
             <div class="block003-2">
                 <ul class="list">
-                    <li>@Model.ShortsDescriptions.ElementAt(0)</li>
+                    @foreach (var desc in Model.ShortsDescriptions)
+                    {
+                    <li>@desc</li>
+                    }
                 </ul>
             </div>
             <div class="block003-3">
@@ -34,6 +33,3 @@
         </div>
 
     </div>
-
-</body>
-</html>
