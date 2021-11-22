@@ -3,62 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20211118165057_SecondLife")]
+    partial class SecondLife
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("bigint")
-                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                b.Property<int>("CoinCount")
-                    .HasColumnType("int");
-
-                b.Property<long?>("CreaterId")
-                    .HasColumnType("bigint");
-
-                b.Property<int>("Height")
-                    .HasColumnType("int");
-
-                b.Property<int>("HeroMaxFatigue")
-                    .HasColumnType("int");
-
-                b.Property<int>("HeroMaxHp")
-                    .HasColumnType("int");
-
-                b.Property<int>("HeroMoney")
-                    .HasColumnType("int");
-
-                b.Property<bool>("IsActive")
-                    .HasColumnType("bit");
-
-                b.Property<string>("Name")
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<int>("Width")
-                    .HasColumnType("int");
-
-                b.HasKey("Id");
-
-                b.HasIndex("CreaterId");
-
-                b.ToTable("MazeDifficultProfiles");
-            });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>
                 {
@@ -82,9 +43,6 @@ namespace WebMaze.Migrations
                     b.Property<int>("HealtsChange")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<int>("MoneyChange")
                         .HasColumnType("int");
 
@@ -107,19 +65,16 @@ namespace WebMaze.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("AuthorId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameOfAuthor")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
@@ -129,8 +84,6 @@ namespace WebMaze.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.ToTable("News");
                 });
@@ -144,9 +97,6 @@ namespace WebMaze.Migrations
 
                     b.Property<long?>("CreatorId")
                         .HasColumnType("bigint");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<int>("Rate")
                         .HasColumnType("int");
@@ -174,24 +124,12 @@ namespace WebMaze.Migrations
                     b.Property<int>("Coins")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
-                        .WithMany("MazeDifficultProfiles")
-                        .HasForeignKey("CreaterId");
-
-                    b.Navigation("Creater");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>
@@ -209,15 +147,6 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.News", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
-                        .WithMany("MyNews")
-                        .HasForeignKey("AuthorId");
-
-                    b.Navigation("Author");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
@@ -231,11 +160,7 @@ namespace WebMaze.Migrations
                 {
                     b.Navigation("CellSuggestionsWhichIAprove");
 
-                    b.Navigation("MazeDifficultProfiles");
-
                     b.Navigation("MyCellSuggestions");
-
-                    b.Navigation("MyNews");
 
                     b.Navigation("MyReviews");
                 });
