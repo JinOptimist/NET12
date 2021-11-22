@@ -1,42 +1,54 @@
 ﻿@model List<GameViewModel>
 
-    <div class="title-favGames">
-        Favorite Games 
-    </div>           
-    
-    <div>
-                   @foreach (var game in Model)
-                   {
-        <div>
+    @{
+        Layout = "~/Views/Shared/_LayoutFavGames.cshtml";
+    }
 
 
-            <div class="title-favGame">
-                <b>@game.Name</b>
-            </div>
-            <div class="favGame-desc">
-                <div class="game-elements">
-                    <p>
-                        <b>Genre:</b> @game.Genre
-                    </p>
-                    <p>
-                        <b>Year of Production:</b> @game.YearOfProd
-                    </p>
-                    <p>
-                        <b>Rating:</b> @game.Rating/10
-                    </p>
-                </div>
-                <div class="favGame-desc1">
-                    <p><b>Description:</b> @game.Desc</p>
-                </div>
-                <div class="favGame-user-elements">
-                    <p><b>Username:</b> @game.Username</p>
-                    <p><b>Age:</b> @game.Age</p>                   
-                </div>
-            </div>
+               <div class="favGames-page">
+                   <div class="favGame-links">
+                       <a href="/Home/Index" class="favGame-link">Back to Home</a>
+                       <a href="/Home/AddGame" class="favGame-link">Add FavGame</a>
+                   </div>
+                   <div class="title-favGames">
+                       Favorite Games
+                   </div>
+
+                   <div class="favGames-block">
+                       @foreach (var game in Model)
+                       {
+                           <div class="each-favGame">
+
+
+                               <div class="title-favGame">
+                                   <b>@game.Name</b>
+                               </div>
+                               <div class="favGame-desc">
+                                   <div class="game-elements">
+                                       <p>
+                                           <b>Genre:</b> @game.Genre
+                                       </p>
+                                       <p>
+                                           <b>Year of Production:</b> @game.YearOfProd
+                                       </p>
+                                       <p>
+                                           <b>Rating:</b> @game.Rating/10
+                                       </p>
+                                   </div>
+                                   <div class="favGame-desc1">
+                                       <p><b>Description:</b> @game.Desc</p>
+                                   </div>
+                                   <div class="favGame-user-elements">
+                                       <p><b>Username:</b> @game.Username</p>
+                                       <p><b>Age:</b> @game.Age</p>
+                                   </div>
+                               </div>
 
 
 
-        </div>
-                   }
+                           </div>
+                       }
 
-    </div>
+                   </div>
+                   
+               </div>

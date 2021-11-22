@@ -1,45 +1,58 @@
 ﻿.title-favGame {
-    display: flex;
-    justify-content: center;
+    display: inline-flex;
     font-size: 40px;
-    margin: 5px 0 3px 0
+    margin: 30px 0 10px 0;
+    padding: 0 10px 0 10px;
+    backdrop-filter: blur(5px) brightness(40%);
+    box-shadow: 0 0 4px 2px #fff;
 }
 
 .title-favGames {
     display: flex;
     justify-content: center;
     font-size: 60px;
-    font-style: italic;
+    font-style: italic; 
     margin: 5px 0 20px 0;
 }
 
 .add-favGame-title {
-    display: compact;
     justify-content: center;
     color: white;
     font-size: 90px;
-    margin: 0 0 20px 0;
+    margin: 0 250px 20px 250px;
     backdrop-filter: brightness(40%)
 }
 
 .favGame-desc {
     display: flex;
     justify-content: space-between;
-    font-size: 18px
+    font-size: 18px;
+    backdrop-filter: blur(5px) brightness(40%);
 }
 
 .game-elements {
     justify-content: center;
-    text-align: center;
-    white-space: nowrap
+    margin: 0 40px 0 40px;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
 }
 
 .favGame-desc1 {
     display: flex;
-    margin: 0 80px 0 80px
+    margin: 0 40px 0 40px;
 }
 
-.favGame-user-elements, .add-favGame-desc {
+.favGame-user-elements {
+    font-style: italic;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    margin: 0 40px 0 40px;
+    white-space: nowrap;
+}
+
+.add-favGame-desc {
     font-style: italic;
     justify-content: center;
     text-align: center;
@@ -57,18 +70,20 @@
     border-radius: 15px;
     box-shadow: 0 0 4px 2px #fff;
     backdrop-filter: blur(5px) brightness(40%);
+    margin: 0 0 50px 0
 }
 
 .add-favGame-page {
     justify-content: center;
     text-align: center;
     background-image: url(/imgFavGames/addFavGameBackground.png);
+    background-attachment: fixed;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     width: 100%;
-    height: auto;
+    height: auto
 }
 
 .textarea {
@@ -81,13 +96,44 @@
 }
 
 .favGame-link {
-
     color: white;
-
 }
 
 .favGame-links {
     text-align: left;
     font-size: 30px;
+    color: white;
     backdrop-filter: blur(5px) brightness(20%);
+}
+
+.favGames-page {
+    background-image: url(/imgFavGames/favGamesBackground.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    color: white;
+}
+
+.bottom-favGames {
+    color: white;
+    backdrop-filter: blur(10px) brightness(60%);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 30px; 
+}
+
+.favGames-block {
+    margin: 0 0 30px 0
+}
+
+.each-favGame {
+    text-align: center;
 }
