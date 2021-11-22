@@ -172,6 +172,22 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult Movie()
+        {
+            var MovieViewModels = new List<MovieViewModel>();
+            foreach(var dbMovie in _webContext.Movies)
+            {
+                var movieViewModel = new MovieViewModel()
+                {
+                    TitleGame = dbMovie.TitleGame,
+                    TitleMovie = dbMovie.TitleMovie,
+                    Release = dbMovie.Release,
+                    Link = dbMovie.Link
+                };
+                MovieViewModels.Add(movieViewModel);
+            }
+            return View(MovieViewModels);
+        }
 
     }
 
