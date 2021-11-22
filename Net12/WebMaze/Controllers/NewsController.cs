@@ -1,36 +1,38 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 
 namespace WebMaze.Controllers
 {
     public class NewsController : Controller
     {
-        private WebContext _webContext;
+        private UserRepository _userRepository;
+        private NewsRepository _newsRepository;
+        private IMapper _mapper;
 
-        public NewsController(WebContext webContext)
+        public NewsController(UserRepository userRepository, 
+            NewsRepository newsRepository, 
+            IMapper mapper)
         {
-            _webContext = webContext;
+            _newsRepository = newsRepository;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
         {
             var newsViewModels = new List<NewsViewModel>();
-            newsViewModels = _webContext.News.Select(
-                x => new NewsViewModel
-                {
-                    CreationDate = x.CreationDate,
-                    EventDate = x.EventDate,
-                    Location = x.Location,
-                    NameOfAuthor = x.NameOfAuthor,
-                    Text = x.Text,
-                    Title = x.Title
-                }).ToList();
+            newsViewModels = _newsRepository
+                .GetAll()
+                .Select(dbModel => _mapper.Map<NewsViewModel>(dbModel))
+                .ToList();
 
             return View(newsViewModels);
         }
@@ -45,19 +47,22 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddNews(NewsViewModel newsViewModel)
         {
-            var dbNews = new News()
-            {
-                EventDate = newsViewModel.EventDate,
-                CreationDate = DateTime.Now.Date,
-                Location = newsViewModel.Location,
-                NameOfAuthor = newsViewModel.NameOfAuthor,
-                Text = newsViewModel.Text,
-                Title = newsViewModel.Title
-            };
-            _webContext.News.Add(dbNews);
+            var author = _userRepository.GetRandomUser();
 
-            _webContext.SaveChanges();
+            var dbNews = _mapper.Map<News>(newsViewModel);
 
+            dbNews.CreationDate = DateTime.Now.Date;
+            dbNews.Author = author;
+            dbNews.IsActive = true;
+
+            _newsRepository.Save(dbNews);
+
+            return RedirectToAction("Index", "News");
+        }
+
+        public IActionResult RemoveNews(long newsId)
+        {
+            _newsRepository.Remove(newsId);
             return RedirectToAction("Index", "News");
         }
     }

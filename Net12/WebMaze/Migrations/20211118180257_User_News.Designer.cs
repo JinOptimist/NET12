@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20211118180257_User_News")]
+    partial class User_News
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,9 +42,6 @@ namespace WebMaze.Migrations
 
                     b.Property<int>("HealtsChange")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<int>("MoneyChange")
                         .HasColumnType("int");
@@ -75,9 +74,6 @@ namespace WebMaze.Migrations
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
@@ -104,9 +100,6 @@ namespace WebMaze.Migrations
                     b.Property<long?>("CreatorId")
                         .HasColumnType("bigint");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<int>("Rate")
                         .HasColumnType("int");
 
@@ -118,40 +111,6 @@ namespace WebMaze.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.SuggestedEnemys", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long?>("ApproverId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CreaterId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApproverId");
-
-                    b.HasIndex("CreaterId");
-
-                    b.ToTable("SuggestedEnemys");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
@@ -211,32 +170,13 @@ namespace WebMaze.Migrations
                     b.Navigation("Creator");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.SuggestedEnemys", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Approver")
-                        .WithMany("EnemySuggestedWhichIAprove")
-                        .HasForeignKey("ApproverId");
-
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
-                        .WithMany("MyEnemySuggested")
-                        .HasForeignKey("CreaterId");
-
-                    b.Navigation("Approver");
-
-                    b.Navigation("Creater");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
                     b.Navigation("CellSuggestionsWhichIAprove");
 
-                    b.Navigation("EnemySuggestedWhichIAprove");
-
                     b.Navigation("MyCellSuggestions");
 
                     b.Navigation("MyNews");
-
-                    b.Navigation("MyEnemySuggested");
 
                     b.Navigation("MyReviews");
                 });
