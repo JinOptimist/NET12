@@ -10,8 +10,8 @@ using WebMaze.EfStuff;
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    [Migration("20211118180430_UpdateTableReview")]
-    partial class UpdateTableReview
+    [Migration("20211118180257_User_News")]
+    partial class User_News
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,6 +65,9 @@ namespace WebMaze.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long?>("AuthorId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
@@ -74,9 +77,6 @@ namespace WebMaze.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NameOfAuthor")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
@@ -84,6 +84,8 @@ namespace WebMaze.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("News");
                 });
@@ -97,9 +99,6 @@ namespace WebMaze.Migrations
 
                     b.Property<long?>("CreatorId")
                         .HasColumnType("bigint");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<int>("Rate")
                         .HasColumnType("int");
@@ -153,6 +152,15 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.News", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
+                        .WithMany("MyNews")
+                        .HasForeignKey("AuthorId");
+
+                    b.Navigation("Author");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
@@ -167,6 +175,8 @@ namespace WebMaze.Migrations
                     b.Navigation("CellSuggestionsWhichIAprove");
 
                     b.Navigation("MyCellSuggestions");
+
+                    b.Navigation("MyNews");
 
                     b.Navigation("MyReviews");
                 });

@@ -19,6 +19,39 @@ namespace WebMaze.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Book", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Author")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Desc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Link")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicationDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReleaseDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Books");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
                 {
                     b.Property<long>("Id")
@@ -107,6 +140,9 @@ namespace WebMaze.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long?>("AuthorId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
@@ -119,9 +155,6 @@ namespace WebMaze.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NameOfAuthor")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
@@ -129,6 +162,8 @@ namespace WebMaze.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("News");
                 });
@@ -207,6 +242,15 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.News", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
+                        .WithMany("MyNews")
+                        .HasForeignKey("AuthorId");
+
+                    b.Navigation("Author");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
@@ -223,6 +267,8 @@ namespace WebMaze.Migrations
                     b.Navigation("MazeDifficultProfiles");
 
                     b.Navigation("MyCellSuggestions");
+
+                    b.Navigation("MyNews");
 
                     b.Navigation("MyReviews");
                 });
