@@ -9,7 +9,7 @@
 
 .goldmine-info-content {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .goldmine-info-content-img img {
