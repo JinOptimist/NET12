@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Net12.Maze;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,12 @@ namespace WebMaze.Controllers
     public class MazeController : Controller
     {
         private MazeDifficultRepository _mazeDifficultRepository;
+        private IMapper _mapper;
 
-        public MazeController(MazeDifficultRepository mazzeDifficultRepository)
+        public MazeController(MazeDifficultRepository mazzeDifficultRepository, IMapper mapper)
         {
             _mazeDifficultRepository = mazzeDifficultRepository;
+            _mapper = mapper;
         }
 
         public IActionResult Index(int width, int height)
@@ -36,18 +39,10 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddMazeDifficult(MazeDifficultProfileViewModel mazeDifficultProfileViewModel)
         {
-            var dbMazeDifficult = new MazeDifficultProfile()
-            {
-                Name = mazeDifficultProfileViewModel.Name,
-                Width = mazeDifficultProfileViewModel.Width,
-                Height = mazeDifficultProfileViewModel.Height,
-                HeroMoney = mazeDifficultProfileViewModel.HeroMoney,
-                HeroMaxHp = mazeDifficultProfileViewModel.HeroMaxHp,
-                HeroMaxFatigue = mazeDifficultProfileViewModel.HeroMaxFatigue,
-                CoinCount = mazeDifficultProfileViewModel.CoinCount,
-                IsActive = true,
-                Creater = _mazeDifficultRepository.GetRandomUser(),
-            };
+            var dbMazeDifficult = _mapper.Map<MazeDifficultProfile>(mazeDifficultProfileViewModel);
+            dbMazeDifficult.IsActive = true;
+            dbMazeDifficult.Creater = _mazeDifficultRepository.GetRandomUser();
+
             _mazeDifficultRepository.Save(dbMazeDifficult);
 
             return RedirectToAction("ManageMazeDifficult", "Maze");
@@ -56,23 +51,9 @@ namespace WebMaze.Controllers
         public IActionResult ManageMazeDifficult()
         {
             var mazeDifficultProfileViewModels = new List<MazeDifficultProfileViewModel>();
-            var suggestions = _mazeDifficultRepository.GetAll();
-            foreach (var dbMazeDifficult in suggestions)
-            {
-                var mazeDifficultProfileViewModel = new MazeDifficultProfileViewModel();
 
-                mazeDifficultProfileViewModel.MazeDifficultId = dbMazeDifficult.Id;
-                mazeDifficultProfileViewModel.Name = dbMazeDifficult.Name;
-                mazeDifficultProfileViewModel.Width = dbMazeDifficult.Width;
-                mazeDifficultProfileViewModel.Height = dbMazeDifficult.Height;
-                mazeDifficultProfileViewModel.HeroMoney = dbMazeDifficult.HeroMoney;
-                mazeDifficultProfileViewModel.HeroMaxHp = dbMazeDifficult.HeroMaxHp;
-                mazeDifficultProfileViewModel.HeroMaxFatigue = dbMazeDifficult.HeroMaxFatigue;
-                mazeDifficultProfileViewModel.CoinCount = dbMazeDifficult.CoinCount;
-                mazeDifficultProfileViewModel.Author = dbMazeDifficult.Creater.Name;
-
-                mazeDifficultProfileViewModels.Add(mazeDifficultProfileViewModel);
-            }
+            mazeDifficultProfileViewModels = _mazeDifficultRepository.GetAll()
+                .Select(x => _mapper.Map<MazeDifficultProfileViewModel>(x)).ToList();
 
             return View(mazeDifficultProfileViewModels);
         }

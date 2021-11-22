@@ -75,6 +75,11 @@ namespace WebMaze
 
             provider.CreateMap<UserViewModel, User>();
 
+            provider.CreateMap<MazeDifficultProfile, MazeDifficultProfileViewModel>()
+                .ForMember(nameof(MazeDifficultProfileViewModel.Author), opt => opt.MapFrom(db => db.Creater.Name))
+                .ForMember(nameof(MazeDifficultProfileViewModel.MazeDifficultId), opt => opt.MapFrom(db => db.Id));
+
+            provider.CreateMap<MazeDifficultProfileViewModel, MazeDifficultProfile>();
 
             var mapperConfiguration = new MapperConfiguration(provider);
 
