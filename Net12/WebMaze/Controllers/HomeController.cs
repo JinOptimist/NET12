@@ -95,6 +95,22 @@ namespace WebMaze.Controllers
 
             return View(suggestedEnemyViewModels);
         }
+
+        public IActionResult RemoveSuggestsdEnemy(SuggestedEnemys suggestedEnemys)
+        {
+
+            _suggestedEnemysRepository.Remove(suggestedEnemys);
+            return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
+
+        }
+
+        public IActionResult EditSuggestsdEnemy(SuggestedEnemys suggestedEnemys)
+        {
+            _suggestedEnemysRepository.Save(suggestedEnemys);
+            return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
+
+        }
+
         [HttpGet]
         public IActionResult AddSuggestedEnemy()
         {
@@ -102,26 +118,49 @@ namespace WebMaze.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
+        public IActionResult AddSuggestedEnemy(SuggestedEnemys suggestedEnemys)
         {
-            var creater = _webContext
-               .Users
-               .OrderByDescending(x => x.Coins)
-               .FirstOrDefault();
-            var dbSuggestedEnemy = new SuggestedEnemys()
-            {
-                Name = suggestedEnemysViewModel.Name,
-                Url = suggestedEnemysViewModel.Url,
-                Description = suggestedEnemysViewModel.Description,
-                Creater = creater,
-                IsActive = true
-            };
-            _webContext.SuggestedEnemys.Add(dbSuggestedEnemy);
-
-            _webContext.SaveChanges();
+            //var creater = _userRepository
+            //    .GetAll()
+            //    .OrderByDescending(x => x.Coins)
+            //    .FirstOrDefault();
+            //var NewCS = new SuggestedEnemys();
+            suggestedEnemys.Creater = _userRepository.GetRandomUser();
+            suggestedEnemys.IsActive = true;
+            _suggestedEnemysRepository.Save(suggestedEnemys);
 
             return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
         }
+
+
+
+        //[HttpGet]
+        //public IActionResult AddSuggestedEnemy()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
+        //{
+        //    var creater = _webContext
+        //       .Users
+        //       .OrderByDescending(x => x.Coins)
+        //       .FirstOrDefault();
+        //    var dbSuggestedEnemy = new SuggestedEnemys()
+        //    {
+        //        Name = suggestedEnemysViewModel.Name,
+        //        Url = suggestedEnemysViewModel.Url,
+        //        Description = suggestedEnemysViewModel.Description,
+        //        Creater = creater,
+        //        IsActive = true
+        //    };
+        //    _webContext.SuggestedEnemys.Add(dbSuggestedEnemy);
+
+        //    _webContext.SaveChanges();
+
+        //    return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
+        //}
 
         public IActionResult Time()
         {
@@ -152,7 +191,7 @@ namespace WebMaze.Controllers
                 FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text , Rate = rev.Rate}).ToList();
             }
 
-                return View(FeedBackUsers);
+            return View(FeedBackUsers);
         }
 
         [HttpPost]

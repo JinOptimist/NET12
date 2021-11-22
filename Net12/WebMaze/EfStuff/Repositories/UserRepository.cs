@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace WebMaze.EfStuff.Repositories
 
         public User GetRandomUser()
         {
-            return _webContext.Users.First();
+            return _webContext.Users.AsNoTracking().First();
         }
 
         public override void Remove(User user)

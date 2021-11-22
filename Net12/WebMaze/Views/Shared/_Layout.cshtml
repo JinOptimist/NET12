@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/css/reviews.css" />
     <link rel="stylesheet" href="~/css/PuddleGeyser.css" />
     <link rel="stylesheet" href="~/css/VitalityPotion_Slime.css" />
+    <link rel="stylesheet" href="~/css/Teleport_in_out.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
     <link rel="stylesheet" href="~/css/PuddleGeyser.css" />
@@ -39,14 +40,15 @@
         <a href="/CellInfo/Slime">Slime info</a>
         <a href="/CellInfo/Puddle">Puddle info</a>
         <a href="/CellInfo/Geyser">Geyser info</a>
-    </div>
-    <div>
-        <div class="container">
-            <div>
-                @RenderBody()
-            </div>
+        <a href="/CellInfo/TeleportIn">Teleport in info</a>
+        <a href="/CellInfo/TeleportOut">Teleport out info</a>
+    </div>   
+    <div class="container">
+        <div>
+            @RenderBody()
         </div>
     </div>
+
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - WebMaze
