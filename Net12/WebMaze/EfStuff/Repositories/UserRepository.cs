@@ -19,7 +19,7 @@ namespace WebMaze.EfStuff.Repositories
 
         public User GetRandomUser()
         {
-            return _webContext.Users.AsNoTracking().First();
+            return _webContext.Users.First();
         }
 
         public override void Remove(User user)

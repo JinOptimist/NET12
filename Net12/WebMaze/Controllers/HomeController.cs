@@ -96,10 +96,9 @@ namespace WebMaze.Controllers
             return View(suggestedEnemyViewModels);
         }
 
-        public IActionResult RemoveSuggestsdEnemy(SuggestedEnemys suggestedEnemys)
+        public IActionResult RemoveSuggestsdEnemy(long id)
         {
-
-            _suggestedEnemysRepository.Remove(suggestedEnemys);
+            _suggestedEnemysRepository.Remove(id);
             return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
 
         }
@@ -115,52 +114,26 @@ namespace WebMaze.Controllers
         public IActionResult AddSuggestedEnemy()
         {
             return View();
-        }
-
+        }     
+    
         [HttpPost]
-        public IActionResult AddSuggestedEnemy(SuggestedEnemys suggestedEnemys)
+        public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
         {
-            //var creater = _userRepository
-            //    .GetAll()
-            //    .OrderByDescending(x => x.Coins)
-            //    .FirstOrDefault();
-            //var NewCS = new SuggestedEnemys();
-            suggestedEnemys.Creater = _userRepository.GetRandomUser();
-            suggestedEnemys.IsActive = true;
-            _suggestedEnemysRepository.Save(suggestedEnemys);
+        var creater = _userRepository.GetRandomUser();
+       
+                    
+            var dbSuggestedEnemys = new SuggestedEnemys()
+            {
+                Name = suggestedEnemysViewModel.Name,
+                Url = suggestedEnemysViewModel.Url,
+                Description = suggestedEnemysViewModel.Description,
+                Creater = creater,
+                IsActive = true
+            };
+            _suggestedEnemysRepository.Save(dbSuggestedEnemys);                   
 
             return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
         }
-
-
-
-        //[HttpGet]
-        //public IActionResult AddSuggestedEnemy()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
-        //{
-        //    var creater = _webContext
-        //       .Users
-        //       .OrderByDescending(x => x.Coins)
-        //       .FirstOrDefault();
-        //    var dbSuggestedEnemy = new SuggestedEnemys()
-        //    {
-        //        Name = suggestedEnemysViewModel.Name,
-        //        Url = suggestedEnemysViewModel.Url,
-        //        Description = suggestedEnemysViewModel.Description,
-        //        Creater = creater,
-        //        IsActive = true
-        //    };
-        //    _webContext.SuggestedEnemys.Add(dbSuggestedEnemy);
-
-        //    _webContext.SaveChanges();
-
-        //    return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
-        //}
 
         public IActionResult Time()
         {

@@ -32,7 +32,7 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<NewCellSuggestion>()
                .HasOne(x => x.Approver)
                .WithMany(x => x.CellSuggestionsWhichIAprove);
-
+                                  
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MyEnemySuggested)
                 .WithOne(x => x.Creater);
