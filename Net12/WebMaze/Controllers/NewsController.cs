@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,27 +15,24 @@ namespace WebMaze.Controllers
     {
         private UserRepository _userRepository;
         private NewsRepository _newsRepository;
+        private IMapper _mapper;
 
-        public NewsController(UserRepository userRepository,NewsRepository newsRepository)
+        public NewsController(UserRepository userRepository, 
+            NewsRepository newsRepository, 
+            IMapper mapper)
         {
             _newsRepository = newsRepository;
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
         {
             var newsViewModels = new List<NewsViewModel>();
-            newsViewModels = _newsRepository.GetAll()
-                .Select(x => new NewsViewModel
-                {
-                    CreationDate = x.CreationDate,
-                    EventDate = x.EventDate,
-                    Location = x.Location,
-                    NameOfAuthor = x.Author.Name,
-                    Text = x.Text,
-                    Title = x.Title,
-                    Id=x.Id
-                }).ToList();
+            newsViewModels = _newsRepository
+                .GetAll()
+                .Select(dbModel => _mapper.Map<NewsViewModel>(dbModel))
+                .ToList();
 
             return View(newsViewModels);
         }
@@ -51,16 +49,12 @@ namespace WebMaze.Controllers
         {
             var author = _userRepository.GetRandomUser();
 
-            var dbNews = new News()
-            {
-                EventDate = newsViewModel.EventDate,
-                CreationDate = DateTime.Now.Date,
-                Location = newsViewModel.Location,
-                Author = author,
-                Text = newsViewModel.Text,
-                Title = newsViewModel.Title,
-                IsActive = true
-            };
+            var dbNews = _mapper.Map<News>(newsViewModel);
+
+            dbNews.CreationDate = DateTime.Now.Date;
+            dbNews.Author = author;
+            dbNews.IsActive = true;
+
             _newsRepository.Save(dbNews);
 
             return RedirectToAction("Index", "News");
