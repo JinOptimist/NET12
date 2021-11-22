@@ -39,12 +39,19 @@ namespace WebMaze
             );
 
             services.AddScoped<ReviewRepository>(diContainer =>
-                {
-                    var webContext = diContainer.GetService<WebContext>();
-                    var repository = new ReviewRepository(webContext);
-                    return repository;
-                }
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new ReviewRepository(webContext);
+                return repository;
+            }
             );
+            services.AddScoped<NewsRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new NewsRepository(webContext);
+                return repository;
+            }
+           );
 
             services.AddScoped<ImageRepository>();
 
