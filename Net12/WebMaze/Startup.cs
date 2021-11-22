@@ -50,8 +50,7 @@ namespace WebMaze
                 var repository = new StuffForHeroRepository(webContext);
                 return repository;
             });
-            }
-       );
+
             services.AddScoped<NewsRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
@@ -59,9 +58,11 @@ namespace WebMaze
                 return repository;
             }
            );
+        }      
+            
 
             services.AddControllersWithViews();
-        }
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
