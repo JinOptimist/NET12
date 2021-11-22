@@ -172,10 +172,6 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
-    }
-
-
         public IActionResult Movie()
         {
             var MovieViewModels = new List<MovieViewModel>();
