@@ -50,6 +50,15 @@ namespace WebMaze
                 var repository = new StuffForHeroRepository(webContext);
                 return repository;
             });
+            }
+       );
+            services.AddScoped<NewsRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new NewsRepository(webContext);
+                return repository;
+            }
+           );
 
             services.AddControllersWithViews();
         }
