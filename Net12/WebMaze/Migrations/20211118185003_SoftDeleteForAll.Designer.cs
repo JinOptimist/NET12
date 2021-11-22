@@ -3,53 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20211118185003_SoftDeleteForAll")]
+    partial class SoftDeleteForAll
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Game", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long?>("CreaterId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Desc")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Genre")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int>("YearOfProd")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreaterId");
-
-                    b.ToTable("FavGames");
-                });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>
                 {
@@ -98,9 +68,6 @@ namespace WebMaze.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long?>("AuthorId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
@@ -113,6 +80,9 @@ namespace WebMaze.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NameOfAuthor")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
@@ -120,8 +90,6 @@ namespace WebMaze.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.ToTable("News");
                 });
@@ -176,15 +144,6 @@ namespace WebMaze.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Game", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
-                        .WithMany("MyFavGames")
-                        .HasForeignKey("CreaterId");
-
-                    b.Navigation("Creater");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Approver")
@@ -198,15 +157,6 @@ namespace WebMaze.Migrations
                     b.Navigation("Approver");
 
                     b.Navigation("Creater");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.News", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
-                        .WithMany("MyNews")
-                        .HasForeignKey("AuthorId");
-
-                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
@@ -223,10 +173,6 @@ namespace WebMaze.Migrations
                     b.Navigation("CellSuggestionsWhichIAprove");
 
                     b.Navigation("MyCellSuggestions");
-
-                    b.Navigation("MyFavGames");
-
-                    b.Navigation("MyNews");
 
                     b.Navigation("MyReviews");
                 });

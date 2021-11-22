@@ -15,6 +15,7 @@ namespace WebMaze.EfStuff
         public DbSet<Game> FavGames { get; set; }
 
         public DbSet<News> News { get; set; }
+
         public WebContext(DbContextOptions options) : base(options)
         {
         }
@@ -41,6 +42,10 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<Game>()
                .HasOne(x => x.Creater)
                .WithMany(x => x.MyFavGames);
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.MyNews)
+                .WithOne(x => x.Author);
 
             base.OnModelCreating(modelBuilder);
         }
