@@ -64,32 +64,28 @@ namespace WebMaze
 
             services.AddControllersWithViews();
         }
+            private void RegisterMapper(IServiceCollection services)
+            {
+                var provider = new MapperConfigurationExpression();
 
-        private void RegisterMapper(IServiceCollection services)
-        {
-            var provider = new MapperConfigurationExpression();
+                provider.CreateMap<News, NewsViewModel>()
+                    .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
+                provider.CreateMap<NewsViewModel, News>();
 
-            provider.CreateMap<News, NewsViewModel>()
-                .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
-            provider.CreateMap<NewsViewModel, News>();
+                provider.CreateMap<User, UserViewModel>()
+                    //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
+                    .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name));
 
-            provider.CreateMap<User, UserViewModel>()
-                //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
-                .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name));
-
-            provider.CreateMap<UserViewModel, User>();
+                provider.CreateMap<UserViewModel, User>();
 
 
-            var mapperConfiguration = new MapperConfiguration(provider);
+                var mapperConfiguration = new MapperConfiguration(provider);
 
-            var mapper = new Mapper(mapperConfiguration);
-            services.AddScoped<IMapper>(x => mapper);
-            services.AddScoped<SuggestedEnemysRepository>(diContainer =>
-            
+                var mapper = new Mapper(mapperConfiguration);
 
-            services.AddControllersWithViews();
-            
-        }
+                services.AddScoped<IMapper>(x => mapper);
+            }
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
