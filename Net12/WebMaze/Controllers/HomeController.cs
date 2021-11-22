@@ -159,8 +159,8 @@ namespace WebMaze.Controllers
         public IActionResult Reviews(FeedBackUserViewModel viewReview)
         {
             // TODO: Selected User
-            viewReview.Creator = _userRepository.GetRandomUser();
             var review = _mapper.Map<Review>(viewReview);
+            review.Creator = _userRepository.GetRandomUser();
             review.IsActive = true;
             _reviewRepository.Save(review);
 

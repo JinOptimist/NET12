@@ -72,10 +72,12 @@ namespace WebMaze
                 .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name));
 
             provider.CreateMap<Review, FeedBackUserViewModel>()
-                .ForMember(nameof(FeedBackUserViewModel.TextInfo), opt => opt.MapFrom(dbreview => dbreview.Text));
+                .ForMember(nameof(FeedBackUserViewModel.TextInfo), opt => opt.MapFrom(dbreview => dbreview.Text))
+                .ForMember(nameof(FeedBackUserViewModel.Creator), opt => opt.MapFrom(dbreview => dbreview.Creator));
 
             provider.CreateMap<FeedBackUserViewModel, Review>()
-                .ForMember(nameof(Review.Text), opt => opt.MapFrom(viewReview => viewReview.TextInfo));
+                .ForMember(nameof(Review.Text), opt => opt.MapFrom(viewReview => viewReview.TextInfo))
+                .ForMember(nameof(Review.Creator), opt => opt.MapFrom(viewReview => viewReview.Creator));
 
             provider.CreateMap<UserViewModel, User>();
 
