@@ -12,14 +12,11 @@ namespace WebMaze.Controllers
 {
     public class NewsController : Controller
     {
-        private WebContext _webContext;
-
         private UserRepository _userRepository;
         private NewsRepository _newsRepository;
 
-        public NewsController(WebContext webContext, UserRepository userRepository,NewsRepository newsRepository)
+        public NewsController(UserRepository userRepository,NewsRepository newsRepository)
         {
-            _webContext = webContext;
             _newsRepository = newsRepository;
             _userRepository = userRepository;
         }
@@ -50,12 +47,22 @@ namespace WebMaze.Controllers
 
 
         [HttpPost]
-        public IActionResult AddNews(News news)
+        public IActionResult AddNews(NewsViewModel newsViewModel)
         {
-            news.Author = _userRepository.GetRandomUser();
-            news.IsActive = true;
-            news.CreationDate = DateTime.Now;
-            _newsRepository.Save(news);
+            var author = _userRepository.GetRandomUser();
+
+            var dbNews = new News()
+            {
+                EventDate = newsViewModel.EventDate,
+                CreationDate = DateTime.Now.Date,
+                Location = newsViewModel.Location,
+                Author = author,
+                Text = newsViewModel.Text,
+                Title = newsViewModel.Title,
+                IsActive = true
+            };
+            _newsRepository.Save(dbNews);
+
             return RedirectToAction("Index", "News");
         }
 
