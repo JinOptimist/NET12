@@ -1,0 +1,48 @@
+.header {
+    display: flex;
+    justify-content: center;
+    border-bottom: 3px rgb(164, 10, 236) solid;
+}
+
+.text{
+    display: flex;
+    justify-content:space-around;
+    padding: 10px;
+}
+.pic1{
+    display: flex;
+    justify-content: start;
+}
+
+.t11{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+}
+
+.t12{
+    display: flex;
+    align-items: center;
+}
+
+.p_with_color{
+    color: blueviolet;
+    font-weight:bold;
+    font-size: 150%;
+}
+
+.t21{
+    float: left;
+    margin: 50px 400px 0 0;
+    width: 600px;
+    height: 200px;
+}
+
+.pic2{
+    float: right;
+    margin: -170px 0 0 0;
+    width:200px;
+   
+}
+
