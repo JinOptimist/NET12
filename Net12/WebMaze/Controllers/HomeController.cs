@@ -50,6 +50,7 @@ namespace WebMaze.Controllers
             return View(userViewModels);
         }
 
+
         public IActionResult Book()
         {
             var bookViewModels = new List<BookViewModel>();
@@ -93,6 +94,7 @@ namespace WebMaze.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
 
         [HttpGet]
         public IActionResult AddUser()
