@@ -34,7 +34,7 @@ namespace WebMaze.Controllers
             var model = new CellInfoViewModel();
 
             model.CanStep = true;
-            model.ImageUrl = "/images/Fountain.jpg";
+            model.Url = "imgYellowTeam/Fountain.jpg";
             model.Desc = "Fountain";
             //model.Desc[0] = "Hello";
 
@@ -46,7 +46,7 @@ namespace WebMaze.Controllers
             var model = new CellInfoViewModel();
 
             model.CanStep = true;
-            model.ImageUrl = "/images/Coin.jpg";
+            model.Url = "imgYellowTeam/Coin.jpg";
             model.Desc = "Coin";
             //model.Desc[0] = "Hello";
 

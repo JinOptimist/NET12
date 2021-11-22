@@ -14,12 +14,15 @@
         </div>
         <div class="block003">
             <div>
-                <img class="block003-1" src='@Model.ImageUrl' />
+                <img class="block003-1" src='@Model.Url' />
                 <div class="name">
                     <text class=" name001">Coin</text>
                 </div>
             </div>
             <div class="block003-2">
+                <ul class="list">
+                    <li>@Model.ShortsDescriptions.ElementAt(0)</li>
+                </ul>
             </div>
             <div class="block003-3">
                 <p class=text001> @Model.Desc </p>
