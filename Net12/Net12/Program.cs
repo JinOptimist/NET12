@@ -11,15 +11,15 @@ namespace Net12
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine("Enter formula");
-            //var formulaString = Console.ReadLine();
+            Console.WriteLine("Enter formula");
+            var formulaString = Console.ReadLine();
 
-            //var calculator = new Formula();
-            //var answer = calculator.Calc(formulaString);
+            var calculator = new Formula();
+            var answer = calculator.Calc(formulaString);
 
-            //Console.WriteLine($"Answer: {answer}");
+            Console.WriteLine($"Answer: {answer}");
 
-            MazeStuff();
+            //MazeStuff();
         }
 
         private static void MazeStuff()
