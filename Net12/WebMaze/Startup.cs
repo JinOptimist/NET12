@@ -53,12 +53,12 @@ namespace WebMaze
                     var repository = new NewsRepository(webContext);
                     return repository;
                 });
+            services.AddScoped<SuggestedEnemysRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
                 var suggestedEnemysRepository = new SuggestedEnemysRepository(webContext);
                 return suggestedEnemysRepository;
-            }
-            );
+            });
 
             RegisterMapper(services);
 
@@ -88,6 +88,7 @@ namespace WebMaze
             
 
             services.AddControllersWithViews();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
