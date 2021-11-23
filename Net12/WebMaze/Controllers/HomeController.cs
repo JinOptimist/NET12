@@ -115,9 +115,8 @@ namespace WebMaze.Controllers
                 Price = staffForHeroViewModel.Price,
                 Proposer = proposer
             };
-            _webContext.StuffsForHero.Add(dbStuffForHero);
-            _webContext.SaveChanges();
-            return View();
+            _staffForHeroRepository.Save(dbStuffForHero);
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Time()
