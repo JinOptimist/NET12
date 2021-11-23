@@ -54,6 +54,13 @@ namespace WebMaze
                     return repository;
                 });
 
+            services.AddScoped<BugReportRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new BugReportRepository(webContext);
+                return repository;
+            });
+
             RegisterMapper(services);
 
             services.AddControllersWithViews();
