@@ -51,51 +51,6 @@ namespace WebMaze.Controllers
         }
 
 
-        public IActionResult Book()
-        {
-            var bookViewModels = new List<BookViewModel>();
-            foreach (var dbBook in _webContext.Books)
-            {
-                var bookViewModel = new BookViewModel();
-                bookViewModel.Name = dbBook.Name;
-                bookViewModel.Link = dbBook.Link;
-                bookViewModel.ImageLink = dbBook.ImageLink;
-                bookViewModel.Author = dbBook.Author;
-                bookViewModel.Desc = dbBook.Desc;
-                bookViewModel.ReleaseDate = dbBook.ReleaseDate;
-                bookViewModel.PublicationDate = dbBook.PublicationDate;
-                bookViewModels.Add(bookViewModel);
-            }
-
-            return View(bookViewModels);
-        }
-
-        [HttpGet]
-        public IActionResult AddBook()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult AddBook(BookViewModel bookViewModel)
-        {
-            var dbBook = new Book()
-            {
-                Name = bookViewModel.Name,
-                Link = bookViewModel.Link,
-                ImageLink = bookViewModel.ImageLink,
-                Author = bookViewModel.Author,
-                Desc = bookViewModel.Desc,
-                ReleaseDate = bookViewModel.ReleaseDate,
-                PublicationDate = bookViewModel.PublicationDate
-            };
-            _webContext.Books.Add(dbBook);
-
-            _webContext.SaveChanges();
-
-            return RedirectToAction("Index", "Home");
-        }
-
-
         [HttpGet]
         public IActionResult AddUser()
         {
