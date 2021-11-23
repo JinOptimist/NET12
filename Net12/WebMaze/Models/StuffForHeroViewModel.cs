@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebMaze.Models
 {
-    public class StaffForHeroViewModel
+    public class StuffForHeroViewModel
     {
         public long Id { get; set; }
         public string Name { get; set; }

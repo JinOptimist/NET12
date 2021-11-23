@@ -21,11 +21,9 @@ namespace WebMaze.Controllers
         private ReviewRepository _reviewRepository;
         private StuffForHeroRepository _staffForHeroRepository;
 
-        public HomeController(WebContext webContext, 
-            UserRepository userRepository, ReviewRepository reviewRepository, StuffForHeroRepository staffForHeroRepository)
         private IMapper _mapper;
         public HomeController(WebContext webContext,
-            UserRepository userRepository, ReviewRepository reviewRepository, IMapper mapper)
+            UserRepository userRepository, ReviewRepository reviewRepository, StuffForHeroRepository staffForHeroRepository, IMapper mapper)
         {
             _webContext = webContext;
             _userRepository = userRepository;
@@ -87,15 +85,11 @@ namespace WebMaze.Controllers
 
         public IActionResult Stuff()
         {
-            var staffsForHero = new List<StaffForHeroViewModel>();
+            var staffsForHero = new List<StuffForHeroViewModel>();
             foreach (var dbStaff in _staffForHeroRepository.GetAll())
             {
-                var staffForHeroViewModel = new StaffForHeroViewModel();
-                staffForHeroViewModel.Name = dbStaff.Proposer.Name;
-                staffForHeroViewModel.Description = dbStaff.Description;
-                staffForHeroViewModel.PictureLink = dbStaff.PictureLink;
-                staffForHeroViewModel.Price = dbStaff.Price;
-                staffsForHero.Add(staffForHeroViewModel);
+                staffsForHero = _staffForHeroRepository
+                    .GetAll().Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel)).ToList();
             }
             return View(staffsForHero);
         }
@@ -107,20 +101,18 @@ namespace WebMaze.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddStuffForHero(StaffForHeroViewModel staffForHeroViewModel)
+        public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
         {
             //TODO user current user after login
             var proposer = _userRepository.GetAll()
                 .OrderByDescending(x => x.Coins)
                 .FirstOrDefault();
 
-            var dbStuffForHero = new StuffForHero()
-            {
-                Description = staffForHeroViewModel.Description,
-                PictureLink = staffForHeroViewModel.PictureLink,
-                Price = staffForHeroViewModel.Price,
-                Proposer = proposer
-            };
+            var dbStuffForHero = _mapper.Map<StuffForHero>(stuffForHeroViewModel);
+
+            dbStuffForHero.Proposer = proposer;
+            dbStuffForHero.IsActive = true;
+
             _staffForHeroRepository.Save(dbStuffForHero);
             return RedirectToAction("Index", "Home");
         }
