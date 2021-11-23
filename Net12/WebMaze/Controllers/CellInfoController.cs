@@ -22,6 +22,17 @@ namespace WebMaze.Controllers
             return View("/Views/CellInfo/BaseCell.cshtml", model);
         }
 
+        public IActionResult Goldmine()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.Url = "/images/goldmine.jpg";
+            model.Desc = "Has 3 hp and gives you 1 coin every hit.";
+
+            return View(model);
+        }
+
         public IActionResult Trap()
         {
             var model = new CellInfoViewModel();
@@ -130,7 +141,7 @@ namespace WebMaze.Controllers
             model.CanStep = false;
             model.Url = "/images/Geyser.jpg";
             model.Desc = "When the hero steps on a geyser , if there are earth - type cells around it , they change to the puddle type";
-
+            
             return View(model);
         }
 
@@ -141,6 +152,28 @@ namespace WebMaze.Controllers
             model.CanStep = true;
             model.Url = "/images/Puddle.jpg";
             model.Desc = "There is the message 'wap - wap' on the screen when the hero steps on a puddle.";
+
+            return View(model);
+        }
+
+        public IActionResult TeleportIn()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = true;
+            model.Url = "/images/TeleportIn.jpg";
+            model.Desc = "If hero stepped on teleport in cell, he would have appeared on teleport out cell ";
+
+            return View(model);
+        }
+
+        public IActionResult TeleportOut()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.Url = "/images/TeleportOut.jpg";
+            model.Desc = " If hero stepped on teleport in cell, he would have appeared on teleport out cell ";
 
             return View(model);
         }

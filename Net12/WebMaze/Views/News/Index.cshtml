@@ -1,82 +1,58 @@
 ﻿@model List<NewsViewModel>
 
-@{ 
-    Layout = "~/Views/Shared/_LayoutNews.cshtml";
-}
-
-<div class="offset-lg-0 col col-12">
-            <a asp-action="Index" asp-controller="Home">Home/</a>
-            <a>News</a>
+<div class="header">
+    <h2>NEWS</h2>
 </div>
 
-<div>
-    <h2 style="text-align:center">NEWS</h2>
-</div>
+<div class="container">
+    <div class="row justify-content-center">
 
-<div>
-    <table border="1" width="100%">
-        <thead>
-            <tr>
-                <th>
-                    <h2>Title of news</h2>
-                </th>
-                <th>
-                    <h2>Text of news</h2>
-                </th>
-                <th>
-                    <h2>Location of news</h2>
-                </th>
-                <th>
-                    <h2>Date of event</h2>
-                </th>
-                <th>
-                    <h2>Author</h2>
-                </th>
-                <th>
-                    <h2>Date of creation</h2>
-                </th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var news in Model)
-            {
-                <tr>
-                    <td>
-                        <span>@news.Title</span>
-                    </td>
-                    <td>
-                        <span>@news.Text</span>
-                    </td>
-
-                    <td>
-                        <span>@news.Location</span>
-                    </td>
-                    <td>
-                        <span>@news.EventDate.ToShortDateString()</span>
-                    </td>
-                    <td>
-                        <span>@news.NameOfAuthor</span>
-                    </td>
-                    <td>
-                        <span>@news.CreationDate.ToShortDateString()</span>
-                    </td>
+        <table class="table table-bordered">
+            <thead>
+                <tr class="align-content-md-center">
+                    <th scope="col">Title of news</th>
+                    <th scope="col">Text of news</th>
+                    <th scope="col">Location of news</th>
+                    <th scope="col">Date of event</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Date of creation</th>
+                    <th scope="col">Delete</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
 
+            <tbody>
+                @foreach (var news in Model)
+                {
+                    <tr>
+                        <td>
+                            <span>@news.Title</span>
+                        </td>
+                        <td>
+                            <span>@news.Text</span>
+                        </td>
+
+                        <td>
+                            <span>@news.Location</span>
+                        </td>
+                        <td>
+                            <span>@news.EventDate.ToShortDateString()</span>
+                        </td>
+                        <td>
+                            <span>@news.NameOfAuthor</span>
+                        </td>
+                        <td>
+                            <span>@news.CreationDate.ToShortDateString()</span>
+                        </td>
+                        <td>
+                            <a href="/News/RemoveNews?newsId=@news.Id">X</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
    <p>
        <a href="/News/AddNews" style="color:red; font-size:x-large">ADD NEWS &raquo;</a>
    </p>
     
-
 </div>
-
-
-<style>
-    table > tbody > tr >td>span
-   {
-        font-size:18px;
-    }
-</style>
