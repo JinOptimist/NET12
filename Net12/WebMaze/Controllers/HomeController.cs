@@ -18,9 +18,9 @@ namespace WebMaze.Controllers
 
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
-        private NewCellSuggRepository _newCellSuggRepository; 
+        private NewCellSuggRepository _newCellSuggRepository;
 
-        public HomeController(WebContext webContext, 
+        public HomeController(WebContext webContext,
             UserRepository userRepository, ReviewRepository reviewRepository,
              NewCellSuggRepository newCellSuggRepository)
         {
@@ -30,7 +30,7 @@ namespace WebMaze.Controllers
             _newCellSuggRepository = newCellSuggRepository;
         }
 
-        
+
 
         public IActionResult Index()
         {
@@ -72,7 +72,7 @@ namespace WebMaze.Controllers
             };
 
             _userRepository.Save(dbUser);
-            
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -108,10 +108,10 @@ namespace WebMaze.Controllers
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             if (_userRepository.GetAll().Any())
             {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text , Rate = rev.Rate}).ToList();
+                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate }).ToList();
             }
 
-                return View(FeedBackUsers);
+            return View(FeedBackUsers);
         }
 
         [HttpPost]
@@ -125,7 +125,7 @@ namespace WebMaze.Controllers
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             if (_reviewRepository.GetAll().Any())
             {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate}).ToList();
+                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate }).ToList();
             }
             return View(FeedBackUsers);
         }
@@ -135,9 +135,10 @@ namespace WebMaze.Controllers
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
             var suggestions = _webContext.NewCellSuggestions.ToList();
-            foreach (var dbNewCellSuggestions in suggestions)
+            foreach (var dbNewCellSuggestions in _newCellSuggRepository.GetAll())
             {
                 var newCellSuggestionViewModel = new NewCellSuggestionViewModel();
+                newCellSuggestionViewModel.Id = dbNewCellSuggestions.Id;
                 newCellSuggestionViewModel.Title = dbNewCellSuggestions.Title;
                 newCellSuggestionViewModel.Description = dbNewCellSuggestions.Description;
                 newCellSuggestionViewModel.MoneyChange = dbNewCellSuggestions.MoneyChange;
@@ -172,7 +173,11 @@ namespace WebMaze.Controllers
             };
 
             _newCellSuggRepository.Save(NewCS);
-            //_webContext.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+        public IActionResult RemoveNewCellSuggestion(long userId)
+        {
+            _newCellSuggRepository.Remove(userId);
             return RedirectToAction("Index", "Home");
         }
 
