@@ -80,6 +80,9 @@ namespace WebMaze
 
             provider.CreateMap<UserViewModel, User>();
 
+            provider.CreateMap<BugReportViewModel, BugReport>();
+            provider.CreateMap<BugReport, BugReportViewModel>();
+
 
             var mapperConfiguration = new MapperConfiguration(provider);
 

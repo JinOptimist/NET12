@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Net12.Maze;
 using System;
 using System.Collections.Generic;
@@ -16,24 +17,27 @@ namespace WebMaze.Controllers
         private WebContext _webContext;
         private UserRepository _userRepository;
         private BugReportRepository _bugReportRepository;
+        private IMapper _mapper;
 
         public BugReportController(WebContext webContext,
-            UserRepository userRepository, BugReportRepository bugReportRepository)
+            UserRepository userRepository, 
+            BugReportRepository bugReportRepository,
+            IMapper mapper)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _bugReportRepository = bugReportRepository;
+            _mapper = mapper;
         }
         public IActionResult BugReports()
         {
             var bugReportViewModels = new List<BugReportViewModel>();
-            foreach (var dbBugReport in _bugReportRepository.GetAll())
-            {
-                var bugReportViewModel = new BugReportViewModel();
-                bugReportViewModel.CreaterName = dbBugReport.Creater.Name;
-                bugReportViewModel.Description = dbBugReport.Description;
-                bugReportViewModels.Add(bugReportViewModel);
-            }
+            
+            bugReportViewModels = _bugReportRepository
+                .GetAll()
+                .Select(dbModel => _mapper.Map<BugReportViewModel>(dbModel))
+                .ToList();
+
             return View(bugReportViewModels);
         }
 
@@ -47,12 +51,11 @@ namespace WebMaze.Controllers
         public IActionResult AddBugReport(BugReportViewModel bugReportViewModel)
         {
             var creater = _userRepository.GetRandomUser();
-            var dbBugReport = new BugReport()
-            {
-                Creater = creater,
-                Description = bugReportViewModel.Description,
-                IsActive = true
-            };
+
+            var dbBugReport = _mapper.Map<BugReport>(bugReportViewModel);
+            dbBugReport.Creater = creater;
+            dbBugReport.IsActive = true;
+
             _bugReportRepository.Save(dbBugReport);
 
             return RedirectToAction("BugReports", "BugReport");
