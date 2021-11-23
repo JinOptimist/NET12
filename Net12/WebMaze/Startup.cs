@@ -53,6 +53,12 @@ namespace WebMaze
                     var repository = new NewsRepository(webContext);
                     return repository;
                 });
+            services.AddScoped<NewCellSuggRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new NewCellSuggRepository(webContext);
+                return repository;
+            });
 
             RegisterMapper(services);
 
@@ -77,22 +83,9 @@ namespace WebMaze
             var mapperConfiguration = new MapperConfiguration(provider);
 
             var mapper = new Mapper(mapperConfiguration);
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new ReviewRepository(webContext);
-                return repository;
-            }
-       );
-            services.AddScoped<NewCellSuggRepository>(diContainer =>
-                {
-                    var webContext = diContainer.GetService<WebContext>();
-                    var repository = new NewCellSuggRepository(webContext);
-                    return repository;
-                }
-            );
-
 
             services.AddScoped<IMapper>(x => mapper);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
