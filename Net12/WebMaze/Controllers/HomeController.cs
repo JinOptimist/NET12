@@ -171,8 +171,8 @@ namespace WebMaze.Controllers
                 IsActive = true
             };
 
-            _webContext.NewCellSuggestions.Add(NewCS);
-            _webContext.SaveChanges();
+            _newCellSuggRepository.Save(NewCS);
+            //_webContext.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
 
