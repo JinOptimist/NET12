@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -22,11 +23,15 @@ namespace WebMaze.Controllers
 
         public HomeController(WebContext webContext, 
             UserRepository userRepository, ReviewRepository reviewRepository, StuffForHeroRepository staffForHeroRepository)
+        private IMapper _mapper;
+        public HomeController(WebContext webContext,
+            UserRepository userRepository, ReviewRepository reviewRepository, IMapper mapper)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
             _staffForHeroRepository = staffForHeroRepository;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
@@ -50,6 +55,7 @@ namespace WebMaze.Controllers
             return View(userViewModels);
         }
 
+
         [HttpGet]
         public IActionResult AddUser()
         {
@@ -69,7 +75,7 @@ namespace WebMaze.Controllers
             };
 
             _userRepository.Save(dbUser);
-            
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -145,16 +151,17 @@ namespace WebMaze.Controllers
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             if (_userRepository.GetAll().Any())
             {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text , Rate = rev.Rate}).ToList();
+                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
             }
 
-                return View(FeedBackUsers);
+            return View(FeedBackUsers);
         }
 
         [HttpPost]
-        public IActionResult Reviews(Review review)
+        public IActionResult Reviews(FeedBackUserViewModel viewReview)
         {
             // TODO: Selected User
+            var review = _mapper.Map<Review>(viewReview);
             review.Creator = _userRepository.GetRandomUser();
             review.IsActive = true;
             _reviewRepository.Save(review);
@@ -162,7 +169,7 @@ namespace WebMaze.Controllers
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             if (_reviewRepository.GetAll().Any())
             {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate}).ToList();
+                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
             }
             return View(FeedBackUsers);
         }

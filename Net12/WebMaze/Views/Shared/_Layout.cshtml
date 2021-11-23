@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="~/css/reviews.css" />
     <link rel="stylesheet" href="~/css/VitalityPotion_Slime.css" />
     <link rel="stylesheet" href="~/css/Teleport_in_out.css" />
+    <link rel='stylesheet' href='~/css/goldmine.css'>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
 
@@ -47,6 +48,9 @@
                             <a class="dropdown-item" href="/CellInfo/Geyser">Geyser info</a>
                             <a class="dropdown-item" href="/CellInfo/TeleportIn">Teleport in info</a>
                             <a class="dropdown-item" href="/CellInfo/TeleportOut">Teleport out info</a>
+                            <a class="dropdown-item" href="/CellInfo/Goldmine">Goldmine info</a>
+                            <a class="dropdown-item" href="/CellInfo/Fountain">Fountain info</a>
+                            <a class="dropdown-item" href="/CellInfo/Coin">Coin info</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -70,10 +74,13 @@
                 </ul>
             </div>
         </nav>
-    </header>   
-    <div>
-        @RenderBody()
-    </div>
+    </header>
+
+        <div>
+            @RenderBody()
+        </div>
+
+
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - WebMaze
