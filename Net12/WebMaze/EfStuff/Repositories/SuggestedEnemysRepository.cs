@@ -10,6 +10,7 @@ namespace WebMaze.EfStuff.Repositories
     {
             public SuggestedEnemysRepository(WebContext webContext) : base(webContext)
             {
-            }        
+
+            }
     }
 }

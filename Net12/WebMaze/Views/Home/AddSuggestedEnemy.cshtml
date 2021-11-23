@@ -1,9 +1,7 @@
 ﻿@model SuggestedEnemysViewModel
 
 <div class="text-center">
-    <div>
-       ADD SUGGESTED ENEMYS
-    </div>
+    <h3>You can suggest your enemy here.</h3>
     <form action="/Home/AddSuggestedEnemy" method="post">
         <div>
             Enemy name @Html.TextBoxFor(x => x.Name)
@@ -18,4 +16,7 @@
             <input type="submit" value="Save" />
         </div>
     </form>
+    <div class="nav-item">
+        <a class="nav-link" href="/Home/SuggestedEnemys">Suggested Enemys</a>
+    </div>
 </div>

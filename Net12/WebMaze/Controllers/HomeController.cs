@@ -20,13 +20,13 @@ namespace WebMaze.Controllers
         private ReviewRepository _reviewRepository;
         private SuggestedEnemysRepository _suggestedEnemysRepository;
 
-        public HomeController(WebContext webContext, 
+        public HomeController(WebContext webContext,
             UserRepository userRepository, ReviewRepository reviewRepository, SuggestedEnemysRepository suggestedEnemysRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
-            _suggestedEnemysRepository = suggestedEnemysRepository;           
+            _suggestedEnemysRepository = suggestedEnemysRepository;
         }
 
         public IActionResult Index()
@@ -68,7 +68,7 @@ namespace WebMaze.Controllers
             };
 
             _userRepository.Save(dbUser);
-            
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -86,19 +86,21 @@ namespace WebMaze.Controllers
             foreach (var dbSuggestedEnemys in suggestedEnemy)
             {
                 var suggestedEnemyViewModel = new SuggestedEnemysViewModel();
+                suggestedEnemyViewModel.Id = dbSuggestedEnemys.Id;
                 suggestedEnemyViewModel.Name = dbSuggestedEnemys.Name;
                 suggestedEnemyViewModel.Url = dbSuggestedEnemys.Url;
                 suggestedEnemyViewModel.Description = dbSuggestedEnemys.Description;
                 suggestedEnemyViewModel.UserName = dbSuggestedEnemys.Creater.Name;
                 suggestedEnemyViewModels.Add(suggestedEnemyViewModel);
+                suggestedEnemyViewModel.IsActive = dbSuggestedEnemys.IsActive;
             }
 
             return View(suggestedEnemyViewModels);
         }
 
-        public IActionResult RemoveSuggestsdEnemy(long id)
+        public IActionResult RemoveSuggestsdEnemy(long suggestedEnemysId)
         {
-            _suggestedEnemysRepository.Remove(id);
+            _suggestedEnemysRepository.Remove(suggestedEnemysId);
             return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
 
         }
@@ -106,7 +108,7 @@ namespace WebMaze.Controllers
         public IActionResult EditSuggestsdEnemy(SuggestedEnemys suggestedEnemys)
         {
             _suggestedEnemysRepository.Save(suggestedEnemys);
-            return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
+            return RedirectToAction($"{nameof(HomeController.AddSuggestedEnemy)}");
 
         }
 
@@ -114,14 +116,14 @@ namespace WebMaze.Controllers
         public IActionResult AddSuggestedEnemy()
         {
             return View();
-        }     
-    
+        }
+
         [HttpPost]
         public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
         {
-        var creater = _userRepository.GetRandomUser();
-       
-                    
+            var creater = _userRepository.GetRandomUser();
+
+
             var dbSuggestedEnemys = new SuggestedEnemys()
             {
                 Name = suggestedEnemysViewModel.Name,
@@ -130,7 +132,7 @@ namespace WebMaze.Controllers
                 Creater = creater,
                 IsActive = true
             };
-            _suggestedEnemysRepository.Save(dbSuggestedEnemys);                   
+            _suggestedEnemysRepository.Save(dbSuggestedEnemys);
 
             return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
         }
@@ -161,7 +163,7 @@ namespace WebMaze.Controllers
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             if (_userRepository.GetAll().Any())
             {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text , Rate = rev.Rate}).ToList();
+                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate }).ToList();
             }
 
             return View(FeedBackUsers);
@@ -178,7 +180,7 @@ namespace WebMaze.Controllers
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             if (_reviewRepository.GetAll().Any())
             {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate}).ToList();
+                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate }).ToList();
             }
             return View(FeedBackUsers);
         }
