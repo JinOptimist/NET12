@@ -17,9 +17,10 @@
                         Money: @newCellSuggestionViewModel.MoneyChange
                         Healts: @newCellSuggestionViewModel.HealtsChange
                         Fatigue: @newCellSuggestionViewModel.FatigueChange
+                        id: @newCellSuggestionViewModel.Id
                     </p>
                     <p>User Name: @newCellSuggestionViewModel.UserName</p>
-                    <a href="/Home/RemoveNewCellSuggestion?varOneCont=@newCellSuggestionViewModel">X</a>
+                    <a href="/Home/RemoveNewCellSuggestion?Id=@newCellSuggestionViewModel.Id">X</a>
                     @{++i;}
                 </div>
             </div>
