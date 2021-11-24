@@ -175,9 +175,9 @@ namespace WebMaze.Controllers
             _newCellSuggRepository.Save(NewCS);
             return RedirectToAction("Index", "Home");
         }
-        public IActionResult RemoveNewCellSuggestion(long userId)
+        public IActionResult RemoveNewCellSuggestion(NewCellSuggestion varOneCont)
         {
-            _newCellSuggRepository.Remove(userId);
+            _newCellSuggRepository.Remove(varOneCont);
             return RedirectToAction("Index", "Home");
         }
 
