@@ -82,6 +82,12 @@ namespace WebMaze
                 .ForMember(nameof(Review.Text), opt => opt.MapFrom(viewReview => viewReview.TextInfo))
                 .ForMember(nameof(Review.Creator), opt => opt.MapFrom(viewReview => viewReview.Creator));
 
+            provider.CreateMap<Image, ImageViewModel>();
+
+            provider.CreateMap<ImageViewModel, Image>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
+            
             provider.CreateMap<UserViewModel, User>();
 
 
