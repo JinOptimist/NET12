@@ -1,26 +1,25 @@
 ﻿@model List<ImageViewModel>
 
-<div>
-    <a href="/Gallery/AddImage">Add new image</a>
-</div>
+<div class="whole-page">  
 
-<div class="text-center">
-    <h1>Users gallery</h1>
-    
-    <div class="pic-to-gallery">
-        @foreach (var image in Model)
-        {
-            <div>
+    <div class="text-center">
+        <h1>Users gallery</h1>
+
+        <div class="pic-to-gallery">
+            @foreach (var image in Model)
+            {
                 <div>
-                    <img src="@image.Picture">
+                    <div>
+                        <img src="@image.Picture">
+                    </div>
+                    <div class="t-to-gallery">
+                        @image.Assessment
+                    </div>
+                    <div class="t-to-gallery">
+                        @image.Description
+                    </div>
                 </div>
-                <div class="t-to-gallery">
-                    @image.Assessment
-                </div>
-                <div class="t-to-gallery">
-                    @image.Description
-                </div>
-            </div>
-        }
-    </div>    
+            }
+        </div>
+    </div>
 </div>
