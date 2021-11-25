@@ -87,6 +87,10 @@ namespace WebMaze
 
             provider.CreateMap<UserViewModel, User>();
 
+            provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
+                .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name));
+            provider.CreateMap<NewCellSuggestionViewModel, NewCellSuggestion>();
+
 
             var mapperConfiguration = new MapperConfiguration(provider);
 

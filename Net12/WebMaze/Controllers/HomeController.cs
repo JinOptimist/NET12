@@ -135,21 +135,11 @@ namespace WebMaze.Controllers
         public IActionResult NewCellSugg()
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
-            var suggestions = _webContext.NewCellSuggestions.ToList();
-            foreach (var dbNewCellSuggestions in _newCellSuggRepository.GetAll())
-            {
-                var newCellSuggestionViewModel = new NewCellSuggestionViewModel();
-                newCellSuggestionViewModel.Id = dbNewCellSuggestions.Id;
-                newCellSuggestionViewModel.Title = dbNewCellSuggestions.Title;
-                newCellSuggestionViewModel.Description = dbNewCellSuggestions.Description;
-                newCellSuggestionViewModel.MoneyChange = dbNewCellSuggestions.MoneyChange;
-                newCellSuggestionViewModel.HealtsChange = dbNewCellSuggestions.HealtsChange;
-                newCellSuggestionViewModel.FatigueChange = dbNewCellSuggestions.FatigueChange;
-                newCellSuggestionViewModel.UserName = dbNewCellSuggestions.Creater.Name;
+            newCellSuggestionsViewModel = _newCellSuggRepository.GetAll()
+                .Select(dbModel => _mapper.Map<NewCellSuggestionViewModel>(dbModel))
+                .ToList();
 
-                newCellSuggestionsViewModel.Add(newCellSuggestionViewModel);
-            }
-            return View("/Views/Home/NewCellSugg.cshtml", newCellSuggestionsViewModel);
+            return View(newCellSuggestionsViewModel);
         }
         [HttpGet]
         public IActionResult AddNewCellSugg()
