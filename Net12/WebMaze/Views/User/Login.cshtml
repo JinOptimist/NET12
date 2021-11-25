@@ -1,0 +1,13 @@
+﻿@model LoginViewModel
+
+<form action="/User/Login" method="post">
+    <div>
+        Login: @Html.TextBoxFor(x => x.Login)
+    </div>
+    <div>
+        Password: @Html.TextBoxFor(x => x.Password)
+    </div>
+    <div>
+        <input type="submit" value="Login" />
+    </div>
+</form>

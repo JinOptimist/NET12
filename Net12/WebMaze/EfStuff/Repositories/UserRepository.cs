@@ -19,6 +19,11 @@ namespace WebMaze.EfStuff.Repositories
             _imageRepository = imageRepository;
         }
 
+        public User GetByNameAndPassword(string login, string password)
+        {
+            return _dbSet.SingleOrDefault(x => x.Name == login && x.Password == password);
+        }
+
         public User GetRandomUser()
         {
             return _webContext.Users.First();
