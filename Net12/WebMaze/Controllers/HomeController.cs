@@ -15,18 +15,21 @@ namespace WebMaze.Controllers
 {
     public class HomeController : Controller
     {
-        private WebContext _webContext;
+        private readonly WebContext _webContext;
 
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
         private NewCellSuggRepository _newCellSuggRepository;
+        private StuffForHeroRepository _staffForHeroRepository;
+
         private IMapper _mapper;
         public HomeController(WebContext webContext,
-            UserRepository userRepository, ReviewRepository reviewRepository, NewCellSuggRepository newCellSuggRepository, IMapper mapper)
+            UserRepository userRepository, ReviewRepository reviewRepository, NewCellSuggRepository newCellSuggRepository, StuffForHeroRepository staffForHeroRepository, IMapper mapper)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
+            _staffForHeroRepository = staffForHeroRepository;
             _mapper = mapper;
             _newCellSuggRepository = newCellSuggRepository;
         }
@@ -81,6 +84,37 @@ namespace WebMaze.Controllers
         {
             _userRepository.Remove(userId);
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Stuff()
+        {
+            var staffsForHero = new List<StuffForHeroViewModel>();
+            staffsForHero = _staffForHeroRepository
+                    .GetAll().Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel)).ToList();
+            return View(staffsForHero);
+        }
+
+        [HttpGet]
+        public IActionResult AddStuffForHero()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
+        {
+            //TODO user current user after login
+            var proposer = _userRepository.GetAll()
+                .OrderByDescending(x => x.Coins)
+                .FirstOrDefault();
+
+            var dbStuffForHero = _mapper.Map<StuffForHero>(stuffForHeroViewModel);
+
+            dbStuffForHero.Proposer = proposer;
+            dbStuffForHero.IsActive = true;
+
+            _staffForHeroRepository.Save(dbStuffForHero);
+            return RedirectToAction("Index", "Home", "AddStuffForHero");
         }
 
         public IActionResult Time()

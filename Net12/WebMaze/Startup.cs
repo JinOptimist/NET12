@@ -73,6 +73,13 @@ namespace WebMaze
                 return repository;
             });
 
+            services.AddScoped<StuffForHeroRepository>(diContainer =>
+                {
+                    var webContext = diContainer.GetService<WebContext>();
+                    var repository = new StuffForHeroRepository(webContext);
+                    return repository;
+                });
+            
             services.AddScoped<NewsRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
@@ -94,6 +101,9 @@ namespace WebMaze
             provider.CreateMap<News, NewsViewModel>()
                 .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
             provider.CreateMap<NewsViewModel, News>();
+
+            provider.CreateMap<StuffForHero, StuffForHeroViewModel>();
+            provider.CreateMap<StuffForHeroViewModel, StuffForHero>();
 
             provider.CreateMap<User, UserViewModel>()
                 //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
