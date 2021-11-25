@@ -24,7 +24,7 @@ namespace WebMaze.Controllers
         public HomeController(WebContext webContext,
             UserRepository userRepository, ReviewRepository reviewRepository,
             SuggestedEnemysRepository suggestedEnemysRepository,
-            IMapper mapper)
+            IMapper mapper, NewCellSuggRepository newCellSuggRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
@@ -152,7 +152,7 @@ namespace WebMaze.Controllers
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             if (_userRepository.GetAll().Any())
             {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate }).ToList();
+                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
             }
 
             return View(FeedBackUsers);
@@ -170,7 +170,7 @@ namespace WebMaze.Controllers
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             if (_reviewRepository.GetAll().Any())
             {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate }).ToList();
+                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
             }
             return View(FeedBackUsers);
         }
