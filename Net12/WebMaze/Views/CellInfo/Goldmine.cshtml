@@ -1,0 +1,23 @@
+﻿@model CellInfoViewModel
+
+<div class="goldmine-info">
+    <div class="goldmine-info-title">
+        Goldmine
+    </div>
+    <div class="goldmine-info-content">
+        <div class="goldmine-info-content-img">
+            <img src="@Model.Url" />
+        </div>
+        <div class="goldmine-info-content-stats">
+            Can step: <input type="checkbox" checked ="@(Model.CanStep ? "checked" : null)" disabled="disabled" />
+        </div>
+        <div class="goldmine-info-content-description">
+            <div class="goldmine-info-content-description-title">
+                Info
+            </div>
+            <div class="goldmine-info-content-description-text">
+                @Model.Desc
+            </div>
+        </div>
+    </div>
+</div>

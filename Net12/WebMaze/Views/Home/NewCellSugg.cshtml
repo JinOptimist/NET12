@@ -2,7 +2,7 @@
 
 <div class="text-center">
     <div>
-        <h3>List of new cells:</h3>
+        <h3>List of new cells suggestions:</h3>
     </div>
     <div>
         @{int i = 0;}
@@ -19,13 +19,14 @@
                         Fatigue: @newCellSuggestionViewModel.FatigueChange
                     </p>
                     <p>User Name: @newCellSuggestionViewModel.UserName</p>
+                    <a href="/Home/RemoveNewCellSuggestion?Id=@newCellSuggestionViewModel.Id"><input type="submit" value="Remove" /></a>
                     @{++i;}
                 </div>
             </div>
         }
     </div>
     <div>
-        <a href="/Home/AddNewCellSugg">Add New Cell.</a>
+        <a href="/Home/AddNewCellSugg"><input type="submit" value="Add new cell suggestion" /></a>
     </div>
 </div>
 <script>

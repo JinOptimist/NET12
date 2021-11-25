@@ -1,0 +1,35 @@
+﻿@model CellInfoViewModel
+@{
+    Layout = "_LayoutYellowTeam";
+}
+
+
+    <div class="block001">
+        <div class="block002">
+            <h1 class="rule">RULE</h1>
+        </div>
+        <div class="block003">
+            <div>
+                <img class="block003-1" src='@Model.Url' />
+                <div class="name">
+                    <text class=" name001">Fountain</text>
+                </div>
+            </div>
+            <div class="block003-2">
+                <ul class="list">
+                    @foreach (var desc in Model.ShortsDescriptions)
+                    {
+                        <li>@desc</li>
+                    }
+                </ul>
+            </div>
+            <div class="block003-3">
+                <p class=text001> @Model.Desc </p>
+            </div>
+        </div>
+
+        <div class=" canStep">
+            Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled" />
+        </div>
+
+    </div>
