@@ -11,5 +11,6 @@ namespace WebMaze.Models
         public string TitleMovie { get; set; }
         public int Release { get; set; }
         public string Link {get;set;}
+        public string Img { get; set; }
     }
 }

@@ -1,20 +1,22 @@
 ﻿@model List<MovieViewModel>
 
-    <div>
-        Movies!!!
-    </div>
+<div>
+    <h1>Movies library</h1>
+    @foreach (var MovieViewModels in Model)
+    {
 
-    <div>
-        @foreach(var MovieViewModels in Model)
-            {
-            
-                <span>
-                    @MovieViewModels.TitleGame
-                    @MovieViewModels.TitleMovie
-                    @MovieViewModels.Release
-                    <a href="@MovieViewModels.Link">Перейти</a>
-                    
-                </span>
-                <br/>
-            }
-    </div>
+        <span>
+            @MovieViewModels.TitleGame
+            @MovieViewModels.TitleMovie
+            @MovieViewModels.Release
+            <a href="@MovieViewModels.Link">Смотреть</a>
+            <a href="~/images/Movie/MK.jpg">картинка</a>
+        </span>
+        <br />
+    }
+
+    
+
+
+
+</div>

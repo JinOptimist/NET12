@@ -182,7 +182,8 @@ namespace WebMaze.Controllers
                     TitleGame = dbMovie.TitleGame,
                     TitleMovie = dbMovie.TitleMovie,
                     Release = dbMovie.Release,
-                    Link = dbMovie.Link
+                    Link = dbMovie.Link,
+                    Img = dbMovie.Img
                 };
                 MovieViewModels.Add(movieViewModel);
             }
@@ -203,7 +204,8 @@ namespace WebMaze.Controllers
                 TitleGame = movieViewModel.TitleGame,
                 TitleMovie = movieViewModel.TitleMovie,
                 Release = movieViewModel.Release,
-                Link = movieViewModel.Link
+                Link = movieViewModel.Link,
+                Img = movieViewModel.Img
             };
             _webContext.Movies.Add(dbMovie);
             _webContext.SaveChanges();
