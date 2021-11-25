@@ -24,7 +24,7 @@ namespace WebMaze.Controllers
 
         private IMapper _mapper;
         public HomeController(WebContext webContext,
-            UserRepository userRepository, ReviewRepository reviewRepository, NewCellSuggRepository newCellSuggRepository, IMapper mapper)
+            UserRepository userRepository, ReviewRepository reviewRepository, NewCellSuggRepository newCellSuggRepository, StuffForHeroRepository staffForHeroRepository, IMapper mapper)
         {
             _webContext = webContext;
             _userRepository = userRepository;
@@ -90,7 +90,7 @@ namespace WebMaze.Controllers
             var staffsForHero = new List<StuffForHeroViewModel>();
             staffsForHero = _staffForHeroRepository
                     .GetAll().Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel)).ToList();
-            return View(staffsForHero):
+            return View(staffsForHero);
         }
 
         [HttpGet]
