@@ -20,13 +20,9 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
         private NewCellSuggRepository _newCellSuggRepository;
-
-        public HomeController(WebContext webContext,
-            UserRepository userRepository, ReviewRepository reviewRepository,
-             NewCellSuggRepository newCellSuggRepository)
         private IMapper _mapper;
         public HomeController(WebContext webContext,
-            UserRepository userRepository, ReviewRepository reviewRepository, IMapper mapper)
+            UserRepository userRepository, ReviewRepository reviewRepository, NewCellSuggRepository newCellSuggRepository, IMapper mapper)
         {
             _webContext = webContext;
             _userRepository = userRepository;
