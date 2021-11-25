@@ -1,0 +1,146 @@
+﻿.title-favGame {
+    display: inline-flex;
+    font-size: 40px;
+    margin: 30px 0 10px 0;
+    padding: 0 10px 0 10px;
+    backdrop-filter: blur(5px) brightness(40%);
+    box-shadow: 0 0 4px 5px #fff;
+}
+
+.title-favGames {
+    display: flex;
+    justify-content: center;
+    font-size: 90px;
+    font-style: italic; 
+    margin: 5px 0 10px 0;
+}
+
+.add-favGame-title {
+    justify-content: center;
+    color: white;
+    font-size: 90px;
+    margin: 0 250px 20px 250px;
+    backdrop-filter: brightness(40%);
+}
+
+.all-about-favGame {
+    display: flex;
+    justify-content: space-around;
+    font-size: 18px;
+}
+
+.game-elements {
+    justify-content: space-around;
+    margin: auto 40px auto 40px;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(1px) brightness(50%);
+}
+
+.favGame-description {
+    display: flex;
+    margin: auto 40px auto 40px;
+    backdrop-filter: blur(5px) brightness(40%);
+}
+
+.favGame-user-elements {
+    font-style: italic;
+    justify-content: space-around;
+    display: flex;
+    flex-direction: column;
+    margin: auto 40px auto 40px;
+    white-space: nowrap;
+    backdrop-filter: blur(1px) brightness(50%);
+}
+
+.add-favGame-desc {
+    font-style: italic;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.add-favGame-form {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: start;
+    text-align: center;
+    font-size: 25px;
+    color: white;
+    padding: 30px;
+    border-radius: 50px;
+    box-shadow: 0 0 4px 7px #fff;
+    backdrop-filter: blur(5px) brightness(40%);
+    margin: 0 0 50px 0;
+}
+
+.add-favGame-page {
+    justify-content: center;
+    text-align: center;
+    background-image: url(/imgFavGames/addFavGameBackground.png);
+    background-attachment: fixed;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+}
+
+.textarea {
+    font-size: 30px;
+    border-radius: 15px;
+}
+
+.input {
+    font-size: 25px;
+    margin: 30px 0 0 0;
+}
+
+.favGame-link {
+    color: white;
+}
+
+.favGame-links {
+    text-align: left;
+    font-size: 30px;
+    color: white;
+    backdrop-filter: blur(5px) brightness(20%);
+}
+
+.favGames-page {
+    background-image: url(/imgFavGames/favGamesBackground.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    color: white;
+}
+
+.bottom-favGames {
+    color: white;
+    backdrop-filter: blur(10px) brightness(60%);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 30px; 
+}
+
+.favGames-block {
+    margin: 0 0 30px 0;
+}
+
+.each-favGame {
+    text-align: center;
+}
+
+.add-favGame-input-forms{
+    margin: 5px 0 5px 0
+}

@@ -48,6 +48,55 @@ namespace WebMaze.Controllers
             return View(userViewModels);
         }
 
+        public IActionResult FavoriteGames()
+        {
+            var GamesViewModels = new List<GameViewModel>();
+            var games = _webContext.FavGames.ToList();
+            foreach (var dbGame in games)
+            {
+                var gameViewModel = new GameViewModel();
+                gameViewModel.Name = dbGame.Name;
+                gameViewModel.Genre = dbGame.Genre;
+                gameViewModel.YearOfProd = dbGame.YearOfProd;
+                gameViewModel.Desc = dbGame.Desc;
+                gameViewModel.Rating = dbGame.Rating;
+                gameViewModel.Username = dbGame.Creater.Name;
+                gameViewModel.Age = dbGame.Creater.Age;
+                GamesViewModels.Add(gameViewModel);
+            }
+
+            return View(GamesViewModels);
+        }
+
+        [HttpGet]
+        public IActionResult AddGame()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddGame(GameViewModel gameViewMode)
+        {
+            var creater = _webContext.Users
+                .Where(x => x.Name == gameViewMode.Username)
+                .FirstOrDefault();
+
+            var dbGame = new Game()
+            {
+                Name = gameViewMode.Name,
+                Genre = gameViewMode.Genre,
+                YearOfProd = gameViewMode.YearOfProd,
+                Desc = gameViewMode.Desc,
+                Rating = gameViewMode.Rating,
+                Creater = creater,
+            };
+            _webContext.FavGames.Add(dbGame);
+
+            _webContext.SaveChanges();
+
+            return RedirectToAction("FavoriteGames", "Home");
+        }
+
         [HttpGet]
         public IActionResult AddUser()
         {

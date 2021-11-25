@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20211122182723_IsActiveAdded")]
+    partial class IsActiveAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,33 +54,6 @@ namespace WebMaze.Migrations
                     b.HasIndex("CreaterId");
 
                     b.ToTable("FavGames");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Movie", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Img")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Link")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Release")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TitleGame")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TitleMovie")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>

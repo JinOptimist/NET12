@@ -1,0 +1,53 @@
+﻿@model GameViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutFavGames.cshtml";
+}
+
+
+<div class="add-favGame-page">
+    <div class="favGame-links">
+        <a href="/Home/Index" class="favGame-link">Back to Home</a>
+        <a href="/Home/FavoriteGames" class="favGame-link">FavGames</a>
+    </div>
+    <div>
+        <form action="/Home/AddGame" method="post">
+            <div class="add-favGame-title">
+                <b>Add your favorite game</b>
+            </div>
+
+            <div class="add-favGame-form">
+                <div class="add-favGame-desc">
+                    You can add your favorite game here.
+                </div>
+                <div class="add-favGame-input-forms">
+                    <div>Title:</div>
+                    <textarea class="textarea" name="Name" cols="30" rows="1"></textarea>
+                </div>
+                <div class="add-favGame-input-forms">
+                    <div>Genre:</div>
+                    <textarea class="textarea" name="Genre" cols="30" rows="1"></textarea>
+                </div>
+                <div class="add-favGame-input-forms">
+                    <div>Year of Production:</div>
+                    <textarea class="textarea" name="YearOfProd" cols="30" rows="1"></textarea>
+                </div>
+                <div class="add-favGame-input-forms">
+                    <div>Description:</div>
+                    <textarea class="textarea" name="Desc" cols="30" rows="1"></textarea>
+                </div>
+                <div>
+                    <div>Rating (0 to 10):</div>
+                    <textarea class="textarea" name="Rating" cols="30" rows="1"></textarea>
+                </div>
+                <div class="add-favGame-input-forms">
+                    <div>Your username:</div>
+                    <textarea class="textarea" name="Username" cols="30" rows="1"></textarea>
+                </div>
+                <div class="add-favGame-input-forms">
+                    <input type="submit" class="input" value="Save" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
