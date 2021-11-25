@@ -133,8 +133,7 @@ namespace WebMaze
 
 
             provider.CreateMap<BugReportViewModel, BugReport>();
-            provider.CreateMap<BugReport, BugReportViewModel>()
-                .ForMember(nameof(BugReportViewModel.CreaterName), opt => opt.MapFrom(dBBugReport => dBBugReport.Creater.Name));
+            provider.CreateMap<BugReport, BugReportViewModel>();
 
             var mapperConfiguration = new MapperConfiguration(provider);
 
