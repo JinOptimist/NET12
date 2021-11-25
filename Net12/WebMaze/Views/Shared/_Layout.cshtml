@@ -29,6 +29,25 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="/Home/Index">Home <span class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle" href="#" 
+                           id="navbarDropdown" role="button" 
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            User
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a class="dropdown-item" href="/Home/AddUser">Register</a>
+                                <a class="dropdown-item" href="/User/Login">Login</a>
+                            }
+                            else
+                            {
+                                <a class="dropdown-item" href="/User/Profile">Profile</a>
+                                <a class="dropdown-item" href="/User/Logout">Exit</a>
+                            }
+                        </div>
+                    </li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -63,10 +82,19 @@
                         <a class="nav-link" href="/Home/Reviews">Reviews</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/AddUser">Add User</a>
+                        <a class="nav-link" href="/CellInfo/AddCell">Add Cell</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Books
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item"  href="/Home/AddBook">Add Book</a>
+                            <a class="dropdown-item"  href="/Home/Book">Books</a>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/CellInfo/AddCell">Add Cell</a>
+                        <a class="nav-link" href="/Home/AddStuffForHero">Hero's Stuff</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Home/AddSuggestedEnemy">Add Suggested Enemy</a>

@@ -1,0 +1,82 @@
+/*#5892A6*/
+*,
+*: before,
+*: after {
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0px;
+    
+    font-family: 'Raleway', sans-serif;
+    font-family: 14px;
+    color: #333333;
+}
+
+.Rule
+{
+	display: flex;
+	justify-content: center;
+	font-size: 80px;
+	border-bottom: dashed;
+	margin: 40px;	
+}
+
+.Picture
+{
+    
+	filter: contrast(1);
+	margin: 40px;
+}
+
+.Bed
+{
+	display: flex;
+	justify-content: space-around;
+	border-bottom: 1px solid;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+
+.BedRemainder 
+{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;	
+	font-size: 25px;	
+}
+
+.BedDescription
+{
+	display: flex;
+	font-size: 19px;
+	align-items: center;
+	margin: 40px
+}
+
+.Goblin
+{
+	display: flex;
+	justify-content: space-around;
+	flex-direction: row-reverse;
+	border-bottom: 1px solid;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+
+.GoblinRemainder 
+{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;	
+	font-size: 25px;
+	
+}
+
+.GoblinDescription
+{
+	display: flex;
+	font-size: 19px;
+	align-items: center;
+	margin: 40px
+}
