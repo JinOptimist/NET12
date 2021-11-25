@@ -24,7 +24,7 @@ namespace WebMaze.Controllers
         public HomeController(WebContext webContext,
             UserRepository userRepository, ReviewRepository reviewRepository,
             SuggestedEnemysRepository suggestedEnemysRepository,
-            IMapper mapper)
+            IMapper mapper, NewCellSuggRepository newCellSuggRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;

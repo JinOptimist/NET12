@@ -11,5 +11,6 @@ namespace WebMaze.Models
         public UserViewModel Creator { get; set; }
         public int Rate { get; set; }
         public string TextInfo { get; set; }
+        public string UserName { get; internal set; }
     }
 }
