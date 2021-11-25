@@ -1,31 +1,43 @@
 ﻿@model CellInfoViewModel
+@{
+    Layout = "_LayoutHealPotionBullEnemy";
+}
 
+<div class="page">
+    <div class="form">
+        <div class='header'>
+            RULE
+        </div>
 
-<div class='title1'>
-    HealPotion
-</div>
+        <div class='title'>
+            HealPotion
+        </div>
 
-<div class='HealthPotion'>
-    <div class='image-text1'>
-        <img src='@Model.Url' />
-
-        <div class='text-block1'>
-            <div>
-                HP: +10
+        <div class='elements'>
+            <div class='image'>
+                <img src='@Model.Url' height="170" />
             </div>
-
-            <div>
-                USE: once
+            <div class="phrase-canStep-hp-use-block">
+                <div class="phrase">
+                    djbsjbdjbkxu
+                </div>
+                <div class="canStep-hp-use-block">
+                    <div class="canStep">
+                        Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled" />
+                    </div>
+                    <div class="hp-use">
+                        <div>
+                            HP: +10
+                        </div>
+                        <div>
+                            USE: once
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="description">
+            @Model.Desc
+        </div>
     </div>
-
-    <div class='check1'>
-        Can step: <input type="checkbox" checked="@(Model.CanStep ? "checked" : null)" disabled="disabled" />
-    </div>
-
-    <div class='description1'>
-        @Model.Desc
-    </div>
-
 </div>

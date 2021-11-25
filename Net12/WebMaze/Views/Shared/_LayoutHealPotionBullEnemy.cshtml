@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html style="background-size: 100%" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FavGames</title>
+    <link rel="stylesheet" href="~/css/HealthPotion_BullEnemy.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js"></script>
+    @RenderSection("Scripts", required: false)
+</head>
+<body>
+    <div class="links">
+        <a href="/Home/Index" class="home-link">Back to Home</a>
+    </div>
+    <div>
+        @RenderBody()
+    </div>
+    <footer class="bottom-favGames">
+        <div>
+            &copy; 2021 - WebMaze
+        </div>
+    </footer>
+
+</body>
+</html>
