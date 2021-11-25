@@ -30,7 +30,9 @@
             }
     }
 </div>
-<div style="margin-top: 3%;">
+@if (User.Identity.IsAuthenticated)
+{
+    <div style="margin-top: 3%;">
     <form action="/Home/Reviews" method="post" class="rate-put">
         <div>Оставить отзыв</div>
         <div>
@@ -54,4 +56,4 @@
         </div>
     </form>
 </div>
-
+}

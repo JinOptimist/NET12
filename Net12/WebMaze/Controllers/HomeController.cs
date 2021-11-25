@@ -10,6 +10,7 @@ using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Services;
 
 namespace WebMaze.Controllers
 {
@@ -21,10 +22,10 @@ namespace WebMaze.Controllers
         private ReviewRepository _reviewRepository;
         private NewCellSuggRepository _newCellSuggRepository;
         private StuffForHeroRepository _staffForHeroRepository;
-
+        private UserService _userService;
         private IMapper _mapper;
         public HomeController(WebContext webContext,
-            UserRepository userRepository, ReviewRepository reviewRepository, NewCellSuggRepository newCellSuggRepository, StuffForHeroRepository staffForHeroRepository, IMapper mapper)
+            UserRepository userRepository, ReviewRepository reviewRepository, NewCellSuggRepository newCellSuggRepository, StuffForHeroRepository staffForHeroRepository, IMapper mapper, UserService userService)
         {
             _webContext = webContext;
             _userRepository = userRepository;
@@ -32,6 +33,7 @@ namespace WebMaze.Controllers
             _staffForHeroRepository = staffForHeroRepository;
             _mapper = mapper;
             _newCellSuggRepository = newCellSuggRepository;
+            _userService = userService; 
         }
 
         public IActionResult Index()
@@ -153,8 +155,10 @@ namespace WebMaze.Controllers
         public IActionResult Reviews(FeedBackUserViewModel viewReview)
         {
             // TODO: Selected User
+
             var review = _mapper.Map<Review>(viewReview);
-            review.Creator = _userRepository.GetRandomUser();
+            review.Creator = _userService.GetCurrentUser();
+
             review.IsActive = true;
             _reviewRepository.Save(review);
 
