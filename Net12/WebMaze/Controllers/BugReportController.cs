@@ -14,17 +14,14 @@ namespace WebMaze.Controllers
 {
     public class BugReportController : Controller
     {
-        private WebContext _webContext;
         private UserRepository _userRepository;
         private BugReportRepository _bugReportRepository;
         private IMapper _mapper;
 
-        public BugReportController(WebContext webContext,
-            UserRepository userRepository, 
+        public BugReportController(UserRepository userRepository, 
             BugReportRepository bugReportRepository,
             IMapper mapper)
         {
-            _webContext = webContext;
             _userRepository = userRepository;
             _bugReportRepository = bugReportRepository;
             _mapper = mapper;
@@ -53,7 +50,6 @@ namespace WebMaze.Controllers
             var creater = _userRepository.GetRandomUser();
 
             var dbBugReport = _mapper.Map<BugReport>(bugReportViewModel);
-            dbBugReport.Creater = creater;
             dbBugReport.IsActive = true;
 
             _bugReportRepository.Save(dbBugReport);
