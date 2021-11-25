@@ -28,6 +28,5 @@ namespace WebMaze.Controllers
 
             return View(model);
         }
-        
     }
 }

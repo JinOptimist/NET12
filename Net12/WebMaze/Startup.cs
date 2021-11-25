@@ -53,6 +53,12 @@ namespace WebMaze
                     var repository = new NewsRepository(webContext);
                     return repository;
                 });
+            services.AddScoped<NewCellSuggRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new NewCellSuggRepository(webContext);
+                return repository;
+            });
             services.AddScoped<SuggestedEnemysRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
@@ -82,16 +88,28 @@ namespace WebMaze
                     //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
                     .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name));
 
-                provider.CreateMap<UserViewModel, User>();
+            provider.CreateMap<Review, FeedBackUserViewModel>()
+                .ForMember(nameof(FeedBackUserViewModel.TextInfo), opt => opt.MapFrom(dbreview => dbreview.Text))
+                .ForMember(nameof(FeedBackUserViewModel.Creator), opt => opt.MapFrom(dbreview => dbreview.Creator));
+
+            provider.CreateMap<FeedBackUserViewModel, Review>()
+                .ForMember(nameof(Review.Text), opt => opt.MapFrom(viewReview => viewReview.TextInfo))
+                .ForMember(nameof(Review.Creator), opt => opt.MapFrom(viewReview => viewReview.Creator));
+
+            provider.CreateMap<UserViewModel, User>();
+
+            provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
+                .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name));
+            provider.CreateMap<NewCellSuggestionViewModel, NewCellSuggestion>();
 
 
-                var mapperConfiguration = new MapperConfiguration(provider);
+            var mapperConfiguration = new MapperConfiguration(provider);
 
                 var mapper = new Mapper(mapperConfiguration);
 
-                services.AddScoped<IMapper>(x => mapper);
-            }
-        
+            services.AddScoped<IMapper>(x => mapper);
+
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

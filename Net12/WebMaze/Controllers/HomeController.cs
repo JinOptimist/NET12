@@ -16,7 +16,7 @@ namespace WebMaze.Controllers
     public class HomeController : Controller
     {
         private WebContext _webContext;
-
+        private NewCellSuggRepository _newCellSuggRepository;
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
         private SuggestedEnemysRepository _suggestedEnemysRepository;
@@ -31,6 +31,7 @@ namespace WebMaze.Controllers
             _reviewRepository = reviewRepository;
             _suggestedEnemysRepository = suggestedEnemysRepository;
             _mapper = mapper;
+            _newCellSuggRepository = newCellSuggRepository;
         }
 
         public IActionResult Index()
@@ -53,6 +54,7 @@ namespace WebMaze.Controllers
 
             return View(userViewModels);
         }
+
 
         [HttpGet]
         public IActionResult AddUser()
@@ -157,9 +159,10 @@ namespace WebMaze.Controllers
         }
 
         [HttpPost]
-        public IActionResult Reviews(Review review)
+        public IActionResult Reviews(FeedBackUserViewModel viewReview)
         {
             // TODO: Selected User
+            var review = _mapper.Map<Review>(viewReview);
             review.Creator = _userRepository.GetRandomUser();
             review.IsActive = true;
             _reviewRepository.Save(review);
@@ -176,20 +179,11 @@ namespace WebMaze.Controllers
         public IActionResult NewCellSugg()
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
-            var suggestions = _webContext.NewCellSuggestions.ToList();
-            foreach (var dbNewCellSuggestions in suggestions)
-            {
-                var newCellSuggestionViewModel = new NewCellSuggestionViewModel();
-                newCellSuggestionViewModel.Title = dbNewCellSuggestions.Title;
-                newCellSuggestionViewModel.Description = dbNewCellSuggestions.Description;
-                newCellSuggestionViewModel.MoneyChange = dbNewCellSuggestions.MoneyChange;
-                newCellSuggestionViewModel.HealtsChange = dbNewCellSuggestions.HealtsChange;
-                newCellSuggestionViewModel.FatigueChange = dbNewCellSuggestions.FatigueChange;
-                newCellSuggestionViewModel.UserName = dbNewCellSuggestions.Creater.Name;
+            newCellSuggestionsViewModel = _newCellSuggRepository.GetAll()
+                .Select(dbModel => _mapper.Map<NewCellSuggestionViewModel>(dbModel))
+                .ToList();
 
-                newCellSuggestionsViewModel.Add(newCellSuggestionViewModel);
-            }
-            return View("/Views/Home/NewCellSugg.cshtml", newCellSuggestionsViewModel);
+            return View(newCellSuggestionsViewModel);
         }
         [HttpGet]
         public IActionResult AddNewCellSugg()
@@ -200,10 +194,8 @@ namespace WebMaze.Controllers
         public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCell)
         {
             //TODO user current user after login
-            var creater = _userRepository
-                .GetAll()
-                .OrderByDescending(x => x.Coins)
-                .FirstOrDefault();
+            var creater = _userRepository.GetRandomUser();
+
             var NewCS = new NewCellSuggestion()
             {
                 Title = newCell.Title,
@@ -211,12 +203,17 @@ namespace WebMaze.Controllers
                 MoneyChange = newCell.MoneyChange,
                 HealtsChange = newCell.HealtsChange,
                 FatigueChange = newCell.FatigueChange,
-                Creater = creater
+                Creater = creater,
+                IsActive = true
             };
 
-            _webContext.NewCellSuggestions.Add(NewCS);
-            _webContext.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            _newCellSuggRepository.Save(NewCS);
+            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
+        }
+        public IActionResult RemoveNewCellSuggestion(long id)
+        {
+            _newCellSuggRepository.Remove(id);
+            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
         }
 
 
