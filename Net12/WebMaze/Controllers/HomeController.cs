@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -19,14 +20,17 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
         private SuggestedEnemysRepository _suggestedEnemysRepository;
-
+        private IMapper _mapper;
         public HomeController(WebContext webContext,
-            UserRepository userRepository, ReviewRepository reviewRepository, SuggestedEnemysRepository suggestedEnemysRepository)
+            UserRepository userRepository, ReviewRepository reviewRepository,
+            SuggestedEnemysRepository suggestedEnemysRepository,
+            IMapper mapper)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
             _suggestedEnemysRepository = suggestedEnemysRepository;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
@@ -80,38 +84,23 @@ namespace WebMaze.Controllers
 
         public IActionResult SuggestedEnemys()
         {
-            var suggestedEnemyViewModels = new List<SuggestedEnemysViewModel>();
-            var suggestedEnemy = _webContext.SuggestedEnemys.ToList();
+            var suggestedEnemysViewModels = new List<SuggestedEnemysViewModel>();
+            var suggestedEnemys = _webContext.SuggestedEnemys.ToList();
 
-            foreach (var dbSuggestedEnemys in suggestedEnemy)
-            {
-                var suggestedEnemyViewModel = new SuggestedEnemysViewModel();
-                suggestedEnemyViewModel.Id = dbSuggestedEnemys.Id;
-                suggestedEnemyViewModel.Name = dbSuggestedEnemys.Name;
-                suggestedEnemyViewModel.Url = dbSuggestedEnemys.Url;
-                suggestedEnemyViewModel.Description = dbSuggestedEnemys.Description;
-                suggestedEnemyViewModel.UserName = dbSuggestedEnemys.Creater.Name;
-                suggestedEnemyViewModels.Add(suggestedEnemyViewModel);
-                suggestedEnemyViewModel.IsActive = dbSuggestedEnemys.IsActive;
-            }
+            suggestedEnemysViewModels = _suggestedEnemysRepository
+               .GetAll()
+               .Select(dbModel => _mapper.Map<SuggestedEnemysViewModel>(dbModel))
+               .ToList();
 
-            return View(suggestedEnemyViewModels);
+            return View(suggestedEnemysViewModels);
         }
 
-        public IActionResult RemoveSuggestsdEnemy(long suggestedEnemysId)
+        public IActionResult RemoveSuggestedEnemy(long suggestedEnemysId)
         {
             _suggestedEnemysRepository.Remove(suggestedEnemysId);
             return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
-
         }
-
-        public IActionResult EditSuggestsdEnemy(SuggestedEnemys suggestedEnemys)
-        {
-            _suggestedEnemysRepository.Save(suggestedEnemys);
-            return RedirectToAction($"{nameof(HomeController.AddSuggestedEnemy)}");
-
-        }
-
+ 
         [HttpGet]
         public IActionResult AddSuggestedEnemy()
         {
@@ -124,14 +113,12 @@ namespace WebMaze.Controllers
             var creater = _userRepository.GetRandomUser();
 
 
-            var dbSuggestedEnemys = new SuggestedEnemys()
-            {
-                Name = suggestedEnemysViewModel.Name,
-                Url = suggestedEnemysViewModel.Url,
-                Description = suggestedEnemysViewModel.Description,
-                Creater = creater,
-                IsActive = true
-            };
+            var dbSuggestedEnemys = new SuggestedEnemys();
+
+            dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);
+            dbSuggestedEnemys.Creater = creater;
+            dbSuggestedEnemys.IsActive = true;
+
             _suggestedEnemysRepository.Save(dbSuggestedEnemys);
 
             return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");

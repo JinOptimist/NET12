@@ -72,7 +72,13 @@ namespace WebMaze
                     .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
                 provider.CreateMap<NewsViewModel, News>();
 
-                provider.CreateMap<User, UserViewModel>()
+            provider.CreateMap<SuggestedEnemys, SuggestedEnemysViewModel>()
+                    .ForMember(nameof(SuggestedEnemysViewModel.UserName),
+                    opt => opt.MapFrom(dbSuggestedEnemys => dbSuggestedEnemys.Creater.Name));
+            provider.CreateMap<SuggestedEnemysViewModel, SuggestedEnemys>();
+
+
+            provider.CreateMap<User, UserViewModel>()
                     //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
                     .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name));
 
