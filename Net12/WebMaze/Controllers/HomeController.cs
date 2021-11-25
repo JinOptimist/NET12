@@ -189,6 +189,22 @@ namespace WebMaze.Controllers
         }
 
         [HttpPost]
+<<<<<<<<< Temporary merge branch 1
+        public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
+        {
+            var creater = _userRepository.GetRandomUser();
+
+
+            var dbSuggestedEnemys = new SuggestedEnemys();
+
+            dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);
+            dbSuggestedEnemys.Creater = creater;
+            dbSuggestedEnemys.IsActive = true;
+
+            _suggestedEnemysRepository.Save(dbSuggestedEnemys);
+
+            return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
+=========
         public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
         {
             //TODO user current user after login
