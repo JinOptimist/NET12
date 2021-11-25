@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,28 +11,34 @@ using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Services;
 
 namespace WebMaze.Controllers
 {
     public class HomeController : Controller
     {
-        private WebContext _webContext;
-        private NewCellSuggRepository _newCellSuggRepository;
+        private readonly WebContext _webContext;
+        private UserService _userService;
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
+        private NewCellSuggRepository _newCellSuggRepository;
+        private StuffForHeroRepository _staffForHeroRepository;
         private SuggestedEnemysRepository _suggestedEnemysRepository;
         private IMapper _mapper;
         public HomeController(WebContext webContext,
             UserRepository userRepository, ReviewRepository reviewRepository,
             SuggestedEnemysRepository suggestedEnemysRepository,
-            IMapper mapper, NewCellSuggRepository newCellSuggRepository)
+            IMapper mapper, NewCellSuggRepository newCellSuggRepository,
+            StuffForHeroRepository staffForHeroRepository, UserService userService)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
+            _staffForHeroRepository = staffForHeroRepository;
             _suggestedEnemysRepository = suggestedEnemysRepository;
             _mapper = mapper;
             _newCellSuggRepository = newCellSuggRepository;
+            _userService = userService;
         }
 
         public IActionResult Index()
@@ -55,6 +62,49 @@ namespace WebMaze.Controllers
             return View(userViewModels);
         }
 
+        public IActionResult Book()
+        {
+            var bookViewModels = new List<BookViewModel>();
+            foreach (var dbBook in _webContext.Books)
+            {
+                var bookViewModel = new BookViewModel();
+                bookViewModel.Name = dbBook.Name;
+                bookViewModel.Link = dbBook.Link;
+                bookViewModel.ImageLink = dbBook.ImageLink;
+                bookViewModel.Author = dbBook.Author;
+                bookViewModel.Desc = dbBook.Desc;
+                bookViewModel.ReleaseDate = dbBook.ReleaseDate;
+                bookViewModel.PublicationDate = dbBook.PublicationDate;
+                bookViewModels.Add(bookViewModel);
+            }
+
+            return View(bookViewModels);
+        }
+
+        [HttpGet]
+        public IActionResult AddBook()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddBook(BookViewModel bookViewModel)
+        {
+            var dbBook = new Book()
+            {
+                Name = bookViewModel.Name,
+                Link = bookViewModel.Link,
+                ImageLink = bookViewModel.ImageLink,
+                Author = bookViewModel.Author,
+                Desc = bookViewModel.Desc,
+                ReleaseDate = bookViewModel.ReleaseDate,
+                PublicationDate = bookViewModel.PublicationDate
+            };
+            _webContext.Books.Add(dbBook);
+
+            _webContext.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpGet]
         public IActionResult AddUser()
@@ -68,6 +118,7 @@ namespace WebMaze.Controllers
             var dbUser = new User()
             {
                 Name = userViewMode.UserName,
+                Password = userViewMode.Password,
                 Coins = userViewMode.Coins,
                 Age = DateTime.Now.Second % 10 + 20,
                 IsActive = true
@@ -96,27 +147,24 @@ namespace WebMaze.Controllers
 
             return View(suggestedEnemysViewModels);
         }
-
+        [Authorize]
         public IActionResult RemoveSuggestedEnemy(long suggestedEnemysId)
         {
             _suggestedEnemysRepository.Remove(suggestedEnemysId);
             return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
         }
- 
+
         [HttpGet]
         public IActionResult AddSuggestedEnemy()
         {
             return View();
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
         {
-            var creater = _userRepository.GetRandomUser();
-
-
+            var creater = _userService.GetCurrentUser();
             var dbSuggestedEnemys = new SuggestedEnemys();
-
             dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);
             dbSuggestedEnemys.Creater = creater;
             dbSuggestedEnemys.IsActive = true;
@@ -124,6 +172,37 @@ namespace WebMaze.Controllers
             _suggestedEnemysRepository.Save(dbSuggestedEnemys);
 
             return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
+        }
+
+        public IActionResult Stuff()
+        {
+            var staffsForHero = new List<StuffForHeroViewModel>();
+            staffsForHero = _staffForHeroRepository
+                    .GetAll().Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel)).ToList();
+            return View(staffsForHero);
+        }
+
+        [HttpGet]
+        public IActionResult AddStuffForHero()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
+        {
+            //TODO user current user after login
+            var proposer = _userRepository.GetAll()
+                .OrderByDescending(x => x.Coins)
+                .FirstOrDefault();
+
+            var dbStuffForHero = _mapper.Map<StuffForHero>(stuffForHeroViewModel);
+
+            dbStuffForHero.Proposer = proposer;
+            dbStuffForHero.IsActive = true;
+
+            _staffForHeroRepository.Save(dbStuffForHero);
+            return RedirectToAction("Index", "Home", "AddStuffForHero");
         }
 
         public IActionResult Time()

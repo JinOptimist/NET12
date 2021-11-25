@@ -2,6 +2,7 @@ using AutoMapper;
 using AutoMapper.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,11 +15,13 @@ using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Services;
 
 namespace WebMaze
 {
     public class Startup
     {
+        public const string AuthCoockieName = "Smile";
         public Startup(Microsoft.Extensions.Configuration.IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,6 +35,29 @@ namespace WebMaze
             var connectString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=WebMaze12;Integrated Security=True;";
             services.AddDbContext<WebContext>(x => x.UseSqlServer(connectString));
 
+            services.AddAuthentication(AuthCoockieName)
+                .AddCookie(AuthCoockieName, config =>
+                {
+                    config.LoginPath = "/User/Login";
+                    config.AccessDeniedPath = "/User/AccessDenied";
+                    config.Cookie.Name = "AuthSweet";
+                });
+
+            RegisterRepositories(services);
+
+            RegisterMapper(services);
+
+            services.AddScoped<UserService>(x =>
+                new UserService(x.GetService<UserRepository>(), x.GetService<IHttpContextAccessor>())
+            );
+
+            services.AddHttpContextAccessor();
+
+            services.AddControllersWithViews();
+        }
+
+        private void RegisterRepositories(IServiceCollection services)
+        {
             services.AddScoped<UserRepository>(diContainer =>
                 {
                     var webContext = diContainer.GetService<WebContext>();
@@ -41,18 +67,25 @@ namespace WebMaze
                 });
 
             services.AddScoped<ReviewRepository>(diContainer =>
-                {
-                    var webContext = diContainer.GetService<WebContext>();
-                    var repository = new ReviewRepository(webContext);
-                    return repository;
-                });
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new ReviewRepository(webContext);
+                return repository;
+            });
 
-            services.AddScoped<NewsRepository>(diContainer =>
+            services.AddScoped<StuffForHeroRepository>(diContainer =>
                 {
                     var webContext = diContainer.GetService<WebContext>();
-                    var repository = new NewsRepository(webContext);
+                    var repository = new StuffForHeroRepository(webContext);
                     return repository;
                 });
+            
+            services.AddScoped<NewsRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new NewsRepository(webContext);
+                return repository;
+            });
             services.AddScoped<NewCellSuggRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
@@ -83,6 +116,9 @@ namespace WebMaze
                     opt => opt.MapFrom(dbSuggestedEnemys => dbSuggestedEnemys.Creater.Name));
             provider.CreateMap<SuggestedEnemysViewModel, SuggestedEnemys>();
 
+
+            provider.CreateMap<StuffForHero, StuffForHeroViewModel>();
+            provider.CreateMap<StuffForHeroViewModel, StuffForHero>();
 
             provider.CreateMap<User, UserViewModel>()
                     //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
@@ -126,6 +162,10 @@ namespace WebMaze
 
             app.UseRouting();
 
+            //  то €?
+            app.UseAuthentication();
+
+            // уда мне можно?
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
