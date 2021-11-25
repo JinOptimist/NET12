@@ -36,7 +36,13 @@ namespace WebMaze
                 }
             );
 
-
+                services.AddScoped<AddressRepository>(diContainer =>
+                {
+                    var webContext = diContainer.GetService<WebContext>();
+                    var repository = new AddressRepository(webContext);
+                    return repository;
+                }
+            );
 
             services.AddControllersWithViews();
         }
@@ -52,6 +58,7 @@ namespace WebMaze
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
             app.UseStaticFiles();
 
             app.UseRouting();

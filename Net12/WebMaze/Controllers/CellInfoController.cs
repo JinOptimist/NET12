@@ -145,13 +145,13 @@ namespace WebMaze.Controllers
             return View(model);
         }
 
-        public IActionResult StoresAndAddresses()
+        public IActionResult WolfPit()
         {
             var model = new CellInfoViewModel();
 
-            model.CanStep = false;
-            model.Url = "/images/trap.jfif";
-            model.Desc = "Bad cell. Trap";
+            model.CanStep = true;
+            model.Url = "/images/WolfPit.png";
+            model.Desc = "If you step on wolf pit, you lose 1 h.p.";
 
             return View(model);
         }

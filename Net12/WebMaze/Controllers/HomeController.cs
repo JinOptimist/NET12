@@ -18,6 +18,7 @@ namespace WebMaze.Controllers
 
         private UserRepository _userRepository;
 
+        private AddressRepository _addressRepository;
         public HomeController(WebContext webContext, 
             UserRepository userRepository)
         {
@@ -73,18 +74,29 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult AddStoreAndAddress(StoresAndAddressesViewModel stores_adressesViewMode)
+        [HttpGet]
+        public IActionResult AddStoresAndAddresses()
+        {
+                return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddStoresAndAddresses(StoresAndAddressesViewModel storesAndAddressesViewModel)
         {
             var dbStoresAndAddresses = new StoresAndAddresses()
             {
-                ShopName = stores_adressesViewMode.ShopName,
-                AdressOfShop = stores_adressesViewMode.AdressOfShop,
+                ShopName = storesAndAddressesViewModel.ShopName,
+                AdressOfShop = storesAndAddressesViewModel.AdressOfShop,
                 
             };
-            _webContext.StoreAddress.Add(dbStoresAndAddresses);
+            _addressRepository.Save(dbStoresAndAddresses);
 
-            _webContext.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
 
+        public IActionResult RemoveStore(long storeId)
+        {
+            _addressRepository.Remove(storeId);
             return RedirectToAction("Index", "Home");
         }
 

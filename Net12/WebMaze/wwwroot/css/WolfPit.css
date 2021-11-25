@@ -1,0 +1,38 @@
+hr{
+    border-style: dashed;
+}
+
+h1{
+    position: relative;
+    text-align: center;
+}
+
+.MainDiv{
+    width: 800px;
+    height: 500px;
+    border: 2px;
+    border-style: solid;
+    border-color: black;
+
+}
+
+.WolfPitFlexbox{
+    
+    margin-left: 3%;
+    margin-right: 3%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.WolfPitIcon{
+    width: 15%;
+    height: 10%;
+}
+
+.WolfPitDescription{
+    
+}
+
+.ShortDescriptionWP{
+    
+}

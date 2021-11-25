@@ -10,5 +10,6 @@ namespace WebMaze.EfStuff.DbModel
         public long Id { get; set; }
         public string ShopName { get; set; }
         public string AdressOfShop { get; set; }
+        public bool IsActive { get; set; }
     }
 }

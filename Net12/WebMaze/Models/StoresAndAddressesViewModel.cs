@@ -7,6 +7,7 @@ namespace WebMaze.Models
 {
     public class StoresAndAddressesViewModel
     {
+        public long Id { get; set; }
         public string ShopName { get; set; }
         public string AdressOfShop { get; set; }
     }

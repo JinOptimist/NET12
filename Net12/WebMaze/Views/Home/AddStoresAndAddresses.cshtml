@@ -1,0 +1,24 @@
+﻿@model StoresAndAddressesViewModel
+
+    <div class="text-center">
+        <h3>You can suggest your cell here.</h3>
+        <form action="/Home/AddNewCellSugg" method="post">
+            <div>
+                Enter a name for the store. @Html.TextBoxFor(x => x.ShopName)
+            </div>
+            <div>
+                Enter address of the store. @Html.TextAreaFor(x => x.AdressOfShop)
+            </div>
+            <div>
+                This is how the store is called. @Html.TextBoxFor(x => x.ShopName)
+            </div>
+            <div>
+                This is actual address of the store. @Html.TextBoxFor(x => x.AdressOfShop)
+            </div>
+            <div>
+                <input type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+
+
