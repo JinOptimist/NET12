@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="~/css/VitalityPotion_Slime.css" />
     <link rel="stylesheet" href="~/css/Teleport_in_out.css" />
     <link rel='stylesheet' href='~/css/goldmine.css'>
+    <link rel="stylesheet" href="~/css/bugReports.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
 
@@ -95,23 +96,35 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Home/AddStuffForHero">Hero's Stuff</a>
-                    </li>                    
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Suggested Enemys
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/Home/AddSuggestedEnemy">Add Suggested Enemy</a>
-                            <a class="dropdown-item" href="/Home/SuggestedEnemys">Suggested Enemys</a>
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a class="dropdown-item" href="/Home/SuggestedEnemys">Suggested Enemys</a>
+                            }
+                            else
+                            {
+                                <a class="dropdown-item" href="/Home/AddSuggestedEnemy">Add Suggested Enemy</a>
+                                <a class="dropdown-item" href="/Home/SuggestedEnemys">Suggested Enemys</a>
+                            }
+
                         </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/BugReport/BugReports">List of reports</a>
+                    </li>
                 </ul>
             </div>
         </nav>
     </header>
 
-        <div>
-            @RenderBody()
-        </div>
+    <div>
+        @RenderBody()
+    </div>
 
 
     <footer class="border-top footer text-muted">
