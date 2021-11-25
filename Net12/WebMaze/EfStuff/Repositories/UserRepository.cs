@@ -9,7 +9,7 @@ namespace WebMaze.EfStuff.Repositories
     public class UserRepository : BaseRepository<User>
     {
         private ReviewRepository _reviewRepository;
-
+        
         public UserRepository(WebContext webContext, 
             ReviewRepository reviewRepository) : base(webContext)
         {

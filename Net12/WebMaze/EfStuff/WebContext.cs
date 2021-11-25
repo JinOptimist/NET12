@@ -12,6 +12,7 @@ namespace WebMaze.EfStuff
         public DbSet<User> Users { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<NewCellSuggestion> NewCellSuggestions { get; set; }
+        public DbSet<StuffForHero> StuffsForHero { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<News> News { get; set; }
 
@@ -31,6 +32,10 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<NewCellSuggestion>()
                .HasOne(x => x.Approver)
                .WithMany(x => x.CellSuggestionsWhichIAprove);
+
+            modelBuilder.Entity<StuffForHero>()
+               .HasOne(x => x.Proposer)
+               .WithMany(x => x.AddedSStuff); 
 
             modelBuilder.Entity<User>().HasMany(x => x.MyReviews).WithOne(x => x.Creator);
 

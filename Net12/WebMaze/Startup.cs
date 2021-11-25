@@ -47,12 +47,25 @@ namespace WebMaze
                     return repository;
                 });
 
+            services.AddScoped<StuffForHeroRepository>(diContainer =>
+                {
+                    var webContext = diContainer.GetService<WebContext>();
+                    var repository = new StuffForHeroRepository(webContext);
+                    return repository;
+                });
+            
             services.AddScoped<NewsRepository>(diContainer =>
                 {
                     var webContext = diContainer.GetService<WebContext>();
                     var repository = new NewsRepository(webContext);
                     return repository;
                 });
+            services.AddScoped<NewCellSuggRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new NewCellSuggRepository(webContext);
+                return repository;
+            });
 
             RegisterMapper(services);
 
@@ -67,11 +80,26 @@ namespace WebMaze
                 .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
             provider.CreateMap<NewsViewModel, News>();
 
+            provider.CreateMap<StuffForHero, StuffForHeroViewModel>();
+            provider.CreateMap<StuffForHeroViewModel, StuffForHero>();
+
             provider.CreateMap<User, UserViewModel>()
                 //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
                 .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name));
 
+            provider.CreateMap<Review, FeedBackUserViewModel>()
+                .ForMember(nameof(FeedBackUserViewModel.TextInfo), opt => opt.MapFrom(dbreview => dbreview.Text))
+                .ForMember(nameof(FeedBackUserViewModel.Creator), opt => opt.MapFrom(dbreview => dbreview.Creator));
+
+            provider.CreateMap<FeedBackUserViewModel, Review>()
+                .ForMember(nameof(Review.Text), opt => opt.MapFrom(viewReview => viewReview.TextInfo))
+                .ForMember(nameof(Review.Creator), opt => opt.MapFrom(viewReview => viewReview.Creator));
+
             provider.CreateMap<UserViewModel, User>();
+
+            provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
+                .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name));
+            provider.CreateMap<NewCellSuggestionViewModel, NewCellSuggestion>();
 
 
             var mapperConfiguration = new MapperConfiguration(provider);
@@ -79,6 +107,7 @@ namespace WebMaze
             var mapper = new Mapper(mapperConfiguration);
 
             services.AddScoped<IMapper>(x => mapper);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
