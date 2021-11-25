@@ -5,7 +5,7 @@
         Login: @Html.TextBoxFor(x => x.Login)
     </div>
     <div>
-        Password: @Html.TextBoxFor(x => x.Password)
+        Password: @Html.TextBoxFor(x => x.Password, new { @type = "password" })
     </div>
     <div>
         <input type="submit" value="Login" />
