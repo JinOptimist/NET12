@@ -165,8 +165,7 @@ namespace WebMaze.Controllers
         {
             var creater = _userService.GetCurrentUser();
             var dbSuggestedEnemys = new SuggestedEnemys();
-            dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);
-            dbSuggestedEnemys.Creater = creater;
+            dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);            
             dbSuggestedEnemys.IsActive = true;
 
             _suggestedEnemysRepository.Save(dbSuggestedEnemys);
@@ -186,9 +185,7 @@ namespace WebMaze.Controllers
         public IActionResult AddStuffForHero()
         {
             return View();
-        }
-
-        [HttpPost]
+        }        
         public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
         {
             //TODO user current user after login
