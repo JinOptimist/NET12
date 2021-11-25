@@ -86,10 +86,18 @@ namespace WebMaze
                 var repository = new NewsRepository(webContext);
                 return repository;
             });
+
             services.AddScoped<NewCellSuggRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
                 var repository = new NewCellSuggRepository(webContext);
+                return repository;
+            });
+
+            services.AddScoped<BugReportRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new BugReportRepository(webContext);
                 return repository;
             });
         }
@@ -123,6 +131,9 @@ namespace WebMaze
                 .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name));
             provider.CreateMap<NewCellSuggestionViewModel, NewCellSuggestion>();
 
+
+            provider.CreateMap<BugReportViewModel, BugReport>();
+            provider.CreateMap<BugReport, BugReportViewModel>();
 
             var mapperConfiguration = new MapperConfiguration(provider);
 

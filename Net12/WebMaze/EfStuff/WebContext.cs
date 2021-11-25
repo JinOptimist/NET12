@@ -15,6 +15,7 @@ namespace WebMaze.EfStuff
         public DbSet<StuffForHero> StuffsForHero { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<News> News { get; set; }
+        public DbSet<BugReport> BugReports { get; set; }
 
         public WebContext(DbContextOptions options) : base(options)
         {
@@ -24,6 +25,10 @@ namespace WebMaze.EfStuff
         {
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MyCellSuggestions)
+                .WithOne(x => x.Creater);
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.MyBugReports)
                 .WithOne(x => x.Creater);
 
             //modelBuilder.Entity<User>()
