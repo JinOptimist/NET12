@@ -199,7 +199,7 @@ namespace WebMaze.Controllers
             dbStuffForHero.IsActive = true;
 
             _staffForHeroRepository.Save(dbStuffForHero);
-            return RedirectToAction("Index", "Home", "AddStuffForHero");
+            return RedirectToAction("AddStuffForHero");
         }
 
         public IActionResult Time()

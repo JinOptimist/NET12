@@ -1,0 +1,16 @@
+﻿@model BugReportViewModel
+
+<div class="text-center">
+    <form action="/BugReport/AddBugReport" method="post">
+        <div>
+            Descriptoin
+            <div>
+                @Html.TextAreaFor(x => x.Description)
+            </div>
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+
+</div>
