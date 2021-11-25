@@ -86,11 +86,8 @@ namespace WebMaze.Controllers
         public IActionResult Stuff()
         {
             var staffsForHero = new List<StuffForHeroViewModel>();
-            foreach (var dbStaff in _staffForHeroRepository.GetAll())
-            {
-                staffsForHero = _staffForHeroRepository
+            staffsForHero = _staffForHeroRepository
                     .GetAll().Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel)).ToList();
-            }
             return View(staffsForHero);
         }
 
