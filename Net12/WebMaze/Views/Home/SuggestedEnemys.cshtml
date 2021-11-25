@@ -20,9 +20,12 @@
                         <div class="enemy">
                             <div class="enemy_001">
                                 <div>
-                                    @suggestedEnemys.Name
-                                    <a href="/Home/RemoveSuggestedEnemy?suggestedEnemysId=@suggestedEnemys.Id">X</a>
                                     @*<a href="/Home/EditSuggestedEnemy?suggestedEnemys=@suggestedEnemys"><input type="submit" value="EDIT" /></a>*@
+                                    <a href="/Home/RemoveSuggestedEnemy?suggestedEnemysId=@suggestedEnemys.Id"><input type="submit" value="DELETE" /></a>
+                                </div>
+                                <div>
+                                    @suggestedEnemys.Name                                   
+                                   
                                 </div>
                                 <div>
                                     @suggestedEnemys.Description
