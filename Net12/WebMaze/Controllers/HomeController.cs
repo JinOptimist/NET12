@@ -65,6 +65,7 @@ namespace WebMaze.Controllers
             var dbUser = new User()
             {
                 Name = userViewMode.UserName,
+                Password = userViewMode.Password,
                 Coins = userViewMode.Coins,
                 Age = DateTime.Now.Second % 10 + 20,
                 IsActive = true
