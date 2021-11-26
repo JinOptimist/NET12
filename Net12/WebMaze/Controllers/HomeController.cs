@@ -153,7 +153,7 @@ namespace WebMaze.Controllers
             _suggestedEnemysRepository.Remove(suggestedEnemysId);
             return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
         }
-
+        [Authorize]
         [HttpGet]
         public IActionResult AddSuggestedEnemy()
         {

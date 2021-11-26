@@ -102,16 +102,8 @@
                             Suggested Enemys
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            @if (!User.Identity.IsAuthenticated)
-                            {
-                                <a class="dropdown-item" href="/Home/SuggestedEnemys">Suggested Enemys</a>
-                            }
-                            else
-                            {
-                                <a class="dropdown-item" href="/Home/AddSuggestedEnemy">Add Suggested Enemy</a>
-                                <a class="dropdown-item" href="/Home/SuggestedEnemys">Suggested Enemys</a>
-                            }
-
+                            <a class="dropdown-item" href="/Home/AddSuggestedEnemy">Add Suggested Enemy</a>
+                            <a class="dropdown-item" href="/Home/SuggestedEnemys">Suggested Enemys</a>
                         </div>
                     </li>
                     <li class="nav-item">
