@@ -32,7 +32,8 @@ namespace WebMaze
                 {
                     var webContext = diContainer.GetService<WebContext>();
                     var reviewRepository = diContainer.GetService<ReviewRepository>();
-                    var repository = new UserRepository(webContext, reviewRepository);
+                    var favGamesRepository = diContainer.GetService<FavGamesRepository>();
+                    var repository = new UserRepository(webContext, reviewRepository, favGamesRepository);
                     return repository;
                 }
             );
@@ -51,6 +52,13 @@ namespace WebMaze
                 return repository;
             }
            );
+
+            services.AddScoped<FavGamesRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new FavGamesRepository(webContext);
+                return repository;
+            });
 
             services.AddControllersWithViews();
         }

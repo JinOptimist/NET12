@@ -9,11 +9,13 @@ namespace WebMaze.EfStuff.Repositories
     public class UserRepository : BaseRepository<User>
     {
         private ReviewRepository _reviewRepository;
+        private FavGamesRepository _favGamesRepository;
 
         public UserRepository(WebContext webContext, 
-            ReviewRepository reviewRepository) : base(webContext)
+            ReviewRepository reviewRepository, FavGamesRepository favGamesRepository) : base(webContext)
         {
             _reviewRepository = reviewRepository;
+            _favGamesRepository = favGamesRepository;
         }
 
         public User GetRandomUser()
@@ -24,6 +26,7 @@ namespace WebMaze.EfStuff.Repositories
         public override void Remove(User user)
         {
             _reviewRepository.Remove(user.MyReviews);
+            _favGamesRepository.RemoveByUser(user.Id);
             base.Remove(user);
         }
     }
