@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,55 +9,59 @@ using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Services;
 
 namespace WebMaze.Controllers
 {
     public class NewsController : Controller
     {
-        private WebContext _webContext;
-
         private UserRepository _userRepository;
         private NewsRepository _newsRepository;
+        private IMapper _mapper;
+        private UserService _userService;
 
-        public NewsController(WebContext webContext, UserRepository userRepository,NewsRepository newsRepository)
+        public NewsController(UserRepository userRepository,
+            NewsRepository newsRepository,
+            IMapper mapper, UserService userService)
         {
-            _webContext = webContext;
             _newsRepository = newsRepository;
             _userRepository = userRepository;
+            _mapper = mapper;
+            _userService = userService;
         }
 
         public IActionResult Index()
         {
             var newsViewModels = new List<NewsViewModel>();
-            newsViewModels = _newsRepository.GetAll()
-                .Select(x => new NewsViewModel
-                {
-                    CreationDate = x.CreationDate,
-                    EventDate = x.EventDate,
-                    Location = x.Location,
-                    NameOfAuthor = x.Author.Name,
-                    Text = x.Text,
-                    Title = x.Title,
-                    Id=x.Id
-                }).ToList();
+            newsViewModels = _newsRepository
+                .GetAll()
+                .Select(dbModel => _mapper.Map<NewsViewModel>(dbModel))
+                .ToList();
 
             return View(newsViewModels);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult AddNews()
         {
             return View();
         }
 
-
+        [Authorize]
         [HttpPost]
-        public IActionResult AddNews(News news)
+        public IActionResult AddNews(NewsViewModel newsViewModel)
         {
-            news.Author = _userRepository.GetRandomUser();
-            news.IsActive = true;
-            news.CreationDate = DateTime.Now;
-            _newsRepository.Save(news);
+            var author = _userService.GetCurrentUser();
+
+            var dbNews = _mapper.Map<News>(newsViewModel);
+
+            dbNews.CreationDate = DateTime.Now.Date;
+            dbNews.Author = author;
+            dbNews.IsActive = true;
+
+            _newsRepository.Save(dbNews);
+
             return RedirectToAction("Index", "News");
         }
 

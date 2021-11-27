@@ -15,7 +15,7 @@
                     </div>
                     <div class="rname-ico-text">
                         <div>
-                            Name: @item.UserName
+                            Name: @item.Creator.UserName
                         </div>
                         <div>
                             <div>Rating: @item.Rate</div>
@@ -38,7 +38,7 @@
             <div>
                 <select name="Rate" size="2">
                     <option disabled="disabled">Оцените проект</option>
-                    <option value="1">Rate: 1</option>
+                    <option value="1" selected="selected">Rate: 1</option>
                     <option value="2">Rate: 2</option>
                     <option value="3">Rate: 3</option>
                     <option value="4">Rate: 4</option>
@@ -46,7 +46,7 @@
                 </select>
             </div>
             <div>
-                <textarea name="Text" placeholder="Comment"></textarea>
+                <textarea name="TextInfo" placeholder="Comment"></textarea>
             </div>
             <div>
                 <input type="submit" value="Отправить" />
