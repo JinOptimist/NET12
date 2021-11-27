@@ -59,12 +59,12 @@ namespace WebMaze
         private void RegisterRepositories(IServiceCollection services)
         {
             services.AddScoped<UserRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var reviewRepository = diContainer.GetService<ReviewRepository>();
-                var repository = new UserRepository(webContext, reviewRepository);
-                return repository;
-            });
+                {
+                    var webContext = diContainer.GetService<WebContext>();
+                    var reviewRepository = diContainer.GetService<ReviewRepository>();                
+                    var repository = new UserRepository(webContext, reviewRepository);
+                    return repository;
+                });
 
             services.AddScoped<ReviewRepository>(diContainer =>
             {
@@ -93,6 +93,16 @@ namespace WebMaze
                 var repository = new NewCellSuggRepository(webContext);
                 return repository;
             });
+            services.AddScoped<SuggestedEnemysRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var suggestedEnemysRepository = new SuggestedEnemysRepository(webContext);
+                return suggestedEnemysRepository;
+            });
+
+            RegisterMapper(services);
+
+            services.AddControllersWithViews();
 
             services.AddScoped<BugReportRepository>(diContainer =>
             {
@@ -101,21 +111,26 @@ namespace WebMaze
                 return repository;
             });
         }
+            private void RegisterMapper(IServiceCollection services)
+            {
+                var provider = new MapperConfigurationExpression();
 
-        private void RegisterMapper(IServiceCollection services)
-        {
-            var provider = new MapperConfigurationExpression();
+                provider.CreateMap<News, NewsViewModel>()
+                    .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
+                provider.CreateMap<NewsViewModel, News>();
 
-            provider.CreateMap<News, NewsViewModel>()
-                .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
-            provider.CreateMap<NewsViewModel, News>();
+            provider.CreateMap<SuggestedEnemys, SuggestedEnemysViewModel>()
+                    .ForMember(nameof(SuggestedEnemysViewModel.UserName),
+                    opt => opt.MapFrom(dbSuggestedEnemys => dbSuggestedEnemys.Creater.Name));
+            provider.CreateMap<SuggestedEnemysViewModel, SuggestedEnemys>();
+
 
             provider.CreateMap<StuffForHero, StuffForHeroViewModel>();
             provider.CreateMap<StuffForHeroViewModel, StuffForHero>();
 
             provider.CreateMap<User, UserViewModel>()
-                //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
-                .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name));
+                    //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
+                    .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name));
 
             provider.CreateMap<Review, FeedBackUserViewModel>()
                 .ForMember(nameof(FeedBackUserViewModel.TextInfo), opt => opt.MapFrom(dbreview => dbreview.Text))
@@ -137,7 +152,7 @@ namespace WebMaze
 
             var mapperConfiguration = new MapperConfiguration(provider);
 
-            var mapper = new Mapper(mapperConfiguration);
+                var mapper = new Mapper(mapperConfiguration);
 
             services.AddScoped<IMapper>(x => mapper);
 
