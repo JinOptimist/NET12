@@ -169,6 +169,19 @@ namespace WebMaze.Controllers
             }
             return View(FeedBackUsers);
         }
+        public IActionResult RemoveReview(long idReview)
+        {
+            if(HttpContext.User.Identity.IsAuthenticated)
+            {
+                var myUser = _userService.GetCurrentUser();
+                if (myUser == _reviewRepository.Get(idReview).Creator)
+                {
+                    _reviewRepository.Remove(idReview);
+                }
+
+            }
+            return RedirectToAction("Reviews", "Home");
+        }
 
 
         public IActionResult NewCellSugg()
