@@ -1,13 +1,6 @@
-.page {
-    background-image: url(/images/1.jpg);
-    background-attachment: fixed;
+body {
+    background: url(/images/mazeHealPotionBullEnemy.jpg);
     background-size: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
 }
 
 .form {
@@ -20,7 +13,7 @@
     border-radius: 50px;
     box-shadow: 0 0 4px 7px #fff;
     backdrop-filter: blur(5px) brightness(40%);
-    margin: 100px 300px 100px 300px;
+    margin: 100px 400px 100px 400px;
 }
 
 .header{
@@ -28,13 +21,14 @@
 	justify-content: center;
     border-bottom: 3px rgb(252, 7, 7) solid;
     font-style: italic;
-    font-size: 40px;
+    font-size: 50px;
+    color: white;
 }
 
 .title {
     display: flex;
     justify-content: center;
-    font-size: 30px;
+    font-size: 40px;
     color: red;
     margin: 20px 0 20px 0;
 }
@@ -42,6 +36,8 @@
 .elements {
     display: flex;
     justify-content: space-around;
+    color: white;
+    margin-bottom: 40px;
 }
 
 .phrase-canStep-hp-use-block {
@@ -51,40 +47,28 @@
 }
 
 .phrase {
-    font-size: 15px;
-    margin: 0 0 20px 0;
+    font-size: 25px;
+    margin: 0 0 40px 0;
+    font-style: italic;
+    color: red;
 }
 
-.canStep-hp-use-block{
-
-}
-
-
-
-.HealthPotion, .BullEnemy {
+.canStep-hp-use-block {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    background-color: indianred;
     padding: 10px;
+    border-radius: 20px;
 }
 
-.image-text1, .image-text2{
-	display: flex;
-	justify-content: start;
+.description{
+    color: white;
 }
 
-.text-block1, .text-block2{
-	display: flex;
-	flex-direction: column;
-    justify-content: center;
-    padding: 20px;
-    font-size: 20px;
+.canStep{
+    margin-right: 50px;
 }
 
-.description1, .description2, .check1, .check2{
-	display: flex;
-    align-items: center;
-    font-size: 20px;
-}
 
 .home-link {
     color: white;
@@ -94,5 +78,19 @@
     text-align: left;
     font-size: 30px;
     color: white;
-    backdrop-filter: blur(5px) brightness(20%);
+    backdrop-filter: blur(5px) brightness(50%);
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.bottom-stuff {
+    color: white;
+    backdrop-filter: blur(10px) brightness(60%);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 30px;
 }
