@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,11 +10,16 @@ namespace WebMaze.EfStuff.Repositories
     public class UserRepository : BaseRepository<User>
     {
         private ReviewRepository _reviewRepository;
-
+        
         public UserRepository(WebContext webContext, 
             ReviewRepository reviewRepository) : base(webContext)
         {
             _reviewRepository = reviewRepository;
+        }
+
+        public User GetByNameAndPassword(string login, string password)
+        {
+            return _dbSet.SingleOrDefault(x => x.Name == login && x.Password == password);
         }
 
         public User GetRandomUser()

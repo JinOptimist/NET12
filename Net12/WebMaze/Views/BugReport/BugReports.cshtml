@@ -1,0 +1,26 @@
+﻿@model List<BugReportViewModel>
+
+<div class="content">
+    <div class="title">
+        <div class="title-header">
+            Bug reports
+        </div>
+        <div class="title-link">
+            <a href="/BugReport/AddBugReport">Add Bug Report</a>
+        </div>
+    </div>
+    <div class="content-all">
+        @foreach (var bugReports in Model)
+        {
+            <div class="content-report">
+                <div class="content-report-name-content">
+                    <span class="content-report-name">Creator:</span> @bugReports.CreaterName
+                </div>
+                <div class="content-report-description-content">
+                    <span class="content-report-description">Descriptoin: </span> @bugReports.Description
+                </div>
+            </div>
+
+        }
+    </div>
+</div>

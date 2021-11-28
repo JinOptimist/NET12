@@ -7,6 +7,7 @@ namespace WebMaze.Models
 {
     public class NewCellSuggestionViewModel
     {
+        public long Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public int MoneyChange { get; set; }
