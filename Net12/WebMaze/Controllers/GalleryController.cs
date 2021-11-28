@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebMaze.EfStuff;
@@ -12,6 +13,7 @@ using WebMaze.Models;
 
 namespace WebMaze.Controllers
 {
+    [Authorize]
     public class GalleryController : Controller
     {        
         private readonly ImageRepository _repository;

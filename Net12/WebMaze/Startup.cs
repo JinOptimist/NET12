@@ -95,10 +95,6 @@ namespace WebMaze
             });
 
             services.AddScoped<ImageRepository>();
-
-            RegisterMapper(services);
-
-            services.AddControllersWithViews();
         }
 
         private void RegisterMapper(IServiceCollection services)
