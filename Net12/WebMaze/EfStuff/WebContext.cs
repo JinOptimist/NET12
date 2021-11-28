@@ -11,11 +11,15 @@ namespace WebMaze.EfStuff
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Image> Gallery { get; set; }
+        public DbSet<Book> Books { get; set; }
         public DbSet<NewCellSuggestion> NewCellSuggestions { get; set; }
         public DbSet<StuffForHero> StuffsForHero { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<News> News { get; set; }
+        public DbSet<BugReport> BugReports { get; set; }
 
+        public DbSet<SuggestedEnemys> SuggestedEnemys { get; set; }
+        
         public WebContext(DbContextOptions options) : base(options)
         {
         }
@@ -24,6 +28,10 @@ namespace WebMaze.EfStuff
         {
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MyCellSuggestions)
+                .WithOne(x => x.Creater);
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.MyBugReports)
                 .WithOne(x => x.Creater);
 
             //modelBuilder.Entity<User>()
@@ -40,6 +48,14 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<Image>()
                .HasOne(x => x.Author)
                .WithMany(x => x.Images);
+                                  
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.MyEnemySuggested)
+                .WithOne(x => x.Creater);
+
+            modelBuilder.Entity<User>()
+               .HasMany(x => x.EnemySuggestedWhichIAprove)
+               .WithOne(x => x.Approver);
 
             modelBuilder.Entity<StuffForHero>()
                .HasOne(x => x.Proposer)

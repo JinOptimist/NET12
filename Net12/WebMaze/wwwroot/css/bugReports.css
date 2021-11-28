@@ -1,0 +1,36 @@
+﻿.title {
+    text-align: center;
+}
+
+.title-header {
+    font-size: 40px;
+}
+
+.title-link {
+    font-size: 10px;
+}
+
+.content-all {
+    display: flex;
+    flex-direction: column;
+}
+
+.content-report {
+    margin: 10px auto;
+}
+
+.content-report-name-content {
+    text-align: center;
+}
+
+.content-report-name {
+    color: #0094ff;
+}
+
+.content-report-description-content {
+    text-align: center;
+}
+
+.content-report-description {
+    color: #0420a8;
+}

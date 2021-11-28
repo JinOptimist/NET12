@@ -87,30 +87,49 @@ namespace WebMaze
                 var repository = new NewsRepository(webContext);
                 return repository;
             });
+
             services.AddScoped<NewCellSuggRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
                 var repository = new NewCellSuggRepository(webContext);
                 return repository;
             });
+            services.AddScoped<SuggestedEnemysRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var suggestedEnemysRepository = new SuggestedEnemysRepository(webContext);
+                return suggestedEnemysRepository;
+            });
+
+            services.AddScoped<BugReportRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new BugReportRepository(webContext);
+                return repository;
+            });
 
             services.AddScoped<ImageRepository>();
         }
+            private void RegisterMapper(IServiceCollection services)
+            {
+                var provider = new MapperConfigurationExpression();
 
-        private void RegisterMapper(IServiceCollection services)
-        {
-            var provider = new MapperConfigurationExpression();
+                provider.CreateMap<News, NewsViewModel>()
+                    .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
+                provider.CreateMap<NewsViewModel, News>();
 
-            provider.CreateMap<News, NewsViewModel>()
-                .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
-            provider.CreateMap<NewsViewModel, News>();
+            provider.CreateMap<SuggestedEnemys, SuggestedEnemysViewModel>()
+                    .ForMember(nameof(SuggestedEnemysViewModel.UserName),
+                    opt => opt.MapFrom(dbSuggestedEnemys => dbSuggestedEnemys.Creater.Name));
+            provider.CreateMap<SuggestedEnemysViewModel, SuggestedEnemys>();
+
 
             provider.CreateMap<StuffForHero, StuffForHeroViewModel>();
             provider.CreateMap<StuffForHeroViewModel, StuffForHero>();
 
             provider.CreateMap<User, UserViewModel>()
-                //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
-                .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name));
+                    //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
+                    .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name));
 
             provider.CreateMap<Review, FeedBackUserViewModel>()
                 .ForMember(nameof(FeedBackUserViewModel.TextInfo), opt => opt.MapFrom(dbreview => dbreview.Text))
@@ -133,9 +152,12 @@ namespace WebMaze
             provider.CreateMap<NewCellSuggestionViewModel, NewCellSuggestion>();
 
 
+            provider.CreateMap<BugReportViewModel, BugReport>();
+            provider.CreateMap<BugReport, BugReportViewModel>();
+
             var mapperConfiguration = new MapperConfiguration(provider);
 
-            var mapper = new Mapper(mapperConfiguration);
+                var mapper = new Mapper(mapperConfiguration);
 
 
             services.AddScoped<IMapper>(x => mapper);
