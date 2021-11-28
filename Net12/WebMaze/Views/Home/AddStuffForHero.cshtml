@@ -1,21 +1,53 @@
 ﻿@model StuffForHeroViewModel
 
-<div class="addStuff">
-    <form action="/Home/AddStuffForHero" method="post">
-        <div>
-            Name @Html.TextBoxFor(x => x.Name)
+<html>
+    <head>
+        <link rel="stylesheet" href="~/css/AddStuffForHero.css" />
+    </head>
+    <body>
+        <div class="background">
+            <div class="intro">
+                Design exclusive features for your HERO
+            </div>
+            <div class="create-button">
+                <a class="button" href="#">
+                    Create stuff
+                </a>
+            </div>
+            <div class="stuff-list">
+                <div class="stuff stuff--1">
+                    <div class="picture">
+                        <img class="gun" width='300px;' src='images/Gun.png' />
+                    </div>
+                    <div class="info">
+                        <div class="name">
+                            Name: Gun
+                        </div>
+                        <div class="description">
+                            Description: Gun can shoot Enemy
+                        </div>
+                        <div class="price">
+                            Price: 50
+                        </div>
+                    </div>
+                </div>
+                <div class="stuff stuff--2">
+                    <div class="picture">
+                        <img class="sword" width='300px;' src='images/Sword.png' />
+                    </div>
+                    <div class="info">
+                        <div class="name">
+                            Name: Sword
+                        </div>
+                        <div class="description">
+                            Description: Can kill an Enemy and destroy weak walls
+                        </div>
+                        <div class="price">
+                            Price: 40
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            Description @Html.TextBoxFor(x => x.Description)
-        </div>
-        <div>
-            PictureLink @Html.TextBoxFor(x => x.PictureLink)
-        </div>
-        <div>
-            Price @Html.TextBoxFor(x => x.Price)
-        </div>
-        <div>
-            <input type="Submit" value="Save"/>
-        </div>
-    </form>
-</div>
+    </body>
+</html>
