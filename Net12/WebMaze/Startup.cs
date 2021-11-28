@@ -158,6 +158,11 @@ namespace WebMaze
             provider.CreateMap<BugReportViewModel, BugReport>();
             provider.CreateMap<BugReport, BugReportViewModel>();
 
+            provider.CreateMap<Game, GameViewModel>()
+                .ForMember(nameof(GameViewModel.Username), opt => opt.MapFrom(dbGame => dbGame.Creater.Name))
+                .ForMember(nameof(GameViewModel.Age), opt => opt.MapFrom(dbGame => dbGame.Creater.Age));
+            provider.CreateMap<GameViewModel, Game>();
+
             var mapperConfiguration = new MapperConfiguration(provider);
 
                 var mapper = new Mapper(mapperConfiguration);

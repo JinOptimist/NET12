@@ -24,12 +24,13 @@ namespace WebMaze.Controllers
         private NewCellSuggRepository _newCellSuggRepository;
         private StuffForHeroRepository _staffForHeroRepository;
         private SuggestedEnemysRepository _suggestedEnemysRepository;
+        private FavGamesRepository _favGamesRepository;
         private IMapper _mapper;
         public HomeController(WebContext webContext,
             UserRepository userRepository, ReviewRepository reviewRepository,
             SuggestedEnemysRepository suggestedEnemysRepository,
             IMapper mapper, NewCellSuggRepository newCellSuggRepository,
-            StuffForHeroRepository staffForHeroRepository, UserService userService)
+            StuffForHeroRepository staffForHeroRepository, FavGamesRepository favGamesRepository, UserService userService)
         {
             _webContext = webContext;
             _userRepository = userRepository;
@@ -38,6 +39,7 @@ namespace WebMaze.Controllers
             _suggestedEnemysRepository = suggestedEnemysRepository;
             _mapper = mapper;
             _newCellSuggRepository = newCellSuggRepository;
+            _favGamesRepository = favGamesRepository;
             _userService = userService;
         }
 
@@ -60,55 +62,6 @@ namespace WebMaze.Controllers
             //    });
 
             return View(userViewModels);
-        }
-
-        public IActionResult FavoriteGames()
-        {
-            var GamesViewModels = new List<GameViewModel>();
-            var games = _webContext.FavGames.ToList();
-            foreach (var dbGame in games)
-            {
-                var gameViewModel = new GameViewModel();
-                gameViewModel.Name = dbGame.Name;
-                gameViewModel.Genre = dbGame.Genre;
-                gameViewModel.YearOfProd = dbGame.YearOfProd;
-                gameViewModel.Desc = dbGame.Desc;
-                gameViewModel.Rating = dbGame.Rating;
-                gameViewModel.Username = dbGame.Creater.Name;
-                gameViewModel.Age = dbGame.Creater.Age;
-                GamesViewModels.Add(gameViewModel);
-            }
-
-            return View(GamesViewModels);
-        }
-
-        [HttpGet]
-        public IActionResult AddGame()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddGame(GameViewModel gameViewMode)
-        {
-            var creater = _webContext.Users
-                .Where(x => x.Name == gameViewMode.Username)
-                .FirstOrDefault();
-
-            var dbGame = new Game()
-            {
-                Name = gameViewMode.Name,
-                Genre = gameViewMode.Genre,
-                YearOfProd = gameViewMode.YearOfProd,
-                Desc = gameViewMode.Desc,
-                Rating = gameViewMode.Rating,
-                Creater = creater,
-            };
-            _webContext.FavGames.Add(dbGame);
-
-            _webContext.SaveChanges();
-
-            return RedirectToAction("FavoriteGames", "Home");
         }
 
         public IActionResult Book()
@@ -249,6 +202,39 @@ namespace WebMaze.Controllers
 
             _staffForHeroRepository.Save(dbStuffForHero);
             return RedirectToAction("AddStuffForHero");
+        }
+
+        public IActionResult FavoriteGames()
+        {
+            //var GamesViewModels = new List<GameViewModel>();
+            var GamesViewModels = _favGamesRepository
+               .GetAll()
+               .Select(dbModel => _mapper.Map<GameViewModel>(dbModel))
+               .ToList();
+
+            return View(GamesViewModels);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult AddGame()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult AddGame(GameViewModel gameViewModel)
+        {
+            var creater = _userService.GetCurrentUser();
+
+            var dbGame = _mapper.Map<Game>(gameViewModel);
+            dbGame.Creater = creater;
+            dbGame.IsActive = true;
+
+            _favGamesRepository.Save(dbGame);
+
+            return RedirectToAction("FavoriteGames", "Home");
         }
 
         public IActionResult Time()

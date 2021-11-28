@@ -41,6 +41,8 @@
 .favGame-description {
     display: flex;
     margin: auto 40px auto 40px;
+    padding: 7px;
+    border-radius: 20px;
     backdrop-filter: blur(5px) brightness(40%);
 }
 

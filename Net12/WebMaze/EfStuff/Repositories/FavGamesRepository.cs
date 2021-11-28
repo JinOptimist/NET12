@@ -12,5 +12,10 @@ namespace WebMaze.EfStuff.Repositories
         public FavGamesRepository(WebContext webContext) : base(webContext)
         {
         }
+        public void RemoveByUser(long userId)
+        {
+            var targetGames = _dbSet.Where(x => x.Creater != null && x.Creater.Id == userId).ToList();
+            targetGames.ForEach(x => Remove(x));
+        }
     }
 }
