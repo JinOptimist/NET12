@@ -53,6 +53,11 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddBugReport(BugReportViewModel bugReportViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(bugReportViewModel);
+            }
+
             var creater = _userService.GetCurrentUser();
 
             var dbBugReport = _mapper.Map<BugReport>(bugReportViewModel);
