@@ -6,6 +6,59 @@
         Hi @Model.UserName
     </div>
     <div>
-        Account @Model.Coins
+        Coins: @Model.Coins
+
+        <form action="/User/NewCoin" method="post">
+            @Html.TextBoxFor(x => x.Coins)
+            <input type="submit" value="Change coin count" />
+        </form>
     </div>
 </div>
+
+<div class="header">
+    <h2>Your news</h2>
+</div>
+
+@if (Model.News.Any())
+{
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="align-content-md-center">
+                        <th scope="col">Title of news</th>
+                        <th scope="col">Text of news</th>
+                        <th scope="col">Location of news</th>
+                        <th scope="col">Date of event</th>
+                        <th scope="col">Date of creation</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var news in Model.News)
+                    {
+                        <tr>
+                            <td>
+                                <span>@news.Title</span>
+                            </td>
+                            <td>
+                                <span>@news.Text</span>
+                            </td>
+
+                            <td>
+                                <span>@news.Location</span>
+                            </td>
+                            <td>
+                                <span>@news.EventDate.ToShortDateString()</span>
+                            </td>
+                            <td>
+                                <span>@news.CreationDate.ToShortDateString()</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
