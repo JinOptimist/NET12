@@ -22,19 +22,16 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
         private NewCellSuggRepository _newCellSuggRepository;
-        private StuffForHeroRepository _staffForHeroRepository;
         private SuggestedEnemysRepository _suggestedEnemysRepository;
         private IMapper _mapper;
         public HomeController(WebContext webContext,
             UserRepository userRepository, ReviewRepository reviewRepository,
             SuggestedEnemysRepository suggestedEnemysRepository,
-            IMapper mapper, NewCellSuggRepository newCellSuggRepository,
-            StuffForHeroRepository staffForHeroRepository, UserService userService)
+            IMapper mapper, NewCellSuggRepository newCellSuggRepository, UserService userService)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
-            _staffForHeroRepository = staffForHeroRepository;
             _suggestedEnemysRepository = suggestedEnemysRepository;
             _mapper = mapper;
             _newCellSuggRepository = newCellSuggRepository;
@@ -172,35 +169,6 @@ namespace WebMaze.Controllers
             _suggestedEnemysRepository.Save(dbSuggestedEnemys);
 
             return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
-        }
-
-        public IActionResult Stuff()
-        {
-            var staffsForHero = _staffForHeroRepository
-                    .GetAll().Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel)).ToList();
-            return View(staffsForHero);
-        }
-
-        [Authorize]
-        [HttpGet]
-        public IActionResult AddStuffForHero()
-        {
-            return View();
-        }
-
-        [Authorize]
-        [HttpPost]
-        public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
-        {
-            var proposer = _userService.GetCurrentUser();
-
-            var dbStuffForHero = _mapper.Map<StuffForHero>(stuffForHeroViewModel);
-
-            dbStuffForHero.Proposer = proposer;
-            dbStuffForHero.IsActive = true;
-
-            _staffForHeroRepository.Save(dbStuffForHero);
-            return RedirectToAction("AddStuffForHero");
         }
 
         public IActionResult Time()
