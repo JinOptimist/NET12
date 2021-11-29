@@ -14,6 +14,6 @@ namespace WebMaze.Models
         public string Password { get; set; }
 
         public int Coins { get; set; }
-        public List<NewsViewModel> news { get; set; }
+        public List<NewsViewModel> News { get; set; }
     }
 }
