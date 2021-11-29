@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.Models.ValidationAttributes;
 
 namespace WebMaze.Models
 {
     public class MazeDifficultProfileViewModel
     {
-        public long MazeDifficultId { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
+
+        [MazeDifficultLimits(5,100)]
         public int Width { get; set; }
+
+        [MazeDifficultLimits(0, 5)]
         public int Height { get; set; }
         public int HeroMoney { get; set; }
         public int HeroMaxHp { get; set; }

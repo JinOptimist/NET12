@@ -157,3 +157,7 @@ body {
     .manage-maze-difficult div {
         margin-right: 10px;
     }
+
+.menu-maze-difficult a{
+    margin: 5px;
+}

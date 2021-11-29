@@ -36,9 +36,10 @@ namespace WebMaze.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult AddMazeDifficult()
+        public IActionResult AddMazeDifficult(long Id)
         {
-            return View();
+            var model = _mapper.Map<MazeDifficultProfileViewModel>(_mazeDifficultRepository.Get(Id));
+            return View(model);
         }
 
         [Authorize]

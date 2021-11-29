@@ -150,8 +150,7 @@ namespace WebMaze
                 .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name));
             provider.CreateMap<NewCellSuggestionViewModel, NewCellSuggestion>();
             provider.CreateMap<MazeDifficultProfile, MazeDifficultProfileViewModel>()
-                .ForMember(nameof(MazeDifficultProfileViewModel.Author), opt => opt.MapFrom(db => db.Creater.Name))
-                .ForMember(nameof(MazeDifficultProfileViewModel.MazeDifficultId), opt => opt.MapFrom(db => db.Id));
+                .ForMember(nameof(MazeDifficultProfileViewModel.Author), opt => opt.MapFrom(db => db.Creater.Name));
 
             provider.CreateMap<MazeDifficultProfileViewModel, MazeDifficultProfile>();
 

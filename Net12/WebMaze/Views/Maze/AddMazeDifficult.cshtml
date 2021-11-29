@@ -1,11 +1,12 @@
 ﻿@model MazeDifficultProfileViewModel
 
-    <div class="task-sheet">
+    <div class="menu-maze-difficult">
         <a href="/Maze/ManageMazeDifficult">Manage Maze Difficult</a>
     </div>
 
 <div class="text-center">
     <form method="post">
+        @Html.HiddenFor(x => x.Id)
         <div class="add-maze-difficult">
             <div>
                 Name: @Html.TextBoxFor(x => x.Name)
@@ -14,7 +15,13 @@
                 Width: @Html.TextBoxFor(x => x.Width)
             </div>
             <div>
+                @Html.ValidationMessageFor(x => x.Width)
+            </div>
+            <div>
                 Height: @Html.TextBoxFor(x => x.Height)
+            </div>
+            <div>
+                @Html.ValidationMessageFor(x => x.Height)
             </div>
             <div>
                 HeroMoney: @Html.TextBoxFor(x => x.HeroMoney)
