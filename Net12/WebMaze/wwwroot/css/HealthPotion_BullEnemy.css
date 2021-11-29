@@ -1,0 +1,96 @@
+body {
+    background: url(/images/mazeHealPotionBullEnemy.jpg);
+    background-size: cover;
+}
+
+.form {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: start;
+    text-align: center;
+    font-size: 25px;
+    padding: 30px;
+    border-radius: 50px;
+    box-shadow: 0 0 4px 7px #fff;
+    backdrop-filter: blur(5px) brightness(40%);
+    margin: 100px 400px 100px 400px;
+}
+
+.header{
+	display: flex;
+	justify-content: center;
+    border-bottom: 3px rgb(252, 7, 7) solid;
+    font-style: italic;
+    font-size: 50px;
+    color: white;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    font-size: 40px;
+    color: red;
+    margin: 20px 0 20px 0;
+}
+
+.elements {
+    display: flex;
+    justify-content: space-around;
+    color: white;
+    margin-bottom: 40px;
+}
+
+.phrase-canStep-hp-use-block {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.phrase {
+    font-size: 25px;
+    margin: 0 0 40px 0;
+    font-style: italic;
+    color: red;
+}
+
+.canStep-hp-use-block {
+    display: flex;
+    justify-content: space-between;
+    background-color: indianred;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.description{
+    color: white;
+}
+
+.canStep{
+    margin-right: 50px;
+}
+
+
+.home-link {
+    color: white;
+}
+
+.links {
+    text-align: left;
+    font-size: 30px;
+    color: white;
+    backdrop-filter: blur(5px) brightness(50%);
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.bottom-stuff {
+    color: white;
+    backdrop-filter: blur(10px) brightness(60%);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 30px;
+}

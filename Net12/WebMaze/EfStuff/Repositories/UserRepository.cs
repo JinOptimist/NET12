@@ -27,6 +27,11 @@ namespace WebMaze.EfStuff.Repositories
             return _webContext.Users.First();
         }
 
+        public User GetUserByName(string name)
+        {
+            return _dbSet.SingleOrDefault(x => x.Name == name);
+        }
+
         public override void Remove(User user)
         {
             _reviewRepository.Remove(user.MyReviews);

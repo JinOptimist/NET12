@@ -35,7 +35,7 @@ namespace WebMaze.Controllers
             _suggestedEnemysRepository = suggestedEnemysRepository;
             _mapper = mapper;
             _newCellSuggRepository = newCellSuggRepository;
-            _userService = userService;
+            _userService = userService; 
         }
 
         public IActionResult Index()
@@ -161,6 +161,7 @@ namespace WebMaze.Controllers
         public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
         {
             var creater = _userService.GetCurrentUser();
+            //
             var dbSuggestedEnemys = new SuggestedEnemys();
             dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);            
             dbSuggestedEnemys.IsActive = true;
@@ -206,8 +207,10 @@ namespace WebMaze.Controllers
         public IActionResult Reviews(FeedBackUserViewModel viewReview)
         {
             // TODO: Selected User
+
             var review = _mapper.Map<Review>(viewReview);
-            review.Creator = _userRepository.GetRandomUser();
+            review.Creator = _userService.GetCurrentUser();
+
             review.IsActive = true;
             _reviewRepository.Save(review);
 
@@ -217,6 +220,19 @@ namespace WebMaze.Controllers
                 FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
             }
             return View(FeedBackUsers);
+        }
+        public IActionResult RemoveReview(long idReview)
+        {
+            if(HttpContext.User.Identity.IsAuthenticated)
+            {
+                var myUser = _userService.GetCurrentUser();
+                if (myUser == _reviewRepository.Get(idReview).Creator)
+                {
+                    _reviewRepository.Remove(idReview);
+                }
+
+            }
+            return RedirectToAction("Reviews", "Home");
         }
 
 

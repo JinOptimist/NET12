@@ -48,7 +48,7 @@ namespace Net12.Maze.Cells.Enemies
                     break;
             }
 
-            Hit();
+           
         }
 
         private void Hit()
@@ -201,7 +201,8 @@ namespace Net12.Maze.Cells.Enemies
 
         public override bool TryToStep()
         {
-            throw new NotImplementedException();
+            Hit();
+            return true;
         }
 
     }

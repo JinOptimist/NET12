@@ -61,7 +61,7 @@ namespace WebMaze
             services.AddScoped<UserRepository>(diContainer =>
                 {
                     var webContext = diContainer.GetService<WebContext>();
-                    var reviewRepository = diContainer.GetService<ReviewRepository>();                
+                    var reviewRepository = diContainer.GetService<ReviewRepository>();
                     var repository = new UserRepository(webContext, reviewRepository);
                     return repository;
                 });
@@ -79,7 +79,7 @@ namespace WebMaze
                     var repository = new StuffRepository(webContext);
                     return repository;
                 });
-            
+
             services.AddScoped<NewsRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
@@ -111,13 +111,13 @@ namespace WebMaze
                 return repository;
             });
         }
-            private void RegisterMapper(IServiceCollection services)
-            {
-                var provider = new MapperConfigurationExpression();
+        private void RegisterMapper(IServiceCollection services)
+        {
+            var provider = new MapperConfigurationExpression();
 
-                provider.CreateMap<News, NewsViewModel>()
-                    .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
-                provider.CreateMap<NewsViewModel, News>();
+            provider.CreateMap<News, NewsViewModel>()
+                .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
+            provider.CreateMap<NewsViewModel, News>();
 
             provider.CreateMap<SuggestedEnemys, SuggestedEnemysViewModel>()
                     .ForMember(nameof(SuggestedEnemysViewModel.UserName),
@@ -129,8 +129,9 @@ namespace WebMaze
             provider.CreateMap<StuffForHeroViewModel, StuffForHero>();
 
             provider.CreateMap<User, UserViewModel>()
-                    //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
-                    .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name));
+                //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
+                .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name))
+                .ForMember(nameof(UserViewModel.News), opt => opt.MapFrom(x => x.MyNews));
 
             provider.CreateMap<Review, FeedBackUserViewModel>()
                 .ForMember(nameof(FeedBackUserViewModel.TextInfo), opt => opt.MapFrom(dbreview => dbreview.Text))
@@ -152,7 +153,7 @@ namespace WebMaze
 
             var mapperConfiguration = new MapperConfiguration(provider);
 
-                var mapper = new Mapper(mapperConfiguration);
+            var mapper = new Mapper(mapperConfiguration);
 
             services.AddScoped<IMapper>(x => mapper);
 
