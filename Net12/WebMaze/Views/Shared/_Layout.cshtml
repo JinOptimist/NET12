@@ -14,7 +14,6 @@
     <link rel='stylesheet' href='~/css/ruleobj.css'>
     <link rel="stylesheet" href="~/css/reviews.css" />
     <link rel="stylesheet" href="~/css/VitalityPotion_Slime.css" />
-    <link rel="stylesheet" href="~/css/game.css" />
     <link rel="stylesheet" href="~/css/Teleport_in_out.css" />
     <link rel='stylesheet' href='~/css/goldmine.css'>
     <link rel="stylesheet" href="~/css/bugReports.css" />
@@ -40,13 +39,13 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             @if (!User.Identity.IsAuthenticated)
                             {
-                                <a class="dropdown-item" href="/Home/AddUser">Register</a>
-                                <a class="dropdown-item" href="/User/Login">Login</a>
+                            <a class="dropdown-item" href="/Home/AddUser">Register</a>
+                            <a class="dropdown-item" href="/User/Login">Login</a>
                             }
                             else
                             {
-                                <a class="dropdown-item" href="/User/Profile">Profile</a>
-                                <a class="dropdown-item" href="/User/Logout">Exit</a>
+                            <a class="dropdown-item" href="/User/Profile">Profile</a>
+                            <a class="dropdown-item" href="/User/Logout">Exit</a>
                             }
                         </div>
                     </li>
@@ -112,11 +111,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/BugReport/BugReports">List of reports</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Home/AddGame">Add Fav Game</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Home/FavoriteGames">Fav Games</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            FavoriteGames
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Home/AddGame">Add Fav Game</a>
+                            <a class="dropdown-item" href="/Home/FavoriteGames">Fav Games</a>
+                        </div>
                     </li>
                 </ul>
             </div>
