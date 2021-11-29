@@ -164,6 +164,7 @@ namespace WebMaze.Controllers
         public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
         {
             var creater = _userService.GetCurrentUser();
+            //
             var dbSuggestedEnemys = new SuggestedEnemys();
             dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);            
             dbSuggestedEnemys.IsActive = true;
@@ -175,23 +176,23 @@ namespace WebMaze.Controllers
 
         public IActionResult Stuff()
         {
-            var staffsForHero = new List<StuffForHeroViewModel>();
-            staffsForHero = _staffForHeroRepository
+            var staffsForHero = _staffForHeroRepository
                     .GetAll().Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel)).ToList();
             return View(staffsForHero);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult AddStuffForHero()
         {
             return View();
-        }        
+        }
+
+        [Authorize]
+        [HttpPost]
         public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
         {
-            //TODO user current user after login
-            var proposer = _userRepository.GetAll()
-                .OrderByDescending(x => x.Coins)
-                .FirstOrDefault();
+            var proposer = _userService.GetCurrentUser();
 
             var dbStuffForHero = _mapper.Map<StuffForHero>(stuffForHeroViewModel);
 
