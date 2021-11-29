@@ -200,6 +200,28 @@ namespace WebMaze.Controllers
             return View(model);
         }
 
+        public IActionResult HealPotion()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = true;
+            model.Url = "/images/HealthPotion.png";
+            model.Desc = "If a hero steps on a heal potion hero's HP increases by 10 point and the heal potion was removed from the maze, replaced to ground.";
+
+            return View(model);
+        }
+
+        public IActionResult BullEnemy()
+        {
+            var model = new CellInfoViewModel();
+
+            model.CanStep = false;
+            model.Url = "/images/BullEnemy.png";
+            model.Desc = "The Bull goes in one direction while it met a wall. After that, he chooses a new random direction.";
+
+            return View(model);
+        }
+
 
     }
 }
