@@ -8,7 +8,7 @@ namespace WebMaze.Models
 {
     public class ImageViewModel
     {
-        public User Author { get; set; }
+        public string AuthorName { get; set; }
         public string Description { get; set; }
         public string Picture { get; set; }
         public int Assessment { get; set; }
