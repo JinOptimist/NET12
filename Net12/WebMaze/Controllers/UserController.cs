@@ -36,6 +36,15 @@ namespace WebMaze.Controllers
             return View(userViewModel);
         }
 
+        [Authorize]
+        public IActionResult NewCoin(int coins)
+        {
+            var user = _userService.GetCurrentUser();
+            user.Coins = coins;
+            _userRepository.Save(user);
+            return RedirectToAction("Profile");
+        }
+
         [HttpGet]
         public IActionResult Login()
         {

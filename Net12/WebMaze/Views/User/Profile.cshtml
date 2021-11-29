@@ -6,6 +6,11 @@
         Hi @Model.UserName
     </div>
     <div>
-        Account @Model.Coins
+        Coins: @Model.Coins
+
+        <form action="/User/NewCoin" method="post">
+            @Html.TextBoxFor(x => x.Coins)
+            <input type="submit" value="Change coin count" />
+        </form>
     </div>
 </div>

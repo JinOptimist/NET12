@@ -43,15 +43,21 @@ namespace WebMaze.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult AddNews()
+        public IActionResult AddNews(long newsId)
         {
-            return View();
+            var model = _mapper.Map<NewsViewModel>(_newsRepository.Get(newsId));
+            return View(model);
         }
 
         [Authorize]
         [HttpPost]
         public IActionResult AddNews(NewsViewModel newsViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(newsViewModel);
+            }
+
             var author = _userService.GetCurrentUser();
 
             var dbNews = _mapper.Map<News>(newsViewModel);
