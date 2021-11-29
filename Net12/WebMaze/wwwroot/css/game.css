@@ -150,3 +150,9 @@
 .add-favGame-input-forms{
     margin: 5px 0 5px 0
 }
+
+.rating-choose {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
