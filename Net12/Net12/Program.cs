@@ -3,7 +3,8 @@ using Net12.Maze;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Net12
 {
@@ -11,17 +12,46 @@ namespace Net12
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine("Enter formula");
-            //var formulaString = Console.ReadLine();
+            var task1 = new Task(Task1);
 
-            //var calculator = new Formula();
-            //var answer = calculator.Calc(formulaString);
+            var task2 = new Task(Task2);
 
-            //Console.WriteLine($"Answer: {answer}");
+            task1.Start();
+            task2.Start();
 
-            MazeStuff();
+            Task.WaitAll(task1, task2);
+
+            Console.ReadLine();
         }
 
+        public static void Task1()
+        {
+            while(true)
+            {
+                Console.WriteLine("******************");
+            }
+        }
+
+        public static void Task2()
+        {
+            while(true)
+            {
+                Console.WriteLine("----");
+            }
+        }
+
+
+
+        private static void Formula()
+        {
+            Console.WriteLine("Enter formula");
+            var formulaString = Console.ReadLine();
+
+            var calculator = new Formula();
+            var answer = calculator.Calc(formulaString);
+
+            Console.WriteLine($"Answer: {answer}");
+        }
         private static void MazeStuff()
         {
             var mazeBuilder = new MazeBuilder();

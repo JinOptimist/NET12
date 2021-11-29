@@ -1,63 +1,79 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Services;
 
 namespace WebMaze.Controllers
 {
     public class NewsController : Controller
     {
-        private WebContext _webContext;
+        private UserRepository _userRepository;
+        private NewsRepository _newsRepository;
+        private IMapper _mapper;
+        private UserService _userService;
 
-        public NewsController(WebContext webContext)
+        public NewsController(UserRepository userRepository,
+            NewsRepository newsRepository,
+            IMapper mapper, UserService userService)
         {
-            _webContext = webContext;
+            _newsRepository = newsRepository;
+            _userRepository = userRepository;
+            _mapper = mapper;
+            _userService = userService;
         }
 
         public IActionResult Index()
         {
             var newsViewModels = new List<NewsViewModel>();
-            newsViewModels = _webContext.News.Select(
-                x => new NewsViewModel
-                {
-                    CreationDate = x.CreationDate,
-                    EventDate = x.EventDate,
-                    Location = x.Location,
-                    NameOfAuthor = x.NameOfAuthor,
-                    Text = x.Text,
-                    Title = x.Title
-                }).ToList();
+            newsViewModels = _newsRepository
+                .GetAll()
+                .Select(dbModel => _mapper.Map<NewsViewModel>(dbModel))
+                .ToList();
 
             return View(newsViewModels);
         }
 
+        [Authorize]
         [HttpGet]
-        public IActionResult AddNews()
+        public IActionResult AddNews(long newsId)
         {
-            return View();
+            var model = _mapper.Map<NewsViewModel>(_newsRepository.Get(newsId));
+            return View(model);
         }
 
-
+        [Authorize]
         [HttpPost]
         public IActionResult AddNews(NewsViewModel newsViewModel)
         {
-            var dbNews = new News()
+            if (!ModelState.IsValid)
             {
-                EventDate = newsViewModel.EventDate,
-                CreationDate = DateTime.Now.Date,
-                Location = newsViewModel.Location,
-                NameOfAuthor = newsViewModel.NameOfAuthor,
-                Text = newsViewModel.Text,
-                Title = newsViewModel.Title
-            };
-            _webContext.News.Add(dbNews);
+                return View(newsViewModel);
+            }
 
-            _webContext.SaveChanges();
+            var author = _userService.GetCurrentUser();
 
+            var dbNews = _mapper.Map<News>(newsViewModel);
+
+            dbNews.CreationDate = DateTime.Now.Date;
+            dbNews.Author = author;
+            dbNews.IsActive = true;
+
+            _newsRepository.Save(dbNews);
+
+            return RedirectToAction("Index", "News");
+        }
+
+        public IActionResult RemoveNews(long newsId)
+        {
+            _newsRepository.Remove(newsId);
             return RedirectToAction("Index", "News");
         }
     }

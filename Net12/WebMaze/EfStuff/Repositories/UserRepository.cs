@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,26 +7,19 @@ using WebMaze.EfStuff.DbModel;
 
 namespace WebMaze.EfStuff.Repositories
 {
-    public class UserRepository
+    public class UserRepository : BaseRepository<User>
     {
-        private WebContext _webContext;
-
-        public UserRepository(WebContext webContext)
+        private ReviewRepository _reviewRepository;
+        
+        public UserRepository(WebContext webContext, 
+            ReviewRepository reviewRepository) : base(webContext)
         {
-            _webContext = webContext;
+            _reviewRepository = reviewRepository;
         }
 
-        public User Get(long id)
+        public User GetByNameAndPassword(string login, string password)
         {
-            return _webContext.Users.SingleOrDefault(x => x.Id == id);
-        }
-
-        public List<User> GetAll()
-        {
-            return _webContext
-                .Users
-                .Where(x => x.IsActive)
-                .ToList();
+            return _dbSet.SingleOrDefault(x => x.Name == login && x.Password == password);
         }
 
         public User GetRandomUser()
@@ -33,30 +27,10 @@ namespace WebMaze.EfStuff.Repositories
             return _webContext.Users.First();
         }
 
-        public void Save(User user)
+        public override void Remove(User user)
         {
-            if (user.Id > 0)
-            {
-                _webContext.Update(user);
-            }
-            else
-            {
-                _webContext.Users.Add(user);
-            }
-            
-            _webContext.SaveChanges();
-        }
-
-        public void Remove(User user)
-        {
-            user.IsActive = false;
-            Save(user);
-        }
-
-        public void Remove(long userId)
-        {
-            var user = Get(userId);
-            Remove(user);
+            _reviewRepository.Remove(user.MyReviews);
+            base.Remove(user);
         }
     }
 }

@@ -1,67 +1,46 @@
 ﻿@model NewsViewModel
 
-@{
-    Layout = "~/Views/Shared/_LayoutNews.cshtml";
-}
-
-<div class="offset-lg-0 col col-12">
-    <a asp-action="Index" asp-controller="Home">Home/</a>
-    <a asp-action="Index" asp-controller="News">News/</a>
-    <a>Adding news</a>
+<div class=text-center>
+    <h2>Adding news</h2>
 </div>
+
 
 <div>
-    <h2 style="text-align:center">Adding news</h2>
-</div>
-
-
-<div class="text-center">
     <form action="/News/AddNews" method="post">
+        @Html.HiddenFor(x => x.Id)
         <div>
             <div>
-                <p>Title of news: @Html.TextBoxFor(x => x.Title)</p>
+                <div>Title of news: @Html.TextBoxFor(x => x.Title)</div>
+                <div>@Html.ValidationMessageFor(x => x.Title)</div>
             </div>
             <div>
-                <p>Text of news: @Html.TextAreaFor(x => x.Text)</p>
+                <div>
+                    Text of news: @Html.TextAreaFor(x => x.Text)
+                </div>
+                <div>
+                    @Html.ValidationMessageFor(x => x.Text)
+                </div>
             </div>
             <div>
-                <p>Location of news: @Html.TextBoxFor(x => x.Location)</p>
+                <div>
+                    Location of news: @Html.TextBoxFor(x => x.Location)
+                </div>
+                <div>
+                    @Html.ValidationMessageFor(x => x.Location)
+                </div>
             </div>
             <div>
-                <p>Date of event: @Html.TextBoxFor(x => x.EventDate)</p>
-            </div>
-            <div>
-                <p>Author: @Html.TextBoxFor(x => x.NameOfAuthor)</p>
+                <div>
+                    Date of event: @Html.TextBoxFor(x => x.EventDate)
+                </div>
+                <div>
+                    @Html.ValidationMessageFor(x => x.EventDate)
+                </div>
             </div>
         </div>
-        
+
         <div>
             <input type="submit" value="Save" />
         </div>
     </form>
 </div>
-
-
-<style>
-    #Title
-    {
-        width:20%;
-    }
-
-    #Text {
-        width: 20%;
-    }
-
-    #Location
-    {
-        width: 17%;
-    }
-
-    #EventDate {
-        width: 20%;
-    }
-
-    #NameOfAthor {
-        width: 25%;
-    }
-</style>

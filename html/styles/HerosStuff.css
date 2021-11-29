@@ -1,0 +1,92 @@
+body{
+    margin: 0px;
+    font-size: 20px;
+    color: #d1e8e2;
+    background: rgb(44,53,49);
+    background: linear-gradient(126deg, rgba(44,53,49,1) 0%, rgba(17,100,102,1) 100%);
+}
+.menu-panel {
+    background: #d1e8e2;
+    color: #2c3531;    
+        border: 0;
+        border-bottom: gray dashed;
+}
+
+.intro {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+/* Button
+=================================*/
+
+.create-button{
+    display: flex;
+    justify-content: center;
+}
+
+.button{
+    
+    text-align: center;
+    vertical-align: top;
+    padding: 15px 40px;
+    border-radius: 4px;
+    border: 0;
+    cursor: pointer;
+    font-size: 14px;
+    color: #2c3531;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background .1s linear;
+    background-color: #ffcb9a;
+
+}
+
+.button:hover{
+    background-color: #d9b08c;
+}
+
+
+.stuff-list{
+    margin: 30px;
+}
+
+.stuff{
+    margin: 30px;
+    border: solid 1px;
+}
+
+.gun{
+    background: #d1e8e2;
+}
+
+.picture{
+    float:left;
+}
+
+.info{
+    float:right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
