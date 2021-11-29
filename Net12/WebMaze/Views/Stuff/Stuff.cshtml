@@ -10,10 +10,13 @@
             Design exclusive features for your HERO
         </div>
         <div class="create-button">
-            <a class="button" href="#">
+            <a class="button" href="/Stuff/AddStuffForHero">
                 Create stuff
             </a>
         </div>
+
+        @foreach (var stuff in Model)
+        {
         <div class="stuff-list">
             <div class="stuff stuff--1">
                 <div class="picture">
@@ -21,17 +24,17 @@
                 </div>
                 <div class="info">
                     <div class="name">
-                        Name: Gun
+                        Name: @stuff.Name
                     </div>
                     <div class="description">
-                        Description: Gun can shoot Enemy
+                        Description:  @stuff.Description
                     </div>
                     <div class="price">
-                        Price: 50
+                        Price: @stuff.Price
                     </div>
                 </div>
             </div>
-            <div class="stuff stuff--2">
+            @*<div class="stuff stuff--2">
                 <div class="picture">
                     <img class="sword" src='../images/Sword.png' />
                 </div>
@@ -46,8 +49,9 @@
                         Price: 40
                     </div>
                 </div>
-            </div>
+            </div>*@
         </div>
+        }
     </div>
 </body>
 </html>
