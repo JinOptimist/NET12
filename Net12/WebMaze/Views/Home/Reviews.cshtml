@@ -24,34 +24,37 @@
                     <div class="rate-text">
                         @item.TextInfo
                     </div>
+                    <div class="rate-text"><a href="/Home/RemoveReview?idReview=@item.Id">Remove</a></div>
 
                 </div>
 
             }
     }
 </div>
-<div style="margin-top: 3%;">
-    <form action="/Home/Reviews" method="post" class="rate-put">
-        <div>Оставить отзыв</div>
-        <div>
+@if (User.Identity.IsAuthenticated)
+{
+    <div style="margin-top: 3%;">
+        <form action="/Home/Reviews" method="post" class="rate-put">
+            <div>Оставить отзыв</div>
+            <div>
 
-            <div>
-                <select name="Rate" size="2">
-                    <option disabled="disabled">Оцените проект</option>
-                    <option value="1" selected="selected">Rate: 1</option>
-                    <option value="2">Rate: 2</option>
-                    <option value="3">Rate: 3</option>
-                    <option value="4">Rate: 4</option>
-                    <option value="5">Rate: 5</option>
-                </select>
+                <div>
+                    <select name="Rate" size="2">
+                        <option disabled="disabled">Оцените проект</option>
+                        <option value="1" selected="selected">Rate: 1</option>
+                        <option value="2">Rate: 2</option>
+                        <option value="3">Rate: 3</option>
+                        <option value="4">Rate: 4</option>
+                        <option value="5">Rate: 5</option>
+                    </select>
+                </div>
+                <div>
+                    <textarea name="TextInfo" placeholder="Comment"></textarea>
+                </div>
+                <div>
+                    <input type="submit" value="Отправить" />
+                </div>
             </div>
-            <div>
-                <textarea name="TextInfo" placeholder="Comment"></textarea>
-            </div>
-            <div>
-                <input type="submit" value="Отправить" />
-            </div>
-        </div>
-    </form>
-</div>
-
+        </form>
+    </div>
+}

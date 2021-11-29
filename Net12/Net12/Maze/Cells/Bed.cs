@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Net12.Maze
 {
-    class Bed : BaseCell
+    public class Bed : BaseCell
     {
-        public Bed(int x, int y, MazeLevel Maze) : base(x, y, Maze) { }
+        public Bed(int x, int y, IMazeLevel Maze) : base(x, y, Maze) { }
 
         public override bool TryToStep()
         {
