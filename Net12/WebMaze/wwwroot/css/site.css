@@ -140,3 +140,7 @@ body {
     height: 100%;
     object-fit: cover;
 }
+
+.field-validation-error{
+    color: red;
+}

@@ -7,18 +7,35 @@
 
 <div>
     <form action="/News/AddNews" method="post">
+        @Html.HiddenFor(x => x.Id)
         <div>
             <div>
-                <p>Title of news: @Html.TextBoxFor(x => x.Title)</p>
+                <div>Title of news: @Html.TextBoxFor(x => x.Title)</div>
+                <div>@Html.ValidationMessageFor(x => x.Title)</div>
             </div>
             <div>
-                <p>Text of news: @Html.TextAreaFor(x => x.Text)</p>
+                <div>
+                    Text of news: @Html.TextAreaFor(x => x.Text)
+                </div>
+                <div>
+                    @Html.ValidationMessageFor(x => x.Text)
+                </div>
             </div>
             <div>
-                <p>Location of news: @Html.TextBoxFor(x => x.Location)</p>
+                <div>
+                    Location of news: @Html.TextBoxFor(x => x.Location)
+                </div>
+                <div>
+                    @Html.ValidationMessageFor(x => x.Location)
+                </div>
             </div>
             <div>
-                <p>Date of event: @Html.TextBoxFor(x => x.EventDate)</p>
+                <div>
+                    Date of event: @Html.TextBoxFor(x => x.EventDate)
+                </div>
+                <div>
+                    @Html.ValidationMessageFor(x => x.EventDate)
+                </div>
             </div>
         </div>
 
