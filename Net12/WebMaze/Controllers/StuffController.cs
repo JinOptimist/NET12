@@ -56,7 +56,13 @@ namespace WebMaze.Controllers
             dbStuffForHero.IsActive = true;
 
             _staffForHeroRepository.Save(dbStuffForHero);
-            return RedirectToAction("AddStuffForHero");
+            return RedirectToAction("Stuff");
+        }
+
+        public IActionResult RemoveStuff(long stuffId)
+        {
+            _staffForHeroRepository.Remove(stuffId);
+            return RedirectToAction("Stuff");
         }
     }
 }

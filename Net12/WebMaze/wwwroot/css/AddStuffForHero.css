@@ -3,7 +3,7 @@ body {
     font-size: 20px;
     color: #d1e8e2;
     background: rgb(44,53,49);
-    background: linear-gradient(126deg, rgba(44,53,49,1) 0%, rgba(17,100,102,1) 100%);
+    background: linear-gradient(90deg, rgba(44,53,49,1) 0%, rgba(17,100,102,1) 100%);
 }
 
 .menu-panel {
@@ -65,10 +65,6 @@ body {
 }
 
 .gun {
-    width: 180px;
-}
-
-.sword {
     width: 180px;
 }
 

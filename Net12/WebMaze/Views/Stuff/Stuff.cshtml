@@ -20,7 +20,7 @@
         <div class="stuff-list">
             <div class="stuff stuff--1">
                 <div class="picture">
-                    <img class="gun" src='../images/Gun.png' />
+                    <img class="gun" src='@stuff.PictureLink' />
                 </div>
                 <div class="info">
                     <div class="name">
@@ -32,25 +32,12 @@
                     <div class="price">
                         Price: @stuff.Price
                     </div>
+                    <div>
+                        <a href="/Stuff/RemoveStuff?stuffId=@stuff.Id">X</a>
+                    </div>                    
                 </div>
             </div>
-            @*<div class="stuff stuff--2">
-                <div class="picture">
-                    <img class="sword" src='../images/Sword.png' />
-                </div>
-                <div class="info">
-                    <div class="name">
-                        Name: Sword
-                    </div>
-                    <div class="description">
-                        Description: Can kill an Enemy and destroy weak walls
-                    </div>
-                    <div class="price">
-                        Price: 40
-                    </div>
-                </div>
-            </div>*@
-        </div>
+         </div>
         }
     </div>
 </body>
