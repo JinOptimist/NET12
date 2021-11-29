@@ -11,8 +11,10 @@ namespace WebMaze.Models
         [MinLength(2, ErrorMessage = "Name of game is too short")]
         public string Name { get; set; }
 
-        [MinLength(2, ErrorMessage = "Name of game is too short")]
+        [MinLength(5, ErrorMessage = "Game's genre is too short")]
         public string Genre { get; set; }
+
+        [CheckYearAttribute]
         public int YearOfProd { get; set; }
         public string Desc { get; set; }
         public int Rating { get; set; }

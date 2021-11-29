@@ -22,10 +22,12 @@
                 </div>
                 <div class="add-favGame-input-forms">
                     <div>Title:</div>
+                    <div>@Html.ValidationMessageFor(x => x.Name)</div>
                     <textarea class="textarea" name="Name" cols="30" rows="1"></textarea>
                 </div>
                 <div class="add-favGame-input-forms">
                     <div>Genre:</div>
+                    <div>@Html.ValidationMessageFor(x => x.Genre)</div>
                     <textarea class="textarea" name="Genre" cols="30" rows="1"></textarea>
                 </div>
                 <div class="add-favGame-input-forms">
