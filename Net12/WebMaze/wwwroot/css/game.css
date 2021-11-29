@@ -1,4 +1,9 @@
-﻿.title-favGame {
+﻿body {
+    background-image: url(/imgFavGames/addFavGameBackground.png);
+    background-size: cover;
+}
+
+.title-favGame {
     display: inline-flex;
     font-size: 40px;
     margin: 30px 0 10px 0;
@@ -84,7 +89,6 @@
 .add-favGame-page {
     justify-content: center;
     text-align: center;
-    background-image: url(/imgFavGames/addFavGameBackground.png);
     background-attachment: fixed;
     position: absolute;
     top: 0;
