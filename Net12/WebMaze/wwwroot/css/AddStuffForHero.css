@@ -61,6 +61,15 @@ body {
 
 .picture {
     margin: 20px;
+    
+}
+
+.gun {
+    width: 180px;
+}
+
+.sword {
+    width: 180px;
 }
 
 .stuff-list {
