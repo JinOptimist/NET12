@@ -16,7 +16,11 @@
                     <th scope="col">Date of event</th>
                     <th scope="col">Author</th>
                     <th scope="col">Date of creation</th>
-                    <th scope="col">Delete</th>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <th scope="col">Delete</th>
+                    }
+
                 </tr>
             </thead>
 
@@ -43,16 +47,25 @@
                         <td>
                             <span>@news.CreationDate.ToShortDateString()</span>
                         </td>
-                        <td>
-                            <a href="/News/RemoveNews?newsId=@news.Id">X</a>
-                        </td>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <td>
+                                <a href="/News/RemoveNews?newsId=@news.Id">X</a>
+                            </td>
+                        }
+
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-   <p>
-       <a href="/News/AddNews" style="color:red; font-size:x-large">ADD NEWS &raquo;</a>
-   </p>
-    
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>
+            <a href="/News/AddNews" style="color:red; font-size:x-large">ADD NEWS &raquo;</a>
+        </p>
+    }
+
 </div>
