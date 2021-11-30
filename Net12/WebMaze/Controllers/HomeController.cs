@@ -161,9 +161,10 @@ namespace WebMaze.Controllers
         public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
         {
             var creater = _userService.GetCurrentUser();
-            //
+            
             var dbSuggestedEnemys = new SuggestedEnemys();
-            dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);            
+            dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);
+            dbSuggestedEnemys.Creater = creater;           
             dbSuggestedEnemys.IsActive = true;
 
             _suggestedEnemysRepository.Save(dbSuggestedEnemys);
@@ -235,7 +236,7 @@ namespace WebMaze.Controllers
             return RedirectToAction("Reviews", "Home");
         }
 
-
+        
         public IActionResult NewCellSugg()
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
@@ -245,31 +246,35 @@ namespace WebMaze.Controllers
 
             return View(newCellSuggestionsViewModel);
         }
+        [Authorize]
         [HttpGet]
-        public IActionResult AddNewCellSugg()
+        public IActionResult AddNewCellSugg(long Id)
         {
-            return View();
+            var model = _mapper.Map<NewCellSuggestionViewModel>(_newCellSuggRepository.Get(Id))
+           ?? new NewCellSuggestionViewModel();
+                return View(model);
         }
+        [Authorize]
         [HttpPost]
-        public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCell)
+        public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCellSuggestionViewModel)
         {
-            //TODO user current user after login
+            if (!ModelState.IsValid)
+            {
+                return View(newCellSuggestionViewModel);
+            }
+
             var creater = _userRepository.GetRandomUser();
 
-            var NewCS = new NewCellSuggestion()
-            {
-                Title = newCell.Title,
-                Description = newCell.Description,
-                MoneyChange = newCell.MoneyChange,
-                HealtsChange = newCell.HealtsChange,
-                FatigueChange = newCell.FatigueChange,
-                Creater = creater,
-                IsActive = true
-            };
+            var NewCS = new NewCellSuggestion();
+        
+            NewCS = _mapper.Map<NewCellSuggestion>(newCellSuggestionViewModel);
+            NewCS.Creater = creater;
+            NewCS.IsActive = true;
 
             _newCellSuggRepository.Save(NewCS);
             return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
         }
+        [Authorize]
         public IActionResult RemoveNewCellSuggestion(long id)
         {
             _newCellSuggRepository.Remove(id);
