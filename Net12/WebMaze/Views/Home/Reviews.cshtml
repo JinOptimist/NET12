@@ -47,9 +47,11 @@
                         <option value="4">Rate: 4</option>
                         <option value="5">Rate: 5</option>
                     </select>
+                    <div>@Html.ValidationMessageFor(x => x.FirstOrDefault().Rate)</div>
                 </div>
                 <div>
                     <textarea name="TextInfo" placeholder="Comment"></textarea>
+                    <div>@Html.ValidationMessageFor(x => x.FirstOrDefault().TextInfo)</div>
                 </div>
                 <div>
                     <input type="submit" value="Отправить" />

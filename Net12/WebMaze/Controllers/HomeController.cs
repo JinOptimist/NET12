@@ -38,7 +38,7 @@ namespace WebMaze.Controllers
             _suggestedEnemysRepository = suggestedEnemysRepository;
             _mapper = mapper;
             _newCellSuggRepository = newCellSuggRepository;
-            _userService = userService; 
+            _userService = userService;
         }
 
         public IActionResult Index()
@@ -165,7 +165,7 @@ namespace WebMaze.Controllers
         {
             var creater = _userService.GetCurrentUser();
             var dbSuggestedEnemys = new SuggestedEnemys();
-            dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);            
+            dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);
             dbSuggestedEnemys.IsActive = true;
 
             _suggestedEnemysRepository.Save(dbSuggestedEnemys);
@@ -185,7 +185,7 @@ namespace WebMaze.Controllers
         public IActionResult AddStuffForHero()
         {
             return View();
-        }        
+        }
         public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
         {
             //TODO user current user after login
@@ -234,10 +234,19 @@ namespace WebMaze.Controllers
             return View(FeedBackUsers);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Reviews(FeedBackUserViewModel viewReview)
         {
-            // TODO: Selected User
+            if (!ModelState.IsValid)
+            {
+                var bugFeedBackUsers = new List<FeedBackUserViewModel>();
+                if (_reviewRepository.GetAll().Any())
+                {
+                    bugFeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
+                }
+                return View(bugFeedBackUsers);
+            }
 
             var review = _mapper.Map<Review>(viewReview);
             review.Creator = _userService.GetCurrentUser();
@@ -254,7 +263,7 @@ namespace WebMaze.Controllers
         }
         public IActionResult RemoveReview(long idReview)
         {
-            if(HttpContext.User.Identity.IsAuthenticated)
+            if (HttpContext.User.Identity.IsAuthenticated)
             {
                 var myUser = _userService.GetCurrentUser();
                 if (myUser == _reviewRepository.Get(idReview).Creator)
