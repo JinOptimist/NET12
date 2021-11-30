@@ -225,11 +225,7 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult Reviews()
         {
-            var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_userRepository.GetAll().Any())
-            {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
-            }
+            var FeedBackUsers = GiveViewReviews();
 
             return View(FeedBackUsers);
         }
@@ -240,11 +236,7 @@ namespace WebMaze.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var bugFeedBackUsers = new List<FeedBackUserViewModel>();
-                if (_reviewRepository.GetAll().Any())
-                {
-                    bugFeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
-                }
+                var bugFeedBackUsers = GiveViewReviews();
                 return View(bugFeedBackUsers);
             }
 
@@ -253,12 +245,8 @@ namespace WebMaze.Controllers
 
             review.IsActive = true;
             _reviewRepository.Save(review);
+            var FeedBackUsers = GiveViewReviews();
 
-            var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_reviewRepository.GetAll().Any())
-            {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
-            }
             return View(FeedBackUsers);
         }
         public IActionResult RemoveReview(long idReview)
@@ -274,8 +262,6 @@ namespace WebMaze.Controllers
             }
             return RedirectToAction("Reviews", "Home");
         }
-
-
         public IActionResult NewCellSugg()
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
@@ -316,7 +302,41 @@ namespace WebMaze.Controllers
             return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
         }
 
+        public List<FeedBackUserViewModel> GiveViewReviews()
+        {
+            var FeedBackUsers = new List<FeedBackUserViewModel>();
+            if (_reviewRepository.GetAll().Any())
+            {
+                FeedBackUsers = _reviewRepository.GetAll()
+                    .Select(rev => _mapper.Map<FeedBackUserViewModel>(rev))
+                    .ToList();
 
+                FeedBackUsers = FeedBackUsers
+                    .Where(review =>
+                    {
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            if (review.Creator.Id == _userService.GetCurrentUser().Id)
+                            {
+                                review.CanEdit = true;
+                            }
+                            else
+                            {
+                                review.CanEdit = false;
+                            }
+
+                        }
+                        else
+                        {
+                            review.CanEdit = false;
+                        }
+                        return true;
+                    })
+                    .ToList();
+
+            }
+            return FeedBackUsers;
+        }
     }
 
 }

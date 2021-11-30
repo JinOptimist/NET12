@@ -35,6 +35,9 @@
     word-wrap: break-word;
     word-break: break-all;
 }
+.edit-info {
+    flex-direction: column;
+}
 
 .rate-put {
     border: 1px solid black;

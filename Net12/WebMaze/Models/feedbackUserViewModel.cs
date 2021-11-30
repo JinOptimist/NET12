@@ -15,7 +15,7 @@ namespace WebMaze.Models
         public int Rate { get; set; }
         [StopWord("blacklivesmatter", "whiteLooser")]
         public string TextInfo { get; set; }
-
         public string UserName { get; internal set; }
+        public bool CanEdit {  get; set; }
     }
 }
