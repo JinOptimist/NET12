@@ -27,7 +27,7 @@
                     <div class="rate-text edit-info">
                         @if (item.CanEdit)
                         {
-                            <a href="/Home/RemoveReview?idReview=@item.Id">Edit</a>
+                            <a href="/Home/ChangeReviewForm?idReview=@item.Id">Edit</a>
                             <a href="/Home/RemoveReview?idReview=@item.Id">Remove</a>
                         }
                     </div>
@@ -40,29 +40,59 @@
 @if (User.Identity.IsAuthenticated)
 {
     <div style="margin-top: 3%;">
-        <form action="/Home/Reviews" method="post" class="rate-put">
-            <div>Оставить отзыв</div>
-            <div>
-
+        @if (Model.Any(rev => rev.NowEdit == true) == true)
+        {
+            @Html.HiddenFor(x=> x.FirstOrDefault().Id)
+            <form action="/Home/ChangeReview" method="post" class="rate-put">
+                <div>Изменить отзыв</div>
                 <div>
-                    <select name="Rate" size="2">
-                        <option disabled="disabled">Оцените проект</option>
-                        <option value="1" selected="selected">Rate: 1</option>
-                        <option value="2">Rate: 2</option>
-                        <option value="3">Rate: 3</option>
-                        <option value="4">Rate: 4</option>
-                        <option value="5">Rate: 5</option>
-                    </select>
-                    <div>@Html.ValidationMessageFor(x => x.FirstOrDefault().Rate)</div>
+                    <div>
+                        <select name="Rate" size="2">
+                            <option disabled="disabled">Оцените проект</option>
+                            <option value="1" selected="selected">Rate: 1</option>
+                            <option value="2">Rate: 2</option>
+                            <option value="3">Rate: 3</option>
+                            <option value="4">Rate: 4</option>
+                            <option value="5">Rate: 5</option>
+                        </select>
+                        <div>@Html.ValidationMessageFor(x => x.FirstOrDefault().Rate)</div>
+                    </div>
+                    <div>
+                        <textarea name="TextInfo" placeholder="Comment">@Model.Single(rev => rev.NowEdit == true).TextInfo</textarea>
+                        <div>@Html.ValidationMessageFor(x => x.FirstOrDefault().TextInfo)</div>
+                    </div>
+                    <div>
+                        <input type="submit" value="Изменить" />
+                        <input type="button" href="/Home/Reviews" value="Отменить" />
+                    </div>
                 </div>
+            </form>
+        }
+        else
+        {
+            <form action="/Home/Reviews" method="post" class="rate-put">
+                <div>Оставить отзыв</div>
                 <div>
-                    <textarea name="TextInfo" placeholder="Comment"></textarea>
-                    <div>@Html.ValidationMessageFor(x => x.FirstOrDefault().TextInfo)</div>
+                    <div>
+                        <select name="Rate" size="2">
+                            <option disabled="disabled">Оцените проект</option>
+                            <option value="1" selected="selected">Rate: 1</option>
+                            <option value="2">Rate: 2</option>
+                            <option value="3">Rate: 3</option>
+                            <option value="4">Rate: 4</option>
+                            <option value="5">Rate: 5</option>
+                        </select>
+                        <div>@Html.ValidationMessageFor(x => x.FirstOrDefault().Rate)</div>
+                    </div>
+                    <div>
+                        <textarea name="TextInfo" placeholder="Comment"></textarea>
+                        <div>@Html.ValidationMessageFor(x => x.FirstOrDefault().TextInfo)</div>
+                    </div>
+                    <div>
+                        <input type="submit" value="Отправить" />
+                    </div>
                 </div>
-                <div>
-                    <input type="submit" value="Отправить" />
-                </div>
-            </div>
-        </form>
+            </form>
+        }
     </div>
 }

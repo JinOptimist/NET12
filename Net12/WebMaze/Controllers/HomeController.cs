@@ -249,6 +249,7 @@ namespace WebMaze.Controllers
 
             return View(FeedBackUsers);
         }
+
         public IActionResult RemoveReview(long idReview)
         {
             if (HttpContext.User.Identity.IsAuthenticated)
@@ -262,6 +263,75 @@ namespace WebMaze.Controllers
             }
             return RedirectToAction("Reviews", "Home");
         }
+        public IActionResult ChangeReviewForm(long idReview)
+        {
+            var FeedBackUsers = GiveViewReviews();
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                var myUser = _userService.GetCurrentUser();
+                if (myUser == _reviewRepository.Get(idReview).Creator)
+                {
+                    FeedBackUsers.Where(review =>
+                    {
+                        if (review.Id == idReview)
+                        {
+                            review.NowEdit = true;
+                        }
+                        else
+                        {
+                            review.NowEdit = false;
+                        }
+                        return true;
+                    }).ToList();
+                }
+
+
+            }
+
+            return RedirectToAction("Reviews", "Home", FeedBackUsers);
+        }
+        [HttpPost]
+        public IActionResult ChangeReview(FeedBackUserViewModel review)
+        {
+
+            return RedirectToAction("Reviews", "Home");
+        }
+        public List<FeedBackUserViewModel> GiveViewReviews()
+        {
+            var FeedBackUsers = new List<FeedBackUserViewModel>();
+            if (_reviewRepository.GetAll().Any())
+            {
+                FeedBackUsers = _reviewRepository.GetAll()
+                    .Select(rev => _mapper.Map<FeedBackUserViewModel>(rev))
+                    .ToList();
+
+                FeedBackUsers = FeedBackUsers
+                    .Where(review =>
+                    {
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            if (review.Creator.Id == _userService.GetCurrentUser().Id)
+                            {
+                                review.CanEdit = true;
+                            }
+                            else
+                            {
+                                review.CanEdit = false;
+                            }
+
+                        }
+                        else
+                        {
+                            review.CanEdit = false;
+                        }
+                        return true;
+                    })
+                    .ToList();
+
+            }
+            return FeedBackUsers;
+        }
+
         public IActionResult NewCellSugg()
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
@@ -302,41 +372,7 @@ namespace WebMaze.Controllers
             return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
         }
 
-        public List<FeedBackUserViewModel> GiveViewReviews()
-        {
-            var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_reviewRepository.GetAll().Any())
-            {
-                FeedBackUsers = _reviewRepository.GetAll()
-                    .Select(rev => _mapper.Map<FeedBackUserViewModel>(rev))
-                    .ToList();
 
-                FeedBackUsers = FeedBackUsers
-                    .Where(review =>
-                    {
-                        if (User.Identity.IsAuthenticated)
-                        {
-                            if (review.Creator.Id == _userService.GetCurrentUser().Id)
-                            {
-                                review.CanEdit = true;
-                            }
-                            else
-                            {
-                                review.CanEdit = false;
-                            }
-
-                        }
-                        else
-                        {
-                            review.CanEdit = false;
-                        }
-                        return true;
-                    })
-                    .ToList();
-
-            }
-            return FeedBackUsers;
-        }
     }
 
 }
