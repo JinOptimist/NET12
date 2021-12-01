@@ -170,34 +170,13 @@ namespace WebMaze.Controllers
 
             return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
         }
-        public IActionResult Stuff()
-        {
-            var staffsForHero = new List<StuffForHeroViewModel>();
-            staffsForHero = _staffForHeroRepository
-                    .GetAll().Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel)).ToList();
-            return View(staffsForHero);
-        }
 
         [HttpGet]
         public IActionResult AddStuffForHero()
         {
             return View();
         }
-        public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
-        {
-            //TODO user current user after login
-            var proposer = _userRepository.GetAll()
-                .OrderByDescending(x => x.Coins)
-                .FirstOrDefault();
-
-            var dbStuffForHero = _mapper.Map<StuffForHero>(stuffForHeroViewModel);
-
-            dbStuffForHero.Proposer = proposer;
-            dbStuffForHero.IsActive = true;
-
-            _staffForHeroRepository.Save(dbStuffForHero);
-            return RedirectToAction("AddStuffForHero");
-        }
+    
         public IActionResult Time()
         {
             var smile = DateTime.Now.Second;
