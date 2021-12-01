@@ -10,11 +10,14 @@ namespace WebMaze.EfStuff.Repositories
     public class UserRepository : BaseRepository<User>
     {
         private ReviewRepository _reviewRepository;
-        
+        private ImageRepository _imageRepository;
+
         public UserRepository(WebContext webContext, 
-            ReviewRepository reviewRepository) : base(webContext)
+            ReviewRepository reviewRepository,
+            ImageRepository imageRepository) : base(webContext)
         {
             _reviewRepository = reviewRepository;
+            _imageRepository = imageRepository;
         }
 
         public User GetByNameAndPassword(string login, string password)
@@ -35,6 +38,7 @@ namespace WebMaze.EfStuff.Repositories
         public override void Remove(User user)
         {
             _reviewRepository.Remove(user.MyReviews);
+            _imageRepository.RemoveByUser(user.Id);
             base.Remove(user);
         }
     }
