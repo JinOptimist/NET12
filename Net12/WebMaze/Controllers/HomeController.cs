@@ -29,7 +29,7 @@ namespace WebMaze.Controllers
             UserRepository userRepository, ReviewRepository reviewRepository,
             SuggestedEnemysRepository suggestedEnemysRepository,
             IMapper mapper, NewCellSuggRepository newCellSuggRepository,
-            StuffForHeroRepository staffForHeroRepository, UserService userService)
+            StuffForHeroRepository staffForHeroRepository, UserService userService);
 
         private AddressRepository _addressRepository;
         public HomeController(WebContext webContext, 
