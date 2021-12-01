@@ -110,6 +110,9 @@ namespace WebMaze
                 var repository = new BugReportRepository(webContext);
                 return repository;
             });
+
+            services.AddScoped<MazeDifficultRepository>(x => new MazeDifficultRepository(x.GetService<WebContext>()));
+
         }
         private void RegisterMapper(IServiceCollection services)
         {
@@ -146,6 +149,10 @@ namespace WebMaze
             provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
                 .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name));
             provider.CreateMap<NewCellSuggestionViewModel, NewCellSuggestion>();
+            provider.CreateMap<MazeDifficultProfile, MazeDifficultProfileViewModel>()
+                .ForMember(nameof(MazeDifficultProfileViewModel.Author), opt => opt.MapFrom(db => db.Creater.Name));
+
+            provider.CreateMap<MazeDifficultProfileViewModel, MazeDifficultProfile>();
 
 
             provider.CreateMap<BugReportViewModel, BugReport>();
