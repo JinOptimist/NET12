@@ -176,7 +176,7 @@ namespace WebMaze.Controllers
         {
             return View();
         }
-    
+
         public IActionResult Time()
         {
             var smile = DateTime.Now.Second;
@@ -254,7 +254,7 @@ namespace WebMaze.Controllers
             }
 
             var DBreview = _userService.GetCurrentUser().MyReviews.SingleOrDefault(rev => rev.Id == review.Id);
-            if(DBreview != null)
+            if (DBreview != null)
             {
                 DBreview = _mapper.Map<Review>(review);
                 _reviewRepository.Save(DBreview);
