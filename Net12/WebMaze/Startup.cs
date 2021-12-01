@@ -74,13 +74,13 @@ namespace WebMaze
                 return repository;
             });
 
-            services.AddScoped<StuffForHeroRepository>(diContainer =>
+            services.AddScoped<StuffRepository>(diContainer =>
                 {
                     var webContext = diContainer.GetService<WebContext>();
-                    var repository = new StuffForHeroRepository(webContext);
+                    var repository = new StuffRepository(webContext);
                     return repository;
                 });
-            
+
             services.AddScoped<NewsRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
@@ -108,15 +108,17 @@ namespace WebMaze
                 return repository;
             });
 
+            services.AddScoped<MazeDifficultRepository>(x => new MazeDifficultRepository(x.GetService<WebContext>()));
+
             services.AddScoped<ImageRepository>();
         }
-            private void RegisterMapper(IServiceCollection services)
-            {
-                var provider = new MapperConfigurationExpression();
+        private void RegisterMapper(IServiceCollection services)
+        {
+            var provider = new MapperConfigurationExpression();
 
-                provider.CreateMap<News, NewsViewModel>()
-                    .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
-                provider.CreateMap<NewsViewModel, News>();
+            provider.CreateMap<News, NewsViewModel>()
+                .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
+            provider.CreateMap<NewsViewModel, News>();
 
             provider.CreateMap<SuggestedEnemys, SuggestedEnemysViewModel>()
                     .ForMember(nameof(SuggestedEnemysViewModel.UserName),
@@ -128,8 +130,9 @@ namespace WebMaze
             provider.CreateMap<StuffForHeroViewModel, StuffForHero>();
 
             provider.CreateMap<User, UserViewModel>()
-                    //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
-                    .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name));
+                //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
+                .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name))
+                .ForMember(nameof(UserViewModel.News), opt => opt.MapFrom(x => x.MyNews));
 
             provider.CreateMap<Review, FeedBackUserViewModel>()
                 .ForMember(nameof(FeedBackUserViewModel.TextInfo), opt => opt.MapFrom(dbreview => dbreview.Text))
@@ -150,14 +153,17 @@ namespace WebMaze
             provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
                 .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name));
             provider.CreateMap<NewCellSuggestionViewModel, NewCellSuggestion>();
+            provider.CreateMap<MazeDifficultProfile, MazeDifficultProfileViewModel>()
+                .ForMember(nameof(MazeDifficultProfileViewModel.Author), opt => opt.MapFrom(db => db.Creater.Name));
 
+            provider.CreateMap<MazeDifficultProfileViewModel, MazeDifficultProfile>();
 
             provider.CreateMap<BugReportViewModel, BugReport>();
             provider.CreateMap<BugReport, BugReportViewModel>();
 
             var mapperConfiguration = new MapperConfiguration(provider);
 
-                var mapper = new Mapper(mapperConfiguration);
+            var mapper = new Mapper(mapperConfiguration);
 
 
             services.AddScoped<IMapper>(x => mapper);

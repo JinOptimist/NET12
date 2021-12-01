@@ -1,7 +1,7 @@
 ﻿@model StuffForHeroViewModel
 
 <div class="addStuff">
-    <form action="/Home/AddStuffForHero" method="post">
+    <form action="/Stuff/AddStuffForHero" method="post">
         <div>
             Name @Html.TextBoxFor(x => x.Name)
         </div>
@@ -15,7 +15,7 @@
             Price @Html.TextBoxFor(x => x.Price)
         </div>
         <div>
-            <input type="Submit" value="Save"/>
+            <input type="Submit" value="Save" />
         </div>
     </form>
 </div>

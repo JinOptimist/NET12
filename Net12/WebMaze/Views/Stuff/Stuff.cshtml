@@ -1,0 +1,44 @@
+﻿@model List<StuffForHeroViewModel>
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/AddStuffForHero.css" />
+</head>
+<body>
+    <div class="background">
+        <div class="intro">
+            Design exclusive features for your HERO
+        </div>
+        <div class="create-button">
+            <a class="button" href="/Stuff/AddStuffForHero">
+                Create stuff
+            </a>
+        </div>
+
+        @foreach (var stuff in Model)
+        {
+        <div class="stuff-list">
+            <div class="stuff stuff--1">
+                <div class="picture">
+                    <img class="gun" src='@stuff.PictureLink' />
+                </div>
+                <div class="info">
+                    <div class="name">
+                        Name: @stuff.Name
+                    </div>
+                    <div class="description">
+                        Description:  @stuff.Description
+                    </div>
+                    <div class="price">
+                        Price: @stuff.Price
+                    </div>
+                    <div>
+                        <a href="/Stuff/RemoveStuff?stuffId=@stuff.Id">X</a>
+                    </div>                    
+                </div>
+            </div>
+         </div>
+        }
+    </div>
+</body>
+</html>
