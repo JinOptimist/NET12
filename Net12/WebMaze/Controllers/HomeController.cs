@@ -263,39 +263,31 @@ namespace WebMaze.Controllers
             }
             return RedirectToAction("Reviews", "Home");
         }
+        [HttpGet]
+        [Authorize]
         public IActionResult ChangeReviewForm(long idReview)
         {
-            var FeedBackUsers = GiveViewReviews();
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                var myUser = _userService.GetCurrentUser();
-                if (myUser == _reviewRepository.Get(idReview).Creator)
-                {
-                    FeedBackUsers.Where(review =>
-                    {
-                        if (review.Id == idReview)
-                        {
-                            review.NowEdit = true;
-                        }
-                        else
-                        {
-                            review.NowEdit = false;
-                        }
-                        return true;
-                    }).ToList();
-                }
-
-
-            }
-
-            return RedirectToAction("Reviews", "Home", FeedBackUsers);
+            var viewReview = _mapper.Map<FeedBackUserViewModel>(_reviewRepository.Get(idReview));
+            return View(viewReview);
         }
         [HttpPost]
-        public IActionResult ChangeReview(FeedBackUserViewModel review)
+        public IActionResult ChangeReviewForm(FeedBackUserViewModel review)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(review.Id);
+            }
+
+            var DBreview = _userService.GetCurrentUser().MyReviews.SingleOrDefault(rev => rev.Id == review.Id);
+            if(DBreview != null)
+            {
+                DBreview = _mapper.Map<Review>(review);
+                _reviewRepository.Save(DBreview);
+            }
 
             return RedirectToAction("Reviews", "Home");
         }
+
         public List<FeedBackUserViewModel> GiveViewReviews()
         {
             var FeedBackUsers = new List<FeedBackUserViewModel>();

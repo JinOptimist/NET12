@@ -17,7 +17,5 @@ namespace WebMaze.Models
         public string TextInfo { get; set; }
         public string UserName { get; internal set; }
         public bool CanEdit {  get; set; }
-
-        public bool NowEdit { get; set; }
     }
 }
