@@ -22,19 +22,16 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
         private NewCellSuggRepository _newCellSuggRepository;
-        private StuffForHeroRepository _staffForHeroRepository;
         private SuggestedEnemysRepository _suggestedEnemysRepository;
         private IMapper _mapper;
         public HomeController(WebContext webContext,
             UserRepository userRepository, ReviewRepository reviewRepository,
             SuggestedEnemysRepository suggestedEnemysRepository,
-            IMapper mapper, NewCellSuggRepository newCellSuggRepository,
-            StuffForHeroRepository staffForHeroRepository, UserService userService)
+            IMapper mapper, NewCellSuggRepository newCellSuggRepository, UserService userService)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
-            _staffForHeroRepository = staffForHeroRepository;
             _suggestedEnemysRepository = suggestedEnemysRepository;
             _mapper = mapper;
             _newCellSuggRepository = newCellSuggRepository;
@@ -164,6 +161,7 @@ namespace WebMaze.Controllers
         public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
         {
             var creater = _userService.GetCurrentUser();
+            //
             var dbSuggestedEnemys = new SuggestedEnemys();
             dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);
             dbSuggestedEnemys.IsActive = true;
@@ -172,7 +170,6 @@ namespace WebMaze.Controllers
 
             return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
         }
-
         public IActionResult Stuff()
         {
             var staffsForHero = new List<StuffForHeroViewModel>();
@@ -201,7 +198,6 @@ namespace WebMaze.Controllers
             _staffForHeroRepository.Save(dbStuffForHero);
             return RedirectToAction("AddStuffForHero");
         }
-
         public IActionResult Time()
         {
             var smile = DateTime.Now.Second;
