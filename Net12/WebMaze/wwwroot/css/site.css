@@ -144,3 +144,20 @@ body {
 .field-validation-error{
     color: red;
 }
+.add-maze-difficult {
+    width: min-content;
+    margin: 10px;
+}
+
+.manage-maze-difficult {
+    display: flex;
+    padding: 10px;
+}
+
+    .manage-maze-difficult div {
+        margin-right: 10px;
+    }
+
+.menu-maze-difficult a{
+    margin: 5px;
+}
