@@ -11,10 +11,10 @@ namespace WebMaze.Models
         public long Id { get; set; }
         public string Name { get; set; }
 
-        [MazeDifficultLimits(5,100)]
+        [MazeDifficultLimits(5, 70)]
         public int Width { get; set; }
 
-        [MazeDifficultLimits(0, 5)]
+        [MazeDifficultLimits(10, 150)]
         public int Height { get; set; }
         public int HeroMoney { get; set; }
         public int HeroMaxHp { get; set; }

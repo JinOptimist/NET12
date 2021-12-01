@@ -1,13 +1,13 @@
 ﻿@model List<MazeDifficultProfileViewModel>
 
-    <div class="menu-maze-difficult">
-        <a href="/Maze/AddMazeDifficult">Add Maze Difficult</a>
-    </div>
+<div class="menu-maze-difficult">
+    <a href="/Maze/AddMazeDifficult">Add Maze Difficult</a>
+</div>
 
-    <div>
+<div>
 
-        @foreach (var difficult in Model)
-        {
+    @foreach (var difficult in Model)
+    {
         <div class="manage-maze-difficult">
             <div>
                 Author: @difficult.Author
@@ -37,5 +37,5 @@
             <a href="/Maze/AddMazeDifficult?Id=@difficult.Id">E</a>
 
         </div>
-        }
-    </div>
+    }
+</div>

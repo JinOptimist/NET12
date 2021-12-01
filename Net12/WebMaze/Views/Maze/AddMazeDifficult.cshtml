@@ -1,12 +1,11 @@
 ﻿@model MazeDifficultProfileViewModel
 
-    <div class="menu-maze-difficult">
-        <a href="/Maze/ManageMazeDifficult">Manage Maze Difficult</a>
-    </div>
+<div class="menu-maze-difficult">
+    <a href="/Maze/ManageMazeDifficult">Manage Maze Difficult</a>
+</div>
 
 <div class="text-center">
     <form method="post">
-        @Html.HiddenFor(x => x.Id)
         <div class="add-maze-difficult">
             <div>
                 Name: @Html.TextBoxFor(x => x.Name)

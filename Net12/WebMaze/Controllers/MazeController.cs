@@ -46,6 +46,11 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddMazeDifficult(MazeDifficultProfileViewModel mazeDifficultProfileViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(mazeDifficultProfileViewModel);
+            }
+
             var dbMazeDifficult = _mapper.Map<MazeDifficultProfile>(mazeDifficultProfileViewModel);
             dbMazeDifficult.IsActive = true;
             dbMazeDifficult.Creater = _userService.GetCurrentUser();
