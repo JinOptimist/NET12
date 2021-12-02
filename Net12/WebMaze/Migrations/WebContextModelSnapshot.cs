@@ -116,6 +116,35 @@ namespace WebMaze.Migrations
                 b.ToTable("MazeDifficultProfiles");
             });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Assessment")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("AuthorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Gallery");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>
                 {
                     b.Property<long>("Id")
@@ -310,6 +339,15 @@ namespace WebMaze.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
+                        .WithMany("Images")
+                        .HasForeignKey("AuthorId");
+
+                    b.Navigation("Author");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.BugReport", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
@@ -392,6 +430,8 @@ namespace WebMaze.Migrations
                     b.Navigation("CellSuggestionsWhichIAprove");
 
                     b.Navigation("EnemySuggestedWhichIAprove");
+
+                    b.Navigation("Images");
 
                     b.Navigation("MyBugReports");
 
