@@ -8,31 +8,31 @@
     <form method="post">
         <div class="add-maze-difficult">
             <div>
-                Name: @Html.TextBoxFor(x => x.Name)
+                Name: @Html.TextBoxFor(x => x.Name, new { @autocomplete = "off" })
             </div>
             <div>
-                Width: @Html.TextBoxFor(x => x.Width)
+                Width: @Html.TextBoxFor(x => x.Width, new { @type = "number", autocomplete = "off" })
             </div>
             <div>
                 @Html.ValidationMessageFor(x => x.Width)
             </div>
             <div>
-                Height: @Html.TextBoxFor(x => x.Height)
+                Height: @Html.TextBoxFor(x => x.Height, new { @type = "number", autocomplete = "off" })
             </div>
             <div>
                 @Html.ValidationMessageFor(x => x.Height)
             </div>
             <div>
-                HeroMoney: @Html.TextBoxFor(x => x.HeroMoney)
+                HeroMoney: @Html.TextBoxFor(x => x.HeroMoney, new { @type = "number", autocomplete = "off" })
             </div>
             <div>
-                HeroMaxHp: @Html.TextBoxFor(x => x.HeroMaxHp)
+                HeroMaxHp: @Html.TextBoxFor(x => x.HeroMaxHp, new { @type = "number", autocomplete = "off" })
             </div>
             <div>
-                HeroMaxFatigue: @Html.TextBoxFor(x => x.HeroMaxFatigue)
+                HeroMaxFatigue: @Html.TextBoxFor(x => x.HeroMaxFatigue, new { @type = "number", autocomplete = "off" })
             </div>
             <div>
-                CoinCount: @Html.TextBoxFor(x => x.CoinCount)
+                CoinCount: @Html.TextBoxFor(x => x.CoinCount, new { @type = "number", autocomplete = "off" })
             </div>
         </div>
         <div>

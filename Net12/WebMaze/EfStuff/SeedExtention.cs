@@ -12,11 +12,13 @@ namespace WebMaze.EfStuff
     public static class SeedExtention
     {
         public const string DefaultAdminName = "admin";
+        public const string DefaultMazeDifficultName = "Default";
         public static IHost Seed(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
                 SeedUser(scope);
+                SeedMazeDifficult(scope);
             }
 
             return host;
@@ -38,6 +40,33 @@ namespace WebMaze.EfStuff
 
                 userRepository.Save(admin);
             }
+        }
+
+        private static void SeedMazeDifficult(IServiceScope scope)
+        {
+            var userRepository = scope.ServiceProvider.GetService<UserRepository>();
+
+            var mazeDifficult = scope.ServiceProvider.GetService<MazeDifficultRepository>();
+            var defaultDifficult = mazeDifficult.GetMazeDifficultByName(DefaultMazeDifficultName);
+
+            if(defaultDifficult == null)
+            {
+                defaultDifficult = new MazeDifficultProfile()
+                {
+                    Name = DefaultMazeDifficultName,
+                    Width = 10,
+                    Height = 10,
+                    HeroMoney = 100,
+                    HeroMaxHp = 100,
+                    HeroMaxFatigue = 30,
+                    CoinCount = 5,
+                    IsActive = true,
+                    Creater = userRepository.GetUserByName(DefaultAdminName)
+                };
+
+                mazeDifficult.Save(defaultDifficult);
+            }
+
         }
     }
 }
