@@ -37,12 +37,40 @@ namespace WebMaze.EfStuff
                     Name = DefaultAdminName,
                     Password = "admin",
                     Coins = 100,
-                    IsActive = true                    
+                    IsActive = true
                 };
 
                 userRepository.Save(admin);
             }
         }
+
+        private static void SeedMazeDifficult(IServiceScope scope)
+        {
+            var userRepository = scope.ServiceProvider.GetService<UserRepository>();
+
+            var mazeDifficult = scope.ServiceProvider.GetService<MazeDifficultRepository>();
+            var defaultDifficult = mazeDifficult.GetMazeDifficultByName(DefaultMazeDifficultName);
+
+            if (defaultDifficult == null)
+            {
+                defaultDifficult = new MazeDifficultProfile()
+                {
+                    Name = DefaultMazeDifficultName,
+                    Width = 10,
+                    Height = 10,
+                    HeroMoney = 100,
+                    HeroMaxHp = 100,
+                    HeroMaxFatigue = 30,
+                    CoinCount = 5,
+                    IsActive = true,
+                    Creater = userRepository.GetUserByName(DefaultAdminName)
+                };
+
+                mazeDifficult.Save(defaultDifficult);
+            }
+
+        }
+
         private static void SeedNews(IServiceScope scope)
         {
             var author = scope.ServiceProvider.GetService<UserRepository>().GetUserByName(DefaultAdminName);
@@ -56,39 +84,12 @@ namespace WebMaze.EfStuff
                     IsActive = true,
                     Location = "Maze",
                     Text = "Attention! New cell is soon!",
-                    Author=author,
-                    CreationDate=DateTime.Now,
-                    EventDate=DateTime.Today.AddDays(7)
+                    Author = author,
+                    CreationDate = DateTime.Now,
+                    EventDate = DateTime.Today.AddDays(7)
                 };
                 newsRepository.Save(testNews);
+            }
         }
-
     }
-    private static void SeedMazeDifficult(IServiceScope scope)
-    {
-        var userRepository = scope.ServiceProvider.GetService<UserRepository>();
-
-        var mazeDifficult = scope.ServiceProvider.GetService<MazeDifficultRepository>();
-        var defaultDifficult = mazeDifficult.GetMazeDifficultByName(DefaultMazeDifficultName);
-
-        if (defaultDifficult == null)
-        {
-            defaultDifficult = new MazeDifficultProfile()
-            {
-                Name = DefaultMazeDifficultName,
-                Width = 10,
-                Height = 10,
-                HeroMoney = 100,
-                HeroMaxHp = 100,
-                HeroMaxFatigue = 30,
-                CoinCount = 5,
-                IsActive = true,
-                Creater = userRepository.GetUserByName(DefaultAdminName)
-            };
-
-            mazeDifficult.Save(defaultDifficult);
-        }
-
-    }
-}
 }
