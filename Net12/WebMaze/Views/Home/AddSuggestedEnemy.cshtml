@@ -8,6 +8,9 @@
             Enemy name @Html.TextBoxFor(x => x.Name)
         </div>
         <div>
+            @Html.ValidationMessageFor(x => x.Name)
+        </div>
+        <div>
             Image @Html.TextBoxFor(x => x.Url, new { @placeholder = "url" })
         </div>
         <div>

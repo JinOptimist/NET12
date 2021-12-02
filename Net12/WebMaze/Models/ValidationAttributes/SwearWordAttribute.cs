@@ -8,16 +8,17 @@ namespace WebMaze.Models.ValidationAttributes
 {
     public class SwearWordAttribute : ValidationAttribute
     {
-        private string[] _stopWords;
-        public SwearWordAttribute(params string[] stopWord)
+        private string[] _swearWord;
+        private string[] _swearWordBase = { "Asshole", "Bitch", "Dick", "Faggot", "Fuck", "Nigger", "Shit" };
+        public SwearWordAttribute(params string[] swearWord)
         {
-            _stopWords = stopWord;
+            _swearWord = swearWord;
         }
 
         public override string FormatErrorMessage(string name)
         {
             return string.IsNullOrEmpty(ErrorMessage)
-                ? $"We don't like you. Cause you use bad word like: \"{string.Join(" ", _stopWords)}\""
+                ? $"We don't like you. Cause you use bad word like: \"{string.Join(" ", _swearWord)}\""
                 : ErrorMessage;
         }
 
@@ -35,7 +36,7 @@ namespace WebMaze.Models.ValidationAttributes
 
             var line = value as string;
 
-            return _stopWords.All(stopWord => !line.ToLower().Contains(stopWord));
+            return _swearWord.All(swearWord => !line.ToLower().Contains(swearWord));
         }
     }
 }

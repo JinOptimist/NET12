@@ -164,6 +164,10 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(suggestedEnemysViewModel);
+            }
             var creater = _userService.GetCurrentUser();
             var dbSuggestedEnemys = new SuggestedEnemys();
             dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);            
