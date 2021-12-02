@@ -147,6 +147,10 @@ namespace WebMaze
                 .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name));
             provider.CreateMap<NewCellSuggestionViewModel, NewCellSuggestion>();
 
+            provider.CreateMap<StoresAndAddresses, StoresAndAddressesViewModel>()
+                .ForMember(nameof(StoresAndAddressesViewModel.ShopName), opt => opt.MapFrom(dbStoresAndAddresses => dbStoresAndAddresses.ShopName))
+                .ForMember(nameof(StoresAndAddressesViewModel.AdressOfShop), opt => opt.MapFrom(dbStoresAndAddresses => dbStoresAndAddresses.AdressOfShop));
+
 
             provider.CreateMap<BugReportViewModel, BugReport>();
             provider.CreateMap<BugReport, BugReportViewModel>();

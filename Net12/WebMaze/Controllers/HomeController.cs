@@ -25,24 +25,20 @@ namespace WebMaze.Controllers
         private StuffForHeroRepository _staffForHeroRepository;
         private SuggestedEnemysRepository _suggestedEnemysRepository;
         private IMapper _mapper;
-        public HomeController(WebContext webContext,
-            UserRepository userRepository, ReviewRepository reviewRepository,
-            SuggestedEnemysRepository suggestedEnemysRepository,
-            IMapper mapper, NewCellSuggRepository newCellSuggRepository,
-            StuffForHeroRepository staffForHeroRepository, UserService userService);
-
+        
         private AddressRepository _addressRepository;
-        public HomeController(WebContext webContext, 
-            UserRepository userRepository)
+
+        public HomeController(WebContext webContext, UserService userService, UserRepository userRepository, ReviewRepository reviewRepository, NewCellSuggRepository newCellSuggRepository, StuffForHeroRepository staffForHeroRepository, SuggestedEnemysRepository suggestedEnemysRepository, IMapper mapper, AddressRepository addressRepository)
         {
             _webContext = webContext;
+            _userService = userService;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
+            _newCellSuggRepository = newCellSuggRepository;
             _staffForHeroRepository = staffForHeroRepository;
             _suggestedEnemysRepository = suggestedEnemysRepository;
             _mapper = mapper;
-            _newCellSuggRepository = newCellSuggRepository;
-            _userService = userService; 
+            _addressRepository = addressRepository;
         }
 
         public IActionResult Index()
