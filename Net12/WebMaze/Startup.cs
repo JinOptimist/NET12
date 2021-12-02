@@ -54,6 +54,13 @@ namespace WebMaze
                     return repository;
                 });
 
+            services.AddScoped<MovieRepository>(diContainer =>
+                {
+                    var webContext = diContainer.GetService<WebContext>();
+                    var repository = new MovieRepository(webContext);
+                    return repository;
+                });
+
             RegisterMapper(services);
 
             services.AddControllersWithViews();

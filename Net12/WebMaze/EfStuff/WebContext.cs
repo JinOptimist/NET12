@@ -1,4 +1,4 @@
-﻿ using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,8 +49,8 @@ namespace WebMaze.EfStuff
                 .WithOne(x => x.Author);
 
             modelBuilder.Entity<Movie>()
-            .HasMany(m => m.Games)
-            .WithMany(g => g.MyMovies);
+               .HasMany(m => m.Games)
+               .WithMany(g => g.MyMovies);
 
 
             base.OnModelCreating(modelBuilder);

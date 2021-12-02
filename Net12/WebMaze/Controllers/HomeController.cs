@@ -18,13 +18,15 @@ namespace WebMaze.Controllers
 
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
+        private MovieRepository _movieRepository;
 
         public HomeController(WebContext webContext, 
-            UserRepository userRepository, ReviewRepository reviewRepository)
+            UserRepository userRepository, ReviewRepository reviewRepository, MovieRepository movieRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
+            _movieRepository = movieRepository;
         }
 
         public IActionResult Index()
@@ -60,8 +62,12 @@ namespace WebMaze.Controllers
                 gameViewModel.YearOfProd = dbGame.YearOfProd;
                 gameViewModel.Desc = dbGame.Desc;
                 gameViewModel.Rating = dbGame.Rating;
-                gameViewModel.Username = dbGame.Creater.Name;
-                gameViewModel.Age = dbGame.Creater.Age;
+                if(dbGame.Creater != null)
+                {
+                    gameViewModel.Username = dbGame.Creater.Name;
+                    gameViewModel.Age = dbGame.Creater.Age;
+                }
+                
                 GamesViewModels.Add(gameViewModel);
             }
 
