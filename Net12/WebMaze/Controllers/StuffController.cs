@@ -39,15 +39,22 @@ namespace WebMaze.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult AddStuffForHero()
+        public IActionResult AddStuffForHero(long stuffId)
         {
-            return View();
+            var model = _mapper.Map<StuffForHeroViewModel>(_staffForHeroRepository.Get(stuffId))
+                ?? new StuffForHeroViewModel(); 
+            return View(model);
         }
 
         [Authorize]
         [HttpPost]
         public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(stuffForHeroViewModel);
+            }
+
             var proposer = _userService.GetCurrentUser();
 
             var dbStuffForHero = _mapper.Map<StuffForHero>(stuffForHeroViewModel);
