@@ -12,11 +12,15 @@ namespace WebMaze.EfStuff.Repositories
         private ReviewRepository _reviewRepository;
         private FavGamesRepository _favGamesRepository;
 
+        private ImageRepository _imageRepository;
+
         public UserRepository(WebContext webContext, 
-            ReviewRepository reviewRepository, FavGamesRepository favGamesRepository) : base(webContext)
+            ReviewRepository reviewRepository,
+            ImageRepository imageRepository, FavGamesRepository favGamesRepository) : base(webContext)
         {
             _reviewRepository = reviewRepository;
             _favGamesRepository = favGamesRepository;
+            _imageRepository = imageRepository;
         }
 
         public User GetByNameAndPassword(string login, string password)
@@ -29,10 +33,16 @@ namespace WebMaze.EfStuff.Repositories
             return _webContext.Users.First();
         }
 
+        public User GetUserByName(string name)
+        {
+            return _dbSet.SingleOrDefault(x => x.Name == name);
+        }
+
         public override void Remove(User user)
         {
             _reviewRepository.Remove(user.MyReviews);
             _favGamesRepository.RemoveByUser(user.Id);
+            _imageRepository.RemoveByUser(user.Id);
             base.Remove(user);
         }
     }

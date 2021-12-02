@@ -75,6 +75,76 @@ namespace WebMaze.Migrations
                     b.ToTable("BugReports");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("bigint")
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                b.Property<int>("CoinCount")
+                    .HasColumnType("int");
+
+                b.Property<long?>("CreaterId")
+                    .HasColumnType("bigint");
+
+                b.Property<int>("Height")
+                    .HasColumnType("int");
+
+                b.Property<int>("HeroMaxFatigue")
+                    .HasColumnType("int");
+
+                b.Property<int>("HeroMaxHp")
+                    .HasColumnType("int");
+
+                b.Property<int>("HeroMoney")
+                    .HasColumnType("int");
+
+                b.Property<bool>("IsActive")
+                    .HasColumnType("bit");
+
+                b.Property<string>("Name")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<int>("Width")
+                    .HasColumnType("int");
+
+                b.HasKey("Id");
+
+                b.HasIndex("CreaterId");
+
+                b.ToTable("MazeDifficultProfiles");
+            });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Assessment")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("AuthorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Gallery");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Game", b =>
                 {
                     b.Property<long>("Id")
@@ -304,10 +374,28 @@ namespace WebMaze.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
+                        .WithMany("Images")
+                        .HasForeignKey("AuthorId");
+
+                    b.Navigation("Author");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.BugReport", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
                         .WithMany("MyBugReports")
+                        .HasForeignKey("CreaterId");
+
+                    b.Navigation("Creater");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
+                        .WithMany("MazeDifficultProfiles")
                         .HasForeignKey("CreaterId");
 
                     b.Navigation("Creater");
@@ -387,7 +475,11 @@ namespace WebMaze.Migrations
 
                     b.Navigation("EnemySuggestedWhichIAprove");
 
+                    b.Navigation("Images");
+
                     b.Navigation("MyBugReports");
+
+                    b.Navigation("MazeDifficultProfiles");
 
                     b.Navigation("MyCellSuggestions");
 
