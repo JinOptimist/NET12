@@ -27,7 +27,7 @@ body{
 }
 
 .button{
-    
+    margin: 30px 0 0 0;
     text-align: center;
     vertical-align: top;
     padding: 15px 40px;
@@ -48,26 +48,39 @@ body{
 }
 
 
+
+/* Stuff
+=================================*/
+
+
+/*
+.gun{
+    background: #d1e8e2;
+}
+*/
+
+.picture {
+    margin: 20px;
+}
+
 .stuff-list{
-    margin: 30px;
+    margin: 60px 100px;
 }
 
 .stuff{
     margin: 30px;
     border: solid 1px;
-}
-
-.gun{
-    background: #d1e8e2;
-}
-
-.picture{
-    float:left;
+    display: flex;
 }
 
 .info{
-    float:right;
+    display: flex;    
+    flex-direction: column;
+    justify-content: space-around;
 }
+
+
+
 
 
 

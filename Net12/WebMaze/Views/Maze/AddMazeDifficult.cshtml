@@ -1,0 +1,42 @@
+﻿@model MazeDifficultProfileViewModel
+
+<div class="menu-maze-difficult">
+    <a href="/Maze/ManageMazeDifficult">Manage Maze Difficult</a>
+</div>
+
+<div class="text-center">
+    <form method="post">
+        <div class="add-maze-difficult">
+            <div>
+                Name: @Html.TextBoxFor(x => x.Name, new { @autocomplete = "off" })
+            </div>
+            <div>
+                Width: @Html.TextBoxFor(x => x.Width, new { @type = "number", autocomplete = "off" })
+            </div>
+            <div>
+                @Html.ValidationMessageFor(x => x.Width)
+            </div>
+            <div>
+                Height: @Html.TextBoxFor(x => x.Height, new { @type = "number", autocomplete = "off" })
+            </div>
+            <div>
+                @Html.ValidationMessageFor(x => x.Height)
+            </div>
+            <div>
+                HeroMoney: @Html.TextBoxFor(x => x.HeroMoney, new { @type = "number", autocomplete = "off" })
+            </div>
+            <div>
+                HeroMaxHp: @Html.TextBoxFor(x => x.HeroMaxHp, new { @type = "number", autocomplete = "off" })
+            </div>
+            <div>
+                HeroMaxFatigue: @Html.TextBoxFor(x => x.HeroMaxFatigue, new { @type = "number", autocomplete = "off" })
+            </div>
+            <div>
+                CoinCount: @Html.TextBoxFor(x => x.CoinCount, new { @type = "number", autocomplete = "off" })
+            </div>
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+</div>

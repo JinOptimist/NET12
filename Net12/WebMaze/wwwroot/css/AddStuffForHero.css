@@ -1,0 +1,73 @@
+body {
+    margin: 0px;
+    font-size: 20px;
+    color: #d1e8e2;
+    background: rgb(44,53,49);
+    background: linear-gradient(90deg, rgba(44,53,49,1) 0%, rgba(17,100,102,1) 100%);
+}
+
+.menu-panel {
+    background: #d1e8e2;
+    color: #2c3531;
+    border: 0;
+    border-bottom: gray dashed;
+}
+
+.intro {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+/* Button
+=================================*/
+
+.create-button {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    margin: 30px 0 0 0;
+    text-align: center;
+    vertical-align: top;
+    padding: 15px 40px;
+    border-radius: 4px;
+    border: 0;
+    cursor: pointer;
+    font-size: 14px;
+    color: #2c3531;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background .1s linear;
+    background-color: #ffcb9a;
+}
+
+    .button:hover {
+        background-color: #d9b08c;
+    }
+
+.picture {
+    margin: 20px;
+    
+}
+
+.gun {
+    width: 180px;
+}
+
+.stuff-list {
+    margin: 60px 100px;
+}
+
+.stuff {
+    margin: 30px;
+    border: solid 1px;
+    display: flex;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}

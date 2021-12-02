@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="~/css/game.css" />
     <link rel="stylesheet" href="~/css/Teleport_in_out.css" />
     <link rel='stylesheet' href='~/css/goldmine.css'>
+    <link rel="stylesheet" href="~/css/bugReports.css" />
+    <link rel="stylesheet" href="~/css/gallery.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
 
@@ -31,8 +33,8 @@
                         <a class="nav-link" href="/Home/Index">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link dropdown-toggle" href="#" 
-                           id="navbarDropdown" role="button" 
+                        <a class="nav-link dropdown-toggle" href="#"
+                           id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             User
                         </a>
@@ -71,6 +73,8 @@
                             <a class="dropdown-item" href="/CellInfo/Goldmine">Goldmine info</a>
                             <a class="dropdown-item" href="/CellInfo/Fountain">Fountain info</a>
                             <a class="dropdown-item" href="/CellInfo/Coin">Coin info</a>
+                            <a class="dropdown-item" href="/CellInfo/HealPotion">HealPotion info</a>
+                            <a class="dropdown-item" href="/CellInfo/BullEnemy">BullEnemy info</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -85,8 +89,42 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/CellInfo/AddCell">Add Cell</a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Books
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Home/AddBook">Add Book</a>
+                            <a class="dropdown-item" href="/Home/Book">Books</a>
+                        </div>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/AddStuffForHero">Hero's Stuff</a>
+                        <a class="nav-link" href="/Stuff/Stuff">Hero's Stuff</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Suggested Enemies
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Home/AddSuggestedEnemy">Add Suggested Enemy</a>
+                            <a class="dropdown-item" href="/Home/SuggestedEnemys">Suggested Enemies</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/BugReport/BugReports">List of reports</a>
+                    </li>
+                        
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Gallery
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
+                            <a class="dropdown-item" href="/Gallery/AddImage">Add Image</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Maze/Index">Maze</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Home/AddGame">Add Fav Game</a>
@@ -105,9 +143,9 @@
         </nav>
     </header>
 
-        <div>
-            @RenderBody()
-        </div>
+    <div>
+        @RenderBody()
+    </div>
 
 
     <footer class="border-top footer text-muted">

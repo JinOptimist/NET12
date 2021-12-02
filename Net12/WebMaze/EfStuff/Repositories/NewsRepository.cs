@@ -11,5 +11,10 @@ namespace WebMaze.EfStuff.Repositories
         public NewsRepository(WebContext webContext) : base(webContext)
         {
         }
+
+        public News GetNewsByName(string title)
+        {
+            return _dbSet.SingleOrDefault(x => x.Title == title);
+        }
     }
 }
