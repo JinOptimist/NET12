@@ -92,11 +92,11 @@ namespace WebMaze
                 var repository = new NewCellSuggRepository(webContext);
                 return repository;
             });
-                {
-                    var webContext = diContainer.GetService<WebContext>();
-                    var repository = new NewsRepository(webContext);
-                    return repository;
-                });
+                //{
+                //    var webContext = diContainer.GetService<WebContext>();
+                //    var repository = new NewsRepository(webContext);
+                //    return repository;
+                //});
 
             services.AddScoped<MovieRepository>(diContainer =>
                 {
