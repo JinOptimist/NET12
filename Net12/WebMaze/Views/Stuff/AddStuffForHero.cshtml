@@ -1,0 +1,38 @@
+﻿@model StuffForHeroViewModel
+
+<div class="addStuff">
+    <form action="/Stuff/AddStuffForHero" method="post">
+        @Html.HiddenFor(x => x.Id)
+        <div>
+            Name @Html.TextBoxFor(x => x.Name)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(x => x.Name)
+        </div>
+
+        <div>
+            Description @Html.TextBoxFor(x => x.Description)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(x => x.Description)
+        </div>
+
+        <div>
+            PictureLink @Html.TextBoxFor(x => x.PictureLink)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(x => x.PictureLink)
+        </div>
+
+        <div>
+            Price @Html.TextBoxFor(x => x.Price)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(x => x.Price)
+        </div>
+
+        <div>
+            <input type="Submit" value="Save" />
+        </div>
+    </form>
+</div>

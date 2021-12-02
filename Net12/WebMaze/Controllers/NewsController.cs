@@ -45,7 +45,8 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult AddNews(long newsId)
         {
-            var model = _mapper.Map<NewsViewModel>(_newsRepository.Get(newsId));
+            var model = _mapper.Map<NewsViewModel>(_newsRepository.Get(newsId))
+                ?? new NewsViewModel();
             return View(model);
         }
 

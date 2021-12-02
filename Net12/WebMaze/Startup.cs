@@ -62,7 +62,8 @@ namespace WebMaze
                 {
                     var webContext = diContainer.GetService<WebContext>();
                     var reviewRepository = diContainer.GetService<ReviewRepository>();
-                    var repository = new UserRepository(webContext, reviewRepository);
+                    var imagesRepository = diContainer.GetService<ImageRepository>();
+                    var repository = new UserRepository(webContext, reviewRepository, imagesRepository);
                     return repository;
                 });
 
@@ -73,10 +74,10 @@ namespace WebMaze
                 return repository;
             });
 
-            services.AddScoped<StuffForHeroRepository>(diContainer =>
+            services.AddScoped<StuffRepository>(diContainer =>
                 {
                     var webContext = diContainer.GetService<WebContext>();
-                    var repository = new StuffForHeroRepository(webContext);
+                    var repository = new StuffRepository(webContext);
                     return repository;
                 });
 
@@ -100,16 +101,16 @@ namespace WebMaze
                 return suggestedEnemysRepository;
             });
 
-            RegisterMapper(services);
-
-            services.AddControllersWithViews();
-
             services.AddScoped<BugReportRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
                 var repository = new BugReportRepository(webContext);
                 return repository;
             });
+
+            services.AddScoped<MazeDifficultRepository>(x => new MazeDifficultRepository(x.GetService<WebContext>()));
+
+            services.AddScoped<ImageRepository>();
         }
         private void RegisterMapper(IServiceCollection services)
         {
@@ -141,12 +142,21 @@ namespace WebMaze
                 .ForMember(nameof(Review.Text), opt => opt.MapFrom(viewReview => viewReview.TextInfo))
                 .ForMember(nameof(Review.Creator), opt => opt.MapFrom(viewReview => viewReview.Creator));
 
+            provider.CreateMap<Image, ImageViewModel>();
+
+            provider.CreateMap<ImageViewModel, Image>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
+            
             provider.CreateMap<UserViewModel, User>();
 
             provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
                 .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name));
             provider.CreateMap<NewCellSuggestionViewModel, NewCellSuggestion>();
+            provider.CreateMap<MazeDifficultProfile, MazeDifficultProfileViewModel>()
+                .ForMember(nameof(MazeDifficultProfileViewModel.Author), opt => opt.MapFrom(db => db.Creater.Name));
 
+            provider.CreateMap<MazeDifficultProfileViewModel, MazeDifficultProfile>();
 
             provider.CreateMap<BugReportViewModel, BugReport>();
             provider.CreateMap<BugReport, BugReportViewModel>();
@@ -154,6 +164,7 @@ namespace WebMaze
             var mapperConfiguration = new MapperConfiguration(provider);
 
             var mapper = new Mapper(mapperConfiguration);
+
 
             services.AddScoped<IMapper>(x => mapper);
 
