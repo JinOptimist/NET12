@@ -14,5 +14,6 @@ namespace WebMaze.Models
         public int HealtsChange { get; set; }
         public int FatigueChange { get; set; }
         public string UserName { get; set; }
+        public int GlobalUserRating { get; set; }
     }
 }

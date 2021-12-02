@@ -18,7 +18,10 @@
                         Healts: @newCellSuggestionViewModel.HealtsChange
                         Fatigue: @newCellSuggestionViewModel.FatigueChange
                     </p>
-                    <p>User Name: @newCellSuggestionViewModel.UserName</p>
+                    <div class="global-user-rating">
+                        <p>User Name: @newCellSuggestionViewModel.UserName</p>
+                        <p>Rating: @newCellSuggestionViewModel.GlobalUserRating</p>
+                    </div>
                     <a href="/Home/RemoveNewCellSuggestion?Id=@newCellSuggestionViewModel.Id"><input type="submit" value="Remove" /></a>
                     @{++i;}
                 </div>

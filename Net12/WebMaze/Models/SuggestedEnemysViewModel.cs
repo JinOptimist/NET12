@@ -13,6 +13,7 @@ namespace WebMaze.Models
         public string Description { get; set; }
         public string UserName { get; set; }
         public bool IsActive { get; set; }
+        public int GlobalUserRating { get; set; }
 
     }
 }

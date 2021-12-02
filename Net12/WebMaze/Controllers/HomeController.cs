@@ -40,21 +40,8 @@ namespace WebMaze.Controllers
 
         public IActionResult Index()
         {
-            var userViewModels = new List<UserViewModel>();
-            foreach (var dbUser in _userRepository.GetAll())
-            {
-                var userViewModel = new UserViewModel();
-                userViewModel.Id = dbUser.Id;
-                userViewModel.UserName = dbUser.Name;
-                userViewModel.Coins = dbUser.Coins;
-                userViewModels.Add(userViewModel);
-            }
-
-            //var userViewModels2 = _webContext.Users.Select(
-            //    dbModel => new UserViewModel { 
-            //        UserName = dbModel.Name, 
-            //        Coins = dbModel.Coins 
-            //    });
+            var userViewModels = _userRepository.GetAll()
+                .Select(x => _mapper.Map<UserViewModel>(x)).ToList();
 
             return View(userViewModels);
         }
@@ -165,6 +152,7 @@ namespace WebMaze.Controllers
             var dbSuggestedEnemys = new SuggestedEnemys();
             dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);            
             dbSuggestedEnemys.IsActive = true;
+            dbSuggestedEnemys.Creater = creater;
 
             _suggestedEnemysRepository.Save(dbSuggestedEnemys);
 
@@ -254,7 +242,7 @@ namespace WebMaze.Controllers
         public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCell)
         {
             //TODO user current user after login
-            var creater = _userRepository.GetRandomUser();
+            var creater = _userService.GetCurrentUser();
 
             var NewCS = new NewCellSuggestion()
             {

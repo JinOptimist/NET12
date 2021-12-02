@@ -37,7 +37,8 @@ namespace WebMaze.EfStuff
                     Name = DefaultAdminName,
                     Password = "admin",
                     Coins = 100,
-                    IsActive = true
+                    IsActive = true,
+                    GlobalUserRating = 9999
                 };
 
                 userRepository.Save(admin);

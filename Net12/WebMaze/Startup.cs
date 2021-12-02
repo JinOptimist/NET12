@@ -117,16 +117,19 @@ namespace WebMaze
             var provider = new MapperConfigurationExpression();
 
             provider.CreateMap<News, NewsViewModel>()
-                .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
+                .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name))
+                .ForMember(nameof(NewsViewModel.GlobalUserRating), opt => opt.MapFrom(dbUser => dbUser.Author.GlobalUserRating));
             provider.CreateMap<NewsViewModel, News>();
 
             provider.CreateMap<SuggestedEnemys, SuggestedEnemysViewModel>()
-                    .ForMember(nameof(SuggestedEnemysViewModel.UserName),
-                    opt => opt.MapFrom(dbSuggestedEnemys => dbSuggestedEnemys.Creater.Name));
+                    .ForMember(nameof(SuggestedEnemysViewModel.UserName), opt => opt.MapFrom(dbSuggestedEnemys => dbSuggestedEnemys.Creater.Name))
+                    .ForMember(nameof(SuggestedEnemysViewModel.GlobalUserRating), opt => opt.MapFrom(dbUser => dbUser.Creater.GlobalUserRating));
             provider.CreateMap<SuggestedEnemysViewModel, SuggestedEnemys>();
 
 
-            provider.CreateMap<StuffForHero, StuffForHeroViewModel>();
+            provider.CreateMap<StuffForHero, StuffForHeroViewModel>()
+                .ForMember(nameof(StuffForHeroViewModel.GlobalUserRating), opt => opt.MapFrom(dbUser => dbUser.Proposer.GlobalUserRating))
+                .ForMember(nameof(StuffForHeroViewModel.Proposer), opt => opt.MapFrom(dbStuff => dbStuff.Proposer.Name));
             provider.CreateMap<StuffForHeroViewModel, StuffForHero>();
 
             provider.CreateMap<User, UserViewModel>()
@@ -147,14 +150,17 @@ namespace WebMaze
             provider.CreateMap<ImageViewModel, Image>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
-            
+
             provider.CreateMap<UserViewModel, User>();
 
             provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
-                .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name));
+                .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name))
+                .ForMember(nameof(NewCellSuggestionViewModel.GlobalUserRating), opt => opt.MapFrom(dbUser => dbUser.Creater.GlobalUserRating));
             provider.CreateMap<NewCellSuggestionViewModel, NewCellSuggestion>();
+
             provider.CreateMap<MazeDifficultProfile, MazeDifficultProfileViewModel>()
-                .ForMember(nameof(MazeDifficultProfileViewModel.Author), opt => opt.MapFrom(db => db.Creater.Name));
+                .ForMember(nameof(MazeDifficultProfileViewModel.Author), opt => opt.MapFrom(db => db.Creater.Name))
+                .ForMember(nameof(MazeDifficultProfileViewModel.GlobalUserRating), opt => opt.MapFrom(dbUser => dbUser.Creater.GlobalUserRating));
 
             provider.CreateMap<MazeDifficultProfileViewModel, MazeDifficultProfile>();
 
