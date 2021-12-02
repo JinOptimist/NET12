@@ -31,7 +31,7 @@ namespace WebMaze.Controllers
         public HomeController(WebContext webContext,
             UserRepository userRepository, ReviewRepository reviewRepository,
             SuggestedEnemysRepository suggestedEnemysRepository,
-            IMapper mapper, NewCellSuggRepository newCellSuggRepository, FavGamesRepository favGamesRepository, UserService userService)
+            IMapper mapper, NewCellSuggRepository newCellSuggRepository, FavGamesRepository favGamesRepository, UserService userService, MovieRepository movieRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
@@ -81,58 +81,9 @@ namespace WebMaze.Controllers
             }
 
             return View(bookViewModels);
-        public IActionResult FavoriteGames()
-        {
-            var GamesViewModels = new List<GameViewModel>();
-            var games = _webContext.FavGames.ToList();
-            foreach (var dbGame in games)
-            {
-                var gameViewModel = new GameViewModel();
-                gameViewModel.Name = dbGame.Name;
-                gameViewModel.Genre = dbGame.Genre;
-                gameViewModel.YearOfProd = dbGame.YearOfProd;
-                gameViewModel.Desc = dbGame.Desc;
-                gameViewModel.Rating = dbGame.Rating;
-                if(dbGame.Creater != null)
-                {
-                    gameViewModel.Username = dbGame.Creater.Name;
-                    gameViewModel.Age = dbGame.Creater.Age;
-                }
-                
-                GamesViewModels.Add(gameViewModel);
-            }
-
-            return View(GamesViewModels);
         }
 
-        [HttpGet]
-        public IActionResult AddGame()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddGame(GameViewModel gameViewMode)
-        {
-            var creater = _webContext.Users
-                .Where(x => x.Name == gameViewMode.Username)
-                .FirstOrDefault();
-
-            var dbGame = new Game()
-            {
-                Name = gameViewMode.Name,
-                Genre = gameViewMode.Genre,
-                YearOfProd = gameViewMode.YearOfProd,
-                Desc = gameViewMode.Desc,
-                Rating = gameViewMode.Rating,
-                Creater = creater,
-            };
-            _webContext.FavGames.Add(dbGame);
-
-            _webContext.SaveChanges();
-
-            return View();
-        }
+        
 
         [HttpGet]
         public IActionResult AddBook()
@@ -270,7 +221,7 @@ namespace WebMaze.Controllers
         }
         public IActionResult RemoveReview(long idReview)
         {
-            if(HttpContext.User.Identity.IsAuthenticated)
+            if (HttpContext.User.Identity.IsAuthenticated)
             {
                 var myUser = _userService.GetCurrentUser();
                 if (myUser == _reviewRepository.Get(idReview).Creator)
@@ -285,7 +236,7 @@ namespace WebMaze.Controllers
         public IActionResult Movie()
         {
             var MovieViewModels = new List<MovieViewModel>();
-            foreach(var dbMovie in _movieRepository.GetAll())
+            foreach (var dbMovie in _movieRepository.GetAll())
             {
                 var movieViewModel = new MovieViewModel()
                 {
@@ -305,5 +256,7 @@ namespace WebMaze.Controllers
         {
             return View();
         }
+
+    }
 
 }

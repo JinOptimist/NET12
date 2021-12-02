@@ -493,8 +493,6 @@ namespace WebMaze.Migrations
                     b.Navigation("MyFavGames");
 
                     b.Navigation("MyEnemySuggested");
->>>>>>>>> Temporary merge branch 2
->>>>>>>>> Temporary merge branch 2
 
                     b.Navigation("MyNews");
 
