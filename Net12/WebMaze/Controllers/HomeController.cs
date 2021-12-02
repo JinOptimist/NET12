@@ -230,7 +230,7 @@ namespace WebMaze.Controllers
         public IActionResult Movie()
         {
             var MovieViewModels = new List<MovieViewModel>();
-            foreach(var dbMovie in _webContext.Movies)
+            foreach(var dbMovie in _movieRepository.GetAll())
             {
                 var movieViewModel = new MovieViewModel()
                 {
@@ -260,10 +260,10 @@ namespace WebMaze.Controllers
                 TitleMovie = movieViewModel.TitleMovie,
                 Release = movieViewModel.Release,
                 Link = movieViewModel.Link,
-                Img = movieViewModel.Img
+                Img = movieViewModel.Img,
+                IsActive = true
             };
-            _webContext.Movies.Add(dbMovie);
-            _webContext.SaveChanges();
+            _movieRepository.Save(dbMovie);
             return View();
         }
     }
