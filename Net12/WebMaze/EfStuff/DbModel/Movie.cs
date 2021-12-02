@@ -13,5 +13,7 @@ namespace WebMaze.EfStuff.DbModel
         public int Release { get; set; }
         public string Link { get; set; }
         public string Img { get; set; }
+
+        public virtual List<Game> Games { get; set; } = new List<Game>();
     }
 }

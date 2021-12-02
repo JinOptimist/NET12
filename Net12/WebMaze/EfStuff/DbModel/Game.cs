@@ -13,5 +13,7 @@ namespace WebMaze.EfStuff.DbModel
         public string Desc { get; set; }
         public int Rating { get; set; }
         public virtual User Creater { get; set; }
+
+        public virtual List<Movie> MyMovies { get; set; } = new List<Movie>();
     }
 }
