@@ -10,7 +10,7 @@ namespace WebMaze.Models
     {
         public long Id { get; set; }
 
-        [SwearWordAttribute("lox")]
+        [SwearWord("lox")]
         public string Name { get; set; }
         public string Url { get; set; }
         public string Description { get; set; }

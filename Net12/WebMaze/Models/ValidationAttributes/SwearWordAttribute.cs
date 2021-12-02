@@ -37,6 +37,8 @@ namespace WebMaze.Models.ValidationAttributes
             var line = value as string;
 
             return _swearWord.All(swearWord => !line.ToLower().Contains(swearWord));
+
+            //&& _swearWordBase.All(swearWord => !line.ToLower().Contains(swearWord));
         }
     }
 }
