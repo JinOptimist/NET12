@@ -22,27 +22,27 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
         private NewCellSuggRepository _newCellSuggRepository;
-        private StuffForHeroRepository _staffForHeroRepository;
         private MovieRepository _movieRepository;
 
         private SuggestedEnemysRepository _suggestedEnemysRepository;
         private IMapper _mapper;
+
         public HomeController(WebContext webContext,
-            UserRepository userRepository, 
-            ReviewRepository reviewRepository, 
-            NewCellSuggRepository newCellSuggRepository, 
-            StuffForHeroRepository staffForHeroRepository, 
+            UserRepository userRepository,
+            ReviewRepository reviewRepository,
+            NewCellSuggRepository newCellSuggRepository,
             IMapper mapper,
-            MovieRepository movieRepository)
+            MovieRepository movieRepository, 
+            UserService userService)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
             _movieRepository = movieRepository;
-            _staffForHeroRepository = staffForHeroRepository;
             _mapper = mapper;
             _newCellSuggRepository = newCellSuggRepository;
-            _userService = userService; 
+            _userService = userService;
+            _userService = userService;
         }
 
         public IActionResult Index()
@@ -116,7 +116,7 @@ namespace WebMaze.Controllers
 
             _webContext.SaveChanges();
 
-            return View(bookViewModels);
+            return View();
         }
 
         [HttpGet]
