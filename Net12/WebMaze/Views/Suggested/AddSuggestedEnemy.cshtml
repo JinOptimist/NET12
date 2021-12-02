@@ -1,0 +1,19 @@
+﻿@model SuggestedEnemysViewModel
+
+<div class="text-center">
+    <h3>You can suggest your enemy here.</h3>
+    <form action="/Suggested/AddSuggestedEnemy" method="post">
+        <div>
+            Enemy name @Html.TextBoxFor(x => x.Name)
+        </div>
+        <div>
+            Image @Html.TextBoxFor(x => x.Url, new { @placeholder = "url" })
+        </div>
+        <div>
+            Descripted @Html.TextAreaFor(x => x.Description)
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+</div>
