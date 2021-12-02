@@ -10,6 +10,7 @@ namespace WebMaze.EfStuff
     public class WebContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Image> Gallery { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<NewCellSuggestion> NewCellSuggestions { get; set; }
         public DbSet<StuffForHero> StuffsForHero { get; set; }
@@ -40,6 +41,14 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<NewCellSuggestion>()
                .HasOne(x => x.Approver)
                .WithMany(x => x.CellSuggestionsWhichIAprove);
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.Images)
+                .WithOne(x => x.Author);
+
+            modelBuilder.Entity<Image>()
+               .HasOne(x => x.Author)
+               .WithMany(x => x.Images);
                                   
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MyEnemySuggested)
