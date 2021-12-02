@@ -31,10 +31,12 @@
                     <textarea class="textarea" name="Genre" cols="30" rows="1"></textarea>
                 </div>
                 <div class="add-favGame-input-forms">
-                    <div>Year of Production:</div>
+                    <div>Year of Production:</div> 
+                    <div>@Html.ValidationMessageFor(x => x.YearOfProd)</div>
                     <textarea class="textarea" name="YearOfProd" cols="30" rows="1"></textarea>
                 </div>
                 <div class="add-favGame-input-forms">
+                    <div>@Html.ValidationMessageFor(x => x.Desc)</div>
                     <div>Description:</div>
                     <textarea class="textarea" name="Desc" cols="30" rows="1"></textarea>
                 </div>
