@@ -69,7 +69,8 @@ namespace WebMaze
             services.AddScoped<ReviewRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
-                var repository = new ReviewRepository(webContext);
+                var mapper = diContainer.GetService<IMapper>();
+                var repository = new ReviewRepository(webContext, mapper);
                 return repository;
             });
 

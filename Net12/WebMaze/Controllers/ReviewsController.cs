@@ -27,7 +27,7 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var FeedBackUsers = GiveViewReviews();
+            var FeedBackUsers = _reviewRepository.GiveViewReviews(_userService);
 
             return View(FeedBackUsers);
         }
@@ -38,7 +38,7 @@ namespace WebMaze.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var bugFeedBackUsers = GiveViewReviews();
+                var bugFeedBackUsers = _reviewRepository.GiveViewReviews(_userService);
                 return View(bugFeedBackUsers);
             }
 
@@ -47,7 +47,7 @@ namespace WebMaze.Controllers
 
             review.IsActive = true;
             _reviewRepository.Save(review);
-            var FeedBackUsers = GiveViewReviews();
+            var FeedBackUsers = _reviewRepository.GiveViewReviews(_userService);
 
             return View(FeedBackUsers);
         }
@@ -90,40 +90,6 @@ namespace WebMaze.Controllers
             return RedirectToAction("Reviews", "Home");
         }
 
-        public List<FeedBackUserViewModel> GiveViewReviews()
-        {
-            var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_reviewRepository.GetAll().Any())
-            {
-                FeedBackUsers = _reviewRepository.GetAll()
-                    .Select(rev => _mapper.Map<FeedBackUserViewModel>(rev))
-                    .ToList();
 
-                FeedBackUsers = FeedBackUsers
-                    .Where(review =>
-                    {
-                        if (User.Identity.IsAuthenticated)
-                        {
-                            if (review.Creator.Id == _userService.GetCurrentUser().Id)
-                            {
-                                review.CanEdit = true;
-                            }
-                            else
-                            {
-                                review.CanEdit = false;
-                            }
-
-                        }
-                        else
-                        {
-                            review.CanEdit = false;
-                        }
-                        return true;
-                    })
-                    .ToList();
-
-            }
-            return FeedBackUsers;
-        }
     }
 }
