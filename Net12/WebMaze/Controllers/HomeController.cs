@@ -236,18 +236,12 @@ namespace WebMaze.Controllers
         public IActionResult Movie()
         {
             var MovieViewModels = new List<MovieViewModel>();
-            foreach (var dbMovie in _movieRepository.GetAll())
-            {
-                var movieViewModel = new MovieViewModel()
-                {
-                    TitleGame = dbMovie.TitleGame,
-                    TitleMovie = dbMovie.TitleMovie,
-                    Release = dbMovie.Release,
-                    Link = dbMovie.Link,
-                    Img = dbMovie.Img
-                };
-                MovieViewModels.Add(movieViewModel);
-            }
+            MovieViewModels = _movieRepository
+                .GetAll()
+                .Select(dbModel => _mapper.Map<MovieViewModel>(dbModel))
+                .ToList();
+
+
             return View(MovieViewModels);
         }
 
@@ -257,6 +251,26 @@ namespace WebMaze.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult AddMovie(MovieViewModel movieViewModel)
+        {
+            var dbMovie = new Movie();
+            dbMovie = _mapper.Map<Movie>(movieViewModel);
+            dbMovie.IsActive = true;
+            _movieRepository.Save(dbMovie);
+            return RedirectToAction($"{nameof(HomeController.Movie)}");
+        }
+
+        public IActionResult RemoveMovie(long id)
+        {
+            _movieRepository.Remove(id);
+            return RedirectToAction($"{nameof(HomeController.Movie)}");
+        }
+
+
     }
 
+
 }
+
+

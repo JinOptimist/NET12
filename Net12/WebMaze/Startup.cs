@@ -177,6 +177,22 @@ namespace WebMaze
             provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
                 .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name));
             provider.CreateMap<NewCellSuggestionViewModel, NewCellSuggestion>();
+
+
+
+
+
+
+
+            provider.CreateMap<Movie, MovieViewModel>();
+            provider.CreateMap<MovieViewModel, Movie>();
+
+
+
+
+
+
+
             provider.CreateMap<MazeDifficultProfile, MazeDifficultProfileViewModel>()
                 .ForMember(nameof(MazeDifficultProfileViewModel.Author), opt => opt.MapFrom(db => db.Creater.Name));
 

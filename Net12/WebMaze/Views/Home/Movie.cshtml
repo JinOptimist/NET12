@@ -10,14 +10,18 @@
             @MovieViewModels.TitleMovie
             @MovieViewModels.Release
             <a href="@MovieViewModels.Link">Смотреть</a>
-            
+
             <img src="@MovieViewModels.Img" />
             <a href="~/images/Movie/MK.jpg">картинка</a>
         </span>
         <br />
+
+        <a href="/HomeController/AddMovie?Id=@MovieViewModels.Id"><input type="submit" value="Edit" /></a>
+        <a href="/HomeController/RemoveMovie?Id=@MovieViewModels.Id"><input type="submit" value="Remove" /></a>
+
     }
 
-    
+
 
 
 

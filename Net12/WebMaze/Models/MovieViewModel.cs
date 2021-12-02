@@ -7,6 +7,7 @@ namespace WebMaze.Models
 {
     public class MovieViewModel
     {
+        public int Id { get; set; }
         public string TitleGame { get; set; }
         public string TitleMovie { get; set; }
         public int Release { get; set; }
