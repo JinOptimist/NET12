@@ -147,7 +147,7 @@ namespace WebMaze
             provider.CreateMap<ImageViewModel, Image>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
-            
+
             provider.CreateMap<UserViewModel, User>();
 
             provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
@@ -160,6 +160,12 @@ namespace WebMaze
 
             provider.CreateMap<BugReportViewModel, BugReport>();
             provider.CreateMap<BugReport, BugReportViewModel>();
+
+            provider.CreateMap<MazeLevelModel, MazeViewModel>();
+            provider.CreateMap<MazeViewModel, MazeLevelModel>();
+
+            provider.CreateMap<CellModel, CellViewModel>();
+            provider.CreateMap<CellViewModel, CellModel>();
 
             var mapperConfiguration = new MapperConfiguration(provider);
 

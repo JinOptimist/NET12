@@ -1,29 +1,41 @@
 ﻿@using Net12.Maze
 @model MazeLevel
 
-    <div class="menu-maze-difficult">
-        <a href="/Maze/AddMazeDifficult">Add Maze Difficult</a>
-        <a href="/Maze/ManageMazeDifficult">Manage Maze Difficult</a>
-    </div>
+<div class="menu-maze-difficult">
+    <a href="/Maze/AddMazeDifficult">Add Maze Difficult</a>
+    <a href="/Maze/ManageMazeDifficult">Manage Maze Difficult</a>
+    <a href="/Maze/Index">Create Maze</a>
+</div>
 
-    <div class="text-center">
-        <h1>Maze</h1>
-        @for (int y = 0; y < Model.Height; y++)
-        {
-            <div>
-                @for (int x = 0; x < Model.Width; x++)
-                {
-                    <span>
-                        @if (Model[x, y] is Wall)
-                        {
-                            <img class="cell" src="~/images/cells/wall.jpg" />
-                        }
-                        else
-                        {
-                            <img class="cell" src="~/images/cells/ground.jpg" />
-                        }
-                    </span>
-                }
-            </div>
-        }
-    </div>
+<div class="text-center">
+    <h1>Maze</h1>
+    @for (int y = 0; y < Model.Height; y++)
+    {
+        <div>
+            @for (int x = 0; x < Model.Width; x++)
+            {
+                <span>
+                    @if (Model[x, y] is Wall)
+                    {
+                        <img class="cell" src="~/images/cells/wall.jpg" />
+                    }
+                    else
+                    {
+                        <img class="cell" src="~/images/cells/ground.jpg" />
+                    }
+                </span>
+            }
+        </div>
+    }
+</div>
+
+<div>
+    <fieldset>
+        <legend><b>Controllers:</b></legend>
+        <form action="/Maze/Index" method="post">
+
+            <input type="submit" value="Save Game" />
+        </form>
+    </fieldset>
+</div>
+

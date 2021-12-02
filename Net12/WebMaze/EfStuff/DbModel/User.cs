@@ -20,9 +20,10 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<Review> MyReviews { get; set; }
 
         public virtual List<News> MyNews { get; set; }
-        
+
         public virtual List<Image> Images { get; set; }
         public virtual List<BugReport> MyBugReports { get; set; }
         public virtual List<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
+        public virtual List<MazeLevelModel> ListMazeLevels { get; set; }
     }
 }

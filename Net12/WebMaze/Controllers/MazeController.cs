@@ -27,11 +27,26 @@ namespace WebMaze.Controllers
             _userService = userService;
         }
 
-        public IActionResult Index(int width, int height)
+        //public IActionResult Index(int width, int height)
+        //{
+        //    var mazeBuilder = new MazeBuilder();
+        //    var maze = mazeBuilder.Build(width, height, 50, 100, true);
+        //    return View(maze);
+        //}
+
+        [HttpGet]
+        public IActionResult Index()
         {
             var mazeBuilder = new MazeBuilder();
-            var maze = mazeBuilder.Build(width, height, 50, 100, true);
+            var maze = mazeBuilder.Build(10, 10, 50, 100, true);
             return View(maze);
+        }        
+        
+        [HttpPost]
+        public IActionResult Index(int a)
+        {
+            var mazeBuilder = new MazeBuilder();
+            return View();
         }
 
         [Authorize]
