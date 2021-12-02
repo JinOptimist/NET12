@@ -7,13 +7,12 @@ namespace WebMaze.EfStuff.DbModel
 {
     public class Movie : BaseModel
     {
-        public long Id { get; set; }
         public string TitleGame { get; set; }
         public string TitleMovie { get; set; }
         public int Release { get; set; }
         public string Link { get; set; }
         public string Img { get; set; }
 
-        public virtual List<Game> Games { get; set; } = new List<Game>();
+        public virtual Game Game { get; set; }
     }
 }

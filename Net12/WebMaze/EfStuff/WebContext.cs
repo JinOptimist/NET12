@@ -49,9 +49,8 @@ namespace WebMaze.EfStuff
                 .WithOne(x => x.Author);
 
             modelBuilder.Entity<Movie>()
-               .HasMany(m => m.Games)
-               .WithMany(g => g.MyMovies);
-
+               .HasOne(m => m.Game)
+               .WithMany(g => g.Movies);
 
             base.OnModelCreating(modelBuilder);
         }
