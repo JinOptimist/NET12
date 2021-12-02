@@ -177,7 +177,8 @@ namespace WebMaze
 
             provider.CreateMap<Game, GameViewModel>()
                 .ForMember(nameof(GameViewModel.Username), opt => opt.MapFrom(dbGame => dbGame.Creater.Name))
-                .ForMember(nameof(GameViewModel.Age), opt => opt.MapFrom(dbGame => dbGame.Creater.Age));
+                .ForMember(nameof(GameViewModel.Age), opt => opt.MapFrom(dbGame => dbGame.Creater.Age))
+                .ForMember(nameof(GameViewModel.GlobalUserRating),opt=>opt.MapFrom(dbUser=>dbUser.Creater.GlobalUserRating));
             provider.CreateMap<GameViewModel, Game>();
 
             var mapperConfiguration = new MapperConfiguration(provider);

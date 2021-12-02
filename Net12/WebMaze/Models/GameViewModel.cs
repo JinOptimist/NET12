@@ -14,5 +14,6 @@ namespace WebMaze.Models
         public int Rating { get; set; }
         public string Username { get; set; }
         public int Age { get; set; }
+        public int GlobalUserRating { get; set; }
     }
 }
