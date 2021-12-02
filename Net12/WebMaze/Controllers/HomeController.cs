@@ -23,11 +23,12 @@ namespace WebMaze.Controllers
         private ReviewRepository _reviewRepository;
         private NewCellSuggRepository _newCellSuggRepository;
         private SuggestedEnemysRepository _suggestedEnemysRepository;
+        private FavGamesRepository _favGamesRepository;
         private IMapper _mapper;
         public HomeController(WebContext webContext,
             UserRepository userRepository, ReviewRepository reviewRepository,
             SuggestedEnemysRepository suggestedEnemysRepository,
-            IMapper mapper, NewCellSuggRepository newCellSuggRepository, UserService userService)
+            IMapper mapper, NewCellSuggRepository newCellSuggRepository, FavGamesRepository favGamesRepository, UserService userService)
         {
             _webContext = webContext;
             _userRepository = userRepository;
@@ -35,7 +36,8 @@ namespace WebMaze.Controllers
             _suggestedEnemysRepository = suggestedEnemysRepository;
             _mapper = mapper;
             _newCellSuggRepository = newCellSuggRepository;
-            _userService = userService; 
+            _favGamesRepository = favGamesRepository;
+            _userService = userService;
         }
 
         public IActionResult Index()
@@ -118,47 +120,38 @@ namespace WebMaze.Controllers
             _userRepository.Remove(userId);
             return RedirectToAction("Index", "Home");
         }
-
-        public IActionResult SuggestedEnemys()
+        public IActionResult FavoriteGames()
         {
-            var suggestedEnemysViewModels = new List<SuggestedEnemysViewModel>();
-            var suggestedEnemys = _webContext.SuggestedEnemys.ToList();
-
-            suggestedEnemysViewModels = _suggestedEnemysRepository
+            //var GamesViewModels = new List<GameViewModel>();
+            var GamesViewModels = _favGamesRepository
                .GetAll()
-               .Select(dbModel => _mapper.Map<SuggestedEnemysViewModel>(dbModel))
+               .Select(dbModel => _mapper.Map<GameViewModel>(dbModel))
                .ToList();
 
-            return View(suggestedEnemysViewModels);
+            return View(GamesViewModels);
         }
-        [Authorize]
-        public IActionResult RemoveSuggestedEnemy(long suggestedEnemysId)
-        {
-            _suggestedEnemysRepository.Remove(suggestedEnemysId);
-            return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
-        }
+
         [Authorize]
         [HttpGet]
-        public IActionResult AddSuggestedEnemy()
+        public IActionResult AddGame()
         {
             return View();
         }
+
         [Authorize]
         [HttpPost]
-        public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
+        public IActionResult AddGame(GameViewModel gameViewModel)
         {
             var creater = _userService.GetCurrentUser();
-            //
-            var dbSuggestedEnemys = new SuggestedEnemys();
-            dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);            
-            dbSuggestedEnemys.IsActive = true;
-            dbSuggestedEnemys.Creater = creater;
 
-            _suggestedEnemysRepository.Save(dbSuggestedEnemys);
+            var dbGame = _mapper.Map<Game>(gameViewModel);
+            dbGame.Creater = creater;
+            dbGame.IsActive = true;
 
-            return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
+            _favGamesRepository.Save(dbGame);
+
+            return RedirectToAction("FavoriteGames", "Home");
         }
-
         public IActionResult Time()
         {
             var smile = DateTime.Now.Second;
@@ -177,7 +170,6 @@ namespace WebMaze.Controllers
             var model = x + y;
             return View(model);
         }
-
 
         [HttpGet]
         public IActionResult Reviews()
@@ -222,48 +214,6 @@ namespace WebMaze.Controllers
             }
             return RedirectToAction("Reviews", "Home");
         }
-
-
-        public IActionResult NewCellSugg()
-        {
-            var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
-            newCellSuggestionsViewModel = _newCellSuggRepository.GetAll()
-                .Select(dbModel => _mapper.Map<NewCellSuggestionViewModel>(dbModel))
-                .ToList();
-
-            return View(newCellSuggestionsViewModel);
-        }
-        [HttpGet]
-        public IActionResult AddNewCellSugg()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCell)
-        {
-            //TODO user current user after login
-            var creater = _userService.GetCurrentUser();
-
-            var NewCS = new NewCellSuggestion()
-            {
-                Title = newCell.Title,
-                Description = newCell.Description,
-                MoneyChange = newCell.MoneyChange,
-                HealtsChange = newCell.HealtsChange,
-                FatigueChange = newCell.FatigueChange,
-                Creater = creater,
-                IsActive = true
-            };
-
-            _newCellSuggRepository.Save(NewCS);
-            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
-        }
-        public IActionResult RemoveNewCellSuggestion(long id)
-        {
-            _newCellSuggRepository.Remove(id);
-            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
-        }
-
 
     }
 

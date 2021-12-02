@@ -18,18 +18,16 @@
                         Healts: @newCellSuggestionViewModel.HealtsChange
                         Fatigue: @newCellSuggestionViewModel.FatigueChange
                     </p>
-                    <div class="global-user-rating">
-                        <p>User Name: @newCellSuggestionViewModel.UserName</p>
-                        <p>Rating: @newCellSuggestionViewModel.GlobalUserRating</p>
-                    </div>
-                    <a href="/Home/RemoveNewCellSuggestion?Id=@newCellSuggestionViewModel.Id"><input type="submit" value="Remove" /></a>
+                    <p>User Name: @newCellSuggestionViewModel.UserName</p>
+                    <a href="/Suggested/AddNewCellSugg?Id=@newCellSuggestionViewModel.Id"><input type="submit" value="Edit" /></a>
+                    <a href="/Suggested/RemoveNewCellSuggestion?Id=@newCellSuggestionViewModel.Id"><input type="submit" value="Remove" /></a>
                     @{++i;}
                 </div>
             </div>
         }
     </div>
     <div>
-        <a href="/Home/AddNewCellSugg"><input type="submit" value="Add new cell suggestion" /></a>
+        <a href="/Suggested/AddNewCellSugg"><input type="submit" value="Add new cell suggestion" /></a>
     </div>
 </div>
 <script>

@@ -1,0 +1,60 @@
+﻿@model GameViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutFavGames.cshtml";
+}
+
+
+<div class="add-favGame-page">
+    <div class="favGame-links">
+        <a href="/Home/Index" class="favGame-link">Back to Home</a>
+        <a href="/Home/FavoriteGames" class="favGame-link">FavGames</a>
+    </div>
+    <div>
+        <form action="/Home/AddGame" method="post">
+            <div class="add-favGame-title">
+                <b>Add your favorite game</b>
+            </div>
+
+            <div class="add-favGame-form">
+                <div class="add-favGame-desc">
+                    You can add your favorite game here.
+                </div>
+                <div class="add-favGame-input-forms">
+                    <div>Title:</div>
+                    <textarea class="textarea" name="Name" cols="30" rows="1"></textarea>
+                </div>
+                <div class="add-favGame-input-forms">
+                    <div>Genre:</div>
+                    <textarea class="textarea" name="Genre" cols="30" rows="1"></textarea>
+                </div>
+                <div class="add-favGame-input-forms">
+                    <div>Year of Production:</div>
+                    <textarea class="textarea" name="YearOfProd" cols="30" rows="1"></textarea>
+                </div>
+                <div class="add-favGame-input-forms">
+                    <div>Description:</div>
+                    <textarea class="textarea" name="Desc" cols="30" rows="1"></textarea>
+                </div>
+                <div class="add-favGame-input-forms">
+                    <div>Rating (0 to 10):</div>
+                    <div class="rating-choose">
+                        <div><input name="Rating" type="radio" value="1">1</div>
+                        <div><input name="Rating" type="radio" value="2">2</div>
+                        <div><input name="Rating" type="radio" value="3">3</div>
+                        <div><input name="Rating" type="radio" value="4">4</div>
+                        <div><input name="Rating" type="radio" checked value="5">5</div>
+                        <div><input name="Rating" type="radio" value="6">6</div>
+                        <div><input name="Rating" type="radio" value="7">7</div>
+                        <div><input name="Rating" type="radio" value="8">8</div>
+                        <div><input name="Rating" type="radio" value="9">9</div>
+                        <div><input name="Rating" type="radio" value="10">10</div>
+                    </div>
+                </div>
+                <div class="add-favGame-input-forms">
+                    <input type="submit" class="input" value="Save" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
