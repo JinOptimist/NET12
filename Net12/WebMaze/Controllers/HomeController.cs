@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -14,19 +15,30 @@ namespace WebMaze.Controllers
 {
     public class HomeController : Controller
     {
-        private WebContext _webContext;
+        private readonly WebContext _webContext;
 
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
+        private NewCellSuggRepository _newCellSuggRepository;
+        private StuffForHeroRepository _staffForHeroRepository;
         private MovieRepository _movieRepository;
 
-        public HomeController(WebContext webContext, 
-            UserRepository userRepository, ReviewRepository reviewRepository, MovieRepository movieRepository)
+        private IMapper _mapper;
+        public HomeController(WebContext webContext,
+            UserRepository userRepository, 
+            ReviewRepository reviewRepository, 
+            NewCellSuggRepository newCellSuggRepository, 
+            StuffForHeroRepository staffForHeroRepository, 
+            IMapper mapper,
+            MovieRepository movieRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
             _movieRepository = movieRepository;
+            _staffForHeroRepository = staffForHeroRepository;
+            _mapper = mapper;
+            _newCellSuggRepository = newCellSuggRepository;
         }
 
         public IActionResult Index()
@@ -115,6 +127,7 @@ namespace WebMaze.Controllers
             var dbUser = new User()
             {
                 Name = userViewMode.UserName,
+                Password = userViewMode.Password,
                 Coins = userViewMode.Coins,
                 Age = DateTime.Now.Second % 10 + 20,
                 IsActive = true
@@ -122,7 +135,7 @@ namespace WebMaze.Controllers
             };
 
             _userRepository.Save(dbUser);
-            
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -130,6 +143,37 @@ namespace WebMaze.Controllers
         {
             _userRepository.Remove(userId);
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Stuff()
+        {
+            var staffsForHero = new List<StuffForHeroViewModel>();
+            staffsForHero = _staffForHeroRepository
+                    .GetAll().Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel)).ToList();
+            return View(staffsForHero);
+        }
+
+        [HttpGet]
+        public IActionResult AddStuffForHero()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
+        {
+            //TODO user current user after login
+            var proposer = _userRepository.GetAll()
+                .OrderByDescending(x => x.Coins)
+                .FirstOrDefault();
+
+            var dbStuffForHero = _mapper.Map<StuffForHero>(stuffForHeroViewModel);
+
+            dbStuffForHero.Proposer = proposer;
+            dbStuffForHero.IsActive = true;
+
+            _staffForHeroRepository.Save(dbStuffForHero);
+            return RedirectToAction("Index", "Home", "AddStuffForHero");
         }
 
         public IActionResult Time()
@@ -158,16 +202,17 @@ namespace WebMaze.Controllers
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             if (_userRepository.GetAll().Any())
             {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text , Rate = rev.Rate}).ToList();
+                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
             }
 
-                return View(FeedBackUsers);
+            return View(FeedBackUsers);
         }
 
         [HttpPost]
-        public IActionResult Reviews(Review review)
+        public IActionResult Reviews(FeedBackUserViewModel viewReview)
         {
             // TODO: Selected User
+            var review = _mapper.Map<Review>(viewReview);
             review.Creator = _userRepository.GetRandomUser();
             review.IsActive = true;
             _reviewRepository.Save(review);
@@ -175,7 +220,7 @@ namespace WebMaze.Controllers
             var FeedBackUsers = new List<FeedBackUserViewModel>();
             if (_reviewRepository.GetAll().Any())
             {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => new FeedBackUserViewModel { UserName = rev.Creator.Name, TextInfo = rev.Text, Rate = rev.Rate}).ToList();
+                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
             }
             return View(FeedBackUsers);
         }
@@ -184,20 +229,11 @@ namespace WebMaze.Controllers
         public IActionResult NewCellSugg()
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
-            var suggestions = _webContext.NewCellSuggestions.ToList();
-            foreach (var dbNewCellSuggestions in suggestions)
-            {
-                var newCellSuggestionViewModel = new NewCellSuggestionViewModel();
-                newCellSuggestionViewModel.Title = dbNewCellSuggestions.Title;
-                newCellSuggestionViewModel.Description = dbNewCellSuggestions.Description;
-                newCellSuggestionViewModel.MoneyChange = dbNewCellSuggestions.MoneyChange;
-                newCellSuggestionViewModel.HealtsChange = dbNewCellSuggestions.HealtsChange;
-                newCellSuggestionViewModel.FatigueChange = dbNewCellSuggestions.FatigueChange;
-                newCellSuggestionViewModel.UserName = dbNewCellSuggestions.Creater.Name;
+            newCellSuggestionsViewModel = _newCellSuggRepository.GetAll()
+                .Select(dbModel => _mapper.Map<NewCellSuggestionViewModel>(dbModel))
+                .ToList();
 
-                newCellSuggestionsViewModel.Add(newCellSuggestionViewModel);
-            }
-            return View("/Views/Home/NewCellSugg.cshtml", newCellSuggestionsViewModel);
+            return View(newCellSuggestionsViewModel);
         }
         [HttpGet]
         public IActionResult AddNewCellSugg()
@@ -208,10 +244,8 @@ namespace WebMaze.Controllers
         public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCell)
         {
             //TODO user current user after login
-            var creater = _userRepository
-                .GetAll()
-                .OrderByDescending(x => x.Coins)
-                .FirstOrDefault();
+            var creater = _userRepository.GetRandomUser();
+
             var NewCS = new NewCellSuggestion()
             {
                 Title = newCell.Title,
@@ -219,12 +253,17 @@ namespace WebMaze.Controllers
                 MoneyChange = newCell.MoneyChange,
                 HealtsChange = newCell.HealtsChange,
                 FatigueChange = newCell.FatigueChange,
-                Creater = creater
+                Creater = creater,
+                IsActive = true
             };
 
-            _webContext.NewCellSuggestions.Add(NewCS);
-            _webContext.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            _newCellSuggRepository.Save(NewCS);
+            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
+        }
+        public IActionResult RemoveNewCellSuggestion(long id)
+        {
+            _newCellSuggRepository.Remove(id);
+            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
         }
 
         public IActionResult Movie()
