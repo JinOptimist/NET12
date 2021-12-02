@@ -25,15 +25,13 @@ namespace WebMaze.Controllers
         private MovieRepository _movieRepository;
 
         private SuggestedEnemysRepository _suggestedEnemysRepository;
+        private FavGamesRepository _favGamesRepository;
         private IMapper _mapper;
 
         public HomeController(WebContext webContext,
-            UserRepository userRepository,
-            ReviewRepository reviewRepository,
-            NewCellSuggRepository newCellSuggRepository,
-            IMapper mapper,
-            MovieRepository movieRepository, 
-            UserService userService)
+            UserRepository userRepository, ReviewRepository reviewRepository,
+            SuggestedEnemysRepository suggestedEnemysRepository,
+            IMapper mapper, NewCellSuggRepository newCellSuggRepository, FavGamesRepository favGamesRepository, UserService userService)
         {
             _webContext = webContext;
             _userRepository = userRepository;
@@ -41,7 +39,7 @@ namespace WebMaze.Controllers
             _movieRepository = movieRepository;
             _mapper = mapper;
             _newCellSuggRepository = newCellSuggRepository;
-            _userService = userService;
+            _favGamesRepository = favGamesRepository;
             _userService = userService;
         }
 
@@ -66,6 +64,23 @@ namespace WebMaze.Controllers
             return View(userViewModels);
         }
 
+        public IActionResult Book()
+        {
+            var bookViewModels = new List<BookViewModel>();
+            foreach (var dbBook in _webContext.Books)
+            {
+                var bookViewModel = new BookViewModel();
+                bookViewModel.Name = dbBook.Name;
+                bookViewModel.Link = dbBook.Link;
+                bookViewModel.ImageLink = dbBook.ImageLink;
+                bookViewModel.Author = dbBook.Author;
+                bookViewModel.Desc = dbBook.Desc;
+                bookViewModel.ReleaseDate = dbBook.ReleaseDate;
+                bookViewModel.PublicationDate = dbBook.PublicationDate;
+                bookViewModels.Add(bookViewModel);
+            }
+
+            return View(bookViewModels);
         public IActionResult FavoriteGames()
         {
             var GamesViewModels = new List<GameViewModel>();
@@ -172,46 +187,38 @@ namespace WebMaze.Controllers
             _userRepository.Remove(userId);
             return RedirectToAction("Index", "Home");
         }
-
-        public IActionResult SuggestedEnemys()
+        public IActionResult FavoriteGames()
         {
-            var suggestedEnemysViewModels = new List<SuggestedEnemysViewModel>();
-            var suggestedEnemys = _webContext.SuggestedEnemys.ToList();
-
-            suggestedEnemysViewModels = _suggestedEnemysRepository
+            //var GamesViewModels = new List<GameViewModel>();
+            var GamesViewModels = _favGamesRepository
                .GetAll()
-               .Select(dbModel => _mapper.Map<SuggestedEnemysViewModel>(dbModel))
+               .Select(dbModel => _mapper.Map<GameViewModel>(dbModel))
                .ToList();
 
-            return View(suggestedEnemysViewModels);
+            return View(GamesViewModels);
         }
-        [Authorize]
-        public IActionResult RemoveSuggestedEnemy(long suggestedEnemysId)
-        {
-            _suggestedEnemysRepository.Remove(suggestedEnemysId);
-            return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
-        }
+
         [Authorize]
         [HttpGet]
-        public IActionResult AddSuggestedEnemy()
+        public IActionResult AddGame()
         {
             return View();
         }
+
         [Authorize]
         [HttpPost]
-        public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
+        public IActionResult AddGame(GameViewModel gameViewModel)
         {
             var creater = _userService.GetCurrentUser();
-            //
-            var dbSuggestedEnemys = new SuggestedEnemys();
-            dbSuggestedEnemys = _mapper.Map<SuggestedEnemys>(suggestedEnemysViewModel);            
-            dbSuggestedEnemys.IsActive = true;
 
-            _suggestedEnemysRepository.Save(dbSuggestedEnemys);
+            var dbGame = _mapper.Map<Game>(gameViewModel);
+            dbGame.Creater = creater;
+            dbGame.IsActive = true;
 
-            return RedirectToAction($"{nameof(HomeController.SuggestedEnemys)}");
+            _favGamesRepository.Save(dbGame);
+
+            return RedirectToAction("FavoriteGames", "Home");
         }
-
         public IActionResult Time()
         {
             var smile = DateTime.Now.Second;
@@ -230,7 +237,6 @@ namespace WebMaze.Controllers
             var model = x + y;
             return View(model);
         }
-
 
         [HttpGet]
         public IActionResult Reviews()
@@ -276,47 +282,6 @@ namespace WebMaze.Controllers
             return RedirectToAction("Reviews", "Home");
         }
 
-
-        public IActionResult NewCellSugg()
-        {
-            var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
-            newCellSuggestionsViewModel = _newCellSuggRepository.GetAll()
-                .Select(dbModel => _mapper.Map<NewCellSuggestionViewModel>(dbModel))
-                .ToList();
-
-            return View(newCellSuggestionsViewModel);
-        }
-        [HttpGet]
-        public IActionResult AddNewCellSugg()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCell)
-        {
-            //TODO user current user after login
-            var creater = _userRepository.GetRandomUser();
-
-            var NewCS = new NewCellSuggestion()
-            {
-                Title = newCell.Title,
-                Description = newCell.Description,
-                MoneyChange = newCell.MoneyChange,
-                HealtsChange = newCell.HealtsChange,
-                FatigueChange = newCell.FatigueChange,
-                Creater = creater,
-                IsActive = true
-            };
-
-            _newCellSuggRepository.Save(NewCS);
-            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
-        }
-        public IActionResult RemoveNewCellSuggestion(long id)
-        {
-            _newCellSuggRepository.Remove(id);
-            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
-        }
-
         public IActionResult Movie()
         {
             var MovieViewModels = new List<MovieViewModel>();
@@ -341,20 +306,4 @@ namespace WebMaze.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult AddMovie(MovieViewModel movieViewModel)
-        {
-            var dbMovie = new Movie()
-            {
-                TitleGame = movieViewModel.TitleGame,
-                TitleMovie = movieViewModel.TitleMovie,
-                Release = movieViewModel.Release,
-                Link = movieViewModel.Link,
-                Img = movieViewModel.Img,
-                IsActive = true
-            };
-            _movieRepository.Save(dbMovie);
-            return View();
-        }
-    }
 }

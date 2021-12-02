@@ -16,7 +16,6 @@ namespace WebMaze.EfStuff
         public DbSet<StuffForHero> StuffsForHero { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Game> FavGames { get; set; }
-
         public DbSet<News> News { get; set; }
         public DbSet<BugReport> BugReports { get; set; }
         public DbSet<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
@@ -64,8 +63,6 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<StuffForHero>()
                .HasOne(x => x.Proposer)
                .WithMany(x => x.AddedSStuff); 
-
-            modelBuilder.Entity<User>().HasMany(x => x.MyReviews).WithOne(x => x.Creator);
 
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MyFavGames)

@@ -1,0 +1,40 @@
+﻿@model NewCellSuggestionViewModel
+
+<div class="text-center">
+    <h3>You can suggest your cell here.</h3>
+    <form action="/Suggested/AddNewCellSugg" method="post">
+        @Html.HiddenFor(x => x.Id)
+        <div>
+            Enter a name for the cell. @Html.TextBoxFor(x => x.Title)
+        </div>
+        <div>@Html.ValidationMessageFor(x => x.Title)</div>
+        <div>
+            Describe your cell. @Html.TextAreaFor(x => x.Description)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(x => x.Description)
+        </div>
+        <div>
+            Money will be subtracted or added by the cell. @Html.TextBoxFor(x => x.MoneyChange, htmlAttributes: new { @Value = "0" })
+        </div>
+        <div>
+            @Html.ValidationMessageFor(x => x.MoneyChange)
+        </div>
+        <div>
+            Health will be subtracted or added by the cell. @Html.TextBoxFor(x => x.HealtsChange, htmlAttributes: new { @Value = "0" })
+        </div>
+        <div>
+            @Html.ValidationMessageFor(x => x.HealtsChange)
+        </div>
+        <div>
+            Fatigue will be subtracted or added by the cell. @Html.TextBoxFor(x => x.FatigueChange, htmlAttributes: new { @Value = "0" })
+        </div>
+        <div>
+            @Html.ValidationMessageFor(x => x.FatigueChange)
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+    <a href="/Suggested/NewCellSugg"><input type="submit" value="Cancel" /></a>
+</div>
