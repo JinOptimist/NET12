@@ -18,7 +18,7 @@ namespace WebMaze.Models.ValidationAttributes
         public override string FormatErrorMessage(string name)
         {
             return string.IsNullOrEmpty(ErrorMessage)
-                ? $"We don't like you. Cause you use bad word like: \"{string.Join(" ", _swearWord)}\""
+                ? $"We don't like you. Cause you use bad word like: \"{string.Join(" ", _swearWordBase)}\""
                 : ErrorMessage;
         }
 
@@ -36,7 +36,7 @@ namespace WebMaze.Models.ValidationAttributes
 
             var line = value as string;
 
-            return _swearWord.All(swearWord => !line.ToLower().Contains(swearWord));
+            return _swearWordBase.All(swearWord => !line.Contains(swearWord));
 
             //&& _swearWordBase.All(swearWord => !line.ToLower().Contains(swearWord));
         }
