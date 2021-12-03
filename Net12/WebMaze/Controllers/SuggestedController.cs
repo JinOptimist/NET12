@@ -48,9 +48,9 @@ namespace WebMaze.Controllers
         }
         [Authorize]
         [HttpGet]
-        public IActionResult AddSuggestedEnemy(long Id)
+        public IActionResult AddSuggestedEnemy(long suggestedEnemysId)
         {
-            var model = _mapper.Map<SuggestedEnemysViewModel>(_suggestedEnemysRepository.Get(Id))
+            var model = _mapper.Map<SuggestedEnemysViewModel>(_suggestedEnemysRepository.Get(suggestedEnemysId))
          ?? new SuggestedEnemysViewModel();
             return View(model);
         }
