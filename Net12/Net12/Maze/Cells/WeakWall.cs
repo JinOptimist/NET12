@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Net12.Maze.Cells
 {
-    class WeakWall : Wall
+    public class WeakWall : Wall
 
     {
         private int _vitalityOfWeakWall = 3;

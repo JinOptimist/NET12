@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Net12.Maze;
+using System.Collections.Generic;
 using WebMaze.EfStuff.DbModel;
 
 namespace WebMaze.Models
@@ -6,7 +7,7 @@ namespace WebMaze.Models
     public class MazeViewModel
     {
         public int Id { get; set; }
-        public List<CellModel> Cells { get; set; }
+        public List<CellViewModel> Cells { get; set; }
         public UserViewModel Creator { get; set; }
 
         public string Name { get; set; }

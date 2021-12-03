@@ -1,4 +1,5 @@
-﻿using WebMaze.EfStuff.DbModel;
+﻿using Net12.Maze;
+using WebMaze.EfStuff.DbModel;
 
 namespace WebMaze.EfStuff.Repositories
 {
@@ -7,5 +8,7 @@ namespace WebMaze.EfStuff.Repositories
         public MazeLevelRepository(WebContext webContext) : base(webContext)
         {
         }
+
+
     }
 }

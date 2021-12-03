@@ -20,6 +20,7 @@
         Fountain,
         Coin,
         HealPotion,
-        BullEnemy
+        BullEnemy,
+        Wall
     }
 }

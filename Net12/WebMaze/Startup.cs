@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Net12.Maze;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,6 +106,18 @@ namespace WebMaze
             {
                 var webContext = diContainer.GetService<WebContext>();
                 var repository = new BugReportRepository(webContext);
+                return repository;
+            });
+            services.AddScoped<MazeLevelRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new MazeLevelRepository(webContext);
+                return repository;
+            });
+            services.AddScoped<CellRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new CellRepository(webContext);
                 return repository;
             });
 

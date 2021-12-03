@@ -1,5 +1,5 @@
 ﻿@using Net12.Maze
-@model MazeLevel
+@model MazeLevelViewId
 
 <div class="menu-maze-difficult">
     <a href="/Maze/AddMazeDifficult">Add Maze Difficult</a>
@@ -9,13 +9,13 @@
 
 <div class="text-center">
     <h1>Maze</h1>
-    @for (int y = 0; y < Model.Height; y++)
+    @for (int y = 0; y < Model.MazeLevel.Height; y++)
     {
         <div>
-            @for (int x = 0; x < Model.Width; x++)
+            @for (int x = 0; x < Model.MazeLevel.Width; x++)
             {
                 <span>
-                    @if (Model[x, y] is Wall)
+                    @if (Model.MazeLevel[x, y] is Wall)
                     {
                         <img class="cell" src="~/images/cells/wall.jpg" />
                     }
@@ -33,7 +33,7 @@
     <fieldset>
         <legend><b>Controllers:</b></legend>
         <form action="/Maze/Index" method="post">
-
+            @Html.HiddenFor(x => x.idMaze)
             <input type="submit" value="Save Game" />
         </form>
     </fieldset>

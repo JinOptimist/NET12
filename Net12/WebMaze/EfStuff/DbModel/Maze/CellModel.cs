@@ -8,5 +8,6 @@
         public int HpCell { get; set; }
 
         public virtual MazeLevelModel MazeLevel { get; set; }
+
     }
 }
