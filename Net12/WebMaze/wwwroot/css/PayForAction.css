@@ -1,0 +1,35 @@
+﻿.good-button {
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    border: 2px solid forestgreen;
+}
+
+.good-button:hover {
+    background-color: forestgreen;
+    color: white;
+    font-size: 16px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    border: 2px solid white;
+}
+
+.bad-button {
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    border: 2px solid red;
+}
+
+.bad-button:hover {
+    background-color: red;
+    color: white;
+    font-size: 16px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    border: 2px solid white;
+}

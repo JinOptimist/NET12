@@ -18,6 +18,7 @@
                     <th scope="col">Date of creation</th>
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <th scope="col">Assessment</th>
                         <th scope="col">Actions</th>
                     }
 
@@ -27,36 +28,42 @@
             <tbody>
                 @foreach (var news in Model)
                 {
-                    <tr>
-                        <td>
-                            <span>@news.Title</span>
-                        </td>
-                        <td>
-                            <span>@news.Text</span>
-                        </td>
+                <tr>
+                    <td>
+                        <span>@news.Title</span>
+                    </td>
+                    <td>
+                        <span>@news.Text</span>
+                    </td>
 
-                        <td>
-                            <span>@news.Location</span>
-                        </td>
-                        <td>
-                            <span>@news.EventDate.ToShortDateString()</span>
-                        </td>
-                        <td>
-                            <span>@news.NameOfAuthor</span>
-                        </td>
-                        <td>
-                            <span>@news.CreationDate.ToShortDateString()</span>
-                        </td>
+                    <td>
+                        <span>@news.Location</span>
+                    </td>
+                    <td>
+                        <span>@news.EventDate.ToShortDateString()</span>
+                    </td>
+                    <td>
+                        <span>@news.NameOfAuthor</span>
+                    </td>
+                    <td>
+                        <span>@news.CreationDate.ToShortDateString()</span>
+                    </td>
 
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <td>
-                                <a href="/News/RemoveNews?newsId=@news.Id">X</a>
-                                <a href="/News/AddNews?newsId=@news.Id">E</a>
-                            </td>
-                        }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <td>
+                            <span>
+                                <button class="good-button">Wonderful</button>
+                                <button class="bad-button">Awful</button>
+                            </span>
+                        </td>
+                        <td>
+                            <a href="/News/RemoveNews?newsId=@news.Id">X</a>
+                            <a href="/News/AddNews?newsId=@news.Id">E</a>
+                        </td>
+                    }
 
-                    </tr>
+                </tr>
                 }
             </tbody>
         </table>
