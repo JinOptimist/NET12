@@ -4,12 +4,12 @@ namespace WebMaze.Models
 {
     public class MazeLevelViewId
     {
-        public long idMaze;
+        public long Id;
         public MazeLevel MazeLevel {  get; set; }
 
         public MazeLevelViewId(long idCreator, MazeLevel maze)
         {
-            idMaze = idCreator;
+            Id = idCreator;
             MazeLevel = maze;
         }
     }

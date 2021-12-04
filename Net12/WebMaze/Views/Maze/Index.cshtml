@@ -1,41 +1,28 @@
 ﻿@using Net12.Maze
-@model MazeLevelViewId
+@model List<MazeViewModel>
 
 <div class="menu-maze-difficult">
     <a href="/Maze/AddMazeDifficult">Add Maze Difficult</a>
     <a href="/Maze/ManageMazeDifficult">Manage Maze Difficult</a>
-    <a href="/Maze/Index">Create Maze</a>
+    <a href="/Maze/Maze">Create Maze</a>
 </div>
 
 <div class="text-center">
-    <h1>Maze</h1>
-    @for (int y = 0; y < Model.MazeLevel.Height; y++)
+    <div class="maze-alert-heading">My Mazes</div>
+    @foreach (var maze in Model)
     {
-        <div>
-            @for (int x = 0; x < Model.MazeLevel.Width; x++)
-            {
-                <span>
-                    @if (Model.MazeLevel[x, y] is Wall)
-                    {
-                        <img class="cell" src="~/images/cells/wall.jpg" />
-                    }
-                    else
-                    {
-                        <img class="cell" src="~/images/cells/ground.jpg" />
-                    }
-                </span>
-            }
+        <div class="maze-list">
+            <div class="maze-text-info">
+                @maze.Name
+            </div>
+            <div class="maze-text-info">
+                <a href="/Maze/Maze?id=@maze.Id">Play</a>
+                <div>Delete</div>
+            </div>
         </div>
     }
+
+
 </div>
 
-<div>
-    <fieldset>
-        <legend><b>Controllers:</b></legend>
-        <form action="/Maze/Index" method="post">
-            @Html.HiddenFor(x => x.idMaze)
-            <input type="submit" value="Save Game" />
-        </form>
-    </fieldset>
-</div>
 
