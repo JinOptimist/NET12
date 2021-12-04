@@ -15,27 +15,51 @@
             @for (int x = 0; x < Model.MazeLevel.Width; x++)
             {
                 <span>
-                    @if (Model.MazeLevel[x, y] is Wall)
+                    @if (Model.MazeLevel.Hero.X == x && Model.MazeLevel.Hero.Y == y)
+                    {
+
+                        <img class="cell" src="~/images/cells/spriteHero.png" />
+
+                    }
+                    else if (Model.MazeLevel[x, y] is Wall)
                     {
                         <img class="cell" src="~/images/cells/wall.jpg" />
                     }
-                    else
+                    else if (Model.MazeLevel[x, y] is Ground)
                     {
                         <img class="cell" src="~/images/cells/ground.jpg" />
                     }
+
                 </span>
             }
         </div>
     }
+    <div>
+        <div class="button-view-up">
+            <form method="post">
+                @Html.HiddenFor(x=> x.Id)
+                <input type="hidden" value="1" name="turn" />
+                <input type="submit" value="⬆" />
+            </form>
+        </div>
+        <div class="button-view-down">
+                        <form method="post">
+                @Html.HiddenFor(x=> x.Id)
+                <input type="hidden" value="3" name="turn" />
+                <input type="submit" value="◀" />
+            </form>
+                        <form method="post">
+                @Html.HiddenFor(x=> x.Id)
+                <input type="hidden" value="2" name="turn" />
+                <input type="submit" value="⬇" />
+            </form>
+                        <form method="post">
+                @Html.HiddenFor(x=> x.Id)
+                <input type="hidden" value="4" name="turn" />
+                <input type="submit" value="▶" />
+            </form>
+        </div>
+    </div>
 </div>
 
-<div>
-    <fieldset>
-        <legend><b>Controllers:</b></legend>
-        <form action="/Maze/Index" method="post">
-            @Html.HiddenFor(x => x.Id)
-            <input type="submit" value="Save Game" />
-        </form>
-    </fieldset>
-</div>
 

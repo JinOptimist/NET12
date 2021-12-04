@@ -1,4 +1,5 @@
-﻿using Net12.Maze;
+﻿using AutoMapper;
+using Net12.Maze;
 using Net12.Maze.Cells;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +13,17 @@ namespace WebMaze.EfStuff.Repositories
     {
         private UserService _userService;
         private CellRepository _cellRepository;
-        public MazeLevelRepository(WebContext webContext, UserService userService, CellRepository cellRepository) : base(webContext)
+        private IMapper _mapper;
+        public MazeLevelRepository(WebContext webContext, UserService userService, CellRepository cellRepository, IMapper mapper) : base(webContext)
         {
             _userService = userService;
             _cellRepository = cellRepository;
+            _mapper = mapper;
         }
 
         public MazeLevelViewId GetMaze(UserRepository _userRepository, long id)
         {
-            if(_userRepository is null)
-            {
-                return null;
-            }
+
             MazeLevel Mazelevel = new MazeLevel();
             var cellList = new List<BaseCell>();
             var mazelist = _userRepository.Get(_userService.GetCurrentUser().Id)?.ListMazeLevels;
@@ -51,29 +51,35 @@ namespace WebMaze.EfStuff.Repositories
         public MazeLevelViewId CreateMaze()
         {
             var Mazelevel = new MazeBuilder().Build(10, 10, 10, 100, true);
-            SaveMaze(Mazelevel);
             var mazeId = new MazeLevelViewId(0, Mazelevel);
+            SaveMaze(mazeId);
             return (mazeId);
         }
 
-        public void SaveMaze(MazeLevel Mazelevel)
+        public void SaveMaze(MazeLevelViewId Mazelevel)
         {
-            var MazeModel = new MazeLevelModel();
-
-            MazeModel.IsActive = true;
-            MazeModel.Creator = _userService.GetCurrentUser();
+            var MazeModel = Get(Mazelevel.Id);
+            if(MazeModel == null)
+            {
+                MazeModel = new MazeLevelModel
+                {
+                    IsActive = true,
+                    Creator = _userService.GetCurrentUser()
+                };
+            }
             MazeModel.Cells = new List<CellModel>();
-            foreach (var cell in Mazelevel.Cells)
+            foreach (var cell in Mazelevel.MazeLevel.Cells)
             {
                 MazeModel.Cells.Add(_cellRepository.GetCurrentCell(cell, MazeModel));
             }
-            MazeModel.Height = Mazelevel.Height;
-            MazeModel.Width = Mazelevel.Width;
-            MazeModel.HeroMaxFatigure = Mazelevel.Hero.MaxFatigue;
-            MazeModel.HeroMaxHp = Mazelevel.Hero.Max_hp;
-            MazeModel.HeroNowHp = Mazelevel.Hero.Hp;
-            MazeModel.HeroX = Mazelevel.Hero.X;
-            MazeModel.HeroY = Mazelevel.Hero.Y;
+            MazeModel.Height = Mazelevel.MazeLevel.Height;
+            MazeModel.Width = Mazelevel.MazeLevel.Width;
+            MazeModel.HeroMaxFatigure = Mazelevel.MazeLevel.Hero.MaxFatigue;
+            MazeModel.HeroMaxHp = Mazelevel.MazeLevel.Hero.Max_hp;
+            MazeModel.HeroNowHp = Mazelevel.MazeLevel.Hero.Hp;
+            MazeModel.HeroX = Mazelevel.MazeLevel.Hero.X;
+            MazeModel.HeroY = Mazelevel.MazeLevel.Hero.Y;
+            MazeModel.Id = Mazelevel.Id;
             Save(MazeModel);
 
         }

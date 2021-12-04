@@ -17,3 +17,14 @@
         flex-direction: column;
         align-items: center;
     }
+
+.button-view-up {
+}
+
+.button-view-down {
+    display: flex;
+    justify-content: center;
+}
+
+.button-controller-click {
+}

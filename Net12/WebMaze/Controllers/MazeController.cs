@@ -53,24 +53,45 @@ namespace WebMaze.Controllers
         [Authorize]
         public IActionResult Maze(long id)
         {
-            if(id == 0)
+            var maze = _mazeLevelRepository.GetMaze(_userRepository, id);
+            if (maze is null)
             {
-                return View(_mazeLevelRepository.CreateMaze());
+                return RedirectToAction("Index");
             }
 
-                
-            
 
 
 
-            return View(_mazeLevelRepository.GetMaze(_userRepository, id));
-        }        
-        
+
+            return View(maze);
+        }
+
         [HttpPost]
         [Authorize]
-        public IActionResult Maze(int Id)
+        public IActionResult Maze(long Id, int turn)
         {
-            var mazeBuilder = new MazeBuilder();
+            var maze = _mazeLevelRepository.GetMaze(_userRepository, Id);
+            switch (turn)
+            {
+                case 1:
+                    maze.MazeLevel.HeroStep(Direction.Up);
+                    break;
+                case 2:
+                    maze.MazeLevel.HeroStep(Direction.Down);
+                    break;
+                case 3:
+                    maze.MazeLevel.HeroStep(Direction.Left);
+                    break;
+                case 4: 
+                    maze.MazeLevel.HeroStep(Direction.Right);
+                    break;
+            }
+            _mazeLevelRepository.SaveMaze(maze);
+            return View(maze);
+        }
+        public IActionResult CreateMaze()
+        {
+            _mazeLevelRepository.CreateMaze();
             return RedirectToAction("Index");
         }
 
