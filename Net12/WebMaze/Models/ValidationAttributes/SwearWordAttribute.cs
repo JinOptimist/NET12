@@ -8,15 +8,14 @@ namespace WebMaze.Models.ValidationAttributes
 {
     public class SwearWordAttribute : ValidationAttribute
     {
-        private List<string> _swearWord;
-        private List<string> _swearWordBase = new List<string> { "Ass", "Asshole", "Bitch", "Dick", "Faggot", "Fuck", "Nigger", "Shit" };
+        private string _badWord;
+        private List<string> _swearWord = new List<string> { "Ass", "Asshole", "Bitch", "Dick", "Faggot", "Fuck", "Nigger", "Shit" };
+
         public SwearWordAttribute(params string[] swearWord)
         {
-            _swearWord = swearWord.ToList();
-            _swearWord.AddRange(_swearWordBase);
+            _swearWord.AddRange(swearWord);
             _swearWord = _swearWord.Select(x => x.ToLower()).ToList();
         }
-
 
         public override bool IsValid(object value)
         {
@@ -31,18 +30,18 @@ namespace WebMaze.Models.ValidationAttributes
             }
 
             var line = value as string;
-
             string[] words = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            return words.Any(x => !_swearWord.Contains(x.ToLower()));
+            _badWord = words.FirstOrDefault(x => _swearWord.Contains(x.ToLower()));
 
+            return words.Any(x => !_swearWord.Contains(x.ToLower()));
         }
+
         public override string FormatErrorMessage(string name)
         {
             return string.IsNullOrEmpty(ErrorMessage)
-                ? $"We don't like you. Cause you use bad word like: \"{string.Join(", ", _swearWord)}\""
+                ? $"You cannot use the word: \"{_badWord}\""
                 : ErrorMessage;
-
         }
     }
 }
