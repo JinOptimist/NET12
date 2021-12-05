@@ -123,9 +123,16 @@
                             Gallery
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
-                            <a class="dropdown-item" href="/Gallery/AddImage">Add Image</a>
-                        </div>
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
+                            }
+                            else
+                            {
+                                <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
+                                <a class="dropdown-item" href="/Gallery/AddImage">Add Image</a>
+                            }
+                        </div>                        
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Maze/Index">Maze</a>

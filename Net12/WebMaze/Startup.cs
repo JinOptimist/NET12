@@ -113,6 +113,8 @@ namespace WebMaze
 
             services.AddScoped<ImageRepository>();
 
+            services.AddScoped<PayForActionService>();
+
             services.AddScoped<FavGamesRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
