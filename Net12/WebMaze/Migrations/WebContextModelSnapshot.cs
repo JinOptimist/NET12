@@ -145,6 +145,41 @@ namespace WebMaze.Migrations
                     b.ToTable("Gallery");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Game", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long?>("CreaterId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Desc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Genre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("YearOfProd")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreaterId");
+
+                    b.ToTable("FavGames");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>
                 {
                     b.Property<long>("Id")
@@ -366,6 +401,15 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Game", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
+                        .WithMany("MyFavGames")
+                        .HasForeignKey("CreaterId");
+
+                    b.Navigation("Creater");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Approver")
@@ -438,6 +482,8 @@ namespace WebMaze.Migrations
                     b.Navigation("MazeDifficultProfiles");
 
                     b.Navigation("MyCellSuggestions");
+
+                    b.Navigation("MyFavGames");
 
                     b.Navigation("MyEnemySuggested");
 
