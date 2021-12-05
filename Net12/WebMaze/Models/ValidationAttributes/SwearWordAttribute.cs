@@ -8,20 +8,15 @@ namespace WebMaze.Models.ValidationAttributes
 {
     public class SwearWordAttribute : ValidationAttribute
     {
-        private string[] _swearWord;
-        private string[] _swearWordBase = { "Ass", "Asshole", "Bitch", "Dick", "Faggot", "Fuck", "Nigger", "Shit" };
-        private string[] _swearWordAll;
+        private List<string> _swearWord;
+        private List<string> _swearWordBase = new List<string> { "Ass", "Asshole", "Bitch", "Dick", "Faggot", "Fuck", "Nigger", "Shit" };
         public SwearWordAttribute(params string[] swearWord)
         {
-            _swearWord = swearWord;
-            _swearWordAll = MergeArrays(_swearWord, _swearWordBase);
+            _swearWord = swearWord.ToList();
+            _swearWord.AddRange(_swearWordBase);
+            _swearWord = _swearWord.Select(x => x.ToLower()).ToList();
         }
 
-        private string[] MergeArrays(string[] arr1, string[] arr2)
-        {
-            var arr3 = arr1.Concat(arr2).ToArray();
-            return arr3;
-        }
 
         public override bool IsValid(object value)
         {
@@ -32,24 +27,22 @@ namespace WebMaze.Models.ValidationAttributes
 
             if (!(value is string))
             {
-                throw new ArgumentException("NotFlatAttribute can work only with string");
+                throw new ArgumentException("SwearWordAttribute can work only with string");
             }
 
             var line = value as string;
 
             string[] words = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            _swearWordAll = _swearWordAll.Select(x => x.ToLower()).ToArray();
-
-            return words.Any(x => !_swearWordAll.Contains(x.ToLower()));
+            return words.Any(x => !_swearWord.Contains(x.ToLower()));
 
         }
         public override string FormatErrorMessage(string name)
         {
             return string.IsNullOrEmpty(ErrorMessage)
-                ? $"We don't like you. Cause you use bad word like: \"{string.Join(", ", _swearWordAll)}\""
+                ? $"We don't like you. Cause you use bad word like: \"{string.Join(", ", _swearWord)}\""
                 : ErrorMessage;
-            List<string> a;
+
         }
     }
 }
