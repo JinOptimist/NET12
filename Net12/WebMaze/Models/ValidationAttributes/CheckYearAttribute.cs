@@ -12,16 +12,16 @@ namespace WebMaze.Models.ValidationAttributes
         {         
             if (value != null && !(value is int))
             {
+                ErrorMessage = "CheckYear Attribute can work only with int";
                 return false;
-                //throw new ArgumentException("CheckYear Attribute can work only with int");
             }
 
             var number = (int?)value;
 
-            if (!(number >= 0 && number <= 99 || number >= 1000 && number <= 9999))
+            if (!((number >= 0 && number <= 99) || (number >= 1000 && number <= 9999)))
             {
+                ErrorMessage = "CheckYear Attribute can work only with 'yyyy' or 'yy' format";
                 return false;
-                //throw new ArgumentException("CheckYear Attribute can work only with 'yyyy' or 'yy' format");
             }
 
             return true;

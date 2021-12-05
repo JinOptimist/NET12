@@ -9,20 +9,18 @@ namespace WebMaze.Models
 {
     public class GameViewModel
     {
-        //[Required(ErrorMessage ="Mandatory field")]
+        [Required(ErrorMessage ="Mandatory field")]
         [MinLength(2, ErrorMessage = "Name of game is too short")]
         public string Name { get; set; }
 
         [MinLength(5, ErrorMessage = "Game's genre is too short")]
         public string Genre { get; set; }
 
-        //[Range (1000, 9999)]
         [CheckYear]
         public int YearOfProd { get; set; }
 
         [MinLength(2, ErrorMessage = "The smallest description's  size is 2 letters")]
         [MaxLength(500, ErrorMessage = "The biggest description's  size is 500 letters")]
-        //[Range (2, 500, ErrorMessage = "The smallest description's  size is 2 letters and the biggest is 500")]
         public string Desc { get; set; }
 
         public int Rating { get; set; }
