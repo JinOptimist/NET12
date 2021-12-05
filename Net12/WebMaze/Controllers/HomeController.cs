@@ -155,6 +155,11 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddGame(GameViewModel gameViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(gameViewModel);
+            }
+
             var creater = _userService.GetCurrentUser();
 
             var dbGame = _mapper.Map<Game>(gameViewModel);
