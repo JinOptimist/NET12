@@ -37,7 +37,11 @@ namespace WebMaze.Models.ValidationAttributes
 
             var line = value as string;
 
-            return _swearWordAll.All(swearWord => !line.ToLower().Contains(swearWord.ToLower()));
+            string[] words = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            _swearWordAll = _swearWordAll.Select(x => x.ToLower()).ToArray();
+
+            return words.Any(x => !_swearWordAll.Contains(x.ToLower()));
 
         }
         public override string FormatErrorMessage(string name)
