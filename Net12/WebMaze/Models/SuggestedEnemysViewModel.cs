@@ -13,6 +13,9 @@ namespace WebMaze.Models
         [SwearWord("lox")]
         public string Name { get; set; }
         public string Url { get; set; }
+
+        [SwearWord("lox")]
+        [WordCount(3)]
         public string Description { get; set; }
         public string UserName { get; set; }
         public bool IsActive { get; set; }

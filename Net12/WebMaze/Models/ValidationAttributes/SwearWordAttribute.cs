@@ -34,7 +34,7 @@ namespace WebMaze.Models.ValidationAttributes
 
             _badWord = words.FirstOrDefault(x => _swearWord.Contains(x.ToLower()));
 
-            return words.Any(x => !_swearWord.Contains(x.ToLower()));
+            return words.All(x => !_swearWord.Contains(x.ToLower()));
         }
 
         public override string FormatErrorMessage(string name)
