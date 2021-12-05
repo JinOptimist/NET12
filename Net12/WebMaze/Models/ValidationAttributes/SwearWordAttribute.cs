@@ -14,20 +14,13 @@ namespace WebMaze.Models.ValidationAttributes
         public SwearWordAttribute(params string[] swearWord)
         {
             _swearWord = swearWord;
-            _swearWordAll = Foo(_swearWord, _swearWordBase);
+            _swearWordAll = MergeArrays(_swearWord, _swearWordBase);
         }
 
-        private string[] Foo(string[] arr1, string[] arr2)
+        private string[] MergeArrays(string[] arr1, string[] arr2)
         {
             var arr3 = arr1.Concat(arr2).ToArray();
             return arr3;
-        }
-
-        public override string FormatErrorMessage(string name)
-        {
-            return string.IsNullOrEmpty(ErrorMessage)
-                ? $"We don't like you. Cause you use bad word like: \"{string.Join(", ", _swearWordAll)}\""
-                : ErrorMessage;
         }
 
         public override bool IsValid(object value)
@@ -46,6 +39,13 @@ namespace WebMaze.Models.ValidationAttributes
 
             return _swearWordAll.All(swearWord => !line.ToLower().Contains(swearWord.ToLower()));
 
+        }
+        public override string FormatErrorMessage(string name)
+        {
+            return string.IsNullOrEmpty(ErrorMessage)
+                ? $"We don't like you. Cause you use bad word like: \"{string.Join(", ", _swearWordAll)}\""
+                : ErrorMessage;
+            List<string> a;
         }
     }
 }
