@@ -30,7 +30,6 @@ namespace WebMaze.Controllers
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
-            _suggestedEnemysRepository = suggestedEnemysRepository;
             _mapper = mapper;
             _favGamesRepository = favGamesRepository;
             _userService = userService;
