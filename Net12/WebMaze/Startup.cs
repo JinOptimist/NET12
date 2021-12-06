@@ -135,6 +135,9 @@ namespace WebMaze
             RegisterMapper(services);
 
             services.AddControllersWithViews();
+
+            services.AddScoped<PermissionRepository>();
+            
         }
         private void RegisterMapper(IServiceCollection services)
         {

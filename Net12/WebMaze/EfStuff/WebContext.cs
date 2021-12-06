@@ -21,6 +21,7 @@ namespace WebMaze.EfStuff
         public DbSet<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
         public DbSet<Movie> Movies { get; set; }
 
+        public DbSet<Perrmission> Perrmissions { get; set; }
         public DbSet<SuggestedEnemys> SuggestedEnemys { get; set; }
         
         public WebContext(DbContextOptions options) : base(options)
@@ -36,6 +37,10 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MyBugReports)
                 .WithOne(x => x.Creater);
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.Perrmissions)
+                .WithMany(x => x.UsersWhichHasThePermission);
 
             //modelBuilder.Entity<User>()
             //   .HasMany(x => x.CellSuggestionsWhichIAprove)

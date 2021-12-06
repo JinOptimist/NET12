@@ -24,6 +24,10 @@ namespace WebMaze.Services
         public User GetCurrentUser()
         {
             var claim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Id");
+            if (claim == null)
+            {
+                return null;
+            }
             var idStr = claim.Value;
             var id = int.Parse(idStr);
 

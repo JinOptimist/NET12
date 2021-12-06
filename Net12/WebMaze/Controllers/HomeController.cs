@@ -29,16 +29,14 @@ namespace WebMaze.Controllers
         private IMapper _mapper;
 
         public HomeController(WebContext webContext,
-            UserRepository userRepository, ReviewRepository reviewRepository,
-            SuggestedEnemysRepository suggestedEnemysRepository,
-            IMapper mapper, NewCellSuggRepository newCellSuggRepository, FavGamesRepository favGamesRepository, UserService userService, MovieRepository movieRepository)
+         UserRepository userRepository, ReviewRepository reviewRepository,
+         IMapper mapper, FavGamesRepository favGamesRepository, UserService userService)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
             _movieRepository = movieRepository;
             _mapper = mapper;
-            _newCellSuggRepository = newCellSuggRepository;
             _favGamesRepository = favGamesRepository;
             _userService = userService;
         }
@@ -160,6 +158,11 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddGame(GameViewModel gameViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(gameViewModel);
+            }
+
             var creater = _userService.GetCurrentUser();
 
             var dbGame = _mapper.Map<Game>(gameViewModel);
