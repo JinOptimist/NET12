@@ -165,6 +165,15 @@ namespace WebMaze.Controllers
 
             return RedirectToAction("FavoriteGames", "Home");
         }
+
+        public IActionResult Miner()
+        {
+            
+            return View();
+        }
+
+
+
         public IActionResult Time()
         {
             var smile = DateTime.Now.Second;
