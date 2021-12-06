@@ -11,7 +11,7 @@ namespace WebMaze.Models
     {
         public string CreaterName { get; set; }
 
-        [Required(ErrorMessage = "fff")]
+        [Required(ErrorMessage = "Please write something!")]
         [BadWordsBugReports("damn", "hate", "ass")]
         [MinLength(10, ErrorMessage = "This description is too short, write more please :)")]
         public string Description { get; set; }
