@@ -15,5 +15,6 @@ namespace WebMaze.Models
         [BadWordsBugReports("damn", "hate", "ass")]
         [MinLength(10, ErrorMessage = "This description is too short, write more please :)")]
         public string Description { get; set; }
+        public int GlobalUserRating { get; set; }
     }
 }

@@ -176,7 +176,8 @@ namespace WebMaze
             provider.CreateMap<MazeDifficultProfileViewModel, MazeDifficultProfile>();
 
             provider.CreateMap<BugReportViewModel, BugReport>();
-            provider.CreateMap<BugReport, BugReportViewModel>();
+            provider.CreateMap<BugReport, BugReportViewModel>()
+                .ForMember(nameof(BugReportViewModel.GlobalUserRating), opt=> opt.MapFrom(dbUser=> dbUser.Creater.GlobalUserRating));
 
             provider.CreateMap<Game, GameViewModel>()
                 .ForMember(nameof(GameViewModel.Username), opt => opt.MapFrom(dbGame => dbGame.Creater.Name))
