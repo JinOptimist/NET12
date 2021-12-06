@@ -11,11 +11,11 @@ namespace WebMaze.Models
     {
         public long Id { get; set; }
 
-        [SwearWord("lox")]
+        [SwearWord("Cunt")]
         public string Name { get; set; }
         [Url()]
         public string Url { get; set; }
-        [SwearWord("lox")]
+        [SwearWord("Cunt")]
         [WordCount(3)]
         public string Description { get; set; }
         public string UserName { get; set; }
