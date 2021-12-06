@@ -56,6 +56,11 @@ namespace WebMaze.Controllers
         {
             var user = _userRepository.GetByNameAndPassword(viewModel.Login, viewModel.Password);
 
+            if(user == null)
+            {
+                return View(viewModel);
+            }
+
             var claims = new List<Claim>();
 
             claims.Add(new Claim("Id", user.Id.ToString()));
