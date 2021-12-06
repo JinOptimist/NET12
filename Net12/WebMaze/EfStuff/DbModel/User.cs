@@ -26,5 +26,7 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<Image> Images { get; set; }
         public virtual List<BugReport> MyBugReports { get; set; }
         public virtual List<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
+
+        public virtual List<MinerField> MinerFields { get; set; }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20211206183653_AddMiner")]
+    partial class AddMiner
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,6 +216,9 @@ namespace WebMaze.Migrations
                     b.Property<bool>("IsOpen")
                         .HasColumnType("bit");
 
+                    b.Property<long?>("MinerFieldId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("NearBombsCount")
                         .HasColumnType("int");
 
@@ -226,6 +231,8 @@ namespace WebMaze.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FieldId");
+
+                    b.HasIndex("MinerFieldId");
 
                     b.ToTable("MinerCell");
                 });
@@ -524,9 +531,13 @@ namespace WebMaze.Migrations
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerCell", b =>
                 {
-                    b.HasOne("WebMaze.EfStuff.DbModel.MinerField", "Field")
-                        .WithMany("Cells")
+                    b.HasOne("WebMaze.EfStuff.DbModel.MinerCell", "Field")
+                        .WithMany()
                         .HasForeignKey("FieldId");
+
+                    b.HasOne("WebMaze.EfStuff.DbModel.MinerField", null)
+                        .WithMany("Cells")
+                        .HasForeignKey("MinerFieldId");
 
                     b.Navigation("Field");
                 });
