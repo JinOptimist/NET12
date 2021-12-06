@@ -21,6 +21,8 @@ namespace WebMaze.Models
 
         public string Text { get; set; }
 
+        [MaxNewsData]
+        [Required(ErrorMessage = "News Date is required")]
         public DateTime EventDate { get; set; }
 
         public string NameOfAuthor { get; set; }
