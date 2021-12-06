@@ -36,6 +36,7 @@
     word-break: break-all;
 }
 .edit-info {
+    display: flex;
     flex-direction: column;
 }
 

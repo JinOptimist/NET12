@@ -27,8 +27,8 @@
                     <div class="rate-text edit-info">
                         @if (item.CanEdit)
                         {
-                            <a href="/Home/ChangeReviewForm?idReview=@item.Id">Edit</a>
-                            <a href="/Home/RemoveReview?idReview=@item.Id">Remove</a>
+                            <a href="/Reviews/ChangeReviewForm?idReview=@item.Id">Edit</a>
+                            <a href="/Reviews/RemoveReview?idReview=@item.Id">Remove</a>
                         }
                     </div>
 
@@ -40,7 +40,7 @@
 @if (User.Identity.IsAuthenticated)
 {
     <div style="margin-top: 3%;">
-            <form action="/Home/Reviews" method="post" class="rate-put">
+            <form action="/Reviews/Index" method="post" class="rate-put">
                 <div>Оставить отзыв</div>
                 <div>
                     <div>

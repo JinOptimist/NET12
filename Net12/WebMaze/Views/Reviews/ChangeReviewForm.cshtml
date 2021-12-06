@@ -18,7 +18,7 @@
 
 
 </div>
-<form action="/Home/Reviews" method="post" class="rate-put">
+<form action="/Reviews/ChangeReviewForm" method="post" class="rate-put">
     @Html.HiddenFor(x=> x.Id)
     @Html.HiddenFor(x=>x.UserName)
     <div>Изменить отзыв</div>
@@ -40,7 +40,7 @@
         </div>
         <div>
             <input type="submit" value="Изменить" />
-            <a href="/Home/Reviews" style="text-decoration: none; color: #808080;">Отменить</a>
+            <a href="/Reviews/Index" style="text-decoration: none; color: #808080;">Отменить</a>
         </div>
     </div>
 </form>

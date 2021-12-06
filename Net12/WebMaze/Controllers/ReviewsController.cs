@@ -63,7 +63,7 @@ namespace WebMaze.Controllers
                 }
 
             }
-            return RedirectToAction("Reviews", "Home");
+            return RedirectToAction("Index", "Reviews");
         }
         [HttpGet]
         [Authorize]
@@ -83,11 +83,13 @@ namespace WebMaze.Controllers
             var DBreview = _userService.GetCurrentUser().MyReviews.SingleOrDefault(rev => rev.Id == review.Id);
             if (DBreview != null)
             {
-                DBreview = _mapper.Map<Review>(review);
+                var rev = _mapper.Map<Review>(review);
+                DBreview.Text = rev.Text;
+                DBreview.Rate = rev.Rate;
                 _reviewRepository.Save(DBreview);
             }
 
-            return RedirectToAction("Reviews", "Home");
+            return RedirectToAction("Index", "Reviews");
         }
 
 
