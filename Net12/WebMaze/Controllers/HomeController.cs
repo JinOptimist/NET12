@@ -30,7 +30,7 @@ namespace WebMaze.Controllers
 
         public HomeController(WebContext webContext,
          UserRepository userRepository, ReviewRepository reviewRepository,
-         IMapper mapper, FavGamesRepository favGamesRepository, UserService userService)
+         IMapper mapper, FavGamesRepository favGamesRepository, UserService userService, MovieRepository movieRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
@@ -248,12 +248,14 @@ namespace WebMaze.Controllers
             return View(MovieViewModels);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult AddMovie()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult AddMovie(MovieViewModel movieViewModel)
         {
