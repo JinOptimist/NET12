@@ -166,6 +166,47 @@ namespace WebMaze.Migrations
                     b.ToTable("MazeDifficultProfiles");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CoinCount")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("CreaterId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HeroMaxFatigue")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HeroMaxHp")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HeroMoney")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreaterId");
+
+                    b.ToTable("MazeDifficultProfiles");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>
                 {
                     b.Property<long>("Id")
