@@ -21,9 +21,38 @@ namespace WebMaze.EfStuff
                 SeedUser(scope);
                 SeedMazeDifficult(scope);
                 SeedNews(scope);
+                SeedPermissions(scope);
             }
 
             return host;
+        }
+
+        private static void SeedPermissions(IServiceScope scope)
+        {
+            var permissionRepository = scope.ServiceProvider.GetService<PermissionRepository>();
+            var admin = scope.ServiceProvider.GetService<UserRepository>().GetUserByName(DefaultAdminName);
+            var perrmissions = permissionRepository.GetAll();
+            if (!perrmissions.Any())
+            {
+                var adminPermission = new Perrmission()
+                {
+                    Name = Perrmission.Admin,
+                    Desc = "admin",
+                    UsersWhichHasThePermission = new List<User>(),
+                    IsActive = true
+                };
+                adminPermission.UsersWhichHasThePermission.Add(admin);
+                permissionRepository.Save(adminPermission);
+
+                var newsCreator = new Perrmission()
+                {
+                    Name = Perrmission.NewsCreator,
+                    Desc = "News creator",
+                    IsActive = true
+                };
+
+                permissionRepository.Save(newsCreator);
+            }
         }
 
         private static void SeedUser(IServiceScope scope)

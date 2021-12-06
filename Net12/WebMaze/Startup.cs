@@ -119,6 +119,9 @@ namespace WebMaze
                 var repository = new FavGamesRepository(webContext);
                 return repository;
             });
+
+            services.AddScoped<PermissionRepository>();
+            
         }
         private void RegisterMapper(IServiceCollection services)
         {

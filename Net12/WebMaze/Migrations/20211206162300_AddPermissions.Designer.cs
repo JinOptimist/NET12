@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20211206162300_AddPermissions")]
+    partial class AddPermissions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,45 +127,33 @@ namespace WebMaze.Migrations
                     b.ToTable("FavGames");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CoinCount")
+                    b.Property<int>("Assessment")
                         .HasColumnType("int");
 
-                    b.Property<long?>("CreaterId")
+                    b.Property<long?>("AuthorId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HeroMaxFatigue")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HeroMaxHp")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HeroMoney")
-                        .HasColumnType("int");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Width")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreaterId");
+                    b.HasIndex("AuthorId");
 
-                    b.ToTable("MazeDifficultProfiles");
+                    b.ToTable("Gallery");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
@@ -406,9 +396,6 @@ namespace WebMaze.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Coins")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GlobalUserRating")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
