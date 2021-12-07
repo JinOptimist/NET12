@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Net12.Maze;
+using Net12.Maze.Cells;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -180,6 +181,31 @@ namespace WebMaze
             provider.CreateMap<MazeLevelModel, MazeViewModel>();
             provider.CreateMap<MazeViewModel, MazeLevelModel>();
 
+            provider.CreateMap<MazeLevelModel, MazeLevelViewId>()
+                .ConstructUsing(model => Mazelevel(model))
+                .ForMember(maze => maze.MazeLevel.Cells, model => model.MapFrom(mazemodel => mazemodel.Cells))
+                .AfterMap((a, b) => b.MazeLevel.Cells.Where(cell =>
+                {
+                    var baz = cell;
+                    baz.Maze = b.MazeLevel;
+                    cell = baz;
+                    return true;
+                }))
+                .ForMember(maze => maze.MazeLevel.Height, model => model.MapFrom(mazemod => mazemod.Height))
+                .ForMember(maze => maze.MazeLevel.Width, model => model.MapFrom(mazemod => mazemod.Width))
+                .ForMember(maze => maze.MazeLevel.Hero, model => model.MapFrom(mazemod => new Hero(mazemod.HeroX, mazemod.HeroY, null, mazemod.HeroNowHp, mazemod.HeroMaxHp)));
+
+            provider.CreateMap<MazeLevelViewId, MazeLevelModel>()
+                .ConstructUsing(x => inMazeModel(x))
+                .ForMember(mazeview => mazeview.Creator, obd => obd.MapFrom(maze => maze.Creator))
+                .AfterMap((a, b) => b.Cells.Where(cell => (cell.MazeLevel = b) == b));
+
+            provider.CreateMap<CellModel, CellViewModelId>()
+                .ConstructUsing(x => CellinBaseCell(x));
+
+            provider.CreateMap<CellViewModelId, CellModel>()
+                .ConstructUsing(x => BaseCellInCell(x));
+
             provider.CreateMap<CellModel, CellViewModel>();
             provider.CreateMap<CellViewModel, CellModel>();
 
@@ -191,7 +217,85 @@ namespace WebMaze
             services.AddScoped<IMapper>(x => mapper);
 
         }
+        private MazeLevelModel inMazeModel(MazeLevelViewId viewId)
+        {
+            return new MazeLevelModel()
+            {
+                Cells = new List<CellModel>(),
+                Height = viewId.MazeLevel.Height,
+                Width = viewId.MazeLevel.Width,
+                HeroMaxFatigure = viewId.MazeLevel.Hero.MaxFatigue,
+                HeroMaxHp = viewId.MazeLevel.Hero.Max_hp,
+                HeroNowFatigure = viewId.MazeLevel.Hero.CurrentFatigue,
+                HeroNowHp = viewId.MazeLevel.Hero.Hp,
+                IsActive = true,
+                HeroX = viewId.MazeLevel.Hero.X,
+                HeroY = viewId.MazeLevel.Hero.Y,
+                Id = viewId.Id,
+                Name = viewId.Name,
 
+            };
+        }
+        private MazeLevelViewId Mazelevel(MazeLevelModel model)
+        {
+
+            var maze = new MazeLevel
+            {
+                Height = model.Height,
+                Width = model.Width
+            };
+            maze.Cells = new List<BaseCell>();
+            maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroMaxHp);
+
+            return new MazeLevelViewId() { Id = model.Id, MazeLevel = maze };
+        }
+        private CellModel BaseCellInCell(CellViewModelId cell)
+        {
+            var model = new CellModel
+            {
+                Id = cell.Id,
+                X = cell.Cell.X,
+                Y = cell.Cell.Y,
+                MazeLevel = null
+            };
+            if (cell.Cell is Wall)
+            {
+
+                model.HpCell = 0;
+                model.IsActive = true;
+                model.TypeCell = CellInfo.Wall;
+
+            }
+            else if (cell.Cell is Ground)
+            {
+                model.HpCell = 0;
+                model.IsActive = true;
+                model.TypeCell = CellInfo.Grow;
+            }
+            else
+            {
+
+                model.HpCell = 0;
+                model.IsActive = true;
+                model.TypeCell = CellInfo.Grow;
+
+            }
+            return model;
+
+        }
+        private CellViewModelId CellinBaseCell(CellModel model)
+        {
+            switch (model.TypeCell)
+            {
+                case CellInfo.Grow:
+                    return new CellViewModelId() { Cell = new Ground(model.X, model.Y, null), Id = model.Id };
+                case CellInfo.Wall:
+                    return new CellViewModelId() { Cell = new Wall(model.X, model.Y, null), Id = model.Id };
+                default:
+                    return new CellViewModelId() { Cell = new Ground(model.X, model.Y, null), Id = model.Id };
+            }
+
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
