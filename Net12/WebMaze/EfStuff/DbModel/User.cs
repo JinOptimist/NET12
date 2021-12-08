@@ -12,6 +12,7 @@ namespace WebMaze.EfStuff.DbModel
         public string Password { get; set; }
         public int Age { get; set; }
         public int Coins { get; set; }
+        public int GlobalUserRating { get; set; }
 
         public virtual List<Perrmission> Perrmissions { get; set; }
         public virtual List<NewCellSuggestion> MyCellSuggestions { get; set; }

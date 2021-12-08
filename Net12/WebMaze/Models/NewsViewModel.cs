@@ -26,5 +26,7 @@ namespace WebMaze.Models
         public DateTime EventDate { get; set; }
 
         public string NameOfAuthor { get; set; }
+
+        public int GlobalUserRating { get; set; }
     }
 }
