@@ -119,6 +119,15 @@ namespace WebMaze
                 var repository = new FavGamesRepository(webContext);
                 return repository;
             });
+
+            services.AddScoped<MinerCellRepository>();
+
+            services.AddScoped<MinerFieldRepository>();
+
+            services.AddScoped<MinerFiledBuilder>();
+
+            services.AddScoped<PermissionRepository>();
+            
         }
         private void RegisterMapper(IServiceCollection services)
         {
@@ -173,6 +182,9 @@ namespace WebMaze
                 .ForMember(nameof(GameViewModel.Username), opt => opt.MapFrom(dbGame => dbGame.Creater.Name))
                 .ForMember(nameof(GameViewModel.Age), opt => opt.MapFrom(dbGame => dbGame.Creater.Age));
             provider.CreateMap<GameViewModel, Game>();
+
+            provider.CreateMap<MinerField, MinerFieldViewModel>();
+            provider.CreateMap<MinerCell, MinerCellViewModel>();
 
             var mapperConfiguration = new MapperConfiguration(provider);
 

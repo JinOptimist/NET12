@@ -12,6 +12,8 @@ namespace WebMaze.EfStuff.DbModel
         public string Password { get; set; }
         public int Age { get; set; }
         public int Coins { get; set; }
+
+        public virtual List<Perrmission> Perrmissions { get; set; }
         public virtual List<NewCellSuggestion> MyCellSuggestions { get; set; }
         public virtual List<NewCellSuggestion> CellSuggestionsWhichIAprove { get; set; }
         public virtual List<StuffForHero> AddedSStuff { get; set; }
@@ -24,5 +26,7 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<Image> Images { get; set; }
         public virtual List<BugReport> MyBugReports { get; set; }
         public virtual List<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
+
+        public virtual List<MinerField> MinerFields { get; set; }
     }
 }

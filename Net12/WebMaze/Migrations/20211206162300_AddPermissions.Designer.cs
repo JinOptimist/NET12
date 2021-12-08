@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20211206162300_AddPermissions")]
+    partial class AddPermissions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,67 +195,6 @@ namespace WebMaze.Migrations
                     b.HasIndex("CreaterId");
 
                     b.ToTable("MazeDifficultProfiles");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerCell", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long?>("FieldId")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsBomb")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOpen")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("NearBombsCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("X")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Y")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FieldId");
-
-                    b.ToTable("MinerCell");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerField", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long?>("GamerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Width")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GamerId");
-
-                    b.ToTable("MinerField");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>
@@ -522,24 +463,6 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerCell", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.MinerField", "Field")
-                        .WithMany("Cells")
-                        .HasForeignKey("FieldId");
-
-                    b.Navigation("Field");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerField", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Gamer")
-                        .WithMany("MinerFields")
-                        .HasForeignKey("GamerId");
-
-                    b.Navigation("Gamer");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Approver")
@@ -597,11 +520,6 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerField", b =>
-                {
-                    b.Navigation("Cells");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
                     b.Navigation("AddedSStuff");
@@ -613,8 +531,6 @@ namespace WebMaze.Migrations
                     b.Navigation("Images");
 
                     b.Navigation("MazeDifficultProfiles");
-
-                    b.Navigation("MinerFields");
 
                     b.Navigation("MyBugReports");
 
