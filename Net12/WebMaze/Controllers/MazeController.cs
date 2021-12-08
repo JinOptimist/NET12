@@ -96,6 +96,8 @@ namespace WebMaze.Controllers
             var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
             var model = _mapper.Map<MazeLevelModel>(maze);
             model.IsActive = true;
+
+            //TODO: CREATE YOUR NAME LEVEL
             model.Name = "My Maze";
             model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
             _mazeLevelRepository.Save(model);
