@@ -11,77 +11,37 @@ namespace WebMaze.EfStuff.Repositories
 {
     public class MazeLevelRepository : BaseRepository<MazeLevelModel>
     {
-        private UserService _userService;
-        private CellRepository _cellRepository;
-        private IMapper _mapper;
-        public MazeLevelRepository(WebContext webContext, UserService userService, CellRepository cellRepository, IMapper mapper) : base(webContext)
+        public MazeLevelRepository(WebContext webContext) : base(webContext)
         {
-            _userService = userService;
-            _cellRepository = cellRepository;
-            _mapper = mapper;
+
         }
-
-        public MazeLevelViewId GetMaze(UserRepository _userRepository, long id)
+        public void ChangeModel(MazeLevelModel model, MazeLevel maze)
         {
 
-            MazeLevel Mazelevel = new MazeLevel();
-            var cellList = new List<BaseCell>();
-            var mazelist = _userRepository.Get(_userService.GetCurrentUser().Id)?.ListMazeLevels;
-            if (mazelist.Any())
+            model.Height = maze.Height;
+            model.Width = maze.Width;
+            model.HeroMaxFatigure = maze.Hero.MaxFatigue;
+            model.HeroMaxHp = maze.Hero.Max_hp;
+            model.HeroNowFatigure = maze.Hero.CurrentFatigue;
+            model.HeroNowHp = maze.Hero.Hp;
+            model.HeroX = maze.Hero.X;
+            model.HeroY = maze.Hero.Y;
+
+            foreach (var cell in maze.Cells)
             {
-                var mazeModel = mazelist.SingleOrDefault(maze => maze.Id == id);
-                if(mazeModel == null)
+                if (cell is Ground)
                 {
-                    return null;
+                    model.Cells.Where(c => { c.TypeCell = CellInfo.Grow; return true; }); 
                 }
-                foreach (var cell in mazeModel.Cells)
+                else if (cell is Wall)
                 {
-                    cellList.Add(_cellRepository.GetCurrentCell(cell, Mazelevel));
-
+                    model.Cells.Where(c => { c.TypeCell = CellInfo.Wall; return true; });
                 }
-                Mazelevel.Cells = cellList;
-                Mazelevel.Width = mazeModel.Width;
-                Mazelevel.Height = mazeModel.Height;
-                Mazelevel.Hero = new Hero(mazeModel.HeroX, mazeModel.HeroY, Mazelevel, mazeModel.HeroNowHp, mazeModel.HeroMaxHp);
-                var mazeId = new MazeLevelViewId(mazeModel.Id, Mazelevel);
-                return mazeId;
             }
-                return null;
-        }
-        public MazeLevelViewId CreateMaze()
-        {
-            var Mazelevel = new MazeBuilder().Build(10, 10, 10, 100, true);
-            var mazeId = new MazeLevelViewId(0, Mazelevel);
-            SaveMaze(mazeId);
-            return (mazeId);
-        }
-
-        public void SaveMaze(MazeLevelViewId Mazelevel)
-        {
-            var MazeModel = Get(Mazelevel.Id);
-            if(MazeModel == null)
-            {
-                MazeModel = new MazeLevelModel
-                {
-                    IsActive = true,
-                    Creator = _userService.GetCurrentUser()
-                };
-            }
-            MazeModel.Cells = new List<CellModel>();
-            foreach (var cell in Mazelevel.MazeLevel.Cells)
-            {
-                MazeModel.Cells.Add(_cellRepository.GetCurrentCell(cell, MazeModel));
-            }
-            MazeModel.Height = Mazelevel.MazeLevel.Height;
-            MazeModel.Width = Mazelevel.MazeLevel.Width;
-            MazeModel.HeroMaxFatigure = Mazelevel.MazeLevel.Hero.MaxFatigue;
-            MazeModel.HeroMaxHp = Mazelevel.MazeLevel.Hero.Max_hp;
-            MazeModel.HeroNowHp = Mazelevel.MazeLevel.Hero.Hp;
-            MazeModel.HeroX = Mazelevel.MazeLevel.Hero.X;
-            MazeModel.HeroY = Mazelevel.MazeLevel.Hero.Y;
-            MazeModel.Id = Mazelevel.Id;
-            Save(MazeModel);
 
         }
+
+
+
     }
 }

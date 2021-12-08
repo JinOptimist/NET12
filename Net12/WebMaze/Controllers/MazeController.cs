@@ -34,12 +34,6 @@ namespace WebMaze.Controllers
             _userRepository = userRepository;
         }
 
-        //public IActionResult Index(int width, int height)
-        //{
-        //    var mazeBuilder = new MazeBuilder();
-        //    var maze = mazeBuilder.Build(width, height, 50, 100, true);
-        //    return View(maze);
-        //}
         [HttpGet]
         [Authorize]
         public IActionResult Index()
@@ -53,8 +47,10 @@ namespace WebMaze.Controllers
         [Authorize]
         public IActionResult Maze(long id)
         {
-            var maze = _mazeLevelRepository.GetMaze(_userRepository, id);
-            if (maze is null)
+
+            var maz = _mapper.Map<MazeLevel>(_mazeLevelRepository.Get(id));
+
+            if (maz is null)
             {
                 return RedirectToAction("Index");
             }
@@ -63,35 +59,48 @@ namespace WebMaze.Controllers
 
 
 
-            return View(maze);
+            return View(maz);
         }
 
         [HttpPost]
         [Authorize]
         public IActionResult Maze(long Id, int turn)
         {
-            var maze = _mazeLevelRepository.GetMaze(_userRepository, Id);
+            var myModel = _mazeLevelRepository.Get(Id);
+            var maze = _mapper.Map<MazeLevel>(myModel);
             switch (turn)
             {
                 case 1:
-                    maze.MazeLevel.HeroStep(Direction.Up);
+                    maze.HeroStep(Direction.Up);
                     break;
                 case 2:
-                    maze.MazeLevel.HeroStep(Direction.Down);
+                    maze.HeroStep(Direction.Down);
                     break;
                 case 3:
-                    maze.MazeLevel.HeroStep(Direction.Left);
+                    maze.HeroStep(Direction.Left);
                     break;
-                case 4: 
-                    maze.MazeLevel.HeroStep(Direction.Right);
+                case 4:
+                    maze.HeroStep(Direction.Right);
                     break;
             }
-            _mazeLevelRepository.SaveMaze(maze);
+
+            _mazeLevelRepository.ChangeModel(myModel, maze);
+            
+
+            _mazeLevelRepository.Save(myModel);
             return View(maze);
         }
+        [Authorize]
         public IActionResult CreateMaze()
         {
-            _mazeLevelRepository.CreateMaze();
+            var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
+            var model = _mapper.Map<MazeLevelModel>(maze);
+            model.IsActive = true;
+            model.Name = "My Maze";
+            model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
+            _mazeLevelRepository.Save(model);
+
+            //_mazeLevelRepository.CreateMaze();
             return RedirectToAction("Index");
         }
 
