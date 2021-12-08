@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebMaze.Models.ValidationAttributes
 {
-    public class MaxNewsDataAtribute : ValidationAttribute
+    public class MaxNewsDataAttribute : ValidationAttribute
     {
         public override bool IsValid(object value)
         {
