@@ -13,16 +13,20 @@
             <div>
                 @for (int x = 0; x < Model.Width; x++)
                 {
-                    <span>
-                        @if (Model[x, y] is Wall)
+                <span>
+                    @if (Model[x, y] is Wall)
+                    {
+                        <img class="cell" src="~/images/cells/wall.jpg" />
+                    }
+                    else if (Model[x, y] is Coin)
                         {
-                            <img class="cell" src="~/images/cells/wall.jpg" />
-                        }
-                        else
+                        <img class="cell" src="~/images/cells/coin.png" />
+                    }
+                    else 
                         {
-                            <img class="cell" src="~/images/cells/ground.jpg" />
-                        }
-                    </span>
+                        <img class="cell" src="~/images/cells/ground.jpg" />
+                    }
+                </span>
                 }
             </div>
         }

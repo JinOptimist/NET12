@@ -19,18 +19,21 @@ namespace WebMaze.Controllers
         private MazeDifficultRepository _mazeDifficultRepository;
         private IMapper _mapper;
         private UserService _userService;
+        private UserRepository _userRepository;
 
-        public MazeController(MazeDifficultRepository mazzeDifficultRepository, IMapper mapper, UserService userService)
+        public MazeController(MazeDifficultRepository mazzeDifficultRepository, IMapper mapper, UserService userService, UserRepository userRepository)
         {
             _mazeDifficultRepository = mazzeDifficultRepository;
             _mapper = mapper;
             _userService = userService;
+            _userRepository = userRepository;
         }
-
+       
         public IActionResult Index(int width, int height)
         {
             var mazeBuilder = new MazeBuilder();
-            var maze = mazeBuilder.Build(width, height, 50, 100, true);
+            var maze = mazeBuilder.Build(width, height, 50, 100, GetCoinsFromMaze, true);
+
             return View(maze);
         }
 
@@ -74,6 +77,13 @@ namespace WebMaze.Controllers
         {
             _mazeDifficultRepository.Remove(Id);
             return RedirectToAction("ManageMazeDifficult", "Maze");
+        }
+
+        public void GetCoinsFromMaze(int coins)
+        {
+            var user = _userService.GetCurrentUser();
+            user.Coins += coins;
+            _userRepository.Save(user);
         }
     }
 }

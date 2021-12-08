@@ -22,6 +22,8 @@ namespace Net12.Maze
 
         public string Message { get; set; } = "";
 
+        public Action<int> GetCoins { get; set; }
+
         public IBaseCell GetCellOrUnit(int x, int y)
         {
             if (Hero.X == x && Hero.Y == y)
