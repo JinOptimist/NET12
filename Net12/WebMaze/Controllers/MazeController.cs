@@ -99,8 +99,6 @@ namespace WebMaze.Controllers
             model.Name = "My Maze";
             model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
             _mazeLevelRepository.Save(model);
-
-            //_mazeLevelRepository.CreateMaze();
             return RedirectToAction("Index");
         }
 
