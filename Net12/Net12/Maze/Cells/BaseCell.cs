@@ -6,7 +6,8 @@ namespace Net12.Maze
 {
     public abstract class BaseCell : IBaseCell
     {
-        public IMazeLevel Maze { get; private set; }
+        public long Id { get; set; }
+        public IMazeLevel Maze { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
 

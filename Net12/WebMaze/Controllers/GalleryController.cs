@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
@@ -14,6 +15,8 @@ using WebMaze.Services;
 
 namespace WebMaze.Controllers
 {
+    [Authorize]
+    [IsAdmin]
     public class GalleryController : Controller
     {        
         private readonly ImageRepository _repository;
@@ -42,7 +45,6 @@ namespace WebMaze.Controllers
             return View(imageViewModels);
         }
 
-        [Authorize]
         [HttpGet]
         public IActionResult AddImage()
         {
@@ -50,7 +52,6 @@ namespace WebMaze.Controllers
             return View();
         }
 
-        [Authorize]
         [HttpPost]
         public IActionResult AddImage(ImageViewModel imageViewModel)
         {

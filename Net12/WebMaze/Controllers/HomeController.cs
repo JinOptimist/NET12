@@ -22,17 +22,15 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
         private NewCellSuggRepository _newCellSuggRepository;
-        private SuggestedEnemysRepository _suggestedEnemysRepository;
+       
         private IMapper _mapper;
         public HomeController(WebContext webContext,
-            UserRepository userRepository, ReviewRepository reviewRepository,
-            SuggestedEnemysRepository suggestedEnemysRepository,
-            IMapper mapper, NewCellSuggRepository newCellSuggRepository, UserService userService)
+         UserRepository userRepository, ReviewRepository reviewRepository,
+         IMapper mapper, UserService userService, NewCellSuggRepository newCellSuggRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
-            _suggestedEnemysRepository = suggestedEnemysRepository;
             _mapper = mapper;
             _newCellSuggRepository = newCellSuggRepository;
             _userService = userService;
@@ -40,21 +38,8 @@ namespace WebMaze.Controllers
 
         public IActionResult Index()
         {
-            var userViewModels = new List<UserViewModel>();
-            foreach (var dbUser in _userRepository.GetAll())
-            {
-                var userViewModel = new UserViewModel();
-                userViewModel.Id = dbUser.Id;
-                userViewModel.UserName = dbUser.Name;
-                userViewModel.Coins = dbUser.Coins;
-                userViewModels.Add(userViewModel);
-            }
-
-            //var userViewModels2 = _webContext.Users.Select(
-            //    dbModel => new UserViewModel { 
-            //        UserName = dbModel.Name, 
-            //        Coins = dbModel.Coins 
-            //    });
+            var userViewModels = _userRepository.GetAll()
+                 .Select(x => _mapper.Map<UserViewModel>(x)).ToList();
 
             return View(userViewModels);
         }
@@ -151,48 +136,47 @@ namespace WebMaze.Controllers
             return View(model);
         }
 
+
+    
+
+        public IActionResult NewCellSugg()
+        {
+            var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
+            newCellSuggestionsViewModel = _newCellSuggRepository.GetAll()
+                .Select(dbModel => _mapper.Map<NewCellSuggestionViewModel>(dbModel))
+                .ToList();
+
+            return View(newCellSuggestionsViewModel);
+        }
         [HttpGet]
-        public IActionResult Reviews()
+        public IActionResult AddNewCellSugg()
         {
-            var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_userRepository.GetAll().Any())
-            {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
-            }
-
-            return View(FeedBackUsers);
+            return View();
         }
-
         [HttpPost]
-        public IActionResult Reviews(FeedBackUserViewModel viewReview)
+        public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCell)
         {
-            // TODO: Selected User
+            //TODO user current user after login
+            var creater = _userRepository.GetRandomUser();
 
-            var review = _mapper.Map<Review>(viewReview);
-            review.Creator = _userService.GetCurrentUser();
-
-            review.IsActive = true;
-            _reviewRepository.Save(review);
-
-            var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_reviewRepository.GetAll().Any())
+            var NewCS = new NewCellSuggestion()
             {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
-            }
-            return View(FeedBackUsers);
+                Title = newCell.Title,
+                Description = newCell.Description,
+                MoneyChange = newCell.MoneyChange,
+                HealtsChange = newCell.HealtsChange,
+                FatigueChange = newCell.FatigueChange,
+                Creater = creater,
+                IsActive = true
+            };
+
+            _newCellSuggRepository.Save(NewCS);
+            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
         }
-        public IActionResult RemoveReview(long idReview)
+        public IActionResult RemoveNewCellSuggestion(long id)
         {
-            if(HttpContext.User.Identity.IsAuthenticated)
-            {
-                var myUser = _userService.GetCurrentUser();
-                if (myUser == _reviewRepository.Get(idReview).Creator)
-                {
-                    _reviewRepository.Remove(idReview);
-                }
-
-            }
-            return RedirectToAction("Reviews", "Home");
+            _newCellSuggRepository.Remove(id);
+            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
         }
 
     }

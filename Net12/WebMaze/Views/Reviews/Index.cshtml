@@ -1,0 +1,67 @@
+﻿@model List<FeedBackUserViewModel>
+
+
+<div class="reviews-all">
+
+    @{
+        if (Model.Any())
+            foreach (var item in Model)
+            {
+
+                <div class="review">
+
+                    <div class="rname-ico">
+                        <img src="https://media.pn.am/media/issue/197/297/photo/197297.jpg" class="img-review" />
+                    </div>
+                    <div class="rname-ico-text">
+                        <div>
+                            Name: @item.Creator.UserName
+                        </div>
+                        <div>
+                            <div>Rating: @item.Rate</div>
+                        </div>
+                    </div>
+                    <div class="rate-text">
+                        @item.TextInfo
+                    </div>
+                    <div class="rate-text edit-info">
+                        @if (item.CanEdit)
+                        {
+                            <a href="/Reviews/ChangeReviewForm?idReview=@item.Id">Edit</a>
+                            <a href="/Reviews/RemoveReview?idReview=@item.Id">Remove</a>
+                        }
+                    </div>
+
+                </div>
+
+            }
+    }
+</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <div style="margin-top: 3%;">
+            <form action="/Reviews/Index" method="post" class="rate-put">
+                <div>Оставить отзыв</div>
+                <div>
+                    <div>
+                        <select name="Rate" size="2">
+                            <option disabled="disabled">Оцените проект</option>
+                            <option value="1" selected="selected">Rate: 1</option>
+                            <option value="2">Rate: 2</option>
+                            <option value="3">Rate: 3</option>
+                            <option value="4">Rate: 4</option>
+                            <option value="5">Rate: 5</option>
+                        </select>
+                        <div>@Html.ValidationMessageFor(x => x.FirstOrDefault().Rate)</div>
+                    </div>
+                    <div>
+                        <textarea name="TextInfo" placeholder="Comment"></textarea>
+                        <div>@Html.ValidationMessageFor(x => x.FirstOrDefault().TextInfo)</div>
+                    </div>
+                    <div>
+                        <input type="submit" value="Отправить" />
+                    </div>
+                </div>
+            </form>
+    </div>
+}

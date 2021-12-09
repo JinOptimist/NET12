@@ -36,18 +36,19 @@
                         <span>@news.Text</span>
                     </td>
 
-                    <td>
-                        <span>@news.Location</span>
-                    </td>
-                    <td>
-                        <span>@news.EventDate.ToShortDateString()</span>
-                    </td>
-                    <td>
-                        <span>@news.NameOfAuthor</span>
-                    </td>
-                    <td>
-                        <span>@news.CreationDate.ToShortDateString()</span>
-                    </td>
+                        <td>
+                            <span>@news.Location</span>
+                        </td>
+                        <td>
+                            <span>@news.EventDate.ToShortDateString()</span>
+                        </td>
+                        <td class="global-user-rating">
+                            <p>@news.NameOfAuthor</p>
+                            <p class="@(news.GlobalUserRating > 0 ? "rich" : "poor")">@news.GlobalUserRating</p>
+                        </td>
+                        <td>
+                            <span>@news.CreationDate.ToShortDateString()</span>
+                        </td>
 
                     @if (User.Identity.IsAuthenticated)
                     {

@@ -1,0 +1,127 @@
+﻿@using Net12.Maze
+@using Net12.Maze.Cells
+@model MazeLevel
+
+<div class="menu-maze-difficult">
+    <a href="/Maze/AddMazeDifficult">Add Maze Difficult</a>
+    <a href="/Maze/ManageMazeDifficult">Manage Maze Difficult</a>
+    <a href="/Maze/Index">Create Maze</a>
+</div>
+
+<div class="text-center">
+    <h1>Maze</h1>
+    @for (int y = 0; y < Model.Height; y++)
+    {
+        <div>
+            @for (int x = 0; x < Model.Width; x++)
+            {
+                <span>
+                    @if (Model.Hero.X == x && Model.Hero.Y == y)
+                    {
+                        <img class="cell" src="~/images/cells/spriteHero.png" />
+                    }
+                    else if (Model[x, y] is WeakWall)
+                    {
+                        <img class="cell" src="~/images/cells/weakwall.png" />
+                    }
+                    else if (Model[x, y] is GoldMine)
+                    {
+                        <img class="cell" src="~/images/goldmine.jpg" />
+                    }
+                    else if (Model[x, y] is Coin)
+                    {
+                        <img class="cell" src="~/images/Coin.jpg" />
+                    }
+                    else if (Model[x, y] is Bed)
+                    {
+                        <img class="cell" src="~/images/cells/bed.png" />
+                    }
+                    else if (Model[x, y] is Puddle)
+                    {
+                        <img class="cell" src="~/images/Puddle.jpg" />
+                    }
+                    else if (Model[x, y] is VitalityPotion)
+                    {
+                        <img class="cell" src="~/images/cells/vitalitypotion.png" />
+                    }
+                    else if (Model[x, y] is Bless)
+                    {
+                        <img class="cell" src="~/images/cells/bless.jpg" />
+                    }
+                    else if (Model[x, y] is TeleportIn)
+                    {
+                        <img class="cell" src="~/images/TeleportIn.jpg" />
+                    }
+                    else if (Model[x, y] is TeleportOut)
+                    {
+                        <img class="cell" src="~/images/TeleportOut.jpg" />
+                    }
+                    else if (Model[x, y] is Fountain)
+                    {
+                        <img class="cell" src="~/images/Fountain.jpg" />
+                    }
+                    else if (Model[x, y] is Trap)
+                    {
+                        <img class="cell" src="~/images/cells/trap.jpg" />
+                    }
+                    else if (Model[x, y] is HealPotion)
+                    {
+                        <img class="cell" src="~/images/HealthPotion.png" />
+                    }
+                    else if (Model[x, y] is WolfPit)
+                    {
+                        <img class="cell" src="~/images/cells/wolfpit.jpg" />
+                    }
+                    else if (Model[x, y] is Tavern)
+                    {
+                        <img class="cell" src="~/images/cells/tavern.png" />
+                    }
+                    else if (Model[x, y] is Healer)
+                    {
+                        <img class="cell" src="~/images/cells/healer.png" />
+                    }
+                    else if (Model[x, y] is Wall)
+                    {
+                        <img class="cell" src="~/images/cells/wall.jpg" />
+                    }
+                    else if (Model[x, y] is Ground)
+                    {
+                        <img class="cell" src="~/images/cells/ground.jpg" />
+                    }
+                    else
+                    {
+                        <img class="cell" src="~/images/cells/whatIsIt.png" />
+                    }
+                </span>
+            }
+        </div>
+    }
+    <div>
+        <div class="button-view-up">
+            <form method="post">
+                @Html.HiddenFor(x=> x.Id)
+                <input type="hidden" value="1" name="turn" />
+                <input type="submit" value="⬆" />
+            </form>
+        </div>
+        <div class="button-view-down">
+            <form method="post">
+                @Html.HiddenFor(x=> x.Id)
+                <input type="hidden" value="3" name="turn" />
+                <input type="submit" value="◀" />
+            </form>
+            <form method="post">
+                @Html.HiddenFor(x=> x.Id)
+                <input type="hidden" value="2" name="turn" />
+                <input type="submit" value="⬇" />
+            </form>
+            <form method="post">
+                @Html.HiddenFor(x=> x.Id)
+                <input type="hidden" value="4" name="turn" />
+                <input type="submit" value="▶" />
+            </form>
+        </div>
+    </div>
+</div>
+
+

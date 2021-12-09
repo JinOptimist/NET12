@@ -21,9 +21,43 @@ namespace WebMaze.EfStuff
                 SeedUser(scope);
                 SeedMazeDifficult(scope);
                 SeedNews(scope);
+                SeedPermissions(scope);
             }
 
             return host;
+        }
+
+        private static void SeedPermissions(IServiceScope scope)
+        {
+            var permissionRepository = scope.ServiceProvider.GetService<PermissionRepository>();
+            var perrmissions = permissionRepository.GetAll();
+            if (!perrmissions.Any())
+            {
+                var adminPermission = new Perrmission()
+                {
+                    Name = Perrmission.Admin,
+                    Desc = "admin",
+                    UsersWhichHasThePermission = new List<User>(),
+                    IsActive = true
+                };
+                var admin = scope.ServiceProvider.GetService<UserRepository>().GetUserByName(DefaultAdminName);
+                adminPermission.UsersWhichHasThePermission.Add(admin);
+                permissionRepository.Save(adminPermission);
+
+                permissionRepository.Save(new Perrmission()
+                {
+                    Name = Perrmission.NewsCreator,
+                    Desc = "News creator",
+                    IsActive = true
+                });
+
+                permissionRepository.Save(new Perrmission()
+                {
+                    Name = Perrmission.ForumModerator,
+                    Desc = "Forum Moderator",
+                    IsActive = true
+                });
+            }
         }
 
         private static void SeedUser(IServiceScope scope)
@@ -37,7 +71,9 @@ namespace WebMaze.EfStuff
                     Name = DefaultAdminName,
                     Password = "admin",
                     Coins = 100,
-                    IsActive = true
+                    Age = 32,
+                    IsActive = true,
+                    GlobalUserRating = 9999
                 };
 
                 userRepository.Save(admin);

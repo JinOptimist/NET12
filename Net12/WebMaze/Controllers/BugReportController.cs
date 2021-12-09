@@ -56,6 +56,11 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddBugReport(BugReportViewModel bugReportViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(bugReportViewModel);
+            }
+
 
             /*if (!_payForActionService.Payment(bugReportViewModel.CreaterName, 200))
             {
