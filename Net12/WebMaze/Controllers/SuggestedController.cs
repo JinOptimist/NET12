@@ -19,15 +19,18 @@ namespace WebMaze.Controllers
         private SuggestedEnemysRepository _suggestedEnemysRepository;
         private IMapper _mapper;
         private UserService _userService;
+        private readonly PayForActionService _payForActionService;
         public SuggestedController(UserRepository userRepository, ReviewRepository reviewRepository,
             SuggestedEnemysRepository suggestedEnemysRepository,
-            IMapper mapper, NewCellSuggRepository newCellSuggRepository, UserService userService)
+            IMapper mapper, NewCellSuggRepository newCellSuggRepository, UserService userService,
+            PayForActionService payForActionService)
         {
             _userRepository = userRepository;
             _suggestedEnemysRepository = suggestedEnemysRepository;
             _mapper = mapper;
             _newCellSuggRepository = newCellSuggRepository;
             _userService = userService;
+            _payForActionService = payForActionService;
         }
 
         public IActionResult SuggestedEnemys()
@@ -60,6 +63,12 @@ namespace WebMaze.Controllers
         {
             if (!ModelState.IsValid)
             {
+                return View(suggestedEnemysViewModel);
+            }
+
+            if (!_payForActionService.Payment(200))
+            {
+                ModelState.AddModelError(string.Empty, "Not enought money to add enemy suggestion");
                 return View(suggestedEnemysViewModel);
             }
 
@@ -97,6 +106,12 @@ namespace WebMaze.Controllers
         {
             if (!ModelState.IsValid)
             {
+                return View(newCellSuggestionViewModel);
+            }
+
+            if (!_payForActionService.Payment(200))
+            {
+                ModelState.AddModelError(string.Empty, "Not enought money to add cell suggestion");
                 return View(newCellSuggestionViewModel);
             }
 

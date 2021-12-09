@@ -59,7 +59,7 @@ namespace WebMaze.Controllers
 
             ViewBag.Users = new SelectList(_userRepository.GetAll(), "Id", "Name");
 
-            if (!_payForActionService.Payment(imageViewModel.Author.Id, 200))
+            if (!_payForActionService.Payment(200))
             {
                 ModelState.AddModelError(string.Empty, "Not enought money to add image");
                 return View(imageViewModel);

@@ -50,7 +50,10 @@ namespace WebMaze.Controllers
         public IActionResult AddNews(long newsId)
         {
             var model = _mapper.Map<NewsViewModel>(_newsRepository.Get(newsId))
-                ?? new NewsViewModel();
+                ?? new NewsViewModel()
+                {
+                    EventDate = DateTime.Now
+                };
             return View(model);
         }
 

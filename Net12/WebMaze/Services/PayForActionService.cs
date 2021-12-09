@@ -17,7 +17,7 @@ namespace WebMaze.Services
             _userService = userService;
         }
 
-        public bool Payment(long userId, int amount)
+        /*public bool Payment(long userId, int amount)
         {
             var user = _userRepository.Get(userId);
             if (user.Coins < amount)
@@ -29,7 +29,7 @@ namespace WebMaze.Services
             _userRepository.Save(user);
 
             return true;
-        }
+        }*/
 
         public bool Payment(int amount)
         {
@@ -53,12 +53,12 @@ namespace WebMaze.Services
             _userRepository.Save(user);
         }
 
-       /* public void EarnMoney(string userName, int amount)
+        public void EarnMoney(string userName, int amount)
         {
             var user = _userRepository.GetUserByName(userName); ;
 
             user.Coins += amount;
             _userRepository.Save(user);
-        }*/
+        }
     }
 }

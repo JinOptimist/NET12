@@ -62,11 +62,11 @@ namespace WebMaze.Controllers
             }
 
 
-            /*if (!_payForActionService.Payment(bugReportViewModel.CreaterName, 200))
+            if (!_payForActionService.Payment(200))
             {
                 ModelState.AddModelError(string.Empty, "Not enought money to add bugg report");
                 return View(bugReportViewModel);
-            }*/
+            }
 
             var creater = _userService.GetCurrentUser();
 
