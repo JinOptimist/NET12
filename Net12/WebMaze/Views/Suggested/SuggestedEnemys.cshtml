@@ -20,8 +20,8 @@
                 <div class="enemy">
                     <div class="enemy_001">
                         <div>
-                            @*<a href="/Home/EditSuggestedEnemy?suggestedEnemys=@suggestedEnemys"><input type="submit" value="EDIT" /></a>*@
                             <a href="/Suggested/RemoveSuggestedEnemy?suggestedEnemysId=@suggestedEnemys.Id"><input type="submit" value="DELETE" /></a>
+                            <a href="/Suggested/AddSuggestedEnemy?suggestedEnemysId=@suggestedEnemys.Id"><input type="submit" value="EDIT" /></a>
                         </div>
                         <div>
                             @suggestedEnemys.Name
@@ -30,7 +30,12 @@
                         <div>
                             @suggestedEnemys.Description
                         </div>
-
+                        <div>
+                            Author: @suggestedEnemys.UserName
+                        </div>
+                        <div>
+                            Rating: @suggestedEnemys.GlobalUserRating
+                        </div>
                     </div>
                     <div>
                         <img class=" enemy_002" src="@suggestedEnemys.Url" />

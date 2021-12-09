@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20211206183653_AddMiner")]
+    partial class AddMiner
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,41 +127,6 @@ namespace WebMaze.Migrations
                     b.ToTable("FavGames");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.GameDevices", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("BrandName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("CreaterId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Desc")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DeviceName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypeDevice")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreaterId");
-
-                    b.ToTable("GameDevices");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
                 {
                     b.Property<long>("Id")
@@ -249,6 +216,9 @@ namespace WebMaze.Migrations
                     b.Property<bool>("IsOpen")
                         .HasColumnType("bit");
 
+                    b.Property<long?>("MinerFieldId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("NearBombsCount")
                         .HasColumnType("int");
 
@@ -261,6 +231,8 @@ namespace WebMaze.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FieldId");
+
+                    b.HasIndex("MinerFieldId");
 
                     b.ToTable("MinerCell");
                 });
@@ -492,9 +464,6 @@ namespace WebMaze.Migrations
                     b.Property<int>("Coins")
                         .HasColumnType("int");
 
-                    b.Property<int>("GlobalUserRating")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -542,15 +511,6 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.GameDevices", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
-                        .WithMany("MyGameDevices")
-                        .HasForeignKey("CreaterId");
-
-                    b.Navigation("Creater");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
@@ -571,9 +531,13 @@ namespace WebMaze.Migrations
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerCell", b =>
                 {
-                    b.HasOne("WebMaze.EfStuff.DbModel.MinerField", "Field")
-                        .WithMany("Cells")
+                    b.HasOne("WebMaze.EfStuff.DbModel.MinerCell", "Field")
+                        .WithMany()
                         .HasForeignKey("FieldId");
+
+                    b.HasOne("WebMaze.EfStuff.DbModel.MinerField", null)
+                        .WithMany("Cells")
+                        .HasForeignKey("MinerFieldId");
 
                     b.Navigation("Field");
                 });
@@ -670,8 +634,6 @@ namespace WebMaze.Migrations
                     b.Navigation("MyEnemySuggested");
 
                     b.Navigation("MyFavGames");
-
-                    b.Navigation("MyGameDevices");
 
                     b.Navigation("MyNews");
 

@@ -1,0 +1,21 @@
+﻿@model MinerFieldViewModel
+
+<div>
+    @for (int y = 0; y < Model.Height; y++)
+    {
+        <div class="row">
+            @for (int x = 0; x < Model.Width; x++)
+            {
+                var cell = Model.Cells.Single(c => c.X == x && c.Y == y);
+                if (cell.IsOpen)
+                {
+                    <a href="#">@cell.NearBombsCount</a> 
+                }
+                else
+                {
+                    <a href="/Miner/Step?id=@cell.Id"> @(cell.IsBomb ? "B" : "O")</a>
+                }
+            }
+        </div>
+    }
+</div>

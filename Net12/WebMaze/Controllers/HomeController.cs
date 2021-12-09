@@ -21,42 +21,24 @@ namespace WebMaze.Controllers
         private UserService _userService;
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
-        private NewCellSuggRepository _newCellSuggRepository;
-        private SuggestedEnemysRepository _suggestedEnemysRepository;
         private FavGamesRepository _favGamesRepository;
         private IMapper _mapper;
         public HomeController(WebContext webContext,
-            UserRepository userRepository, ReviewRepository reviewRepository,
-            SuggestedEnemysRepository suggestedEnemysRepository,
-            IMapper mapper, NewCellSuggRepository newCellSuggRepository, FavGamesRepository favGamesRepository, UserService userService)
+         UserRepository userRepository, ReviewRepository reviewRepository,
+         IMapper mapper, FavGamesRepository favGamesRepository, UserService userService)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
-            _suggestedEnemysRepository = suggestedEnemysRepository;
             _mapper = mapper;
-            _newCellSuggRepository = newCellSuggRepository;
             _favGamesRepository = favGamesRepository;
             _userService = userService;
         }
 
         public IActionResult Index()
         {
-            var userViewModels = new List<UserViewModel>();
-            foreach (var dbUser in _userRepository.GetAll())
-            {
-                var userViewModel = new UserViewModel();
-                userViewModel.Id = dbUser.Id;
-                userViewModel.UserName = dbUser.Name;
-                userViewModel.Coins = dbUser.Coins;
-                userViewModels.Add(userViewModel);
-            }
-
-            //var userViewModels2 = _webContext.Users.Select(
-            //    dbModel => new UserViewModel { 
-            //        UserName = dbModel.Name, 
-            //        Coins = dbModel.Coins 
-            //    });
+            var userViewModels = _userRepository.GetAll()
+                 .Select(x => _mapper.Map<UserViewModel>(x)).ToList();
 
             return View(userViewModels);
         }
@@ -221,7 +203,7 @@ namespace WebMaze.Controllers
         }
         public IActionResult RemoveReview(long idReview)
         {
-            if(HttpContext.User.Identity.IsAuthenticated)
+            if (HttpContext.User.Identity.IsAuthenticated)
             {
                 var myUser = _userService.GetCurrentUser();
                 if (myUser == _reviewRepository.Get(idReview).Creator)
