@@ -22,10 +22,11 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
         private FavGamesRepository _favGamesRepository;
+        private NewCellSuggRepository _newCellSuggRepository;
         private IMapper _mapper;
         public HomeController(WebContext webContext,
          UserRepository userRepository, ReviewRepository reviewRepository,
-         IMapper mapper, FavGamesRepository favGamesRepository, UserService userService)
+         IMapper mapper, FavGamesRepository favGamesRepository, UserService userService, NewCellSuggRepository newCellSuggRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
