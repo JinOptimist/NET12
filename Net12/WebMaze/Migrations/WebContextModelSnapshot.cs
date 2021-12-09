@@ -125,41 +125,6 @@ namespace WebMaze.Migrations
                     b.ToTable("FavGames");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.GameDevices", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("BrandName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("CreaterId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Desc")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DeviceName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypeDevice")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreaterId");
-
-                    b.ToTable("GameDevices");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
                 {
                     b.Property<long>("Id")
@@ -478,15 +443,6 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.GameDevices", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
-                        .WithMany("MyGameDevices")
-                        .HasForeignKey("CreaterId");
-
-                    b.Navigation("Creater");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
@@ -581,8 +537,6 @@ namespace WebMaze.Migrations
                     b.Navigation("MyEnemySuggested");
 
                     b.Navigation("MyFavGames");
-
-                    b.Navigation("MyGameDevices");
 
                     b.Navigation("MyNews");
 

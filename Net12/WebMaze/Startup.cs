@@ -109,13 +109,6 @@ namespace WebMaze
                 return repository;
             });
 
-            services.AddScoped<GameDevicesRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new GameDevicesRepository(webContext);
-                return repository;
-            });
-
             services.AddScoped<MazeDifficultRepository>(x => new MazeDifficultRepository(x.GetService<WebContext>()));
 
             services.AddScoped<ImageRepository>();
@@ -128,7 +121,7 @@ namespace WebMaze
             });
 
             services.AddScoped<PermissionRepository>();
-
+            
         }
         private void RegisterMapper(IServiceCollection services)
         {
@@ -165,7 +158,7 @@ namespace WebMaze
             provider.CreateMap<ImageViewModel, Image>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
-
+            
             provider.CreateMap<UserViewModel, User>();
 
             provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
@@ -178,9 +171,6 @@ namespace WebMaze
 
             provider.CreateMap<BugReportViewModel, BugReport>();
             provider.CreateMap<BugReport, BugReportViewModel>();
-
-            provider.CreateMap<GameDevicesViewModel, GameDevices>();
-            provider.CreateMap<GameDevices, GameDevicesViewModel>();
 
             provider.CreateMap<Game, GameViewModel>()
                 .ForMember(nameof(GameViewModel.Username), opt => opt.MapFrom(dbGame => dbGame.Creater.Name))
