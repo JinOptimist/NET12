@@ -34,5 +34,8 @@ namespace WebMaze.Services
             var user = _userRepository.Get(id);
             return user;
         }
+
+        public bool IsAdmin
+            => GetCurrentUser()?.Perrmissions.Any(x => x.Name == Perrmission.Admin) ?? false;
     }
 }

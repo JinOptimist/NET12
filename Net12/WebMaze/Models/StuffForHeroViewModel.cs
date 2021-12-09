@@ -26,5 +26,7 @@ namespace WebMaze.Models
         public string PictureLink { get; set; }
 
         public string Proposer { get; set; }
+
+        public int GlobalUserRating { get; set; }
     }
 }
