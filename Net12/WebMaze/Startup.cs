@@ -67,6 +67,8 @@ namespace WebMaze
                     var mazeLevelRepository = diContainer.GetService<MazeLevelRepository>();
                     var cellRepository = diContainer.GetService<CellRepository>();
                     var imagesRepository = diContainer.GetService<ImageRepository>();
+                    var favGamesRepository = diContainer.GetService<FavGamesRepository>();
+                    var repository = new UserRepository(webContext, reviewRepository, imagesRepository, favGamesRepository);
                     var repository = new UserRepository(webContext, reviewRepository, imagesRepository, mazeLevelRepository, cellRepository);
                     return repository;
                 });
@@ -127,22 +129,41 @@ namespace WebMaze
             services.AddScoped<MazeDifficultRepository>(x => new MazeDifficultRepository(x.GetService<WebContext>()));
 
             services.AddScoped<ImageRepository>();
+
+            services.AddScoped<FavGamesRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new FavGamesRepository(webContext);
+                return repository;
+            });
+
+            services.AddScoped<MinerCellRepository>();
+
+            services.AddScoped<MinerFieldRepository>();
+
+            services.AddScoped<MinerFiledBuilder>();
+
+            services.AddScoped<PermissionRepository>();
+            
         }
         private void RegisterMapper(IServiceCollection services)
         {
             var provider = new MapperConfigurationExpression();
 
             provider.CreateMap<News, NewsViewModel>()
-                .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
+                .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name))
+                .ForMember(nameof(NewsViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Author.GlobalUserRating));
             provider.CreateMap<NewsViewModel, News>();
 
             provider.CreateMap<SuggestedEnemys, SuggestedEnemysViewModel>()
-                    .ForMember(nameof(SuggestedEnemysViewModel.UserName),
-                    opt => opt.MapFrom(dbSuggestedEnemys => dbSuggestedEnemys.Creater.Name));
+                    .ForMember(nameof(SuggestedEnemysViewModel.UserName), opt => opt.MapFrom(dbSuggestedEnemys => dbSuggestedEnemys.Creater.Name))
+                    .ForMember(nameof(SuggestedEnemysViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Creater.GlobalUserRating));
             provider.CreateMap<SuggestedEnemysViewModel, SuggestedEnemys>();
 
 
-            provider.CreateMap<StuffForHero, StuffForHeroViewModel>();
+            provider.CreateMap<StuffForHero, StuffForHeroViewModel>()
+                .ForMember(nameof(StuffForHeroViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Proposer.GlobalUserRating))
+                .ForMember(nameof(StuffForHeroViewModel.Proposer), opt => opt.MapFrom(dbStuff => dbStuff.Proposer.Name));
             provider.CreateMap<StuffForHeroViewModel, StuffForHero>();
 
             provider.CreateMap<User, UserViewModel>()
@@ -167,15 +188,27 @@ namespace WebMaze
             provider.CreateMap<UserViewModel, User>();
 
             provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
-                .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name));
+                .ForMember(nameof(NewCellSuggestionViewModel.UserName), opt => opt.MapFrom(dbNewCellSugg => dbNewCellSugg.Creater.Name))
+                .ForMember(nameof(NewCellSuggestionViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Creater.GlobalUserRating));
             provider.CreateMap<NewCellSuggestionViewModel, NewCellSuggestion>();
-            provider.CreateMap<MazeDifficultProfile, MazeDifficultProfileViewModel>()
-                .ForMember(nameof(MazeDifficultProfileViewModel.Author), opt => opt.MapFrom(db => db.Creater.Name));
 
+            provider.CreateMap<MazeDifficultProfile, MazeDifficultProfileViewModel>()
+                .ForMember(nameof(MazeDifficultProfileViewModel.Author), opt => opt.MapFrom(db => db.Creater.Name))
+                .ForMember(nameof(MazeDifficultProfileViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Creater.GlobalUserRating));
             provider.CreateMap<MazeDifficultProfileViewModel, MazeDifficultProfile>();
 
             provider.CreateMap<BugReportViewModel, BugReport>();
-            provider.CreateMap<BugReport, BugReportViewModel>();
+            provider.CreateMap<BugReport, BugReportViewModel>()
+                .ForMember(nameof(BugReportViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Creater.GlobalUserRating));
+
+            provider.CreateMap<Game, GameViewModel>()
+                .ForMember(nameof(GameViewModel.Username), opt => opt.MapFrom(dbGame => dbGame.Creater.Name))
+                .ForMember(nameof(GameViewModel.Age), opt => opt.MapFrom(dbGame => dbGame.Creater.Age))
+                .ForMember(nameof(GameViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Creater.GlobalUserRating));
+            provider.CreateMap<GameViewModel, Game>();
+
+            provider.CreateMap<MinerField, MinerFieldViewModel>();
+            provider.CreateMap<MinerCell, MinerCellViewModel>();
 
             provider.CreateMap<MazeLevelModel, MazeViewModel>();
             provider.CreateMap<MazeViewModel, MazeLevelModel>();

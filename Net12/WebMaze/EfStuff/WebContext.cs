@@ -15,10 +15,11 @@ namespace WebMaze.EfStuff
         public DbSet<NewCellSuggestion> NewCellSuggestions { get; set; }
         public DbSet<StuffForHero> StuffsForHero { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Game> FavGames { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<BugReport> BugReports { get; set; }
         public DbSet<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
-
+        public DbSet<Perrmission> Perrmissions { get; set; }
         public DbSet<SuggestedEnemys> SuggestedEnemys { get; set; }
         
         public DbSet<MazeLevelModel> MazeLevelsUser   { get; set; }
@@ -36,6 +37,10 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MyBugReports)
                 .WithOne(x => x.Creater);
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.Perrmissions)
+                .WithMany(x => x.UsersWhichHasThePermission);
 
             //modelBuilder.Entity<User>()
             //   .HasMany(x => x.CellSuggestionsWhichIAprove)
@@ -64,7 +69,13 @@ namespace WebMaze.EfStuff
                .HasOne(x => x.Proposer)
                .WithMany(x => x.AddedSStuff); 
 
-            modelBuilder.Entity<User>().HasMany(x => x.MyReviews).WithOne(x => x.Creator);
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.MyFavGames)
+                .WithOne(x => x.Creater);
+
+            modelBuilder.Entity<Game>()
+               .HasOne(x => x.Creater)
+               .WithMany(x => x.MyFavGames);
 
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MyNews)

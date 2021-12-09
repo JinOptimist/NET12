@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="~/css/bugReports.css" />
     <link rel="stylesheet" href="~/css/gallery.css" />
     <link rel="stylesheet" href="~/css/maze.css" />
+    <link rel="stylesheet" href="~/css/Bed.css" />
+    <link rel="stylesheet" href="~/css/Goblin.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
 
@@ -41,13 +43,13 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             @if (!User.Identity.IsAuthenticated)
                             {
-                                <a class="dropdown-item" href="/Home/AddUser">Register</a>
-                                <a class="dropdown-item" href="/User/Login">Login</a>
+                            <a class="dropdown-item" href="/Home/AddUser">Register</a>
+                            <a class="dropdown-item" href="/User/Login">Login</a>
                             }
                             else
                             {
-                                <a class="dropdown-item" href="/User/Profile">Profile</a>
-                                <a class="dropdown-item" href="/User/Logout">Exit</a>
+                            <a class="dropdown-item" href="/User/Profile">Profile</a>
+                            <a class="dropdown-item" href="/User/Logout">Exit</a>
                             }
                         </div>
                     </li>
@@ -75,6 +77,8 @@
                             <a class="dropdown-item" href="/CellInfo/Coin">Coin info</a>
                             <a class="dropdown-item" href="/CellInfo/HealPotion">HealPotion info</a>
                             <a class="dropdown-item" href="/CellInfo/BullEnemy">BullEnemy info</a>
+                            <a class="dropdown-item" href="/CellInfo/Bed">Bed info</a>
+                            <a class="dropdown-item" href="/CellInfo/Goblin">Goblin info</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -113,7 +117,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/BugReport/BugReports">List of reports</a>
                     </li>
-                        
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Gallery
@@ -127,6 +131,19 @@
                         <a class="nav-link" href="/Maze/Index">Maze</a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Miner/StartGame">StartGame</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            FavoriteGames
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Home/AddGame">Add Fav Game</a>
+                            <a class="dropdown-item" href="/Home/FavoriteGames">Fav Games</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </nav>
