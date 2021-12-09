@@ -49,12 +49,12 @@ namespace WebMaze.Controllers
         {
 
             var maz = _mapper.Map<MazeLevel>(_mazeLevelRepository.Get(id));
-
+            var cell = maz[6,1];
             if (maz is null)
             {
                 return RedirectToAction("Index");
             }
-
+            maz.Enemies.Clear();
 
 
 
@@ -93,7 +93,8 @@ namespace WebMaze.Controllers
         [Authorize]
         public IActionResult CreateMaze()
         {
-            var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
+          //  var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
+            var maze = new MazeBuilder().Build(10, 10, 100, 100, false);
             var model = _mapper.Map<MazeLevelModel>(maze);
             model.IsActive = true;
 

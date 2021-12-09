@@ -1,4 +1,5 @@
 ﻿@using Net12.Maze
+@using Net12.Maze.Cells
 @model MazeLevel
 
 <div class="menu-maze-difficult">
@@ -17,9 +18,67 @@
                 <span>
                     @if (Model.Hero.X == x && Model.Hero.Y == y)
                     {
-
                         <img class="cell" src="~/images/cells/spriteHero.png" />
-
+                    }
+                    else if (Model[x, y] is WeakWall)
+                    {
+                        <img class="cell" src="~/images/cells/weakwall.png" />
+                    }
+                    else if (Model[x, y] is GoldMine)
+                    {
+                        <img class="cell" src="~/images/goldmine.jpg" />
+                    }
+                    else if (Model[x, y] is Coin)
+                    {
+                        <img class="cell" src="~/images/Coin.jpg" />
+                    }
+                    else if (Model[x, y] is Bed)
+                    {
+                        <img class="cell" src="~/images/cells/bed.png" />
+                    }
+                    else if (Model[x, y] is Puddle)
+                    {
+                        <img class="cell" src="~/images/Puddle.jpg" />
+                    }
+                    else if (Model[x, y] is VitalityPotion)
+                    {
+                        <img class="cell" src="~/images/cells/vitalitypotion.png" />
+                    }
+                    else if (Model[x, y] is Bless)
+                    {
+                        <img class="cell" src="~/images/cells/bless.jpg" />
+                    }
+                    else if (Model[x, y] is TeleportIn)
+                    {
+                        <img class="cell" src="~/images/TeleportIn.jpg" />
+                    }
+                    else if (Model[x, y] is TeleportOut)
+                    {
+                        <img class="cell" src="~/images/TeleportOut.jpg" />
+                    }
+                    else if (Model[x, y] is Fountain)
+                    {
+                        <img class="cell" src="~/images/Fountain.jpg" />
+                    }
+                    else if (Model[x, y] is Trap)
+                    {
+                        <img class="cell" src="~/images/cells/trap.jpg" />
+                    }
+                    else if (Model[x, y] is HealPotion)
+                    {
+                        <img class="cell" src="~/images/HealthPotion.png" />
+                    }
+                    else if (Model[x, y] is WolfPit)
+                    {
+                        <img class="cell" src="~/images/cells/wolfpit.jpg" />
+                    }
+                    else if (Model[x, y] is Tavern)
+                    {
+                        <img class="cell" src="~/images/cells/tavern.png" />
+                    }
+                    else if (Model[x, y] is Healer)
+                    {
+                        <img class="cell" src="~/images/cells/healer.png" />
                     }
                     else if (Model[x, y] is Wall)
                     {
@@ -29,7 +88,10 @@
                     {
                         <img class="cell" src="~/images/cells/ground.jpg" />
                     }
-
+                    else
+                    {
+                        <img class="cell" src="~/images/cells/whatIsIt.png" />
+                    }
                 </span>
             }
         </div>

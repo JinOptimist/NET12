@@ -250,22 +250,53 @@ namespace WebMaze
         }
         private CellModel inCellModel(BaseCell cell)
         {
+            var dict = new Dictionary<Type, CellInfo>()
+            {
+                { typeof(Wall), CellInfo.Wall},
+                { typeof(WeakWall), CellInfo.WeakWall},
+                { typeof(Ground), CellInfo.Grow},
+                { typeof(GoldMine), CellInfo.Goldmine},
+                { typeof(Coin), CellInfo.Coin},
+                { typeof(Bed),CellInfo.Bed},
+                { typeof(Puddle), CellInfo.Puddle},
+                { typeof(VitalityPotion), CellInfo.VitalityPotion},
+                { typeof(Bless), CellInfo.Bless},
+                { typeof(TeleportIn), CellInfo.TeleportIn},
+                { typeof(TeleportOut), CellInfo.TeleportOut},
+                { typeof(Fountain), CellInfo.Fountain},
+                { typeof(Trap), CellInfo.Trap},
+                { typeof(HealPotion), CellInfo.HealPotion},
+                { typeof(WolfPit), CellInfo.WolfPit},
+                { typeof(Tavern), CellInfo.Tavern},
+                { typeof(Healer), CellInfo.Healer},
+
+            };
             var model = new CellModel();
             model.X = cell.X;
             model.Y = cell.Y;
-            model.HpCell = 0;
             model.MazeLevel = null;
-            model.TypeCell = CellInfo.Grow;
+            model.TypeCell = dict[cell.GetType()];
 
-            if (cell is Ground)
+            if (cell is VitalityPotion)
             {
-                model.TypeCell = CellInfo.Grow;
+                VitalityPotion vitPotion = (VitalityPotion)cell;
+                model.Obj1 = vitPotion.AddMaxFatigue;
             }
-            else if (cell is Wall)
+            else if (cell is Coin)
             {
-                model.TypeCell = CellInfo.Wall;
+                Coin coin = (Coin)cell;
+                model.Obj1 = coin.CoinCount;
             }
-
+            else if (cell is WeakWall)
+            {
+                WeakWall vit = (WeakWall)cell;
+                model.Obj1 = vit._vitalityOfWeakWall;
+            }
+            else if (cell is GoldMine)
+            {
+                GoldMine vit = (GoldMine)cell;
+                model.Obj1 = vit.currentGoldMineMp;
+            }
 
             return model;
         }
@@ -277,11 +308,41 @@ namespace WebMaze
                     return new Ground(model.X, model.Y, null) { Id = model.Id };
                 case CellInfo.Wall:
                     return new Wall(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.Trap:
+                    return new Trap(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.Tavern:
+                    return new Tavern(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.WeakWall:
+                    return new WeakWall(model.X, model.Y, null) { Id = model.Id, _vitalityOfWeakWall = model.Obj1, };
+                case CellInfo.Healer:
+                    return new Healer(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.VitalityPotion:
+                    return new VitalityPotion(model.X, model.Y, null, model.Obj1) { Id = model.Id };
+                case CellInfo.Puddle:
+                    return new Puddle(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.TeleportIn:
+                    return new TeleportIn(model.X, model.Y, null, null) { Id = model.Id };
+                case CellInfo.TeleportOut:
+                    return new TeleportOut(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.Goldmine:
+                    return new GoldMine(model.X, model.Y, null) { Id = model.Id, currentGoldMineMp = model.Obj1 };
+                case CellInfo.Fountain:
+                    return new Fountain(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.Coin:
+                    return new Coin(model.X, model.Y, null, model.Obj1) { Id = model.Id };
+                case CellInfo.HealPotion:
+                    return new HealPotion(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.Bed:
+                    return new Bed(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.Bless:
+                    return new Bless(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.WolfPit:
+                    return new WolfPit(model.X, model.Y, null) { Id = model.Id };
                 default:
                     return new Ground(model.X, model.Y, null) { Id = model.Id };
             }
         }
-  
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
