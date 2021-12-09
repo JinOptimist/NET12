@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20211206173927_AddGameDevices")]
+    partial class AddGameDevices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,9 +137,6 @@ namespace WebMaze.Migrations
                     b.Property<string>("BrandName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("CreaterId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Desc")
                         .HasColumnType("nvarchar(max)");
 
@@ -154,8 +153,6 @@ namespace WebMaze.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreaterId");
 
                     b.ToTable("GameDevices");
                 });
@@ -478,15 +475,6 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.GameDevices", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
-                        .WithMany("MyGameDevices")
-                        .HasForeignKey("CreaterId");
-
-                    b.Navigation("Creater");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
@@ -581,8 +569,6 @@ namespace WebMaze.Migrations
                     b.Navigation("MyEnemySuggested");
 
                     b.Navigation("MyFavGames");
-
-                    b.Navigation("MyGameDevices");
 
                     b.Navigation("MyNews");
 
