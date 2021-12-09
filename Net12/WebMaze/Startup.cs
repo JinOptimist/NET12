@@ -68,8 +68,7 @@ namespace WebMaze
                     var cellRepository = diContainer.GetService<CellRepository>();
                     var imagesRepository = diContainer.GetService<ImageRepository>();
                     var favGamesRepository = diContainer.GetService<FavGamesRepository>();
-                    var repository = new UserRepository(webContext, reviewRepository, imagesRepository, favGamesRepository);
-                    var repository = new UserRepository(webContext, reviewRepository, imagesRepository, mazeLevelRepository, cellRepository);
+                    var repository = new UserRepository(webContext, reviewRepository, imagesRepository, mazeLevelRepository, cellRepository, favGamesRepository);
                     return repository;
                 });
 

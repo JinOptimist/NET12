@@ -616,7 +616,7 @@ namespace WebMaze.Migrations
                         .HasForeignKey("UsersWhichHasThePermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
+                }));
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
                 {
@@ -653,7 +653,7 @@ namespace WebMaze.Migrations
                         .HasForeignKey("CreatorId");
 
                     b.Navigation("Creator");
-                });
+                }));
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerCell", b =>
                 {
