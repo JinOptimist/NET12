@@ -38,7 +38,8 @@ namespace WebMaze.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            var ListMaze = _mapper.Map<List<MazeViewModel>>(_userRepository.Get(_userService.GetCurrentUser().Id).ListMazeLevels);
+            var MazeList = _userRepository.Get(_userService.GetCurrentUser().Id).ListMazeLevels.Where(m => m.IsActive).ToList();
+            var ListMaze = _mapper.Map<List<MazeViewModel>>(MazeList);
             return View(ListMaze);
         }
 
@@ -47,10 +48,14 @@ namespace WebMaze.Controllers
         [Authorize]
         public IActionResult Maze(long id)
         {
-
-            var maz = _mapper.Map<MazeLevel>(_mazeLevelRepository.Get(id));
-            var cell = maz[6,1];
-            if (maz is null)
+            if (!_userRepository.Get(_userService.GetCurrentUser().Id).ListMazeLevels.Any(maze => maze.Id == id))
+            {
+                return RedirectToAction("Index");
+            }
+            var Model = _mazeLevelRepository.Get(id);
+            var maz = _mapper.Map<MazeLevel>(Model);
+            var cell = maz[6, 1];
+            if (maz is null || !Model.IsActive)
             {
                 return RedirectToAction("Index");
             }
@@ -85,7 +90,7 @@ namespace WebMaze.Controllers
             }
 
             _mazeLevelRepository.ChangeModel(myModel, maze, _mapper);
-            
+
 
             _mazeLevelRepository.Save(myModel);
             return View(maze);
@@ -93,7 +98,7 @@ namespace WebMaze.Controllers
         [Authorize]
         public IActionResult CreateMaze()
         {
-          //  var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
+            //  var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
             var maze = new MazeBuilder().Build(10, 10, 100, 100, false);
             var model = _mapper.Map<MazeLevelModel>(maze);
             model.IsActive = true;
@@ -102,6 +107,23 @@ namespace WebMaze.Controllers
             model.Name = "My Maze";
             model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
             _mazeLevelRepository.Save(model);
+            return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        public IActionResult DeleteMaze(long Id)
+        {
+            var user = _userRepository.Get(_userService.GetCurrentUser().Id);
+            if (user.ListMazeLevels.Any(m => m.Id == Id))
+            {
+                var maze = _mazeLevelRepository.Get(Id);
+
+                _cellRepository.Remove(maze.Cells);
+
+                _mazeLevelRepository.Remove(Id);
+
+            }
+
             return RedirectToAction("Index");
         }
 

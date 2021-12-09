@@ -11,13 +11,16 @@ namespace WebMaze.EfStuff.Repositories
     {
         private ReviewRepository _reviewRepository;
         private ImageRepository _imageRepository;
-
-        public UserRepository(WebContext webContext, 
+        private MazeLevelRepository _mazeLevelRepository;
+        private CellRepository _cellRepository;
+        public UserRepository(WebContext webContext,
             ReviewRepository reviewRepository,
-            ImageRepository imageRepository) : base(webContext)
+            ImageRepository imageRepository, MazeLevelRepository mazeLevelRepository, CellRepository cellRepository) : base(webContext)
         {
             _reviewRepository = reviewRepository;
             _imageRepository = imageRepository;
+            _mazeLevelRepository = mazeLevelRepository;
+            _cellRepository = cellRepository;
         }
 
         public User GetByNameAndPassword(string login, string password)
@@ -38,6 +41,11 @@ namespace WebMaze.EfStuff.Repositories
         public override void Remove(User user)
         {
             _reviewRepository.Remove(user.MyReviews);
+            foreach(var maze in user.ListMazeLevels)
+            {
+                _cellRepository.Remove(maze.Cells);
+            }
+            _mazeLevelRepository.Remove(user.ListMazeLevels);
             _imageRepository.RemoveByUser(user.Id);
             base.Remove(user);
         }
