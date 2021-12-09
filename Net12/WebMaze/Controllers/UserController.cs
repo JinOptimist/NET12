@@ -48,7 +48,16 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            var viewModel = new LoginViewModel() { ReturnUrl = Request.Headers["Referer"].ToString() };
+            var viewModel = new LoginViewModel();
+            if (string.IsNullOrEmpty(Request.Query["ReturnUrl"]))
+            {
+                viewModel.ReturnUrl = "/Home/Index";
+            }
+            else
+            {
+                viewModel.ReturnUrl = Request.Query["ReturnUrl"];
+            }
+            
             return View(viewModel);
         }
 
