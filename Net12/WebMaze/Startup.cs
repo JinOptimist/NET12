@@ -143,7 +143,11 @@ namespace WebMaze
             services.AddScoped<MinerFiledBuilder>();
 
             services.AddScoped<PermissionRepository>();
-            
+
+            services.AddScoped<ZumaGameFieldRepository>();
+            services.AddScoped<ZumaGameFieldBuilder>();
+
+
         }
         private void RegisterMapper(IServiceCollection services)
         {
@@ -243,6 +247,14 @@ namespace WebMaze
                          cell.MazeLevel = b;
                      }
                  });
+
+            provider.CreateMap<ZumaGameField, ZumaGameFieldViewModel>()
+                .ForMember(nameof(ZumaGameFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
+            provider.CreateMap<ZumaGameFieldViewModel, ZumaGameField>();
+
+
+            //           provider.CreateMap<ZumaGameCell, ZumaGameCellViewModel>()
+            //               .ForMember(nameof(ZumaGameCellViewModel.Color), opt => opt.MapFrom(db => db.Color));
 
             provider.CreateMap<CellModel, BaseCell>()
                 .ConstructUsing(x => inBaseCell(x));

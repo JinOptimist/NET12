@@ -1,0 +1,19 @@
+﻿@model ZumaGameFieldViewModel
+
+<div>
+    @for (int y = 0; y < Model.Height; y++)
+    {
+        <div class="row">
+            @for (int x = 0; x < Model.Width; x++)
+            {
+                var cell = Model.Cells.Single(c => c.X == x && c.Y == y);
+                <span style="background-color:#@cell.Color;">
+
+                    <a href="/ZumaGame/Step?id=@cell.Id">0</a>
+
+                </span>
+
+            }
+        </div>
+    }
+</div>

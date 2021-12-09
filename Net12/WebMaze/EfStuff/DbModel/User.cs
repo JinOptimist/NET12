@@ -28,7 +28,7 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<BugReport> MyBugReports { get; set; }
         public virtual List<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
         public virtual List<MazeLevelModel> ListMazeLevels { get; set; }
-
+        public virtual List<ZumaGameField> ZumaGameFields { get; set; }
         public virtual List<MinerField> MinerFields { get; set; }
     }
 }
