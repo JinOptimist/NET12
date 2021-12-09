@@ -20,7 +20,9 @@ namespace WebMaze.EfStuff
         public DbSet<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
 
         public DbSet<SuggestedEnemys> SuggestedEnemys { get; set; }
-        
+
+        public DbSet<NewsComment> NewsComments { get; set; }
+
         public WebContext(DbContextOptions options) : base(options)
         {
         }
@@ -71,6 +73,15 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MazeDifficultProfiles)
                 .WithOne(x => x.Creater);
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.NewsComments)
+                .WithOne(x => x.Author);
+
+            modelBuilder.Entity<News>()
+               .HasMany(x => x.NewsComments)
+               .WithOne(x => x.News);
+
 
             base.OnModelCreating(modelBuilder);
         }

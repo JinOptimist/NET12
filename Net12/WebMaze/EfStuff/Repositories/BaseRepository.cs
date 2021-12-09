@@ -23,6 +23,7 @@ namespace WebMaze.EfStuff.Repositories
             return _dbSet.SingleOrDefault(x => x.Id == id);
         }
 
+
         public virtual List<Template> GetAll()
         {
             return _dbSet.Where(x => x.IsActive).ToList();

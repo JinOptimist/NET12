@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20211202164530_AddNewsComments")]
+    partial class AddNewsComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -230,14 +232,14 @@ namespace WebMaze.Migrations
                     b.Property<long?>("AuthorId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("CreatedNewsId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
-
-                    b.Property<long?>("NewsId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
@@ -246,7 +248,7 @@ namespace WebMaze.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("NewsId");
+                    b.HasIndex("CreatedNewsId");
 
                     b.ToTable("NewsComments");
                 });
@@ -427,13 +429,13 @@ namespace WebMaze.Migrations
                         .WithMany("NewsComments")
                         .HasForeignKey("AuthorId");
 
-                    b.HasOne("WebMaze.EfStuff.DbModel.News", "News")
+                    b.HasOne("WebMaze.EfStuff.DbModel.News", "CreatedNews")
                         .WithMany("NewsComments")
-                        .HasForeignKey("NewsId");
+                        .HasForeignKey("CreatedNewsId");
 
                     b.Navigation("Author");
 
-                    b.Navigation("News");
+                    b.Navigation("CreatedNews");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>

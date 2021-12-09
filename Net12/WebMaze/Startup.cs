@@ -110,6 +110,8 @@ namespace WebMaze
 
             services.AddScoped<MazeDifficultRepository>(x => new MazeDifficultRepository(x.GetService<WebContext>()));
 
+            services.AddScoped<NewsCommentRepository>(x => new NewsCommentRepository(x.GetService<WebContext>()));
+
             services.AddScoped<ImageRepository>();
         }
         private void RegisterMapper(IServiceCollection services)
@@ -118,7 +120,13 @@ namespace WebMaze
 
             provider.CreateMap<News, NewsViewModel>()
                 .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name));
+
             provider.CreateMap<NewsViewModel, News>();
+
+            provider.CreateMap<NewsComment, NewsCommentViewModel>()
+                .ForMember(nameof(NewsCommentViewModel.NameOfAuthor), opt => opt.MapFrom(dbNewsComment => dbNewsComment.Author.Name));
+
+            provider.CreateMap<NewsCommentViewModel, NewsComment>();
 
             provider.CreateMap<SuggestedEnemys, SuggestedEnemysViewModel>()
                     .ForMember(nameof(SuggestedEnemysViewModel.UserName),
@@ -147,7 +155,7 @@ namespace WebMaze
             provider.CreateMap<ImageViewModel, Image>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
-            
+
             provider.CreateMap<UserViewModel, User>();
 
             provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
