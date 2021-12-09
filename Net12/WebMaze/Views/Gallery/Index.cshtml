@@ -1,0 +1,25 @@
+﻿@model List<ImageViewModel>
+
+<div class="whole-page">  
+
+    <div class="text-center">
+        <h1>Users gallery</h1>
+
+        <div class="pic-to-gallery">
+            @foreach (var image in Model)
+            {
+                <div>
+                    <div>
+                        <img src="@image.Picture">
+                    </div>
+                    <div class="t-to-gallery">
+                        @image.Assessment
+                    </div>
+                    <div class="t-to-gallery">
+                        @image.Description
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

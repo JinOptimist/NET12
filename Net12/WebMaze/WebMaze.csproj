@@ -27,15 +27,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\cells\tavern.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\galleryImg\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <None Include="wwwroot\images\cells\tavern.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 
 </Project>

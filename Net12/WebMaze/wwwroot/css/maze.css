@@ -1,0 +1,30 @@
+﻿.maze-alert-heading {
+    font-size: 30px;
+    font-family: cursive;
+}
+
+.maze-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: solid 1px;
+    margin-top: 10px;
+}
+
+    .maze-list .maze-text-info {
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+.button-view-up {
+}
+
+.button-view-down {
+    display: flex;
+    justify-content: center;
+}
+
+.button-controller-click {
+}

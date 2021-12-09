@@ -24,7 +24,7 @@ namespace WebMaze.Services
         public User GetCurrentUser()
         {
             var claim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Id");
-            if(claim == null)
+            if (claim == null)
             {
                 return null;
             }
@@ -34,5 +34,8 @@ namespace WebMaze.Services
             var user = _userRepository.Get(id);
             return user;
         }
+
+        public bool IsAdmin
+            => GetCurrentUser()?.Perrmissions.Any(x => x.Name == Perrmission.Admin) ?? false;
     }
 }

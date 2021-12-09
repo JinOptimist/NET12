@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
@@ -41,7 +42,7 @@ namespace WebMaze.Controllers
             return View(newsViewModels);
         }
 
-        [Authorize]
+        [IsAdmin]
         [HttpGet]
         public IActionResult AddNews(long newsId)
         {
@@ -50,7 +51,7 @@ namespace WebMaze.Controllers
             return View(model);
         }
 
-        [Authorize]
+        [IsAdmin]
         [HttpPost]
         public IActionResult AddNews(NewsViewModel newsViewModel)
         {
