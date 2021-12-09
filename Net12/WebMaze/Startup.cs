@@ -191,6 +191,13 @@ namespace WebMaze
                     foreach(var cell in b.Cells)
                     {
                         cell.Maze = b;
+                        
+                    }
+                    TeleportIn TeleportIn = (TeleportIn)b.Cells.SingleOrDefault(c => c is TeleportIn);
+                    var TeleportOut = b.Cells.SingleOrDefault(c => c is TeleportOut);
+                    if(TeleportIn != null && TeleportOut != null)
+                    {
+                        TeleportIn.TeleportExit = (ITeleportOut)TeleportOut;
                     }
                 });
 
