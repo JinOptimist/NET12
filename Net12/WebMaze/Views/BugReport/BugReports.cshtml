@@ -11,7 +11,7 @@
     </div>
     <div class="content-all">
         @foreach (var bugReports in Model)
-        {
+            {
             <div class="content-report">
                 <div class="content-report-name-content">
                     <span class="content-report-name">Creator:</span> @bugReports.CreaterName
@@ -19,8 +19,17 @@
                 <div class="content-report-description-content">
                     <span class="content-report-description">Descriptoin: </span> @bugReports.Description
                 </div>
+                <div class="content-report-description-content">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div>
+                            <button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @userId = bugReports.CreaterName })'">Wonderful</button>
+                            <button class="bad-button">Awful</button>
+                        </div>
+                    }
+                </div>
             </div>
 
-        }
+            }
     </div>
 </div>

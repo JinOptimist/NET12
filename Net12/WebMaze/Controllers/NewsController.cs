@@ -19,15 +19,18 @@ namespace WebMaze.Controllers
         private NewsRepository _newsRepository;
         private IMapper _mapper;
         private UserService _userService;
+        private readonly PayForActionService _payForActionService;
 
         public NewsController(UserRepository userRepository,
             NewsRepository newsRepository,
-            IMapper mapper, UserService userService)
+            IMapper mapper, UserService userService,
+             PayForActionService payForActionService)
         {
             _newsRepository = newsRepository;
             _userRepository = userRepository;
             _mapper = mapper;
             _userService = userService;
+            _payForActionService = payForActionService;
         }
 
         public IActionResult Index()
@@ -59,6 +62,12 @@ namespace WebMaze.Controllers
                 return View(newsViewModel);
             }
 
+            if (!_payForActionService.Payment(200))
+            {
+                ModelState.AddModelError(string.Empty, "Not enought money to add news");
+                return View(newsViewModel);
+            }
+
             var author = _userService.GetCurrentUser();
 
             var dbNews = _mapper.Map<News>(newsViewModel);
@@ -68,6 +77,13 @@ namespace WebMaze.Controllers
             dbNews.IsActive = true;
 
             _newsRepository.Save(dbNews);
+
+            return RedirectToAction("Index", "News");
+        }
+
+        public IActionResult Wonderful(string userName)
+        {
+            _payForActionService.EarnMoney(userName, 10);
 
             return RedirectToAction("Index", "News");
         }

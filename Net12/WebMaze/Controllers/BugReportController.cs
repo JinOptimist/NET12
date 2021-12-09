@@ -20,15 +20,18 @@ namespace WebMaze.Controllers
         private BugReportRepository _bugReportRepository;
         private IMapper _mapper;
         private UserService _userService;
+        private readonly PayForActionService _payForActionService;
 
         public BugReportController(UserRepository userRepository,
             BugReportRepository bugReportRepository,
-            IMapper mapper, UserService userService)
+            IMapper mapper, UserService userService,
+            PayForActionService payForActionService)
         {
             _userRepository = userRepository;
             _bugReportRepository = bugReportRepository;
             _mapper = mapper;
             _userService = userService;
+            _payForActionService = payForActionService;
         }
         public IActionResult BugReports()
         {
@@ -53,6 +56,13 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddBugReport(BugReportViewModel bugReportViewModel)
         {
+
+            /*if (!_payForActionService.Payment(bugReportViewModel.CreaterName, 200))
+            {
+                ModelState.AddModelError(string.Empty, "Not enought money to add bugg report");
+                return View(bugReportViewModel);
+            }*/
+
             var creater = _userService.GetCurrentUser();
 
             var dbBugReport = _mapper.Map<BugReport>(bugReportViewModel);
@@ -64,5 +74,11 @@ namespace WebMaze.Controllers
             return RedirectToAction("BugReports", "BugReport");
         }
 
+        public IActionResult Wonderful(string CreaterName)
+        {
+            _payForActionService.EarnMoney(CreaterName, 10);
+
+            return RedirectToAction("BugReports", "BugReport");
+        }
     }
 }

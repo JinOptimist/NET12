@@ -54,6 +54,8 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddImage(ImageViewModel imageViewModel)
         {
+            /*var author = _userService.GetCurrentUser();*/
+
             ViewBag.Users = new SelectList(_userRepository.GetAll(), "Id", "Name");
 
             if (!_payForActionService.Payment(imageViewModel.Author.Id, 200))

@@ -8,10 +8,10 @@
 <div class="add-favGame-page">
     <div class="favGame-links">
         <a href="/Home/Index" class="favGame-link">Back to Home</a>
-        <a href="/Home/FavoriteGames" class="favGame-link">FavGames</a>
+        <a href="/Game/FavoriteGames" class="favGame-link">FavGames</a>
     </div>
     <div>
-        <form action="/Home/AddGame" method="post">
+        <form action="/Game/AddGame" method="post">
             <div class="add-favGame-title">
                 <b>Add your favorite game</b>
             </div>
@@ -31,7 +31,7 @@
                     <textarea class="textarea" name="Genre" cols="30" rows="1"></textarea>
                 </div>
                 <div class="add-favGame-input-forms">
-                    <div>Year of Production:</div> 
+                    <div>Year of Production:</div>
                     <div>@Html.ValidationMessageFor(x => x.YearOfProd)</div>
                     <textarea class="textarea" name="YearOfProd" cols="30" rows="1"></textarea>
                 </div>
