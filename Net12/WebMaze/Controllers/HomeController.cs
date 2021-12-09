@@ -31,8 +31,9 @@ namespace WebMaze.Controllers
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
             _mapper = mapper;
-            _favGamesRepository = favGamesRepository;
+            _newCellSuggRepository = newCellSuggRepository;
             _userService = userService;
+            _favGamesRepository = favGamesRepository;
         }
 
         public IActionResult Index()
@@ -171,48 +172,47 @@ namespace WebMaze.Controllers
             return View(model);
         }
 
+
+    
+
+        public IActionResult NewCellSugg()
+        {
+            var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
+            newCellSuggestionsViewModel = _newCellSuggRepository.GetAll()
+                .Select(dbModel => _mapper.Map<NewCellSuggestionViewModel>(dbModel))
+                .ToList();
+
+            return View(newCellSuggestionsViewModel);
+        }
         [HttpGet]
-        public IActionResult Reviews()
+        public IActionResult AddNewCellSugg()
         {
-            var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_userRepository.GetAll().Any())
-            {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
-            }
-
-            return View(FeedBackUsers);
+            return View();
         }
-
         [HttpPost]
-        public IActionResult Reviews(FeedBackUserViewModel viewReview)
+        public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCell)
         {
-            // TODO: Selected User
+            //TODO user current user after login
+            var creater = _userRepository.GetRandomUser();
 
-            var review = _mapper.Map<Review>(viewReview);
-            review.Creator = _userService.GetCurrentUser();
-
-            review.IsActive = true;
-            _reviewRepository.Save(review);
-
-            var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_reviewRepository.GetAll().Any())
+            var NewCS = new NewCellSuggestion()
             {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
-            }
-            return View(FeedBackUsers);
+                Title = newCell.Title,
+                Description = newCell.Description,
+                MoneyChange = newCell.MoneyChange,
+                HealtsChange = newCell.HealtsChange,
+                FatigueChange = newCell.FatigueChange,
+                Creater = creater,
+                IsActive = true
+            };
+
+            _newCellSuggRepository.Save(NewCS);
+            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
         }
-        public IActionResult RemoveReview(long idReview)
+        public IActionResult RemoveNewCellSuggestion(long id)
         {
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                var myUser = _userService.GetCurrentUser();
-                if (myUser == _reviewRepository.Get(idReview).Creator)
-                {
-                    _reviewRepository.Remove(idReview);
-                }
-
-            }
-            return RedirectToAction("Reviews", "Home");
+            _newCellSuggRepository.Remove(id);
+            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
         }
 
     }

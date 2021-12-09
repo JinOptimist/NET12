@@ -35,6 +35,10 @@
     word-wrap: break-word;
     word-break: break-all;
 }
+.edit-info {
+    display: flex;
+    flex-direction: column;
+}
 
 .rate-put {
     border: 1px solid black;
