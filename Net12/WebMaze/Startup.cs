@@ -320,27 +320,22 @@ namespace WebMaze
 
             if (cell is VitalityPotion)
             {
-                VitalityPotion vit = (VitalityPotion)cell;
-                model.Obj1 = vit.AddMaxFatigue;
+                model.Obj1 = ((VitalityPotion)cell).AddMaxFatigue;
                 model.TypeCell = CellInfo.VitalityPotion;
-
             }
             else if (cell is Coin)
             {
-                Coin vit = (Coin)cell;
-                model.Obj1 = vit.CoinCount;
+                model.Obj1 = ((Coin)cell).CoinCount;
                 model.TypeCell = CellInfo.Coin;
             }
             else if (cell is WeakWall)
             {
-                WeakWall vit = (WeakWall)cell;
-                model.Obj1 = vit._vitalityOfWeakWall;
+                model.Obj1 = ((WeakWall)cell)._vitalityOfWeakWall;
                 model.TypeCell = CellInfo.WeakWall;
             }
             else if (cell is GoldMine)
             {
-                GoldMine vit = (GoldMine)cell;
-                model.Obj1 = vit.currentGoldMineMp;
+                model.Obj1 = ((GoldMine)cell).currentGoldMineMp;
                 model.TypeCell = CellInfo.Goldmine;
             }
             else
