@@ -21,6 +21,7 @@ namespace WebMaze.Models
         public int HeroMaxFatigue { get; set; }
         public int CoinCount { get; set; }
         public string Author { get; set; }
+        public int GlobalUserRating { get; set; }
 
     }
 }

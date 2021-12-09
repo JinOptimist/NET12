@@ -48,13 +48,28 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            var viewModel = new LoginViewModel();
+            if (string.IsNullOrEmpty(Request.Query["ReturnUrl"]))
+            {
+                viewModel.ReturnUrl = "/Home/Index";
+            }
+            else
+            {
+                viewModel.ReturnUrl = Request.Query["ReturnUrl"];
+            }
+            
+            return View(viewModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel viewModel)
         {
             var user = _userRepository.GetByNameAndPassword(viewModel.Login, viewModel.Password);
+
+            if(user == null)
+            {
+                return View(viewModel);
+            }
 
             var claims = new List<Claim>();
 
@@ -69,7 +84,7 @@ namespace WebMaze.Controllers
 
             await HttpContext.SignInAsync(principal);
 
-            return RedirectToAction("Index", "Home");
+            return Redirect(viewModel.ReturnUrl);
         }
 
         public async Task<IActionResult> Logout(LoginViewModel viewModel)

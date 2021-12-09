@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using WebMaze.Services
+@inject UserService userService   
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,6 +21,7 @@
     <link rel='stylesheet' href='~/css/goldmine.css'>
     <link rel="stylesheet" href="~/css/bugReports.css" />
     <link rel="stylesheet" href="~/css/gallery.css" />
+    <link rel="stylesheet" href="~/css/maze.css" />
     <link rel="stylesheet" href="~/css/Bed.css" />
     <link rel="stylesheet" href="~/css/Goblin.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -87,7 +91,7 @@
                         <a class="nav-link" href="/Suggested/NewCellSugg">New CellSugg</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/Reviews">Reviews</a>
+                        <a class="nav-link" href="/Reviews/Index">Reviews</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/CellInfo/AddCell">Add Cell</a>
@@ -116,18 +120,26 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/BugReport/BugReports">List of reports</a>
                     </li>
-                        
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Gallery
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
-                            <a class="dropdown-item" href="/Gallery/AddImage">Add Image</a>
-                        </div>
-                    </li>
+
+                    @if (userService.IsAdmin)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Gallery
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
+                                <a class="dropdown-item" href="/Gallery/AddImage">Add Image</a>
+                            </div>
+                        </li>
+                    }
+
                     <li class="nav-item">
                         <a class="nav-link" href="/Maze/Index">Maze</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Miner/StartGame">StartGame</a>
                     </li>
 
                     <li class="nav-item dropdown">

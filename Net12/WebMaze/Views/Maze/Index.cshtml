@@ -1,33 +1,28 @@
 ﻿@using Net12.Maze
-@model MazeLevel
+@model List<MazeViewModel>
 
-    <div class="menu-maze-difficult">
-        <a href="/Maze/AddMazeDifficult">Add Maze Difficult</a>
-        <a href="/Maze/ManageMazeDifficult">Manage Maze Difficult</a>
-    </div>
+<div class="menu-maze-difficult">
+    <a href="/Maze/AddMazeDifficult">Add Maze Difficult</a>
+    <a href="/Maze/ManageMazeDifficult">Manage Maze Difficult</a>
+    <a href="/Maze/Maze">Create Maze</a>
+</div>
 
-    <div class="text-center">
-        <h1>Maze</h1>
-        @for (int y = 0; y < Model.Height; y++)
-        {
-            <div>
-                @for (int x = 0; x < Model.Width; x++)
-                {
-                <span>
-                    @if (Model[x, y] is Wall)
-                    {
-                        <img class="cell" src="~/images/cells/wall.jpg" />
-                    }
-                    else if (Model[x, y] is Coin)
-                        {
-                        <img class="cell" src="~/images/cells/coin.png" />
-                    }
-                    else 
-                        {
-                        <img class="cell" src="~/images/cells/ground.jpg" />
-                    }
-                </span>
-                }
+<div class="text-center">
+    <div class="maze-alert-heading">My Mazes</div>
+    @foreach (var maze in Model)
+    {
+        <div class="maze-list">
+            <div class="maze-text-info">
+                @maze.Name
             </div>
-        }
-    </div>
+            <div class="maze-text-info">
+                <a href="/Maze/Maze?id=@maze.Id">Play</a>
+                <a href="/Maze/DeleteMaze?id=@maze.Id">Delete</a>
+            </div>
+        </div>
+    }
+
+
+</div>
+
+
