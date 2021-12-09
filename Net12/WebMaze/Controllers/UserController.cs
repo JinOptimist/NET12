@@ -48,7 +48,8 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            var viewModel = new LoginViewModel() { ReturnUrl = Request.Headers["Referer"].ToString() };
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -69,7 +70,7 @@ namespace WebMaze.Controllers
 
             await HttpContext.SignInAsync(principal);
 
-            return RedirectToAction("Index", "Home");
+            return Redirect(viewModel.ReturnUrl);
         }
 
         public async Task<IActionResult> Logout(LoginViewModel viewModel)
