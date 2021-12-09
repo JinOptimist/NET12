@@ -12,10 +12,9 @@ namespace WebMaze.EfStuff.Repositories
 {
     public class MazeLevelRepository : BaseRepository<MazeLevelModel>
     {
-        private IMapper _mapper;
-        public MazeLevelRepository(WebContext webContext, IMapper mapper) : base(webContext)
+
+        public MazeLevelRepository(WebContext webContext) : base(webContext)
         {
-            _mapper = mapper;
         }
         public void ChangeModel(MazeLevelModel model, MazeLevel maze, IMapper mapper)
         {
@@ -50,10 +49,9 @@ namespace WebMaze.EfStuff.Repositories
             model.HeroX = maze.Hero.X;
             model.HeroY = maze.Hero.Y;
 
-            CellModel cellModel;
             foreach (var cell in maze.Cells)
             {
-                cellModel = model.Cells.Single(c => c.X == cell.X && c.Y == cell.Y);
+                var cellModel = model.Cells.Single(c => c.X == cell.X && c.Y == cell.Y);
 
                 var mod = mapper?.Map<CellModel>(cell);
                 if(mod != null) {

@@ -112,8 +112,7 @@ namespace WebMaze
             services.AddScoped<MazeLevelRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
-                var mapper = diContainer.GetService<Mapper>();
-                var repository = new MazeLevelRepository(webContext, mapper);
+                var repository = new MazeLevelRepository(webContext);
                 return repository;
             });
             services.AddScoped<CellRepository>(diContainer =>
