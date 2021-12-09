@@ -12,11 +12,12 @@ namespace WebMaze.EfStuff.Repositories
 {
     public class MazeLevelRepository : BaseRepository<MazeLevelModel>
     {
-        public MazeLevelRepository(WebContext webContext) : base(webContext)
+        private IMapper _mapper;
+        public MazeLevelRepository(WebContext webContext, IMapper mapper) : base(webContext)
         {
-
+            _mapper = mapper;
         }
-        public void ChangeModel(MazeLevelModel model, MazeLevel maze)
+        public void ChangeModel(MazeLevelModel model, MazeLevel maze, IMapper mapper)
         {
             var dict = new Dictionary<Type, CellInfo>()
             {
@@ -49,39 +50,17 @@ namespace WebMaze.EfStuff.Repositories
             model.HeroX = maze.Hero.X;
             model.HeroY = maze.Hero.Y;
 
+            CellModel cellModel;
             foreach (var cell in maze.Cells)
             {
-                var CellModel = model.Cells.Single(c => c.X == cell.X && c.Y == cell.Y);
-                
-                if(cell is VitalityPotion)
-                {
-                    VitalityPotion vit = (VitalityPotion)cell;
-                    CellModel.Obj1 = vit.AddMaxFatigue;
-                    CellModel.TypeCell = CellInfo.VitalityPotion;
+                cellModel = model.Cells.Single(c => c.X == cell.X && c.Y == cell.Y);
 
-                } else if(cell is Coin)
-                {
-                    Coin vit = (Coin)cell;
-                    CellModel.Obj1 = vit.CoinCount;
-                    CellModel.TypeCell = CellInfo.Coin;
+                var mod = mapper?.Map<CellModel>(cell);
+                if(mod != null) {
+                    cellModel.TypeCell = mod.TypeCell;
+                    cellModel.Obj1 = mod.Obj1;
+                    cellModel.Obj2 = mod.Obj2;
                 }
-                else if (cell is WeakWall)
-                {
-                    WeakWall vit = (WeakWall)cell;
-                    CellModel.Obj1 = vit._vitalityOfWeakWall;
-                    CellModel.TypeCell = CellInfo.WeakWall;
-                }
-                else if (cell is GoldMine)
-                {
-                    GoldMine vit = (GoldMine)cell;
-                    CellModel.Obj1 = vit.currentGoldMineMp;
-                    CellModel.TypeCell = CellInfo.Goldmine;
-                }
-                else
-                {
-                    CellModel.TypeCell = dict[cell.GetType()];
-                }
-
             }
  
 

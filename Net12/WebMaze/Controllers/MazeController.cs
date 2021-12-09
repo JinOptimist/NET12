@@ -84,7 +84,7 @@ namespace WebMaze.Controllers
                     break;
             }
 
-            _mazeLevelRepository.ChangeModel(myModel, maze);
+            _mazeLevelRepository.ChangeModel(myModel, maze, _mapper);
             
 
             _mazeLevelRepository.Save(myModel);

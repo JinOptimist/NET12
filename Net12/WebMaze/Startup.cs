@@ -112,7 +112,8 @@ namespace WebMaze
             services.AddScoped<MazeLevelRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
-                var repository = new MazeLevelRepository(webContext);
+                var mapper = diContainer.GetService<Mapper>();
+                var repository = new MazeLevelRepository(webContext, mapper);
                 return repository;
             });
             services.AddScoped<CellRepository>(diContainer =>
@@ -274,28 +275,36 @@ namespace WebMaze
             var model = new CellModel();
             model.X = cell.X;
             model.Y = cell.Y;
-            model.MazeLevel = null;
-            model.TypeCell = dict[cell.GetType()];
+
 
             if (cell is VitalityPotion)
             {
-                VitalityPotion vitPotion = (VitalityPotion)cell;
-                model.Obj1 = vitPotion.AddMaxFatigue;
+                VitalityPotion vit = (VitalityPotion)cell;
+                model.Obj1 = vit.AddMaxFatigue;
+                model.TypeCell = CellInfo.VitalityPotion;
+
             }
             else if (cell is Coin)
             {
-                Coin coin = (Coin)cell;
-                model.Obj1 = coin.CoinCount;
+                Coin vit = (Coin)cell;
+                model.Obj1 = vit.CoinCount;
+                model.TypeCell = CellInfo.Coin;
             }
             else if (cell is WeakWall)
             {
                 WeakWall vit = (WeakWall)cell;
                 model.Obj1 = vit._vitalityOfWeakWall;
+                model.TypeCell = CellInfo.WeakWall;
             }
             else if (cell is GoldMine)
             {
                 GoldMine vit = (GoldMine)cell;
                 model.Obj1 = vit.currentGoldMineMp;
+                model.TypeCell = CellInfo.Goldmine;
+            }
+            else
+            {
+                model.TypeCell = dict[cell.GetType()];
             }
 
             return model;
