@@ -21,6 +21,8 @@ namespace WebMaze.EfStuff
         public DbSet<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
         public DbSet<Perrmission> Perrmissions { get; set; }
         public DbSet<SuggestedEnemys> SuggestedEnemys { get; set; }
+        public DbSet<GameDevices> GameDevices { get; set; }
+
         
         public DbSet<MazeLevelModel> MazeLevelsUser   { get; set; }
         public DbSet<CellModel> CellsModels   { get; set; }
@@ -56,7 +58,7 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<Image>()
                .HasOne(x => x.Author)
                .WithMany(x => x.Images);
-                                  
+
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MyEnemySuggested)
                 .WithOne(x => x.Creater);
@@ -67,7 +69,7 @@ namespace WebMaze.EfStuff
 
             modelBuilder.Entity<StuffForHero>()
                .HasOne(x => x.Proposer)
-               .WithMany(x => x.AddedSStuff); 
+               .WithMany(x => x.AddedSStuff);
 
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MyFavGames)
