@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Services;
@@ -24,7 +25,7 @@ namespace WebMaze.Controllers
             _mapper = mapper;
         }
 
-        [Authorize]
+        [IsAdmin]
         public IActionResult ViewPermission()
         {
             var permissionViewModels = new List<PermissionViewModel>();
@@ -32,6 +33,14 @@ namespace WebMaze.Controllers
                 .Select(x => _mapper.Map<PermissionViewModel>(x)).ToList();
             return View(permissionViewModels);
         }
+
+        [IsAdmin]
+        public IActionResult EditingUsers()
+        {
+          
+            return View();
+        }
+
 
 
 
