@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="~/css/Teleport_in_out.css" />
     <link rel='stylesheet' href='~/css/goldmine.css'>
     <link rel="stylesheet" href="~/css/bugReports.css" />
+    <link rel="stylesheet" href="~/css/gameDevices.css" />
     <link rel="stylesheet" href="~/css/gallery.css" />
     <link rel="stylesheet" href="~/css/maze.css" />
     <link rel="stylesheet" href="~/css/Bed.css" />
@@ -119,6 +120,20 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/BugReport/BugReports">List of reports</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/GameDevices/GameDevices">Game devices</a>
+                    </li>
+                        
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Gallery
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
+                            <a class="dropdown-item" href="/Gallery/AddImage">Add Image</a>
+                        </div>
                     </li>
 
                     @if (userService.IsAdmin)
