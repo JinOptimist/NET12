@@ -1,9 +1,12 @@
-﻿
+﻿@model List<PermissionViewModel>
 
 <div class="text-center">
-    <h1>Administration</h1>
-    <div>
-        There is nothing here yet...
-    </div>
-  
+    <h3>Administration: View permission</h3>
+   
+    @foreach (var x in Model)
+    {
+        <div>@x.Name</div>
+        <div>@x.UsersWhichHasThePermission.Count</div>
+    }
+
 </div>
