@@ -34,11 +34,7 @@ namespace WebMaze.Controllers
         public IActionResult Game(long id)
         {
             var field = _zumaGameFieldRepository.Get(id);
-            //            var fieldViewModel = _mapper.Map<ZumaGameFieldViewModel>(field);
-            var fieldViewModel = new ZumaGameFieldViewModel();
-            fieldViewModel.Cells.
-
-            fieldViewModel.Cells.Select(x => x.Color = x.Color * (0xFFFFFF / field.ColorCount));
+            var fieldViewModel = _mapper.Map<ZumaGameFieldViewModel>(field);
 
             return View(fieldViewModel);
         }

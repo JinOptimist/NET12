@@ -169,3 +169,12 @@ body {
 .menu-maze-difficult a {
     margin: 5px;
 }
+
+.zuma-game-field {
+    font-size: 20px;
+    display: grid;
+    justify-content: center;
+}
+.zuma-game-field-row a{
+    opacity: 0;
+}

@@ -222,16 +222,16 @@ namespace WebMaze
             provider.CreateMap<MazeLevelModel, MazeLevel>()
                 .ConstructUsing(x => inMazeLevel(x))
                 .ForMember(maze => maze.Cells, db => db.MapFrom(model => model.Cells))
-                .AfterMap((a, b) => 
-                { 
-                    foreach(var cell in b.Cells)
+                .AfterMap((a, b) =>
+                {
+                    foreach (var cell in b.Cells)
                     {
                         cell.Maze = b;
-                        
+
                     }
                     TeleportIn TeleportIn = (TeleportIn)b.Cells.SingleOrDefault(c => c is TeleportIn);
                     var TeleportOut = b.Cells.SingleOrDefault(c => c is TeleportOut);
-                    if(TeleportIn != null && TeleportOut != null)
+                    if (TeleportIn != null && TeleportOut != null)
                     {
                         TeleportIn.TeleportExit = (ITeleportOut)TeleportOut;
                     }
@@ -247,6 +247,9 @@ namespace WebMaze
                          cell.MazeLevel = b;
                      }
                  });
+
+            provider.CreateMap<ZumaGameCell, ZumaGameCellViewModel>();
+            provider.CreateMap<ZumaGameCellViewModel, ZumaGameCell>();
 
             provider.CreateMap<ZumaGameField, ZumaGameFieldViewModel>()
                 .ForMember(nameof(ZumaGameFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
@@ -285,7 +288,7 @@ namespace WebMaze
                 HeroX = maze.Hero.X,
                 HeroY = maze.Hero.Y,
 
-              
+
             };
             return model;
         }
