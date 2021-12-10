@@ -16,7 +16,7 @@ namespace Net12.Maze
         public override bool TryToStep()
         {
             Maze.Hero.Money += CoinCount;
-            Maze.GetCoins(3);
+            Maze.GetCoins(CoinCount);
 
             Maze[X, Y] = new Ground(X, Y, Maze);
             return true;
