@@ -60,7 +60,21 @@ namespace WebMaze.EfStuff.Repositories
                     cellModel.Obj2 = mod.Obj2;
                 }
             }
- 
+            foreach (var enemy in maze.Enemies)
+            {
+                var enemyModel = model.Enemies.First(e => e.Id == enemy.Id);
+
+                var mod = mapper?.Map<MazeEnemyWeb>(enemy);
+                if (mod != null)
+                {
+                    enemyModel.TypeEnemy = mod.TypeEnemy;
+                    enemyModel.Obj1 = mod.Obj1;
+                    enemyModel.Obj2 = mod.Obj2;
+                    enemyModel.X = mod.X;
+                    enemyModel.Y = mod.Y;
+                }
+            }
+
 
 
         }

@@ -1,5 +1,6 @@
 ﻿@using Net12.Maze
 @using Net12.Maze.Cells
+@using Net12.Maze.Cells.Enemies
 @model MazeLevel
 
 <div class="menu-maze-difficult">
@@ -19,6 +20,10 @@
                     @if (Model.Hero.X == x && Model.Hero.Y == y)
                     {
                         <img class="cell" src="~/images/cells/spriteHero.png" />
+                    }
+                    else if (Model.Enemies.Any(e => e.X == x && e.Y == y))
+                    {
+                        <img class="cell" src="~/images/Enemies/@(Model.Enemies.First(e => e.X == x && e.Y == y).GetType().Name).jpg" />
                     }
                     else if (Model[x, y] is BaseCell)
                     {

@@ -127,6 +127,12 @@ namespace WebMaze
                 var repository = new CellRepository(webContext);
                 return repository;
             });
+            services.AddScoped<MazeEnemyRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new MazeEnemyRepository(webContext);
+                return repository;
+            });
 
             services.AddScoped<MazeDifficultRepository>(x => new MazeDifficultRepository(x.GetService<WebContext>()));
 
@@ -226,9 +232,13 @@ namespace WebMaze
                     foreach (var cell in b.Cells)
                     {
                         cell.Maze = b;
-
                     }
-                    TeleportIn TeleportIn = (TeleportIn)b.Cells.SingleOrDefault(c => c is TeleportIn);
+                    foreach (var enemy in b.Enemies)
+                    {
+                        enemy.Maze = b;
+                    }
+
+                    var TeleportIn = (TeleportIn)b.Cells.SingleOrDefault(c => c is TeleportIn);
                     var TeleportOut = b.Cells.SingleOrDefault(c => c is TeleportOut);
                     if (TeleportIn != null && TeleportOut != null)
                     {
@@ -239,11 +249,16 @@ namespace WebMaze
             provider.CreateMap<MazeLevel, MazeLevelWeb>()
                  .ConstructUsing(x => inMazeModel(x))
                  .ForMember(maze => maze.Cells, db => db.MapFrom(model => model.Cells))
+                 .ForMember(maze => maze.Enemies, db => db.MapFrom(model => model.Enemies))
                  .AfterMap((a, b) =>
                  {
                      foreach (var cell in b.Cells)
                      {
                          cell.MazeLevel = b;
+                     }
+                     foreach (var enemy in b.Enemies)
+                     {
+                         enemy.MazeLevel = b;
                      }
                  });
 
@@ -399,17 +414,17 @@ namespace WebMaze
             switch (enemyWeb.TypeEnemy)
             {
                 case MazeEnemyInfo.Goblin:
-                    return new Goblin(enemyWeb.X, enemyWeb.Y, null);
+                    return new Goblin(enemyWeb.X, enemyWeb.Y, null) { Id = enemyWeb.Id };
                 case MazeEnemyInfo.BullEnemy:
-                    return new BullEnemy(enemyWeb.X, enemyWeb.Y, null);
+                    return new BullEnemy(enemyWeb.X, enemyWeb.Y, null) { Id = enemyWeb.Id, _heroDirection = (Direction)enemyWeb.Obj1 };
                 case MazeEnemyInfo.Geyser:
-                    return new Geyser(enemyWeb.X, enemyWeb.Y, null);
+                    return new Geyser(enemyWeb.X, enemyWeb.Y, null) { Id = enemyWeb.Id };
                 case MazeEnemyInfo.Slime:
-                    return new Slime(enemyWeb.X, enemyWeb.Y, null);
+                    return new Slime(enemyWeb.X, enemyWeb.Y, null) { Id = enemyWeb.Id, Hp = enemyWeb.Obj1 };
                 case MazeEnemyInfo.Walker:
-                    return new Walker(enemyWeb.X, enemyWeb.Y, null); ;
+                    return new Walker(enemyWeb.X, enemyWeb.Y, null) { Id = enemyWeb.Id, _rotation = (Direction)enemyWeb.Obj1 };
                 case MazeEnemyInfo.Wallworm:
-                    return new Wallworm(enemyWeb.X, enemyWeb.Y, null);
+                    return new Wallworm(enemyWeb.X, enemyWeb.Y, null) { Id = enemyWeb.Id, CounterStep = enemyWeb.Obj1, StepsBeforeEating = enemyWeb.Obj2, };
             }
             return null;
         }
@@ -428,6 +443,24 @@ namespace WebMaze
             var enemyWeb = new MazeEnemyWeb();
             enemyWeb.X = enemy.X;
             enemyWeb.Y = enemy.Y;
+            if (enemy is Wallworm)
+            {
+                enemyWeb.Obj1 = ((Wallworm)enemy).CounterStep;
+                enemyWeb.Obj2 = ((Wallworm)enemy).StepsBeforeEating;
+            }
+            else if (enemy is Slime)
+            {
+                enemyWeb.Obj1 = ((Slime)enemy).Hp;
+            }
+            else if (enemy is BullEnemy)
+            {
+                enemyWeb.Obj1 = (int)((BullEnemy)enemy)._heroDirection;
+            }
+            else if (enemy is Walker)
+            {
+                enemyWeb.Obj1 = (int)((Walker)enemy)._rotation;
+            }
+
             enemyWeb.TypeEnemy = dict[enemy.GetType()];
             return enemyWeb;
         }

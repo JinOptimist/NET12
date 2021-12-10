@@ -8,15 +8,13 @@ namespace Net12.Maze.Cells.Enemies
     public class Walker : BaseEnemy
     {
   
-        public Direction _rotation { get; private set; }
+        public Direction _rotation  { get; set; } = Direction.Up;
         private int _leftwallX;
         private int _leftwallY;
         public Walker(int x, int y, IMazeLevel maze) : base(x, y, maze)
         {
-            _rotation = Direction.Up;
             _leftwallX = X - 1;
             _leftwallY = Y;
-
         }
 
         public override void Step()
