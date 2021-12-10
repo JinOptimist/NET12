@@ -296,7 +296,7 @@ namespace WebMaze
                 HeroNowHp = maze.Hero.Hp,
                 HeroX = maze.Hero.X,
                 HeroY = maze.Hero.Y,
-
+                
 
             };
             return model;
@@ -307,10 +307,10 @@ namespace WebMaze
             {
                 Height = model.Height,
                 Width = model.Width,
-
+                
 
             };
-            maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroNowHp);
+            maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroNowHp) { Money = model.Creator.Coins, CurrentFatigue = model.HeroNowFatigure};
             return maze;
         }
         private MazeCellWeb inCellModel(BaseCell cell)
