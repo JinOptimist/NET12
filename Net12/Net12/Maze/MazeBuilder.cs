@@ -44,6 +44,7 @@ namespace Net12.Maze
                 BuildTrap();
                 BuildFountain();
                 BuildBed();
+                BuildCoin();
                 BuildBullEnemy();
                 BuildGeyser();
                 BuildWallworm();
