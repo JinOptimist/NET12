@@ -101,7 +101,7 @@ namespace WebMaze.Controllers
             //TODO: CHOOSE DIFFICULITY
             //  var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
             var maze = new MazeBuilder().Build(10, 10, 100, 100, false);
-            var model = _mapper.Map<MazeLevelModel>(maze);
+            var model = _mapper.Map<MazeLevelWeb>(maze);
             model.IsActive = true;
 
             //TODO: CREATE YOUR NAME LEVEL

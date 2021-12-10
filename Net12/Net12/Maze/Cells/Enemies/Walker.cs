@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Net12.Maze.Cells.Enemies
 {
-    class Walker : BaseEnemy
+    public class Walker : BaseEnemy
     {
   
         public Direction _rotation { get; private set; }

@@ -22,8 +22,8 @@ namespace WebMaze.EfStuff
         public DbSet<Perrmission> Perrmissions { get; set; }
         public DbSet<SuggestedEnemys> SuggestedEnemys { get; set; }
         
-        public DbSet<MazeLevelModel> MazeLevelsUser   { get; set; }
-        public DbSet<CellModel> CellsModels   { get; set; }
+        public DbSet<MazeLevelWeb> MazeLevelsUser   { get; set; }
+        public DbSet<MazeCellWeb> CellsModels   { get; set; }
         public WebContext(DbContextOptions options) : base(options)
         {
         }
@@ -86,8 +86,8 @@ namespace WebMaze.EfStuff
                 .WithOne(x => x.Creater);
 
             modelBuilder.Entity<User>().HasMany(x=> x.ListMazeLevels).WithOne(x => x.Creator);
-            modelBuilder.Entity<MazeLevelModel>().HasMany(x=> x.Cells).WithOne(x => x.MazeLevel);
-
+            modelBuilder.Entity<MazeLevelWeb>().HasMany(x=> x.Cells).WithOne(x => x.MazeLevel);
+            modelBuilder.Entity<MazeLevelWeb>().HasMany(x => x.Enemies).WithOne(x => x.MazeLevel);
             base.OnModelCreating(modelBuilder);
         }
 
