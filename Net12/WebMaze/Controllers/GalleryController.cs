@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
@@ -14,6 +15,7 @@ using WebMaze.Models;
 namespace WebMaze.Controllers
 {
     [Authorize]
+    [IsAdmin]
     public class GalleryController : Controller
     {        
         private readonly ImageRepository _repository;

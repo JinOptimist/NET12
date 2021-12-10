@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Net12.Maze;
+using Net12.Maze.Cells;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,16 +64,19 @@ namespace WebMaze
                 {
                     var webContext = diContainer.GetService<WebContext>();
                     var reviewRepository = diContainer.GetService<ReviewRepository>();
+                    var mazeLevelRepository = diContainer.GetService<MazeLevelRepository>();
+                    var cellRepository = diContainer.GetService<CellRepository>();
                     var imagesRepository = diContainer.GetService<ImageRepository>();
                     var favGamesRepository = diContainer.GetService<FavGamesRepository>();
-                    var repository = new UserRepository(webContext, reviewRepository, imagesRepository, favGamesRepository);
+                    var repository = new UserRepository(webContext, reviewRepository, imagesRepository, mazeLevelRepository, cellRepository, favGamesRepository);
                     return repository;
                 });
 
             services.AddScoped<ReviewRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
-                var repository = new ReviewRepository(webContext);
+                var mapper = diContainer.GetService<IMapper>();
+                var repository = new ReviewRepository(webContext, mapper);
                 return repository;
             });
 
@@ -106,6 +111,18 @@ namespace WebMaze
             {
                 var webContext = diContainer.GetService<WebContext>();
                 var repository = new BugReportRepository(webContext);
+                return repository;
+            });
+            services.AddScoped<MazeLevelRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new MazeLevelRepository(webContext);
+                return repository;
+            });
+            services.AddScoped<CellRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new CellRepository(webContext);
                 return repository;
             });
 
@@ -203,6 +220,49 @@ namespace WebMaze
             provider.CreateMap<MinerField, MinerFieldViewModel>();
             provider.CreateMap<MinerCell, MinerCellViewModel>();
 
+            provider.CreateMap<MazeLevelModel, MazeViewModel>();
+            provider.CreateMap<MazeViewModel, MazeLevelModel>();
+
+            provider.CreateMap<CellModel, CellViewModel>();
+            provider.CreateMap<CellViewModel, CellModel>();
+
+            provider.CreateMap<MazeLevelModel, MazeLevel>()
+                .ConstructUsing(x => inMazeLevel(x))
+                .ForMember(maze => maze.Cells, db => db.MapFrom(model => model.Cells))
+                .AfterMap((a, b) => 
+                { 
+                    foreach(var cell in b.Cells)
+                    {
+                        cell.Maze = b;
+                        
+                    }
+                    TeleportIn TeleportIn = (TeleportIn)b.Cells.SingleOrDefault(c => c is TeleportIn);
+                    var TeleportOut = b.Cells.SingleOrDefault(c => c is TeleportOut);
+                    if(TeleportIn != null && TeleportOut != null)
+                    {
+                        TeleportIn.TeleportExit = (ITeleportOut)TeleportOut;
+                    }
+                });
+
+            provider.CreateMap<MazeLevel, MazeLevelModel>()
+                 .ConstructUsing(x => inMazeModel(x))
+                 .ForMember(maze => maze.Cells, db => db.MapFrom(model => model.Cells))
+                 .AfterMap((a, b) =>
+                 {
+                     foreach (var cell in b.Cells)
+                     {
+                         cell.MazeLevel = b;
+                     }
+                 });
+
+            provider.CreateMap<CellModel, BaseCell>()
+                .ConstructUsing(x => inBaseCell(x));
+
+            provider.CreateMap<BaseCell, CellModel>()
+                .ConstructUsing(x => inCellModel(x));
+
+
+
             var mapperConfiguration = new MapperConfiguration(provider);
 
             var mapper = new Mapper(mapperConfiguration);
@@ -210,6 +270,132 @@ namespace WebMaze
 
             services.AddScoped<IMapper>(x => mapper);
 
+        }
+        private MazeLevelModel inMazeModel(MazeLevel maze)
+        {
+            var model = new MazeLevelModel()
+            {
+                Height = maze.Height,
+                Width = maze.Width,
+                HeroMaxFatigure = maze.Hero.MaxFatigue,
+                HeroMaxHp = maze.Hero.Max_hp,
+                HeroNowFatigure = maze.Hero.CurrentFatigue,
+                HeroNowHp = maze.Hero.Hp,
+                HeroX = maze.Hero.X,
+                HeroY = maze.Hero.Y,
+
+              
+            };
+            return model;
+        }
+        private MazeLevel inMazeLevel(MazeLevelModel model)
+        {
+            var maze = new MazeLevel()
+            {
+                Height = model.Height,
+                Width = model.Width,
+
+
+            };
+            maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroNowHp);
+            return maze;
+        }
+        private CellModel inCellModel(BaseCell cell)
+        {
+            var dict = new Dictionary<Type, CellInfo>()
+            {
+                { typeof(Wall), CellInfo.Wall},
+                { typeof(WeakWall), CellInfo.WeakWall},
+                { typeof(Ground), CellInfo.Grow},
+                { typeof(GoldMine), CellInfo.Goldmine},
+                { typeof(Coin), CellInfo.Coin},
+                { typeof(Bed),CellInfo.Bed},
+                { typeof(Puddle), CellInfo.Puddle},
+                { typeof(VitalityPotion), CellInfo.VitalityPotion},
+                { typeof(Bless), CellInfo.Bless},
+                { typeof(TeleportIn), CellInfo.TeleportIn},
+                { typeof(TeleportOut), CellInfo.TeleportOut},
+                { typeof(Fountain), CellInfo.Fountain},
+                { typeof(Trap), CellInfo.Trap},
+                { typeof(HealPotion), CellInfo.HealPotion},
+                { typeof(WolfPit), CellInfo.WolfPit},
+                { typeof(Tavern), CellInfo.Tavern},
+                { typeof(Healer), CellInfo.Healer},
+
+            };
+            var model = new CellModel();
+            model.X = cell.X;
+            model.Y = cell.Y;
+
+
+            if (cell is VitalityPotion)
+            {
+                model.Obj1 = ((VitalityPotion)cell).AddMaxFatigue;
+                model.TypeCell = CellInfo.VitalityPotion;
+            }
+            else if (cell is Coin)
+            {
+                model.Obj1 = ((Coin)cell).CoinCount;
+                model.TypeCell = CellInfo.Coin;
+            }
+            else if (cell is WeakWall)
+            {
+                model.Obj1 = ((WeakWall)cell)._vitalityOfWeakWall;
+                model.TypeCell = CellInfo.WeakWall;
+            }
+            else if (cell is GoldMine)
+            {
+                model.Obj1 = ((GoldMine)cell).currentGoldMineMp;
+                model.TypeCell = CellInfo.Goldmine;
+            }
+            else
+            {
+                model.TypeCell = dict[cell.GetType()];
+            }
+
+            return model;
+        }
+        private BaseCell inBaseCell(CellModel model)
+        {
+            switch (model.TypeCell)
+            {
+                case CellInfo.Grow:
+                    return new Ground(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.Wall:
+                    return new Wall(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.Trap:
+                    return new Trap(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.Tavern:
+                    return new Tavern(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.WeakWall:
+                    return new WeakWall(model.X, model.Y, null) { Id = model.Id, _vitalityOfWeakWall = model.Obj1, };
+                case CellInfo.Healer:
+                    return new Healer(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.VitalityPotion:
+                    return new VitalityPotion(model.X, model.Y, null, model.Obj1) { Id = model.Id };
+                case CellInfo.Puddle:
+                    return new Puddle(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.TeleportIn:
+                    return new TeleportIn(model.X, model.Y, null, null) { Id = model.Id };
+                case CellInfo.TeleportOut:
+                    return new TeleportOut(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.Goldmine:
+                    return new GoldMine(model.X, model.Y, null) { Id = model.Id, currentGoldMineMp = model.Obj1 };
+                case CellInfo.Fountain:
+                    return new Fountain(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.Coin:
+                    return new Coin(model.X, model.Y, null, model.Obj1) { Id = model.Id };
+                case CellInfo.HealPotion:
+                    return new HealPotion(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.Bed:
+                    return new Bed(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.Bless:
+                    return new Bless(model.X, model.Y, null) { Id = model.Id };
+                case CellInfo.WolfPit:
+                    return new WolfPit(model.X, model.Y, null) { Id = model.Id };
+                default:
+                    return new Ground(model.X, model.Y, null) { Id = model.Id };
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -30,7 +30,6 @@ namespace WebMaze.EfStuff
         private static void SeedPermissions(IServiceScope scope)
         {
             var permissionRepository = scope.ServiceProvider.GetService<PermissionRepository>();
-            var admin = scope.ServiceProvider.GetService<UserRepository>().GetUserByName(DefaultAdminName);
             var perrmissions = permissionRepository.GetAll();
             if (!perrmissions.Any())
             {
@@ -41,17 +40,23 @@ namespace WebMaze.EfStuff
                     UsersWhichHasThePermission = new List<User>(),
                     IsActive = true
                 };
+                var admin = scope.ServiceProvider.GetService<UserRepository>().GetUserByName(DefaultAdminName);
                 adminPermission.UsersWhichHasThePermission.Add(admin);
                 permissionRepository.Save(adminPermission);
 
-                var newsCreator = new Perrmission()
+                permissionRepository.Save(new Perrmission()
                 {
                     Name = Perrmission.NewsCreator,
                     Desc = "News creator",
                     IsActive = true
-                };
+                });
 
-                permissionRepository.Save(newsCreator);
+                permissionRepository.Save(new Perrmission()
+                {
+                    Name = Perrmission.ForumModerator,
+                    Desc = "Forum Moderator",
+                    IsActive = true
+                });
             }
         }
 
