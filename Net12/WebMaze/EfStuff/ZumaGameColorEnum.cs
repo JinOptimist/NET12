@@ -15,7 +15,7 @@
         darkblue,
         darkred,
         greenyellow,
-        fushcia,
+        fuchsia,
         gray
     }
 }

@@ -21,6 +21,25 @@ namespace WebMaze.Services
         public ZumaGameField Build(int width, int height, int colorCount)
         {
 
+            var palette = Enum.GetValues(typeof(ZumaGameColors))
+                .Cast<ZumaGameColors>()
+                .Select(x=>x.ToString())
+                .ToList();
+
+            var pal = new List<ZumaGameColor>();
+            foreach (var color in palette)
+            {
+                pal.Add(new ZumaGameColor() {Color = color});
+            }
+
+            var removeColorCount = pal.Count - colorCount;
+
+            for (int i = 0; i < removeColorCount; i++)
+            {
+                pal.RemoveAt(random.Next(pal.Count));
+            }
+
+
             var zumaGameField = new ZumaGameField()
             {
                 Width = width,
@@ -28,20 +47,9 @@ namespace WebMaze.Services
                 Cells = new List<ZumaGameCell>(),
                 Gamer = _userService.GetCurrentUser(),
                 ColorCount = colorCount,
+                Palette = pal,
                 IsActive = true
             };
-
-            List<string> actualColor = Enum.GetValues(typeof(ZumaGameColors))
-                .Cast<ZumaGameColors>()
-                .Select(v => v.ToString())
-                .ToList();
-
-            var needActualColor = actualColor.Count - colorCount;
-
-            for (int i = 0; i < needActualColor; i++)
-            {
-                actualColor.RemoveAt(random.Next(actualColor.Count));
-            }
 
             for (int y = 0; y < height; y++)
             {
@@ -52,7 +60,7 @@ namespace WebMaze.Services
                     {
                         X = x,
                         Y = y,
-                        Color = actualColor[random.Next(colorCount)],
+                        Color = GetRandom(pal).Color,
                         IsActive = true
                     };
 
@@ -62,6 +70,12 @@ namespace WebMaze.Services
             }
 
             return zumaGameField;
+        }
+
+        public T GetRandom<T>(List<T> cells)
+        {
+            var index = random.Next(cells.Count);
+            return cells[index];
         }
 
     }
