@@ -171,10 +171,18 @@ body {
 }
 
 .zuma-game-field {
-    font-size: 20px;
+    font-size: 24px;
     display: grid;
     justify-content: center;
+    line-height: 1.33;
 }
-.zuma-game-field-row a{
+
+.zuma-game-field-row a {
     opacity: 0;
+}
+
+.zuma-game-head {
+    font-size: 50px;
+    text-align: center;
+    margin: 10px;
 }
