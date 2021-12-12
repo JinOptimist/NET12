@@ -11,11 +11,12 @@
         purple,
         orange,
         chocolate,
-        cornsilk,
+        lightblue,
         darkblue,
         darkred,
         greenyellow,
         fuchsia,
+        olive,
         gray
     }
 }
