@@ -17,9 +17,9 @@ namespace WebMaze.Controllers
         private ZumaGameCellRepository _zumaGameCellRepository;
         private IMapper _mapper;
 
-        private int _width = 10;
-        private int _height = 10;
-        private int _colorCount = 4;
+        private int _width = 15;
+        private int _height = 15;
+        private int _colorCount = 5;
 
         public ZumaGameController(ZumaGameFieldBuilder zumaGameFieldBuilder, ZumaGameFieldRepository zumaGameFieldRepository, IMapper mapper, ZumaGameCellRepository zumaGameCellRepository)
         {
@@ -52,10 +52,6 @@ namespace WebMaze.Controllers
             var cells = _zumaGameCellRepository.GetAll(field);
 
             var getNear = _zumaGameCellRepository.GetNear(cell);
-//            getNear.Select(x => x.Color = "white").ToList();
-
-//            _zumaGameCellRepository.ReplaceCells(getNear);
-
 
             foreach (var replaceCell in getNear)
             {
