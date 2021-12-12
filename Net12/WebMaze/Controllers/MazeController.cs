@@ -24,7 +24,8 @@ namespace WebMaze.Controllers
         private UserService _userService;
         private CellRepository _cellRepository;
         private UserRepository _userRepository;
-        public MazeController(MazeDifficultRepository mazzeDifficultRepository, MazeLevelRepository mazeLevelRepository, IMapper mapper, UserService userService, CellRepository cellRepository, UserRepository userRepository = null)
+        private readonly PayForActionService _payForActionService;
+        public MazeController(MazeDifficultRepository mazzeDifficultRepository, PayForActionService payForActionService, MazeLevelRepository mazeLevelRepository, IMapper mapper, UserService userService, CellRepository cellRepository, UserRepository userRepository = null)
         {
             _mazeDifficultRepository = mazzeDifficultRepository;
             _mapper = mapper;
@@ -32,6 +33,7 @@ namespace WebMaze.Controllers
             _mazeLevelRepository = mazeLevelRepository;
             _cellRepository = cellRepository;
             _userRepository = userRepository;
+            _payForActionService = payForActionService;
         }
 
         [HttpGet]
@@ -145,6 +147,12 @@ namespace WebMaze.Controllers
                 return View(mazeDifficultProfileViewModel);
             }
 
+            if (!_payForActionService.Payment(200))
+            {
+                ModelState.AddModelError(string.Empty, "Not enought money to add maze difficult profile");
+                return View(mazeDifficultProfileViewModel);
+            }
+
             var dbMazeDifficult = _mapper.Map<MazeDifficultProfile>(mazeDifficultProfileViewModel);
             dbMazeDifficult.IsActive = true;
             dbMazeDifficult.Creater = _userService.GetCurrentUser();
@@ -167,6 +175,14 @@ namespace WebMaze.Controllers
         public IActionResult RemoveMazeDifficult(long Id)
         {
             _mazeDifficultRepository.Remove(Id);
+            return RedirectToAction("ManageMazeDifficult", "Maze");
+        }
+
+        public IActionResult Wonderful(long difficultId)
+        {
+            var diffcult = _mazeDifficultRepository.Get(difficultId);
+            _payForActionService.EarnMoney(diffcult.Creater.Id, 10);
+
             return RedirectToAction("ManageMazeDifficult", "Maze");
         }
     }

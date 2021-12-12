@@ -38,6 +38,13 @@
                     <div>
                         Rating: @stuff.GlobalUserRating
                     </div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div>
+                            <button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @stuffId = stuff.Id })'">Wonderful</button>
+                            <button class="bad-button">Awful</button>
+                        </div>
+                    }
                     <div>
                         <a href="/Stuff/RemoveStuff?stuffId=@stuff.Id">X</a>
                         <a href="/Stuff/AddStuffForHero?stuffId=@stuff.Id">E</a>

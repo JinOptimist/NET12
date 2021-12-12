@@ -78,9 +78,10 @@ namespace WebMaze.Controllers
             return RedirectToAction("FavoriteGames", "Game");
         }
 
-        public IActionResult Wonderful(string Username)
+        public IActionResult Wonderful(long gameId)
         {
-            _payForActionService.EarnMoney(Username, 10);
+            var game = _favGamesRepository.Get(gameId);
+            _payForActionService.EarnMoney(game.Creater.Id, 10);
 
             return RedirectToAction("FavoriteGames", "Game");
         }

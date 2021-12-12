@@ -23,7 +23,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <div>
-                            <button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @userId = bugReports.CreaterName })'">Wonderful</button>
+                            <button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @bugReportId = bugReports.Id})'">Wonderful</button>
                             <button class="bad-button">Awful</button>
                         </div>
                     }

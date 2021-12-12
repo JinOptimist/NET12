@@ -9,9 +9,6 @@
             @Html.ValidationSummary(true)
         </div>
         <div class="form-for-pic">
-            UserName @Html.DropDownListFor(x => x.Author.Id, ViewBag.Users as SelectList)
-        </div>
-        <div class="form-for-pic">
             Picture URL @Html.TextBoxFor(x => x.Picture)
         </div>
         <div class="form-for-pic">

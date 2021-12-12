@@ -55,7 +55,7 @@
                         <td>
                             <span>
                                 @*news.NameOfAuthor*@
-                                <button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @userName = news.NameOfAuthor})'">Wonderful</button>
+                                <button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @newsId = news.Id})'">Wonderful</button>
                                 <button class="bad-button">Awful</button>
                             </span>
                         </td>

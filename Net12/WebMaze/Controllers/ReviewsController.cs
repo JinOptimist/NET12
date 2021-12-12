@@ -16,11 +16,14 @@ namespace WebMaze.Controllers
         private ReviewRepository _reviewRepository;
         private IMapper _mapper;
         private UserService _userService;
-        public ReviewsController(IMapper mapper, UserService userService, ReviewRepository reviewRepository)
+        private readonly PayForActionService _payForActionService;
+        public ReviewsController(IMapper mapper, UserService userService, ReviewRepository reviewRepository, 
+            PayForActionService payForActionService)
         {
             _reviewRepository = reviewRepository;
             _mapper = mapper;
             _userService = userService;
+            _payForActionService = payForActionService;
         }
 
 
@@ -42,6 +45,12 @@ namespace WebMaze.Controllers
                 return View(bugFeedBackUsers);
             }
 
+            if (!_payForActionService.Payment(200))
+            {
+                ModelState.AddModelError(string.Empty, "Not enought money to review");
+                return View(viewReview);
+            }
+
             var review = _mapper.Map<Review>(viewReview);
             review.Creator = _userService.GetCurrentUser();
 
@@ -50,6 +59,14 @@ namespace WebMaze.Controllers
             var FeedBackUsers = _reviewRepository.GiveViewReviews(_userService);
 
             return View(FeedBackUsers);
+        }
+
+        public IActionResult Wonderful(long reviewId)
+        {
+            var review = _reviewRepository.Get(reviewId);
+            _payForActionService.EarnMoney(review.Creator.Id, 10);
+
+            return RedirectToAction("Index", "Reviews");
         }
 
         public IActionResult RemoveReview(long idReview)

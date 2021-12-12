@@ -18,15 +18,18 @@ namespace WebMaze.Controllers
         private StuffRepository _staffForHeroRepository;
         private IMapper _mapper;
         private UserService _userService;
+        private readonly PayForActionService _payForActionService;
 
         public StuffController(UserRepository userRepository,
             StuffRepository stuffForHeroRepository,
-            IMapper mapper, UserService userService)
+            IMapper mapper, UserService userService,
+            PayForActionService payForActionService)
         {
             _staffForHeroRepository = stuffForHeroRepository;
             _userRepository = userRepository;
             _mapper = mapper;
             _userService = userService;
+            _payForActionService = payForActionService;
         }
 
         public IActionResult Stuff()
@@ -55,6 +58,12 @@ namespace WebMaze.Controllers
                 return View(stuffForHeroViewModel);
             }
 
+            if (!_payForActionService.Payment(200))
+            {
+                ModelState.AddModelError(string.Empty, "Not enought money to add stuff");
+                return View(stuffForHeroViewModel);
+            }
+
             var proposer = _userService.GetCurrentUser();
 
             var dbStuffForHero = _mapper.Map<StuffForHero>(stuffForHeroViewModel);
@@ -70,6 +79,14 @@ namespace WebMaze.Controllers
         {
             _staffForHeroRepository.Remove(stuffId);
             return RedirectToAction("Stuff");
+        }
+
+        public IActionResult Wonderful(long stuffId)
+        {
+            var stuff = _staffForHeroRepository.Get(stuffId);
+            _payForActionService.EarnMoney(stuff.Proposer.Id, 10);
+
+            return RedirectToAction("Stuff", "Stuff");
         }
     }
 }

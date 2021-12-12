@@ -20,6 +20,7 @@ namespace WebMaze.Controllers
         private IMapper _mapper;
         private UserService _userService;
         private readonly PayForActionService _payForActionService;
+
         public SuggestedController(UserRepository userRepository, ReviewRepository reviewRepository,
             SuggestedEnemysRepository suggestedEnemysRepository,
             IMapper mapper, NewCellSuggRepository newCellSuggRepository, UserService userService,
@@ -43,12 +44,14 @@ namespace WebMaze.Controllers
 
             return View(suggestedEnemysViewModels);
         }
+
         [Authorize]
         public IActionResult RemoveSuggestedEnemy(long suggestedEnemysId)
         {
             _suggestedEnemysRepository.Remove(suggestedEnemysId);
             return RedirectToAction($"{nameof(SuggestedController.SuggestedEnemys)}");
         }
+
         [Authorize]
         [HttpGet]
         public IActionResult AddSuggestedEnemy(long suggestedEnemysId)
@@ -57,6 +60,7 @@ namespace WebMaze.Controllers
          ?? new SuggestedEnemysViewModel();
             return View(model);
         }
+
         [Authorize]
         [HttpPost]
         public IActionResult AddSuggestedEnemy(SuggestedEnemysViewModel suggestedEnemysViewModel)
@@ -83,6 +87,15 @@ namespace WebMaze.Controllers
 
             return RedirectToAction($"{nameof(SuggestedController.SuggestedEnemys)}");
         }
+
+        public IActionResult WonderfulSuggestedEnemy(long suggestedEnemysId)
+        {
+            var suggestedEnemys = _suggestedEnemysRepository.Get(suggestedEnemysId);
+            _payForActionService.EarnMoney(suggestedEnemys.Creater.Id, 10);
+
+            return RedirectToAction("SuggestedEnemys", "Suggested");
+        }
+
         public IActionResult NewCellSugg()
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
@@ -92,6 +105,7 @@ namespace WebMaze.Controllers
 
             return View(newCellSuggestionsViewModel);
         }
+
         [Authorize]
         [HttpGet]
         public IActionResult AddNewCellSugg(long Id)
@@ -100,6 +114,7 @@ namespace WebMaze.Controllers
            ?? new NewCellSuggestionViewModel();
             return View(model);
         }
+
         [Authorize]
         [HttpPost]
         public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCellSuggestionViewModel)
@@ -126,11 +141,20 @@ namespace WebMaze.Controllers
             _newCellSuggRepository.Save(NewCS);
             return RedirectToAction($"{nameof(SuggestedController.NewCellSugg)}");
         }
+
         [Authorize]
         public IActionResult RemoveNewCellSuggestion(long id)
         {
             _newCellSuggRepository.Remove(id);
             return RedirectToAction($"{nameof(SuggestedController.NewCellSugg)}");
+        }
+
+        public IActionResult WonderfulNewCellSuggestion(long newCellSuggestionId)
+        {
+            var newCellSuggestion = _newCellSuggRepository.Get(newCellSuggestionId);
+            _payForActionService.EarnMoney(newCellSuggestion.Creater.Id, 10);
+
+            return RedirectToAction("NewCellSugg", "Suggested");
         }
     }
 }

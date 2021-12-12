@@ -21,7 +21,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <div>
-                            <button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @userId = image.Author.Id })'">Wonderful</button>
+                            <button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @imageId = image.Id })'">Wonderful</button>
                             <button class="bad-button">Awful</button>
                         </div>
                     }

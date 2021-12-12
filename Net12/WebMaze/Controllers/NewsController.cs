@@ -85,9 +85,10 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index", "News");
         }
 
-        public IActionResult Wonderful(string userName)
+        public IActionResult Wonderful(long newsId)
         {
-            _payForActionService.EarnMoney(userName, 10);
+            var news = _newsRepository.Get(newsId);
+            _payForActionService.EarnMoney(news.Author.Id, 10);           
 
             return RedirectToAction("Index", "News");
         }

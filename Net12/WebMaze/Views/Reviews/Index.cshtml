@@ -31,7 +31,13 @@
                             <a href="/Reviews/RemoveReview?idReview=@item.Id">Remove</a>
                         }
                     </div>
-
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div>
+                            <button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @reviewId = item.Id })'">Wonderful</button>
+                            <button class="bad-button">Awful</button>
+                        </div>
+                    }
                 </div>
 
             }
