@@ -1,0 +1,100 @@
+﻿@model NewsAndCommentsViewModel
+
+<div class="page-content">
+    <div class="news-content">
+        <div class="news-title">
+            <h2>@Model.News.Title</h2>
+        </div>
+
+        <div class="news-text">
+            @Model.News.Text
+        </div>
+
+        <div class="date-author">
+            <div>
+                @Model.News.CreationDate.ToShortDateString()
+            </div>
+
+            <div>
+                @Model.News.NameOfAuthor
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="comments-count">
+            @Model.NewsComments.Count().ToString() comments
+        </div>
+
+        @foreach (var comment in Model.NewsComments)
+        {
+            <div class="comment">
+                <div class="comment-date-author">
+                    <div class="author-info">
+                        @comment.NameOfAuthor
+                    </div>
+
+                    <div class="date-info">
+                        @comment.CreationDate.ToShortDateString()
+                    </div>
+                </div>
+
+                <div class="comment-text">
+                    @comment.Text
+                </div>
+            </div>
+        }
+    </div>
+
+    <div>
+        <a href="/NewsComment/AddNewsComment?newsId=@Model.News.Id" style="color:red; font-size:x-large">ADD COMMENT &raquo;</a>
+    </div>
+
+
+</div>
+<style>
+    .news-title {
+        display: flex;
+        justify-content: center;
+    }
+
+    .news-text {
+        font-size: 24px;
+        text-align: justify;
+        margin-bottom: 40px;
+    }
+
+    .date-author {
+        display: flex;
+        justify-content: space-around;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .news-content {
+        margin-left: 200px;
+        margin-right: 200px;
+    }
+
+    .comments-count {
+        margin-left: 300px;
+        margin-top: 30px;
+        font-weight: 800;
+        font-size: 20px;
+    }
+
+    .comment {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        margin: 20px 230px;
+        border: solid 1px;
+        display: flex;
+    }
+
+    .comment-date-author {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 700;
+    }
+</style>
