@@ -74,6 +74,8 @@ namespace WebMaze.Controllers
         {
             var myModel = _mazeLevelRepository.Get(Id);
             var maze = _mapper.Map<MazeLevel>(myModel);
+            maze.GetCoins = GetCoinsFromMaze;
+
             switch (turn)
             {
                 case 1:
@@ -92,7 +94,6 @@ namespace WebMaze.Controllers
 
             _mazeLevelRepository.ChangeModel(myModel, maze, _mapper);
 
-
             _mazeLevelRepository.Save(myModel);
             return View(maze);
         }
@@ -108,7 +109,7 @@ namespace WebMaze.Controllers
         {
             //TODO: CHOOSE DIFFICULITY
             //  var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
-            var maze = new MazeBuilder().Build(10, 10, 100, 100, false);
+            var maze = new MazeBuilder().Build(10, 10, 100, 100,GetCoinsFromMaze, false);
             var model = _mapper.Map<MazeLevelWeb>(maze);
             model.IsActive = true;
 
@@ -178,6 +179,13 @@ namespace WebMaze.Controllers
         {
             _mazeDifficultRepository.Remove(Id);
             return RedirectToAction("ManageMazeDifficult", "Maze");
+        }
+
+        public void GetCoinsFromMaze(int coins)
+        {
+            var user = _userService.GetCurrentUser();
+            user.Coins += coins;
+            _userRepository.Save(user);
         }
     }
 }

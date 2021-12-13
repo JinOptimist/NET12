@@ -14,6 +14,8 @@ namespace Net12.Maze
         public override bool TryToStep()
         {
             Maze.Hero.Money++;
+            Maze.GetCoins(1);
+
             currentGoldMineMp++;
 
             if (currentGoldMineMp >= goldMineMaxHp)
