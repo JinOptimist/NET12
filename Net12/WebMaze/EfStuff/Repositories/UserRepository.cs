@@ -13,14 +13,19 @@ namespace WebMaze.EfStuff.Repositories
         private FavGamesRepository _favGamesRepository;
 
         private ImageRepository _imageRepository;
-
-        public UserRepository(WebContext webContext, 
+        private MazeLevelRepository _mazeLevelRepository;
+        private CellRepository _cellRepository;
+        private MazeEnemyRepository _mazeEnemyRepository;
+        public UserRepository(WebContext webContext,
             ReviewRepository reviewRepository,
-            ImageRepository imageRepository, FavGamesRepository favGamesRepository) : base(webContext)
+            ImageRepository imageRepository, MazeLevelRepository mazeLevelRepository, CellRepository cellRepository, FavGamesRepository favGamesRepository, MazeEnemyRepository mazeEnemyRepository) : base(webContext)
         {
             _reviewRepository = reviewRepository;
             _favGamesRepository = favGamesRepository;
             _imageRepository = imageRepository;
+            _mazeLevelRepository = mazeLevelRepository;
+            _cellRepository = cellRepository;
+            _mazeEnemyRepository = mazeEnemyRepository;
         }
 
         public User GetByNameAndPassword(string login, string password)
@@ -41,6 +46,12 @@ namespace WebMaze.EfStuff.Repositories
         public override void Remove(User user)
         {
             _reviewRepository.Remove(user.MyReviews);
+            foreach(var maze in user.ListMazeLevels)
+            {
+                _cellRepository.Remove(maze.Cells);
+                _mazeEnemyRepository.Remove(maze.Enemies);
+            }
+            _mazeLevelRepository.Remove(user.ListMazeLevels);
             _favGamesRepository.RemoveByUser(user.Id);
             _imageRepository.RemoveByUser(user.Id);
             base.Remove(user);

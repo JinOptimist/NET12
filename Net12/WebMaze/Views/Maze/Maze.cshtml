@@ -1,0 +1,69 @@
+﻿@using Net12.Maze
+@using Net12.Maze.Cells
+@using Net12.Maze.Cells.Enemies
+@model MazeLevel
+
+<div class="menu-maze-difficult">
+    <a href="/Maze/AddMazeDifficult">Add Maze Difficult</a>
+    <a href="/Maze/ManageMazeDifficult">Manage Maze Difficult</a>
+    <a href="/Maze/Index">Create Maze</a>
+</div>
+
+<div>
+    <a>My HP: @Model.Hero.Hp</a>
+    <a>My Fatigue: @Model.Hero.CurrentFatigue</a>
+    <a>My Money: @Model.Hero.Money</a>
+</div>
+<div class="text-center">
+    <h1>Maze</h1>
+    @for (int y = 0; y < Model.Height; y++)
+    {
+        <div>
+            @for (int x = 0; x < Model.Width; x++)
+            {
+                <span>
+                    @if (Model.Hero.X == x && Model.Hero.Y == y)
+                    {
+                        <img class="cell" src="~/images/cells/spriteHero.png" />
+                    }
+                    else if (Model.Enemies.Any(e => e.X == x && e.Y == y))
+                    {
+                        <img class="cell" src="~/images/Enemies/@(Model.Enemies.First(e => e.X == x && e.Y == y).GetType().Name).jpg" />
+                    }
+                    else if (Model[x, y] is BaseCell)
+                    {
+                        <img class="cell" src="~/images/cells/@(Model[x,y].GetType().Name).jpg" />
+                    }
+                </span>
+            }
+        </div>
+    }
+    <div>
+        <div class="button-view-up">
+            <form method="post">
+                @Html.HiddenFor(x=> x.Id)
+                <input type="hidden" value="1" name="turn" />
+                <input type="submit" value="⬆" />
+            </form>
+        </div>
+        <div class="button-view-down">
+            <form method="post">
+                @Html.HiddenFor(x=> x.Id)
+                <input type="hidden" value="3" name="turn" />
+                <input type="submit" value="◀" />
+            </form>
+            <form method="post">
+                @Html.HiddenFor(x=> x.Id)
+                <input type="hidden" value="2" name="turn" />
+                <input type="submit" value="⬇" />
+            </form>
+            <form method="post">
+                @Html.HiddenFor(x=> x.Id)
+                <input type="hidden" value="4" name="turn" />
+                <input type="submit" value="▶" />
+            </form>
+        </div>
+    </div>
+</div>
+
+

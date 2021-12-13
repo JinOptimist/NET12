@@ -27,9 +27,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\cells\tavern.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\images\galleryImg\" />
     <Folder Include="wwwroot\images\Movie\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\cells\tavern.png" />
   </ItemGroup>
 
   <ItemGroup>

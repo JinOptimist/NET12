@@ -9,7 +9,7 @@ namespace Net12.Maze.Cells.Enemies
     {
         private Random _random = new Random();
 
-        private Direction _heroDirection;
+        public Direction _heroDirection;
         public BullEnemy(int x, int y, MazeLevel maze) : base(x, y, maze) 
         {
             _heroDirection = GetRandomDirection();

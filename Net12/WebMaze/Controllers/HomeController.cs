@@ -26,6 +26,7 @@ namespace WebMaze.Controllers
 
         private SuggestedEnemysRepository _suggestedEnemysRepository;
         private FavGamesRepository _favGamesRepository;
+        private NewCellSuggRepository _newCellSuggRepository;
         private IMapper _mapper;
 
         public HomeController(WebContext webContext,
@@ -37,27 +38,14 @@ namespace WebMaze.Controllers
             _reviewRepository = reviewRepository;
             _movieRepository = movieRepository;
             _mapper = mapper;
-            _favGamesRepository = favGamesRepository;
             _userService = userService;
+            _favGamesRepository = favGamesRepository;
         }
 
         public IActionResult Index()
         {
-            var userViewModels = new List<UserViewModel>();
-            foreach (var dbUser in _userRepository.GetAll())
-            {
-                var userViewModel = new UserViewModel();
-                userViewModel.Id = dbUser.Id;
-                userViewModel.UserName = dbUser.Name;
-                userViewModel.Coins = dbUser.Coins;
-                userViewModels.Add(userViewModel);
-            }
-
-            //var userViewModels2 = _webContext.Users.Select(
-            //    dbModel => new UserViewModel { 
-            //        UserName = dbModel.Name, 
-            //        Coins = dbModel.Coins 
-            //    });
+            var userViewModels = _userRepository.GetAll()
+                 .Select(x => _mapper.Map<UserViewModel>(x)).ToList();
 
             return View(userViewModels);
         }
@@ -192,49 +180,10 @@ namespace WebMaze.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult Reviews()
-        {
-            var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_userRepository.GetAll().Any())
-            {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
-            }
 
-            return View(FeedBackUsers);
-        }
 
-        [HttpPost]
-        public IActionResult Reviews(FeedBackUserViewModel viewReview)
-        {
-            // TODO: Selected User
 
-            var review = _mapper.Map<Review>(viewReview);
-            review.Creator = _userService.GetCurrentUser();
 
-            review.IsActive = true;
-            _reviewRepository.Save(review);
-
-            var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_reviewRepository.GetAll().Any())
-            {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
-            }
-            return View(FeedBackUsers);
-        }
-        public IActionResult RemoveReview(long idReview)
-        {
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                var myUser = _userService.GetCurrentUser();
-                if (myUser == _reviewRepository.Get(idReview).Creator)
-                {
-                    _reviewRepository.Remove(idReview);
-                }
-
-            }
-            return RedirectToAction("Reviews", "Home");
-        }
 
         public IActionResult Movie()
         {

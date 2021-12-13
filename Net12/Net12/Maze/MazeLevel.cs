@@ -11,6 +11,8 @@ namespace Net12.Maze
     public class MazeLevel : IMazeLevel
 
     {
+        public long Id { get; set; }
+
         public List<BaseCell> Cells { get; set; } = new List<BaseCell>();
 
         public List<BaseEnemy> Enemies { get; set; } = new List<BaseEnemy>();
@@ -21,6 +23,8 @@ namespace Net12.Maze
         public IHero Hero { get; set; }
 
         public string Message { get; set; } = "";
+
+        public Action<int> GetCoins { get; set; }
 
         public IBaseCell GetCellOrUnit(int x, int y)
         {
