@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20211212193729_NewsComments")]
+    partial class NewsComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,7 +92,6 @@ namespace WebMaze.Migrations
                     b.ToTable("BugReports");
                 });
 
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.CellModel", b =>
                 {
                     b.Property<long>("Id")
@@ -125,7 +126,6 @@ namespace WebMaze.Migrations
 
                     b.ToTable("CellsModels");
                 });
-
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Game", b =>
                 {
@@ -226,41 +226,6 @@ namespace WebMaze.Migrations
                     b.ToTable("Gallery");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeCellWeb", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<long?>("MazeLevelId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Obj1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Obj2")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TypeCell")
-                        .HasColumnType("int");
-
-                    b.Property<int>("X")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Y")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MazeLevelId");
-
-                    b.ToTable("CellsModels");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
                 {
                     b.Property<long>("Id")
@@ -302,43 +267,7 @@ namespace WebMaze.Migrations
                     b.ToTable("MazeDifficultProfiles");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeEnemyWeb", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<long?>("MazeLevelId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Obj1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Obj2")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TypeEnemy")
-                        .HasColumnType("int");
-
-                    b.Property<int>("X")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Y")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MazeLevelId");
-
-                    b.ToTable("MazeEnemyWeb");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelWeb", b =>
-
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelModel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -711,7 +640,6 @@ namespace WebMaze.Migrations
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.BugReport", b =>
-
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
                         .WithMany("MyBugReports")
@@ -756,15 +684,6 @@ namespace WebMaze.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeCellWeb", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.MazeLevelWeb", "MazeLevel")
-                        .WithMany("Cells")
-                        .HasForeignKey("MazeLevelId");
-
-                    b.Navigation("MazeLevel");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
@@ -774,16 +693,7 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeEnemyWeb", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.MazeLevelWeb", "MazeLevel")
-                        .WithMany("Enemies")
-                        .HasForeignKey("MazeLevelId");
-
-                    b.Navigation("MazeLevel");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelWeb", b =>
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelModel", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
                         .WithMany("ListMazeLevels")
@@ -882,11 +792,9 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelWeb", b =>
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelModel", b =>
                 {
                     b.Navigation("Cells");
-
-                    b.Navigation("Enemies");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerField", b =>

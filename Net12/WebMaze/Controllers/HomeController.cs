@@ -32,7 +32,6 @@ namespace WebMaze.Controllers
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
             _mapper = mapper;
-            _newCellSuggRepository = newCellSuggRepository;
             _userService = userService;
             _favGamesRepository = favGamesRepository;
         }
@@ -174,47 +173,9 @@ namespace WebMaze.Controllers
         }
 
 
-    
 
-        public IActionResult NewCellSugg()
-        {
-            var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
-            newCellSuggestionsViewModel = _newCellSuggRepository.GetAll()
-                .Select(dbModel => _mapper.Map<NewCellSuggestionViewModel>(dbModel))
-                .ToList();
 
-            return View(newCellSuggestionsViewModel);
-        }
-        [HttpGet]
-        public IActionResult AddNewCellSugg()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult AddNewCellSugg(NewCellSuggestionViewModel newCell)
-        {
-            //TODO user current user after login
-            var creater = _userRepository.GetRandomUser();
 
-            var NewCS = new NewCellSuggestion()
-            {
-                Title = newCell.Title,
-                Description = newCell.Description,
-                MoneyChange = newCell.MoneyChange,
-                HealtsChange = newCell.HealtsChange,
-                FatigueChange = newCell.FatigueChange,
-                Creater = creater,
-                IsActive = true
-            };
-
-            _newCellSuggRepository.Save(NewCS);
-            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
-        }
-        public IActionResult RemoveNewCellSuggestion(long id)
-        {
-            _newCellSuggRepository.Remove(id);
-            return RedirectToAction($"{nameof(HomeController.NewCellSugg)}");
-        }
 
     }
 
