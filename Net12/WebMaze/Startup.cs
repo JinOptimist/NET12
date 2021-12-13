@@ -221,16 +221,13 @@ namespace WebMaze
                      }
                  });
 
-            provider.CreateMap<MazeCellWeb, BaseCell>()
+            provider.CreateMap<MazeCellWeb, BaseCell>();
             provider.CreateMap<ZumaGameCell, ZumaGameCellViewModel>();
             provider.CreateMap<ZumaGameCellViewModel, ZumaGameCell>();
 
             provider.CreateMap<ZumaGameField, ZumaGameFieldViewModel>()
                 .ForMember(nameof(ZumaGameFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
             provider.CreateMap<ZumaGameFieldViewModel, ZumaGameField>();
-
-            provider.CreateMap<CellModel, BaseCell>()
-                .ConstructUsing(x => inBaseCell(x));
 
             provider.CreateMap<BaseCell, MazeCellWeb>()
                 .ConstructUsing(x => inCellModel(x));
