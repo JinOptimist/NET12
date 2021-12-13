@@ -48,8 +48,8 @@ namespace WebMaze.Controllers
         public IActionResult ClickOnCell(long Id)
         {
             var cell = _zumaGameCellRepository.Get(Id);
-            var field = _zumaGameFieldRepository.Get(cell.Field.Id);
-            var cells = _zumaGameCellRepository.GetAll(field);
+            var field = cell.Field;
+            var cells = field.Cells;
 
             var getNear = _zumaGameCellRepository.GetNear(cell);
 
@@ -57,7 +57,9 @@ namespace WebMaze.Controllers
             {
                 var replaceCells = cells.Where(db => db.Y < replaceCell.Y && db.X == replaceCell.X).ToList();
 
-                replaceCells.Select(x => x.Y = x.Y + 1).ToList();
+                replaceCells.ForEach(x => x.Y++);
+
+                _zumaGameCellRepository.Remove(replaceCell);
 
                 replaceCells.Add(new EfStuff.DbModel.ZumaGameCell { 
                     Color = _zumaGameFieldBuilder.GetRandom(field.Palette).Color,
@@ -67,7 +69,6 @@ namespace WebMaze.Controllers
                     IsActive = true
                 });
 
-                _zumaGameCellRepository.Remove(replaceCell);
                 _zumaGameCellRepository.ReplaceCells(replaceCells);
 
             }
