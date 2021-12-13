@@ -21,12 +21,9 @@ namespace WebMaze.Controllers
         private UserService _userService;
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
-        private NewCellSuggRepository _newCellSuggRepository;
         private MovieRepository _movieRepository;
-
-        private SuggestedEnemysRepository _suggestedEnemysRepository;
         private FavGamesRepository _favGamesRepository;
-        private NewCellSuggRepository _newCellSuggRepository;
+
         private IMapper _mapper;
 
         public HomeController(WebContext webContext,
