@@ -94,7 +94,6 @@ namespace WebMaze.Controllers
 
             _mazeLevelRepository.ChangeModel(myModel, maze, _mapper);
 
-
             _mazeLevelRepository.Save(myModel);
             return View(maze);
         }
