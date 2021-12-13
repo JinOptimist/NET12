@@ -1,0 +1,24 @@
+﻿@model NewsCommentViewModel
+
+<div class=text-center>
+    <h2>Adding comment</h2>
+</div>
+
+<div>
+    <form action="/NewsComment/AddNewsComment" method="post">
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.NewsId)
+        <div>
+            <div>
+                Text of news: @Html.TextAreaFor(x => x.Text)
+            </div>
+            <div>
+                @Html.ValidationMessageFor(x => x.Text)
+            </div>
+        </div>
+
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+</div>
