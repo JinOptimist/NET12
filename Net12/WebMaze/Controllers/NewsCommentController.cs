@@ -53,7 +53,8 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult AddNewsComment(long commentId, long newsId)
         {
-            var model = new NewsCommentViewModel() { NewsId = newsId };
+            var model = _mapper.Map<NewsCommentViewModel>(_newsCommentRepository.Get(commentId))
+                ?? new NewsCommentViewModel() { NewsId = newsId };
             return View(model);
         }
 
