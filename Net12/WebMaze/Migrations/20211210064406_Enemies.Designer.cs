@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20211210064406_Enemies")]
+    partial class Enemies
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,43 +92,6 @@ namespace WebMaze.Migrations
                     b.ToTable("BugReports");
                 });
 
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.CellModel", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<long?>("MazeLevelId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Obj1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Obj2")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TypeCell")
-                        .HasColumnType("int");
-
-                    b.Property<int>("X")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Y")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MazeLevelId");
-
-                    b.ToTable("CellsModels");
-                });
-
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Game", b =>
                 {
                     b.Property<long>("Id")
@@ -160,41 +125,6 @@ namespace WebMaze.Migrations
                     b.HasIndex("CreaterId");
 
                     b.ToTable("FavGames");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.GameDevices", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("BrandName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("CreaterId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Desc")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DeviceName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TypeDevice")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreaterId");
-
-                    b.ToTable("GameDevices");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
@@ -338,7 +268,6 @@ namespace WebMaze.Migrations
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelWeb", b =>
-
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -521,37 +450,6 @@ namespace WebMaze.Migrations
                     b.ToTable("News");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewsComment", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long?>("AuthorId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<long?>("NewsId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("NewsId");
-
-                    b.ToTable("NewsComments");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Perrmission", b =>
                 {
                     b.Property<long>("Id")
@@ -711,7 +609,6 @@ namespace WebMaze.Migrations
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.BugReport", b =>
-
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
                         .WithMany("MyBugReports")
@@ -720,28 +617,10 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.CellModel", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.MazeLevelModel", "MazeLevel")
-                        .WithMany("Cells")
-                        .HasForeignKey("MazeLevelId");
-
-                    b.Navigation("MazeLevel");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Game", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
                         .WithMany("MyFavGames")
-                        .HasForeignKey("CreaterId");
-
-                    b.Navigation("Creater");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.GameDevices", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
-                        .WithMany("MyGameDevices")
                         .HasForeignKey("CreaterId");
 
                     b.Navigation("Creater");
@@ -834,21 +713,6 @@ namespace WebMaze.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewsComment", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
-                        .WithMany("NewsComments")
-                        .HasForeignKey("AuthorId");
-
-                    b.HasOne("WebMaze.EfStuff.DbModel.News", "News")
-                        .WithMany("NewsComments")
-                        .HasForeignKey("NewsId");
-
-                    b.Navigation("Author");
-
-                    b.Navigation("News");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
@@ -894,11 +758,6 @@ namespace WebMaze.Migrations
                     b.Navigation("Cells");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.News", b =>
-                {
-                    b.Navigation("NewsComments");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
                     b.Navigation("AddedSStuff");
@@ -923,13 +782,9 @@ namespace WebMaze.Migrations
 
                     b.Navigation("MyFavGames");
 
-                    b.Navigation("MyGameDevices");
-
                     b.Navigation("MyNews");
 
                     b.Navigation("MyReviews");
-
-                    b.Navigation("NewsComments");
                 });
 #pragma warning restore 612, 618
         }

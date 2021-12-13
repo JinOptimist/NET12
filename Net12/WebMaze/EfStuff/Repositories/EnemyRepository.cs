@@ -5,9 +5,9 @@ using System;
 
 namespace WebMaze.EfStuff.Repositories
 {
-    public class CellRepository : BaseRepository<MazeCellWeb>
+    public class MazeEnemyRepository : BaseRepository<MazeEnemyWeb>
     {
-        public CellRepository(WebContext webContext) : base(webContext)
+        public MazeEnemyRepository(WebContext webContext) : base(webContext)
         {
         }
 
