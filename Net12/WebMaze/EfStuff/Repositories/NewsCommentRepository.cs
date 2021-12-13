@@ -14,7 +14,7 @@ namespace WebMaze.EfStuff.Repositories
 
         public List<NewsComment> GetAllId(long id)
         {
-            return _dbSet.Where(x => x.News.Id == id).ToList();
+            return _dbSet.Where(x => x.News.Id == id && x.IsActive).ToList();
         }
     }
 }

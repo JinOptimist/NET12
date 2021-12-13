@@ -81,10 +81,11 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index", "NewsComment", new { newsCommentViewModel.NewsId });
         }
 
-        //public IActionResult RemoveNews(long newsId)
-        //{
-        //    _newsRepository.Remove(newsId);
-        //    return RedirectToAction("Index", "News");
-        //}
+        public IActionResult RemoveNewsComment(long commentId)
+        {
+            var newsId = _newsCommentRepository.Get(commentId).News.Id;
+            _newsCommentRepository.Remove(commentId);
+            return RedirectToAction("Index", "NewsComment", new { newsId });
+        }
     }
 }
