@@ -73,6 +73,8 @@ namespace WebMaze.Controllers
         {
             var myModel = _mazeLevelRepository.Get(Id);
             var maze = _mapper.Map<MazeLevel>(myModel);
+            maze.GetCoins = GetCoinsFromMaze;
+
             switch (turn)
             {
                 case 1:
@@ -88,7 +90,7 @@ namespace WebMaze.Controllers
                     maze.HeroStep(Direction.Right);
                     break;
             }
-
+            
             _mazeLevelRepository.ChangeModel(myModel, maze, _mapper);
 
 
