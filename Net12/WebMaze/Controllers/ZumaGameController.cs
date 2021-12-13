@@ -17,7 +17,7 @@ namespace WebMaze.Controllers
         private ZumaGameCellRepository _zumaGameCellRepository;
         private IMapper _mapper;
 
-        private int _width = 15;
+        private int _width = 10;
         private int _height = 15;
         private int _colorCount = 5;
 

@@ -1,5 +1,6 @@
 ﻿@using Net12.Maze
 @using Net12.Maze.Cells
+@using Net12.Maze.Cells.Enemies
 @model MazeLevel
 
 <div class="menu-maze-difficult">
@@ -8,6 +9,11 @@
     <a href="/Maze/Index">Create Maze</a>
 </div>
 
+<div>
+    <a>My HP: @Model.Hero.Hp</a>
+    <a>My Fatigue: @Model.Hero.CurrentFatigue</a>
+    <a>My Money: @Model.Hero.Money</a>
+</div>
 <div class="text-center">
     <h1>Maze</h1>
     @for (int y = 0; y < Model.Height; y++)
@@ -20,77 +26,13 @@
                     {
                         <img class="cell" src="~/images/cells/spriteHero.png" />
                     }
-                    else if (Model[x, y] is WeakWall)
+                    else if (Model.Enemies.Any(e => e.X == x && e.Y == y))
                     {
-                        <img class="cell" src="~/images/cells/weakwall.png" />
+                        <img class="cell" src="~/images/Enemies/@(Model.Enemies.First(e => e.X == x && e.Y == y).GetType().Name).jpg" />
                     }
-                    else if (Model[x, y] is GoldMine)
+                    else if (Model[x, y] is BaseCell)
                     {
-                        <img class="cell" src="~/images/goldmine.jpg" />
-                    }
-                    else if (Model[x, y] is Coin)
-                    {
-                        <img class="cell" src="~/images/Coin.jpg" />
-                    }
-                    else if (Model[x, y] is Bed)
-                    {
-                        <img class="cell" src="~/images/cells/bed.png" />
-                    }
-                    else if (Model[x, y] is Puddle)
-                    {
-                        <img class="cell" src="~/images/Puddle.jpg" />
-                    }
-                    else if (Model[x, y] is VitalityPotion)
-                    {
-                        <img class="cell" src="~/images/cells/vitalitypotion.png" />
-                    }
-                    else if (Model[x, y] is Bless)
-                    {
-                        <img class="cell" src="~/images/cells/bless.jpg" />
-                    }
-                    else if (Model[x, y] is TeleportIn)
-                    {
-                        <img class="cell" src="~/images/TeleportIn.jpg" />
-                    }
-                    else if (Model[x, y] is TeleportOut)
-                    {
-                        <img class="cell" src="~/images/TeleportOut.jpg" />
-                    }
-                    else if (Model[x, y] is Fountain)
-                    {
-                        <img class="cell" src="~/images/Fountain.jpg" />
-                    }
-                    else if (Model[x, y] is Trap)
-                    {
-                        <img class="cell" src="~/images/cells/trap.jpg" />
-                    }
-                    else if (Model[x, y] is HealPotion)
-                    {
-                        <img class="cell" src="~/images/HealthPotion.png" />
-                    }
-                    else if (Model[x, y] is WolfPit)
-                    {
-                        <img class="cell" src="~/images/cells/wolfpit.jpg" />
-                    }
-                    else if (Model[x, y] is Tavern)
-                    {
-                        <img class="cell" src="~/images/cells/tavern.png" />
-                    }
-                    else if (Model[x, y] is Healer)
-                    {
-                        <img class="cell" src="~/images/cells/healer.png" />
-                    }
-                    else if (Model[x, y] is Wall)
-                    {
-                        <img class="cell" src="~/images/cells/wall.jpg" />
-                    }
-                    else if (Model[x, y] is Ground)
-                    {
-                        <img class="cell" src="~/images/cells/ground.jpg" />
-                    }
-                    else
-                    {
-                        <img class="cell" src="~/images/cells/whatIsIt.png" />
+                        <img class="cell" src="~/images/cells/@(Model[x,y].GetType().Name).jpg" />
                     }
                 </span>
             }
