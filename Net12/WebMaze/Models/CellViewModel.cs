@@ -6,7 +6,7 @@ namespace WebMaze.Models
 {
     public class CellViewModel
     {
-        public CellInfo TypeCell { get; set; }
+        public MazeCellInfo TypeCell { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public int HpCell { get; set; }
