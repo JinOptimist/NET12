@@ -9,12 +9,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Net12.Maze;
 using Net12.Maze.Cells;
+using Net12.Maze.Cells.Enemies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.EfStuff.DbModel.Maze;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Services;
@@ -45,7 +48,7 @@ namespace WebMaze
                     config.Cookie.Name = "AuthSweet";
                 });
 
-            RegisterRepositories(services);
+            RegisterRepositoriesAuto(services);
 
             RegisterMapper(services);
 
@@ -58,98 +61,49 @@ namespace WebMaze
             services.AddControllersWithViews();
         }
 
-        private void RegisterRepositories(IServiceCollection services)
+        private void RegisterRepositoriesAuto(IServiceCollection services)
         {
-            services.AddScoped<UserRepository>(diContainer =>
-                {
-                    var webContext = diContainer.GetService<WebContext>();
-                    var reviewRepository = diContainer.GetService<ReviewRepository>();
-                    var mazeLevelRepository = diContainer.GetService<MazeLevelRepository>();
-                    var cellRepository = diContainer.GetService<CellRepository>();
-                    var imagesRepository = diContainer.GetService<ImageRepository>();
-                    var favGamesRepository = diContainer.GetService<FavGamesRepository>();
-                    var repository = new UserRepository(webContext, reviewRepository, imagesRepository, mazeLevelRepository, cellRepository, favGamesRepository);
-                    return repository;
-                });
+            var baseRepoType = typeof(BaseRepository<>);
 
-            services.AddScoped<ReviewRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new ReviewRepository(webContext);
-                return repository;
-            });
-
-            services.AddScoped<StuffRepository>(diContainer =>
-                {
-                    var webContext = diContainer.GetService<WebContext>();
-                    var repository = new StuffRepository(webContext);
-                    return repository;
-                });
-
-            services.AddScoped<NewsRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new NewsRepository(webContext);
-                return repository;
-            });
-
-            services.AddScoped<NewCellSuggRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new NewCellSuggRepository(webContext);
-                return repository;
-            });
-            services.AddScoped<SuggestedEnemysRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var suggestedEnemysRepository = new SuggestedEnemysRepository(webContext);
-                return suggestedEnemysRepository;
-            });
-
-            services.AddScoped<BugReportRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new BugReportRepository(webContext);
-                return repository;
-            });
-            services.AddScoped<MazeLevelRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new MazeLevelRepository(webContext);
-                return repository;
-            });
-            services.AddScoped<CellRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new CellRepository(webContext);
-                return repository;
-            });
-
-            services.AddScoped<MazeDifficultRepository>(x => new MazeDifficultRepository(x.GetService<WebContext>()));
-
-            services.AddScoped<ImageRepository>();
-
-            services.AddScoped<FavGamesRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new FavGamesRepository(webContext);
-                return repository;
-            });
-
-            services.AddScoped<MinerCellRepository>();
-
-            services.AddScoped<MinerFieldRepository>();
-
-            services.AddScoped<MinerFiledBuilder>();
-
-            services.AddScoped<PermissionRepository>();
-
-            services.AddScoped<ZumaGameFieldRepository>();
-            services.AddScoped<ZumaGameCellRepository>();
-            services.AddScoped<ZumaGameFieldBuilder>();
-
-
+            Assembly
+                .GetAssembly(baseRepoType)
+                .GetTypes()
+                .Where(type =>
+                    type.BaseType != null
+                    && type.BaseType.IsGenericType
+                    && type.BaseType.GetGenericTypeDefinition() == baseRepoType)
+                .ToList()
+                .ForEach(x => SmartAddScope(services, x));
         }
+
+        private void SmartAddScope<T>(IServiceCollection services) where T : class
+        {
+            Type ourType = typeof(T);
+            SmartAddScope(services, ourType);
+        }
+
+        private void SmartAddScope(IServiceCollection services, Type ourType)
+        {
+            services.AddScoped(ourType, serviceProvider =>
+            {
+                var constructor = ourType
+                    .GetConstructors()
+                    .OrderByDescending(x => x.GetParameters().Length)
+                    .First();
+
+                var parameters = constructor
+                    .GetParameters()
+                    .Select(x =>
+                        serviceProvider.GetService(x.ParameterType)
+                    )
+                    .ToArray();
+
+                return constructor.Invoke(parameters);
+            });
+
+            services.AddScoped<ZumaGameFieldBuilder>();
+        }
+
         private void RegisterMapper(IServiceCollection services)
         {
             var provider = new MapperConfigurationExpression();
@@ -158,6 +112,10 @@ namespace WebMaze
                 .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name))
                 .ForMember(nameof(NewsViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Author.GlobalUserRating));
             provider.CreateMap<NewsViewModel, News>();
+
+            provider.CreateMap<NewsComment, NewsCommentViewModel>()
+               .ForMember(nameof(NewsCommentViewModel.NameOfAuthor), opt => opt.MapFrom(dbNewsComment => dbNewsComment.Author.Name));
+            provider.CreateMap<NewsCommentViewModel, NewsComment>();
 
             provider.CreateMap<SuggestedEnemys, SuggestedEnemysViewModel>()
                     .ForMember(nameof(SuggestedEnemysViewModel.UserName), opt => opt.MapFrom(dbSuggestedEnemys => dbSuggestedEnemys.Creater.Name))
@@ -205,6 +163,9 @@ namespace WebMaze
             provider.CreateMap<BugReport, BugReportViewModel>()
                 .ForMember(nameof(BugReportViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Creater.GlobalUserRating));
 
+            provider.CreateMap<GameDevicesViewModel, GameDevices>();
+            provider.CreateMap<GameDevices, GameDevicesViewModel>();
+
             provider.CreateMap<Game, GameViewModel>()
                 .ForMember(nameof(GameViewModel.Username), opt => opt.MapFrom(dbGame => dbGame.Creater.Name))
                 .ForMember(nameof(GameViewModel.Age), opt => opt.MapFrom(dbGame => dbGame.Creater.Age))
@@ -214,13 +175,15 @@ namespace WebMaze
             provider.CreateMap<MinerField, MinerFieldViewModel>();
             provider.CreateMap<MinerCell, MinerCellViewModel>();
 
-            provider.CreateMap<MazeLevelModel, MazeViewModel>();
-            provider.CreateMap<MazeViewModel, MazeLevelModel>();
+            provider.CreateMap<MazeLevelWeb, MazeViewModel>();
+            provider.CreateMap<MazeViewModel, MazeLevelWeb>();
 
-            provider.CreateMap<CellModel, CellViewModel>();
-            provider.CreateMap<CellViewModel, CellModel>();
+            provider.CreateMap<MazeCellWeb, CellViewModel>();
+            provider.CreateMap<CellViewModel, MazeCellWeb>();
 
-            provider.CreateMap<MazeLevelModel, MazeLevel>()
+            provider.CreateMap<Perrmission, PermissionViewModel>();
+            provider.CreateMap<PermissionViewModel, Perrmission>();
+            provider.CreateMap<MazeLevelWeb, MazeLevel>()
                 .ConstructUsing(x => inMazeLevel(x))
                 .ForMember(maze => maze.Cells, db => db.MapFrom(model => model.Cells))
                 .AfterMap((a, b) =>
@@ -228,9 +191,13 @@ namespace WebMaze
                     foreach (var cell in b.Cells)
                     {
                         cell.Maze = b;
-
                     }
-                    TeleportIn TeleportIn = (TeleportIn)b.Cells.SingleOrDefault(c => c is TeleportIn);
+                    foreach (var enemy in b.Enemies)
+                    {
+                        enemy.Maze = b;
+                    }
+
+                    var TeleportIn = (TeleportIn)b.Cells.SingleOrDefault(c => c is TeleportIn);
                     var TeleportOut = b.Cells.SingleOrDefault(c => c is TeleportOut);
                     if (TeleportIn != null && TeleportOut != null)
                     {
@@ -238,17 +205,23 @@ namespace WebMaze
                     }
                 });
 
-            provider.CreateMap<MazeLevel, MazeLevelModel>()
+            provider.CreateMap<MazeLevel, MazeLevelWeb>()
                  .ConstructUsing(x => inMazeModel(x))
                  .ForMember(maze => maze.Cells, db => db.MapFrom(model => model.Cells))
+                 .ForMember(maze => maze.Enemies, db => db.MapFrom(model => model.Enemies))
                  .AfterMap((a, b) =>
                  {
                      foreach (var cell in b.Cells)
                      {
                          cell.MazeLevel = b;
                      }
+                     foreach (var enemy in b.Enemies)
+                     {
+                         enemy.MazeLevel = b;
+                     }
                  });
 
+            provider.CreateMap<MazeCellWeb, BaseCell>()
             provider.CreateMap<ZumaGameCell, ZumaGameCellViewModel>();
             provider.CreateMap<ZumaGameCellViewModel, ZumaGameCell>();
 
@@ -259,9 +232,14 @@ namespace WebMaze
             provider.CreateMap<CellModel, BaseCell>()
                 .ConstructUsing(x => inBaseCell(x));
 
-            provider.CreateMap<BaseCell, CellModel>()
+            provider.CreateMap<BaseCell, MazeCellWeb>()
                 .ConstructUsing(x => inCellModel(x));
 
+            provider.CreateMap<MazeEnemyWeb, BaseEnemy>()
+                .ConstructUsing(x => inBaseEnemy(x));
+
+            provider.CreateMap<BaseEnemy, MazeEnemyWeb>()
+                .ConstructUsing(x => inEnemyWeb(x));
 
 
             var mapperConfiguration = new MapperConfiguration(provider);
@@ -272,9 +250,9 @@ namespace WebMaze
             services.AddScoped<IMapper>(x => mapper);
 
         }
-        private MazeLevelModel inMazeModel(MazeLevel maze)
+        private MazeLevelWeb inMazeModel(MazeLevel maze)
         {
-            var model = new MazeLevelModel()
+            var model = new MazeLevelWeb()
             {
                 Height = maze.Height,
                 Width = maze.Width,
@@ -289,70 +267,65 @@ namespace WebMaze
             };
             return model;
         }
-        private MazeLevel inMazeLevel(MazeLevelModel model)
+        private MazeLevel inMazeLevel(MazeLevelWeb model)
         {
             var maze = new MazeLevel()
             {
                 Height = model.Height,
                 Width = model.Width,
-
+                
 
             };
-            maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroNowHp);
+            maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroNowHp) { Money = model.Creator.Coins, CurrentFatigue = model.HeroNowFatigure};
             return maze;
         }
-        private CellModel inCellModel(BaseCell cell)
+        private MazeCellWeb inCellModel(BaseCell cell)
         {
-            var dict = new Dictionary<Type, CellInfo>()
+            var dict = new Dictionary<Type, MazeCellInfo>()
             {
-                { typeof(Wall), CellInfo.Wall},
-                { typeof(WeakWall), CellInfo.WeakWall},
-                { typeof(Ground), CellInfo.Grow},
-                { typeof(GoldMine), CellInfo.Goldmine},
-                { typeof(Coin), CellInfo.Coin},
-                { typeof(Bed),CellInfo.Bed},
-                { typeof(Puddle), CellInfo.Puddle},
-                { typeof(VitalityPotion), CellInfo.VitalityPotion},
-                { typeof(Bless), CellInfo.Bless},
-                { typeof(TeleportIn), CellInfo.TeleportIn},
-                { typeof(TeleportOut), CellInfo.TeleportOut},
-                { typeof(Fountain), CellInfo.Fountain},
-                { typeof(Trap), CellInfo.Trap},
-                { typeof(HealPotion), CellInfo.HealPotion},
-                { typeof(WolfPit), CellInfo.WolfPit},
-                { typeof(Tavern), CellInfo.Tavern},
-                { typeof(Healer), CellInfo.Healer},
+                { typeof(Wall), MazeCellInfo.Wall},
+                { typeof(WeakWall), MazeCellInfo.WeakWall},
+                { typeof(Ground), MazeCellInfo.Grow},
+                { typeof(GoldMine), MazeCellInfo.Goldmine},
+                { typeof(Coin), MazeCellInfo.Coin},
+                { typeof(Bed),MazeCellInfo.Bed},
+                { typeof(Puddle), MazeCellInfo.Puddle},
+                { typeof(VitalityPotion), MazeCellInfo.VitalityPotion},
+                { typeof(Bless), MazeCellInfo.Bless},
+                { typeof(TeleportIn), MazeCellInfo.TeleportIn},
+                { typeof(TeleportOut), MazeCellInfo.TeleportOut},
+                { typeof(Fountain), MazeCellInfo.Fountain},
+                { typeof(Trap), MazeCellInfo.Trap},
+                { typeof(HealPotion), MazeCellInfo.HealPotion},
+                { typeof(WolfPit), MazeCellInfo.WolfPit},
+                { typeof(Tavern), MazeCellInfo.Tavern},
+                { typeof(Healer), MazeCellInfo.Healer},
 
             };
-            var model = new CellModel();
+            var model = new MazeCellWeb();
             model.X = cell.X;
             model.Y = cell.Y;
 
 
             if (cell is VitalityPotion)
             {
-                VitalityPotion vit = (VitalityPotion)cell;
-                model.Obj1 = vit.AddMaxFatigue;
-                model.TypeCell = CellInfo.VitalityPotion;
-
+                model.Obj1 = ((VitalityPotion)cell).AddMaxFatigue;
+                model.TypeCell = MazeCellInfo.VitalityPotion;
             }
             else if (cell is Coin)
             {
-                Coin vit = (Coin)cell;
-                model.Obj1 = vit.CoinCount;
-                model.TypeCell = CellInfo.Coin;
+                model.Obj1 = ((Coin)cell).CoinCount;
+                model.TypeCell = MazeCellInfo.Coin;
             }
             else if (cell is WeakWall)
             {
-                WeakWall vit = (WeakWall)cell;
-                model.Obj1 = vit._vitalityOfWeakWall;
-                model.TypeCell = CellInfo.WeakWall;
+                model.Obj1 = ((WeakWall)cell)._vitalityOfWeakWall;
+                model.TypeCell = MazeCellInfo.WeakWall;
             }
             else if (cell is GoldMine)
             {
-                GoldMine vit = (GoldMine)cell;
-                model.Obj1 = vit.currentGoldMineMp;
-                model.TypeCell = CellInfo.Goldmine;
+                model.Obj1 = ((GoldMine)cell).currentGoldMineMp;
+                model.TypeCell = MazeCellInfo.Goldmine;
             }
             else
             {
@@ -361,47 +334,102 @@ namespace WebMaze
 
             return model;
         }
-        private BaseCell inBaseCell(CellModel model)
+        private BaseCell inBaseCell(MazeCellWeb model)
         {
             switch (model.TypeCell)
             {
-                case CellInfo.Grow:
+                case MazeCellInfo.Grow:
                     return new Ground(model.X, model.Y, null) { Id = model.Id };
-                case CellInfo.Wall:
+                case MazeCellInfo.Wall:
                     return new Wall(model.X, model.Y, null) { Id = model.Id };
-                case CellInfo.Trap:
+                case MazeCellInfo.Trap:
                     return new Trap(model.X, model.Y, null) { Id = model.Id };
-                case CellInfo.Tavern:
+                case MazeCellInfo.Tavern:
                     return new Tavern(model.X, model.Y, null) { Id = model.Id };
-                case CellInfo.WeakWall:
+                case MazeCellInfo.WeakWall:
                     return new WeakWall(model.X, model.Y, null) { Id = model.Id, _vitalityOfWeakWall = model.Obj1, };
-                case CellInfo.Healer:
+                case MazeCellInfo.Healer:
                     return new Healer(model.X, model.Y, null) { Id = model.Id };
-                case CellInfo.VitalityPotion:
+                case MazeCellInfo.VitalityPotion:
                     return new VitalityPotion(model.X, model.Y, null, model.Obj1) { Id = model.Id };
-                case CellInfo.Puddle:
+                case MazeCellInfo.Puddle:
                     return new Puddle(model.X, model.Y, null) { Id = model.Id };
-                case CellInfo.TeleportIn:
+                case MazeCellInfo.TeleportIn:
                     return new TeleportIn(model.X, model.Y, null, null) { Id = model.Id };
-                case CellInfo.TeleportOut:
+                case MazeCellInfo.TeleportOut:
                     return new TeleportOut(model.X, model.Y, null) { Id = model.Id };
-                case CellInfo.Goldmine:
+                case MazeCellInfo.Goldmine:
                     return new GoldMine(model.X, model.Y, null) { Id = model.Id, currentGoldMineMp = model.Obj1 };
-                case CellInfo.Fountain:
+                case MazeCellInfo.Fountain:
                     return new Fountain(model.X, model.Y, null) { Id = model.Id };
-                case CellInfo.Coin:
+                case MazeCellInfo.Coin:
                     return new Coin(model.X, model.Y, null, model.Obj1) { Id = model.Id };
-                case CellInfo.HealPotion:
+                case MazeCellInfo.HealPotion:
                     return new HealPotion(model.X, model.Y, null) { Id = model.Id };
-                case CellInfo.Bed:
+                case MazeCellInfo.Bed:
                     return new Bed(model.X, model.Y, null) { Id = model.Id };
-                case CellInfo.Bless:
+                case MazeCellInfo.Bless:
                     return new Bless(model.X, model.Y, null) { Id = model.Id };
-                case CellInfo.WolfPit:
+                case MazeCellInfo.WolfPit:
                     return new WolfPit(model.X, model.Y, null) { Id = model.Id };
                 default:
                     return new Ground(model.X, model.Y, null) { Id = model.Id };
             }
+        }
+        private BaseEnemy inBaseEnemy(MazeEnemyWeb enemyWeb)
+        {
+            switch (enemyWeb.TypeEnemy)
+            {
+                case MazeEnemyInfo.Goblin:
+                    return new Goblin(enemyWeb.X, enemyWeb.Y, null) { Id = enemyWeb.Id };
+                case MazeEnemyInfo.BullEnemy:
+                    return new BullEnemy(enemyWeb.X, enemyWeb.Y, null) { Id = enemyWeb.Id, _heroDirection = (Direction)enemyWeb.Obj1 };
+                case MazeEnemyInfo.Geyser:
+                    return new Geyser(enemyWeb.X, enemyWeb.Y, null) { Id = enemyWeb.Id };
+                case MazeEnemyInfo.Slime:
+                    return new Slime(enemyWeb.X, enemyWeb.Y, null) { Id = enemyWeb.Id, Hp = enemyWeb.Obj1 };
+                case MazeEnemyInfo.Walker:
+                    return new Walker(enemyWeb.X, enemyWeb.Y, null) { Id = enemyWeb.Id, _rotation = (Direction)enemyWeb.Obj1 };
+                case MazeEnemyInfo.Wallworm:
+                    return new Wallworm(enemyWeb.X, enemyWeb.Y, null) { Id = enemyWeb.Id, CounterStep = enemyWeb.Obj1, StepsBeforeEating = enemyWeb.Obj2, };
+            }
+            return null;
+        }
+
+        private MazeEnemyWeb inEnemyWeb(BaseEnemy enemy)
+        {
+            var dict = new Dictionary<Type, MazeEnemyInfo>()
+            {
+                  {typeof(BullEnemy), MazeEnemyInfo.BullEnemy},
+                  {typeof(Geyser),    MazeEnemyInfo.Geyser},
+                  {typeof(Goblin),    MazeEnemyInfo.Goblin},
+                  {typeof(Slime),     MazeEnemyInfo.Slime},
+                  {typeof(Walker),    MazeEnemyInfo.Walker},
+                  {typeof(Wallworm),  MazeEnemyInfo.Wallworm},
+            };
+            var enemyWeb = new MazeEnemyWeb();
+            enemyWeb.X = enemy.X;
+            enemyWeb.Y = enemy.Y;
+            if (enemy is Wallworm)
+            {
+                enemyWeb.Obj1 = ((Wallworm)enemy).CounterStep;
+                enemyWeb.Obj2 = ((Wallworm)enemy).StepsBeforeEating;
+            }
+            else if (enemy is Slime)
+            {
+                enemyWeb.Obj1 = ((Slime)enemy).Hp;
+            }
+            else if (enemy is BullEnemy)
+            {
+                enemyWeb.Obj1 = (int)((BullEnemy)enemy)._heroDirection;
+            }
+            else if (enemy is Walker)
+            {
+                enemyWeb.Obj1 = (int)((Walker)enemy)._rotation;
+            }
+
+            enemyWeb.TypeEnemy = dict[enemy.GetType()];
+            return enemyWeb;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

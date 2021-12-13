@@ -22,6 +22,7 @@ namespace Net12
             Task.WaitAll(task1, task2);
 
             Console.ReadLine();
+          
         }
 
         public static void Task1()
