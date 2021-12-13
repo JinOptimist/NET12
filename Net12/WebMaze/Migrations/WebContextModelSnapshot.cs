@@ -833,9 +833,17 @@ namespace WebMaze.Migrations
                     b.Navigation("MyReviews");
 
                     b.Navigation("NewsComments");
+
+                    b.Navigation("ZumaGameFields");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameField", b =>
+            {
+                b.Navigation("Cells");
+
+                b.Navigation("Palette");
+            });
+                modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
             {
                 b.Property<long>("Id")
                     .ValueGeneratedOnAdd()
@@ -1001,17 +1009,6 @@ namespace WebMaze.Migrations
                 b.Navigation("Enemies");
             });
 
-
-
-                    b.Navigation("ZumaGameFields");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameField", b =>
-                {
-                    b.Navigation("Cells");
-
-                    b.Navigation("Palette");
-                });
 #pragma warning restore 612, 618
 
         }
