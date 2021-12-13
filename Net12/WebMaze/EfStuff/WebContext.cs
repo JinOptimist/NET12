@@ -21,11 +21,12 @@ namespace WebMaze.EfStuff
         public DbSet<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
         public DbSet<Perrmission> Perrmissions { get; set; }
         public DbSet<SuggestedEnemys> SuggestedEnemys { get; set; }
-        public DbSet<GameDevices> GameDevices { get; set; }
-
         
-        public DbSet<MazeLevelModel> MazeLevelsUser   { get; set; }
-        public DbSet<CellModel> CellsModels   { get; set; }
+        public DbSet<MazeLevelWeb> MazeLevelsUser   { get; set; }
+        public DbSet<MazeCellWeb> CellsModels   { get; set; }
+        public DbSet<GameDevices> GameDevices { get; set; }
+        public DbSet<NewsComment> NewsComments { get; set; }
+
         public WebContext(DbContextOptions options) : base(options)
         {
         }
@@ -87,9 +88,19 @@ namespace WebMaze.EfStuff
                 .HasMany(x => x.MazeDifficultProfiles)
                 .WithOne(x => x.Creater);
 
-            modelBuilder.Entity<User>().HasMany(x=> x.ListMazeLevels).WithOne(x => x.Creator);
-            modelBuilder.Entity<MazeLevelModel>().HasMany(x=> x.Cells).WithOne(x => x.MazeLevel);
 
+
+            modelBuilder.Entity<User>()
+               .HasMany(x => x.NewsComments)
+               .WithOne(x => x.Author);
+
+            modelBuilder.Entity<News>()
+               .HasMany(x => x.NewsComments)
+               .WithOne(x => x.News);
+
+            modelBuilder.Entity<User>().HasMany(x=> x.ListMazeLevels).WithOne(x => x.Creator);
+            modelBuilder.Entity<MazeLevelWeb>().HasMany(x=> x.Cells).WithOne(x => x.MazeLevel);
+            modelBuilder.Entity<MazeLevelWeb>().HasMany(x => x.Enemies).WithOne(x => x.MazeLevel);
             base.OnModelCreating(modelBuilder);
         }
 
