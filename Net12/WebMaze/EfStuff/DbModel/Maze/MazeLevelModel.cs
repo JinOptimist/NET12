@@ -3,11 +3,10 @@ using System.Collections.Generic;
 
 namespace WebMaze.EfStuff.DbModel
 {
-    public class MazeLevelWeb : BaseModel
+    public class MazeLevelModel : BaseModel
     {
 
-        public virtual List<MazeCellWeb> Cells { get; set; }
-        public virtual List<MazeEnemyWeb> Enemies { get; set; }
+        public virtual List<CellModel> Cells { get; set; }
         public virtual User Creator { get; set; }
 
         public string Name { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace WebMaze.EfStuff
 {
-    public enum MazeCellInfo
+    public enum CellInfo
     {
         Grow,
         Trap,
