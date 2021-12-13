@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
@@ -96,7 +97,14 @@ namespace WebMaze.Controllers
             return View(maze);
         }
         [Authorize]
+        [HttpGet]
         public IActionResult CreateMaze()
+        {
+            return View();
+        }
+        [Authorize]
+        [HttpPost]
+        public IActionResult CreateMaze(int s = 3)
         {
             //TODO: CHOOSE DIFFICULITY
             //  var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
@@ -129,6 +137,7 @@ namespace WebMaze.Controllers
         }
 
         [Authorize]
+        [IsAdmin]
         [HttpGet]
         public IActionResult AddMazeDifficult(long Id)
         {
@@ -137,6 +146,7 @@ namespace WebMaze.Controllers
         }
 
         [Authorize]
+        [IsAdmin]
         [HttpPost]
         public IActionResult AddMazeDifficult(MazeDifficultProfileViewModel mazeDifficultProfileViewModel)
         {
