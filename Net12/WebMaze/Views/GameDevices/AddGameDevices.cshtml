@@ -1,0 +1,29 @@
+﻿@model GameDevicesViewModel
+
+<h2>
+    New device
+</h2>
+<div>
+    <form action="/GameDevices/AddGameDevices" method="post">
+        <div>
+            <div>
+                <div>Type device: @Html.TextBoxFor(x => x.TypeDevice)</div>
+            </div>
+            <div>
+                <div>Name device: @Html.TextBoxFor(x => x.DeviceName)</div>
+            </div>
+            <div>
+                <div>Brand: @Html.TextBoxFor(x => x.BrandName)</div>
+            </div>
+            <div>
+                <div>Picture: @Html.TextBoxFor(x => x.Picture)</div>
+            </div>
+            <div>
+                <div>Description: @Html.TextBoxFor(x => x.Desc)</div>
+            </div>
+        </div>
+        <div>
+            <input type="submit" value="Save"/>
+        </div>
+    </form>
+</div>

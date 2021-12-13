@@ -97,6 +97,8 @@ namespace WebMaze
                 return repository;
             });
 
+            services.AddScoped<NewsCommentRepository>(x => new NewsCommentRepository(x.GetService<WebContext>()));
+
             services.AddScoped<NewCellSuggRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
@@ -135,6 +137,13 @@ namespace WebMaze
                 return repository;
             });
 
+            services.AddScoped<GameDevicesRepository>(diContainer =>
+            {
+                var webContext = diContainer.GetService<WebContext>();
+                var repository = new GameDevicesRepository(webContext);
+                return repository;
+            });
+
             services.AddScoped<MazeDifficultRepository>(x => new MazeDifficultRepository(x.GetService<WebContext>()));
 
             services.AddScoped<ImageRepository>();
@@ -163,6 +172,10 @@ namespace WebMaze
                 .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name))
                 .ForMember(nameof(NewsViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Author.GlobalUserRating));
             provider.CreateMap<NewsViewModel, News>();
+
+            provider.CreateMap<NewsComment, NewsCommentViewModel>()
+               .ForMember(nameof(NewsCommentViewModel.NameOfAuthor), opt => opt.MapFrom(dbNewsComment => dbNewsComment.Author.Name));
+            provider.CreateMap<NewsCommentViewModel, NewsComment>();
 
             provider.CreateMap<SuggestedEnemys, SuggestedEnemysViewModel>()
                     .ForMember(nameof(SuggestedEnemysViewModel.UserName), opt => opt.MapFrom(dbSuggestedEnemys => dbSuggestedEnemys.Creater.Name))
@@ -210,6 +223,9 @@ namespace WebMaze
             provider.CreateMap<BugReport, BugReportViewModel>()
                 .ForMember(nameof(BugReportViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Creater.GlobalUserRating));
 
+            provider.CreateMap<GameDevicesViewModel, GameDevices>();
+            provider.CreateMap<GameDevices, GameDevicesViewModel>();
+
             provider.CreateMap<Game, GameViewModel>()
                 .ForMember(nameof(GameViewModel.Username), opt => opt.MapFrom(dbGame => dbGame.Creater.Name))
                 .ForMember(nameof(GameViewModel.Age), opt => opt.MapFrom(dbGame => dbGame.Creater.Age))
@@ -225,6 +241,8 @@ namespace WebMaze
             provider.CreateMap<MazeCellWeb, CellViewModel>();
             provider.CreateMap<CellViewModel, MazeCellWeb>();
 
+            provider.CreateMap<Perrmission, PermissionViewModel>();
+            provider.CreateMap<PermissionViewModel, Perrmission>();
             provider.CreateMap<MazeLevelWeb, MazeLevel>()
                 .ConstructUsing(x => inMazeLevel(x))
                 .ForMember(maze => maze.Cells, db => db.MapFrom(model => model.Cells))

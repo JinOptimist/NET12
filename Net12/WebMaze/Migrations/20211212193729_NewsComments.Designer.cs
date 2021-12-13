@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20211212193729_NewsComments")]
+    partial class NewsComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,8 +192,7 @@ namespace WebMaze.Migrations
 
                     b.HasKey("Id");
 
-                    b.Property<int>("X")
-                        .HasColumnType("int");
+                    b.HasIndex("CreaterId");
 
                     b.ToTable("GameDevices");
                 });
@@ -206,11 +207,23 @@ namespace WebMaze.Migrations
                     b.Property<int>("Assessment")
                         .HasColumnType("int");
 
+                    b.Property<long?>("AuthorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("MazeLevelId");
+                    b.HasIndex("AuthorId");
 
-                    b.ToTable("CellsModels");
+                    b.ToTable("Gallery");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
@@ -669,15 +682,6 @@ namespace WebMaze.Migrations
                         .HasForeignKey("AuthorId");
 
                     b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeCellWeb", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.MazeLevelWeb", "MazeLevel")
-                        .WithMany("Cells")
-                        .HasForeignKey("MazeLevelId");
-
-                    b.Navigation("MazeLevel");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
