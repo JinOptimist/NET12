@@ -17,7 +17,10 @@ namespace WebMaze.EfStuff.Repositories
         private CellRepository _cellRepository;
         public UserRepository(WebContext webContext,
             ReviewRepository reviewRepository,
-            ImageRepository imageRepository, MazeLevelRepository mazeLevelRepository, CellRepository cellRepository, FavGamesRepository favGamesRepository) : base(webContext)
+            ImageRepository imageRepository, 
+            MazeLevelRepository mazeLevelRepository, 
+            CellRepository cellRepository, 
+            FavGamesRepository favGamesRepository) : base(webContext)
         {
             _reviewRepository = reviewRepository;
             _favGamesRepository = favGamesRepository;

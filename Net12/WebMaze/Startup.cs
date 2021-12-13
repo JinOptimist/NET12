@@ -12,6 +12,7 @@ using Net12.Maze.Cells;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
@@ -45,7 +46,7 @@ namespace WebMaze
                     config.Cookie.Name = "AuthSweet";
                 });
 
-            RegisterRepositories(services);
+            RegisterRepositoriesAuto(services);
 
             RegisterMapper(services);
 
@@ -58,101 +59,47 @@ namespace WebMaze
             services.AddControllersWithViews();
         }
 
-        private void RegisterRepositories(IServiceCollection services)
+        private void RegisterRepositoriesAuto(IServiceCollection services)
         {
-            services.AddScoped<UserRepository>(diContainer =>
-                {
-                    var webContext = diContainer.GetService<WebContext>();
-                    var reviewRepository = diContainer.GetService<ReviewRepository>();
-                    var mazeLevelRepository = diContainer.GetService<MazeLevelRepository>();
-                    var cellRepository = diContainer.GetService<CellRepository>();
-                    var imagesRepository = diContainer.GetService<ImageRepository>();
-                    var favGamesRepository = diContainer.GetService<FavGamesRepository>();
-                    var repository = new UserRepository(webContext, reviewRepository, imagesRepository, mazeLevelRepository, cellRepository, favGamesRepository);
-                    return repository;
-                });
+            var baseRepoType = typeof(BaseRepository<>);
 
-            services.AddScoped<ReviewRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var mapper = diContainer.GetService<IMapper>();
-                var repository = new ReviewRepository(webContext, mapper);
-                return repository;
-            });
-
-            services.AddScoped<StuffRepository>(diContainer =>
-                {
-                    var webContext = diContainer.GetService<WebContext>();
-                    var repository = new StuffRepository(webContext);
-                    return repository;
-                });
-
-            services.AddScoped<NewsRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new NewsRepository(webContext);
-                return repository;
-            });
-
-            services.AddScoped<NewCellSuggRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new NewCellSuggRepository(webContext);
-                return repository;
-            });
-            services.AddScoped<SuggestedEnemysRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var suggestedEnemysRepository = new SuggestedEnemysRepository(webContext);
-                return suggestedEnemysRepository;
-            });
-
-            services.AddScoped<BugReportRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new BugReportRepository(webContext);
-                return repository;
-            });
-            services.AddScoped<MazeLevelRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new MazeLevelRepository(webContext);
-                return repository;
-            });
-            services.AddScoped<CellRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new CellRepository(webContext);
-                return repository;
-            });
-
-            services.AddScoped<GameDevicesRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new GameDevicesRepository(webContext);
-                return repository;
-            });
-
-            services.AddScoped<MazeDifficultRepository>(x => new MazeDifficultRepository(x.GetService<WebContext>()));
-
-            services.AddScoped<ImageRepository>();
-
-            services.AddScoped<FavGamesRepository>(diContainer =>
-            {
-                var webContext = diContainer.GetService<WebContext>();
-                var repository = new FavGamesRepository(webContext);
-                return repository;
-            });
-
-            services.AddScoped<MinerCellRepository>();
-
-            services.AddScoped<MinerFieldRepository>();
-
-            services.AddScoped<MinerFiledBuilder>();
-
-            services.AddScoped<PermissionRepository>();
-
+            Assembly
+                .GetAssembly(baseRepoType)
+                .GetTypes()
+                .Where(type =>
+                    type.BaseType != null
+                    && type.BaseType.IsGenericType
+                    && type.BaseType.GetGenericTypeDefinition() == baseRepoType)
+                .ToList()
+                .ForEach(x => SmartAddScope(services, x));
         }
+
+        private void SmartAddScope<T>(IServiceCollection services) where T : class
+        {
+            Type ourType = typeof(T);
+            SmartAddScope(services, ourType);
+        }
+
+        private void SmartAddScope(IServiceCollection services, Type ourType)
+        {
+            services.AddScoped(ourType, serviceProvider =>
+            {
+                var constructor = ourType
+                    .GetConstructors()
+                    .OrderByDescending(x => x.GetParameters().Length)
+                    .First();
+
+                var parameters = constructor
+                    .GetParameters()
+                    .Select(x =>
+                        serviceProvider.GetService(x.ParameterType)
+                    )
+                    .ToArray();
+
+                return constructor.Invoke(parameters);
+            });
+        }
+
         private void RegisterMapper(IServiceCollection services)
         {
             var provider = new MapperConfigurationExpression();
@@ -232,16 +179,16 @@ namespace WebMaze
             provider.CreateMap<MazeLevelModel, MazeLevel>()
                 .ConstructUsing(x => inMazeLevel(x))
                 .ForMember(maze => maze.Cells, db => db.MapFrom(model => model.Cells))
-                .AfterMap((a, b) => 
-                { 
-                    foreach(var cell in b.Cells)
+                .AfterMap((a, b) =>
+                {
+                    foreach (var cell in b.Cells)
                     {
                         cell.Maze = b;
-                        
+
                     }
                     TeleportIn TeleportIn = (TeleportIn)b.Cells.SingleOrDefault(c => c is TeleportIn);
                     var TeleportOut = b.Cells.SingleOrDefault(c => c is TeleportOut);
-                    if(TeleportIn != null && TeleportOut != null)
+                    if (TeleportIn != null && TeleportOut != null)
                     {
                         TeleportIn.TeleportExit = (ITeleportOut)TeleportOut;
                     }
@@ -287,7 +234,7 @@ namespace WebMaze
                 HeroX = maze.Hero.X,
                 HeroY = maze.Hero.Y,
 
-              
+
             };
             return model;
         }
