@@ -229,13 +229,24 @@ namespace WebMaze
             provider.CreateMap<MazeLevelModel, MazeViewModel>();
             provider.CreateMap<MazeViewModel, MazeLevelModel>();
 
+<<<<<<< HEAD
             provider.CreateMap<CellModel, CellViewModel>();
             provider.CreateMap<CellViewModel, CellModel>();
+=======
+            provider.CreateMap<MazeCellWeb, CellViewModel>();
+            provider.CreateMap<CellViewModel, MazeCellWeb>();
+
+
+>>>>>>> parent of 34197d3 (Revert "update 3.0")
 
             provider.CreateMap<Perrmission, PermissionViewModel>();
             provider.CreateMap<PermissionViewModel, Perrmission>();
 
+<<<<<<< HEAD
             provider.CreateMap<MazeLevelModel, MazeLevel>()
+=======
+            provider.CreateMap<MazeLevelWeb, MazeLevel>()
+>>>>>>> parent of 34197d3 (Revert "update 3.0")
                 .ConstructUsing(x => inMazeLevel(x))
                 .ForMember(maze => maze.Cells, db => db.MapFrom(model => model.Cells))
                 .AfterMap((a, b) =>
