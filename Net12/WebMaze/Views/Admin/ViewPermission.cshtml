@@ -2,11 +2,9 @@
 
 <div class="text-center">
     <h3>Administration: View permission</h3>
-   
     @foreach (var x in Model)
     {
         <div>@x.Name</div>
         <div>@x.UsersWhichHasThePermission.Count</div>
     }
-
 </div>
