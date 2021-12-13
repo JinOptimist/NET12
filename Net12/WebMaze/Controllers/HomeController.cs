@@ -250,15 +250,17 @@ namespace WebMaze.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult AddMovie()
+        public IActionResult AddMovie(long id)
         {
-            return View();
+            var model = _mapper.Map<MovieViewModel>(_movieRepository.Get(id)) ?? new MovieViewModel();
+            return View(model);
         }
 
         [Authorize]
         [HttpPost]
         public IActionResult AddMovie(MovieViewModel movieViewModel)
         {
+
             var dbMovie = new Movie();
             dbMovie = _mapper.Map<Movie>(movieViewModel);
             dbMovie.IsActive = true;

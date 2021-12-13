@@ -1,28 +1,29 @@
 ﻿@model MovieViewModel
 
-    <div class="text-center">
-        <h1>Media library</h1>
-        <form action="/Home/AddMovie" method="post">
-            <div>
-                Title game @Html.TextBoxFor(x => x.TitleGame)
-            </div>
-            <div>
-                Title movie @Html.TextBoxFor(x => x.TitleMovie)
-            </div>
-            <div>
-                Release @Html.TextBoxFor(x => x.Release)
-            </div>
-            <div>
-                Link @Html.TextBoxFor(x => x.Link)
-            </div>
-            <div>
-                Img @Html.TextBoxFor(x => x.Img)
-            </div>
-            <div>
-                <input type="submit" value="Save" />
-            </div>
-        </form>
-    </div>
+<div class="text-center">
+    <h1>Media library</h1>
+    <form action="/Home/AddMovie" method="post">
+        @Html.HiddenFor(x => x.Id)
+        <div>
+            Title game @Html.TextBoxFor(x => x.TitleGame)
+        </div>
+        <div>
+            Title movie @Html.TextBoxFor(x => x.TitleMovie)
+        </div>
+        <div>
+            Release @Html.TextBoxFor(x => x.Release)
+        </div>
+        <div>
+            Link @Html.TextBoxFor(x => x.Link)
+        </div>
+        <div>
+            Img @Html.TextBoxFor(x => x.Img)
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+</div>
 
 
 
