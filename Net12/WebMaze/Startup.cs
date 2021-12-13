@@ -241,12 +241,11 @@ namespace WebMaze
             provider.CreateMap<MazeCellWeb, CellViewModel>();
             provider.CreateMap<CellViewModel, MazeCellWeb>();
 
-
+            provider.CreateMap<MazeLevelWeb, MazeLevel>()
 
             provider.CreateMap<Perrmission, PermissionViewModel>();
             provider.CreateMap<PermissionViewModel, Perrmission>();
 
-            provider.CreateMap<MazeLevelWeb, MazeLevel>()
                 .ConstructUsing(x => inMazeLevel(x))
                 .ForMember(maze => maze.Cells, db => db.MapFrom(model => model.Cells))
                 .AfterMap((a, b) =>
