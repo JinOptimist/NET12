@@ -94,6 +94,8 @@ namespace WebMaze
                 return repository;
             });
 
+            services.AddScoped<NewsCommentRepository>(x => new NewsCommentRepository(x.GetService<WebContext>()));
+
             services.AddScoped<NewCellSuggRepository>(diContainer =>
             {
                 var webContext = diContainer.GetService<WebContext>();
@@ -161,6 +163,10 @@ namespace WebMaze
                 .ForMember(nameof(NewsViewModel.NameOfAuthor), opt => opt.MapFrom(dbNews => dbNews.Author.Name))
                 .ForMember(nameof(NewsViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Author.GlobalUserRating));
             provider.CreateMap<NewsViewModel, News>();
+
+            provider.CreateMap<NewsComment, NewsCommentViewModel>()
+               .ForMember(nameof(NewsCommentViewModel.NameOfAuthor), opt => opt.MapFrom(dbNewsComment => dbNewsComment.Author.Name));
+            provider.CreateMap<NewsCommentViewModel, NewsComment>();
 
             provider.CreateMap<SuggestedEnemys, SuggestedEnemysViewModel>()
                     .ForMember(nameof(SuggestedEnemysViewModel.UserName), opt => opt.MapFrom(dbSuggestedEnemys => dbSuggestedEnemys.Creater.Name))
@@ -232,16 +238,16 @@ namespace WebMaze
             provider.CreateMap<MazeLevelModel, MazeLevel>()
                 .ConstructUsing(x => inMazeLevel(x))
                 .ForMember(maze => maze.Cells, db => db.MapFrom(model => model.Cells))
-                .AfterMap((a, b) => 
-                { 
-                    foreach(var cell in b.Cells)
+                .AfterMap((a, b) =>
+                {
+                    foreach (var cell in b.Cells)
                     {
                         cell.Maze = b;
-                        
+
                     }
                     TeleportIn TeleportIn = (TeleportIn)b.Cells.SingleOrDefault(c => c is TeleportIn);
                     var TeleportOut = b.Cells.SingleOrDefault(c => c is TeleportOut);
-                    if(TeleportIn != null && TeleportOut != null)
+                    if (TeleportIn != null && TeleportOut != null)
                     {
                         TeleportIn.TeleportExit = (ITeleportOut)TeleportOut;
                     }
@@ -287,7 +293,7 @@ namespace WebMaze
                 HeroX = maze.Hero.X,
                 HeroY = maze.Hero.Y,
 
-              
+
             };
             return model;
         }
