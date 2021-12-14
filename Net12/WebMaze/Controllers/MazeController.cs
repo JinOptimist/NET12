@@ -107,17 +107,28 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult CreateMaze(int s = 3)
         {
-            //TODO: CHOOSE DIFFICULITY
-            //  var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
-            var maze = new MazeBuilder().Build(10, 10, 100, 100,GetCoinsFromMaze, false);
-            var model = _mapper.Map<MazeLevelWeb>(maze);
-            model.IsActive = true;
+            if (_userService.GetCurrentUser().Coins < 100)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                _userService.GetCurrentUser().Coins -= 100;
+                //TODO: CHOOSE DIFFICULITY
+                //  var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
+                var maze = new MazeBuilder().Build(10, 10, 100, 100, GetCoinsFromMaze, false);
+                var model = _mapper.Map<MazeLevelWeb>(maze);
+                model.IsActive = true;
 
-            //TODO: CREATE ABILITY CHOOSE YOUR NAME LEVEL
-            model.Name = "My Maze";
-            model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
-            _mazeLevelRepository.Save(model);
-            return RedirectToAction("Index");
+                //TODO: CREATE ABILITY CHOOSE YOUR NAME LEVEL
+                model.Name = "My Maze";
+                model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
+
+                _mazeLevelRepository.Save(model);
+
+
+                return RedirectToAction("Index");
+            }
         }
 
         [Authorize]

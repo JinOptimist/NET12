@@ -173,7 +173,7 @@ namespace Net12.Maze.Cells.Enemies
                     _rotation = Direction.Up;
 
                 }
-                else if (noWall == false && !(Maze[X, Y + 1] is Wall) && (Maze[X, Y +, 1] != null))
+                else if (noWall == false && !(Maze[X, Y + 1] is Wall) && (Maze[X, Y + 1] != null))
                 {
 
                     Y++;
