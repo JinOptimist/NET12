@@ -35,7 +35,7 @@ namespace Net12.Maze.Cells.Enemies
         {
             Maze[X, Y] = new Coin(X, Y, Maze, 10);
             Maze.Enemies.Remove(this);
-            return true;
+            return false;
         }
 
         private BaseCell GetRandom(IEnumerable<BaseCell> cells)

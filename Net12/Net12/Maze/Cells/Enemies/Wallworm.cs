@@ -18,16 +18,12 @@ namespace Net12.Maze.Cells.Enemies
             if (CounterStep > StepsBeforeEating)
             {
                 Maze[X, Y] = new WeakWall(X, Y, Maze);
-                StepNexWall();
+                StepNextWall();
                 CounterStep = 0;
             }
         }
 
-        public override bool TryToStep()
-        {
-            return false;
-        }
-        public void StepNexWall()
+        public void StepNextWall()
         {
             var wallsNear = new List<BaseCell>();
 

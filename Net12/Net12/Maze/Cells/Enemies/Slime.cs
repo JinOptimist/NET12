@@ -7,7 +7,6 @@ namespace Net12.Maze.Cells.Enemies
 {
     public class Slime : BaseEnemy
     {
-        public int Hp { get; set; } = 1;
 
         private Random random = new Random();
 
@@ -47,11 +46,6 @@ namespace Net12.Maze.Cells.Enemies
 
             }
 
-        }
-
-        public override bool TryToStep()
-        {
-            throw new NotImplementedException();
         }
 
         private BaseCell GetRandom(List<BaseCell> cells)

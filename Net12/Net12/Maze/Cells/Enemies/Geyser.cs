@@ -20,9 +20,5 @@ namespace Net12.Maze.Cells.Enemies
                            .ForEach(item => Maze[item.X, item.Y] = new Puddle(item.X, item.Y, Maze));
         }
 
-        public override bool TryToStep()
-        {
-            return false;
-        }
     }
 }
