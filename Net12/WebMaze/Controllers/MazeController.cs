@@ -106,7 +106,7 @@ namespace WebMaze.Controllers
         [Authorize]
         [HttpPost]
         public IActionResult CreateMaze(int s = 3)
-        {
+        {   //TODO: COST OF LEVELS
             if (_userService.GetCurrentUser().Coins < 100)
             {
                 return RedirectToAction("Index");
