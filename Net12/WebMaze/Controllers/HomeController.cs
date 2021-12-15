@@ -22,17 +22,18 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
         private FavGamesRepository _favGamesRepository;
+        private NewCellSuggRepository _newCellSuggRepository;
         private IMapper _mapper;
         public HomeController(WebContext webContext,
          UserRepository userRepository, ReviewRepository reviewRepository,
-         IMapper mapper, FavGamesRepository favGamesRepository, UserService userService)
+         IMapper mapper, FavGamesRepository favGamesRepository, UserService userService, NewCellSuggRepository newCellSuggRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
             _mapper = mapper;
-            _favGamesRepository = favGamesRepository;
             _userService = userService;
+            _favGamesRepository = favGamesRepository;
         }
 
         public IActionResult Index()
@@ -171,49 +172,10 @@ namespace WebMaze.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult Reviews()
-        {
-            var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_userRepository.GetAll().Any())
-            {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
-            }
 
-            return View(FeedBackUsers);
-        }
 
-        [HttpPost]
-        public IActionResult Reviews(FeedBackUserViewModel viewReview)
-        {
-            // TODO: Selected User
 
-            var review = _mapper.Map<Review>(viewReview);
-            review.Creator = _userService.GetCurrentUser();
 
-            review.IsActive = true;
-            _reviewRepository.Save(review);
-
-            var FeedBackUsers = new List<FeedBackUserViewModel>();
-            if (_reviewRepository.GetAll().Any())
-            {
-                FeedBackUsers = _reviewRepository.GetAll().Select(rev => _mapper.Map<FeedBackUserViewModel>(rev)).ToList();
-            }
-            return View(FeedBackUsers);
-        }
-        public IActionResult RemoveReview(long idReview)
-        {
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                var myUser = _userService.GetCurrentUser();
-                if (myUser == _reviewRepository.Get(idReview).Creator)
-                {
-                    _reviewRepository.Remove(idReview);
-                }
-
-            }
-            return RedirectToAction("Reviews", "Home");
-        }
 
     }
 

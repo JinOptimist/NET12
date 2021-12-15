@@ -9,9 +9,9 @@ namespace WebMaze.Models
     public class NewCellSuggestionViewModel
     {
         public long Id { get; set; }
-        [MinLength(5, ErrorMessage = "Too short.")]
+        [MinLength(2, ErrorMessage = "Too short.")]
         public string Title { get; set; }
-        [MinLength(5, ErrorMessage = "Too short.")]
+        [MinLength(2, ErrorMessage = "Too short.")]
         public string Description { get; set; }
         public int MoneyChange { get; set; }
         public int HealtsChange { get; set; }

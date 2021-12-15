@@ -23,12 +23,15 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<Review> MyReviews { get; set; }
         public virtual List<Game> MyFavGames { get; set; }
         public virtual List<News> MyNews { get; set; }
-        
+
         public virtual List<Image> Images { get; set; }
         public virtual List<BugReport> MyBugReports { get; set; }
+        public virtual List<GameDevices> MyGameDevices { get; set; }
         public virtual List<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
         public virtual List<MazeLevelModel> ListMazeLevels { get; set; }
         public virtual List<ZumaGameField> ZumaGameFields { get; set; }
+        public virtual List<MazeLevelWeb> ListMazeLevels { get; set; }
+        public virtual List<NewsComment> NewsComments { get; set; }
         public virtual List<MinerField> MinerFields { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@using WebMaze.Services
-@inject UserService userService   
+@inject UserService userService
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,10 +20,13 @@
     <link rel="stylesheet" href="~/css/Teleport_in_out.css" />
     <link rel='stylesheet' href='~/css/goldmine.css'>
     <link rel="stylesheet" href="~/css/bugReports.css" />
+    <link rel="stylesheet" href="~/css/gameDevices.css" />
     <link rel="stylesheet" href="~/css/gallery.css" />
     <link rel="stylesheet" href="~/css/maze.css" />
     <link rel="stylesheet" href="~/css/Bed.css" />
     <link rel="stylesheet" href="~/css/Goblin.css" />
+    <link rel="stylesheet" href="~/css/NewsComments.css" />
+    <link rel="stylesheet" href="~/css/BuyMaze.css"/>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
 
@@ -91,7 +94,7 @@
                         <a class="nav-link" href="/Suggested/NewCellSugg">New CellSugg</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/Reviews">Reviews</a>
+                        <a class="nav-link" href="/Reviews/Index">Reviews</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/CellInfo/AddCell">Add Cell</a>
@@ -119,6 +122,20 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/BugReport/BugReports">List of reports</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/GameDevices/GameDevices">Game devices</a>
+                    </li>
+                        
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Gallery
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
+                            <a class="dropdown-item" href="/Gallery/AddImage">Add Image</a>
+                        </div>
                     </li>
 
                     @if (userService.IsAdmin)
@@ -153,21 +170,32 @@
                             <a class="dropdown-item" href="/Home/AddGame">Add Fav Game</a>
                             <a class="dropdown-item" href="/Home/FavoriteGames">Fav Games</a>
                         </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+                        @if (userService.IsAdmin)
+                        {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Administration
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/Admin/ViewPermission">View permission</a>
+                                <a class="dropdown-item" href="/Admin/EditingUsers">Editing users</a>
+                            </div>
+                        </li>
+                    }
+                    </ul>
+                </div>
+            </nav>
+        </header>
 
-    <div>
-        @RenderBody()
-    </div>
-
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - WebMaze
+        <div>
+            @RenderBody()
         </div>
-    </footer>
-</body>
+
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2021 - WebMaze
+            </div>
+        </footer>
+    </body>
 </html>

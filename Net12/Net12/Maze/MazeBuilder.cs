@@ -12,9 +12,11 @@ namespace Net12.Maze
         private MazeLevel maze;
         private Random random = new Random();
 
-        public MazeLevel Build(int width, int height, int hp, int maxHp, bool onlyWall = false)
+        public MazeLevel Build(int width, int height, int hp, int maxHp, Action<int> getCoins = null, bool onlyWall = false)
         {
             maze = new MazeLevel();
+
+            maze.GetCoins = getCoins;
 
             maze.Width = width;
             maze.Height = height;
