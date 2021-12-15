@@ -27,7 +27,7 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<Image> Images { get; set; }
         public virtual List<BugReport> MyBugReports { get; set; }
         public virtual List<GameDevices> MyGameDevices { get; set; }
-        public virtual List<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
+<<<<<<<<< Temporary merge branch 1
         public virtual List<MazeLevelModel> ListMazeLevels { get; set; }
         public virtual List<ZumaGameField> ZumaGameFields { get; set; }
         public virtual List<MazeLevelWeb> ListMazeLevels { get; set; }
