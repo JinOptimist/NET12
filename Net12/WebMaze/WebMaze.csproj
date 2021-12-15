@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EfStuff\DbModel\ZumaGame\" />
     <Folder Include="wwwroot\images\galleryImg\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
   </ItemGroup>
