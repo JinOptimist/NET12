@@ -169,3 +169,24 @@ body {
 .menu-maze-difficult a {
     margin: 5px;
 }
+
+.zuma-game-field {
+    font-size: 26px;
+    display: grid;
+    justify-content: center;
+    line-height: 1.33;
+}
+
+.zuma-game-field-row {
+    display: flex;
+}
+
+    .zuma-game-field-row a {
+        opacity: 0;
+    }
+
+.zuma-game-head {
+    font-size: 50px;
+    text-align: center;
+    margin: 10px;
+}

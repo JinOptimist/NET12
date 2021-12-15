@@ -31,11 +31,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="EfStuff\DbModel\ZumaGame\" />
     <Folder Include="wwwroot\images\galleryImg\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\ZumaGame\Game.cshtml" />
     <None Include="wwwroot\images\cells\tavern.png" />
   </ItemGroup>
 
