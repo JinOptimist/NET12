@@ -1,0 +1,38 @@
+﻿@model List<ControllerViewModel>
+
+<div class="text-center">
+    <h3>Pages</h3>
+    <div>Contollers count: @Model.Count</div>
+
+    @foreach (var controller in Model)
+    {
+        <div class="controller-block">
+            <div>
+                @foreach (var attr in controller.AttributeNames)
+                {
+                    <span class="attribute">[@attr]</span>
+                }
+            </div>
+            <div>@controller.Name (@controller.ActionCount)</div>
+            <div>
+                @foreach (var action in controller.Actions)
+                {
+                    <div>
+                        @foreach (var attr in action.AttributeNames)
+                        {
+                            <span class="attribute action">[@attr]</span>
+                        }
+                    </div>
+                    <div>
+                        @action.Name (
+                        @foreach (var paramName in action.ParamsNames)
+                        {
+                            <span class="paramName">@paramName</span>
+                        }
+                        )
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

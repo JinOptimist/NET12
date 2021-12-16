@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="~/css/Bed.css" />
     <link rel="stylesheet" href="~/css/Goblin.css" />
     <link rel="stylesheet" href="~/css/NewsComments.css" />
-    <link rel="stylesheet" href="~/css/BuyMaze.css"/>
+    <link rel="stylesheet" href="~/css/BuyMaze.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
 
@@ -87,17 +87,26 @@
                             <a class="dropdown-item" href="/CellInfo/Goblin">Goblin info</a>
                         </div>
                     </li>
+
+                    @if (userService.IsAdmin)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/ReflectionPages">ReflectionPages</a>
+                        </li>
+                    }
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/News/Index">Maze</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Suggested/NewCellSugg">New CellSugg</a>
+                            <a class="dropdown-item" href="/CellInfo/AddCell">Add Cell</a>
+                            <a class="dropdown-item" href="/Stuff/Stuff">Hero's Stuff</a>
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/News/Index">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Suggested/NewCellSugg">New CellSugg</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="/Reviews/Index">Reviews</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/CellInfo/AddCell">Add Cell</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -107,9 +116,6 @@
                             <a class="dropdown-item" href="/Home/AddBook">Add Book</a>
                             <a class="dropdown-item" href="/Home/Book">Books</a>
                         </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Stuff/Stuff">Hero's Stuff</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -127,7 +133,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/GameDevices/GameDevices">Game devices</a>
                     </li>
-                        
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Gallery
