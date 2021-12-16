@@ -91,5 +91,9 @@ namespace WebMaze.Controllers
 
             return View(viewModels);
         }
+        public IActionResult CellInfoHelper()
+        {
+            return View();
+        }
     }
 }
