@@ -86,8 +86,11 @@ namespace Net12.Maze.Cells.Enemies
         private void StepByDirection(Direction direction)
         {
             var cell = GetCellByDirection(direction);
-            X = cell.X;
-            Y = cell.Y;
+            if (CharacterStep(cell))
+            {
+                X = cell.X;
+                Y = cell.Y;
+            }
         }
 
         private void DetectedHero()
@@ -96,11 +99,6 @@ namespace Net12.Maze.Cells.Enemies
             {
                 Maze.Hero.Hp--;
             }
-        }
-
-        public override bool TryToStep()
-        {
-            return true;
         }
     }
 }

@@ -42,7 +42,12 @@ namespace Net12.Maze.Cells.Enemies
             if (wallsNear.Count != 0)
             {
                 var randomWall = GetRandom(wallsNear);
-                X = randomWall.X; Y = randomWall.Y;
+                if (CharacterStep(randomWall))
+                {
+                    X = randomWall.X; 
+                    Y = randomWall.Y;
+                }
+
             }
             else
             {

@@ -16,6 +16,23 @@ namespace Net12.Maze.Cells.Enemies
 
         public abstract void Step();
 
+        public bool CharacterStep(int x, int y)
+        {
+            var cell = Maze.GetCellOrUnit(x, y);
+            if (cell == null || cell is IHero || cell is BaseEnemy)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        public bool CharacterStep(BaseCell cell)
+        {
+            return CharacterStep(cell.X, cell.Y);
+        }
+
         public override bool TryToStep()
         {
             if((Maze.Hero.X == X && Math.Abs(Maze.Hero.Y-Y) == 1) || (Maze.Hero.Y == Y && Math.Abs(Maze.Hero.X - X) == 1))

@@ -26,8 +26,10 @@ namespace Net12.Maze.Cells.Enemies
             if (cellsAroundGoblin.Any(x => x.X == Maze.Hero.X && x.Y == Maze.Hero.Y) && cellsWhereGoblinCanStep.Count > 0)
             {
                 var newGoblinsPosition = GetRandom(cellsWhereGoblinCanStep);
-                X = newGoblinsPosition.X;
-                Y = newGoblinsPosition.Y;
+                if(CharacterStep(newGoblinsPosition)){
+                    X = newGoblinsPosition.X;
+                    Y = newGoblinsPosition.Y;
+                }
             }
         }
 

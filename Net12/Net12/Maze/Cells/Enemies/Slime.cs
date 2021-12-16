@@ -33,16 +33,21 @@ namespace Net12.Maze.Cells.Enemies
             if (nearStep.Count > 0)
             {
                 var toStep = nearStep[random.Next(nearStep.Count)];
-
-                X = toStep.X;
-                Y = toStep.Y;
+                if (CharacterStep(toStep))
+                {
+                    X = toStep.X;
+                    Y = toStep.Y;
+                }
             }
             else
             {
                 var grounds = Maze.Cells.Where(x => x is Ground).ToList();
                 var randomGround = GetRandom(grounds);
-                X = randomGround.X;
-                Y = randomGround.Y;
+                if (CharacterStep(randomGround))
+                {
+                    X = randomGround.X;
+                    Y = randomGround.Y;
+                }
 
             }
 
