@@ -73,7 +73,7 @@ namespace WebMaze
                     && type.BaseType.IsGenericType
                     && type.BaseType.GetGenericTypeDefinition() == baseRepoType)
                 .ToList()
-                .ForEach(x => SmartAddScope(services, x));
+                .ForEach(type => SmartAddScope(services, type));
         }
 
         private void SmartAddScope<T>(IServiceCollection services) where T : class

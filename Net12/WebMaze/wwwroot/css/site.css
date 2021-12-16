@@ -169,3 +169,20 @@ body {
 .menu-maze-difficult a {
     margin: 5px;
 }
+
+.attribute {
+    color: orange;
+}
+
+    .attribute.action {
+        color: rebeccapurple;
+    }
+
+.paramName {
+    color: yellowgreen;
+}
+
+.controller-block {
+    border: 1px blue solid;
+    border-radius: 10px;
+}
