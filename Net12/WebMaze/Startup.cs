@@ -50,6 +50,8 @@ namespace WebMaze
 
             RegisterRepositoriesAuto(services);
 
+            services.AddScoped<ZumaGameFieldBuilder>();
+
             RegisterMapper(services);
 
             services.AddScoped<UserService>(x =>
@@ -178,6 +180,13 @@ namespace WebMaze
 
             provider.CreateMap<MazeCellWeb, CellViewModel>();
             provider.CreateMap<CellViewModel, MazeCellWeb>();
+
+            provider.CreateMap<ZumaGameCell, ZumaGameCellViewModel>();
+            provider.CreateMap<ZumaGameCellViewModel, ZumaGameCell>();
+
+            provider.CreateMap<ZumaGameField, ZumaGameFieldViewModel>()
+                .ForMember(nameof(ZumaGameFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
+            provider.CreateMap<ZumaGameFieldViewModel, ZumaGameField>();
 
             provider.CreateMap<Perrmission, PermissionViewModel>();
             provider.CreateMap<PermissionViewModel, Perrmission>();

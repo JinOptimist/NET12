@@ -26,6 +26,9 @@ namespace WebMaze.EfStuff
         public DbSet<MazeCellWeb> CellsModels   { get; set; }
         public DbSet<GameDevices> GameDevices { get; set; }
         public DbSet<NewsComment> NewsComments { get; set; }
+        public DbSet<ZumaGameCell> ZumaGameCells { get; set; }
+        public DbSet<ZumaGameColor> ZumaGameColors { get; set; }
+        public  DbSet<ZumaGameField> ZumaGameFields { get; set; }
 
         public WebContext(DbContextOptions options) : base(options)
         {
@@ -97,6 +100,18 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<News>()
                .HasMany(x => x.NewsComments)
                .WithOne(x => x.News);
+
+            modelBuilder.Entity<ZumaGameField>()
+                .HasMany(x => x.Cells)
+                .WithOne(x => x.Field);
+
+            modelBuilder.Entity<ZumaGameField>()
+                .HasMany(x => x.Palette)
+                .WithOne(x => x.Field);
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.ZumaGameFields)
+                .WithOne(x => x.Gamer);
 
             modelBuilder.Entity<User>().HasMany(x=> x.ListMazeLevels).WithOne(x => x.Creator);
             modelBuilder.Entity<MazeLevelWeb>().HasMany(x=> x.Cells).WithOne(x => x.MazeLevel);
