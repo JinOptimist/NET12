@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Net12.Maze.Cells.Enemies
@@ -28,5 +29,18 @@ namespace Net12.Maze.Cells.Enemies
             }
             return false;
         }
+
+        public bool WantToStep(int wX, int wY)
+        {
+            if((Maze.Hero.X == wX && Maze.Hero.Y == wY)
+                || Maze.Enemies.Any(e => e.X == wX || e.Y == wY))
+            {
+                return false;
+            } else
+            {
+                return true;
+            }
+        }
+
     }
 }
