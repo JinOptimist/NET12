@@ -7,8 +7,8 @@ namespace Net12.Maze.Cells.Enemies
 {
     public class Walker : BaseEnemy
     {
-
-        public Direction _rotation { get; set; } = Direction.Up;
+  
+        public Direction _rotation  { get; set; } = Direction.Up;
         private int _leftwallX;
         private int _leftwallY;
         public Walker(int x, int y, IMazeLevel maze) : base(x, y, maze)
@@ -32,194 +32,165 @@ namespace Net12.Maze.Cells.Enemies
                 case Direction.Up:
                     RotUp(no_wall);
                     break;
-
+                     
                 case Direction.Down:
                     RotDown(no_wall);
                     break;
-
+                
                 case Direction.Left:
                     RotLeft(no_wall);
                     break;
-
+                
                 case Direction.Right:
                     RotRight(no_wall);
                     break;
             }
 
-
+           
         }
 
         private void RotUp(bool noWall)
         {
-            if (!(Maze[X, Y - 1] is Wall) && (Maze[X, Y - 1] != null) && (Maze[_leftwallX, _leftwallY] is Wall || noWall == false))
-            {
-                if (CharacterStep(X, Y - 1))
+                if (!(Maze[X, Y - 1] is Wall) && (Maze[X, Y - 1] != null) && (Maze[_leftwallX, _leftwallY] is Wall || noWall == false))
                 {
                     Y--;
                     _leftwallX = X - 1;
                     _leftwallY = Y;
-                }
 
-            }
-            else if (noWall && !(Maze[X - 1, Y] is Wall) && (Maze[X - 1, Y] != null))
-            {
-                if (CharacterStep(X - 1, Y))
+                }
+                else if (noWall && !(Maze[X - 1, Y] is Wall) && (Maze[X-1, Y] != null))
                 {
+
                     X--;
                     _leftwallX = X;
                     _leftwallY = Y + 1;
                     _rotation = Direction.Left;
-                }
 
-            }
-            else if (noWall == false && !(Maze[X + 1, Y] is Wall) && (Maze[X + 1, Y] != null))
-            {
-                if (CharacterStep(X + 1, Y))
+                }
+                else if (noWall == false && !(Maze[X + 1, Y] is Wall) && (Maze[X+1, Y] != null))
                 {
 
                     X++;
                     _leftwallX = X;
                     _leftwallY = Y - 1;
                     _rotation = Direction.Right;
+
                 }
-
-            }
-            else
-            {
-                _rotation = Direction.Left;
-                Step();
-            }
-
+                else
+                {
+                    _rotation = Direction.Left;
+                    Step();
+                }
+            
         }
         private void RotLeft(bool noWall)
         {
-
-
-            if (!(Maze[X - 1, Y] is Wall) && (Maze[X - 1, Y] != null) && (Maze[_leftwallX, _leftwallY] is Wall || noWall == false))
-            {
-                if (CharacterStep(X - 1, Y))
+              
+            
+                if (!(Maze[X - 1, Y] is Wall) && (Maze[X-1, Y] != null) && (Maze[_leftwallX, _leftwallY] is Wall || noWall == false))
                 {
                     X--;
                     _leftwallX = X;
                     _leftwallY = Y + 1;
-                }
 
-            }
-            else if (noWall && !(Maze[X, Y + 1] is Wall) && (Maze[X, Y + 1] != null))
-            {
-                if (CharacterStep(X, Y + 1))
+                }
+                else if (noWall && !(Maze[X, Y + 1] is Wall) && (Maze[X, Y + 1] != null))
                 {
+
                     Y++;
                     _leftwallX = X + 1;
                     _leftwallY = Y;
                     _rotation = Direction.Down;
-                }
 
-            }
-            else if (noWall == false && !(Maze[X, Y - 1] is Wall) && (Maze[X, Y - 1] != null))
-            {
-                if (CharacterStep(X, Y - 1))
+                }
+                else if (noWall == false && !(Maze[X, Y - 1] is Wall) && (Maze[X, Y - 1] != null))
                 {
+
                     Y--;
                     _leftwallX = X - 1;
                     _leftwallY = Y;
                     _rotation = Direction.Up;
+
                 }
-
-            }
-            else
-            {
-                _rotation = Direction.Down;
-                Step();
-            }
-
+                else
+                {
+                    _rotation = Direction.Down;
+                    Step();
+                }
+            
         }
         private void RotDown(bool noWall)
         {
-
-            if (!(Maze[X, Y + 1] is Wall) && (Maze[X, Y + 1] != null) && (Maze[_leftwallX, _leftwallY] is Wall || noWall == false))
-            {
-                if (CharacterStep(X, Y + 1))
+          
+                if (!(Maze[X, Y + 1] is Wall) && (Maze[X, Y + 1] != null) && (Maze[_leftwallX, _leftwallY] is Wall || noWall == false))
                 {
                     Y++;
                     _leftwallX = X + 1;
                     _leftwallY = Y;
-                }
 
-            }
-            else if (noWall && !(Maze[X + 1, Y] is Wall) && (Maze[X + 1, Y] != null))
-            {
-                if (CharacterStep(X + 1, Y))
+                }
+                else if (noWall && !(Maze[X + 1, Y] is Wall) && (Maze[X+1, Y] != null))
                 {
+
                     X++;
                     _leftwallX = X;
                     _leftwallY = Y - 1;
                     _rotation = Direction.Right;
-                }
 
-            }
-            else if (noWall == false && !(Maze[X - 1, Y] is Wall) && (Maze[X - 1, Y] != null))
-            {
-                if (CharacterStep(X - 1, Y))
+                }
+                else if (noWall == false && !(Maze[X - 1, Y] is Wall) && (Maze[X-1, Y] != null))
                 {
+
                     X--;
                     _leftwallX = X;
                     _leftwallY = Y + 1;
                     _rotation = Direction.Left;
+
                 }
-
-            }
-            else
-            {
-                _rotation = Direction.Right;
-                Step();
-            }
-
-        }
+                else
+                {
+                    _rotation = Direction.Right;
+                    Step();
+                }
+            
+        }    
         private void RotRight(bool noWall)
         {
-
-            if (!(Maze[X + 1, Y] is Wall) && (Maze[X + 1, Y] != null) && (Maze[_leftwallX, _leftwallY] is Wall || noWall == false))
-            {
-                if (CharacterStep(X + 1, Y))
+            
+                if (!(Maze[X + 1, Y] is Wall) && (Maze[X+1, Y] != null) && (Maze[_leftwallX, _leftwallY] is Wall || noWall == false))
                 {
                     X++;
                     _leftwallX = X;
                     _leftwallY = Y - 1;
-                }
 
-            }
-            else if (noWall && !(Maze[X, Y - 1] is Wall) && (Maze[X, Y - 1] != null))
-            {
-                if (CharacterStep(X, Y - 1))
+                }
+                else if (noWall && !(Maze[X, Y - 1] is Wall) && (Maze[X, Y - 1] != null))
                 {
+
                     Y--;
                     _leftwallX = X - 1;
                     _leftwallY = Y;
                     _rotation = Direction.Up;
-                }
 
-            }
-            else if (noWall == false && !(Maze[X, Y + 1] is Wall) && (Maze[X, Y + 1] != null))
-            {
-                if (CharacterStep(X, Y + 1))
+                }
+                else if (noWall == false && !(Maze[X, Y + 1] is Wall) && (Maze[X, Y + 1] != null))
                 {
+
                     Y++;
                     _leftwallX = X + 1;
                     _leftwallY = Y;
                     _rotation = Direction.Up;
+
                 }
-
-            }
-            else
-            {
-                _rotation = Direction.Up;
-                Step();
-            }
-
+                else
+                {
+                    _rotation = Direction.Up;
+                    Step();
+                }
+            
         }
 
-
+ 
 
     }
 }
