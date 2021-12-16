@@ -10,6 +10,7 @@ namespace WebMaze.Services
     {
         readonly private UserRepository _userRepository;
         readonly private UserService _userService;
+        //public int reward { get; set; }
 
         public PayForActionService (UserRepository userRepository, UserService userService)
         {
@@ -31,7 +32,7 @@ namespace WebMaze.Services
             return true;
         }
 
-        public void EarnMoney(long userId, int amount)
+        public void CreatorEarnMoney(long userId, int amount)
         {
             var user = _userRepository.Get(userId);
 

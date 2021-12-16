@@ -5,6 +5,8 @@
     padding: 4px 12px;
     border-radius: 12px;
     border: 2px solid forestgreen;
+    text-decoration: none;
+    font-style: normal;
 }
 
 .good-button:hover {
@@ -14,6 +16,7 @@
     padding: 4px 12px;
     border-radius: 12px;
     border: 2px solid white;
+    text-decoration:none;
 }
 
 .bad-button {

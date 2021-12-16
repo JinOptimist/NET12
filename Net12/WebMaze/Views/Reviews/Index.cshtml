@@ -30,14 +30,15 @@
                             <a href="/Reviews/ChangeReviewForm?idReview=@item.Id">Edit</a>
                             <a href="/Reviews/RemoveReview?idReview=@item.Id">Remove</a>
                         }
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div>
+                                <a href="@Url.Action("Wonderful","Reviews", new { @reviewId = item.Id })" class="good-button">Wonderful</a>
+                                <button class="bad-button">Awful</button>
+                            </div>
+                        }
                     </div>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <div>
-                            <button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @reviewId = item.Id })'">Wonderful</button>
-                            <button class="bad-button">Awful</button>
-                        </div>
-                    }
                 </div>
 
             }

@@ -78,7 +78,7 @@ namespace WebMaze.Controllers
         public IActionResult Wonderful(long imageId)
         {
             var image = _repository.Get(imageId);
-            _payForActionService.EarnMoney(image.Author.Id, 10);
+            _payForActionService.CreatorEarnMoney(image.Author.Id, 10);
 
             return RedirectToAction("Index", "Gallery");
         }

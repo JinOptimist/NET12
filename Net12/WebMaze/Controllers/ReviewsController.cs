@@ -64,7 +64,7 @@ namespace WebMaze.Controllers
         public IActionResult Wonderful(long reviewId)
         {
             var review = _reviewRepository.Get(reviewId);
-            _payForActionService.EarnMoney(review.Creator.Id, 10);
+            _payForActionService.CreatorEarnMoney(review.Creator.Id, 10);
 
             return RedirectToAction("Index", "Reviews");
         }

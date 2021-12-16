@@ -82,7 +82,7 @@ namespace WebMaze.Controllers
         public IActionResult Wonderful(long bugReportId)
         {
             var bugReport = _bugReportRepository.Get(bugReportId);
-            _payForActionService.EarnMoney(bugReport.Creater.Id, 10);
+            _payForActionService.CreatorEarnMoney(bugReport.Creater.Id, 10);
 
             return RedirectToAction("BugReports", "BugReport");
         }

@@ -40,10 +40,10 @@
             <a href="/Maze/AddMazeDifficult?Id=@difficult.Id">E</a>
             @if (User.Identity.IsAuthenticated)
                     {
-                        <div>
-                            <button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @difficultId = difficult.Id })'">Wonderful</button>
-                            <button class="bad-button">Awful</button>
-                        </div>
+        <div>
+            <a href="@Url.Action("Wonderful","Maze", new {@difficultId = difficult.Id })" class="good-button">Wonderful</a>            
+            <button class="bad-button">Awful</button>
+        </div>
                     }
         </div>
     }

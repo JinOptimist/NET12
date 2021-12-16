@@ -53,9 +53,8 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <td>
-                            <span>
-                                @*news.NameOfAuthor*@
-                                <button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @newsId = news.Id})'">Wonderful</button>
+                            <span>                           
+                                <a href="@Url.Action("Wonderful","News", new {@newsId = news.Id})" class="good-button">Wonderful</a>                                
                                 <button class="bad-button">Awful</button>
                             </span>
                         </td>

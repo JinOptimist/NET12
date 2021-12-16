@@ -35,15 +35,14 @@
                             <b>Rating:</b> @game.Rating/10
                         </div>
                     </div>
-                    <div class="favGame-user-elements" @*class="favGame-description"*@>
+                    <div class="favGame-description"  >
                         <b>Description:</b> @game.Desc
                         <div>
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <div>
-                                    <button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @gameId = game.Id})'">Wonderful</button>
-                                    <button class="bad-button">Awful</button>
-                                </div>
+                            <br>
+                                <a href="@Url.Action("Wonderful","Game", new { @gameId = game.Id})" class="good-button">Wonderful</a>                                
+                                <button class="bad-button">Awful</button> 
                             }
                         </div>
                     </div>

@@ -42,10 +42,10 @@
             </div>
             @if (User.Identity.IsAuthenticated)
             {
-                <div>
-                    <button class="good-button" onclick="location.href = '@Url.Action("WonderfulSuggestedEnemy", new { @suggestedEnemysId = suggestedEnemys.Id })'">Wonderful</button>
-                    <button class="bad-button">Awful</button>
-                </div>
+        <div>
+            <a href="@Url.Action("WonderfulSuggestedEnemy","Suggested", new { @suggestedEnemysId = suggestedEnemys.Id })" class="good-button">Wonderful</a>           
+            <button class="bad-button">Awful</button>
+        </div>
             }
         </div>
             }

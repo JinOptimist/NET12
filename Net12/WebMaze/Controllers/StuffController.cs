@@ -84,7 +84,7 @@ namespace WebMaze.Controllers
         public IActionResult Wonderful(long stuffId)
         {
             var stuff = _staffForHeroRepository.Get(stuffId);
-            _payForActionService.EarnMoney(stuff.Proposer.Id, 10);
+            _payForActionService.CreatorEarnMoney(stuff.Proposer.Id, 10);
 
             return RedirectToAction("Stuff", "Stuff");
         }

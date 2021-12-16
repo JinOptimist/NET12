@@ -91,7 +91,7 @@ namespace WebMaze.Controllers
         public IActionResult WonderfulSuggestedEnemy(long suggestedEnemysId)
         {
             var suggestedEnemys = _suggestedEnemysRepository.Get(suggestedEnemysId);
-            _payForActionService.EarnMoney(suggestedEnemys.Creater.Id, 10);
+            _payForActionService.CreatorEarnMoney(suggestedEnemys.Creater.Id, 10);
 
             return RedirectToAction("SuggestedEnemys", "Suggested");
         }
@@ -152,7 +152,7 @@ namespace WebMaze.Controllers
         public IActionResult WonderfulNewCellSuggestion(long newCellSuggestionId)
         {
             var newCellSuggestion = _newCellSuggRepository.Get(newCellSuggestionId);
-            _payForActionService.EarnMoney(newCellSuggestion.Creater.Id, 10);
+            _payForActionService.CreatorEarnMoney(newCellSuggestion.Creater.Id, 10);
 
             return RedirectToAction("NewCellSugg", "Suggested");
         }

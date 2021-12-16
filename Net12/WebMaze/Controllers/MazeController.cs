@@ -181,7 +181,7 @@ namespace WebMaze.Controllers
         public IActionResult Wonderful(long difficultId)
         {
             var diffcult = _mazeDifficultRepository.Get(difficultId);
-            _payForActionService.EarnMoney(diffcult.Creater.Id, 10);
+            _payForActionService.CreatorEarnMoney(diffcult.Creater.Id, 10);
 
             return RedirectToAction("ManageMazeDifficult", "Maze");
         }

@@ -22,10 +22,10 @@
                     <p>Rating: @newCellSuggestionViewModel.GlobalUserRating</p>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <div>
-                            <button class="good-button" onclick="location.href = '@Url.Action("WonderfulNewCellSuggestion", new { @newCellSuggestionId = newCellSuggestionViewModel.Id})'">Wonderful</button>
-                            <button class="bad-button">Awful</button>
-                        </div>
+                <div>
+                    <a href="@Url.Action("WonderfulNewCellSuggestion","Suggested", new {@newCellSuggestionId = newCellSuggestionViewModel.Id})" class="good-button">Wonderful</a>                    
+                    <button class="bad-button">Awful</button>
+                </div>
                     }
                     <a href="/Suggested/AddNewCellSugg?Id=@newCellSuggestionViewModel.Id"><input type="submit" value="Edit" /></a>
                     <a href="/Suggested/RemoveNewCellSuggestion?Id=@newCellSuggestionViewModel.Id"><input type="submit" value="Remove" /></a>
