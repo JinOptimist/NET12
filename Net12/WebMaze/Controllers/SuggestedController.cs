@@ -101,7 +101,7 @@ namespace WebMaze.Controllers
                 return View(newCellSuggestionViewModel);
             }
 
-            var creater = _userRepository.GetRandomUser();
+            var creater = _userService.GetCurrentUser();
 
             var NewCS = new NewCellSuggestion();
 
