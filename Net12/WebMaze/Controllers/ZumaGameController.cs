@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Services;
@@ -17,7 +18,13 @@ namespace WebMaze.Controllers
         private ZumaGameCellRepository _zumaGameCellRepository;
         private IMapper _mapper;
 
+        /// <summary>
+        /// ШИРИНА
+        /// </summary>
         private int _width = 10;
+        /// <summary>
+        /// ВЫСОТА
+        /// </summary>
         private int _height = 10;
         private int _colorCount = 4;
 
@@ -48,8 +55,8 @@ namespace WebMaze.Controllers
         public IActionResult ClickOnCell(long Id)
         {
             var cell = _zumaGameCellRepository.Get(Id);
-            var field = _zumaGameFieldRepository.Get(cell.Field.Id);
-            var cells = _zumaGameCellRepository.GetAll(field);
+            var field = cell.Field;
+            var cells = field.Cells;
 
             var getNear = _zumaGameCellRepository.GetNear(cell);
 
@@ -57,19 +64,39 @@ namespace WebMaze.Controllers
             {
                 var replaceCells = cells.Where(db => db.Y < replaceCell.Y && db.X == replaceCell.X).ToList();
 
-                replaceCells.Select(x => x.Y = x.Y + 1).ToList();
-
-                replaceCells.Add(new EfStuff.DbModel.ZumaGameCell { 
-                    Color = _zumaGameFieldBuilder.GetRandom(field.Palette).Color,
-                    Field = field,
-                    X = replaceCell.X,
-                    Y = 0,
-                    IsActive = true
-                });
+                replaceCells.ForEach(x => x.Y++);
 
                 _zumaGameCellRepository.Remove(replaceCell);
-                _zumaGameCellRepository.ReplaceCells(replaceCells);
 
+                //replaceCells.Add(new ZumaGameCell { 
+                //    Color = _zumaGameFieldBuilder.GetRandom(field.Palette).Color,
+                //    Field = field,
+                //    X = replaceCell.X,
+                //    Y = 0,
+                //    IsActive = true
+                //});
+
+                _zumaGameCellRepository.UpdateCells(replaceCells);
+
+            }
+
+            for (int i = _width - 1; i >= 0; i--)
+            {
+                var column = cells.Where(x => x.X == i).ToList();
+
+                if (column.Count() == 0)
+                {
+                    for (int l = i + 1; l < _width; l++)
+                    {
+                        var cellsOffset = cells.Where(cell => cell.X == l).ToList();
+
+                        cellsOffset.ForEach(cell => cell.X--);
+
+                        _zumaGameCellRepository.UpdateCells(cellsOffset);
+
+                    }
+
+                }
             }
 
             return RedirectToAction("Game", new { id = cell.Field.Id });

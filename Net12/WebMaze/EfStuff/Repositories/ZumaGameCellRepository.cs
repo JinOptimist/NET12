@@ -15,23 +15,29 @@ namespace WebMaze.EfStuff.Repositories
 
         public List<ZumaGameCell> GetNear(ZumaGameCell currentCell)
         {
-            
-            return GetAll(currentCell.Field)
-                .Where(cell =>
-                       Math.Abs(cell.Y - currentCell.Y) <= 1
-                    && Math.Abs(cell.X - currentCell.X) <= 1
+            var i = true;
+            var baseNear = currentCell.Field.Cells
+                    .Where(cell =>
+                    (cell.X == currentCell.X && Math.Abs(cell.Y - currentCell.Y) <= 1
+                    || Math.Abs(cell.X - currentCell.X) <= 1 && cell.Y == currentCell.Y)
                     && cell.Color == currentCell.Color)
-                .ToList();
+                    .ToList();
 
+            var getNear = baseNear;
+            foreach (var cellNear in baseNear)
+            {
+                var dd = getNear.Union(currentCell.Field.Cells
+                    .Where(cell =>
+                    (cell.X == cellNear.X && Math.Abs(cell.Y - cellNear.Y) <= 1
+                    || Math.Abs(cell.X - cellNear.X) <= 1 && cell.Y == cellNear.Y)
+                    && cell.Color == cellNear.Color)
+                    .ToList()).ToList();
+            }
+
+            return getNear;
         }
 
-        public List<ZumaGameCell> GetAll(ZumaGameField field)
-        {
-
-            return field.Cells;
-        }
-
-        public void ReplaceCells(List<ZumaGameCell> cells)
+        public void UpdateCells(List<ZumaGameCell> cells)
         {
             foreach (var model in cells)
             {

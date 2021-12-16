@@ -190,3 +190,8 @@ body {
     text-align: center;
     margin: 10px;
 }
+
+.zuma-game-win {
+    font-size: 50px;
+    text-align: center;
+}
