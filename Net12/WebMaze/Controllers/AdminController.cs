@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Net12.Maze;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,6 +94,12 @@ namespace WebMaze.Controllers
         }
         public IActionResult CellInfoHelper()
         {
+
+            var baseRepoType = typeof(BaseCell);
+
+            
+            var typeOfCell = Assembly.GetAssembly(baseRepoType).GetTypes().Where(x => x.BaseType == typeof(BaseCell)).ToList();
+            //string typeOfCell = "It works";
             return View();
         }
     }
