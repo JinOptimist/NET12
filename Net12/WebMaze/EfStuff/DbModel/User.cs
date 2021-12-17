@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.EfStuff.DbModel.ThreeInRow;
 
 namespace WebMaze.EfStuff.DbModel
 {
@@ -31,5 +32,6 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<MazeLevelWeb> ListMazeLevels { get; set; }
         public virtual List<NewsComment> NewsComments { get; set; }
         public virtual List<MinerField> MinerFields { get; set; }
+        public virtual List<ThreeInRowGameField> ThreeInRowGameFields { get; set; }
     }
 }

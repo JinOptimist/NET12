@@ -1,0 +1,52 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using WebMaze.EfStuff.Repositories.ThreeInRowRepositories;
+using WebMaze.Models.ThreeInRow;
+using WebMaze.Services;
+
+namespace WebMaze.Controllers
+{
+    [Authorize]
+    public class ThreeInRowController : Controller
+    {
+        private ThreeInRowCellRepository _threeInRowCellRepository;
+        private ThreeInRowGameFieldRepository _threeInRowGameFieldRepository;
+        private ThreeInRowService _threeInRowService;
+        private UserService _userService;
+        private IMapper _mapper;
+
+        public ThreeInRowController(ThreeInRowCellRepository threeInRowCellRepository,
+                                    ThreeInRowGameFieldRepository threeInRowGameFieldRepository,
+                                    ThreeInRowService threeInRowService,
+                                    UserService userService,
+                                    IMapper mapper)
+        {
+            _threeInRowCellRepository = threeInRowCellRepository;
+            _threeInRowGameFieldRepository = threeInRowGameFieldRepository;
+            _threeInRowService = threeInRowService;
+            _userService = userService;
+            _mapper = mapper;
+        }
+
+        public IActionResult WelcomePage()
+        {
+            var newGame = _threeInRowService.Build();
+            _threeInRowGameFieldRepository.Save(newGame);
+            var playerName = _userService.GetCurrentUser();
+            return View(playerName);
+        }
+
+        public IActionResult Play()
+        {
+            var gameField = _threeInRowGameFieldRepository.Get(_userService.GetCurrentUser().Id);
+            var gameFieldViewModel = _mapper.Map<ThreeInRowGameFieldViewModel>(gameField);
+
+            return View(gameFieldViewModel);
+        }
+    }
+}

@@ -18,8 +18,10 @@ using System.Threading.Tasks;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.DbModel.Maze;
+using WebMaze.EfStuff.DbModel.ThreeInRow;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.ThreeInRow;
 using WebMaze.Services;
 
 namespace WebMaze
@@ -55,6 +57,8 @@ namespace WebMaze
             services.AddScoped<UserService>(x =>
                 new UserService(x.GetService<UserRepository>(), x.GetService<IHttpContextAccessor>())
             );
+
+            services.AddScoped<ThreeInRowService>();
 
             services.AddHttpContextAccessor();
 
@@ -172,6 +176,11 @@ namespace WebMaze
 
             provider.CreateMap<MinerField, MinerFieldViewModel>();
             provider.CreateMap<MinerCell, MinerCellViewModel>();
+
+            provider.CreateMap<ThreeInRowGameField, ThreeInRowGameFieldViewModel>();
+            provider.CreateMap<ThreeInRowGameFieldViewModel, ThreeInRowGameField>();
+            provider.CreateMap<ThreeInRowCell, ThreeInRowCellViewModel>();
+            provider.CreateMap<ThreeInRowCellViewModel, ThreeInRowCell>();
 
             provider.CreateMap<MazeLevelWeb, MazeViewModel>();
             provider.CreateMap<MazeViewModel, MazeLevelWeb>();
