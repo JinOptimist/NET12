@@ -119,7 +119,7 @@ namespace Net12.Maze
                 Hero.Y = heroPositionY;
             }
 
-            Enemies.ForEach(x => x.Step());
+            Enemies.ForEach(x => x.GoStep());
 
             //foreach (var enemy in Enemies)
             //{
