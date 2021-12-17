@@ -15,14 +15,17 @@ namespace Net12.Maze.Cells.Enemies
 
         }
 
-        public override void Step()
+        public override void AfterStep()
         {
+        }
 
+        public override BaseCell BeforeStep()
+        {
             var nearStep = Maze.Cells
-                .Where(cell => cell.X == X && Math.Abs(cell.Y - Y) == 1
-                    || Math.Abs(cell.X - X) == 1 && cell.Y == Y)
-                .OfType<Ground>()
-                .ToList();
+               .Where(cell => cell.X == X && Math.Abs(cell.Y - Y) == 1
+                   || Math.Abs(cell.X - X) == 1 && cell.Y == Y)
+               .OfType<Ground>()
+               .ToList();
 
             if (random.Next(0, 100) < 33)
             {
@@ -34,18 +37,15 @@ namespace Net12.Maze.Cells.Enemies
             {
                 var toStep = nearStep[random.Next(nearStep.Count)];
 
-                X = toStep.X;
-                Y = toStep.Y;
+                return toStep;
             }
             else
             {
                 var grounds = Maze.Cells.Where(x => x is Ground).ToList();
                 var randomGround = GetRandom(grounds);
-                X = randomGround.X;
-                Y = randomGround.Y;
+                return randomGround;
 
             }
-
         }
 
         private BaseCell GetRandom(List<BaseCell> cells)

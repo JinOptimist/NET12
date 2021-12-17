@@ -11,7 +11,7 @@ namespace Net12.Maze.Cells.Enemies
 
         private Random random = new Random();
 
-         public override void Step()
+         public override BaseCell BeforeStep()
         {
             var cellsAroundGoblin =
                 Maze.Cells.Where(cell =>
@@ -26,11 +26,14 @@ namespace Net12.Maze.Cells.Enemies
             if (cellsAroundGoblin.Any(x => x.X == Maze.Hero.X && x.Y == Maze.Hero.Y) && cellsWhereGoblinCanStep.Count > 0)
             {
                 var newGoblinsPosition = GetRandom(cellsWhereGoblinCanStep);
-                X = newGoblinsPosition.X;
-                Y = newGoblinsPosition.Y;
+                return newGoblinsPosition;
             }
-        }
+            return null;
 
+        }
+        public override void AfterStep()
+        {
+        }
         public override bool TryToStep()
         {
             Maze[X, Y] = new Coin(X, Y, Maze, 10);
@@ -44,5 +47,7 @@ namespace Net12.Maze.Cells.Enemies
             var index = random.Next(list.Count);
             return list[index];
         }
+
+
     }
 }

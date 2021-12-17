@@ -5,16 +5,15 @@ using System.Text;
 
 namespace Net12.Maze.Cells.Enemies
 {
-    public abstract class BaseEnemy : BaseCell
+    public abstract class BaseEnemy : Character
     {
-        public int Hp { get; set; } = 50;
         public BaseEnemy(int x, int y, IMazeLevel maze) : base(x, y, maze) 
         {
             X = x;
             Y = y;
+            Hp = 50;
         }
 
-        public abstract void Step();
 
         public override bool TryToStep()
         {
@@ -30,16 +29,28 @@ namespace Net12.Maze.Cells.Enemies
             return false;
         }
 
-        public bool WantToStep(int wX, int wY)
+        public abstract BaseCell BeforeStep();
+        public abstract void AfterStep();
+
+        public void GoStep()
         {
-            if((Maze.Hero.X == wX && Maze.Hero.Y == wY)
-                || Maze.Enemies.Any(e => e.X == wX || e.Y == wY))
+            var cell = BeforeStep();
+            if(cell is null)
             {
-                return false;
-            } else
-            {
-                return true;
+                return;
             }
+            var myCell = Maze.GetCellOrUnit(cell.X, cell.Y);
+            if(myCell is Character)
+            {
+                return;
+            }
+            else
+            {
+                X = myCell.X;
+                Y = myCell.Y;
+                AfterStep();
+            }
+
         }
 
     }

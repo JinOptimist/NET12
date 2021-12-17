@@ -9,6 +9,7 @@ namespace Net12.Maze.Cells.Enemies
     {
   
         public Direction _rotation  { get; set; } = Direction.Up;
+        public Direction _beforeRotation  { get; set; } = Direction.Up;
         private int _leftwallX;
         private int _leftwallY;
         public Walker(int x, int y, IMazeLevel maze) : base(x, y, maze)
@@ -17,7 +18,7 @@ namespace Net12.Maze.Cells.Enemies
             _leftwallY = Y;
         }
 
-        public override void Step()
+        public override BaseCell BeforeStep()
         {
             //var poses = Maze.Cells.Where(cell => Math.Abs(this.X - cell.X) == 1 && this.Y == cell.Y || Math.Abs(this.Y - cell.Y) == 1 && this.X == cell.X).OfType<Wall>().ToList();
             var no_wall =
@@ -49,6 +50,10 @@ namespace Net12.Maze.Cells.Enemies
            
         }
 
+        public override void AfterStep()
+        {
+            throw new NotImplementedException();
+        }
         private void RotUp(bool noWall)
         {
                 if (!(Maze[X, Y - 1] is Wall) && (Maze[X, Y - 1] != null) && (Maze[_leftwallX, _leftwallY] is Wall || noWall == false))
@@ -190,7 +195,6 @@ namespace Net12.Maze.Cells.Enemies
             
         }
 
- 
 
     }
 }
