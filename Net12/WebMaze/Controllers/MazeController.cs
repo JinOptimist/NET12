@@ -181,6 +181,7 @@ namespace WebMaze.Controllers
             return RedirectToAction("ManageMazeDifficult", "Maze");
         }
 
+        [IsAdmin]
         public IActionResult ManageMazeDifficult()
         {
             var mazeDifficultProfileViewModels = new List<MazeDifficultProfileViewModel>();
@@ -191,6 +192,7 @@ namespace WebMaze.Controllers
             return View(mazeDifficultProfileViewModels);
         }
 
+        [IsAdmin]
         public IActionResult RemoveMazeDifficult(long Id)
         {
             _mazeDifficultRepository.Remove(Id);
