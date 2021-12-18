@@ -101,29 +101,35 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult CreateMaze()
         {
-            return View();
+            var listDifficults = _mazeDifficultRepository.GetAll();
+            var listViewDifficults = new List<MazeDifficultProfileViewModel>();
+            foreach(var complixity in listDifficults)
+            {
+                listViewDifficults.Add(_mapper.Map<MazeDifficultProfileViewModel>(complixity));
+            }
+            return View(listViewDifficults);
         }
         [Authorize]
         [HttpPost]
-        public IActionResult CreateMaze(MazeViewModel nullMaze)
-        {   //TODO: COST OF LEVELS
-            if (_userService.GetCurrentUser().Coins < 100)
+        public IActionResult CreateMaze(MazeDifficultProfileViewModel viewMaze)
+        {
+            var complixity = _mazeDifficultRepository.Get(viewMaze.Id);
+            if (complixity is null || _userService.GetCurrentUser().Coins <= complixity.CoinCount)
             {
                 return RedirectToAction("Index");
             }
             else
             {
-                _userService.GetCurrentUser().Coins -= 100;
-                //TODO: CHOOSE DIFFICULITY
-                //  var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
-                var maze = new MazeBuilder().Build(10, 10, 100, 100, GetCoinsFromMaze, false);
+                _userService.GetCurrentUser().Coins -= complixity.CoinCount;
+
+                var maze = new MazeBuilder().Build(complixity.Width, complixity.Height, complixity.HeroMaxHp, complixity.HeroMaxHp, GetCoinsFromMaze, false);
+                maze.Hero.MaxFatigue = complixity.HeroMaxFatigue;
+                maze.Hero.CurrentFatigue = complixity.HeroMaxFatigue;
+
                 var model = _mapper.Map<MazeLevelWeb>(maze);
                 model.IsActive = true;
-
-                //TODO: CREATE ABILITY CHOOSE YOUR NAME LEVEL
-                model.Name = nullMaze.Name;
+                model.Name = viewMaze.Name;
                 model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
-
                 _mazeLevelRepository.Save(model);
 
 
