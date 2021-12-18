@@ -55,7 +55,8 @@ namespace WebMaze.EfStuff.Repositories
                 var cellModel = model.Cells.Single(c => c.X == cell.X && c.Y == cell.Y);
 
                 var mod = mapper?.Map<MazeCellWeb>(cell);
-                if(mod != null) {
+                if (mod != null)
+                {
                     cellModel.TypeCell = mod.TypeCell;
                     cellModel.Obj1 = mod.Obj1;
                     cellModel.Obj2 = mod.Obj2;
@@ -81,11 +82,7 @@ namespace WebMaze.EfStuff.Repositories
 
             model.Enemies = model.Enemies.Where(e =>
             {
-                if (e.IsActive == false)
-                {
-                    return true;
-                }
-                return false;
+                return e.IsActive;
             }).ToList();
 
 
