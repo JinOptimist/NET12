@@ -76,7 +76,7 @@ namespace Net12.Maze
             Message = "";
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;
-            if (Hero.CurrentFatigue < Hero.MaxFatigue)
+            if (Hero.CurrentFatigue < Hero.MaxFatigue && Hero.Hp > 0)
             {
                 Hero.CurrentFatigue++;
             }

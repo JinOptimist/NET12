@@ -124,7 +124,6 @@ namespace WebMaze.Controllers
 
                 var maze = new MazeBuilder().Build(complixity.Width, complixity.Height, complixity.HeroMaxHp, complixity.HeroMaxHp, GetCoinsFromMaze, false);
                 maze.Hero.MaxFatigue = complixity.HeroMaxFatigue;
-                maze.Hero.CurrentFatigue = complixity.HeroMaxFatigue;
 
                 var model = _mapper.Map<MazeLevelWeb>(maze);
                 model.IsActive = true;
