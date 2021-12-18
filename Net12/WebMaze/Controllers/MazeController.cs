@@ -101,23 +101,39 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult CreateMaze()
         {
-            return View();
+            var listDifficults = _mazeDifficultRepository.GetAll();
+            var listViewDifficults = new List<MazeDifficultProfileViewModel>();
+            foreach(var complixity in listDifficults)
+            {
+                listViewDifficults.Add(_mapper.Map<MazeDifficultProfileViewModel>(complixity));
+            }
+            return View(listViewDifficults);
         }
         [Authorize]
         [HttpPost]
-        public IActionResult CreateMaze(int s = 3)
+        public IActionResult CreateMaze(MazeDifficultProfileViewModel viewMaze)
         {
-            //TODO: CHOOSE DIFFICULITY
-            //  var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
-            var maze = new MazeBuilder().Build(10, 10, 100, 100,GetCoinsFromMaze, false);
-            var model = _mapper.Map<MazeLevelWeb>(maze);
-            model.IsActive = true;
+            var complixity = _mazeDifficultRepository.Get(viewMaze.Id);
+            if (complixity is null || _userService.GetCurrentUser().Coins <= complixity.CoinCount)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                _userService.GetCurrentUser().Coins -= complixity.CoinCount;
 
-            //TODO: CREATE ABILITY CHOOSE YOUR NAME LEVEL
-            model.Name = "My Maze";
-            model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
-            _mazeLevelRepository.Save(model);
-            return RedirectToAction("Index");
+                var maze = new MazeBuilder().Build(complixity.Width, complixity.Height, complixity.HeroMaxHp, complixity.HeroMaxHp, GetCoinsFromMaze, false);
+                maze.Hero.MaxFatigue = complixity.HeroMaxFatigue;
+
+                var model = _mapper.Map<MazeLevelWeb>(maze);
+                model.IsActive = true;
+                model.Name = viewMaze.Name;
+                model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
+                _mazeLevelRepository.Save(model);
+
+
+                return RedirectToAction("Index");
+            }
         }
 
         [Authorize]
@@ -165,6 +181,7 @@ namespace WebMaze.Controllers
             return RedirectToAction("ManageMazeDifficult", "Maze");
         }
 
+        [IsAdmin]
         public IActionResult ManageMazeDifficult()
         {
             var mazeDifficultProfileViewModels = new List<MazeDifficultProfileViewModel>();
@@ -175,6 +192,7 @@ namespace WebMaze.Controllers
             return View(mazeDifficultProfileViewModels);
         }
 
+        [IsAdmin]
         public IActionResult RemoveMazeDifficult(long Id)
         {
             _mazeDifficultRepository.Remove(Id);
