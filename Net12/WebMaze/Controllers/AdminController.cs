@@ -94,12 +94,24 @@ namespace WebMaze.Controllers
         }
         public IActionResult CellInfoHelper()
         {
+            var baseType = typeof(BaseCell);
 
-            var baseRepoType = typeof(BaseCell);
+            var typeOfCell = Assembly.GetAssembly(baseType)
+                .GetTypes()
+                .Where(x => x.BaseType == typeof(BaseCell))
+                .ToList();
 
-            
-            var typeOfCell = Assembly.GetAssembly(baseRepoType).GetTypes().Where(x => x.BaseType == typeof(BaseCell)).ToList();
-            //string typeOfCell = "It works";
+           
+            foreach (var item in typeOfCell)
+            {
+                var a = Assembly.GetAssembly(baseType)
+                .GetTypes()
+                .Where(x => x.BaseType == item)
+                .ToList();
+
+            }
+
+
             return View();
         }
     }
