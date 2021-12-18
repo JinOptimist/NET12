@@ -101,18 +101,39 @@ namespace WebMaze.Controllers
                 .Where(x => x.BaseType == typeof(BaseCell))
                 .ToList();
 
-           
+            var a = new List<Type>();
+
             foreach (var item in typeOfCell)
             {
-                var a = Assembly.GetAssembly(baseType)
+                var b = Assembly.GetAssembly(baseType)
                 .GetTypes()
                 .Where(x => x.BaseType == item)
                 .ToList();
-
+                a.AddRange(b);
             }
 
+            typeOfCell.AddRange(a);
 
-            return View();
+            var NamesTypeOfCell = typeOfCell
+                .Select(x => x.Name)
+                .Select(x => x.ToLower())
+                .ToList();
+
+            NamesTypeOfCell.Remove(NamesTypeOfCell.SingleOrDefault(x => x.Contains("baseenemy")));
+
+            var NamesOfActions = Assembly
+               .GetExecutingAssembly()
+               .GetTypes()
+               .SingleOrDefault(x => x == typeof(CellInfoController))
+               .GetMethods()
+               .Where(x => x.ReturnType == typeof(IActionResult))
+               .Select(x => x.Name)
+               .Select(x => x.ToLower())
+               .ToList();
+
+            NamesTypeOfCell.RemoveAll(x => NamesOfActions.Contains(x));
+
+            return View(NamesTypeOfCell);
         }
     }
 }

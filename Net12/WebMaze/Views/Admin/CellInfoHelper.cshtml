@@ -1,5 +1,12 @@
-﻿
+﻿@model List<string>
 <div class="text-center">
     <h3>Administration: Cell info helper</h3>
-   
+    <div>There is no description of such cells:</div>
+    <div>
+        @foreach (var item in Model)
+        {
+            <div>@item</div>
+        }
     </div>
+
+</div>
