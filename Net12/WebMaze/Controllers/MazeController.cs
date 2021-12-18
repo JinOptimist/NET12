@@ -105,7 +105,7 @@ namespace WebMaze.Controllers
         }
         [Authorize]
         [HttpPost]
-        public IActionResult CreateMaze(int s = 3)
+        public IActionResult CreateMaze(MazeViewModel nullMaze)
         {   //TODO: COST OF LEVELS
             if (_userService.GetCurrentUser().Coins < 100)
             {
@@ -121,7 +121,7 @@ namespace WebMaze.Controllers
                 model.IsActive = true;
 
                 //TODO: CREATE ABILITY CHOOSE YOUR NAME LEVEL
-                model.Name = "My Maze";
+                model.Name = nullMaze.Name;
                 model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
 
                 _mazeLevelRepository.Save(model);
