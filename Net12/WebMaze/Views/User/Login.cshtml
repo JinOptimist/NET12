@@ -1,6 +1,7 @@
 ﻿@model LoginViewModel
-
+ 
 <form action="/User/Login" method="post">
+    @Html.HiddenFor(x=>x.ReturnUrl)
     <div>
         Login: @Html.TextBoxFor(x => x.Login)
     </div>

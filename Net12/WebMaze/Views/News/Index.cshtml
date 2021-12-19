@@ -1,5 +1,6 @@
 ﻿@model List<NewsViewModel>
-
+@using WebMaze.EfStuff.Repositories
+@inject NewsCommentRepository newsCommentRepository
 <div class="header">
     <h2>NEWS</h2>
 </div>
@@ -50,21 +51,24 @@
                             <span>@news.CreationDate.ToShortDateString()</span>
                         </td>
 
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <td>
-                            <span>                           
-                                <a href="@Url.Action("Wonderful","News", new {@newsId = news.Id})" class="good-button">Wonderful</a>                                
-                                <button class="bad-button">Awful</button>
-                            </span>
-                        </td>
-                        <td>
-                            <a href="/News/RemoveNews?newsId=@news.Id">X</a>
-                            <a href="/News/AddNews?newsId=@news.Id">E</a>
-                        </td>
-                    }
-
-                </tr>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            var listcomments = newsCommentRepository.GetAllId(news.Id);
+                            <td>
+                                <span>                           
+                                    <a href="@Url.Action("Wonderful","News", new {@newsId = news.Id})" class="good-button">Wonderful</a>                                
+                                    <button class="bad-button">Awful</button>
+                                </span>
+                            </td>
+                            <td>
+                                <a href="/News/RemoveNews?newsId=@news.Id">X</a>
+                                <a href="/News/AddNews?newsId=@news.Id">E</a>
+                                <p>
+                                    <a href="/NewsComment/Index?newsId=@news.Id">@listcomments.Count() Comments</a>
+                                </p>
+                            </td>
+                        }
+                    </tr>
                 }
             </tbody>
         </table>

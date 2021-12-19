@@ -8,21 +8,20 @@ namespace Net12.Maze.Cells.Enemies
     public class BullEnemy : BaseEnemy
     {
         private Random _random = new Random();
-
-        private Direction _heroDirection;
+        private Direction changeDirection;
+        public Direction _heroDirection;
         public BullEnemy(int x, int y, MazeLevel maze) : base(x, y, maze) 
         {
             _heroDirection = GetRandomDirection();
         }
 
-        public override void Step()
+        public override BaseCell BeforeStep()
         {
             DetectedHero();
             if (CanBeStepByDirection(_heroDirection))
             {
-                StepByDirection(_heroDirection);
-                DetectedHero();
-                return;
+                return GetCellByDirection(_heroDirection);
+             
             }
 
             var AllPossibleDirections = (Direction[])Enum.GetValues(typeof(Direction));
@@ -33,17 +32,21 @@ namespace Net12.Maze.Cells.Enemies
                 var direction = GetRandomDirection(AllPossibleDirections);
                 if(CanBeStepByDirection(direction))
                 {
-                    StepByDirection(direction);
-                    _heroDirection = direction;
-                    DetectedHero();
-                    return;
+                    changeDirection = direction;
+                    return GetCellByDirection(direction);
+
                 }
 
                 AllPossibleDirections = AllPossibleDirections.Where(x => x != direction).ToArray();
             }
             while (AllPossibleDirections.Length > 0);
+            return null;
         }
-
+        public override void AfterStep()
+        {
+            DetectedHero();
+            _heroDirection = changeDirection;
+        }
         private Direction GetRandomDirection(Direction[] listOfDirections = null)
         {
             var directions = listOfDirections ?? (Direction[])Enum.GetValues(typeof(Direction));

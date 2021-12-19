@@ -24,6 +24,8 @@ namespace Net12.Maze
 
         public string Message { get; set; } = "";
 
+        public Action<int> GetCoins { get; set; }
+
         public IBaseCell GetCellOrUnit(int x, int y)
         {
             if (Hero.X == x && Hero.Y == y)
@@ -74,7 +76,7 @@ namespace Net12.Maze
             Message = "";
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;
-            if (Hero.CurrentFatigue < Hero.MaxFatigue)
+            if (Hero.CurrentFatigue < Hero.MaxFatigue && Hero.Hp > 0)
             {
                 Hero.CurrentFatigue++;
             }
@@ -117,7 +119,7 @@ namespace Net12.Maze
                 Hero.Y = heroPositionY;
             }
 
-            Enemies.ForEach(x => x.Step());
+            Enemies.ForEach(x => x.GoStep());
 
             //foreach (var enemy in Enemies)
             //{

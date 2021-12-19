@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
@@ -24,8 +25,9 @@ namespace WebMaze.Controllers
         private UserService _userService;
         private CellRepository _cellRepository;
         private UserRepository _userRepository;
+        private MazeEnemyRepository _mazeEnemyRepository;
         private readonly PayForActionService _payForActionService;
-        public MazeController(MazeDifficultRepository mazzeDifficultRepository, PayForActionService payForActionService, MazeLevelRepository mazeLevelRepository, IMapper mapper, UserService userService, CellRepository cellRepository, UserRepository userRepository = null)
+        public MazeController(MazeDifficultRepository mazzeDifficultRepository, MazeLevelRepository mazeLevelRepository, PayForActionService payForActionService, IMapper mapper, UserService userService, CellRepository cellRepository, UserRepository userRepository = null, MazeEnemyRepository mazeEnemyRepository = null)
         {
             _mazeDifficultRepository = mazzeDifficultRepository;
             _mapper = mapper;
@@ -33,6 +35,7 @@ namespace WebMaze.Controllers
             _mazeLevelRepository = mazeLevelRepository;
             _cellRepository = cellRepository;
             _userRepository = userRepository;
+            _mazeEnemyRepository = mazeEnemyRepository;
             _payForActionService = payForActionService;
         }
 
@@ -56,12 +59,10 @@ namespace WebMaze.Controllers
             }
             var Model = _mazeLevelRepository.Get(id);
             var maz = _mapper.Map<MazeLevel>(Model);
-            var cell = maz[6, 1];
             if (maz is null || !Model.IsActive)
             {
                 return RedirectToAction("Index");
             }
-            maz.Enemies.Clear();
 
 
 
@@ -75,6 +76,8 @@ namespace WebMaze.Controllers
         {
             var myModel = _mazeLevelRepository.Get(Id);
             var maze = _mapper.Map<MazeLevel>(myModel);
+            maze.GetCoins = GetCoinsFromMaze;
+
             switch (turn)
             {
                 case 1:
@@ -93,24 +96,46 @@ namespace WebMaze.Controllers
 
             _mazeLevelRepository.ChangeModel(myModel, maze, _mapper);
 
-
             _mazeLevelRepository.Save(myModel);
             return View(maze);
         }
         [Authorize]
+        [HttpGet]
         public IActionResult CreateMaze()
         {
-            //TODO: CHOOSE DIFFICULITY
-            //  var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
-            var maze = new MazeBuilder().Build(10, 10, 100, 100, false);
-            var model = _mapper.Map<MazeLevelModel>(maze);
-            model.IsActive = true;
+            var listDifficults = _mazeDifficultRepository.GetAll();
+            var listViewDifficults = new List<MazeDifficultProfileViewModel>();
+            foreach(var complixity in listDifficults)
+            {
+                listViewDifficults.Add(_mapper.Map<MazeDifficultProfileViewModel>(complixity));
+            }
+            return View(listViewDifficults);
+        }
+        [Authorize]
+        [HttpPost]
+        public IActionResult CreateMaze(MazeDifficultProfileViewModel viewMaze)
+        {
+            var complixity = _mazeDifficultRepository.Get(viewMaze.Id);
+            if (complixity is null || _userService.GetCurrentUser().Coins <= complixity.CoinCount)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                _userService.GetCurrentUser().Coins -= complixity.CoinCount;
 
-            //TODO: CREATE YOUR NAME LEVEL
-            model.Name = "My Maze";
-            model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
-            _mazeLevelRepository.Save(model);
-            return RedirectToAction("Index");
+                var maze = new MazeBuilder().Build(complixity.Width, complixity.Height, complixity.HeroMaxHp, complixity.HeroMaxHp, GetCoinsFromMaze, false);
+                maze.Hero.MaxFatigue = complixity.HeroMaxFatigue;
+
+                var model = _mapper.Map<MazeLevelWeb>(maze);
+                model.IsActive = true;
+                model.Name = viewMaze.Name;
+                model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
+                _mazeLevelRepository.Save(model);
+
+
+                return RedirectToAction("Index");
+            }
         }
 
         [Authorize]
@@ -122,7 +147,7 @@ namespace WebMaze.Controllers
                 var maze = _mazeLevelRepository.Get(Id);
 
                 _cellRepository.Remove(maze.Cells);
-
+                _mazeEnemyRepository.Remove(maze.Enemies);
                 _mazeLevelRepository.Remove(Id);
 
             }
@@ -131,6 +156,7 @@ namespace WebMaze.Controllers
         }
 
         [Authorize]
+        [IsAdmin]
         [HttpGet]
         public IActionResult AddMazeDifficult(long Id)
         {
@@ -139,6 +165,7 @@ namespace WebMaze.Controllers
         }
 
         [Authorize]
+        [IsAdmin]
         [HttpPost]
         public IActionResult AddMazeDifficult(MazeDifficultProfileViewModel mazeDifficultProfileViewModel)
         {
@@ -162,6 +189,7 @@ namespace WebMaze.Controllers
             return RedirectToAction("ManageMazeDifficult", "Maze");
         }
 
+        [IsAdmin]
         public IActionResult ManageMazeDifficult()
         {
             var mazeDifficultProfileViewModels = new List<MazeDifficultProfileViewModel>();
@@ -172,6 +200,7 @@ namespace WebMaze.Controllers
             return View(mazeDifficultProfileViewModels);
         }
 
+        [IsAdmin]
         public IActionResult RemoveMazeDifficult(long Id)
         {
             _mazeDifficultRepository.Remove(Id);
@@ -184,6 +213,13 @@ namespace WebMaze.Controllers
             _payForActionService.CreatorEarnMoney(diffcult.Creater.Id, 10);
 
             return RedirectToAction("ManageMazeDifficult", "Maze");
+        }
+
+        public void GetCoinsFromMaze(int coins)
+        {
+            var user = _userService.GetCurrentUser();
+            user.Coins += coins;
+            _userRepository.Save(user);
         }
     }
 }

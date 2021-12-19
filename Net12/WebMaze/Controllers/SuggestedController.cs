@@ -33,6 +33,7 @@ namespace WebMaze.Controllers
             _userService = userService;
             _payForActionService = payForActionService;
         }
+   
 
         public IActionResult SuggestedEnemys()
         {

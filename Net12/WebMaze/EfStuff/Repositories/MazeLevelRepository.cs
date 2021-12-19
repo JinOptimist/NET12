@@ -5,38 +5,39 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.EfStuff.DbModel.Maze;
 using WebMaze.Models;
 using WebMaze.Services;
 
 namespace WebMaze.EfStuff.Repositories
 {
-    public class MazeLevelRepository : BaseRepository<MazeLevelModel>
+    public class MazeLevelRepository : BaseRepository<MazeLevelWeb>
     {
 
         public MazeLevelRepository(WebContext webContext) : base(webContext)
         {
         }
-        public void ChangeModel(MazeLevelModel model, MazeLevel maze, IMapper mapper)
+        public void ChangeModel(MazeLevelWeb model, MazeLevel maze, IMapper mapper)
         {
-            var dict = new Dictionary<Type, CellInfo>()
+            var dict = new Dictionary<Type, MazeCellInfo>()
             {
-                { typeof(Wall), CellInfo.Wall},
-                { typeof(WeakWall), CellInfo.WeakWall},
-                { typeof(Ground), CellInfo.Grow},
-                { typeof(GoldMine), CellInfo.Goldmine},
-                { typeof(Coin), CellInfo.Coin},
-                { typeof(Bed),CellInfo.Bed},
-                { typeof(Puddle), CellInfo.Puddle},
-                { typeof(VitalityPotion), CellInfo.VitalityPotion},
-                { typeof(Bless), CellInfo.Bless},
-                { typeof(TeleportIn), CellInfo.TeleportIn},
-                { typeof(TeleportOut), CellInfo.TeleportOut},
-                { typeof(Fountain), CellInfo.Fountain},
-                { typeof(Trap), CellInfo.Trap},
-                { typeof(HealPotion), CellInfo.HealPotion},
-                { typeof(WolfPit), CellInfo.WolfPit},
-                { typeof(Tavern), CellInfo.Tavern},
-                { typeof(Healer), CellInfo.Healer},
+                { typeof(Wall), MazeCellInfo.Wall},
+                { typeof(WeakWall), MazeCellInfo.WeakWall},
+                { typeof(Ground), MazeCellInfo.Grow},
+                { typeof(GoldMine), MazeCellInfo.Goldmine},
+                { typeof(Coin), MazeCellInfo.Coin},
+                { typeof(Bed),MazeCellInfo.Bed},
+                { typeof(Puddle), MazeCellInfo.Puddle},
+                { typeof(VitalityPotion), MazeCellInfo.VitalityPotion},
+                { typeof(Bless), MazeCellInfo.Bless},
+                { typeof(TeleportIn), MazeCellInfo.TeleportIn},
+                { typeof(TeleportOut), MazeCellInfo.TeleportOut},
+                { typeof(Fountain), MazeCellInfo.Fountain},
+                { typeof(Trap), MazeCellInfo.Trap},
+                { typeof(HealPotion), MazeCellInfo.HealPotion},
+                { typeof(WolfPit), MazeCellInfo.WolfPit},
+                { typeof(Tavern), MazeCellInfo.Tavern},
+                { typeof(Healer), MazeCellInfo.Healer},
 
             };
 
@@ -53,14 +54,37 @@ namespace WebMaze.EfStuff.Repositories
             {
                 var cellModel = model.Cells.Single(c => c.X == cell.X && c.Y == cell.Y);
 
-                var mod = mapper?.Map<CellModel>(cell);
-                if(mod != null) {
+                var mod = mapper?.Map<MazeCellWeb>(cell);
+                if (mod != null)
+                {
                     cellModel.TypeCell = mod.TypeCell;
                     cellModel.Obj1 = mod.Obj1;
                     cellModel.Obj2 = mod.Obj2;
                 }
             }
- 
+            var listActiveEnemies = new List<MazeEnemyInfo>();
+            model.Enemies.ForEach(e => e.IsActive = false);
+            foreach (var enemy in maze.Enemies)
+            {
+                var enemyModel = model.Enemies.Single(e => e.Id == enemy.Id);
+                listActiveEnemies.Add(enemyModel.TypeEnemy);
+                var mod = mapper.Map<MazeEnemyWeb>(enemy);
+                if (mod != null)
+                {
+                    enemyModel.TypeEnemy = mod.TypeEnemy;
+                    enemyModel.Obj1 = mod.Obj1;
+                    enemyModel.Obj2 = mod.Obj2;
+                    enemyModel.X = mod.X;
+                    enemyModel.Y = mod.Y;
+                    enemyModel.IsActive = true;
+                }
+            }
+
+            model.Enemies = model.Enemies.Where(e =>
+            {
+                return e.IsActive;
+            }).ToList();
+
 
 
         }

@@ -89,69 +89,7 @@ namespace WebMaze.Migrations
 
                     b.ToTable("BugReports");
                 });
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.CellModel", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("bigint")
-                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                b.Property<bool>("IsActive")
-                    .HasColumnType("bit");
-
-                b.Property<long?>("MazeLevelId")
-                    .HasColumnType("bigint");
-
-                b.Property<int>("Obj1")
-                    .HasColumnType("int");
-
-                b.Property<int>("Obj2")
-                    .HasColumnType("int");
-
-                b.Property<int>("TypeCell")
-                    .HasColumnType("int");
-
-                b.Property<int>("X")
-                    .HasColumnType("int");
-
-                b.Property<int>("Y")
-                    .HasColumnType("int");
-
-                b.HasKey("Id");
-
-                b.HasIndex("MazeLevelId");
-
-                b.ToTable("CellsModels");
-            });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("bigint")
-                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                b.Property<int>("Assessment")
-                    .HasColumnType("int");
-
-                b.Property<long?>("AuthorId")
-                    .HasColumnType("bigint");
-
-                b.Property<string>("Description")
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<bool>("IsActive")
-                    .HasColumnType("bit");
-
-                b.Property<string>("Picture")
-                    .HasColumnType("nvarchar(max)");
-
-                b.HasKey("Id");
-
-                b.HasIndex("AuthorId");
-
-                b.ToTable("Gallery");
-            });
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Game", b =>
                 {
                     b.Property<long>("Id")
@@ -187,6 +125,41 @@ namespace WebMaze.Migrations
                     b.ToTable("FavGames");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.GameDevices", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BrandName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("CreaterId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Desc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeviceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Picture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypeDevice")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreaterId");
+
+                    b.ToTable("GameDevices");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
                 {
                     b.Property<long>("Id")
@@ -214,6 +187,41 @@ namespace WebMaze.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Gallery");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeCellWeb", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("MazeLevelId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Obj1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Obj2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TypeCell")
+                        .HasColumnType("int");
+
+                    b.Property<int>("X")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Y")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MazeLevelId");
+
+                    b.ToTable("CellsModels");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
@@ -255,6 +263,88 @@ namespace WebMaze.Migrations
                     b.HasIndex("CreaterId");
 
                     b.ToTable("MazeDifficultProfiles");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeEnemyWeb", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("MazeLevelId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Obj1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Obj2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TypeEnemy")
+                        .HasColumnType("int");
+
+                    b.Property<int>("X")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Y")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MazeLevelId");
+
+                    b.ToTable("MazeEnemyWeb");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelWeb", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long?>("CreatorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HeroMaxFatigure")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HeroMaxHp")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HeroNowFatigure")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HeroNowHp")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HeroX")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HeroY")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("MazeLevelsUser");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerCell", b =>
@@ -311,61 +401,13 @@ namespace WebMaze.Migrations
                     b.Property<int>("Width")
                         .HasColumnType("int");
 
-                    b.Property<int>("Width")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("GamerId");
 
                     b.ToTable("MinerField");
                 });
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelModel", b =>
-            {
-                b.Property<long>("Id")
-                    .ValueGeneratedOnAdd()
-                    .HasColumnType("bigint")
-                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                b.Property<long?>("CreatorId")
-                    .HasColumnType("bigint");
-
-                b.Property<int>("Height")
-                    .HasColumnType("int");
-
-                b.Property<int>("HeroMaxFatigure")
-                    .HasColumnType("int");
-
-                b.Property<int>("HeroMaxHp")
-                    .HasColumnType("int");
-
-                b.Property<int>("HeroNowFatigure")
-                    .HasColumnType("int");
-
-                b.Property<int>("HeroNowHp")
-                    .HasColumnType("int");
-
-                b.Property<int>("HeroX")
-                    .HasColumnType("int");
-
-                b.Property<int>("HeroY")
-                    .HasColumnType("int");
-
-                b.Property<bool>("IsActive")
-                    .HasColumnType("bit");
-
-                b.Property<string>("Name")
-                    .HasColumnType("nvarchar(max)");
-
-                b.Property<int>("Width")
-                    .HasColumnType("int");
-
-                b.HasKey("Id");
-
-                b.HasIndex("CreatorId");
-
-                b.ToTable("MazeLevelsUser");
-            });
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewCellSuggestion", b =>
                 {
                     b.Property<long>("Id")
@@ -439,6 +481,37 @@ namespace WebMaze.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("News");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewsComment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long?>("AuthorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("NewsId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("NewsId");
+
+                    b.ToTable("NewsComments");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Perrmission", b =>
@@ -584,25 +657,6 @@ namespace WebMaze.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.BugReport", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
-                        .WithMany("MyBugReports")
-                        .HasForeignKey("CreaterId");
-
-                    b.Navigation("Creater");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.CellModel", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.MazeLevelModel", "MazeLevel")
-                        .WithMany("Cells")
-                        .HasForeignKey("MazeLevelId");
-
-                    b.Navigation("MazeLevel");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
             modelBuilder.Entity("PerrmissionUser", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.Perrmission", null)
@@ -616,12 +670,12 @@ namespace WebMaze.Migrations
                         .HasForeignKey("UsersWhichHasThePermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                }));
+                });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.BugReport", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
-                        .WithMany("MazeDifficultProfiles")
+                        .WithMany("MyBugReports")
                         .HasForeignKey("CreaterId");
 
                     b.Navigation("Creater");
@@ -636,6 +690,15 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.GameDevices", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
+                        .WithMany("MyGameDevices")
+                        .HasForeignKey("CreaterId");
+
+                    b.Navigation("Creater");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
@@ -645,15 +708,41 @@ namespace WebMaze.Migrations
                     b.Navigation("Author");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeCellWeb", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.MazeLevelWeb", "MazeLevel")
+                        .WithMany("Cells")
+                        .HasForeignKey("MazeLevelId");
+
+                    b.Navigation("MazeLevel");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelModel", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
+                        .WithMany("MazeDifficultProfiles")
+                        .HasForeignKey("CreaterId");
+
+                    b.Navigation("Creater");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeEnemyWeb", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.MazeLevelWeb", "MazeLevel")
+                        .WithMany("Enemies")
+                        .HasForeignKey("MazeLevelId");
+
+                    b.Navigation("MazeLevel");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelWeb", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
                         .WithMany("ListMazeLevels")
                         .HasForeignKey("CreatorId");
 
                     b.Navigation("Creator");
-                }));
+                });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerCell", b =>
                 {
@@ -697,6 +786,21 @@ namespace WebMaze.Migrations
                     b.Navigation("Author");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.NewsComment", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
+                        .WithMany("NewsComments")
+                        .HasForeignKey("AuthorId");
+
+                    b.HasOne("WebMaze.EfStuff.DbModel.News", "News")
+                        .WithMany("NewsComments")
+                        .HasForeignKey("NewsId");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("News");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
@@ -730,9 +834,21 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelWeb", b =>
+                {
+                    b.Navigation("Cells");
+
+                    b.Navigation("Enemies");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerField", b =>
                 {
                     b.Navigation("Cells");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.News", b =>
+                {
+                    b.Navigation("NewsComments");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
@@ -745,14 +861,11 @@ namespace WebMaze.Migrations
 
                     b.Navigation("Images");
 
-                    b.Navigation("MazeDifficultProfiles");
-
-                    b.Navigation("MinerFields");
-
-                    b.Navigation("MyBugReports");
                     b.Navigation("ListMazeLevels");
 
                     b.Navigation("MazeDifficultProfiles");
+
+                    b.Navigation("MinerFields");
 
                     b.Navigation("MyBugReports");
 
@@ -762,9 +875,13 @@ namespace WebMaze.Migrations
 
                     b.Navigation("MyFavGames");
 
+                    b.Navigation("MyGameDevices");
+
                     b.Navigation("MyNews");
 
                     b.Navigation("MyReviews");
+
+                    b.Navigation("NewsComments");
                 });
 #pragma warning restore 612, 618
         }
