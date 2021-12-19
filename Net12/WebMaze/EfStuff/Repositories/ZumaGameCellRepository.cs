@@ -38,6 +38,15 @@ namespace WebMaze.EfStuff.Repositories
 
         }
 
+        public List<ZumaGameCell> GetNear(ZumaGameCell currentCell)
+        {
+            var cellsToRemove = new List<ZumaGameCell>();
+
+            GetNear(currentCell, cellsToRemove);
+
+            return cellsToRemove;
+        }
+
         public void UpdateCells(List<ZumaGameCell> cells)
         {
             foreach (var model in cells)

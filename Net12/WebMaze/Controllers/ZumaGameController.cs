@@ -56,9 +56,8 @@ namespace WebMaze.Controllers
         {
             var cell = _zumaGameCellRepository.Get(Id);
             var cells = cell.Field.Cells;
-            var getNear = new List<ZumaGameCell>();
 
-            _zumaGameCellRepository.GetNear(cell, getNear);
+            var getNear = _zumaGameCellRepository.GetNear(cell);
 
             foreach (var replaceCell in getNear)
             {
