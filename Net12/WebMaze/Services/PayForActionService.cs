@@ -10,7 +10,7 @@ namespace WebMaze.Services
     {
         readonly private UserRepository _userRepository;
         readonly private UserService _userService;
-        //public int reward { get; set; }
+        
 
         public PayForActionService (UserRepository userRepository, UserService userService)
         {

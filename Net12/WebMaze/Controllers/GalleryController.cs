@@ -56,7 +56,8 @@ namespace WebMaze.Controllers
         {           
             return View();
         }
-
+      
+        [PayForAddActionFilter]
         [HttpPost]
         public IActionResult AddImage(ImageViewModel imageViewModel)
         {
