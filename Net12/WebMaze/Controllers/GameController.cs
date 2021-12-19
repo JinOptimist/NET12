@@ -9,6 +9,8 @@ using WebMaze.Services;
 using WebMaze.Models;
 using Microsoft.AspNetCore.Authorization;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.Controllers.AuthAttribute;
+using WebMaze.Models.Enums;
 
 namespace WebMaze.Controllers
 {
@@ -53,19 +55,14 @@ namespace WebMaze.Controllers
         }
 
         [Authorize]
+        [PayForAddActionFilter(TypesOfPayment.Small)]
         [HttpPost]
         public IActionResult AddGame(GameViewModel gameViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(gameViewModel);
-            }
-
-            if (!_payForActionService.Payment(200))
-            {
-                ModelState.AddModelError(string.Empty, "Not enought money to add image");
-                return View(gameViewModel);
-            }
+            }            
 
             var creater = _userService.GetCurrentUser();
 

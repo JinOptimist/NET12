@@ -5,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers
@@ -50,17 +52,12 @@ namespace WebMaze.Controllers
         }
 
         [Authorize]
+        [PayForAddActionFilter(TypesOfPayment.Huge)]
         [HttpPost]
         public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(stuffForHeroViewModel);
-            }
-
-            if (!_payForActionService.Payment(200))
-            {
-                ModelState.AddModelError(string.Empty, "Not enought money to add stuff");
                 return View(stuffForHeroViewModel);
             }
 

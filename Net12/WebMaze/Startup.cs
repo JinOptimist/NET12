@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.DbModel.Maze;
@@ -57,6 +58,8 @@ namespace WebMaze
             );
 
             services.AddScoped<PayForActionService>();
+
+            services.AddScoped<PayForAddActionFilter>();
 
             services.AddHttpContextAccessor();
 

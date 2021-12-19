@@ -6,10 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers
@@ -53,20 +55,14 @@ namespace WebMaze.Controllers
         }
 
         [Authorize]
+        [PayForAddActionFilter(TypesOfPayment.Medium)]
         [HttpPost]
         public IActionResult AddBugReport(BugReportViewModel bugReportViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(bugReportViewModel);
-            }
-
-
-            if (!_payForActionService.Payment(200))
-            {
-                ModelState.AddModelError(string.Empty, "Not enought money to add bugg report");
-                return View(bugReportViewModel);
-            }
+            }           
 
             var creater = _userService.GetCurrentUser();
 

@@ -12,6 +12,7 @@ using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Models.ValidationAttributes;
 using WebMaze.Services;
 
@@ -166,19 +167,14 @@ namespace WebMaze.Controllers
 
         [Authorize]
         [IsAdmin]
+        [PayForAddActionFilter(TypesOfPayment.Small)]
         [HttpPost]
         public IActionResult AddMazeDifficult(MazeDifficultProfileViewModel mazeDifficultProfileViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(mazeDifficultProfileViewModel);
-            }
-
-            if (!_payForActionService.Payment(200))
-            {
-                ModelState.AddModelError(string.Empty, "Not enought money to add maze difficult profile");
-                return View(mazeDifficultProfileViewModel);
-            }
+            }            
 
             var dbMazeDifficult = _mapper.Map<MazeDifficultProfile>(mazeDifficultProfileViewModel);
             dbMazeDifficult.IsActive = true;

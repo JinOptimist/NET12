@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace WebMaze.Models.Enums
 {
-    public enum TypesOfRewards
+    public enum TypesOfPayment
     {
-        Small = 10,
-        Medium = 25,
-        Huge = 50
+        Small = 100,
+        Medium = 200,
+        Huge = 250
     }
 }

@@ -8,22 +8,26 @@ using WebMaze.Services;
 
 namespace WebMaze.Controllers.AuthAttribute
 {
-    public class PayForAddActionFilter : IActionFilter
+    public class PayForAddActionFilter : ActionFilterAttribute
     {
-        private readonly TypesOfRewards _typesOfRewards;
+        private readonly TypesOfPayment _typesOfPayment;
 
-        public PayForAddActionFilter (TypesOfRewards typesOfRewards)
+        public PayForAddActionFilter (TypesOfPayment typesOfPayment = TypesOfPayment.Small)
         {
-            _typesOfRewards = typesOfRewards;
+            _typesOfPayment = typesOfPayment;
         }
 
-        public void OnActionExecuted(ActionExecutedContext context)
+        public override void OnActionExecuted(ActionExecutedContext context)
         {            
         }
 
-        public void OnActionExecuting(ActionExecutingContext context)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var payForActionService = context.HttpContext.RequestServices.GetService(typeof(PayForActionService));
+            var payForActionService = (PayForActionService)context.HttpContext.RequestServices.GetService(typeof(PayForActionService));
+            if (!payForActionService.Payment((int)_typesOfPayment))
+            {
+                context.ModelState.AddModelError(string.Empty, "Not enought money to add");
+            }
         }
     }
 }

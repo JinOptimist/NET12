@@ -10,6 +10,7 @@ using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers
@@ -58,17 +59,12 @@ namespace WebMaze.Controllers
         }
 
         [IsAdmin]
+        [PayForAddActionFilter(TypesOfPayment.Medium)]
         [HttpPost]
         public IActionResult AddNews(NewsViewModel newsViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(newsViewModel);
-            }
-
-            if (!_payForActionService.Payment(200))
-            {
-                ModelState.AddModelError(string.Empty, "Not enought money to add news");
                 return View(newsViewModel);
             }
 

@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers
@@ -36,6 +38,7 @@ namespace WebMaze.Controllers
         }
 
         [Authorize]
+        [PayForAddActionFilter(TypesOfPayment.Medium)]
         [HttpPost]
         public IActionResult Index(FeedBackUserViewModel viewReview)
         {
@@ -43,12 +46,6 @@ namespace WebMaze.Controllers
             {
                 var bugFeedBackUsers = _reviewRepository.GiveViewReviews(_userService);
                 return View(bugFeedBackUsers);
-            }
-
-            if (!_payForActionService.Payment(200))
-            {
-                ModelState.AddModelError(string.Empty, "Not enought money to review");
-                return View(viewReview);
             }
 
             var review = _mapper.Map<Review>(viewReview);

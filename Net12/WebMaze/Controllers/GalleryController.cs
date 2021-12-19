@@ -11,6 +11,7 @@ using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers
@@ -57,14 +58,12 @@ namespace WebMaze.Controllers
             return View();
         }
       
-        [PayForAddActionFilter]
+        [PayForAddActionFilter(TypesOfPayment.Huge)]
         [HttpPost]
         public IActionResult AddImage(ImageViewModel imageViewModel)
         {
-
-            if (!_payForActionService.Payment(200))
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError(string.Empty, "Not enought money to add image");
                 return View(imageViewModel);
             }
 
