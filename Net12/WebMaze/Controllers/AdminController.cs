@@ -94,34 +94,31 @@ namespace WebMaze.Controllers
         }
         public IActionResult CellInfoHelper()
         {
-            var baseType = typeof(BaseCell);
-
-            var typeOfCell = Assembly.GetAssembly(baseType)
+            var typeOfCell = Assembly.GetAssembly(typeof(BaseCell))
                 .GetTypes()
                 .Where(x => x.BaseType == typeof(BaseCell))
                 .ToList();
 
-            var a = new List<Type>();
-
+            var heirsOfHeirs = new List<Type>();
             foreach (var item in typeOfCell)
             {
-                var b = Assembly.GetAssembly(baseType)
+                var heirs = Assembly.GetAssembly(typeof(BaseCell))
                 .GetTypes()
                 .Where(x => x.BaseType == item)
                 .ToList();
-                a.AddRange(b);
+                heirsOfHeirs.AddRange(heirs);
             }
 
-            typeOfCell.AddRange(a);
+            typeOfCell.AddRange(heirsOfHeirs);
 
-            var NamesTypeOfCell = typeOfCell
+            var namesTypeOfCell = typeOfCell
                 .Select(x => x.Name)
                 .Select(x => x.ToLower())
                 .ToList();
 
-            NamesTypeOfCell.Remove(NamesTypeOfCell.SingleOrDefault(x => x.Contains("baseenemy")));
+            namesTypeOfCell.Remove("baseenemy");
 
-            var NamesOfActions = Assembly
+            var namesOfActions = Assembly
                .GetExecutingAssembly()
                .GetTypes()
                .SingleOrDefault(x => x == typeof(CellInfoController))
@@ -131,9 +128,9 @@ namespace WebMaze.Controllers
                .Select(x => x.ToLower())
                .ToList();
 
-            NamesTypeOfCell.RemoveAll(x => NamesOfActions.Contains(x));
+            namesTypeOfCell.RemoveAll(x => namesOfActions.Contains(x));
 
-            return View(NamesTypeOfCell);
+            return View(namesTypeOfCell);
         }
     }
 }
