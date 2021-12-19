@@ -13,9 +13,9 @@ namespace WebMaze.EfStuff.Repositories
 
         }
 
-        public List<ZumaGameCell> GetNear(ZumaGameCell currentCell)
+        public void GetNear(ZumaGameCell currentCell, List<ZumaGameCell> cellsToRemove)
         {
-            var i = true;
+
             var baseNear = currentCell.Field.Cells
                     .Where(cell =>
                     (cell.X == currentCell.X && Math.Abs(cell.Y - currentCell.Y) <= 1
@@ -23,18 +23,19 @@ namespace WebMaze.EfStuff.Repositories
                     && cell.Color == currentCell.Color)
                     .ToList();
 
-            var getNear = baseNear;
-            foreach (var cellNear in baseNear)
+            var getNear = baseNear.Except(cellsToRemove).ToList();
+
+            if (getNear.Count() != 0)
             {
-                var dd = getNear.Union(currentCell.Field.Cells
-                    .Where(cell =>
-                    (cell.X == cellNear.X && Math.Abs(cell.Y - cellNear.Y) <= 1
-                    || Math.Abs(cell.X - cellNear.X) <= 1 && cell.Y == cellNear.Y)
-                    && cell.Color == cellNear.Color)
-                    .ToList()).ToList();
+                cellsToRemove.AddRange(getNear);
+
+                foreach (var cellNear in getNear)
+                {
+                    GetNear(cellNear, cellsToRemove);
+                }
+
             }
 
-            return getNear;
         }
 
         public void UpdateCells(List<ZumaGameCell> cells)
@@ -44,8 +45,6 @@ namespace WebMaze.EfStuff.Repositories
                 _webContext.Update(model);
             }
             _webContext.SaveChanges();
-
-
         }
 
         public override void Remove(ZumaGameCell model)

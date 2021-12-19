@@ -26,7 +26,7 @@ namespace WebMaze.Controllers
         /// ВЫСОТА
         /// </summary>
         private int _height = 10;
-        private int _colorCount = 4;
+        private int _colorCount = 3;
 
         public ZumaGameController(ZumaGameFieldBuilder zumaGameFieldBuilder, ZumaGameFieldRepository zumaGameFieldRepository, IMapper mapper, ZumaGameCellRepository zumaGameCellRepository)
         {
@@ -55,10 +55,10 @@ namespace WebMaze.Controllers
         public IActionResult ClickOnCell(long Id)
         {
             var cell = _zumaGameCellRepository.Get(Id);
-            var field = cell.Field;
-            var cells = field.Cells;
+            var cells = cell.Field.Cells;
+            var getNear = new List<ZumaGameCell>();
 
-            var getNear = _zumaGameCellRepository.GetNear(cell);
+            _zumaGameCellRepository.GetNear(cell, getNear);
 
             foreach (var replaceCell in getNear)
             {
@@ -68,16 +68,7 @@ namespace WebMaze.Controllers
 
                 _zumaGameCellRepository.Remove(replaceCell);
 
-                //replaceCells.Add(new ZumaGameCell { 
-                //    Color = _zumaGameFieldBuilder.GetRandom(field.Palette).Color,
-                //    Field = field,
-                //    X = replaceCell.X,
-                //    Y = 0,
-                //    IsActive = true
-                //});
-
                 _zumaGameCellRepository.UpdateCells(replaceCells);
-
             }
 
             for (int i = _width - 1; i >= 0; i--)
@@ -93,9 +84,7 @@ namespace WebMaze.Controllers
                         cellsOffset.ForEach(cell => cell.X--);
 
                         _zumaGameCellRepository.UpdateCells(cellsOffset);
-
                     }
-
                 }
             }
 
