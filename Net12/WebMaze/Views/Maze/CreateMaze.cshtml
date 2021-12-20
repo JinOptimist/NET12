@@ -1,0 +1,26 @@
+﻿@model List<MazeDifficultProfileViewModel>
+@section Sprite{
+<link rel="stylesheet" href="~/css/BuyMaze.css" />
+}
+<div class="backGround-BuyMaze">
+    <div class="text-center">
+        <form method="post">
+            <div class="DataInput">
+                Name: <input autocomplete="off" id="Name" name="Name" type="text" value="">
+            </div>
+            <div class="DataInput">
+                Maze level:
+                <select name="Id" size="1">
+                    @foreach (var maze in Model)
+                    {
+                        <option value="@maze.Id">@maze.Name|Cost:@maze.CoinCount</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <input class="BuyMaze" type="submit" value="Buy" />
+                <a style="text-decoration: none; color: #000000;" href="/Maze/Index">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

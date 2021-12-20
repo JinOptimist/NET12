@@ -1,0 +1,46 @@
+﻿@model List<GameDevicesViewModel>
+
+<div>
+    <h2>Game Devices</h2>
+</div>
+<div>
+    <table>
+        <thead>
+        <tr class="table-menu">
+            <th>Type device</th>
+            <th>Name device</th>
+            <th>Brand</th>
+            <th>Picture</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+
+
+        <tbody>
+        @foreach (var devices in Model)
+            {
+              <tr>
+                  <td>
+                      @devices.TypeDevice
+                  </td>
+                  <td>
+                      @devices.DeviceName
+                  </td>
+                  <td>
+                      @devices.BrandName
+                  </td>
+                  <td>
+                      @devices.Picture
+                  </td>
+                  <td>
+                      @devices.Desc
+                  </td> 
+              </tr>  
+            }
+        </tbody>
+    </table>
+    <div>
+        <a href="/GameDevices/AddGameDevices">New device</a>
+    </div>
+</div>
+

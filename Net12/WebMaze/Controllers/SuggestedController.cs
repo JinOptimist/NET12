@@ -29,6 +29,7 @@ namespace WebMaze.Controllers
             _newCellSuggRepository = newCellSuggRepository;
             _userService = userService;
         }
+   
 
         public IActionResult SuggestedEnemys()
         {

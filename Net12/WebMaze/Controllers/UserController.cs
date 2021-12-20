@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Services;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze.Controllers
 {
@@ -19,13 +21,18 @@ namespace WebMaze.Controllers
         private UserService _userService;
         private IMapper _mapper;
 
+        private IHubContext<ChatHub> _chatHub;
+
+
         public UserController(UserRepository userRepository,
-            IMapper mapper, 
-            UserService userService)
+            IMapper mapper,
+            UserService userService, 
+            IHubContext<ChatHub> chatHub)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _userService = userService;
+            _chatHub = chatHub;
         }
 
         [Authorize]
@@ -48,7 +55,17 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            var viewModel = new LoginViewModel();
+            if (string.IsNullOrEmpty(Request.Query["ReturnUrl"]))
+            {
+                viewModel.ReturnUrl = "/Home/Index";
+            }
+            else
+            {
+                viewModel.ReturnUrl = Request.Query["ReturnUrl"];
+            }
+            
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -74,7 +91,9 @@ namespace WebMaze.Controllers
 
             await HttpContext.SignInAsync(principal);
 
-            return RedirectToAction("Index", "Home");
+            await _chatHub.Clients.All.SendAsync("Enter", user.Name);
+
+            return Redirect(viewModel.ReturnUrl);
         }
 
         public async Task<IActionResult> Logout(LoginViewModel viewModel)

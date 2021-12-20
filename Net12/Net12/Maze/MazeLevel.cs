@@ -11,6 +11,8 @@ namespace Net12.Maze
     public class MazeLevel : IMazeLevel
 
     {
+        public long Id { get; set; }
+
         public List<BaseCell> Cells { get; set; } = new List<BaseCell>();
 
         public List<BaseEnemy> Enemies { get; set; } = new List<BaseEnemy>();
@@ -21,6 +23,8 @@ namespace Net12.Maze
         public IHero Hero { get; set; }
 
         public string Message { get; set; } = "";
+
+        public Action<int> GetCoins { get; set; }
 
         public IBaseCell GetCellOrUnit(int x, int y)
         {
@@ -72,7 +76,7 @@ namespace Net12.Maze
             Message = "";
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;
-            if (Hero.CurrentFatigue < Hero.MaxFatigue)
+            if (Hero.CurrentFatigue < Hero.MaxFatigue && Hero.Hp > 0)
             {
                 Hero.CurrentFatigue++;
             }
@@ -115,7 +119,7 @@ namespace Net12.Maze
                 Hero.Y = heroPositionY;
             }
 
-            Enemies.ForEach(x => x.Step());
+            Enemies.ForEach(x => x.GoStep());
 
             //foreach (var enemy in Enemies)
             //{

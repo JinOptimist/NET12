@@ -1,0 +1,57 @@
+﻿@model NewsAndCommentsViewModel
+
+<div class="page-content">
+    <div class="news-content">
+        <div class="news-title">
+            <h2>@Model.News.Title</h2>
+        </div>
+
+        <div class="news-text">
+            @Model.News.Text
+        </div>
+
+        <div class="date-author">
+            <div>
+                @Model.News.CreationDate.ToShortDateString()
+            </div>
+
+            <div>
+                @Model.News.NameOfAuthor
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="comments-count">
+            @Model.NewsComments.Count().ToString() comments
+        </div>
+
+        @foreach (var comment in Model.NewsComments)
+        {
+            <div class="comment">
+                <div class="comment-date-author">
+                    <div class="author-info">
+                        @comment.NameOfAuthor
+                    </div>
+
+                    <div class="date-info">
+                        @comment.CreationDate.ToShortDateString()
+                    </div>
+                </div>
+
+                <div class="comment-text">
+                    @comment.Text
+                </div>
+
+                <div>
+                    <a href="/NewsComment/AddNewsComment?commentId=@comment.Id">E</a>
+                    <a href="/NewsComment/RemoveNewsComment?commentId=@comment.Id">X</a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div>
+        <a href="/NewsComment/AddNewsComment?newsId=@Model.News.Id" style="color:red; font-size:x-large">ADD COMMENT &raquo;</a>
+    </div>
+</div>

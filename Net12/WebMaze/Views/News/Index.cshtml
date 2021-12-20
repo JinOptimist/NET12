@@ -1,5 +1,6 @@
 ﻿@model List<NewsViewModel>
-
+@using WebMaze.EfStuff.Repositories
+@inject NewsCommentRepository newsCommentRepository
 <div class="header">
     <h2>NEWS</h2>
 </div>
@@ -41,8 +42,9 @@
                         <td>
                             <span>@news.EventDate.ToShortDateString()</span>
                         </td>
-                        <td>
-                            <span>@news.NameOfAuthor</span>
+                        <td class="global-user-rating">
+                            <p>@news.NameOfAuthor</p>
+                            <p class="@(news.GlobalUserRating > 0 ? "rich" : "poor")">@news.GlobalUserRating</p>
                         </td>
                         <td>
                             <span>@news.CreationDate.ToShortDateString()</span>
@@ -50,12 +52,15 @@
 
                         @if (User.Identity.IsAuthenticated)
                         {
+                            var listcomments = newsCommentRepository.GetAllId(news.Id);
                             <td>
                                 <a href="/News/RemoveNews?newsId=@news.Id">X</a>
                                 <a href="/News/AddNews?newsId=@news.Id">E</a>
+                                <p>
+                                    <a href="/NewsComment/Index?newsId=@news.Id">@listcomments.Count() Comments</a>
+                                </p>
                             </td>
                         }
-
                     </tr>
                 }
             </tbody>
