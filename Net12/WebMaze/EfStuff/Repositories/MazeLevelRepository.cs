@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.EfStuff.DbModel.Maze;
 using WebMaze.Models;
 using WebMaze.Services;
 
@@ -54,17 +55,20 @@ namespace WebMaze.EfStuff.Repositories
                 var cellModel = model.Cells.Single(c => c.X == cell.X && c.Y == cell.Y);
 
                 var mod = mapper?.Map<MazeCellWeb>(cell);
-                if(mod != null) {
+                if (mod != null)
+                {
                     cellModel.TypeCell = mod.TypeCell;
                     cellModel.Obj1 = mod.Obj1;
                     cellModel.Obj2 = mod.Obj2;
                 }
             }
+            var listActiveEnemies = new List<MazeEnemyInfo>();
+            model.Enemies.ForEach(e => e.IsActive = false);
             foreach (var enemy in maze.Enemies)
             {
-                var enemyModel = model.Enemies.First(e => e.Id == enemy.Id);
-
-                var mod = mapper?.Map<MazeEnemyWeb>(enemy);
+                var enemyModel = model.Enemies.Single(e => e.Id == enemy.Id);
+                listActiveEnemies.Add(enemyModel.TypeEnemy);
+                var mod = mapper.Map<MazeEnemyWeb>(enemy);
                 if (mod != null)
                 {
                     enemyModel.TypeEnemy = mod.TypeEnemy;
@@ -72,8 +76,14 @@ namespace WebMaze.EfStuff.Repositories
                     enemyModel.Obj2 = mod.Obj2;
                     enemyModel.X = mod.X;
                     enemyModel.Y = mod.Y;
+                    enemyModel.IsActive = true;
                 }
             }
+
+            model.Enemies = model.Enemies.Where(e =>
+            {
+                return e.IsActive;
+            }).ToList();
 
 
 

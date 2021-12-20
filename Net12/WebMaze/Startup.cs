@@ -21,6 +21,7 @@ using WebMaze.EfStuff.DbModel.Maze;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Services;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze
 {
@@ -54,13 +55,14 @@ namespace WebMaze
 
             RegisterMapper(services);
 
-            services.AddScoped<UserService>(x =>
-                new UserService(x.GetService<UserRepository>(), x.GetService<IHttpContextAccessor>())
-            );
+            services.AddScoped<UserService>();
+            services.AddScoped<MinerFiledBuilder>();
 
             services.AddHttpContextAccessor();
 
             services.AddControllersWithViews();
+
+            services.AddSignalR();
         }
 
         private void RegisterRepositoriesAuto(IServiceCollection services)
@@ -75,7 +77,7 @@ namespace WebMaze
                     && type.BaseType.IsGenericType
                     && type.BaseType.GetGenericTypeDefinition() == baseRepoType)
                 .ToList()
-                .ForEach(x => SmartAddScope(services, x));
+                .ForEach(type => SmartAddScope(services, type));
         }
 
         private void SmartAddScope<T>(IServiceCollection services) where T : class
@@ -275,7 +277,8 @@ namespace WebMaze
                 
 
             };
-            maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroNowHp) { Money = model.Creator.Coins, CurrentFatigue = model.HeroNowFatigure};
+            maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroMaxHp)
+            { Money = model.Creator.Coins, CurrentFatigue = model.HeroNowFatigure, MaxFatigue = model.HeroMaxFatigure };
             return maze;
         }
         private MazeCellWeb inCellModel(BaseCell cell)
@@ -451,6 +454,11 @@ namespace WebMaze
 
             //Куда мне можно?
             app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<ChatHub>("/chat");
+            });
 
             app.UseEndpoints(endpoints =>
             {
