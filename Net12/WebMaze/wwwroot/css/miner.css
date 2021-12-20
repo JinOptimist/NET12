@@ -1,3 +1,337 @@
 ﻿.title{
     font-size: 60px;
 }
+
+.miner-field {
+    left: 20px;
+    top: 108px;
+    width: 288px;
+    height: 288px;
+    position: absolute;
+    margin-left: 15px;
+}
+
+.game-over-1 {
+    position: absolute;
+    margin-left: 170px;
+    margin-top: 240px;
+    font-size: 130px;
+}
+
+.game-over-2 {
+    position: absolute;
+    margin-left: 990px;
+    margin-top: 240px;
+    font-size: 130px;
+}
+
+.you-won-1 {
+    position: absolute;
+    margin-left: 220px;
+    margin-top: 200px;
+    font-size: 150px;
+}
+
+.you-won-2 {
+    position: absolute;
+    margin-left: 1050px;
+    margin-top: 200px;
+    font-size: 150px;
+}
+
+.playspace {
+    left: 45px;
+    top: 113px;
+    width: 328px;
+    height: 412px;
+    background-color: silver;
+    margin-left: 550px;
+    position: absolute;
+}
+
+.h1 {
+    text-shadow: 1px 1px 0 hsl(20,100%,50%), 2px 2px 0 hsl(20,100%,50%), 3px 3px 0 hsl(35,100%,50%), 4px 4px 0 hsl(35,100%,50%), 5px 5px 0 hsl(45,100%,50%), 6px 6px 0 hsl(45,100%,55%), 7px 7px 0 hsl(55,100%,60%), 8px 8px 0 hsl(55,100%,65%);
+    color: hsl(0,100%,40%);
+    transition: all 1s;
+}
+
+.h1:hover {
+    text-shadow: 1px -1px 0 hsl(290,100%,40%), 2px -2px 0 hsl(290,100%,40%), 3px -3px 0 hsl(280,100%,60%), 4px -4px 0 hsl(280,100%,60%), 5px -5px 0 hsl(270,100%,75%), 6px -6px 0 hsl(270,100%,80%), 7px -7px 0 hsl(260,100%,85%), 8px -8px 0 hsl(260,100%,90%);
+    color: hsl(300,100%,30%);
+}
+
+.h2 {
+    text-shadow: -8px 8px 0 hsl(105deg,72%,32%), -7px 7px 0 hsl(80,100%,55%), -6px 6px 0 hsl(80,100%,60%), -5px 5px 0 hsl(80,100%,65%), -4px 4px 0 hsl(80,100%,70%), -3px 3px 0 hsl(80,100%,75%), -2px 2px 0 hsl(80,100%,80%), -1px 1px 0 hsl(80,100%,85%), 0 0 0 hsl(80,100%,95%);
+    color: transparent;
+    transition: all 1s;
+}
+
+.h2:hover {
+    text-shadow: -8px -8px 0 hsl(200,100%,35%), -7px -7px 0 hsl(200,100%,55%), -6px -6px 0 hsl(200,100%,60%), -5px -5px 0 hsl(200,100%,65%), -4px -4px 0 hsl(200,100%,70%), -3px -3px 0 hsl(200,100%,75%), -2px -2px 0 hsl(200,100%,80%), -1px -1px 0 hsl(200,100%,85%), 0 0 0 hsl(200,100%,95%);
+    color: transparent;
+}
+
+.eb0 {
+    left: 0px;
+    top: 4px;
+    width: 4px;
+    height: 408px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb1 {
+    left: 0px;
+    top: 0px;
+    width: 324px;
+    height: 4px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb2 {
+    left: 4px;
+    top: 412px;
+    width: 320px;
+    height: 4px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb3 {
+    left: 324px;
+    top: 4px;
+    width: 4px;
+    height: 412px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb4 {
+    left: 324px;
+    top: 0px;
+    width: 4px;
+    height: 4px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb5 {
+    left: 0px;
+    top: 412px;
+    width: 4px;
+    height: 4px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb6 {
+    left: 16px;
+    top: 20px;
+    width: 4px;
+    height: 68px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb7 {
+    left: 16px;
+    top: 16px;
+    width: 292px;
+    height: 4px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb8 {
+    left: 20px;
+    top: 88px;
+    width: 288px;
+    height: 4px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb9 {
+    left: 308px;
+    top: 20px;
+    width: 4px;
+    height: 72px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb10 {
+    left: 308px;
+    top: 16px;
+    width: 4px;
+    height: 4px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb11 {
+    left: 16px;
+    top: 88px;
+    width: 4px;
+    height: 4px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb12 {
+    left: 16px;
+    top: 108px;
+    width: 4px;
+    height: 288px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb13 {
+    left: 16px;
+    top: 104px;
+    width: 292px;
+    height: 4px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb14 {
+    left: 20px;
+    top: 396px;
+    width: 288px;
+    height: 4px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb15 {
+    left: 308px;
+    top: 108px;
+    width: 4px;
+    height: 292px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb16 {
+    left: 308px;
+    top: 104px;
+    width: 4px;
+    height: 4px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.eb17 {
+    left: 16px;
+    top: 396px;
+    width: 4px;
+    height: 4px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.face {
+    left: 138px;
+    top: 28px;
+    width: 52px;
+    height: 52px;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.dd0 {
+    left: 30px;
+    top: 30px;
+    width: 26px;
+    height: 46px;
+    visibility: visible;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.dd1 {
+    left: 56px;
+    top: 30px;
+    width: 26px;
+    height: 46px;
+    visibility: visible;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.dd2 {
+    left: 82px;
+    top: 30px;
+    width: 26px;
+    height: 46px;
+    visibility: visible;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.dd3 {
+    left: 220px;
+    top: 30px;
+    width: 26px;
+    height: 46px;
+    visibility: visible;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.dd4 {
+    left: 246px;
+    top: 30px;
+    width: 26px;
+    height: 46px;
+    visibility: visible;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.dd5 {
+    left: 272px;
+    top: 30px;
+    width: 26px;
+    height: 46px;
+    visibility: visible;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.aaa {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(../images/miner_background.png);
+    background-size: cover;
+}

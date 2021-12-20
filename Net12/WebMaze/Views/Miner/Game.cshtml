@@ -1,21 +1,121 @@
 ﻿@model MinerFieldViewModel
 
-<div>
-    @for (int y = 0; y < Model.Height; y++)
-    {
-        <div class="row">
-            @for (int x = 0; x < Model.Width; x++)
+<script src="~/js/miner.js"></script>
+
+<div class="aaa">
+    
+    <div class="playspace">
+        <img src="~/images/miner_buttons/w.png" class="eb0" />
+        <img src="~/images/miner_buttons/w.png" class="eb1" />
+        <img src="~/images/miner_buttons/dg.png" class="eb2" />
+        <img src="~/images/miner_buttons/dg.png" class="eb3" />
+        <img src="~/images/miner_buttons/ul.png" class="eb4" />
+        <img src="~/images/miner_buttons/ul.png" class="eb5" />
+
+        <img src="~/images/miner_buttons/dg.png" class="eb6" />
+        <img src="~/images/miner_buttons/dg.png" class="eb7" />
+        <img src="~/images/miner_buttons/w.png" class="eb8" />
+        <img src="~/images/miner_buttons/w.png" class="eb9" />
+        <img src="~/images/miner_buttons/br.png" class="eb10" />
+        <img src="~/images/miner_buttons/br.png" class="eb11" />
+
+        <img src="~/images/miner_buttons/dg.png" class="eb12" />
+        <img src="~/images/miner_buttons/dg.png" class="eb13" />
+        <img src="~/images/miner_buttons/w.png" class="eb14" />
+        <img src="~/images/miner_buttons/w.png" class="eb15" />
+        <img src="~/images/miner_buttons/br.png" class="eb16" />
+        <img src="~/images/miner_buttons/br.png" class="eb17" />
+
+        <a href="/Miner/StartGame">
+            @if (Model.IsOver)
             {
-                var cell = Model.Cells.Single(c => c.X == x && c.Y == y);
-                if (cell.IsOpen)
+                <img src="~/images/miner_buttons/face_dead.png" class="face" />
+            }
+            else if (Model.IsWon)
+            {
+                <img src="~/images/miner_buttons/face_win.png" class="face" />
+            }
+            else
+            {
+                <img src="~/images/miner_buttons/face0.png" class="face" />
+            }
+        </a>
+
+        <img src="~/images/miner_buttons/d0.png" class="dd0" />
+        <img src="~/images/miner_buttons/d0.png" class="dd1" />
+        <img src="~/images/miner_buttons/d0.png" class="dd2" />
+        <img src="~/images/miner_buttons/d0.png" class="dd3" id="imag3"/>
+        <img src="~/images/miner_buttons/d0.png" class="dd4" id="imag2"/>
+        <img src="~/images/miner_buttons/d0.png" class="dd5" id="imag1" />
+
+        <div class="miner-field">
+            @for (int y = 0; y < Model.Height; y++)
+            {
+            <div class="row">
+                @for (int x = 0; x < Model.Width; x++)
                 {
-                    <a href="#">@cell.NearBombsCount</a> 
+                    var cell = Model.Cells.Single(c => c.X == x && c.Y == y);
+                    if (@cell.IsOpen)
+                    {
+                        if (@cell.IsBomb)
+                        {
+                            <img src="~/images/miner_buttons/bomb1.png" class="miner_but" width="29" />
+                        }
+                        else
+                        {
+                            switch (@cell.NearBombsCount)
+                            {
+                                case 0:<img src="~/images/miner_buttons/t0.png" width="29" />;
+                                    break;
+                                case 1: <img src="~/images/miner_buttons/t1.png" width="29" />;
+                                    break;
+                                case 2:<img src="~/images/miner_buttons/t2.png" width="29" />;
+                                    break;
+                                case 3: <img src="~/images/miner_buttons/t3.png" width="29" />;
+                                    break;
+                                case 4:<img src="~/images/miner_buttons/t4.png" width="29" />;
+                                    break;
+                                case 5: <img src="~/images/miner_buttons/t5.png" width="29" />;
+                                    break;
+                                case 6: <img src="~/images/miner_buttons/t6.png" width="29" />;
+                                    break;
+                                case 7: <img src="~/images/miner_buttons/t7.png" width="29" />;
+                                    break;
+                                case 8: <img src="~/images/miner_buttons/t8.png" width="29" />;
+                                    break;
+                                default: @cell.NearBombsCount;
+                                break;
+                        }
+                    }
+
                 }
                 else
                 {
-                    <a href="/Miner/Step?id=@cell.Id"> <img src="~/images/miner_button.png"</a>
+                    @if (!Model.IsWon)
+                    {
+                        <a href="/Miner/Step?id=@cell.Id"> <img id="@x@y" src="~/images/miner_buttons/miner_button.png" width="29" onclick="time1(); time2(); time3();" oncontextmenu="setFlag(this)" /></a>
+                    }
+                    else
+                    {
+                        <a href=#> <img src="~/images/miner_buttons/miner_button.png" width="29" /></a>
+                    }
                 }
             }
+            </div>
+            }
         </div>
+        
+    </div>
+    @if (Model.IsOver)
+    {
+        <div class="game-over-1 h1">Game</div>
+        <div class="game-over-2 h1">over!</div>
+    }
+    @if (Model.IsWon)
+    {
+        <div class="you-won-1 h2">You</div>
+        <div class="you-won-2 h2">won!</div>
     }
 </div>
+
+
