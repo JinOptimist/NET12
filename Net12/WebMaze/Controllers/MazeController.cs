@@ -140,7 +140,7 @@ namespace WebMaze.Controllers
                 model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
                 _mazeLevelRepository.Save(model);
 
-
+                _chatHub.Clients.All.SendAsync("BuyMaze", _userService.GetCurrentUser().Name, complixity.Name, complixity.CoinCount);
                 return RedirectToAction("Index");
             }
         }
