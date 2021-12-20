@@ -198,7 +198,10 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult AddMovie(long id)
         {
-            var model = _mapper.Map<MovieViewModel>(_movieRepository.Get(id)) ?? new MovieViewModel();
+            var model = _mapper.Map<MovieViewModel>(_movieRepository.Get(id)) 
+                ?? new MovieViewModel() {
+                    Release = DateTime.Now.Year
+                };
             return View(model);
         }
 
