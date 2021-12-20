@@ -91,7 +91,7 @@
                 }
                 else
                 {
-                    @if (!Model.IsWon)
+                    if (!Model.IsWon)
                     {
                         <a href="/Miner/Step?id=@cell.Id"> <img id="@x@y" src="~/images/miner_buttons/miner_button.png" width="29" onclick="time1(); time2(); time3();" oncontextmenu="setFlag(this)" /></a>
                     }
