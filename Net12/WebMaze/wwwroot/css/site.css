@@ -201,3 +201,8 @@ body {
     width: 300px;
     border-radius: 20px;
 }
+
+.user-name{
+    color: aqua;
+    margin-right: 10px;
+}
