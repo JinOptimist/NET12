@@ -1,21 +1,43 @@
 ﻿@model List<UserViewModel>
 
+@section Scripts{
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/chat.js"></script>
+}
+
 <div class="text-center">
-    <h1>Welcome to Maze</h1>
-    <div>
-        Good news
-    </div>
-    <div>
-        @foreach (var user in Model)
-        {
-            <div class="@(user.Coins > 0 ? "rich" : "poor")">
-                @user.UserName
-                [<span class="global-user-rating">@user.GlobalUserRating</span>]
-                <a href="/Home/RemoveUser?userId=@user.Id">X</a>
+    <h1>Welcome to Maze<span class="seconds"></span></h1>
+    <div class="main-content">
+        <div class="chat">
+            <div>
+                Admin chat
             </div>
-        }
+            <div class="messages">
+                <div class="message">You enter to chat</div>
+            </div>
+            <div>
+                <input class="new-message" placeholder="enter message" />
+                <input class="send-message" type="button" value="send" />
+            </div>
+        </div>
+        <div class="users">
+            <div>
+                Good news
+            </div>
+            <div>
+                @foreach (var user in Model)
+                {
+                    <div class="@(user.Coins > 0 ? "rich" : "poor")">
+                        @user.UserName
+                        [<span class="global-user-rating">@user.GlobalUserRating</span>]
+                        <a href="/Home/RemoveUser?userId=@user.Id">X</a>
+                    </div>
+                }
+            </div>
+            <div>
+                Coins: @Model.Sum(x => x.Coins)
+            </div>
+        </div>
     </div>
-    <div>
-        Coins: @Model.Sum(x => x.Coins)
-    </div>
+
 </div>

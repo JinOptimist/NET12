@@ -22,6 +22,7 @@ using WebMaze.EfStuff.DbModel.Maze;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Services;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze
 {
@@ -53,9 +54,8 @@ namespace WebMaze
 
             RegisterMapper(services);
 
-            services.AddScoped<UserService>(x =>
-                new UserService(x.GetService<UserRepository>(), x.GetService<IHttpContextAccessor>())
-            );
+            services.AddScoped<UserService>();
+            services.AddScoped<MinerFiledBuilder>();
 
             services.AddScoped<PayForActionService>();
 
@@ -64,6 +64,8 @@ namespace WebMaze
             services.AddHttpContextAccessor();
 
             services.AddControllersWithViews();
+
+            services.AddSignalR();
         }
 
         private void RegisterRepositoriesAuto(IServiceCollection services)
@@ -449,6 +451,11 @@ namespace WebMaze
 
             //Куда мне можно?
             app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<ChatHub>("/chat");
+            });
 
             app.UseEndpoints(endpoints =>
             {

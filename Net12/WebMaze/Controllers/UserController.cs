@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Services;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze.Controllers
 {
@@ -19,13 +21,18 @@ namespace WebMaze.Controllers
         private UserService _userService;
         private IMapper _mapper;
 
+        private IHubContext<ChatHub> _chatHub;
+
+
         public UserController(UserRepository userRepository,
-            IMapper mapper, 
-            UserService userService)
+            IMapper mapper,
+            UserService userService, 
+            IHubContext<ChatHub> chatHub)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _userService = userService;
+            _chatHub = chatHub;
         }
 
         [Authorize]
@@ -83,6 +90,8 @@ namespace WebMaze.Controllers
             var principal = new ClaimsPrincipal(claimsIdentity);
 
             await HttpContext.SignInAsync(principal);
+
+            await _chatHub.Clients.All.SendAsync("Enter", user.Name);
 
             return Redirect(viewModel.ReturnUrl);
         }

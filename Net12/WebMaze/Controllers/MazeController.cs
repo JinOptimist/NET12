@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Net12.Maze;
 using Net12.Maze.Cells;
 using System;
@@ -15,6 +16,7 @@ using WebMaze.Models;
 using WebMaze.Models.Enums;
 using WebMaze.Models.ValidationAttributes;
 using WebMaze.Services;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze.Controllers
 {
@@ -28,7 +30,14 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private MazeEnemyRepository _mazeEnemyRepository;
         private readonly PayForActionService _payForActionService;
-        public MazeController(MazeDifficultRepository mazzeDifficultRepository, MazeLevelRepository mazeLevelRepository, PayForActionService payForActionService, IMapper mapper, UserService userService, CellRepository cellRepository, UserRepository userRepository = null, MazeEnemyRepository mazeEnemyRepository = null)
+        private IHubContext<ChatHub> _chatHub;
+        public MazeController(MazeDifficultRepository mazzeDifficultRepository, 
+            MazeLevelRepository mazeLevelRepository, IMapper mapper, 
+            UserService userService, CellRepository cellRepository, 
+            UserRepository userRepository, 
+            MazeEnemyRepository mazeEnemyRepository, 
+            PayForActionService payForActionService, 
+            IHubContext<ChatHub> chatHub)
         {
             _mazeDifficultRepository = mazzeDifficultRepository;
             _mapper = mapper;
@@ -38,6 +47,7 @@ namespace WebMaze.Controllers
             _userRepository = userRepository;
             _mazeEnemyRepository = mazeEnemyRepository;
             _payForActionService = payForActionService;
+            _chatHub = chatHub;
         }
 
         [HttpGet]
@@ -66,7 +76,7 @@ namespace WebMaze.Controllers
             }
 
 
-
+            _chatHub.Clients.All.SendAsync("StartMaze", _userService.GetCurrentUser().Name);
 
             return View(maz);
         }
@@ -134,7 +144,7 @@ namespace WebMaze.Controllers
                 model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
                 _mazeLevelRepository.Save(model);
 
-
+                _chatHub.Clients.All.SendAsync("BuyMaze", _userService.GetCurrentUser().Name, complixity.Name, complixity.CoinCount);
                 return RedirectToAction("Index");
             }
         }
