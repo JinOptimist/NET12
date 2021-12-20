@@ -52,9 +52,8 @@ namespace WebMaze
 
             RegisterMapper(services);
 
-            services.AddScoped<UserService>(x =>
-                new UserService(x.GetService<UserRepository>(), x.GetService<IHttpContextAccessor>())
-            );
+            services.AddScoped<UserService>();
+            services.AddScoped<MinerFiledBuilder>();
 
             services.AddHttpContextAccessor();
 
