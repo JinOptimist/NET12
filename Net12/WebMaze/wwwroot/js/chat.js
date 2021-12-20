@@ -12,6 +12,10 @@
         addMessage(`User '${name}' enter to site`);
     });
 
+    hubConnection.on("ZumaGameWin", function (name) {
+        addMessage(`User '${name}' WIN in the ZumaGame`);
+    });
+
     function addMessage(text) {
         var messageBlock = $('<div>');
         messageBlock.text(text);

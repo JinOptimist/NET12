@@ -3,36 +3,28 @@
 <div class="zuma-game-head">
     ☺☻☺   Zuma!!!   ☻☺☻
 </div>
-@if (Model.Cells.Count() > 0)
-{
 
-    <div class="zuma-game-field">
-        @for (int y = 0; y < Model.Height; y++)
-        {
-            <div class="zuma-game-field-row">
-                @for (int x = 0; x < Model.Width; x++)
+<div class="zuma-game-field">
+    @for (int y = 0; y < Model.Height; y++)
+    {
+        <div class="zuma-game-field-row">
+            @for (int x = 0; x < Model.Width; x++)
+            {
+                var cell = Model.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
+                if (cell != null)
                 {
-                    var cell = Model.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
-                    if (cell != null)
-                    {
-                        <span style="background-color:@cell.Color">
-                            <a href="/ZumaGame/ClickOnCell?Id=@cell.Id">___</a>
-                        </span>
-                    }
-                    else
-                    {
-                        <span style="background-color:white">
-                            <a href="#">___</a>
-                        </span>
-
-                    }
+                    <span style="background-color:@cell.Color">
+                        <a href="/ZumaGame/ClickOnCell?Id=@cell.Id">___</a>
+                    </span>
                 }
-            </div>
-        }
-    </div>
-}
+                else
+                {
+                    <span style="background-color:white">
+                        <a href="#">___</a>
+                    </span>
 
-else
-{
-    <div class="zuma-game-win">YOU WIN!!!!</div>
-}
+                }
+            }
+        </div>
+    }
+</div>

@@ -51,12 +51,11 @@ namespace WebMaze
 
             RegisterRepositoriesAuto(services);
 
-            services.AddScoped<ZumaGameFieldBuilder>();
-
             RegisterMapper(services);
 
             services.AddScoped<UserService>();
             services.AddScoped<MinerFiledBuilder>();
+            services.AddScoped<ZumaGameFieldBuilder>();
 
             services.AddHttpContextAccessor();
 

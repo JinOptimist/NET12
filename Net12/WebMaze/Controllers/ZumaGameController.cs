@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Services;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze.Controllers
 {
@@ -17,6 +19,8 @@ namespace WebMaze.Controllers
         private ZumaGameFieldRepository _zumaGameFieldRepository;
         private ZumaGameCellRepository _zumaGameCellRepository;
         private IMapper _mapper;
+        private IHubContext<ChatHub> _chatHub;
+        private UserService _userService;
 
         /// <summary>
         /// ШИРИНА
@@ -28,28 +32,38 @@ namespace WebMaze.Controllers
         private int _height = 10;
         private int _colorCount = 3;
 
-        public ZumaGameController(ZumaGameFieldBuilder zumaGameFieldBuilder, ZumaGameFieldRepository zumaGameFieldRepository, IMapper mapper, ZumaGameCellRepository zumaGameCellRepository)
+        public ZumaGameController(ZumaGameFieldBuilder zumaGameFieldBuilder, ZumaGameFieldRepository zumaGameFieldRepository, IMapper mapper, ZumaGameCellRepository zumaGameCellRepository, IHubContext<ChatHub> chatHub, UserService userService)
         {
             _zumaGameFieldBuilder = zumaGameFieldBuilder;
             _zumaGameFieldRepository = zumaGameFieldRepository;
             _mapper = mapper;
             _zumaGameCellRepository = zumaGameCellRepository;
+            _chatHub = chatHub;
+            _userService = userService;
         }
 
         public IActionResult StartGame()
         {
-            var filed = _zumaGameFieldBuilder.Build(_width, _height, _colorCount);
+            var field = _zumaGameFieldBuilder.Build(_width, _height, _colorCount);
 
-            _zumaGameFieldRepository.Save(filed);
+            _zumaGameFieldRepository.Save(field);
 
-            return RedirectToAction("Game", new { id = filed.Id });
+            return RedirectToAction("Game", new { id = field.Id });
         }
         public IActionResult Game(long id)
         {
             var field = _zumaGameFieldRepository.Get(id);
-            var fieldViewModel = _mapper.Map<ZumaGameFieldViewModel>(field);
+            if (field.Cells.Count() > 0)
+            {
+                var fieldViewModel = _mapper.Map<ZumaGameFieldViewModel>(field);
 
-            return View(fieldViewModel);
+                return View(fieldViewModel);
+
+            }
+            else
+            {
+                return RedirectToAction("WinGame");
+            }
         }
 
         public IActionResult ClickOnCell(long Id)
@@ -88,6 +102,14 @@ namespace WebMaze.Controllers
             }
 
             return RedirectToAction("Game", new { id = cell.Field.Id });
+        }
+
+        public IActionResult WinGame()
+        {
+
+            _chatHub.Clients.All.SendAsync("ZumaGameWin", _userService.GetCurrentUser());
+            return View();
+
         }
     }
 }
