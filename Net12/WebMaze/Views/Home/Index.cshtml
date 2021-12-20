@@ -10,11 +10,8 @@
         {
             <div class="@(user.Coins > 0 ? "rich" : "poor")">
                 @user.UserName
-
+                [<span class="global-user-rating">@user.GlobalUserRating</span>]
                 <a href="/Home/RemoveUser?userId=@user.Id">X</a>
-            </div>
-            <div class="global-user-rating">
-                <p>@user.GlobalUserRating</p>
             </div>
         }
     </div>

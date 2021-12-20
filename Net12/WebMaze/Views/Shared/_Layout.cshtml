@@ -26,11 +26,10 @@
     <link rel="stylesheet" href="~/css/Bed.css" />
     <link rel="stylesheet" href="~/css/Goblin.css" />
     <link rel="stylesheet" href="~/css/NewsComments.css" />
-    <link rel="stylesheet" href="~/css/BuyMaze.css"/>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
-
     @RenderSection("Scripts", required: false)
+    @RenderSection("Sprite", false)
 </head>
 <body>
     <header>
@@ -87,18 +86,42 @@
                             <a class="dropdown-item" href="/CellInfo/Goblin">Goblin info</a>
                         </div>
                     </li>
+
+                    @if (userService.IsAdmin)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Administration
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/Admin/ViewPermission">View permission</a>
+                                <a class="dropdown-item" href="/Admin/EditingUsers">Editing users</a>
+                                <a class="dropdown-item" href="/Admin/ReflectionPages">ReflectionPages</a>
+                                <a class="dropdown-item" href="/BugReport/BugReports">List of reports</a>
+                            </div>
+                        </li>
+                    }
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Maze
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Suggested/NewCellSugg">New CellSugg</a>
+                            <a class="dropdown-item" href="/CellInfo/AddCell">Add Cell</a>
+                            <a class="dropdown-item" href="/Stuff/Stuff">Hero's Stuff</a>
+
+                            <a class="dropdown-item" href="/Maze/Index">Maze</a>
+                            <a class="dropdown-item" href="/Suggested/AddSuggestedEnemy">Add Suggested Enemy</a>
+                            <a class="dropdown-item" href="/Suggested/SuggestedEnemys">Suggested Enemies</a>
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/News/Index">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Suggested/NewCellSugg">New CellSugg</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="/Reviews/Index">Reviews</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/CellInfo/AddCell">Add Cell</a>
-                    </li>
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Books
@@ -108,34 +131,9 @@
                             <a class="dropdown-item" href="/Home/Book">Books</a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Stuff/Stuff">Hero's Stuff</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Suggested Enemies
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/Suggested/AddSuggestedEnemy">Add Suggested Enemy</a>
-                            <a class="dropdown-item" href="/Suggested/SuggestedEnemys">Suggested Enemies</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/BugReport/BugReports">List of reports</a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/GameDevices/GameDevices">Game devices</a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Gallery
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
-                            <a class="dropdown-item" href="/Gallery/AddImage">Add Image</a>
-                        </div>
                     </li>
 
                     @if (userService.IsAdmin)
@@ -151,9 +149,6 @@
                         </li>
                     }
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Maze/Index">Maze</a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/Miner/StartGame">StartGame</a>
@@ -202,10 +197,10 @@
         </div>
 
 
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2021 - WebMaze
-            </div>
-        </footer>
-    </body>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - WebMaze
+        </div>
+    </footer>
+</body>
 </html>

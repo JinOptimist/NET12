@@ -12,25 +12,27 @@
     border-radius: 5px;
     box-shadow: 0 0 0 1px #ddd inset, 0 1px 1px #fff;
 }
+
     a.BuyMazeButton:hover {
         background: #dcdcdc linear-gradient(#fff, #dcdcdc);
         box-shadow: 0 0 0 1px #aaa inset, 0 1px 1px #aaa;
     }
+
     a.BuyMazeButton:active {
         background: none;
         box-shadow: 0 0 0 1px #bbb inset, 0 1px 3px rgba(0,0,0,.5) inset, 0 1px 2px #fff;
     }
 
-.DataInput{
+.DataInput {
     flex-direction: column;
     display: flex;
-    
 }
-.backGround-BuyMaze {
 
+.backGround-BuyMaze {
     display: flex;
     justify-content: center;
 }
+
 input.BuyMaze {
     background-color: gray;
     border: none;
@@ -41,4 +43,10 @@ input.BuyMaze {
     cursor: pointer;
     width: 100px;
     border-radius: 200px;
+}
+
+body {
+    background-image: url("https://kartinkin.net/uploads/posts/2020-09/1600211919_2-p-fon-labirint-4.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
