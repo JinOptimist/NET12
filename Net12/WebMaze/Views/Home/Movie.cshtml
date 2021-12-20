@@ -1,0 +1,26 @@
+﻿@model List<MovieViewModel>
+
+<div>
+    <h1>Movies library</h1>
+    @foreach (var MovieViewModels in Model)
+    {
+
+        <span>
+            @MovieViewModels.TitleGame
+            @MovieViewModels.TitleMovie
+            @MovieViewModels.Release
+            <a href="@MovieViewModels.Link">Смотреть</a>
+
+            <img src="@MovieViewModels.Img" />
+            <a href="~/images/Movie/MK.jpg">картинка</a>
+        </span>
+
+        <a href="/Home/AddMovie?Id=@MovieViewModels.Id"><input type="submit" value="Edit" /></a>
+        <a href="/Home/RemoveMovie?Id=@MovieViewModels.Id"><input type="submit" value="Remove" /></a>
+        <br>
+
+    }
+
+
+
+</div>

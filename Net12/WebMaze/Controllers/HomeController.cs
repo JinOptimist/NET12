@@ -21,16 +21,19 @@ namespace WebMaze.Controllers
         private UserService _userService;
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
+        private MovieRepository _movieRepository;
         private FavGamesRepository _favGamesRepository;
-        private NewCellSuggRepository _newCellSuggRepository;
+
         private IMapper _mapper;
+
         public HomeController(WebContext webContext,
          UserRepository userRepository, ReviewRepository reviewRepository,
-         IMapper mapper, FavGamesRepository favGamesRepository, UserService userService, NewCellSuggRepository newCellSuggRepository)
+         IMapper mapper, FavGamesRepository favGamesRepository, UserService userService, MovieRepository movieRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
+            _movieRepository = movieRepository;
             _mapper = mapper;
             _userService = userService;
             _favGamesRepository = favGamesRepository;
@@ -62,6 +65,8 @@ namespace WebMaze.Controllers
 
             return View(bookViewModels);
         }
+
+        
 
         [HttpGet]
         public IActionResult AddBook()
@@ -177,6 +182,51 @@ namespace WebMaze.Controllers
 
 
 
+        public IActionResult Movie()
+        {
+            var MovieViewModels = new List<MovieViewModel>();
+            MovieViewModels = _movieRepository
+                .GetAll()
+                .Select(dbModel => _mapper.Map<MovieViewModel>(dbModel))
+                .ToList();
+
+
+            return View(MovieViewModels);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult AddMovie(long id)
+        {
+            var model = _mapper.Map<MovieViewModel>(_movieRepository.Get(id)) 
+                ?? new MovieViewModel() {
+                    Release = DateTime.Now.Year
+                };
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult AddMovie(MovieViewModel movieViewModel)
+        {
+
+            var dbMovie = new Movie();
+            dbMovie = _mapper.Map<Movie>(movieViewModel);
+            dbMovie.IsActive = true;
+            _movieRepository.Save(dbMovie);
+            return RedirectToAction($"{nameof(HomeController.Movie)}");
+        }
+
+        public IActionResult RemoveMovie(long id)
+        {
+            _movieRepository.Remove(id);
+            return RedirectToAction($"{nameof(HomeController.Movie)}");
+        }
+
+
     }
 
+
 }
+
+

@@ -19,6 +19,8 @@ namespace WebMaze.EfStuff
         public DbSet<News> News { get; set; }
         public DbSet<BugReport> BugReports { get; set; }
         public DbSet<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
+        public DbSet<Movie> Movies { get; set; }
+
         public DbSet<Perrmission> Perrmissions { get; set; }
         public DbSet<SuggestedEnemys> SuggestedEnemys { get; set; }
         
@@ -101,6 +103,10 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<User>().HasMany(x=> x.ListMazeLevels).WithOne(x => x.Creator);
             modelBuilder.Entity<MazeLevelWeb>().HasMany(x=> x.Cells).WithOne(x => x.MazeLevel);
             modelBuilder.Entity<MazeLevelWeb>().HasMany(x => x.Enemies).WithOne(x => x.MazeLevel);
+            modelBuilder.Entity<Movie>()
+               .HasOne(m => m.Game)
+               .WithMany(g => g.Movies);
+
             base.OnModelCreating(modelBuilder);
         }
 

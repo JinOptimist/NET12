@@ -851,6 +851,11 @@ namespace WebMaze.Migrations
                     b.Navigation("NewsComments");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Game", b =>
+                {
+                    b.Navigation("Movies");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
                     b.Navigation("AddedSStuff");
