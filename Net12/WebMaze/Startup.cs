@@ -265,7 +265,8 @@ namespace WebMaze
                 
 
             };
-            maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroNowHp) { Money = model.Creator.Coins, CurrentFatigue = model.HeroNowFatigure};
+            maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroMaxHp)
+            { Money = model.Creator.Coins, CurrentFatigue = model.HeroNowFatigure, MaxFatigue = model.HeroMaxFatigure };
             return maze;
         }
         private MazeCellWeb inCellModel(BaseCell cell)

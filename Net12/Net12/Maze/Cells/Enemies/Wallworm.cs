@@ -12,22 +12,26 @@ namespace Net12.Maze.Cells.Enemies
         public int CounterStep { get; set; } = 0;
         public int StepsBeforeEating { get; set; } = 2;
 
-        public override void Step()
+
+        public override BaseCell BeforeStep()
         {
             CounterStep++;
             if (CounterStep > StepsBeforeEating)
             {
                 Maze[X, Y] = new WeakWall(X, Y, Maze);
-                StepNexWall();
+                return StepNextWall();
+            }
+            return null;
+        }
+        public override void AfterStep()
+        {
+            if (CounterStep > StepsBeforeEating)
+            {
                 CounterStep = 0;
             }
         }
 
-        public override bool TryToStep()
-        {
-            return false;
-        }
-        public void StepNexWall()
+        public BaseCell StepNextWall()
         {
             var wallsNear = new List<BaseCell>();
 
@@ -46,7 +50,7 @@ namespace Net12.Maze.Cells.Enemies
             if (wallsNear.Count != 0)
             {
                 var randomWall = GetRandom(wallsNear);
-                X = randomWall.X; Y = randomWall.Y;
+                return randomWall;
             }
             else
             {
@@ -54,9 +58,10 @@ namespace Net12.Maze.Cells.Enemies
                 if (allWall.Count != 0)
                 {
                     var randomWall = GetRandom(allWall);
-                    X = randomWall.X; Y = randomWall.Y;
+                    return randomWall;
                 }
             }
+            return null;
         }
         BaseCell GetRandom(List<BaseCell> cells)
         {
