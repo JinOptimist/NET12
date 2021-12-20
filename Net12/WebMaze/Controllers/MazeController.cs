@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Net12.Maze;
 using Net12.Maze.Cells;
 using System;
@@ -14,6 +15,7 @@ using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Models.ValidationAttributes;
 using WebMaze.Services;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze.Controllers
 {
@@ -26,7 +28,13 @@ namespace WebMaze.Controllers
         private CellRepository _cellRepository;
         private UserRepository _userRepository;
         private MazeEnemyRepository _mazeEnemyRepository;
-        public MazeController(MazeDifficultRepository mazzeDifficultRepository, MazeLevelRepository mazeLevelRepository, IMapper mapper, UserService userService, CellRepository cellRepository, UserRepository userRepository = null, MazeEnemyRepository mazeEnemyRepository = null)
+        private IHubContext<ChatHub> _chatHub;
+        public MazeController(MazeDifficultRepository mazzeDifficultRepository, 
+            MazeLevelRepository mazeLevelRepository, IMapper mapper, 
+            UserService userService, CellRepository cellRepository, 
+            UserRepository userRepository, 
+            MazeEnemyRepository mazeEnemyRepository, 
+            IHubContext<ChatHub> chatHub)
         {
             _mazeDifficultRepository = mazzeDifficultRepository;
             _mapper = mapper;
@@ -35,6 +43,7 @@ namespace WebMaze.Controllers
             _cellRepository = cellRepository;
             _userRepository = userRepository;
             _mazeEnemyRepository = mazeEnemyRepository;
+            _chatHub = chatHub;
         }
 
         [HttpGet]
@@ -63,7 +72,7 @@ namespace WebMaze.Controllers
             }
 
 
-
+            _chatHub.Clients.All.SendAsync("StartMaze", _userService.GetCurrentUser().Name);
 
             return View(maz);
         }
