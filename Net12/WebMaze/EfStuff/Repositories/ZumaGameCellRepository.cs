@@ -25,7 +25,7 @@ namespace WebMaze.EfStuff.Repositories
 
             var getNear = baseNear.Except(cellsToRemove).ToList();
 
-            if (getNear.Count() != 0)
+            if (getNear.Count() > 0)
             {
                 cellsToRemove.AddRange(getNear);
 
