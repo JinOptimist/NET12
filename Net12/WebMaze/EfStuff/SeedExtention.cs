@@ -142,7 +142,8 @@ namespace WebMaze.EfStuff
                     Description = DefaultImageDesc,
                     Picture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvgRMad98wVTdc-qAMIhYEF6tJ0QVKdJ03oA&usqp=CAU",
                     Assessment = 9,
-                    Author = author
+                    Author = author,
+                    IsActive = true
                 };
                 imageRepository.Save(image);
             }

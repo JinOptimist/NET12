@@ -20,11 +20,11 @@ namespace WebMaze.Controllers.AuthAttribute
         public override void OnActionExecuted(ActionExecutedContext context)
         {            
         }
-
+        
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var payForActionService = (PayForActionService)context.HttpContext.RequestServices.GetService(typeof(PayForActionService));
-            if (!payForActionService.Payment((int)_typesOfPayment))
+            if (!payForActionService.Payment(_typesOfPayment))
             {
                 context.ModelState.AddModelError(string.Empty, "Not enought money to add");
             }

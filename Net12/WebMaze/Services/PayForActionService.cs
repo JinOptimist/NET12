@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.Repositories;
+using WebMaze.Models.Enums;
 
 namespace WebMaze.Services
 {
@@ -18,15 +19,15 @@ namespace WebMaze.Services
             _userService = userService;
         }
 
-        public bool Payment(int amount)
+        public bool Payment(TypesOfPayment typeOfPayment)
         {
             var user = _userService.GetCurrentUser();
-            if (user.Coins < amount)
+            if (user.Coins < (int)typeOfPayment)
             {
                 return false;
             }
 
-            user.Coins -= amount;
+            user.Coins -= (int)typeOfPayment;
             _userRepository.Save(user);
 
             return true;
