@@ -12,6 +12,10 @@
         addMessage(`User '${name}' enter to site`);
     });
 
+    hubConnection.on("NewBugReport", function (name) {
+        addMessage(`User '${name}' add new bug!`);
+    });
+
     function addMessage(text) {
         var messageBlock = $('<div>');
         messageBlock.text(text);
