@@ -94,29 +94,18 @@ namespace WebMaze.Controllers
         }
         public IActionResult CellInfoHelper()
         {
-            var typeOfCell = Assembly.GetAssembly(typeof(BaseCell))
-                .GetTypes()
-                .Where(x => x.BaseType == typeof(BaseCell))
-                .ToList();
-
-            var heirsOfHeirs = new List<Type>();
-            foreach (var item in typeOfCell)
-            {
-                var heirs = Assembly.GetAssembly(typeof(BaseCell))
-                .GetTypes()
-                .Where(x => x.BaseType == item)
-                .ToList();
-                heirsOfHeirs.AddRange(heirs);
-            }
-
-            typeOfCell.AddRange(heirsOfHeirs);
+            var typeOfCell = new List<Type>() { (typeof(BaseCell)) };
+            typeOfCell.AddRange(TypeCollector(typeOfCell));
 
             var namesTypeOfCell = typeOfCell
                 .Select(x => x.Name)
                 .Select(x => x.ToLower())
                 .ToList();
 
-            namesTypeOfCell.Remove("baseenemy");
+            //section on removing base and intermediate types
+            var removeTypes = new List<string>() { "BaseCell", "BaseEnemy", "Character" };
+            removeTypes = removeTypes.Select(x => x.ToLower()).ToList();
+            namesTypeOfCell.RemoveAll(x => removeTypes.Contains(x));
 
             var namesOfActions = Assembly
                .GetExecutingAssembly()
@@ -132,5 +121,26 @@ namespace WebMaze.Controllers
 
             return View(namesTypeOfCell);
         }
+
+        public static List<Type> TypeCollector(List<Type> inList)
+        {
+            List<Type> A = new List<Type>();
+            foreach (var item in inList)
+            {
+                var heirs = Assembly.GetAssembly(typeof(BaseCell))
+                .GetTypes()
+                .Where(x => x.BaseType == item)
+                .ToList();
+
+                A.AddRange(heirs);
+            }
+
+            if (A.Count != 0)
+            {
+                A.AddRange(TypeCollector(A));
+            }
+            return A;
+        }
+
     }
 }
