@@ -103,8 +103,7 @@ namespace WebMaze.Controllers
                 .ToList();
 
             //section on removing base and intermediate types
-            var removeTypes = new List<string>() { "BaseCell", "BaseEnemy", "Character" };
-            removeTypes = removeTypes.Select(x => x.ToLower()).ToList();
+            var removeTypes = new List<string>() { "BaseCell", "BaseEnemy", "Character" }.Select(x => x.ToLower()).ToList();
             namesTypeOfCell.RemoveAll(x => removeTypes.Contains(x));
 
             var namesOfActions = Assembly
@@ -122,24 +121,24 @@ namespace WebMaze.Controllers
             return View(namesTypeOfCell);
         }
 
-        public static List<Type> TypeCollector(List<Type> inList)
+        public static List<Type> TypeCollector(List<Type> inTypes)
         {
-            List<Type> A = new List<Type>();
-            foreach (var item in inList)
+            List<Type> outTypes = new List<Type>();
+            foreach (var item in inTypes)
             {
                 var heirs = Assembly.GetAssembly(typeof(BaseCell))
                 .GetTypes()
                 .Where(x => x.BaseType == item)
                 .ToList();
 
-                A.AddRange(heirs);
+                outTypes.AddRange(heirs);
             }
 
-            if (A.Count != 0)
+            if (outTypes.Count != 0)
             {
-                A.AddRange(TypeCollector(A));
+                outTypes.AddRange(TypeCollector(outTypes));
             }
-            return A;
+            return outTypes;
         }
 
     }
