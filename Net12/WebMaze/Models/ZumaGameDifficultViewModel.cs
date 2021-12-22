@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace WebMaze.Models
 {
-    public class ZumaGameFieldViewModel
+    public class ZumaGameDifficultViewModel
     {
+        public long Id { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public int ColorCount { get; set; }
-        public List<ZumaGameCellViewModel> Cells { get; set; }
+        public string Author { get; set; }
     }
 }

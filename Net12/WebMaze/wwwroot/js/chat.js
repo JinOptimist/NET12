@@ -13,7 +13,11 @@
     });
 
     hubConnection.on("ZumaGameWin", function (name) {
-        addMessage(`User '${name}' WIN in the ZumaGame`);
+        addMessage(`User '${name}' WIN in ZumaGame`);
+    });
+
+    hubConnection.on("ZumaGameLose", function (name) {
+        addMessage(`User '${name}' LOSE in ZumaGame`);
     });
 
     function addMessage(text) {
@@ -28,6 +32,7 @@
         let message = $('.new-message').val();
         hubConnection.invoke("NewMessage", message);
     });
+
 
     hubConnection.start();
 });

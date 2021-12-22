@@ -1,0 +1,25 @@
+﻿@model ZumaGameDifficultViewModel
+
+<div class="menu-zumagame-difficult">
+    <a href="/ZumaGame/Index">Index</a>
+</div>
+
+<div class="text-center">
+    <form action="/ZumaGame/AddZumaGameDifficult" method="post">
+        @Html.HiddenFor(x => x.Id)
+        <div class="add-zumagame-difficult">
+            <div>
+                Width: @Html.TextBoxFor(x => x.Width, new { @type = "number", autocomplete = "off" })
+            </div>
+            <div>
+                Height: @Html.TextBoxFor(x => x.Height, new { @type = "number", autocomplete = "off" })
+            </div>
+            <div>
+                ColorCount: @Html.TextBoxFor(x=>x.ColorCount, new { @type = "number", autocomplete = "off" })
+            </div>
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+</div>

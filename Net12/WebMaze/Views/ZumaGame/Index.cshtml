@@ -1,0 +1,31 @@
+﻿@model List<ZumaGameDifficultViewModel>
+
+<div class="menu-zumagame-difficult">
+    <a href="/ZumaGame/AddZumaGameDifficult">Add ZumaGame Difficult</a>
+</div>
+
+<div>
+
+    @foreach (var difficult in Model)
+    {
+        <div class="manage-zumagame-difficult">
+            <div>
+                Author: @difficult.Author
+            </div>
+            <div>
+                Width: @difficult.Width
+            </div>
+            <div>
+                Height: @difficult.Height
+            </div>
+            <div>
+                ColorCount: @difficult.ColorCount
+            </div>
+            <a href="/ZumaGame/RemoveZumaGameDifficult?difficultId=@difficult.Id">X</a>
+
+            <a href="/ZumaGame/AddZumaGameDifficult?difficultId=@difficult.Id">E</a>
+
+            <a href="/ZumaGame/StartGame?difficultId=@difficult.Id">New Game</a>
+        </div>
+    }
+</div>

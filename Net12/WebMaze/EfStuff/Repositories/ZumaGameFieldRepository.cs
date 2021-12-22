@@ -12,6 +12,13 @@ namespace WebMaze.EfStuff.Repositories
         {
 
         }
+
+        //public override void Remove(ZumaGameField model)
+        //{
+        //    _dbSet.RemoveRange((IEnumerable<ZumaGameField>)model.Cells);
+        //    _dbSet.Remove(model);
+        //    _webContext.SaveChanges();
+        //}
     }
 
 }

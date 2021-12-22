@@ -18,21 +18,12 @@ namespace WebMaze.Controllers
         private ZumaGameFieldBuilder _zumaGameFieldBuilder;
         private ZumaGameFieldRepository _zumaGameFieldRepository;
         private ZumaGameCellRepository _zumaGameCellRepository;
+        private ZumaGameDifficultRepository _zumaGameDifficultRepository;
         private IMapper _mapper;
         private IHubContext<ChatHub> _chatHub;
         private UserService _userService;
 
-        /// <summary>
-        /// ШИРИНА
-        /// </summary>
-        private int _width = 10;
-        /// <summary>
-        /// ВЫСОТА
-        /// </summary>
-        private int _height = 10;
-        private int _colorCount = 3;
-
-        public ZumaGameController(ZumaGameFieldBuilder zumaGameFieldBuilder, ZumaGameFieldRepository zumaGameFieldRepository, IMapper mapper, ZumaGameCellRepository zumaGameCellRepository, IHubContext<ChatHub> chatHub, UserService userService)
+        public ZumaGameController(ZumaGameFieldBuilder zumaGameFieldBuilder, ZumaGameFieldRepository zumaGameFieldRepository, IMapper mapper, ZumaGameCellRepository zumaGameCellRepository, IHubContext<ChatHub> chatHub, UserService userService, ZumaGameDifficultRepository zumaGameDifficultRepository)
         {
             _zumaGameFieldBuilder = zumaGameFieldBuilder;
             _zumaGameFieldRepository = zumaGameFieldRepository;
@@ -40,11 +31,22 @@ namespace WebMaze.Controllers
             _zumaGameCellRepository = zumaGameCellRepository;
             _chatHub = chatHub;
             _userService = userService;
+            _zumaGameDifficultRepository = zumaGameDifficultRepository;
         }
 
-        public IActionResult StartGame()
+        public IActionResult Index()
         {
-            var field = _zumaGameFieldBuilder.Build(_width, _height, _colorCount);
+            var zumaGameDifficultViewModels = _zumaGameDifficultRepository.GetAll()
+                .Select(x => _mapper.Map<ZumaGameDifficultViewModel>(x)).ToList();
+
+            return View(zumaGameDifficultViewModels);
+        }
+
+        public IActionResult StartGame(long difficultId)
+        {
+            var difficult = _zumaGameDifficultRepository.Get(difficultId);
+
+            var field = _zumaGameFieldBuilder.Build(difficult.Width, difficult.Height, difficult.ColorCount);
 
             _zumaGameFieldRepository.Save(field);
 
@@ -53,15 +55,38 @@ namespace WebMaze.Controllers
         public IActionResult Game(long id)
         {
             var field = _zumaGameFieldRepository.Get(id);
-            if (field.Cells.Count() > 0)
+            var loseGame = true;
+
+            if (field.Cells.Count() > 1)
             {
-                var fieldViewModel = _mapper.Map<ZumaGameFieldViewModel>(field);
+                foreach (var currentCell in field.Cells)
+                {
+                    if (field.Cells
+                        .Where(cell => (cell.X == currentCell.X && Math.Abs(cell.Y - currentCell.Y) == 1
+                        || Math.Abs(cell.X - currentCell.X) == 1 && cell.Y == currentCell.Y)
+                        && cell.Color == currentCell.Color)
+                        .Any())
+                    {
+                        loseGame = false;
+                        break;
+                    }
+                }
 
-                return View(fieldViewModel);
+                if (loseGame)
+                {
+                    _zumaGameFieldRepository.Remove(id);
+                    return RedirectToAction("LoseGame");
+                }
+                else
+                {
+                    var fieldViewModel = _mapper.Map<ZumaGameFieldViewModel>(field);
 
+                    return View(fieldViewModel);
+                }
             }
             else
             {
+                _zumaGameFieldRepository.Remove(id);
                 return RedirectToAction("WinGame");
             }
         }
@@ -69,34 +94,38 @@ namespace WebMaze.Controllers
         public IActionResult ClickOnCell(long Id)
         {
             var cell = _zumaGameCellRepository.Get(Id);
-            var cells = cell.Field.Cells;
+            var field = cell.Field;
+            var cells = field.Cells;
 
             var getNear = _zumaGameCellRepository.GetNear(cell);
 
-            foreach (var replaceCell in getNear)
+            if (getNear.Count() > 1)
             {
-                var replaceCells = cells.Where(db => db.Y < replaceCell.Y && db.X == replaceCell.X).ToList();
-
-                replaceCells.ForEach(x => x.Y++);
-
-                _zumaGameCellRepository.Remove(replaceCell);
-
-                _zumaGameCellRepository.UpdateCells(replaceCells);
-            }
-
-            for (int i = _width - 1; i >= 0; i--)
-            {
-                var column = cells.Where(x => x.X == i).ToList();
-
-                if (column.Count() == 0)
+                foreach (var replaceCell in getNear)
                 {
-                    for (int l = i + 1; l < _width; l++)
+                    var replaceCells = cells.Where(db => db.Y < replaceCell.Y && db.X == replaceCell.X).ToList();
+
+                    replaceCells.ForEach(x => x.Y++);
+
+                    _zumaGameCellRepository.Remove(replaceCell);
+
+                    _zumaGameCellRepository.UpdateCells(replaceCells);
+                }
+
+                for (int i = field.Width - 1; i >= 0; i--)
+                {
+                    var column = cells.Where(x => x.X == i).ToList();
+
+                    if (column.Count() == 0)
                     {
-                        var cellsOffset = cells.Where(cell => cell.X == l).ToList();
+                        for (int l = i + 1; l < field.Width; l++)
+                        {
+                            var cellsOffset = cells.Where(cell => cell.X == l).ToList();
 
-                        cellsOffset.ForEach(cell => cell.X--);
+                            cellsOffset.ForEach(cell => cell.X--);
 
-                        _zumaGameCellRepository.UpdateCells(cellsOffset);
+                            _zumaGameCellRepository.UpdateCells(cellsOffset);
+                        }
                     }
                 }
             }
@@ -106,10 +135,38 @@ namespace WebMaze.Controllers
 
         public IActionResult WinGame()
         {
-
-            _chatHub.Clients.All.SendAsync("ZumaGameWin", _userService.GetCurrentUser());
+            _chatHub.Clients.All.SendAsync("ZumaGameWin", _userService.GetCurrentUser().Name);
             return View();
-
         }
+        public IActionResult LoseGame()
+        {
+            _chatHub.Clients.All.SendAsync("ZumaGameLose", _userService.GetCurrentUser().Name);
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult AddZumaGameDifficult(long difficultId)
+        {
+            var model = _mapper.Map<ZumaGameDifficultViewModel>(_zumaGameDifficultRepository.Get(difficultId))
+                ?? new ZumaGameDifficultViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult AddZumaGameDifficult(ZumaGameDifficultViewModel zumaGameDifficultViewModel)
+        {
+
+            var author = _userService.GetCurrentUser();
+
+            var dbZumaGameDifficult = _mapper.Map<ZumaGameDifficult>(zumaGameDifficultViewModel);
+
+            dbZumaGameDifficult.Author = author;
+            dbZumaGameDifficult.IsActive = true;
+
+            _zumaGameDifficultRepository.Save(dbZumaGameDifficult);
+
+            return RedirectToAction("Index");
+        }
+
     }
 }

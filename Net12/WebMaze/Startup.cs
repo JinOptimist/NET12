@@ -189,6 +189,10 @@ namespace WebMaze
                 .ForMember(nameof(ZumaGameFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
             provider.CreateMap<ZumaGameFieldViewModel, ZumaGameField>();
 
+            provider.CreateMap<ZumaGameDifficult, ZumaGameDifficultViewModel>()
+                .ForMember(nameof(ZumaGameDifficultViewModel.Author), opt => opt.MapFrom(db => db.Author.Name));
+            provider.CreateMap<ZumaGameDifficultViewModel, ZumaGameDifficult>();
+
             provider.CreateMap<Perrmission, PermissionViewModel>();
             provider.CreateMap<PermissionViewModel, Perrmission>();
             provider.CreateMap<MazeLevelWeb, MazeLevel>()
