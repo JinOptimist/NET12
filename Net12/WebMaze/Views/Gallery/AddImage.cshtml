@@ -5,8 +5,8 @@
         Fill out the form to add your picture
     </div>
     <form action="/Gallery/AddImage" method="post" class="form">
-        <div class="form-for-pic">
-            UserName @Html.DropDownListFor(x => x.Author.Id, ViewBag.Users as SelectList)
+        <div>
+            @Html.ValidationSummary(true)
         </div>
         <div class="form-for-pic">
             Picture URL @Html.TextBoxFor(x => x.Picture)

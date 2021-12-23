@@ -6,7 +6,12 @@
             Descriptoin
             <div>
                 @Html.TextAreaFor(x => x.Description)
-                <div>@Html.ValidationMessageFor(x => x.Description)</div>
+                <div>
+                    @Html.ValidationMessageFor(x => x.Description)
+                </div>
+                <div>
+                    @Html.ValidationSummary(true)
+                </div>
             </div>
         </div>
         <div>

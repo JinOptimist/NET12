@@ -1,0 +1,23 @@
+﻿.template {
+    display: none;
+}
+
+.game-field {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.main-image{
+    display: none;
+}
+
+.card-block {
+    border: 1px red solid;
+    width: 200px;
+    height: 200px;
+}
+
+.card-block img{
+    max-width: 100%;
+    max-height: 100%;
+}

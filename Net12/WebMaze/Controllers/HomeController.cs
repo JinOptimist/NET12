@@ -21,19 +21,18 @@ namespace WebMaze.Controllers
         private UserService _userService;
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
-        private FavGamesRepository _favGamesRepository;
         private NewCellSuggRepository _newCellSuggRepository;
+       
         private IMapper _mapper;
         public HomeController(WebContext webContext,
          UserRepository userRepository, ReviewRepository reviewRepository,
-         IMapper mapper, FavGamesRepository favGamesRepository, UserService userService, NewCellSuggRepository newCellSuggRepository)
+         IMapper mapper, UserService userService, NewCellSuggRepository newCellSuggRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
             _mapper = mapper;
             _userService = userService;
-            _favGamesRepository = favGamesRepository;
         }
 
         public IActionResult Index()
@@ -116,52 +115,7 @@ namespace WebMaze.Controllers
             _userRepository.Remove(userId);
             return RedirectToAction("Index", "Home");
         }
-        public IActionResult FavoriteGames()
-        {
-            //var GamesViewModels = new List<GameViewModel>();
-            var GamesViewModels = _favGamesRepository
-               .GetAll()
-               .Select(dbModel => _mapper.Map<GameViewModel>(dbModel))
-               .ToList();
-
-            return View(GamesViewModels);
-        }
-
-        [Authorize]
-        [HttpGet]
-        public IActionResult AddGame()
-        {
-            return View();
-        }
-
-        [Authorize]
-        [HttpPost]
-        public IActionResult AddGame(GameViewModel gameViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(gameViewModel);
-            }
-
-            var creater = _userService.GetCurrentUser();
-
-            var dbGame = _mapper.Map<Game>(gameViewModel);
-            dbGame.Creater = creater;
-            dbGame.IsActive = true;
-
-            _favGamesRepository.Save(dbGame);
-
-            return RedirectToAction("FavoriteGames", "Home");
-        }
-
-        public IActionResult Miner()
-        {
-            
-            return View();
-        }
-
-
-
+        
         public IActionResult Time()
         {
             var smile = DateTime.Now.Second;
