@@ -25,22 +25,32 @@ let cl9 = new Image(); cl9.src = '../../../images/miner_buttons/d9.png';
 let cl0 = new Image(); cl0.src = '../../../images/miner_buttons/d0.png';
 let clock_numbers = new Array(cl0, cl1, cl2, cl3, cl4, cl5, cl6, cl7, cl8, cl9);
 
-/*function setFlag(obj) {
-    var str = obj.src;
-    if (!localStorage.getItem(str)) {
-        localStorage.setItem(obj.id, str);
- 
-    localStorage.setItem(obj.id, str);
-};*/
-
 function setFlag(obj) {
     if (obj.src == img1.src) {
         obj.src = img2.src;
-        
     } else {
         obj.src = img1.src;
     }
 };
+
+function funcEdit(cellId) {
+    $.post()
+
+
+    /*$.ajax({
+        type: "POST",
+        url: "../../hey.php",
+        data: { cellId: cellId },
+        success: function () {
+            alert("yeah");
+        },
+        error: function () {
+            alert("some error");
+        }
+    });*/
+};
+
+
 
 
 function time1()

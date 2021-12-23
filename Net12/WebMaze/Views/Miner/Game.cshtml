@@ -93,11 +93,25 @@
                 {
                     if (!Model.IsWon)
                     {
-                        <a href="/Miner/Step?id=@cell.Id"> <img id="@x@y" src="~/images/miner_buttons/miner_button.png" width="29" onclick="time1(); time2(); time3();" oncontextmenu="setFlag(this)" /></a>
+                        if (@cell.IsFlag)
+                        {
+                            <a href="/Miner/Step?id=@cell.Id"> <img id="@x@y" src="~/images/miner_buttons/miner_flag.png" width="29" onclick="time1(); time2(); time3();" oncontextmenu="setFlag(this.id)" /></a>
+                        }
+                        else
+                        {
+                            <a href="/Miner/Step?id=@cell.Id"> <img id="@cell.Id" src="~/images/miner_buttons/miner_button.png" width="29" onclick="time1(); time2(); time3();" oncontextmenu="funcEdit(@cell.Id)" /></a>
+                        }
                     }
                     else
                     {
-                        <a href=#> <img src="~/images/miner_buttons/miner_button.png" width="29" /></a>
+                        if (@cell.IsFlag)
+                        {
+                            <a href=#> <img id="@cell.Id" src="~/images/miner_buttons/miner_flag.png" width="29" onclick="time1(); time2(); time3();" oncontextmenu="setFlag(this.id)" /></a>
+                        }
+                        else
+                        {
+                            <a href=#> <img id="@cell.Id" src="~/images/miner_buttons/miner_button.png" width="29" onclick="time1(); time2(); time3();" oncontextmenu="funcEdit(@cell.Id)" /></a>
+                        }
                     }
                 }
             }

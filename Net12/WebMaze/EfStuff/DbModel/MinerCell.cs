@@ -7,6 +7,7 @@
 
         public bool IsOpen { get; set; }
         public bool IsBomb { get; set; }
+        public bool IsFlag { get; set; }
 
         public int NearBombsCount { get; set; }
 
