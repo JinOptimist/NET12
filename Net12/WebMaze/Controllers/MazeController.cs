@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Net12.Maze;
 using Net12.Maze.Cells;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.Controllers.AuthAttribute;
@@ -29,12 +31,16 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private MazeEnemyRepository _mazeEnemyRepository;
         private IHubContext<ChatHub> _chatHub;
-        public MazeController(MazeDifficultRepository mazzeDifficultRepository, 
-            MazeLevelRepository mazeLevelRepository, IMapper mapper, 
-            UserService userService, CellRepository cellRepository, 
-            UserRepository userRepository, 
-            MazeEnemyRepository mazeEnemyRepository, 
-            IHubContext<ChatHub> chatHub)
+
+        private IHostingEnvironment _environment;
+
+
+        public MazeController(MazeDifficultRepository mazzeDifficultRepository,
+            MazeLevelRepository mazeLevelRepository, IMapper mapper,
+            UserService userService, CellRepository cellRepository,
+            UserRepository userRepository,
+            MazeEnemyRepository mazeEnemyRepository,
+            IHubContext<ChatHub> chatHub, IHostingEnvironment environment)
         {
             _mazeDifficultRepository = mazzeDifficultRepository;
             _mapper = mapper;
@@ -44,6 +50,7 @@ namespace WebMaze.Controllers
             _userRepository = userRepository;
             _mazeEnemyRepository = mazeEnemyRepository;
             _chatHub = chatHub;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -55,6 +62,10 @@ namespace WebMaze.Controllers
             return View(ListMaze);
         }
 
+        public IActionResult Couple()
+        {
+            return View();
+        }
 
         [HttpGet]
         [Authorize]
@@ -112,7 +123,7 @@ namespace WebMaze.Controllers
         {
             var listDifficults = _mazeDifficultRepository.GetAll();
             var listViewDifficults = new List<MazeDifficultProfileViewModel>();
-            foreach(var complixity in listDifficults)
+            foreach (var complixity in listDifficults)
             {
                 listViewDifficults.Add(_mapper.Map<MazeDifficultProfileViewModel>(complixity));
             }
@@ -206,6 +217,24 @@ namespace WebMaze.Controllers
         {
             _mazeDifficultRepository.Remove(Id);
             return RedirectToAction("ManageMazeDifficult", "Maze");
+        }
+
+        public IActionResult GetUrlsForCouple()
+        {
+            var path = Path.Combine(_environment.WebRootPath, "imgYellowTeam");
+            var urls =
+                Directory.GetFiles(path)
+                    .Select(x => Path.GetFileNameWithoutExtension(x))
+                    .Where(x => x != "fon" && x != "stoc")
+                    .Select(x => $"/imgYellowTeam/{x}.jpg");
+
+            return Json(urls);
+        }
+
+        public IActionResult CoupleWin(int CardsCount, int Steps)
+        {
+
+            return Json(true);
         }
 
         public void GetCoinsFromMaze(int coins)
