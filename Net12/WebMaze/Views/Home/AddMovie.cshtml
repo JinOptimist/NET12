@@ -1,32 +1,103 @@
 ﻿@model MovieViewModel
+<link rel="stylesheet" href="~/css/movie.css" />
 
-
-<div class="text-center">
+<div class="wrapper">
     <h1>Media library</h1>
     <form action="/Home/AddMovie" method="post">
 
 
-            @Html.HiddenFor(x => x.Id)
-            <div>
-                Title game @Html.TextBoxFor(x => x.TitleGame)
-            </div>
-            <div>
-                Title movie @Html.TextBoxFor(x => x.TitleMovie)
-            </div>
-            <div>
-                Release @Html.TextBoxFor(x => x.Release)
-            </div>
-            <div>
-                Link @Html.TextBoxFor(x => x.Link)
-            </div>
-            <div>
-                Img @Html.TextBoxFor(x => x.Img)
-            </div>
-            <div>
-                <input type="submit" value="Save" />
-            </div>
-    
-     
+
+
+        @Html.HiddenFor(x => x.Id)
+        <div>
+            Title game @Html.TextBoxFor(x => x.TitleGame)
+        </div>
+        <div>
+            Title movie @Html.TextBoxFor(x => x.TitleMovie)
+        </div>
+        <div>
+            Release @Html.TextBoxFor(x => x.Release)
+        </div>
+        <div>
+            Link @Html.TextBoxFor(x => x.Link)
+        </div>
+        <div>
+            Img @Html.TextBoxFor(x => x.Img)
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        @*@Html.HiddenFor(x => x.Id)
+        <table>
+            <tr>
+                <td>Title game</td>
+                <td>@Html.TextBoxFor(x => x.TitleGame)</td>
+            </tr>
+            <tr>
+                <td>Title movie</td>
+                <td>@Html.TextBoxFor(x => x.TitleMovie)</td>
+            </tr>
+            <tr>
+                <td>Release</td>
+                <td>@Html.TextBoxFor(x => x.Release)</td>
+            </tr>
+            <tr>
+                <td>Link</td>
+                <td>@Html.TextBoxFor(x => x.Link)</td>
+            </tr>
+            <tr>
+                <td>Img</td>
+                <td>@Html.TextBoxFor(x => x.Img)</td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Save" /></td>
+            </tr>
+        </table>*@
+
+
+
+
+
+
+        @*@Html.HiddenFor(x => x.Id)
+        <div>
+            Title game @Html.TextBoxFor(x => x.TitleGame)
+        </div>
+        <div>
+            Title movie @Html.TextBoxFor(x => x.TitleMovie)
+        </div>
+        <div>
+            Release @Html.TextBoxFor(x => x.Release)
+        </div>
+        <div>
+            Link @Html.TextBoxFor(x => x.Link)
+        </div>
+        <div>
+            Img @Html.TextBoxFor(x => x.Img)
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>*@
+
+
     </form>
 </div>
 
