@@ -22,13 +22,11 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
         private MovieRepository _movieRepository;
-        private FavGamesRepository _favGamesRepository;
-
         private IMapper _mapper;
 
         public HomeController(WebContext webContext,
          UserRepository userRepository, ReviewRepository reviewRepository,
-         IMapper mapper, FavGamesRepository favGamesRepository, UserService userService, MovieRepository movieRepository)
+         IMapper mapper, UserService userService, MovieRepository movieRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
