@@ -15,6 +15,7 @@ using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Models.ValidationAttributes;
 using WebMaze.Services;
 using WebMaze.SignalRHubs;
@@ -30,6 +31,7 @@ namespace WebMaze.Controllers
         private CellRepository _cellRepository;
         private UserRepository _userRepository;
         private MazeEnemyRepository _mazeEnemyRepository;
+        private readonly PayForActionService _payForActionService;
         private IHubContext<ChatHub> _chatHub;
 
         private IHostingEnvironment _environment;
@@ -39,8 +41,10 @@ namespace WebMaze.Controllers
             MazeLevelRepository mazeLevelRepository, IMapper mapper,
             UserService userService, CellRepository cellRepository,
             UserRepository userRepository,
-            MazeEnemyRepository mazeEnemyRepository,
-            IHubContext<ChatHub> chatHub, IHostingEnvironment environment)
+            MazeEnemyRepository mazeEnemyRepository, 
+            PayForActionService payForActionService,
+            IHubContext<ChatHub> chatHub, 
+            IHostingEnvironment environment)
         {
             _mazeDifficultRepository = mazzeDifficultRepository;
             _mapper = mapper;
@@ -49,6 +53,7 @@ namespace WebMaze.Controllers
             _cellRepository = cellRepository;
             _userRepository = userRepository;
             _mazeEnemyRepository = mazeEnemyRepository;
+            _payForActionService = payForActionService;
             _chatHub = chatHub;
             _environment = environment;
         }
@@ -184,13 +189,14 @@ namespace WebMaze.Controllers
 
         [Authorize]
         [IsAdmin]
+        [PayForAddActionFilter(TypesOfPayment.Small)]
         [HttpPost]
         public IActionResult AddMazeDifficult(MazeDifficultProfileViewModel mazeDifficultProfileViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(mazeDifficultProfileViewModel);
-            }
+            }            
 
             var dbMazeDifficult = _mapper.Map<MazeDifficultProfile>(mazeDifficultProfileViewModel);
             dbMazeDifficult.IsActive = true;
@@ -216,6 +222,14 @@ namespace WebMaze.Controllers
         public IActionResult RemoveMazeDifficult(long Id)
         {
             _mazeDifficultRepository.Remove(Id);
+            return RedirectToAction("ManageMazeDifficult", "Maze");
+        }
+
+        public IActionResult Wonderful(long difficultId)
+        {
+            var diffcult = _mazeDifficultRepository.Get(difficultId);
+            _payForActionService.CreatorEarnMoney(diffcult.Creater.Id, 10);
+
             return RedirectToAction("ManageMazeDifficult", "Maze");
         }
 

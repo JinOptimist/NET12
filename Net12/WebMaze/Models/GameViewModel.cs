@@ -9,6 +9,8 @@ namespace WebMaze.Models
 {
     public class GameViewModel
     {
+        public long Id { get; set; }
+
         [Required(ErrorMessage ="Mandatory field")]
         [MinLength(2, ErrorMessage = "Name of game is too short")]
         public string Name { get; set; }

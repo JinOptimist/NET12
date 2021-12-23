@@ -11,6 +11,8 @@ using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
+using WebMaze.Services;
 
 namespace WebMaze.Controllers
 {
@@ -21,12 +23,20 @@ namespace WebMaze.Controllers
         private readonly ImageRepository _repository;
         private readonly UserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly PayForActionService _payForActionService;
+        private UserService _userService;
 
-        public GalleryController(ImageRepository repository, UserRepository userRepository, IMapper mapper)
+        public GalleryController(ImageRepository repository, 
+            UserRepository userRepository, 
+            IMapper mapper, 
+            PayForActionService payForActionService,
+            UserService userService)
         {
             _repository = repository;
             _userRepository = userRepository;
             _mapper = mapper;
+            _payForActionService = payForActionService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -44,20 +54,33 @@ namespace WebMaze.Controllers
 
         [HttpGet]
         public IActionResult AddImage()
-        {
-            ViewBag.Users = new SelectList(_userRepository.GetAll(), "Id", "Name");
+        {           
             return View();
         }
-
+      
+        [PayForAddActionFilter(TypesOfPayment.Huge)]
         [HttpPost]
         public IActionResult AddImage(ImageViewModel imageViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(imageViewModel);
+            }
+
             var dbImage = _mapper.Map<Image>(imageViewModel);
-            dbImage.Author = _userRepository.Get(imageViewModel.Author.Id);
-                       
+            dbImage.Author = _userService.GetCurrentUser();
+
             _repository.Save(dbImage);            
 
             return RedirectToAction("Index", "Gallery");            
+        }
+
+        public IActionResult Wonderful(long imageId)
+        {
+            var image = _repository.Get(imageId);
+            _payForActionService.CreatorEarnMoney(image.Author.Id, 10);
+
+            return RedirectToAction("Index", "Gallery");
         }
     }
 }

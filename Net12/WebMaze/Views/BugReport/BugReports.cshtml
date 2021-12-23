@@ -11,7 +11,7 @@
     </div>
     <div class="content-all">
         @foreach (var bugReports in Model)
-        {
+            {
             <div class="content-report">
                 <div class="content-report-name-content">
                     <span class="content-report-name">Creator:</span> @bugReports.CreaterName <span class="content-report-name">Rating:</span> @bugReports.GlobalUserRating
@@ -19,8 +19,17 @@
                 <div class="content-report-description-content">
                     <span class="content-report-description">Descriptoin: </span> @bugReports.Description
                 </div>
+                <div class="content-report-description-content">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                    <div>                        
+                        <a href="@Url.Action("Wonderful","BugReport", new {@bugReportId = bugReports.Id})" class="good-button">Wonderful</a>
+                        <button class="bad-button">Awful</button>
+                    </div>
+                    }
+                </div>
             </div>
 
-        }
+            }
     </div>
 </div>

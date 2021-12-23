@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.DbModel.Maze;
@@ -55,6 +56,10 @@ namespace WebMaze
 
             services.AddScoped<UserService>();
             services.AddScoped<MinerFiledBuilder>();
+
+            services.AddScoped<PayForActionService>();
+
+            services.AddScoped<PayForAddActionFilter>();
 
             services.AddHttpContextAccessor();
 
@@ -141,7 +146,8 @@ namespace WebMaze
                 .ForMember(nameof(Review.Text), opt => opt.MapFrom(viewReview => viewReview.TextInfo))
                 .ForMember(nameof(Review.Creator), opt => opt.MapFrom(viewReview => viewReview.Creator));
 
-            provider.CreateMap<Image, ImageViewModel>();
+            provider.CreateMap<Image, ImageViewModel>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.Name));
 
             provider.CreateMap<ImageViewModel, Image>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
