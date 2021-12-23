@@ -9,6 +9,7 @@ namespace WebMaze.Models
 {
     public class BugReportViewModel
     {
+        public long Id { get; set; }
         public string CreaterName { get; set; }
 
         [Required(ErrorMessage = "Please write something!")]
