@@ -11,6 +11,12 @@
     hubConnection.on("Enter", function (name) {
         addMessage(name, `enter to site`);
     });
+    hubConnection.on("StartMaze", function (name) {
+        addMessage(name, `User '${name}' start play in Maze game`);
+    });
+    hubConnection.on("BuyMaze", function (name, nameLevel, cost) {
+        addMessage(name, `${name}: bought ${nameLevel} level at a price ${cost}`);
+    });
 
     function addMessage(userName, text) {
         var messageBlock = $('<div>');
