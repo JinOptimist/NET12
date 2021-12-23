@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers
@@ -16,11 +18,14 @@ namespace WebMaze.Controllers
         private ReviewRepository _reviewRepository;
         private IMapper _mapper;
         private UserService _userService;
-        public ReviewsController(IMapper mapper, UserService userService, ReviewRepository reviewRepository)
+        private readonly PayForActionService _payForActionService;
+        public ReviewsController(IMapper mapper, UserService userService, ReviewRepository reviewRepository, 
+            PayForActionService payForActionService)
         {
             _reviewRepository = reviewRepository;
             _mapper = mapper;
             _userService = userService;
+            _payForActionService = payForActionService;
         }
 
 
@@ -33,6 +38,7 @@ namespace WebMaze.Controllers
         }
 
         [Authorize]
+        [PayForAddActionFilter(TypesOfPayment.Medium)]
         [HttpPost]
         public IActionResult Index(FeedBackUserViewModel viewReview)
         {
@@ -50,6 +56,14 @@ namespace WebMaze.Controllers
             var FeedBackUsers = _reviewRepository.GiveViewReviews(_userService);
 
             return View(FeedBackUsers);
+        }
+
+        public IActionResult Wonderful(long reviewId)
+        {
+            var review = _reviewRepository.Get(reviewId);
+            _payForActionService.CreatorEarnMoney(review.Creator.Id, 10);
+
+            return RedirectToAction("Index", "Reviews");
         }
 
         public IActionResult RemoveReview(long idReview)
