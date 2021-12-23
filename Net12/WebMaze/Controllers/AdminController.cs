@@ -94,7 +94,7 @@ namespace WebMaze.Controllers
         }
         public IActionResult CellInfoHelper()
         {
-            var typeOfCell = new List<Type>() { (typeof(BaseCell)) };
+            var typeOfCell = new List<Type>() { typeof(BaseCell) };
             typeOfCell.AddRange(TypeCollector(typeOfCell));
 
             var namesTypeOfCell = typeOfCell
