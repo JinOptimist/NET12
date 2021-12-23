@@ -121,7 +121,7 @@ namespace WebMaze.Controllers
             return View(namesTypeOfCell);
         }
 
-        public static List<Type> TypeCollector(List<Type> inTypes)
+        public List<Type> TypeCollector(List<Type> inTypes)
         {
             List<Type> outTypes = new List<Type>();
             foreach (var item in inTypes)
