@@ -10,8 +10,8 @@ using WebMaze.EfStuff;
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    [Migration("20211222090239_ZumaGameDifficult")]
-    partial class ZumaGameDifficult
+    [Migration("20211224181146_ZumaGame")]
+    partial class ZumaGame
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -750,7 +750,7 @@ namespace WebMaze.Migrations
                     b.Property<int>("ColorCount")
                         .HasColumnType("int");
 
-                    b.Property<long?>("GamerId")
+                    b.Property<long>("GamerId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Height")
@@ -764,7 +764,8 @@ namespace WebMaze.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GamerId");
+                    b.HasIndex("GamerId")
+                        .IsUnique();
 
                     b.ToTable("ZumaGameFields");
                 });
@@ -950,7 +951,8 @@ namespace WebMaze.Migrations
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.ZumaGameField", "Field")
                         .WithMany("Cells")
-                        .HasForeignKey("FieldId");
+                        .HasForeignKey("FieldId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Field");
                 });
@@ -959,7 +961,8 @@ namespace WebMaze.Migrations
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.ZumaGameField", "Field")
                         .WithMany("Palette")
-                        .HasForeignKey("FieldId");
+                        .HasForeignKey("FieldId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Field");
                 });
@@ -976,8 +979,10 @@ namespace WebMaze.Migrations
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameField", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Gamer")
-                        .WithMany("ZumaGameFields")
-                        .HasForeignKey("GamerId");
+                        .WithOne("ZumaGameField")
+                        .HasForeignKey("WebMaze.EfStuff.DbModel.ZumaGameField", "GamerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Gamer");
                 });
@@ -1033,7 +1038,7 @@ namespace WebMaze.Migrations
 
                     b.Navigation("ZumaGameDifficults");
 
-                    b.Navigation("ZumaGameFields");
+                    b.Navigation("ZumaGameField");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameField", b =>

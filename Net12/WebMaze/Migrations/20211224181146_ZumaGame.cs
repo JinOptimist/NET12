@@ -7,6 +7,29 @@ namespace WebMaze.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "ZumaGameDifficults",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Width = table.Column<int>(type: "int", nullable: false),
+                    Height = table.Column<int>(type: "int", nullable: false),
+                    ColorCount = table.Column<int>(type: "int", nullable: false),
+                    AuthorId = table.Column<long>(type: "bigint", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ZumaGameDifficults", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ZumaGameDifficults_Users_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ZumaGameFields",
                 columns: table => new
                 {
@@ -15,7 +38,7 @@ namespace WebMaze.Migrations
                     Width = table.Column<int>(type: "int", nullable: false),
                     Height = table.Column<int>(type: "int", nullable: false),
                     ColorCount = table.Column<int>(type: "int", nullable: false),
-                    GamerId = table.Column<long>(type: "bigint", nullable: true),
+                    GamerId = table.Column<long>(type: "bigint", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -26,7 +49,7 @@ namespace WebMaze.Migrations
                         column: x => x.GamerId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,7 +72,7 @@ namespace WebMaze.Migrations
                         column: x => x.FieldId,
                         principalTable: "ZumaGameFields",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -70,7 +93,7 @@ namespace WebMaze.Migrations
                         column: x => x.FieldId,
                         principalTable: "ZumaGameFields",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -84,9 +107,15 @@ namespace WebMaze.Migrations
                 column: "FieldId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ZumaGameDifficults_AuthorId",
+                table: "ZumaGameDifficults",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ZumaGameFields_GamerId",
                 table: "ZumaGameFields",
-                column: "GamerId");
+                column: "GamerId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -96,6 +125,9 @@ namespace WebMaze.Migrations
 
             migrationBuilder.DropTable(
                 name: "ZumaGameColors");
+
+            migrationBuilder.DropTable(
+                name: "ZumaGameDifficults");
 
             migrationBuilder.DropTable(
                 name: "ZumaGameFields");
