@@ -104,15 +104,23 @@ namespace WebMaze.EfStuff
 
             modelBuilder.Entity<ZumaGameField>()
                 .HasMany(x => x.Cells)
-                .WithOne(x => x.Field);
+                .WithOne(x => x.Field)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ZumaGameField>()
                 .HasMany(x => x.Palette)
-                .WithOne(x => x.Field);
+                .WithOne(x => x.Field)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<User>()
-                .HasMany(x => x.ZumaGameFields)
-                .WithOne(x => x.Gamer);
+            //modelBuilder.Entity<User>()
+            //    .HasOne(x => x.ZumaGameField)
+            //    .WithOne(x => x.Gamer)
+            //    .HasForeignKey<ZumaGameField>(x => x.GamerId);
+
+            modelBuilder.Entity<ZumaGameField>()
+                .HasOne(x => x.Gamer)
+                .WithOne(x => x.ZumaGameField)
+                .HasForeignKey<ZumaGameField>(x => x.GamerId);
 
             modelBuilder.Entity<ZumaGameDifficult>()
                 .HasOne(x => x.Author)
