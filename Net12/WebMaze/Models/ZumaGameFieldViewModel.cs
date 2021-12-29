@@ -10,6 +10,7 @@ namespace WebMaze.Models
         public long Id { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public int Score { get; set; }
         public int ColorCount { get; set; }
         public List<ZumaGameCellViewModel> Cells { get; set; }
     }

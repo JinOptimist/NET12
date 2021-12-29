@@ -141,6 +141,9 @@ namespace WebMaze.Controllers
                         }
                     }
                 }
+
+                field.Score += (int)Math.Round(getNear.Count * 1.5) * 100;
+                _zumaGameFieldRepository.Save(field);
             }
 
             return RedirectToAction("Game", new { id = field.Id });

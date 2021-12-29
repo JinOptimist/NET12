@@ -10,6 +10,7 @@ namespace WebMaze.EfStuff.DbModel
         public int Width { get; set; }
         public int Height { get; set; }
         public int ColorCount { get; set; }
+        public int Score { get; set; }
         public virtual long GamerId { get; set; }
         public virtual List<ZumaGameColor> Palette { get; set; }
         public virtual List<ZumaGameCell> Cells { get; set; }
