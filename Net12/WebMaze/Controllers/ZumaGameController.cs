@@ -45,10 +45,13 @@ namespace WebMaze.Controllers
         public IActionResult StartGame(long difficultId)
         {
             var difficult = _zumaGameDifficultRepository.Get(difficultId);
+            var field = _userService.GetCurrentUser().ZumaGameField;
 
-            var field = _zumaGameFieldBuilder.Build(difficult.Width, difficult.Height, difficult.ColorCount);
-
-            _zumaGameFieldRepository.Save(field);
+            if (field == null)
+            {
+                field = _zumaGameFieldBuilder.Build(difficult.Width, difficult.Height, difficult.ColorCount);
+                _zumaGameFieldRepository.Save(field);
+            }
 
             return RedirectToAction("Game", new { id = field.Id });
         }
@@ -130,7 +133,7 @@ namespace WebMaze.Controllers
                 }
             }
 
-            return RedirectToAction("Game", new { id = cell.Field.Id });
+            return RedirectToAction("Game", new { id = field.Id });
         }
 
         public IActionResult WinGame()
