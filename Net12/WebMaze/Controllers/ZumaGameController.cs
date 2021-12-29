@@ -39,15 +39,15 @@ namespace WebMaze.Controllers
             var zumaGameDifficultViewModels = _zumaGameDifficultRepository.GetAll()
                 .Select(x => _mapper.Map<ZumaGameDifficultViewModel>(x)).ToList();
 
-            var difficultViewModel = new ZumaGameDifficultViewModels();
-            difficultViewModel.viewModels = zumaGameDifficultViewModels;
+            var indexViewModel = new ZumaGameIndexViewModel();
+            indexViewModel.viewModels = zumaGameDifficultViewModels;
 
             if (_userService.GetCurrentUser().ZumaGameField != null)
             {
-                difficultViewModel.Continue = true;
+                indexViewModel.Continue = true;
             }
 
-            return View(difficultViewModel);
+            return View(indexViewModel);
         }
 
         public IActionResult NewGame(long difficultId)
@@ -88,8 +88,7 @@ namespace WebMaze.Controllers
 
                 if (loseGame)
                 {
-                    _zumaGameFieldRepository.Remove(id);
-                    return RedirectToAction("LoseGame");
+                    return RedirectToAction("LoseGame", new { id });
                 }
                 else
                 {
@@ -152,8 +151,10 @@ namespace WebMaze.Controllers
             _chatHub.Clients.All.SendAsync("ZumaGameWin", _userService.GetCurrentUser().Name);
             return View();
         }
-        public IActionResult LoseGame()
+
+        public IActionResult LoseGame(long id)
         {
+            _zumaGameFieldRepository.Remove(id);
             _chatHub.Clients.All.SendAsync("ZumaGameLose", _userService.GetCurrentUser().Name);
             return View();
         }

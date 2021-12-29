@@ -14,7 +14,7 @@
         opacity: 0;
     }
 
-.zumagame-head {
+.big-center-font {
     font-size: 50px;
     text-align: center;
     margin: 10px;
@@ -50,14 +50,12 @@
     margin: 5px;
 }
 
-.zumagame-return {
-    font-size: 50px;
-    text-align: center;
-    margin: 10px;
+.zuma-game-game {
+    display: flex;
+    justify-content: space-between;
 }
 
-.continue-zuma-game {
-    font-size: 50px;
-    text-align: center;
-    margin: 10px;
+.zuma-game-info {
+    padding-left: 100px;
+    padding-right: 100px;
 }

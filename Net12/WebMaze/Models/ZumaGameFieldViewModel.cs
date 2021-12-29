@@ -7,6 +7,7 @@ namespace WebMaze.Models
 {
     public class ZumaGameFieldViewModel
     {
+        public long Id { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public int ColorCount { get; set; }

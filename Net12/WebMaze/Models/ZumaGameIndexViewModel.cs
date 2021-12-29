@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebMaze.Models
 {
-    public class ZumaGameDifficultViewModels
+    public class ZumaGameIndexViewModel
     {
         public List<ZumaGameDifficultViewModel> viewModels { get; set; }
         public bool Continue { get; set; }
