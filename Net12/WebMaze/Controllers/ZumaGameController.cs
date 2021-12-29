@@ -39,22 +39,33 @@ namespace WebMaze.Controllers
             var zumaGameDifficultViewModels = _zumaGameDifficultRepository.GetAll()
                 .Select(x => _mapper.Map<ZumaGameDifficultViewModel>(x)).ToList();
 
-            return View(zumaGameDifficultViewModels);
+            var difficultViewModel = new ZumaGameDifficultViewModels();
+            difficultViewModel.viewModels = zumaGameDifficultViewModels;
+
+            if (_userService.GetCurrentUser().ZumaGameField != null)
+            {
+                difficultViewModel.Continue = true;
+            }
+
+            return View(difficultViewModel);
         }
 
-        public IActionResult StartGame(long difficultId)
+        public IActionResult NewGame(long difficultId)
         {
             var difficult = _zumaGameDifficultRepository.Get(difficultId);
-            var field = _userService.GetCurrentUser().ZumaGameField;
 
-            if (field == null)
-            {
-                field = _zumaGameFieldBuilder.Build(difficult.Width, difficult.Height, difficult.ColorCount);
-                _zumaGameFieldRepository.Save(field);
-            }
+            var field = _zumaGameFieldBuilder.Build(difficult.Width, difficult.Height, difficult.ColorCount);
+            _zumaGameFieldRepository.Save(field);
+
 
             return RedirectToAction("Game", new { id = field.Id });
         }
+
+        public IActionResult ContinueGame()
+        {
+            return RedirectToAction("Game", new { id = _userService.GetCurrentUser().ZumaGameField.Id });
+        }
+
         public IActionResult Game(long id)
         {
             var field = _zumaGameFieldRepository.Get(id);
@@ -148,7 +159,7 @@ namespace WebMaze.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddZumaGameDifficult(long difficultId)
+        public IActionResult AddDifficult(long difficultId)
         {
             var model = _mapper.Map<ZumaGameDifficultViewModel>(_zumaGameDifficultRepository.Get(difficultId))
                 ?? new ZumaGameDifficultViewModel();
@@ -156,7 +167,7 @@ namespace WebMaze.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddZumaGameDifficult(ZumaGameDifficultViewModel zumaGameDifficultViewModel)
+        public IActionResult AddDifficult(ZumaGameDifficultViewModel zumaGameDifficultViewModel)
         {
 
             var author = _userService.GetCurrentUser();
@@ -171,5 +182,10 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult RemoveDifficult(long difficultId)
+        {
+            _zumaGameDifficultRepository.Remove(difficultId);
+            return RedirectToAction("Index");
+        }
     }
 }
