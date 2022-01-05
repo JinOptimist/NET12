@@ -10,6 +10,7 @@ namespace WebMaze.EfStuff.DbModel
         public int Width { get; set; }
         public int Height { get; set; }
         public int ColorCount { get; set; }
+        public int Price { get; set; }
         public virtual User Author { get; set; }
     }
 }

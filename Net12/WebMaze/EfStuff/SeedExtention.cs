@@ -143,6 +143,7 @@ namespace WebMaze.EfStuff
                     Width = 10,
                     Height = 10,
                     ColorCount = 3,
+                    Price = 100,
                     IsActive = true,
                     Author = userAdmin
                 };

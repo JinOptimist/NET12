@@ -22,8 +22,9 @@ namespace WebMaze.Controllers
         private IMapper _mapper;
         private IHubContext<ChatHub> _chatHub;
         private UserService _userService;
+        private UserRepository _userRepository;
 
-        public ZumaGameController(ZumaGameFieldBuilder zumaGameFieldBuilder, ZumaGameFieldRepository zumaGameFieldRepository, IMapper mapper, ZumaGameCellRepository zumaGameCellRepository, IHubContext<ChatHub> chatHub, UserService userService, ZumaGameDifficultRepository zumaGameDifficultRepository)
+        public ZumaGameController(ZumaGameFieldBuilder zumaGameFieldBuilder, ZumaGameFieldRepository zumaGameFieldRepository, IMapper mapper, ZumaGameCellRepository zumaGameCellRepository, IHubContext<ChatHub> chatHub, UserService userService, ZumaGameDifficultRepository zumaGameDifficultRepository, UserRepository userRepository)
         {
             _zumaGameFieldBuilder = zumaGameFieldBuilder;
             _zumaGameFieldRepository = zumaGameFieldRepository;
@@ -32,6 +33,7 @@ namespace WebMaze.Controllers
             _chatHub = chatHub;
             _userService = userService;
             _zumaGameDifficultRepository = zumaGameDifficultRepository;
+            _userRepository = userRepository;
         }
 
         public IActionResult Index()
@@ -40,12 +42,14 @@ namespace WebMaze.Controllers
                 .Select(x => _mapper.Map<ZumaGameDifficultViewModel>(x)).ToList();
 
             var indexViewModel = new ZumaGameIndexViewModel();
-            indexViewModel.viewModels = zumaGameDifficultViewModels;
+            indexViewModel.ViewModels = zumaGameDifficultViewModels;
 
             if (_userService.GetCurrentUser().ZumaGameField != null)
             {
                 indexViewModel.Continue = true;
             }
+
+            indexViewModel.Coins = _userService.GetCurrentUser().Coins;
 
             return View(indexViewModel);
         }
@@ -53,10 +57,21 @@ namespace WebMaze.Controllers
         public IActionResult NewGame(long difficultId)
         {
             var difficult = _zumaGameDifficultRepository.Get(difficultId);
+            var gamer = _userService.GetCurrentUser();
+
+            gamer.Coins -= difficult.Price;
+
+            if (gamer.Coins < 0)
+            {
+                return RedirectToAction("Error");
+            }
+            else
+            {
+                _userRepository.Save(gamer);
+            }
 
             var field = _zumaGameFieldBuilder.Build(difficult.Width, difficult.Height, difficult.ColorCount);
             _zumaGameFieldRepository.Save(field);
-
 
             return RedirectToAction("Game", new { id = field.Id });
         }
@@ -99,8 +114,7 @@ namespace WebMaze.Controllers
             }
             else
             {
-                _zumaGameFieldRepository.Remove(id);
-                return RedirectToAction("WinGame");
+                return RedirectToAction("WinGame", new { id });
             }
         }
 
@@ -142,24 +156,39 @@ namespace WebMaze.Controllers
                     }
                 }
 
-                field.Score += (int)Math.Round(getNear.Count * 1.5) * 100;
+                field.Score += (int)Math.Round(getNear.Count * Math.Pow(1.5, field.ColorCount - 2));
                 _zumaGameFieldRepository.Save(field);
             }
 
             return RedirectToAction("Game", new { id = field.Id });
         }
 
-        public IActionResult WinGame()
+        public IActionResult WinGame(long id)
         {
+            var model = new ZumaGameScoreViewModel();
+            model.Score = _zumaGameFieldRepository.Get(id).Score;
+
+            var gamer = _userService.GetCurrentUser();
+            gamer.Coins += model.Score;
+            _userRepository.Save(gamer);
+
+            _zumaGameFieldRepository.Remove(id);
             _chatHub.Clients.All.SendAsync("ZumaGameWin", _userService.GetCurrentUser().Name);
-            return View();
+            return View(model);
         }
 
         public IActionResult LoseGame(long id)
         {
+            var model = new ZumaGameScoreViewModel();
+            model.Score = _zumaGameFieldRepository.Get(id).Score;
+
+            var gamer = _userService.GetCurrentUser();
+            gamer.Coins += model.Score / 2;
+            _userRepository.Save(gamer);
+
             _zumaGameFieldRepository.Remove(id);
             _chatHub.Clients.All.SendAsync("ZumaGameLose", _userService.GetCurrentUser().Name);
-            return View();
+            return View(model);
         }
 
         [HttpGet]
@@ -180,6 +209,7 @@ namespace WebMaze.Controllers
 
             dbZumaGameDifficult.Author = author;
             dbZumaGameDifficult.IsActive = true;
+            dbZumaGameDifficult.Price = (dbZumaGameDifficult.Height * dbZumaGameDifficult.Width) / (dbZumaGameDifficult.ColorCount / 2);
 
             _zumaGameDifficultRepository.Save(dbZumaGameDifficult);
 

@@ -7,7 +7,8 @@ namespace WebMaze.Models
 {
     public class ZumaGameIndexViewModel
     {
-        public List<ZumaGameDifficultViewModel> viewModels { get; set; }
+        public List<ZumaGameDifficultViewModel> ViewModels { get; set; }
+        public int Coins { get; set; }
         public bool Continue { get; set; }
     }
 }

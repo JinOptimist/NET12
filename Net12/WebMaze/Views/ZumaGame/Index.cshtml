@@ -3,6 +3,11 @@
 <div class="menu-zumagame-difficult">
     <a href="/ZumaGame/AddDifficult">Add ZumaGame Difficult</a>
 </div>
+
+<div>
+    Profile Coins: @Model.Coins
+</div>
+
 <div class="big-center-font">
     @if (Model.Continue)
     {
@@ -11,7 +16,7 @@
 </div>
 <div>
 
-    @foreach (var difficult in Model.viewModels)
+    @foreach (var difficult in Model.ViewModels)
     {
         <div class="manage-zumagame-difficult">
             <div>
@@ -26,11 +31,14 @@
             <div>
                 ColorCount: @difficult.ColorCount
             </div>
+            <div>
+                Price: @difficult.Price
+            </div>
             <a href="/ZumaGame/RemoveDifficult?difficultId=@difficult.Id">X</a>
 
             <a href="/ZumaGame/AddDifficult?difficultId=@difficult.Id">E</a>
 
-            @if (!Model.Continue)
+            @if (!Model.Continue && Model.Coins >= difficult.Price)
             {
                 <a href="/ZumaGame/NewGame?difficultId=@difficult.Id">New Game</a>
 
