@@ -112,11 +112,6 @@ namespace WebMaze.EfStuff
                 .WithOne(x => x.Field)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //modelBuilder.Entity<User>()
-            //    .HasOne(x => x.ZumaGameField)
-            //    .WithOne(x => x.Gamer)
-            //    .HasForeignKey<ZumaGameField>(x => x.GamerId);
-
             modelBuilder.Entity<ZumaGameField>()
                 .HasOne(x => x.Gamer)
                 .WithOne(x => x.ZumaGameField)

@@ -183,7 +183,7 @@ namespace WebMaze.Controllers
             model.Score = _zumaGameFieldRepository.Get(id).Score;
 
             var gamer = _userService.GetCurrentUser();
-            gamer.Coins += model.Score / 2;
+            gamer.Coins += model.Score / 3;
             _userRepository.Save(gamer);
 
             _zumaGameFieldRepository.Remove(id);
