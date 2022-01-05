@@ -41,8 +41,10 @@ namespace WebMaze.Controllers
             var zumaGameDifficultViewModels = _zumaGameDifficultRepository.GetAll()
                 .Select(x => _mapper.Map<ZumaGameDifficultViewModel>(x)).ToList();
 
-            var indexViewModel = new ZumaGameIndexViewModel();
-            indexViewModel.ViewModels = zumaGameDifficultViewModels;
+            var indexViewModel = new ZumaGameIndexViewModel
+            {
+                ViewModels = zumaGameDifficultViewModels
+            };
 
             if (_userService.GetCurrentUser().ZumaGameField != null)
             {
@@ -165,8 +167,10 @@ namespace WebMaze.Controllers
 
         public IActionResult WinGame(long id)
         {
-            var model = new ZumaGameScoreViewModel();
-            model.Score = _zumaGameFieldRepository.Get(id).Score;
+            var model = new ZumaGameScoreViewModel
+            {
+                Score = _zumaGameFieldRepository.Get(id).Score
+            };
 
             var gamer = _userService.GetCurrentUser();
             gamer.Coins += model.Score;
@@ -179,8 +183,10 @@ namespace WebMaze.Controllers
 
         public IActionResult LoseGame(long id)
         {
-            var model = new ZumaGameScoreViewModel();
-            model.Score = _zumaGameFieldRepository.Get(id).Score;
+            var model = new ZumaGameScoreViewModel
+            {
+                Score = _zumaGameFieldRepository.Get(id).Score
+            };
 
             var gamer = _userService.GetCurrentUser();
             gamer.Coins += model.Score / 3;
