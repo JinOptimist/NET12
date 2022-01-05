@@ -14,6 +14,7 @@ namespace WebMaze.EfStuff
         public const string DefaultAdminName = "admin";
         public const string DefaultMazeDifficultName = "Default";
         public const string DefaultNewsTitle = "TestNews";
+        public const string DefaultImageDesc = "Admin image";
         public static IHost Seed(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
@@ -22,6 +23,7 @@ namespace WebMaze.EfStuff
                 SeedMazeDifficult(scope);
                 SeedNews(scope);
                 SeedPermissions(scope);
+                SeedGallery(scope);
                 SeedZumaGameDifficult(scope);
             }
 
@@ -126,6 +128,25 @@ namespace WebMaze.EfStuff
                     EventDate = DateTime.Today.AddDays(7)
                 };
                 newsRepository.Save(testNews);
+            }
+        }
+
+        private static void SeedGallery(IServiceScope scope)
+        {
+            var author = scope.ServiceProvider.GetService<UserRepository>().GetUserByName(DefaultAdminName);
+            var imageRepository = scope.ServiceProvider.GetService<ImageRepository>();
+            var image = imageRepository.GetImageByDesc(DefaultImageDesc);
+            if (image == null)
+            {
+                image = new Image()
+                {
+                    Description = DefaultImageDesc,
+                    Picture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvgRMad98wVTdc-qAMIhYEF6tJ0QVKdJ03oA&usqp=CAU",
+                    Assessment = 9,
+                    Author = author,
+                    IsActive = true
+                };
+                imageRepository.Save(image);
             }
         }
 

@@ -10,6 +10,7 @@ using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers
@@ -20,15 +21,18 @@ namespace WebMaze.Controllers
         private NewsRepository _newsRepository;
         private IMapper _mapper;
         private UserService _userService;
+        private readonly PayForActionService _payForActionService;
 
         public NewsController(UserRepository userRepository,
             NewsRepository newsRepository,
-            IMapper mapper, UserService userService)
+            IMapper mapper, UserService userService,
+             PayForActionService payForActionService)
         {
             _newsRepository = newsRepository;
             _userRepository = userRepository;
             _mapper = mapper;
             _userService = userService;
+            _payForActionService = payForActionService;
         }
 
         public IActionResult Index()
@@ -47,11 +51,15 @@ namespace WebMaze.Controllers
         public IActionResult AddNews(long newsId)
         {
             var model = _mapper.Map<NewsViewModel>(_newsRepository.Get(newsId))
-                ?? new NewsViewModel();
+                ?? new NewsViewModel()
+                {
+                    EventDate = DateTime.Now
+                };
             return View(model);
         }
 
         [IsAdmin]
+        [PayForAddActionFilter(TypesOfPayment.Medium)]
         [HttpPost]
         public IActionResult AddNews(NewsViewModel newsViewModel)
         {
@@ -69,6 +77,14 @@ namespace WebMaze.Controllers
             dbNews.IsActive = true;
 
             _newsRepository.Save(dbNews);
+
+            return RedirectToAction("Index", "News");
+        }
+
+        public IActionResult Wonderful(long newsId)
+        {
+            var news = _newsRepository.Get(newsId);
+            _payForActionService.CreatorEarnMoney(news.Author.Id, 10);           
 
             return RedirectToAction("Index", "News");
         }
