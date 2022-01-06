@@ -10,15 +10,19 @@ using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Services;
+
 
 namespace WebMaze.Controllers
 {
     [Authorize]
     public class GalleryController : Controller
-    {        
+    {
         private readonly ImageRepository _repository;
         private readonly UserRepository _userRepository;
         private readonly IMapper _mapper;
+        private UserService _userService;
+        private Image _image;
 
         public GalleryController(ImageRepository repository, UserRepository userRepository, IMapper mapper)
         {
@@ -52,10 +56,22 @@ namespace WebMaze.Controllers
         {
             var dbImage = _mapper.Map<Image>(imageViewModel);
             dbImage.Author = _userRepository.Get(imageViewModel.Author.Id);
-                       
-            _repository.Save(dbImage);            
 
-            return RedirectToAction("Index", "Gallery");            
+            _repository.Save(dbImage);
+
+            return RedirectToAction("Index", "Gallery");
+        }
+
+        [HttpGet]
+        public IActionResult AddImageRating(long id, long coins)
+        {
+            var image = _repository.Get(id);
+            image.Assessment = image.Assessment + 1;
+            _repository.Save(image);
+
+            return RedirectToAction("Index", "Gallery");
+
+            var userCoins = _userRepository.Get(coins);
         }
     }
 }

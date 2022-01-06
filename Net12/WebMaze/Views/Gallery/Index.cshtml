@@ -8,17 +8,22 @@
         <div class="pic-to-gallery">
             @foreach (var image in Model)
             {
+            <div>
                 <div>
-                    <div>
-                        <img src="@image.Picture">
-                    </div>
-                    <div class="t-to-gallery">
-                        @image.Assessment
-                    </div>
-                    <div class="t-to-gallery">
-                        @image.Description
-                    </div>
+                    <img src="@image.Picture">
                 </div>
+                <div class="t-to-gallery">
+                    @image.Assessment
+                </div>
+                <div class="t-to-gallery">
+                    @image.Description
+                </div>
+                    <div>
+                        <a href="/Gallery/AddImageRating?id=@image.Id">
+                            <input type="button" value="Add rating" />
+                        </a>
+                    </div>
+            </div>
             }
         </div>
     </div>
