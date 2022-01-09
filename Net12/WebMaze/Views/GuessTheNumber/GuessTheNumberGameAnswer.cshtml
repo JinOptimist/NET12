@@ -1,0 +1,81 @@
+﻿@using WebMaze.Models.GuessTheNumber
+@using WebMaze.Services.GuessTheNumber;
+
+@model GuessTheNumberGameAnswerViewModel
+
+<div>
+    @foreach (var answer in Model.Game.Answers.Reverse<GuessTheNumberGameAnswerViewModel>())
+    {
+        if (answer.IntroducedAnswer == Model.Game.GuessedNumber)
+        {
+            <div>
+                @answer.IntroducedAnswer is the hidden number.
+            </div>
+        }
+        else
+        {
+            var sign = answer.IntroducedAnswer > Model.Game.GuessedNumber ? ">" : "<";
+
+            <div>
+                @answer.IntroducedAnswer <b>@(sign)</b> than target
+            </div>
+        }
+    }
+</div>
+
+@switch (Model.Game.GameStatus)
+{
+    case GuessTheNumberGameStatus.NotFinished:
+
+        <div>
+            Enter a number from @Model.Game.Parameters.MinRangeNumber
+            to @Model.Game.Parameters.MaxRangeNumber.
+        </div>
+        <div>
+            You still have @Model.Game.AttemptNumber attempts from @Model.Game.Parameters.MaxAttempts.
+        </div>
+
+        <form action="/GuessTheNumber/GuessTheNumberGameAnswer" method="post">
+            @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.GameId)
+            <div>
+                Enter you answer. @Html.TextBoxFor(x => x.IntroducedAnswer)
+            </div>
+            <div>
+                @Html.ValidationMessageFor(x => x.IntroducedAnswer)
+            </div>
+            <div>
+                <input type="submit" value="Confirm your answer" />
+            </div>
+        </form>
+        <div>
+            <a href="/GuessTheNumber/IGiveUp"><input type="submit" value="I give up" /></a>
+        </div>
+
+        break;
+
+    case GuessTheNumberGameStatus.Loss:
+
+        <span style="font-size:30px;">
+            You loss !!!
+        </span>
+
+        break;
+
+    case GuessTheNumberGameStatus.Win:
+
+        <span style="font-size:30px;">
+            You won !!!
+        </span>
+
+        break;
+
+    default:
+
+        <span style="font-size:30px;">
+            Error!!!!!
+        </span>
+
+        break;
+
+}

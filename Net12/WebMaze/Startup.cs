@@ -17,9 +17,11 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.EfStuff.DbModel.GuessTheNumberDbModel;
 using WebMaze.EfStuff.DbModel.Maze;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.GuessTheNumber;
 using WebMaze.Services;
 
 namespace WebMaze
@@ -181,6 +183,7 @@ namespace WebMaze
 
             provider.CreateMap<Perrmission, PermissionViewModel>();
             provider.CreateMap<PermissionViewModel, Perrmission>();
+
             provider.CreateMap<MazeLevelWeb, MazeLevel>()
                 .ConstructUsing(x => inMazeLevel(x))
                 .ForMember(maze => maze.Cells, db => db.MapFrom(model => model.Cells))
@@ -231,6 +234,15 @@ namespace WebMaze
             provider.CreateMap<BaseEnemy, MazeEnemyWeb>()
                 .ConstructUsing(x => inEnemyWeb(x));
 
+            provider.CreateMap<GuessTheNumberGameParameters, GuessTheNumberGameParametersViewModel>().ReverseMap();
+
+            provider.CreateMap<GuessTheNumberGame, GuessTheNumberGameViewModel>()
+                .ForMember(
+                    nameof(GuessTheNumberGameViewModel.PlayerName),
+                    opt => opt.MapFrom(game => game.Player.Name));
+            provider.CreateMap<GuessTheNumberGameViewModel, GuessTheNumberGame>();
+
+            provider.CreateMap<GuessTheNumberGameAnswer, GuessTheNumberGameAnswerViewModel>().ReverseMap();
 
             var mapperConfiguration = new MapperConfiguration(provider);
 

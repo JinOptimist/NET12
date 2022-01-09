@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.EfStuff.DbModel.GuessTheNumberDbModel;
 
 namespace WebMaze.EfStuff.DbModel
 {
@@ -23,7 +24,6 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<Review> MyReviews { get; set; }
         public virtual List<Game> MyFavGames { get; set; }
         public virtual List<News> MyNews { get; set; }
-
         public virtual List<Image> Images { get; set; }
         public virtual List<BugReport> MyBugReports { get; set; }
         public virtual List<GameDevices> MyGameDevices { get; set; }
@@ -31,5 +31,6 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<MazeLevelWeb> ListMazeLevels { get; set; }
         public virtual List<NewsComment> NewsComments { get; set; }
         public virtual List<MinerField> MinerFields { get; set; }
+        public virtual List<GuessTheNumberGame> GuessTheNumberGames {get;set;}
     }
 }

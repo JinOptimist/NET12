@@ -1,0 +1,23 @@
+﻿@using WebMaze.Models.GuessTheNumber
+@model GuessTheNumberGameDifficulty
+@using WebMaze.Services.GuessTheNumber.Enums
+<div>
+    Select the difficulty level.
+</div>
+<form action="/GuessTheNumber/StartGame" method="post">
+    <div>
+        <select name="difficulty">
+            <option value="@GuessTheNumberGameDifficulty.Easy">
+                @GuessTheNumberGameDifficulty.Easy.ToString()
+            </option>
+            <option value="@GuessTheNumberGameDifficulty.Medium">
+                @GuessTheNumberGameDifficulty.Medium.ToString()
+            </option>
+            <option value="@GuessTheNumberGameDifficulty.Hard">
+                @GuessTheNumberGameDifficulty.Hard.ToString()
+            </option>
+        </select>
+        
+        <input type="submit" value="Start" />
+    </div>
+</form>
