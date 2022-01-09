@@ -25,10 +25,15 @@ namespace WebMaze.EfStuff
         public DbSet<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
         public DbSet<Perrmission> Perrmissions { get; set; }
         public DbSet<SuggestedEnemys> SuggestedEnemys { get; set; }
+
         public DbSet<MazeLevelWeb> MazeLevelsUser { get; set; }
         public DbSet<MazeCellWeb> CellsModels { get; set; }
         public DbSet<GameDevices> GameDevices { get; set; }
         public DbSet<NewsComment> NewsComments { get; set; }
+        public DbSet<ZumaGameCell> ZumaGameCells { get; set; }
+        public DbSet<ZumaGameColor> ZumaGameColors { get; set; }
+        public DbSet<ZumaGameField> ZumaGameFields { get; set; }
+        public DbSet<ZumaGameDifficult> ZumaGameDifficults { get; set; }
         public DbSet<GuessTheNumberGame> GuessTheNumberGames { get; set; }
         public DbSet<GuessTheNumberGameAnswer> GuessTheNumberGameAnswers { get; set; }
 
@@ -102,6 +107,25 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<News>()
                .HasMany(x => x.NewsComments)
                .WithOne(x => x.News);
+
+            modelBuilder.Entity<ZumaGameField>()
+                .HasMany(x => x.Cells)
+                .WithOne(x => x.Field)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ZumaGameField>()
+                .HasMany(x => x.Palette)
+                .WithOne(x => x.Field)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ZumaGameField>()
+                .HasOne(x => x.Gamer)
+                .WithOne(x => x.ZumaGameField)
+                .HasForeignKey<ZumaGameField>(x => x.GamerId);
+
+            modelBuilder.Entity<ZumaGameDifficult>()
+                .HasOne(x => x.Author)
+                .WithMany(x => x.ZumaGameDifficults);
 
             modelBuilder.Entity<User>().HasMany(x => x.ListMazeLevels).WithOne(x => x.Creator);
             modelBuilder.Entity<MazeLevelWeb>().HasMany(x => x.Cells).WithOne(x => x.MazeLevel);

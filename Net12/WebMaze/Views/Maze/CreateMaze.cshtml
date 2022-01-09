@@ -1,12 +1,6 @@
-﻿@model MazeDifficultProfileViewModel
-@{
-    <style>
-        body {
-            background-image: url("https://kartinkin.net/uploads/posts/2020-09/1600211919_2-p-fon-labirint-4.jpg");
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-    </style>
+﻿@model List<MazeDifficultProfileViewModel>
+@section Sprite{
+<link rel="stylesheet" href="~/css/BuyMaze.css" />
 }
 <div class="backGround-BuyMaze">
     <div class="text-center">
@@ -16,11 +10,11 @@
             </div>
             <div class="DataInput">
                 Maze level:
-                <select size="1">
-                    <option>Чебурашка</option>
-                    <option>Крокодил Гена</option>
-                    <option>Шапокляк</option>
-                    <option>Крыса Лариса</option>
+                <select name="Id" size="1">
+                    @foreach (var maze in Model)
+                    {
+                        <option value="@maze.Id">@maze.Name|Cost:@maze.CoinCount</option>
+                    }
                 </select>
             </div>
             <div>

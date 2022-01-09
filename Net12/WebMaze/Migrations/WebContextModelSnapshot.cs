@@ -785,6 +785,123 @@ namespace WebMaze.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameCell", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("FieldId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("X")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Y")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FieldId");
+
+                    b.ToTable("ZumaGameCells");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameColor", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("FieldId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FieldId");
+
+                    b.ToTable("ZumaGameColors");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameDifficult", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long?>("AuthorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("ColorCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("ZumaGameDifficults");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameField", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ColorCount")
+                        .HasColumnType("int");
+
+                    b.Property<long>("GamerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GamerId")
+                        .IsUnique();
+
+                    b.ToTable("ZumaGameFields");
+                });
+
             modelBuilder.Entity("PerrmissionUser", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.Perrmission", null)
@@ -992,6 +1109,46 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameCell", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.ZumaGameField", "Field")
+                        .WithMany("Cells")
+                        .HasForeignKey("FieldId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Field");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameColor", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.ZumaGameField", "Field")
+                        .WithMany("Palette")
+                        .HasForeignKey("FieldId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Field");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameDifficult", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
+                        .WithMany("ZumaGameDifficults")
+                        .HasForeignKey("AuthorId");
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameField", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Gamer")
+                        .WithOne("ZumaGameField")
+                        .HasForeignKey("WebMaze.EfStuff.DbModel.ZumaGameField", "GamerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Gamer");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GuessTheNumberDbModel.GuessTheNumberGame", b =>
                 {
                     b.Navigation("Answers");
@@ -1052,6 +1209,17 @@ namespace WebMaze.Migrations
                     b.Navigation("MyReviews");
 
                     b.Navigation("NewsComments");
+
+                    b.Navigation("ZumaGameDifficults");
+
+                    b.Navigation("ZumaGameField");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameField", b =>
+                {
+                    b.Navigation("Cells");
+
+                    b.Navigation("Palette");
                 });
 #pragma warning restore 612, 618
         }

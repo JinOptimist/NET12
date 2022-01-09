@@ -17,5 +17,10 @@ namespace WebMaze.EfStuff.Repositories
             var targetImages = _dbSet.Where(x => x.Author != null && x.Author.Id == userId).ToList();
             targetImages.ForEach(x => Remove(x));
         }
+
+        public Image GetImageByDesc(string desc)
+        {
+            return _dbSet.SingleOrDefault(x => x.Description == desc);
+        }
     }
 }

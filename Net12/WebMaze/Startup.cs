@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.DbModel.GuessTheNumberDbModel;
@@ -23,6 +24,7 @@ using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Models.GuessTheNumber;
 using WebMaze.Services;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze
 {
@@ -54,13 +56,19 @@ namespace WebMaze
 
             RegisterMapper(services);
 
-            services.AddScoped<UserService>(x =>
-                new UserService(x.GetService<UserRepository>(), x.GetService<IHttpContextAccessor>())
-            );
+            services.AddScoped<UserService>();
+            services.AddScoped<MinerFiledBuilder>();
+            services.AddScoped<ZumaGameFieldBuilder>();
+
+            services.AddScoped<PayForActionService>();
+
+            services.AddScoped<PayForAddActionFilter>();
 
             services.AddHttpContextAccessor();
 
             services.AddControllersWithViews();
+
+            services.AddSignalR();
         }
 
         private void RegisterRepositoriesAuto(IServiceCollection services)
@@ -141,7 +149,8 @@ namespace WebMaze
                 .ForMember(nameof(Review.Text), opt => opt.MapFrom(viewReview => viewReview.TextInfo))
                 .ForMember(nameof(Review.Creator), opt => opt.MapFrom(viewReview => viewReview.Creator));
 
-            provider.CreateMap<Image, ImageViewModel>();
+            provider.CreateMap<Image, ImageViewModel>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.Name));
 
             provider.CreateMap<ImageViewModel, Image>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
@@ -180,6 +189,17 @@ namespace WebMaze
 
             provider.CreateMap<MazeCellWeb, CellViewModel>();
             provider.CreateMap<CellViewModel, MazeCellWeb>();
+
+            provider.CreateMap<ZumaGameCell, ZumaGameCellViewModel>();
+            provider.CreateMap<ZumaGameCellViewModel, ZumaGameCell>();
+
+            provider.CreateMap<ZumaGameField, ZumaGameFieldViewModel>()
+                .ForMember(nameof(ZumaGameFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
+            provider.CreateMap<ZumaGameFieldViewModel, ZumaGameField>();
+
+            provider.CreateMap<ZumaGameDifficult, ZumaGameDifficultViewModel>()
+                .ForMember(nameof(ZumaGameDifficultViewModel.Author), opt => opt.MapFrom(db => db.Author.Name));
+            provider.CreateMap<ZumaGameDifficultViewModel, ZumaGameDifficult>();
 
             provider.CreateMap<Perrmission, PermissionViewModel>();
             provider.CreateMap<PermissionViewModel, Perrmission>();
@@ -278,7 +298,8 @@ namespace WebMaze
                 
 
             };
-            maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroNowHp) { Money = model.Creator.Coins, CurrentFatigue = model.HeroNowFatigure};
+            maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroMaxHp)
+            { Money = model.Creator.Coins, CurrentFatigue = model.HeroNowFatigure, MaxFatigue = model.HeroMaxFatigure };
             return maze;
         }
         private MazeCellWeb inCellModel(BaseCell cell)
@@ -454,6 +475,11 @@ namespace WebMaze
 
             //Куда мне можно?
             app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<ChatHub>("/chat");
+            });
 
             app.UseEndpoints(endpoints =>
             {

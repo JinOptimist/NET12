@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Net12.Maze;
 using Net12.Maze.Cells;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.Controllers.AuthAttribute;
@@ -12,8 +15,10 @@ using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Models.ValidationAttributes;
 using WebMaze.Services;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze.Controllers
 {
@@ -26,7 +31,20 @@ namespace WebMaze.Controllers
         private CellRepository _cellRepository;
         private UserRepository _userRepository;
         private MazeEnemyRepository _mazeEnemyRepository;
-        public MazeController(MazeDifficultRepository mazzeDifficultRepository, MazeLevelRepository mazeLevelRepository, IMapper mapper, UserService userService, CellRepository cellRepository, UserRepository userRepository = null, MazeEnemyRepository mazeEnemyRepository = null)
+        private readonly PayForActionService _payForActionService;
+        private IHubContext<ChatHub> _chatHub;
+
+        private IHostingEnvironment _environment;
+
+
+        public MazeController(MazeDifficultRepository mazzeDifficultRepository,
+            MazeLevelRepository mazeLevelRepository, IMapper mapper,
+            UserService userService, CellRepository cellRepository,
+            UserRepository userRepository,
+            MazeEnemyRepository mazeEnemyRepository, 
+            PayForActionService payForActionService,
+            IHubContext<ChatHub> chatHub, 
+            IHostingEnvironment environment)
         {
             _mazeDifficultRepository = mazzeDifficultRepository;
             _mapper = mapper;
@@ -35,6 +53,9 @@ namespace WebMaze.Controllers
             _cellRepository = cellRepository;
             _userRepository = userRepository;
             _mazeEnemyRepository = mazeEnemyRepository;
+            _payForActionService = payForActionService;
+            _chatHub = chatHub;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -46,6 +67,10 @@ namespace WebMaze.Controllers
             return View(ListMaze);
         }
 
+        public IActionResult Couple()
+        {
+            return View();
+        }
 
         [HttpGet]
         [Authorize]
@@ -63,7 +88,7 @@ namespace WebMaze.Controllers
             }
 
 
-
+            _chatHub.Clients.All.SendAsync("StartMaze", _userService.GetCurrentUser().Name);
 
             return View(maz);
         }
@@ -101,23 +126,39 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult CreateMaze()
         {
-            return View();
+            var listDifficults = _mazeDifficultRepository.GetAll();
+            var listViewDifficults = new List<MazeDifficultProfileViewModel>();
+            foreach (var complixity in listDifficults)
+            {
+                listViewDifficults.Add(_mapper.Map<MazeDifficultProfileViewModel>(complixity));
+            }
+            return View(listViewDifficults);
         }
         [Authorize]
         [HttpPost]
-        public IActionResult CreateMaze(int s = 3)
+        public IActionResult CreateMaze(MazeDifficultProfileViewModel viewMaze)
         {
-            //TODO: CHOOSE DIFFICULITY
-            //  var maze = new MazeBuilder().Build(10, 10, 100, 100, true);
-            var maze = new MazeBuilder().Build(10, 10, 100, 100,GetCoinsFromMaze, false);
-            var model = _mapper.Map<MazeLevelWeb>(maze);
-            model.IsActive = true;
+            var complixity = _mazeDifficultRepository.Get(viewMaze.Id);
+            if (complixity is null || _userService.GetCurrentUser().Coins <= complixity.CoinCount)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                _userService.GetCurrentUser().Coins -= complixity.CoinCount;
 
-            //TODO: CREATE ABILITY CHOOSE YOUR NAME LEVEL
-            model.Name = "My Maze";
-            model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
-            _mazeLevelRepository.Save(model);
-            return RedirectToAction("Index");
+                var maze = new MazeBuilder().Build(complixity.Width, complixity.Height, complixity.HeroMaxHp, complixity.HeroMaxHp, GetCoinsFromMaze, false);
+                maze.Hero.MaxFatigue = complixity.HeroMaxFatigue;
+
+                var model = _mapper.Map<MazeLevelWeb>(maze);
+                model.IsActive = true;
+                model.Name = viewMaze.Name;
+                model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
+                _mazeLevelRepository.Save(model);
+
+                _chatHub.Clients.All.SendAsync("BuyMaze", _userService.GetCurrentUser().Name, complixity.Name, complixity.CoinCount);
+                return RedirectToAction("Index");
+            }
         }
 
         [Authorize]
@@ -148,13 +189,14 @@ namespace WebMaze.Controllers
 
         [Authorize]
         [IsAdmin]
+        [PayForAddActionFilter(TypesOfPayment.Small)]
         [HttpPost]
         public IActionResult AddMazeDifficult(MazeDifficultProfileViewModel mazeDifficultProfileViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(mazeDifficultProfileViewModel);
-            }
+            }            
 
             var dbMazeDifficult = _mapper.Map<MazeDifficultProfile>(mazeDifficultProfileViewModel);
             dbMazeDifficult.IsActive = true;
@@ -165,6 +207,7 @@ namespace WebMaze.Controllers
             return RedirectToAction("ManageMazeDifficult", "Maze");
         }
 
+        [IsAdmin]
         public IActionResult ManageMazeDifficult()
         {
             var mazeDifficultProfileViewModels = new List<MazeDifficultProfileViewModel>();
@@ -175,10 +218,37 @@ namespace WebMaze.Controllers
             return View(mazeDifficultProfileViewModels);
         }
 
+        [IsAdmin]
         public IActionResult RemoveMazeDifficult(long Id)
         {
             _mazeDifficultRepository.Remove(Id);
             return RedirectToAction("ManageMazeDifficult", "Maze");
+        }
+
+        public IActionResult Wonderful(long difficultId)
+        {
+            var diffcult = _mazeDifficultRepository.Get(difficultId);
+            _payForActionService.CreatorEarnMoney(diffcult.Creater.Id, 10);
+
+            return RedirectToAction("ManageMazeDifficult", "Maze");
+        }
+
+        public IActionResult GetUrlsForCouple()
+        {
+            var path = Path.Combine(_environment.WebRootPath, "imgYellowTeam");
+            var urls =
+                Directory.GetFiles(path)
+                    .Select(x => Path.GetFileNameWithoutExtension(x))
+                    .Where(x => x != "fon" && x != "stoc")
+                    .Select(x => $"/imgYellowTeam/{x}.jpg");
+
+            return Json(urls);
+        }
+
+        public IActionResult CoupleWin(int CardsCount, int Steps)
+        {
+
+            return Json(true);
         }
 
         public void GetCoinsFromMaze(int coins)

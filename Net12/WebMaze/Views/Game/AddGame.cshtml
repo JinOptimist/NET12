@@ -8,10 +8,10 @@
 <div class="add-favGame-page">
     <div class="favGame-links">
         <a href="/Home/Index" class="favGame-link">Back to Home</a>
-        <a href="/Home/FavoriteGames" class="favGame-link">FavGames</a>
+        <a href="/Game/FavoriteGames" class="favGame-link">FavGames</a>
     </div>
     <div>
-        <form action="/Home/AddGame" method="post">
+        <form action="/Game/AddGame" method="post">
             <div class="add-favGame-title">
                 <b>Add your favorite game</b>
             </div>
@@ -31,7 +31,7 @@
                     <textarea class="textarea" name="Genre" cols="30" rows="1"></textarea>
                 </div>
                 <div class="add-favGame-input-forms">
-                    <div>Year of Production:</div> 
+                    <div>Year of Production:</div>
                     <div>@Html.ValidationMessageFor(x => x.YearOfProd)</div>
                     <textarea class="textarea" name="YearOfProd" cols="30" rows="1"></textarea>
                 </div>
@@ -43,22 +43,20 @@
                 <div class="add-favGame-input-forms">
                     <div>Rating (0 to 10):</div>
                     <div class="rating-choose">
-                        <div><input name="Rating" type="radio" value="1">1</div>
-                        <div><input name="Rating" type="radio" value="2">2</div>
-                        <div><input name="Rating" type="radio" value="3">3</div>
-                        <div><input name="Rating" type="radio" value="4">4</div>
-                        <div><input name="Rating" type="radio" checked value="5">5</div>
-                        <div><input name="Rating" type="radio" value="6">6</div>
-                        <div><input name="Rating" type="radio" value="7">7</div>
-                        <div><input name="Rating" type="radio" value="8">8</div>
-                        <div><input name="Rating" type="radio" value="9">9</div>
-                        <div><input name="Rating" type="radio" value="10">10</div>
+                        <div><input name="Rating" type="radio" checked value="0">0</div>
+                        @for (var i = 1; i < 11; i++)
+                        {
+                            <div><input name="Rating" type="radio" value="@i">@i</div>                           
+                        }
+                    </div>                       
+                        <div>
+                            @Html.ValidationSummary(true)
+                        </div>
+                    </div>
+                    <div class="add-favGame-input-forms">
+                        <input type="submit" class="input" value="Save" />
                     </div>
                 </div>
-                <div class="add-favGame-input-forms">
-                    <input type="submit" class="input" value="Save" />
-                </div>
-            </div>
         </form>
     </div>
 </div>
