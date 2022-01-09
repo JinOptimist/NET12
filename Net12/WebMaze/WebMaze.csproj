@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\ZumaGame\Game.cshtml" />
     <None Include="wwwroot\images\cells\tavern.png" />
   </ItemGroup>
 

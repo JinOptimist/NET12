@@ -18,6 +18,14 @@
         addMessage(name, `${name}: bought ${nameLevel} level at a price ${cost}`);
     });
 
+    hubConnection.on("ZumaGameWin", function (name) {
+        addMessage(`User '${name}' WIN in ZumaGame`);
+    });
+
+    hubConnection.on("ZumaGameLose", function (name) {
+        addMessage(`User '${name}' LOSE in ZumaGame`);
+    });
+
     function addMessage(userName, text) {
         var messageBlock = $('<div>');
         messageBlock.addClass('message');
@@ -44,6 +52,7 @@
         hubConnection.invoke("NewMessage", message);
         $('.new-message').val('');
     });
+
 
     hubConnection.start();
 });

@@ -24,6 +24,7 @@ namespace WebMaze.EfStuff
                 SeedNews(scope);
                 SeedPermissions(scope);
                 SeedGallery(scope);
+                SeedZumaGameDifficult(scope);
             }
 
             return host;
@@ -147,6 +148,30 @@ namespace WebMaze.EfStuff
                 };
                 imageRepository.Save(image);
             }
+        }
+
+        private static void SeedZumaGameDifficult(IServiceScope scope)
+        {
+            var zumaGameDifficult = scope.ServiceProvider.GetService<ZumaGameDifficultRepository>();
+            var defaultDifficults = zumaGameDifficult.GetAll();
+
+            var userAdmin = scope.ServiceProvider.GetService<UserRepository>().GetUserByName(DefaultAdminName);
+
+            if (!defaultDifficults.Any())
+            {
+                var defaultDifficult = new ZumaGameDifficult()
+                {
+                    Width = 10,
+                    Height = 10,
+                    ColorCount = 3,
+                    Price = 100,
+                    IsActive = true,
+                    Author = userAdmin
+                };
+
+                zumaGameDifficult.Save(defaultDifficult);
+            }
+
         }
     }
 }

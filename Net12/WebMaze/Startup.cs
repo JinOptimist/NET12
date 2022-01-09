@@ -56,6 +56,7 @@ namespace WebMaze
 
             services.AddScoped<UserService>();
             services.AddScoped<MinerFiledBuilder>();
+            services.AddScoped<ZumaGameFieldBuilder>();
 
             services.AddScoped<PayForActionService>();
 
@@ -186,6 +187,17 @@ namespace WebMaze
 
             provider.CreateMap<MazeCellWeb, CellViewModel>();
             provider.CreateMap<CellViewModel, MazeCellWeb>();
+
+            provider.CreateMap<ZumaGameCell, ZumaGameCellViewModel>();
+            provider.CreateMap<ZumaGameCellViewModel, ZumaGameCell>();
+
+            provider.CreateMap<ZumaGameField, ZumaGameFieldViewModel>()
+                .ForMember(nameof(ZumaGameFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
+            provider.CreateMap<ZumaGameFieldViewModel, ZumaGameField>();
+
+            provider.CreateMap<ZumaGameDifficult, ZumaGameDifficultViewModel>()
+                .ForMember(nameof(ZumaGameDifficultViewModel.Author), opt => opt.MapFrom(db => db.Author.Name));
+            provider.CreateMap<ZumaGameDifficultViewModel, ZumaGameDifficult>();
 
             provider.CreateMap<Perrmission, PermissionViewModel>();
             provider.CreateMap<PermissionViewModel, Perrmission>();
