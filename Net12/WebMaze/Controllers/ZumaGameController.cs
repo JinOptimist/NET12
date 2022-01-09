@@ -208,6 +208,10 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddDifficult(ZumaGameDifficultViewModel zumaGameDifficultViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(zumaGameDifficultViewModel);
+            }
 
             var author = _userService.GetCurrentUser();
 
