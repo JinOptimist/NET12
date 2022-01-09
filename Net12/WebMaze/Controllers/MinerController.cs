@@ -54,6 +54,10 @@ namespace WebMaze.Controllers
                 field.IsWon = true;
             }
             var fieldViewModel = _mapper.Map<MinerFieldViewModel>(field);
+            /*if (!field.IsOver && !field.IsWon)
+            {
+                return null;
+            } else*/
             return View(fieldViewModel);
         }
 
@@ -74,13 +78,42 @@ namespace WebMaze.Controllers
             return RedirectToAction("Game", new { id = cell.Field.Id });
         }
 
+        public IActionResult SetFlag(long idCell)
+        {
+            var cell = _minerCellRepository.Get(idCell);
+            cell.IsFlag = !(cell.IsFlag);
+            _minerCellRepository.Save(cell);
+
+            return Json(true);
+        }
+
+        public IActionResult OpenNearWithFlags(long idCell)
+        {
+            var cell = _minerCellRepository.Get(idCell);
+            var countt = _minerFiledBuilder.GetNear(cell.Field.Cells, cell).Where(cell => cell.IsFlag).Count();
+            if (cell.NearBombsCount == countt)
+            {
+                OpenNearWhenBombCountNull(cell);
+            }
+
+          /*  var id = cell.Field.Id;
+            var field = _minerFieldRepository.Get(id);
+            var fieldViewModel = _mapper.Map<MinerFieldViewModel>(field);
+            return View(fieldViewModel);*/
+
+            return Json(true);
+        }
+
         private void OpenNearWhenBombCountNull(MinerCell cell)
         {
-            var cellsToOpen = _minerFiledBuilder.GetNear(cell.Field.Cells, cell).Where(cell => cell.IsOpen == false);
+            var cellsToOpen = _minerFiledBuilder.GetNear(cell.Field.Cells, cell).Where(cell => !cell.IsOpen);
 
             foreach (var cellToOpen in cellsToOpen)
             {
-                cellToOpen.IsOpen = true;
+                if (!cellToOpen.IsFlag)
+                {
+                    cellToOpen.IsOpen = true;
+                }
                 _minerCellRepository.Save(cellToOpen);
                 if (cellToOpen.NearBombsCount == 0)
                 {

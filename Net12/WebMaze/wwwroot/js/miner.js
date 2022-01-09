@@ -1,18 +1,42 @@
 ﻿"use strict";
-document.body.oncontextmenu = function (e) {
+/*document.body.oncontextmenu = function (e) {
     return false;
+};*/
+
+
+function setFlag(cellId) {
+    let data = {
+        idCell: cellId
+    };
+    $.post('/Miner/SetFlag', data)
+        .done(function () {
+            location.reload();
+        });
 };
 
-let img1 = new Image();
-img1.src = '../../../images/miner_buttons/miner_button.png';
-let img2 = new Image();
-img2.src = '../../../images/miner_buttons/miner_flag.png';
+function clicked() {
+    $('#press').load(document.URL + ' #press');
+}
+
+function openNear(cellId) {
+    let data = {
+        idCell: cellId
+    };
+    $.post('/Miner/OpenNearWithFlags', data)
+        .done(function () {
+            location.reload();
+            location.reload();
+        });
+};
+
 
 let i = 0;
 let k = 0;
 let h = 0;
 
 let timer = 0;
+
+
 let cl1 = new Image(); cl1.src = '../../../images/miner_buttons/d1.png';
 let cl2 = new Image(); cl2.src = '../../../images/miner_buttons/d2.png';
 let cl3 = new Image(); cl3.src = '../../../images/miner_buttons/d3.png';
@@ -25,30 +49,7 @@ let cl9 = new Image(); cl9.src = '../../../images/miner_buttons/d9.png';
 let cl0 = new Image(); cl0.src = '../../../images/miner_buttons/d0.png';
 let clock_numbers = new Array(cl0, cl1, cl2, cl3, cl4, cl5, cl6, cl7, cl8, cl9);
 
-function setFlag(obj) {
-    if (obj.src == img1.src) {
-        obj.src = img2.src;
-    } else {
-        obj.src = img1.src;
-    }
-};
 
-function funcEdit(cellId) {
-    $.post()
-
-
-    /*$.ajax({
-        type: "POST",
-        url: "../../hey.php",
-        data: { cellId: cellId },
-        success: function () {
-            alert("yeah");
-        },
-        error: function () {
-            alert("some error");
-        }
-    });*/
-};
 
 
 

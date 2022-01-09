@@ -39,6 +39,12 @@
     font-size: 150px;
 }
 
+.miner-elements {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
 .playspace {
     left: 45px;
     top: 113px;
@@ -71,184 +77,130 @@
     color: transparent;
 }
 
-.eb0 {
-    left: 0px;
+.miner-element0 {
+    left: 0px; 
     top: 4px;
     width: 4px;
     height: 408px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb1 {
+.miner-element1 {
     left: 0px;
     top: 0px;
     width: 324px;
     height: 4px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb2 {
+.miner-element2 {
     left: 4px;
     top: 412px;
     width: 320px;
     height: 4px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb3 {
+.miner-element3 {
     left: 324px;
     top: 4px;
     width: 4px;
     height: 412px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb4 {
+.miner-element4 {
     left: 324px;
     top: 0px;
     width: 4px;
     height: 4px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb5 {
+.miner-element5 {
     left: 0px;
     top: 412px;
     width: 4px;
     height: 4px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb6 {
+.miner-element6 {
     left: 16px;
     top: 20px;
     width: 4px;
     height: 68px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb7 {
+.miner-element7 {
     left: 16px;
     top: 16px;
     width: 292px;
     height: 4px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb8 {
+.miner-element8 {
     left: 20px;
     top: 88px;
     width: 288px;
     height: 4px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb9 {
+.miner-element9 {
     left: 308px;
     top: 20px;
     width: 4px;
     height: 72px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb10 {
+.miner-element10 {
     left: 308px;
     top: 16px;
     width: 4px;
     height: 4px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb11 {
+.miner-element11 {
     left: 16px;
     top: 88px;
     width: 4px;
     height: 4px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb12 {
+.miner-element12 {
     left: 16px;
     top: 108px;
     width: 4px;
     height: 288px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb13 {
+.miner-element13 {
     left: 16px;
     top: 104px;
     width: 292px;
     height: 4px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb14 {
+.miner-element14 {
     left: 20px;
     top: 396px;
     width: 288px;
     height: 4px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb15 {
+.miner-element15 {
     left: 308px;
     top: 108px;
     width: 4px;
     height: 292px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb16 {
+.miner-element16 {
     left: 308px;
     top: 104px;
     width: 4px;
     height: 4px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.eb17 {
+.miner-element17 {
     left: 16px;
     top: 396px;
     width: 4px;
     height: 4px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
 .face {
@@ -256,78 +208,39 @@
     top: 28px;
     width: 52px;
     height: 52px;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.dd0 {
+.miner-numbers {
+    top: 30px;
+    width: 26px;
+    height: 46px;
+}
+
+.miner-number0 {
     left: 30px;
-    top: 30px;
-    width: 26px;
-    height: 46px;
-    visibility: visible;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.dd1 {
+.miner-number1 {
     left: 56px;
-    top: 30px;
-    width: 26px;
-    height: 46px;
-    visibility: visible;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.dd2 {
+.miner-number2 {
     left: 82px;
-    top: 30px;
-    width: 26px;
-    height: 46px;
-    visibility: visible;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.dd3 {
+.miner-number3 {
     left: 220px;
-    top: 30px;
-    width: 26px;
-    height: 46px;
-    visibility: visible;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.dd4 {
+.miner-number4 {
     left: 246px;
-    top: 30px;
-    width: 26px;
-    height: 46px;
-    visibility: visible;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.dd5 {
+.miner-number5 {
     left: 272px;
-    top: 30px;
-    width: 26px;
-    height: 46px;
-    visibility: visible;
-    position: absolute;
-    padding: 0;
-    margin: 0;
 }
 
-.aaa {
+.miner-all {
     position: fixed;
     left: 0;
     width: 100%;
