@@ -64,7 +64,7 @@
                         {
                             var str = cell.NearBombsCount.ToString();
                             var minerSource = "../../images/miner_buttons/t" + str + ".png";
-                            <img src="@minerSource" width="29" onclick="openNear(@cell.Id)"/>;
+                            <img src="@minerSource" width="29"/>;
                         }
                     }
                 else
@@ -73,11 +73,11 @@
                     {
                         if (@cell.IsFlag)
                         {
-                            <a href="/Miner/Step?id=@cell.Id"> <img src="~/images/miner_buttons/miner_flag.png" width="29" onclick="time1(); time2(); time3();" oncontextmenu="setFlag(@cell.Id)" /></a>
+                            <a href="/Miner/Step?id=@cell.Id"> <img src="~/images/miner_buttons/miner_flag.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
                         }
                         else
                         {
-                            <a href="/Miner/Step?id=@cell.Id" onclick="time1(); time2(); time3();"> <img src="~/images/miner_buttons/miner_button.png" width="29" onclick="time1(); time2(); time3();" oncontextmenu="setFlag(@cell.Id)" /></a>
+                            <a href="/Miner/Step?id=@cell.Id" onclick="time1(); time2(); time3();"> <img src="~/images/miner_buttons/miner_button.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
                         }
                     }
                     else

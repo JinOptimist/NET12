@@ -1,7 +1,7 @@
 ﻿"use strict";
-/*document.body.oncontextmenu = function (e) {
+document.body.oncontextmenu = function (e) {
     return false;
-};*/
+};
 
 
 function setFlag(cellId) {
@@ -14,11 +14,11 @@ function setFlag(cellId) {
         });
 };
 
-function clicked() {
+/*function clicked() {
     $('#press').load(document.URL + ' #press');
-}
+}*/
 
-function openNear(cellId) {
+/*function openNear(cellId) {
     let data = {
         idCell: cellId
     };
@@ -27,7 +27,7 @@ function openNear(cellId) {
             location.reload();
             location.reload();
         });
-};
+};*/
 
 
 let i = 0;
