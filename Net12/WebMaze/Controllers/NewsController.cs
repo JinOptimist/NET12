@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Services;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze.Controllers
 {
@@ -20,15 +22,20 @@ namespace WebMaze.Controllers
         private NewsRepository _newsRepository;
         private IMapper _mapper;
         private UserService _userService;
+        private IHubContext<ChatHub> _chatHub;
 
         public NewsController(UserRepository userRepository,
             NewsRepository newsRepository,
-            IMapper mapper, UserService userService)
+            IMapper mapper, 
+            UserService userService,
+            IHubContext<ChatHub> chatHub)
         {
             _newsRepository = newsRepository;
             _userRepository = userRepository;
             _mapper = mapper;
             _userService = userService;
+            _chatHub = chatHub;
+
         }
 
         public IActionResult Index()
@@ -76,7 +83,9 @@ namespace WebMaze.Controllers
         public IActionResult RemoveNews(long newsId)
         {
             _newsRepository.Remove(newsId);
+            _chatHub.Clients.All.SendAsync("Remove news", _userService.GetCurrentUser().Name);
             return RedirectToAction("Index", "News");
+
         }
     }
 }
