@@ -11,8 +11,7 @@
             $(".area-to-change-color").addClass("click-to-change-color");
         }
     });
-    //".area-to-change-color"
-    //'.area-to-change-color'
+
 });
 
 
