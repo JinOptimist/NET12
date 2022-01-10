@@ -25,6 +25,10 @@ body {
     color: white;
 }
 
+.change-background-color {
+    background-color: #d2ddb8;
+}
+
 .title {
     display: flex;
     justify-content: center;
