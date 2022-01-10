@@ -7,10 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Services;
 using WebMaze.SignalRHubs;
 
@@ -22,6 +24,7 @@ namespace WebMaze.Controllers
         private BugReportRepository _bugReportRepository;
         private IMapper _mapper;
         private UserService _userService;
+        private readonly PayForActionService _payForActionService;
 
         private IHubContext<ChatHub> _chatHub;
 
@@ -35,6 +38,7 @@ namespace WebMaze.Controllers
             _bugReportRepository = bugReportRepository;
             _mapper = mapper;
             _userService = userService;
+            _payForActionService = payForActionService;
             _chatHub = chatHub;
         }
         public IActionResult BugReports()
@@ -57,13 +61,14 @@ namespace WebMaze.Controllers
         }
 
         [Authorize]
+        [PayForAddActionFilter(TypesOfPayment.Medium)]
         [HttpPost]
         public IActionResult AddBugReport(BugReportViewModel bugReportViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(bugReportViewModel);
-            }
+            }           
 
             var creater = _userService.GetCurrentUser();
 
@@ -78,5 +83,12 @@ namespace WebMaze.Controllers
             return RedirectToAction("BugReports", "BugReport");
         }
 
+        public IActionResult Wonderful(long bugReportId)
+        {
+            var bugReport = _bugReportRepository.Get(bugReportId);
+            _payForActionService.CreatorEarnMoney(bugReport.Creater.Id, 10);
+
+            return RedirectToAction("BugReports", "BugReport");
+        }
     }
 }

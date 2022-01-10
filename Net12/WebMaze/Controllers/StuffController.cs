@@ -5,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers
@@ -18,15 +20,18 @@ namespace WebMaze.Controllers
         private StuffRepository _staffForHeroRepository;
         private IMapper _mapper;
         private UserService _userService;
+        private readonly PayForActionService _payForActionService;
 
         public StuffController(UserRepository userRepository,
             StuffRepository stuffForHeroRepository,
-            IMapper mapper, UserService userService)
+            IMapper mapper, UserService userService,
+            PayForActionService payForActionService)
         {
             _staffForHeroRepository = stuffForHeroRepository;
             _userRepository = userRepository;
             _mapper = mapper;
             _userService = userService;
+            _payForActionService = payForActionService;
         }
 
         public IActionResult Stuff()
@@ -47,6 +52,7 @@ namespace WebMaze.Controllers
         }
 
         [Authorize]
+        [PayForAddActionFilter(TypesOfPayment.Huge)]
         [HttpPost]
         public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
         {
@@ -70,6 +76,14 @@ namespace WebMaze.Controllers
         {
             _staffForHeroRepository.Remove(stuffId);
             return RedirectToAction("Stuff");
+        }
+
+        public IActionResult Wonderful(long stuffId)
+        {
+            var stuff = _staffForHeroRepository.Get(stuffId);
+            _payForActionService.CreatorEarnMoney(stuff.Proposer.Id, 10);
+
+            return RedirectToAction("Stuff", "Stuff");
         }
     }
 }

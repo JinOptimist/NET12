@@ -1,0 +1,48 @@
+﻿@model ZumaGameIndexViewModel
+
+<div class="menu-zumagame-difficult">
+    <a href="/ZumaGame/AddDifficult">Add ZumaGame Difficult</a>
+</div>
+
+<div>
+    Profile Coins: @Model.Coins
+</div>
+
+<div class="big-center-font">
+    @if (Model.Continue)
+    {
+        <a href="/ZumaGame/ContinueGame">Continue Game</a>
+    }
+</div>
+<div>
+
+    @foreach (var difficult in Model.ViewModels)
+    {
+        <div class="manage-zumagame-difficult">
+            <div>
+                Author: @difficult.Author
+            </div>
+            <div>
+                Width: @difficult.Width
+            </div>
+            <div>
+                Height: @difficult.Height
+            </div>
+            <div>
+                ColorCount: @difficult.ColorCount
+            </div>
+            <div>
+                Price: @difficult.Price
+            </div>
+            <a href="/ZumaGame/RemoveDifficult?difficultId=@difficult.Id">X</a>
+
+            <a href="/ZumaGame/AddDifficult?difficultId=@difficult.Id">E</a>
+
+            @if (!Model.Continue && Model.Coins >= difficult.Price)
+            {
+                <a href="/ZumaGame/NewGame?difficultId=@difficult.Id">New Game</a>
+
+            }
+        </div>
+    }
+</div>

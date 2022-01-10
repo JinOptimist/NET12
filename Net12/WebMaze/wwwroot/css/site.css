@@ -187,14 +187,22 @@ body {
     border-radius: 10px;
 }
 
+.messages{
+    height: 100px;
+    overflow-y: auto;
+}
 
-.main-content{
+.main-content {
     display: flex;
 }
 
-.chat{
+.chat {
     background: #ccc;
     width: 300px;
-    height: 100px;
     border-radius: 20px;
+}
+
+.user-name{
+    color: aqua;
+    margin-right: 10px;
 }

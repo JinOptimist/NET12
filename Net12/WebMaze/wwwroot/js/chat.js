@@ -5,29 +5,58 @@
 
     //Что делать, когда пршло новое сообщение
     hubConnection.on("NewMessage", function (message, name) {
-        addMessage(`${name}: ${message}`);
+        addMessage(name, message);
     });
 
     hubConnection.on("Enter", function (name) {
-        addMessage(`User '${name}' enter to site`);
+        addMessage(name, `enter to site`);
+    });
+    hubConnection.on("StartMaze", function (name) {
+        addMessage(name, `User '${name}' start play in Maze game`);
+    });
+    hubConnection.on("BuyMaze", function (name, nameLevel, cost) {
+        addMessage(name, `${name}: bought ${nameLevel} level at a price ${cost}`);
+    });
+
+    hubConnection.on("ZumaGameWin", function (name) {
+        addMessage(`User '${name}' WIN in ZumaGame`);
+    });
+
+    hubConnection.on("ZumaGameLose", function (name) {
+        addMessage(`User '${name}' LOSE in ZumaGame`);
     });
 
     hubConnection.on("NewBugReport", function (name) {
         addMessage(`User '${name}' add new bug!`);
     });
 
-    function addMessage(text) {
+    function addMessage(userName, text) {
         var messageBlock = $('<div>');
-        messageBlock.text(text);
         messageBlock.addClass('message');
+
+        var authorSpan = $('<span>');
+        authorSpan.addClass('user-name');
+        authorSpan.text(userName);
+        messageBlock.append(authorSpan);
+
+        var textSpan = $('<span>');
+        textSpan.addClass('message-text');
+        textSpan.text(text);
+        messageBlock.append(textSpan);
+        
         $('.messages').append(messageBlock);
+
+        const topPosition = $(".message:last").position().top;
+        $(".messages").animate({ scrollTop: topPosition }, 300);
     }
 
     //Отправить новое сообщзение на сервер
     $('.send-message').click(function () {
         let message = $('.new-message').val();
         hubConnection.invoke("NewMessage", message);
+        $('.new-message').val('');
     });
+
 
     hubConnection.start();
 });
