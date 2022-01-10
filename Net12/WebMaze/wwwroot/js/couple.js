@@ -4,6 +4,7 @@
 
     let steps = 0;
     let openedCardsCount = 0;
+    let rotationTime= 1000;
 
     init();
 
@@ -37,6 +38,8 @@
                     newCardBlock.attr('data-id', i);
 
                     $('.game-field').append(newCardBlock);
+
+                    setTimeout(function () { spin(newCardBlock, 'X'); }, 2000);
                 }
             });
     }
@@ -45,16 +48,14 @@
         steps++;
         const cardBlock = $(this);
         if (indexOfOpenedCard == undefined) {
-            cardBlock.find('.main-image').toggle();
-            cardBlock.find('.cover').toggle();
+            spin(cardBlock);
             indexOfOpenedCard = cardBlock.data('id');
             return;
         }
 
         let clickedId = cardBlock.data('id');
         if (indexOfOpenedCard == clickedId) {
-            cardBlock.find('.main-image').toggle();
-            cardBlock.find('.cover').toggle();
+            spin(cardBlock);
             indexOfOpenedCard = undefined;
             return;
         }
@@ -64,10 +65,14 @@
 
         const firstCardBlock = $(`[data-id=${indexOfOpenedCard}]`);
 
-        cardBlock.find('.main-image').toggle();
-        cardBlock.find('.cover').toggle();
+        spin(cardBlock);
 
         if (alreadyOpenedUrl == clicekdUrl) {
+            setTimeout(function () {
+                spin(firstCardBlock);
+                spin(cardBlock);
+            }, rotationTime * 2);
+
             setTimeout(function () {
                 firstCardBlock.find('.main-image').remove();
                 firstCardBlock.find('.cover').remove();
@@ -78,15 +83,12 @@
                 openedCardsCount += 2;
 
                 checkWin();
-            }, 1000);
+            }, rotationTime * 3);
         } else {
             setTimeout(function () {
-                firstCardBlock.find('.main-image').toggle();
-                firstCardBlock.find('.cover').toggle();
-
-                cardBlock.find('.main-image').toggle();
-                cardBlock.find('.cover').toggle();
-            }, 1000);
+                spin(firstCardBlock);
+                spin(cardBlock);
+            }, rotationTime * 2);
         }
 
         indexOfOpenedCard = undefined;
@@ -104,6 +106,28 @@
                     location.href = '/Home/Index';
                 });
         }
+    }
+
+    function spin(block) {
+        let side = (block.data('id') - 0) % 2 == 0 ? 'X' : 'Y';
+        rotation(block, 90, side, function () {
+            block.css('transform', `rotate${side}(-90deg)`);
+
+            block.find('.main-image').toggle();
+            block.find('.cover').toggle();
+
+            rotation(block, 0, side);
+        });
+    }
+
+    function rotation(block, toAngle, side, complete) {
+        block.animate({ now: toAngle }, {
+            duration: rotationTime,
+            step: function (now, fx) {
+                block.css('transform', `rotate${side}(${now}deg)`);
+            },
+            complete: complete
+        });
     }
 });
 

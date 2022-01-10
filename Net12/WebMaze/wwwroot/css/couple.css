@@ -8,6 +8,10 @@
 }
 
 .main-image{
+    /*display: none;*/
+}
+
+.cover {
     display: none;
 }
 
