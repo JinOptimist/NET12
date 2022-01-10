@@ -2,7 +2,7 @@
 
     $('p').click(function () {
 
-        $('body').toggleClass('clicked');
+        $('.goldmine-info').toggleClass('clicked');
 
     });
 

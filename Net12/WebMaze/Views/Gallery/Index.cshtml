@@ -1,5 +1,9 @@
 ﻿@model List<ImageViewModel>
 
+@section Scripts{ 
+    <script src="~/js/gallery.js"></script>
+} 
+
 <div class="whole-page">
 
     <div class="text-center">
@@ -10,7 +14,7 @@
             {
                 <div>
                     <div>
-                        <img src="@image.Picture">
+                        <img class="image" src="@image.Picture">
                     </div>
                     <div class="t-to-gallery">
                         @image.Assessment
@@ -20,10 +24,9 @@
                     </div>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <div>                                                       
-                            @*<button class="good-button" onclick="location.href = '@Url.Action("Wonderful", new { @imageId = image.Id })'">Wonderful</button>*@
-                                <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" class="good-button">Wonderful</a>                                                                                   
-                                <button class="bad-button">Awful</button>
+                        <div>
+                            <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" class="good-button">Wonderful</a>
+                            <button class="bad-button">Awful</button>
                         </div>
                     }
 
