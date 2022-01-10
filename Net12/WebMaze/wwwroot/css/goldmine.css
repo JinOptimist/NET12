@@ -7,11 +7,11 @@
     margin: 0 0 15px 0;
 }
 
-body {
+.goldmine-info {
     background-color: papayawhip;
 }
 
-body.clicked {
+.goldmine-info.clicked {
     background-color: aqua;
 }
 
