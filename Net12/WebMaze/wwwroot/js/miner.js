@@ -18,7 +18,7 @@ function setFlag(cellId) {
     $('#press').load(document.URL + ' #press');
 }*/
 
-/*function openNear(cellId) {
+function openNear(cellId) {
     let data = {
         idCell: cellId
     };
@@ -27,7 +27,7 @@ function setFlag(cellId) {
             location.reload();
             location.reload();
         });
-};*/
+};
 
 
 let i = 0;
