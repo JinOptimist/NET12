@@ -75,3 +75,21 @@
     border: ridge;
     color: floralwhite;
 }
+
+
+
+.carousel-whole-page {
+    background-image: url(/images/galleryImg/back.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.two-picture > div img {
+    max-height: 200px;
+    max-width: 200px;
+}
