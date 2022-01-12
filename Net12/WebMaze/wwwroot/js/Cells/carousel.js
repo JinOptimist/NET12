@@ -5,7 +5,7 @@
     $.get('/CellInfo/GetImage')
         .done(function (urls) {
 
-            width = $('.carousel-block span').css('width');
+            width = $('.carousel-image').css('width');
 
             setImage();
 
