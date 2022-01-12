@@ -64,7 +64,7 @@
                         {
                             var str = cell.NearBombsCount.ToString();
                             var minerSource = "../../images/miner_buttons/t" + str + ".png";
-                            <img src="@minerSource" onclick="openNear(@cell.Id)" width="29"/>;
+                            <img src="@minerSource" onclick="openNearWithFlags(@cell.Id)" width="29"/>;
                         }
                     }
                 else

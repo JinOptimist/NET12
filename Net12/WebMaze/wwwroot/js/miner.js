@@ -3,7 +3,6 @@ document.body.oncontextmenu = function (e) {
     return false;
 };
 
-
 function setFlag(cellId) {
     let data = {
         idCell: cellId
@@ -14,11 +13,7 @@ function setFlag(cellId) {
         });
 };
 
-/*function clicked() {
-    $('#press').load(document.URL + ' #press');
-}*/
-
-function openNear(cellId) {
+function openNearWithFlags(cellId) {
     let data = {
         idCell: cellId
     };
@@ -28,6 +23,18 @@ function openNear(cellId) {
             location.reload();
         });
 };
+
+timer();
+
+function timer() {
+    $.get('/Miner/SetUpTimerForStartedGame')
+        .done(function (fieldId) {
+            if (!localStorage.getItem(fieldId)) {
+
+            }
+        })
+    };
+
 
 
 let i = 0;
