@@ -1,0 +1,23 @@
+﻿.number {
+    width: 100px;
+    height: 100px;
+    background-color:darkgreen;
+    display: inline-block;
+    margin: 2px;
+    border-block-color:darkseagreen;
+    border-style: outset;
+}
+
+.square {
+
+}
+
+.container15 {
+    display: flex;
+    height: calc(100vh - 116px);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    background-image: url(/images/play15Img/background.jpg);
+}

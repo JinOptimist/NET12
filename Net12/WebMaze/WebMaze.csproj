@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\galleryImg\" />
+    <Folder Include="wwwroot\images\play15Img\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
   </ItemGroup>
 
