@@ -7,7 +7,8 @@
 
             width = $('.carousel-image').css('width');
 
-            setImage();
+            setPrevImage();
+            setNextImage();
 
             $('.carousel-image').click(function () {
 
@@ -17,6 +18,8 @@
                 },
                     2000,
                     function () {
+
+                        setPrevImage();
                     });
 
                 $('.next-image').animate({
@@ -26,14 +29,16 @@
                     2000,
                     function () {
 
-                        setImage();
-
+                        setNextImage();
                     });
             });
 
-            function setImage() {
+            function setPrevImage() {
 
                 $('.current-image').attr('src', urls[steps]).css('width', width);
+            }
+
+            function setNextImage() {
 
                 if (steps >= urls.length - 1) {
 
