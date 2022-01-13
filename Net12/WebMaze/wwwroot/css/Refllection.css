@@ -1,0 +1,18 @@
+﻿.spoiler-trigger{
+	color: #0b70db;
+	text-decoration: none;
+	padding-left: 15px;	
+}
+.spoiler-trigger.active{
+	background-image:url();
+}
+.spoiler-trigger>span{
+	border-bottom: 1px dashed #0b70db;
+	padding:0 3px;
+}
+.spoiler-trigger:hover>span{
+	border-bottom-style: solid;
+}
+.spoiler-block{
+	display: none;
+}
