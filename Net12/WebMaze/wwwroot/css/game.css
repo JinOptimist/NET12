@@ -4,6 +4,27 @@
     background-attachment: fixed;
 }
 
+.add-favGame-preview {
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(5px) brightness(40%);
+}
+
+.add-favGame-objects {
+    display: flex;
+    justify-content: space-around;
+}
+
+.favGame-preview-title-main {
+    font-size: 40px;
+    color: white;
+}
+
+.favGame-preview-title {
+    font-size: 20px;
+    color: white;
+}
+
 .title-favGame {
     display: inline-flex;
     font-size: 40px;

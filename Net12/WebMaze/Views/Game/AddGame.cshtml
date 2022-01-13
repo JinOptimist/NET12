@@ -4,6 +4,9 @@
     Layout = "~/Views/Shared/_LayoutFavGames.cshtml";
 }
 
+@section Scripts{
+    <script src="~/js/addFavGamePreview.js"></script>
+}
 
 <div class="add-favGame-page">
     <div class="favGame-links">
@@ -16,39 +19,41 @@
                 <b>Add your favorite game</b>
             </div>
 
-            <div class="add-favGame-form">
-                <div class="add-favGame-desc">
-                    You can add your favorite game here.
-                </div>
-                <div class="add-favGame-input-forms">
-                    <div>Title:</div>
-                    <div>@Html.ValidationMessageFor(x => x.Name)</div>
-                    <textarea class="textarea" name="Name" cols="30" rows="1"></textarea>
-                </div>
-                <div class="add-favGame-input-forms">
-                    <div>Genre:</div>
-                    <div>@Html.ValidationMessageFor(x => x.Genre)</div>
-                    <textarea class="textarea" name="Genre" cols="30" rows="1"></textarea>
-                </div>
-                <div class="add-favGame-input-forms">
-                    <div>Year of Production:</div>
-                    <div>@Html.ValidationMessageFor(x => x.YearOfProd)</div>
-                    <textarea class="textarea" name="YearOfProd" cols="30" rows="1"></textarea>
-                </div>
-                <div class="add-favGame-input-forms">
-                    <div>@Html.ValidationMessageFor(x => x.Desc)</div>
-                    <div>Description:</div>
-                    <textarea class="textarea" name="Desc" cols="30" rows="1"></textarea>
-                </div>
-                <div class="add-favGame-input-forms">
-                    <div>Rating (0 to 10):</div>
-                    <div class="rating-choose">
-                        <div><input name="Rating" type="radio" checked value="0">0</div>
-                        @for (var i = 1; i < 11; i++)
-                        {
-                            <div><input name="Rating" type="radio" value="@i">@i</div>                           
-                        }
-                    </div>                       
+            <div class="add-favGame-objects">
+
+                <div class="add-favGame-form">
+                    <div class="add-favGame-desc">
+                        You can add your favorite game here.
+                    </div>
+                    <div class="add-favGame-input-forms">
+                        <div>Title:</div>
+                        <div>@Html.ValidationMessageFor(x => x.Name)</div>
+                        <textarea class="textarea" name="Name" cols="30" rows="1"></textarea>
+                    </div>
+                    <div class="add-favGame-input-forms">
+                        <div>Genre:</div>
+                        <div>@Html.ValidationMessageFor(x => x.Genre)</div>
+                        <textarea class="textarea" name="Genre" cols="30" rows="1"></textarea>
+                    </div>
+                    <div class="add-favGame-input-forms">
+                        <div>Year of Production:</div>
+                        <div>@Html.ValidationMessageFor(x => x.YearOfProd)</div>
+                        <textarea class="textarea" name="YearOfProd" cols="30" rows="1"></textarea>
+                    </div>
+                    <div class="add-favGame-input-forms">
+                        <div>@Html.ValidationMessageFor(x => x.Desc)</div>
+                        <div>Description:</div>
+                        <textarea class="textarea" name="Desc" cols="30" rows="1"></textarea>
+                    </div>
+                    <div class="add-favGame-input-forms">
+                        <div>Rating (0 to 10):</div>
+                        <div class="rating-choose">
+                            <div><input name="Rating" type="radio" checked value="0">0</div>
+                            @for (var i = 1; i < 11; i++)
+                            {
+                                <div><input name="Rating" type="radio" value="@i">@i</div>
+                            }
+                        </div>
                         <div>
                             @Html.ValidationSummary(true)
                         </div>
@@ -57,6 +62,17 @@
                         <input type="submit" class="input" value="Save" />
                     </div>
                 </div>
+
+                <div class="add-favGame-preview">
+                    <div class="favGame-preview-title-main">
+                        Preview
+                    </div>
+                    <div id="i" class="favGame-preview-title">
+
+                    </div>
+                </div>
+
+            </div>
         </form>
     </div>
 </div>
