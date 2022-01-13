@@ -1,15 +1,18 @@
 ﻿.number {
-    width: 100px;
-    height: 100px;
-    background-color:darkgreen;
-    display: inline-block;
-    margin: 2px;
-    border-block-color:darkseagreen;
-    border-style: outset;
+    line-height: 90px;
+    font-weight: 700;
+    font-size: xxx-large;
+    color: antiquewhite;
 }
 
 .square {
-
+    width: 100px;
+    height: 100px;
+    background-color: darkgreen;
+    display: inline-block;
+    margin: 2px;
+    border-block-color: darkseagreen;
+    border-style: outset;
 }
 
 .container15 {
