@@ -2,6 +2,11 @@
 @using WebMaze.Services.GuessTheNumber;
 
 @model GuessTheNumberGameAnswerViewModel
+<div>
+    <span style="font-size:30px;">
+        Hi @Model.Game.PlayerName
+    </span>
+</div>
 
 <div>
     @foreach (var answer in Model.Game.Answers.Reverse<GuessTheNumberGameAnswerViewModel>())
@@ -27,7 +32,7 @@
 {
     case GuessTheNumberGameStatus.NotFinished:
 
-        <div>
+        <div>            
             Enter a number from @Model.Game.Parameters.MinRangeNumber
             to @Model.Game.Parameters.MaxRangeNumber.
         </div>

@@ -130,30 +130,19 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<User>().HasMany(x => x.ListMazeLevels).WithOne(x => x.Creator);
             modelBuilder.Entity<MazeLevelWeb>().HasMany(x => x.Cells).WithOne(x => x.MazeLevel);
             modelBuilder.Entity<MazeLevelWeb>().HasMany(x => x.Enemies).WithOne(x => x.MazeLevel);
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<GuessTheNumberGameParameters>()
-                .Property(x => x.Difficulty)
-                .HasConversion(new EnumToNumberConverter<GuessTheNumberGameDifficulty, int>());
+            base.OnModelCreating(modelBuilder);            
 
             modelBuilder.Entity<GuessTheNumberGame>()
                 .HasOne(x => x.Player)
-                .WithMany(x => x.GuessTheNumberGames)
-                .HasForeignKey(x => x.PlayerId);
+                .WithMany(x => x.GuessTheNumberGames);
 
             modelBuilder.Entity<GuessTheNumberGame>()
                .HasOne(x => x.Parameters)
-               .WithMany(x => x.Games)
-               .HasForeignKey(x => x.ParametersId);
-
-            modelBuilder.Entity<GuessTheNumberGame>()
-                .Property(x => x.GameStatus)
-                .HasConversion(new EnumToNumberConverter<GuessTheNumberGameStatus, int>());
+               .WithMany(x => x.Games);            
 
             modelBuilder.Entity<GuessTheNumberGameAnswer>()
                 .HasOne(x => x.Game)
-                .WithMany(x => x.Answers)
-                .HasForeignKey(x => x.GameId);
+                .WithMany(x => x.Answers);
 
             SeedData(modelBuilder);
         }
@@ -166,76 +155,8 @@ namespace WebMaze.EfStuff
 
         protected virtual void SeedData(ModelBuilder modelBuilder)
         {
-            SeedGuessTheNumberGameParametersRecords(modelBuilder);
+            SeedParametersRecords.SeedGuessTheNumberGameParametersRecords(modelBuilder);
         }
 
-        private static void SeedGuessTheNumberGameParametersRecords(ModelBuilder modelBuilder)
-        {
-            //static int GetAttemptsCountForRange(int maxRangeNumber, int minRangeNumber)
-            //{
-            //    var effectiveRangeLength = maxRangeNumber - minRangeNumber + 1;
-            //    var attempts = 0;
-
-            //    while (effectiveRangeLength > 0)
-            //    {
-            //        effectiveRangeLength /= 2;
-            //        attempts++;
-            //    }
-
-            //    return attempts;
-            //}
-
-            //var maxAttemptsForEasy = GetAttemptsCountForRange(
-            //            GuessTheNumberGameValues.MinRangeNumberEasy,
-            //            GuessTheNumberGameValues.MaxRangeNumberEasy);
-
-            //var maxAttemptsForMedium = GetAttemptsCountForRange(
-            //            GuessTheNumberGameValues.MinRangeNumberMedium,
-            //            GuessTheNumberGameValues.MaxRangeNumberMedium);
-
-            //var maxAttemptsForHard = GetAttemptsCountForRange(
-            //            GuessTheNumberGameValues.MinRangeNumberHard,
-            //            GuessTheNumberGameValues.MaxRangeNumberHard);
-
-            var guessTheNumberGameParametersRecords = new[]
-            {
-                new GuessTheNumberGameParameters
-                {
-                    Id = 1,
-                    Difficulty = GuessTheNumberGameDifficulty.Easy,
-                    MinRangeNumber = GuessTheNumberGameValues.MinRangeNumberEasy,
-                    MaxRangeNumber = GuessTheNumberGameValues.MaxRangeNumberEasy,
-                    GameCost = GuessTheNumberGameValues.GameCostEasy,
-                    RewardForWinningTheGame = GuessTheNumberGameValues.RewardForWinningTheGameEasy,
-                    MaxAttempts = 4,
-                    IsActive = true
-                },
-                new GuessTheNumberGameParameters
-                {
-                    Id = 2,
-                    Difficulty = GuessTheNumberGameDifficulty.Medium,
-                    MinRangeNumber = GuessTheNumberGameValues.MinRangeNumberMedium,
-                    MaxRangeNumber = GuessTheNumberGameValues.MaxRangeNumberMedium,
-                    GameCost = GuessTheNumberGameValues.GameCostMedium,
-                    RewardForWinningTheGame = GuessTheNumberGameValues.RewardForWinningTheGameMedium,
-                    MaxAttempts = 7,
-                    IsActive = true
-                },
-                new GuessTheNumberGameParameters
-                {
-                    Id = 3,
-                    Difficulty = GuessTheNumberGameDifficulty.Hard,
-                    MinRangeNumber = GuessTheNumberGameValues.MinRangeNumberHard,
-                    MaxRangeNumber = GuessTheNumberGameValues.MaxRangeNumberHard,
-                    GameCost = GuessTheNumberGameValues.GameCostHard,
-                    RewardForWinningTheGame = GuessTheNumberGameValues.RewardForWinningTheGameHard,
-                    MaxAttempts = 10,
-                    IsActive = true
-                }
-            };
-
-            modelBuilder.Entity<GuessTheNumberGameParameters>()
-                .HasData(guessTheNumberGameParametersRecords);
-        }
     }
 }

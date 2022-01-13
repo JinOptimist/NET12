@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebMaze.Services.GuessTheNumber
 {
-    public class GuessTheNumberGameValues
+    public class GuessTheNumberGameConstans
     {
         public const int GameCostEasy = 1;
         public const int GameCostMedium = 2;

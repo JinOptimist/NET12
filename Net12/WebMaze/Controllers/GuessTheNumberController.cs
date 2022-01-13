@@ -44,13 +44,7 @@ namespace WebMaze.Controllers
 
             var player = _userService.GetCurrentUser();
             var game = player.GuessTheNumberGames
-                .SingleOrDefault(x => x.GameStatus == GuessTheNumberGameStatus.NotFinished);
-
-            //var game = _guessTheNumberGameRepository
-            //  .GetAll()
-            //  .SingleOrDefault(x => x.GameStatus == GuessTheNumberGameStatus.NotFinished &&
-            //  x.PlayerId==player.Id);          
-
+                .SingleOrDefault(x => x.GameStatus == GuessTheNumberGameStatus.NotFinished);          
             if (game == null)
             {
                 return RedirectToAction($"{nameof(GuessTheNumberController.StartGame)}");
@@ -72,18 +66,18 @@ namespace WebMaze.Controllers
         {
             var player = _userService.GetCurrentUser();
 
-            var parameters = _guessTheNumberGameParametersRepository
+            var gameParameters = _guessTheNumberGameParametersRepository
                 .GetAll()
                 .Single(p => p.Difficulty == difficulty);
 
             Random rnd = new Random();
-            int value = rnd.Next(parameters.MinRangeNumber, parameters.MaxRangeNumber + 1);
+            int value = rnd.Next(gameParameters.MinRangeNumber, gameParameters.MaxRangeNumber + 1);
             var hiddenNumber = value;
 
             var game = new GuessTheNumberGame
             {
-                ParametersId = parameters.Id,
-                AttemptNumber = parameters.MaxAttempts,
+                ParametersId = gameParameters.Id,
+                AttemptNumber = gameParameters.MaxAttempts,
                 GameDate = DateTime.Now,
                 GameStatus = GuessTheNumberGameStatus.NotFinished,
                 GuessedNumber = hiddenNumber,
@@ -91,7 +85,7 @@ namespace WebMaze.Controllers
                 IsActive = true
             };
 
-            player.Coins = player.Coins - parameters.GameCost;
+            player.Coins = player.Coins - gameParameters.GameCost;
             _userRepository.Save(player);
             _guessTheNumberGameRepository.Save(game);
 
@@ -163,7 +157,7 @@ namespace WebMaze.Controllers
             var user = _userService.GetCurrentUser();
             var game = _guessTheNumberGameRepository
                 .GetAll()
-                .SingleOrDefault(g =>
+                .Single(g =>
                     g.GameStatus == GuessTheNumberGameStatus.NotFinished
                     &&
                     g.PlayerId == user.Id);

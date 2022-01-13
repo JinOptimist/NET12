@@ -8,12 +8,9 @@ namespace WebMaze.Models.GuessTheNumber
 {
     public class GuessTheNumberGameParametersViewModel
     {
-        public GuessTheNumberGameDifficulty Difficulty { get; set; }
-        public int RewardForWinningTheGame { get; set; }
-        public int GameCost { get; set; }
+        public GuessTheNumberGameDifficulty Difficulty { get; set; }        
         public int MaxAttempts { get; set; }        
         public int MinRangeNumber { get; set; }
-        public int MaxRangeNumber { get; set; }
-        public List<GuessTheNumberGameViewModel> Games { get; set; }
+        public int MaxRangeNumber { get; set; }        
     }
 }
