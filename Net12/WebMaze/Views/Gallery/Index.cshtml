@@ -1,56 +1,62 @@
 ﻿@model List<ImageViewModel>
 
-@section Scripts{ 
+@section Scripts{
     <script src="~/js/gallery.js"></script>
-} 
+}
 
 @*<div class="whole-page">
 
-    <div class="text-center">
-        <h1>Users gallery</h1>
+        <div class="text-center">
+            <h1>Users gallery</h1>
 
-        <div class="pic-to-gallery">
-            @foreach (var image in Model)
-            {
-                <div>
+            <div class="pic-to-gallery">
+                @foreach (var image in Model)
+                {
                     <div>
-                        <img class="image" src="@image.Picture">
-                    </div>
-                    <div class="t-to-gallery">
-                        @image.Assessment
-                    </div>
-                    <div class="t-to-gallery">
-                        @image.Description
-                    </div>
-                    @if (User.Identity.IsAuthenticated)
-                    {
                         <div>
-                            <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" class="good-button">Wonderful</a>
-                            <button class="bad-button">Awful</button>
+                            <img class="image" src="@image.Picture">
                         </div>
-                    }
+                        <div class="t-to-gallery">
+                            @image.Assessment
+                        </div>
+                        <div class="t-to-gallery">
+                            @image.Description
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div>
+                                <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" class="good-button">Wonderful</a>
+                                <button class="bad-button">Awful</button>
+                            </div>
+                        }
 
-                </div>
+                    </div>
 
-            }
-        </div>
-    </div>
-</div>*@
-
-<div class="carousel-whole-page">
-    <div class="text-center">
-        <h1>Users gallery(carousel)</h1>
-
-        <div class="two-picture">
-            <div>
-                <img src="https://klike.net/uploads/posts/2020-04/1587719791_1.jpg" />
-            </div>
-            <div>
-                <img class="overlay" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFL9LssPgtuGlpuLqOq1Xs4lQWloM-jhRRkg&usqp=CAU" />
+                }
             </div>
         </div>
+    </div>*@
 
-        
+<h1>Users gallery(carousel)</h1>
+
+<div class="carousel-container">
+
+    <div class="left-button">
+        <button>Left</button>
     </div>
+
+    <div class="img-container">
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            <div class="pic-item" index="@i">
+                <img src="@Model[i].Picture">
+            </div>
+        }
+    </div>
+
+    <div class="right-button">
+        <button>Rigft</button>
+    </div>
+
 </div>
 
