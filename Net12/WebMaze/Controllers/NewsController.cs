@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Models.Enums;
 using WebMaze.Services;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze.Controllers
 {
@@ -22,17 +24,20 @@ namespace WebMaze.Controllers
         private IMapper _mapper;
         private UserService _userService;
         private readonly PayForActionService _payForActionService;
+        private IHubContext<ChatHub> _chatHub;
 
         public NewsController(UserRepository userRepository,
             NewsRepository newsRepository,
             IMapper mapper, UserService userService,
-             PayForActionService payForActionService)
+            PayForActionService payForActionService,
+            IHubContext<ChatHub> chatHub)
         {
             _newsRepository = newsRepository;
             _userRepository = userRepository;
             _mapper = mapper;
             _userService = userService;
             _payForActionService = payForActionService;
+            _chatHub = chatHub;
         }
 
         public IActionResult Index()
@@ -78,13 +83,15 @@ namespace WebMaze.Controllers
 
             _newsRepository.Save(dbNews);
 
+            _chatHub.Clients.All.SendAsync("Added news", _userService.GetCurrentUser().Name);
+
             return RedirectToAction("Index", "News");
         }
 
         public IActionResult Wonderful(long newsId)
         {
             var news = _newsRepository.Get(newsId);
-            _payForActionService.CreatorEarnMoney(news.Author.Id, 10);           
+            _payForActionService.CreatorEarnMoney(news.Author.Id, 10);
 
             return RedirectToAction("Index", "News");
         }
