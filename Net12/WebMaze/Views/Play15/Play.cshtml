@@ -1,4 +1,8 @@
-﻿<div class="back15">
+﻿@section Scripts{
+    <script src="~/js/play15.js"></script>
+}
+
+<div class="back15">
 
     <div class="container15">
         @for (var j = 0; j < 4; j++)
@@ -6,8 +10,11 @@
             <div>
                 @for (var i = 0; i < 4; i++)
                 {
-                    <div  class="square">
-                        <span class="number">1</span>
+                    <div class="square" id-column="@j" id-row="@i">
+                       
+                       @* <div class="number">
+                            <span class="number-style"></span>
+                        </div>*@
                     </div>
                 }
             </div>
