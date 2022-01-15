@@ -83,7 +83,7 @@ namespace WebMaze.Services
             return cells[index];
         }
 
-        public bool ClickedCell(ZumaGameField field)
+        public bool PossibleClick(ZumaGameField field)
         {
 
             foreach (var currentCell in field.Cells)

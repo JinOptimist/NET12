@@ -82,7 +82,7 @@ namespace WebMaze.Controllers
             if (field.Cells.Count() > 1)
             {
 
-                if (_zumaGameService.ClickedCell(field))
+                if (_zumaGameService.PossibleClick(field))
                 {
                     var fieldViewModel = _mapper.Map<ZumaGameFieldViewModel>(field);
 
@@ -99,10 +99,10 @@ namespace WebMaze.Controllers
             }
         }
 
-        public IActionResult ClickOnCell(long Id)
+        public IActionResult ClickOnCell(long id)
         {
 
-            _zumaGameService.RemoveCellsNearClicked(Id);
+            _zumaGameService.RemoveCellsNearClicked(id);
 
             return RedirectToAction("Game", new { id = _userService.GetCurrentUser().ZumaGameField.Id });
         }
