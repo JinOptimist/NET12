@@ -4,12 +4,12 @@
     ☺☻☺   Zuma!!!   ☻☺☻
 </div>
 
-<div class="zuma-game-game">
-    <div class="zuma-game-info">
+<div class="zumagame-game">
+    <div class="zumagame-info">
 
     </div>
 
-    <div class="zumagame-field">
+    <div>
         @for (int y = 0; y < Model.Height; y++)
         {
             <div class="zumagame-field-row">
@@ -19,13 +19,13 @@
                     if (cell != null)
                     {
                         <span style="background-color:@cell.Color">
-                            <a href="/ZumaGame/ClickOnCell?Id=@cell.Id">___</a>
+                            <a class="zumagame-cell" href="/ZumaGame/ClickOnCell?Id=@cell.Id"></a>
                         </span>
                     }
                     else
                     {
                         <span style="background-color:white">
-                            <a href="#">___</a>
+                            <a class="zumagame-cell" href="#"></a>
                         </span>
 
                     }
@@ -34,13 +34,13 @@
         }
     </div>
 
-    <div class="zuma-game-info">
+    <div class="zumagame-info">
         <div>
-            Score: 
+            Score:
         </div>
 
         <div>
-           @Model.Score
+            @Model.Score
         </div>
     </div>
 </div>
