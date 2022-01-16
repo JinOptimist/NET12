@@ -3,58 +3,92 @@
     let i = 0;
     let j = 0;
     let count = $('.pic-item').length;
+    let animationTime = 2000;
+
+    console.log(count);
 
     $('.pic-item:not([index="' + i + '"])').hide();
 
-    $('.right-button').click(function () {     
+    $('.right-button').click(function () {
+        console.log("change ");
         console.log(i);
-        $('[index="' + i + '"]').hide();
-        i = (i + 1) % count;
-        $('[index="' + i + '"]').show();
-        console.log(i);
+        j = (i + 1) % count;
+        console.log("to ");
+        console.log(j);
+
+        $('[index="' + j + '"]').css('left', '+=300');
+        $('[index="' + j + '"]').show();
+
+        $(function () {
+            let k = i;
+            $('[index="' + i + '"]').animate({
+                left: "-=300"
+            }, {
+                duration: animationTime, queue: false, complete: function () {
+                    $('[index="' + k + '"]').hide();
+                    $('[index="' + k + '"]').css('left', '+=300');
+                }
+            });
+
+            $('[index="' + j + '"]').animate({
+                left: "-=300"
+            }, {
+                duration: animationTime, queue: false, complete: function () {
+                    i = j;
+                    console.log("after i");
+                    console.log(i);
+                    console.log("after j");
+                    console.log(j);
+                    console.log(" ");
+                }
+            });
+        });
+       
     });
 
     $('.left-button').click(function () {
-        console.log(count);
+        console.log("change ");
         console.log(i);
-        $('[index="' + i + '"]').hide();
+        j = i;
         if (i == 0) {
-            i = count;
+            j = count - 1;
         }
         else {
-            i -= 1;
+            j -= 1;
         }
-        $('[index="' + i + '"]').show();
-        console.log(i);
+        console.log("to ");
+        console.log(j);
+
+        $('[index="' + j + '"]').css('left', '-=300');
+        $('[index="' + j + '"]').show();
+       
+        $(function () {
+            let k = i;
+            $('[index="' + i + '"]').animate({
+                left: "+=300"
+            }, {
+                duration: animationTime, queue: false, complete: function() {
+                    $('[index="' + k + '"]').hide();
+                    $('[index="' + k + '"]').css('left', '-=300');
+                }
+            });
+
+            $('[index="' + j + '"]').animate({
+                left: "+=300"
+            }, {
+                duration: animationTime, queue: false, complete: function () {
+                    i = j;
+                    console.log("after i");
+                    console.log(i);
+                    console.log("after j");
+                    console.log(j);
+                    console.log(" ");
+                }
+            });
+        });
+        
     });
 
-    /*$('.right-button').click(function () {
-        console.log(i);
-        j = (i + 1) % count;
-
-        function () {
-            $('[index="' + i + '"]').animate({
-
-            });
-        }
-
-        *//*$('[index="' + i + '"]').animate();*//*
-       *//* $('[index="' + i + '"]').show();*//*
-
-        i = j;
-        console.log(i);
-    });*/
-    
-
-    /*$(function () {
-        $("#first").animate({
-            width: '200px'
-        }, { duration: 200, queue: false });
-
-        $("#second").animate({
-            width: '600px'
-        }, { duration: 200, queue: false });
-    });*/
 
     /*let animationTime = 2 * 1000;
     $('.image').click(function () {

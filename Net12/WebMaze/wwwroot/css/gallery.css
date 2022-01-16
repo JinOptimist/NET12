@@ -90,6 +90,7 @@
 }
 
 .img-container {
+    overflow: hidden;
     position: relative;
     height: 300px;
     width: 300px;
@@ -108,3 +109,7 @@
     justify-content: center;
     align-items: center;
 }
+
+.animate__animated animate__fadeOutRight {}
+
+.animate__animated animate__fadeOutLeft {}
