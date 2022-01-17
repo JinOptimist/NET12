@@ -8,13 +8,6 @@
 
         @foreach (var controller in Model)
         {
-            <div class="controller-block">
-                <div>
-                    @foreach (var attr in controller.AttributeNames)
-                    {
-                        <span class="attribute">[@attr]</span>
-                    }
-                </div>
 
                 <div>
                     <a href="#" class="spoiler-trigger">
@@ -22,9 +15,17 @@
                             @controller.Name (@controller.ActionCount)
                         </span>
                     </a>
-                    <div class="spoiler-block">
 
-                        <div>
+                    <div class="spoiler-block">
+                        <div class="controller-block">
+                            <div>
+                                @foreach (var attr in controller.AttributeNames)
+                                {
+                                    <span class="attribute">[@attr]</span>
+                                }
+                            </div>
+
+                            <div>
                             
                                 @foreach (var action in controller.Actions)
 
@@ -53,11 +54,11 @@
                                        
                                  }
                                     
+                            </div>
+
                         </div>
 
                     </div>
-
-                </div>
                     
             </div>
         }
