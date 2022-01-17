@@ -67,8 +67,12 @@ namespace WebMaze.Controllers
             var player = _userService.GetCurrentUser();
 
             var gameParameters = _guessTheNumberGameParametersRepository
-                .GetAll()
-                .Single(p => p.Difficulty == difficulty);
+                .Get(difficulty);
+           
+            if (gameParameters is null)
+            {
+                return RedirectToAction($"{nameof(GuessTheNumberController.GuessTheNumberError)}");
+            }
 
             Random rnd = new Random();
             int value = rnd.Next(gameParameters.MinRangeNumber, gameParameters.MaxRangeNumber + 1);
@@ -90,18 +94,7 @@ namespace WebMaze.Controllers
             _guessTheNumberGameRepository.Save(game);
 
             return RedirectToAction($"{nameof(GuessTheNumberController.GuessTheNumberGameAnswer)}", new { gameId = game.Id });
-        }
-
-        public IActionResult GuessTheNumberGamePlay(long gameId)
-        {
-            var guessTheNumberGameAnswerViewModels = new List<GuessTheNumberGameAnswerViewModel>();
-            guessTheNumberGameAnswerViewModels = _guessTheNumberGameAnswerRepository
-                .GetAll()
-                .Select(dbModel => _mapper.Map<GuessTheNumberGameAnswerViewModel>(dbModel))
-                .ToList();
-
-            return View(guessTheNumberGameAnswerViewModels);
-        }
+        }     
 
         [HttpGet]
         public IActionResult GuessTheNumberGameAnswer(long gameId)
@@ -157,16 +150,28 @@ namespace WebMaze.Controllers
             var user = _userService.GetCurrentUser();
             var game = _guessTheNumberGameRepository
                 .GetAll()
-                .Single(g =>
+                .SingleOrDefault(g =>
                     g.GameStatus == GuessTheNumberGameStatus.NotFinished
                     &&
                     g.PlayerId == user.Id);
+
+            if (game is null)
+            {
+                return RedirectToAction($"{nameof(GuessTheNumberController.GuessTheNumberError)}");
+            }
 
             game.GameStatus = GuessTheNumberGameStatus.Loss;
             _guessTheNumberGameRepository.Save(game);
 
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult GuessTheNumberError()
+        {
+            return View();
+        }
+
+
 
     }
 }
