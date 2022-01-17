@@ -32,7 +32,8 @@ namespace WebMaze.Controllers
             BugReportRepository bugReportRepository,
             IMapper mapper, 
             UserService userService, 
-            IHubContext<ChatHub> chatHub)
+            IHubContext<ChatHub> chatHub,
+            PayForActionService payForActionService)
         {
             _userRepository = userRepository;
             _bugReportRepository = bugReportRepository;
