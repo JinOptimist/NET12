@@ -25,10 +25,8 @@
 
                 colorCount = $(this).val();
                 buildField();
-                getColorPreview();
             })
         });
-
 
     function buildField() {
         $('.zumagame-difficult-preview div').remove();
@@ -37,7 +35,6 @@
 
             let div = $('<div />');
             div.addClass('zumagame-field-row');
-            div.attr('data-y', y);
 
             for (let x = 0; x < width; x++) {
 
