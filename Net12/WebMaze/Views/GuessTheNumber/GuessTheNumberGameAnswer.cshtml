@@ -44,7 +44,7 @@
             @Html.HiddenFor(x => x.Id)
             @Html.HiddenFor(x => x.GameId)
             <div>
-                Enter you answer. @Html.TextBoxFor(x => x.IntroducedAnswer)
+                Enter you answer. @Html.TextBoxFor(x => x.IntroducedAnswer, new { @type = "number" })
             </div>
             <div>
                 @Html.ValidationMessageFor(x => x.IntroducedAnswer)
