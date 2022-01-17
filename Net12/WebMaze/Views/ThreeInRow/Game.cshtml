@@ -4,46 +4,47 @@
 <div class="game-field">
     @for (int x = 0; x < Model.Width; x++)
     {
-        for (int y = 0; y < Model.Height; y++)
+    <div class="game-field-row">
+        @for (int y = 0; y < Model.Height; y++)
         {
             var cell = Model.Cells.SingleOrDefault(cell => cell.X == x && cell.Y == y);
             if (cell.Color == "none")
             {
-                <span class="game-field-cell-none">
+            <span class="game-field-cell-none">
 
-                </span>
+            </span>
             }
             else if (cell.Color == "red")
             {
-                <span class="game-field-cell-red">
+            <span class="game-field-cell-red">
 
-                </span>
+            </span>
             }
             else if (cell.Color == "green")
             {
-                <span class="game-field-cell-green">
+            <span class="game-field-cell-green">
 
-                </span>
+            </span>
             }
             else if (cell.Color == "blue")
             {
-                <span class="game-field-cell-blue">
+            <span class="game-field-cell-blue">
 
-                </span>
+            </span>
             }
             else if (cell.Color == "purple")
             {
-                <span class="game-field-cell-purple">
+            <span class="game-field-cell-purple">
 
-                </span>
+            </span>
             }
             else
             {
-                <span class="game-field-cell-orange">
+            <span class="game-field-cell-orange">
 
-                </span>
+            </span>
             }
-
         }
+    </div>
     }
 </div>

@@ -42,7 +42,7 @@ namespace WebMaze.Controllers
 
         public IActionResult Game()
         {
-            var gameField = _threeInRowGameFieldRepository.Get(_userService.GetCurrentUser().Id+1);
+            var gameField = _threeInRowGameFieldRepository.Get(3);
             var gameFieldViewModel = _mapper.Map<ThreeInRowGameFieldViewModel>(gameField);
 
             return View(gameFieldViewModel);
