@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Net12.Maze;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
@@ -140,5 +144,56 @@ namespace WebMaze.Controllers
             return outTypes;
         }
 
+        public IActionResult DownloadTreeControllers()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var wordDocument = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
+                {
+                    var controllers = Assembly
+                        .GetExecutingAssembly()
+                        .GetTypes()
+                        .Where(x => x.BaseType == typeof(Controller));
+
+                    var mainPart = wordDocument.AddMainDocumentPart();
+                    mainPart.Document = new Document();
+                    var body = mainPart.Document.AppendChild(new Body());
+
+                    foreach (var controller in controllers)
+                    {
+                        var para = body.AppendChild(new Paragraph());
+                        para.AppendChild(new Text(controller.FullName));
+
+                        var properties = new ParagraphProperties();
+                        var fontSize = new FontSize() { Val = "36" };
+                        properties.Append(fontSize);
+
+                        para.Append(properties);
+
+                        var actions = controller
+                            .GetMethods()
+                            .Where(x => x.ReturnType == typeof(IActionResult));
+
+                        foreach (var action in actions)
+                        {
+
+                            var runTitle = para.AppendChild(new Run());
+                            runTitle.AppendChild(new Text(action.Name.ToString() + action.GetParameters().ToString()));
+
+
+
+
+
+                        }
+                    }
+
+                    wordDocument.Close();
+                }
+
+                return File(ms.ToArray(),
+                   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                   "ReflectionPages.docx");
+            }
+        }
     }
 }
