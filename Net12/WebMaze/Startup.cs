@@ -137,7 +137,8 @@ namespace WebMaze
             provider.CreateMap<User, UserViewModel>()
                 //.ForMember("UserName", opt => opt.MapFrom(x => x.Name))
                 .ForMember(nameof(UserViewModel.UserName), opt => opt.MapFrom(dbUser => dbUser.Name))
-                .ForMember(nameof(UserViewModel.News), opt => opt.MapFrom(x => x.MyNews));
+                .ForMember(nameof(UserViewModel.News), opt => opt.MapFrom(x => x.MyNews))
+                .ForMember(nameof(UserViewModel.Permissions), opt => opt.MapFrom(x => x.Perrmissions));
 
             provider.CreateMap<Review, FeedBackUserViewModel>()
                 .ForMember(nameof(FeedBackUserViewModel.TextInfo), opt => opt.MapFrom(dbreview => dbreview.Text))

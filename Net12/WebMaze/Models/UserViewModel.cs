@@ -14,5 +14,6 @@ namespace WebMaze.Models
         public int GlobalUserRating { get; set; }
 
         public List<NewsViewModel> News { get; set; }
+        public List<PermissionViewModel> Permissions { get; set; }
     }
 }

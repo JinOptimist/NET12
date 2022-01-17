@@ -21,11 +21,13 @@ namespace WebMaze.Controllers
     {
         private PermissionRepository _permissionRepository;
         private IMapper _mapper;
+        private UserRepository _userRepository;
 
-        public AdminController(PermissionRepository permissionRepository, IMapper mapper)
+        public AdminController(PermissionRepository permissionRepository, IMapper mapper, UserRepository userRepository)
         {
             _permissionRepository = permissionRepository;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
 
         public IActionResult ViewPermission()
@@ -36,10 +38,23 @@ namespace WebMaze.Controllers
             return View(permissionViewModels);
         }
 
-
         public IActionResult EditingUsers()
         {
-            return View();
+            var users = _userRepository.GetAll()
+                .Select(x => _mapper.Map<UserViewModel>(x))
+                .ToList();
+
+            var permissions = _permissionRepository.GetAll()
+                .Select(x => _mapper.Map<PermissionViewModel>(x))
+                .ToList();
+
+            var permissionUsers = new PermissionUserViewModel()
+            {
+                Permissions = permissions,
+                Users = users
+            };
+
+            return View(permissionUsers);
         }
 
         public IActionResult ReflectionPages()
