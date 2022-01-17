@@ -1,5 +1,11 @@
 ﻿@model UserViewModel
 
+@section Scripts{
+    <script src="~/js/showHideNews.js"></script>
+
+    <link rel="stylesheet" href="~/css/profileNews.css" />
+}
+
 <div>
     Profile
     <div>
@@ -18,15 +24,19 @@
     </div>
 </div>
 
-<div class="header">
-    <h2>Your news</h2>
-</div>
+@*<div class="header">
+        <h2>Your news</h2>
+    </div>*@
 
 @if (Model.News.Any())
 {
-    <div class="container">
-        <div class="row justify-content-center">
 
+    <div class="btn">
+        <input type="button" value="SHOW" />
+    </div>
+
+    <div class="users-news hidden">
+        <div class="row justify-content-center">
             <table class="table table-bordered">
                 <thead>
                     <tr class="align-content-md-center">
