@@ -26,6 +26,10 @@
         addMessage(`User '${name}' LOSE in ZumaGame`);
     });
 
+    hubConnection.on("NewBugReport", function (name) {
+        addMessage(`User '${name}' add new bug!`);
+    });
+
     hubConnection.on("Added news", function (name) {
         addMessage(name, `added news`);
     });
