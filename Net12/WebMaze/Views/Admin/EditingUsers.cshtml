@@ -21,12 +21,12 @@
                     {
                         @if (permissions.UsersWhichHasThePermission.Exists(x => x.Id == user.Id))
                         {
-                            <td>@Html.CheckBox("IsChecked", true)</td>
+                            <td>@Html.CheckBox(permissions.Name + user.Id.ToString(), true)</td>
                         }
 
                         else
                         {
-                            <td>@Html.CheckBox("IsChecked", false)</td>
+                            <td>@Html.CheckBox(permissions.Name + user.Id.ToString(), false)</td>
                         }
                     }
                 </tr>
