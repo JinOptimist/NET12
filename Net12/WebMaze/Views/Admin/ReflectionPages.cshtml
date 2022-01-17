@@ -30,7 +30,7 @@
                             
                                 @foreach (var action in controller.Actions)
 
-                                {
+                                 {
                                        <div>
                                             
                                                     <div>
@@ -39,7 +39,7 @@
                                                             @action.Name
                                                         </a>
 
-                                                            <span class="spoiler-block">
+                                                            <div class="spoiler-block">
                                                                  (
                                                         
                                                             @foreach (var paramName in action.ParamsNames)
@@ -51,14 +51,12 @@
                                                                         @foreach (var attr in action.AttributeNames)
                                                                         {
                                                                             <span class="attribute action">[@attr]</span>
-                                                                        }
-                                                            
-
+                                                                        } 
                                                                 </div>
-                                                        </span>
+                                                        </div>
                                                     </div>
                                        </div>
-                                }
+                                 }
                                     
                         </div>
 
