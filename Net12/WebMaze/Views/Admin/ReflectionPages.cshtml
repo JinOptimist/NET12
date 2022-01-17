@@ -8,8 +8,6 @@
 
         @foreach (var controller in Model)
         {
-
-
             <div class="controller-block">
                 <div>
                     @foreach (var attr in controller.AttributeNames)
@@ -31,31 +29,28 @@
                                 @foreach (var action in controller.Actions)
 
                                  {
-                                       <div>
-                                            
-                                                    <div>
+                                     <div>
 
-                                                        <a href="#" class="spoiler-trigger">
-                                                            @action.Name
-                                                        </a>
+                                        <a href="#" class="spoiler-trigger">
+                                           @action.Name
+                                        </a>
 
-                                                            <div class="spoiler-block">
-                                                                 (
-                                                        
-                                                            @foreach (var paramName in action.ParamsNames)
-                                                            {
-                                                                <span class="paramName">@paramName</span>
-                                                            }
-                                                            )
-                                                                <div>
-                                                                        @foreach (var attr in action.AttributeNames)
-                                                                        {
-                                                                            <span class="attribute action">[@attr]</span>
-                                                                        } 
-                                                                </div>
-                                                        </div>
-                                                    </div>
-                                       </div>
+                                           <div class="spoiler-block">
+                                             (                                     
+                                                  @foreach (var paramName in action.ParamsNames)
+                                                   {
+                                                       <span class="paramName">@paramName</span>
+                                                   }
+                                             )
+                                               <div>
+                                                       @foreach (var attr in action.AttributeNames)
+                                                       {
+                                                           <span class="attribute action">[@attr]</span>
+                                                       } 
+                                               </div>
+                                           </div>
+                                     </div>
+                                       
                                  }
                                     
                         </div>
@@ -63,7 +58,6 @@
                     </div>
 
                 </div>
-
                     
             </div>
         }
