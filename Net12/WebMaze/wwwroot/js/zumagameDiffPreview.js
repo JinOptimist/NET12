@@ -2,13 +2,12 @@
     let width = 0;
     let height = 0;
     let colorCount = 0;
-    let allColors = [];
-    let colorsPreview = [];
+    let colorsArray = [];
 
     $.get('/ZumaGame/GetColors')
         .done(function (colors) {
 
-            allColors = colors;
+            colorsArray = JSON.parse(colors);
 
             $('.diffWidth').change(function () {
 
@@ -45,30 +44,15 @@
                 let span = $('<span />');
                 span.addClass('zumagame-preview-cell');
 
-                getRandomInt(0, colorCount);
-                span.css('background', 'red');
+                if (colorCount > 0) {
+                    span.css('background', colorsArray[getRandomInt(0, colorCount)]);
+                }
 
                 div.append(span);
             }
 
             $('.zumagame-difficult-preview').append(div);
         }
-    }
-
-    function getColorPreview() {
-
-        for (let i = 0; i < allColors.length - colorCount; i++) {
-
-            let rand = getRandomInt(0, allColors.length);
-
-            console.log(rand);
-
-            console.log(allColors.length);
-            allColors.splice(rand, 1);
-
-            console.log('lenght: ' + allColors.length);
-        }
-
     }
 
     function getRandomInt(min, max) {
