@@ -30,6 +30,10 @@
         addMessage(`User '${name}' add new bug!`);
     });
 
+    hubConnection.on("Added news", function (name) {
+        addMessage(name, `added news`);
+    });
+
     function addMessage(userName, text) {
         var messageBlock = $('<div>');
         messageBlock.addClass('message');
