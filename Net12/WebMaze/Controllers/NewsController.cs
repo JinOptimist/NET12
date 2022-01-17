@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.Controllers.AuthAttribute;
@@ -100,6 +104,44 @@ namespace WebMaze.Controllers
         {
             _newsRepository.Remove(newsId);
             return RedirectToAction("Index", "News");
+        }
+
+        public IActionResult DownloadRecentNews()
+        {
+            var news = _newsRepository.GetAll();
+            using (var ms = new MemoryStream())
+            {
+                using (var wordDocument = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
+                {
+                    var mainPart = wordDocument.AddMainDocumentPart();
+                    mainPart.Document = new Document();
+                    var body = mainPart.Document.AppendChild(new Body());
+
+                    foreach (var oneNews in news)
+                    {
+                        var para = body.AppendChild(new Paragraph());
+
+                        var runTitle = para.AppendChild(new Run());
+                        runTitle.AppendChild(new Text(oneNews.Title));
+
+                        var properties = new ParagraphProperties();
+                        var fontSize = new FontSize() { Val = "36" };
+                        properties.Append(fontSize);
+
+                        para.Append(properties);
+
+                        var paraText = body.AppendChild(new Paragraph());
+                        var runNewsBody = paraText.AppendChild(new Run());
+                        runNewsBody.AppendChild(new Text(oneNews.Text));
+                    }
+
+                    wordDocument.Close();
+                }
+
+                return File(ms.ToArray(),
+                   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                   "SpecailForYou.docx");
+            }
         }
     }
 }
