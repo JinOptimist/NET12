@@ -1,0 +1,52 @@
+﻿.game-field {
+    margin: 100px;
+    border: 1px solid black;
+}
+
+.game-field-cell-none {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.game-field-cell-red {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: red;
+}
+
+.game-field-cell-green {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: green;
+}
+
+.game-field-cell-blue {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: blue;
+}
+
+.game-field-cell-purple {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: purple;
+}
+
+.game-field-cell-orange {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: orange;
+}

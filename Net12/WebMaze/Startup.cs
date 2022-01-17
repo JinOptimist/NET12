@@ -19,8 +19,10 @@ using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.DbModel.Maze;
+using WebMaze.EfStuff.DbModel.ThreeInRow;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.ThreeInRow;
 using WebMaze.Services;
 using WebMaze.SignalRHubs;
 
@@ -57,6 +59,7 @@ namespace WebMaze
             services.AddScoped<UserService>();
             services.AddScoped<MinerFiledBuilder>();
             services.AddScoped<ZumaGameService>();
+            services.AddScoped<ThreeInRowService>();
 
             services.AddScoped<PayForActionService>();
 
@@ -198,6 +201,11 @@ namespace WebMaze
             provider.CreateMap<ZumaGameDifficult, ZumaGameDifficultViewModel>()
                 .ForMember(nameof(ZumaGameDifficultViewModel.Author), opt => opt.MapFrom(db => db.Author.Name));
             provider.CreateMap<ZumaGameDifficultViewModel, ZumaGameDifficult>();
+
+            provider.CreateMap<ThreeInRowGameField, ThreeInRowGameFieldViewModel>();
+            provider.CreateMap<ThreeInRowGameFieldViewModel, ThreeInRowGameField>();
+            provider.CreateMap<ThreeInRowCell, ThreeInRowCellViewModel>();
+            provider.CreateMap<ThreeInRowCellViewModel, ThreeInRowCell>();
 
             provider.CreateMap<Perrmission, PermissionViewModel>();
             provider.CreateMap<PermissionViewModel, Perrmission>();
