@@ -1,13 +1,13 @@
 ﻿$(document).ready(function () {
-    let steps = 0;
-    let width;
+    let index = 0;
+    let width = $('.carousel-image').css('width');
+    let animateTime = 2 * 1000;
 
     $.get('/CellInfo/GetImage')
         .done(function (urls) {
 
-            width = $('.carousel-image').css('width');
-
             setCurrImage();
+            setNextIndex();
             setNextImage();
 
             $('.carousel-image').click(function () {
@@ -16,7 +16,7 @@
 
                     width: 0
                 },
-                    2000,
+                    animateTime,
                     function () {
 
                         setCurrImage();
@@ -26,30 +26,34 @@
 
                     width: width
                 },
-                    2000,
+                    animateTime,
                     function () {
 
+                        setNextIndex();
                         setNextImage();
                     });
             });
 
             function setCurrImage() {
 
-                $('.current-image').attr('src', urls[steps]).css('width', width);
+                $('.current-image').attr('src', urls[index]).css('width', width);
             }
 
             function setNextImage() {
 
-                if (steps >= urls.length - 1) {
+                $('.next-image').attr('src', urls[index]).css('width', 0);
+            }
 
-                    steps = 0;
+            function setNextIndex() {
+
+                if (index >= urls.length - 1) {
+
+                    index = 0;
                 }
                 else {
 
-                    steps++;
+                    index++;
                 }
-
-                $('.next-image').attr('src', urls[steps]).css('width', 0);
             }
         });
 });
