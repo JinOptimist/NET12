@@ -1,109 +1,72 @@
 ﻿$(document).ready(function () {
 
-    let i = 0;
-    let j = 0;
+    let currentPicture = 0;
     let count = $('.pic-item').length;
-    let animationTime = 2000;
+    let animationTime = 2*1000;
 
-    console.log(count);
+    console.log("count of pictires " + count);
 
-    $('.pic-item:not([index="' + i + '"])').hide();
+    $('.pic-item').hide();
+    $('.pic-item[index="' + currentPicture + '"]').show();
+    /*$('.pic-item:not([index="' + currentPicture + '"])').hide();*/
 
     $('.right-button').click(function () {
-        console.log("change ");
-        console.log(i);
-        j = (i + 1) % count;
-        console.log("to ");
-        console.log(j);
 
-        $('[index="' + j + '"]').css('left', '+=300');
-        $('[index="' + j + '"]').show();
+        let nextPicture = (currentPicture + 1) % count;
+        console.log("Swap picture " + currentPicture + " to " + nextPicture);
 
-        $(function () {
-            let k = i;
-            $('[index="' + i + '"]').animate({
-                left: "-=300"
-            }, {
-                duration: animationTime, queue: false, complete: function () {
-                    $('[index="' + k + '"]').hide();
-                    $('[index="' + k + '"]').css('left', '+=300');
-                }
-            });
-
-            $('[index="' + j + '"]').animate({
-                left: "-=300"
-            }, {
-                duration: animationTime, queue: false, complete: function () {
-                    i = j;
-                    console.log("after i");
-                    console.log(i);
-                    console.log("after j");
-                    console.log(j);
-                    console.log(" ");
-                }
-            });
-        });
-       
+        swap('right', currentPicture, nextPicture);
+        currentPicture = nextPicture;   
     });
 
     $('.left-button').click(function () {
-        console.log("change ");
-        console.log(i);
-        j = i;
-        if (i == 0) {
-            j = count - 1;
+
+        let nextPicture = currentPicture;
+        if (currentPicture == 0) {
+            nextPicture = count - 1;
         }
         else {
-            j -= 1;
+            nextPicture -= 1;
         }
-        console.log("to ");
-        console.log(j);
+        console.log("Swap picture " + currentPicture + " to " + nextPicture);
 
-        $('[index="' + j + '"]').css('left', '-=300');
-        $('[index="' + j + '"]').show();
-       
-        $(function () {
-            let k = i;
-            $('[index="' + i + '"]').animate({
-                left: "+=300"
-            }, {
-                duration: animationTime, queue: false, complete: function() {
-                    $('[index="' + k + '"]').hide();
-                    $('[index="' + k + '"]').css('left', '-=300');
-                }
-            });
-
-            $('[index="' + j + '"]').animate({
-                left: "+=300"
-            }, {
-                duration: animationTime, queue: false, complete: function () {
-                    i = j;
-                    console.log("after i");
-                    console.log(i);
-                    console.log("after j");
-                    console.log(j);
-                    console.log(" ");
-                }
-            });
-        });
-        
+        swap('left', currentPicture, nextPicture);
+        currentPicture = nextPicture;       
     });
 
+    function swap(sideToMove, currentPicture, nextPicture) {
+        let preparetingPosition, mainMove;
+        if (sideToMove === 'left') {
+            preparetingPosition = '-=300';
+            mainMove = "+=300";
+        } else {
+            preparetingPosition = '+=300';
+            mainMove = "-=300";
+        }
 
-    /*let animationTime = 2 * 1000;
-    $('.image').click(function () {
-        let image = $(this);
-        image.animate(
-            {
-                width: "+=100"
-            },
-            animationTime,
-            function () {
-                image.animate({ width: "-=100"}, animationTime);
+        console.log(sideToMove + preparetingPosition + mainMove);
+        $('[index="' + nextPicture + '"]').css('left', preparetingPosition);
+        $('[index="' + nextPicture + '"]').show();
+
+        let CopyCurrentPicture = currentPicture;
+        $('[index="' + currentPicture + '"]').animate({
+            left: mainMove
+        }, {
+            duration: animationTime, queue: false, complete: function() {
+                $('[index="' + CopyCurrentPicture + '"]').hide();
+                $('[index="' + CopyCurrentPicture + '"]').css('left', preparetingPosition);
             }
-        );
+        });
 
-    });*/
+        $('[index="' + nextPicture + '"]').animate({
+            left: mainMove
+        }, {
+            duration: animationTime, queue: false, complete: function () {
+                currentPicture = nextPicture;
+                console.log("Swapped. Now current picture " + currentPicture);
+            }
+        });
+    }
 });
 
 

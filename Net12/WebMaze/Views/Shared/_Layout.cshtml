@@ -138,7 +138,7 @@
                         <a class="nav-link" href="/GameDevices/GameDevices">Game devices</a>
                     </li>
 
-                    @if (userService.IsAdmin)
+                    @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -146,6 +146,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
+                                <a class="dropdown-item" href="/Gallery/GalleryCarousel">Carousel</a>
                                 <a class="dropdown-item" href="/Gallery/AddImage">Add Image</a>
                             </div>
                         </li>
