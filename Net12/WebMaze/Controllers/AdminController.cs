@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Authentication;
@@ -161,14 +162,26 @@ namespace WebMaze.Controllers
 
                     foreach (var controller in controllers)
                     {
+
                         var para = body.AppendChild(new Paragraph());
-                        para.AppendChild(new Text(controller.FullName));
 
-                        var properties = new ParagraphProperties();
-                        var fontSize = new FontSize() { Val = "36" };
-                        properties.Append(fontSize);
+                        var runTitle = para.AppendChild(new Run());
+                        var prop = runTitle.AppendChild(new RunProperties());
 
-                        para.Append(properties);
+                        Color color = new Color
+                        {
+                            Val = "008080"
+                        };
+                        prop.AppendChild(color);
+
+                        var fontSize = new FontSize
+                        {
+                            Val = "36"
+                        };
+                        prop.AppendChild(fontSize);
+
+                        var text = runTitle.AppendChild(new Text());
+                        text.Text = controller.Name + "()";
 
                         var actions = controller
                             .GetMethods()
@@ -176,14 +189,37 @@ namespace WebMaze.Controllers
 
                         foreach (var action in actions)
                         {
+                            var paramsString = "";
 
-                            var runTitle = para.AppendChild(new Run());
-                            runTitle.AppendChild(new Text(action.Name.ToString() + action.GetParameters().ToString()));
+                            foreach (var param in action.GetParameters())
+                            {
+                                paramsString += param.Name + ", ";
+                            }
 
+                            var runTitleAction = para.AppendChild(new Run());
 
+                            var propAction = new RunProperties { Color = new Color { Val = "6B8E23" } };
+                            runTitleAction.AppendChild(propAction);
 
+                            runTitleAction.AppendChild(new Break());
+                            runTitleAction.AppendChild(new TabChar());
+                            runTitleAction.AppendChild(new Text(action.Name.ToString() + "("));
 
+                            var runTitleAction2 = para.AppendChild(new Run());
 
+                            var propAction2 = runTitleAction2.AppendChild(new RunProperties());
+                            propAction2.Color = new Color
+                            {
+                                Val = "4682B4"
+                            };
+                            runTitleAction2.AppendChild(new Text(paramsString));
+
+                            var runTitleAction3 = para.AppendChild(new Run());
+                            var propAction3 = new RunProperties { Color = new Color { Val = "6B8E23" } };
+
+                            runTitleAction3.AppendChild(propAction3);
+                            runTitleAction3.AppendChild(new Text(")"));
+                            runTitleAction3.AppendChild(new Break());
                         }
                     }
 
