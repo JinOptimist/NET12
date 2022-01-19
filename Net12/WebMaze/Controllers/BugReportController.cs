@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Net12.Maze;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Models.Enums;
 using WebMaze.Services;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze.Controllers
 {
@@ -24,9 +26,13 @@ namespace WebMaze.Controllers
         private UserService _userService;
         private readonly PayForActionService _payForActionService;
 
+        private IHubContext<ChatHub> _chatHub;
+
         public BugReportController(UserRepository userRepository,
             BugReportRepository bugReportRepository,
-            IMapper mapper, UserService userService,
+            IMapper mapper, 
+            UserService userService, 
+            IHubContext<ChatHub> chatHub,
             PayForActionService payForActionService)
         {
             _userRepository = userRepository;
@@ -34,6 +40,7 @@ namespace WebMaze.Controllers
             _mapper = mapper;
             _userService = userService;
             _payForActionService = payForActionService;
+            _chatHub = chatHub;
         }
         public IActionResult BugReports()
         {
@@ -71,6 +78,8 @@ namespace WebMaze.Controllers
             dbBugReport.IsActive = true;
 
             _bugReportRepository.Save(dbBugReport);
+
+            _chatHub.Clients.All.SendAsync("NewBugReport", creater.Name);
 
             return RedirectToAction("BugReports", "BugReport");
         }

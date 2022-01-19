@@ -37,5 +37,29 @@ namespace WebMaze.Services
 
         public bool IsAdmin
             => GetCurrentUser()?.Perrmissions.Any(x => x.Name == Perrmission.Admin) ?? false;
+
+        public void AddCoins(int coins)
+        {
+
+            var user = GetCurrentUser();
+            user.Coins += coins;
+            _userRepository.Save(user);
+        }
+
+        public bool RemoveCoins(int coins)
+        {
+            var user = GetCurrentUser();
+
+            if (user.Coins - coins < 0)
+            {
+                return false;
+            }
+            else
+            {
+                user.Coins -= coins;
+                _userRepository.Save(user);
+                return true;
+            }
+        }
     }
 }

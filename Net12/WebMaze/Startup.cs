@@ -56,7 +56,7 @@ namespace WebMaze
 
             services.AddScoped<UserService>();
             services.AddScoped<MinerFiledBuilder>();
-            services.AddScoped<ZumaGameFieldBuilder>();
+            services.AddScoped<ZumaGameService>();
 
             services.AddScoped<PayForActionService>();
 
