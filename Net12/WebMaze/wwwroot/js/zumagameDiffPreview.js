@@ -41,7 +41,7 @@
                 let span = $('<span />');
                 span.addClass('zumagame-preview-cell');
 
-                if (colorCount > 0) {
+                if (colorCount > 1) {
                     span.css('background', colorsArray[getRandomInt(0, colorCount)]);
                 }
 
