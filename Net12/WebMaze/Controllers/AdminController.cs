@@ -174,11 +174,7 @@ namespace WebMaze.Controllers
                         };
                         prop.AppendChild(color);
 
-                        var fontSize = new FontSize
-                        {
-                            Val = "36"
-                        };
-                        prop.AppendChild(fontSize);
+                        prop.AppendChild(new FontSize { Val = "36"});
 
                         var text = runTitle.AppendChild(new Text());
                         text.Text = controller.Name + "()";
@@ -198,7 +194,7 @@ namespace WebMaze.Controllers
 
                             var runTitleAction = para.AppendChild(new Run());
 
-                            var propAction = new RunProperties { Color = new Color { Val = "6B8E23" } };
+                            var propAction = new RunProperties { Color = new Color { Val = "006400" } };
                             runTitleAction.AppendChild(propAction);
 
                             runTitleAction.AppendChild(new Break());
@@ -210,16 +206,15 @@ namespace WebMaze.Controllers
                             var propAction2 = runTitleAction2.AppendChild(new RunProperties());
                             propAction2.Color = new Color
                             {
-                                Val = "4682B4"
+                                Val = "191970"
                             };
                             runTitleAction2.AppendChild(new Text(paramsString));
 
                             var runTitleAction3 = para.AppendChild(new Run());
-                            var propAction3 = new RunProperties { Color = new Color { Val = "6B8E23" } };
+                            var propAction3 = new RunProperties { Color = new Color { Val = "006400" } };
 
                             runTitleAction3.AppendChild(propAction3);
                             runTitleAction3.AppendChild(new Text(")"));
-                            runTitleAction3.AppendChild(new Break());
                         }
                     }
 
