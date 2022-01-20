@@ -10,39 +10,29 @@
             var cell = Model.Cells.SingleOrDefault(cell => cell.X == x && cell.Y == y);
             if (cell.Color == "none")
             {
-            <span class="game-field-cell-none">
-
+            <span class="game-field-cell none">
+                <a class="game-field-cell link" href="/ThreeInRow/Step"></a>
             </span>
             }
             else if (cell.Color == "red")
             {
-            <span class="game-field-cell-red">
-
-            </span>
+            <span class="game-field-cell red"> </span>
             }
             else if (cell.Color == "green")
             {
-            <span class="game-field-cell-green">
-
-            </span>
+            <span class="game-field-cell green"> </span>
             }
             else if (cell.Color == "blue")
             {
-            <span class="game-field-cell-blue">
-
-            </span>
+            <span class="game-field-cell blue"> </span>
             }
             else if (cell.Color == "purple")
             {
-            <span class="game-field-cell-purple">
-
-            </span>
+            <span class="game-field-cell purple"> </span>
             }
             else
             {
-            <span class="game-field-cell-orange">
-
-            </span>
+            <span class="game-field-cell orange"> </span>
             }
         }
     </div>

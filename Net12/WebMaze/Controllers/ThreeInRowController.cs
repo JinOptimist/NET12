@@ -47,5 +47,11 @@ namespace WebMaze.Controllers
 
             return View(gameFieldViewModel);
         }
+
+        public IActionResult Step()
+        {
+
+            return View();
+        }
     }
 }
