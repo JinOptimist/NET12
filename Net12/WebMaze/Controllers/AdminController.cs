@@ -164,17 +164,11 @@ namespace WebMaze.Controllers
                     {
 
                         var para = body.AppendChild(new Paragraph());
-
                         var runTitle = para.AppendChild(new Run());
                         var prop = runTitle.AppendChild(new RunProperties());
 
-                        Color color = new Color
-                        {
-                            Val = "008080"
-                        };
-                        prop.AppendChild(color);
-
-                        prop.AppendChild(new FontSize { Val = "36"});
+                        prop.AppendChild(new Color { Val = "008080" });
+                        prop.AppendChild(new FontSize { Val = "36" });
 
                         var text = runTitle.AppendChild(new Text());
                         text.Text = controller.Name + "()";
@@ -192,17 +186,19 @@ namespace WebMaze.Controllers
                                 paramsString += param.Name + ", ";
                             }
 
+                            if(paramsString.Length > 0)
+                            {
+                                paramsString = paramsString.Remove(paramsString.Length - 2);
+                            }
+
                             var runTitleAction = para.AppendChild(new Run());
 
-                            var propAction = new RunProperties { Color = new Color { Val = "006400" } };
-                            runTitleAction.AppendChild(propAction);
-
+                            runTitleAction.AppendChild(new RunProperties { Color = new Color { Val = "006400" } });
                             runTitleAction.AppendChild(new Break());
                             runTitleAction.AppendChild(new TabChar());
                             runTitleAction.AppendChild(new Text(action.Name.ToString() + "("));
 
                             var runTitleAction2 = para.AppendChild(new Run());
-
                             var propAction2 = runTitleAction2.AppendChild(new RunProperties());
                             propAction2.Color = new Color
                             {
