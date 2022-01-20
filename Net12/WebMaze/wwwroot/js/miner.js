@@ -1,7 +1,9 @@
 ﻿"use strict";
-document.body.oncontextmenu = function (e) {
-    return false;
-};
+
+window.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+}, false);
+   
 
 function setFlag(cellId) {
     let data = {
@@ -20,11 +22,50 @@ function openNearWithFlags(cellId) {
     $.post('/Miner/OpenNearWithFlags', data)
         .done(function () {
             location.reload();
-            location.reload();
         });
 };
 
-timer();
+
+//******************************************
+
+/*function openNearWithFlagsOrPressNear(cellId) {
+    let data = {
+        idCell: cellId
+    };
+    $.get('/Miner/CheckFlagsAndNearBombsCount', data)
+        .done(function () {
+            location.reload();
+        });)
+
+    $.post('/Miner/OpenNearWithFlags', data)
+        .done(function () {
+            location.reload();
+        });
+};*/
+
+//******************************************
+
+
+
+/*
+$('#Clicker').mousedown(function () {
+    //do something here
+    timeout = setInterval(function () {
+        //do same thing here again
+    }, 500);
+
+    return false;
+});
+$('#Clicker').mouseup(function () {
+    clearInterval(timeout);
+    return false;
+});
+$('#Clicker').mouseout(function () {
+    clearInterval(timeout);
+    return false;
+});*/
+
+/*timer();
 
 function timer() {
     $.get('/Miner/SetUpTimerForStartedGame')
@@ -33,11 +74,11 @@ function timer() {
 
             }
         })
-    };
+    };*/
 
 
 
-let i = 0;
+/*let i = 0;
 let k = 0;
 let h = 0;
 
@@ -55,7 +96,7 @@ let cl8 = new Image(); cl8.src = '../../../images/miner_buttons/d8.png';
 let cl9 = new Image(); cl9.src = '../../../images/miner_buttons/d9.png';
 let cl0 = new Image(); cl0.src = '../../../images/miner_buttons/d0.png';
 let clock_numbers = new Array(cl0, cl1, cl2, cl3, cl4, cl5, cl6, cl7, cl8, cl9);
-
+*/
 
 
 

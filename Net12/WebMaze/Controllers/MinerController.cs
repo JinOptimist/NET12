@@ -42,7 +42,7 @@ namespace WebMaze.Controllers
             var field = _minerFieldRepository.Get(id);
             if (field.IsOver)
             {
-                foreach (var cell in field.Cells.Where(x => x.IsBomb))
+                foreach (var cell in field.Cells.Where(x => x.IsBomb && !x.IsFlag))
                 {
                     cell.IsOpen = true;
                 }
@@ -67,6 +67,7 @@ namespace WebMaze.Controllers
             cell.IsOpen = true;
             if (cell.IsBomb)
             {
+                cell.FirstOpenedBomb = true;
                 cell.Field.IsOver = true;
             }
             if (cell.NearBombsCount==0 && !cell.IsBomb)
@@ -105,11 +106,17 @@ namespace WebMaze.Controllers
             {               
                  cellToOpen.IsOpen = true;
 
-                _minerCellRepository.Save(cellToOpen);
                 if (cellToOpen.IsBomb)
                 {
+                    if (!cellToOpen.Field.Cells.Any(cell => cell.FirstOpenedBomb))
+                    {
+                        cellToOpen.FirstOpenedBomb = true;
+                    }
                     cellToOpen.Field.IsOver = true;
                 }
+
+                _minerCellRepository.Save(cellToOpen);
+
                 if (cellToOpen.NearBombsCount == 0)
                 {
                     OpenNearWhenBombCountNull(cellToOpen);

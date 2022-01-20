@@ -11,6 +11,7 @@ namespace WebMaze.Models
         public int Height { get; set; }
         public bool IsOver { get; set; }
         public bool IsWon { get; set; }
+        public bool IsPlayingNow { get; set; }
 
         public virtual List<MinerCellViewModel> Cells { get; set; }
     }
