@@ -35,6 +35,7 @@
     <Folder Include="wwwroot\images\galleryImg\" />
     <Folder Include="wwwroot\images\gallery\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
+    <Folder Include="wwwroot\textDocuments\review\" />
   </ItemGroup>
 
   <ItemGroup>

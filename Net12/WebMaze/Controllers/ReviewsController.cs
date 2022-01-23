@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff.DbModel;
@@ -19,13 +21,15 @@ namespace WebMaze.Controllers
         private IMapper _mapper;
         private UserService _userService;
         private readonly PayForActionService _payForActionService;
-        public ReviewsController(IMapper mapper, UserService userService, ReviewRepository reviewRepository, 
-            PayForActionService payForActionService)
+        private IWebHostEnvironment _hostEnvironment;
+        public ReviewsController(IMapper mapper, UserService userService, ReviewRepository reviewRepository,
+            PayForActionService payForActionService, IWebHostEnvironment hostEnvironment)
         {
             _reviewRepository = reviewRepository;
             _mapper = mapper;
             _userService = userService;
             _payForActionService = payForActionService;
+            _hostEnvironment = hostEnvironment;
         }
 
 
@@ -48,16 +52,23 @@ namespace WebMaze.Controllers
                 return View(bugFeedBackUsers);
             }
 
-            using (var fileStream = System.IO.File.Create(@"D:\Review.docx"))
-            {
-                viewReview.ReviewDoc.CopyTo(fileStream);
-            }
-
             var review = _mapper.Map<Review>(viewReview);
             review.Creator = _userService.GetCurrentUser();
 
             review.IsActive = true;
             _reviewRepository.Save(review);
+
+            var reviewDocName = $"{review.Id}.docx";
+            review.Text = "/textDocuments/review" + reviewDocName; //указали путь к документу и сохранили в базу. (Сохранили что? путь или документ)
+            _reviewRepository.Save(review);
+
+            var filePath = Path.Combine(_hostEnvironment.WebRootPath, "textDocuments", "review", reviewDocName);
+
+            using (var fileStream = System.IO.File.Create(@"D:\" + reviewDocName))
+            {
+                viewReview.ReviewDoc.CopyTo(fileStream);
+            }
+
             var FeedBackUsers = _reviewRepository.GiveViewReviews(_userService);
 
             return View(FeedBackUsers);
