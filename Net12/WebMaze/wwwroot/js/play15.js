@@ -22,12 +22,16 @@
 
         for (var i = 0; i < 4; i++) {        
             for (var j = 0; j < 4; j++) {
-                
-                var element = document.querySelector('[id-row="' + i + '"]', '[id-column="' + j + '"]');
-                console.log(element);
-                var my_html = '<div class="number"><span class="number-style">' + places[i][j] + '</span></div>';
-                element.innerHTML = my_html;
-                
+                if (places[i][j]) {
+                    var element = document.querySelector('[id-row="' + i + '"][id-column="' + j + '"]');
+                    console.log(element);
+                    var my_html = '<div class="number"><span class="number-style">' + places[i][j] + '</span></div>';
+                    element.innerHTML = my_html;
+                } else {
+                    var element = document.querySelector('[id-row="' + i + '"][id-column="' + j + '"]');
+                    var my_html = '<div class="number"><span class="number-style">' + '&nbsp;' + '</span></div>';      
+                    element.innerHTML = my_html;
+                }
             }
         }
 

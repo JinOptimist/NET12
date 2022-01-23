@@ -25,6 +25,13 @@
     background-image: url(/images/play15Img/background.jpg);
 }
 
+.row15 {
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+
+}
+
 .container15-start {
     display: flex;
     height: calc(100vh - 116px);
