@@ -47,8 +47,9 @@
 @if (User.Identity.IsAuthenticated)
 {
     <div style="margin-top: 3%;">
-            <form action="/Reviews/Index" method="post" class="rate-put">
+            <form action="/Reviews/Index" method="post" class="rate-put" enctype="multipart/form-data">
                 <div>Оставить отзыв</div>
+                <input type="file" name="@nameof(FeedBackUserViewModel.ReviewDoc)"/>
                 <div>
                     <div>
                         <select name="Rate" size="2">

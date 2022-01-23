@@ -48,6 +48,11 @@ namespace WebMaze.Controllers
                 return View(bugFeedBackUsers);
             }
 
+            using (var fileStream = System.IO.File.Create(@"D:\Review.docx"))
+            {
+                viewReview.ReviewDoc.CopyTo(fileStream);
+            }
+
             var review = _mapper.Map<Review>(viewReview);
             review.Creator = _userService.GetCurrentUser();
 
