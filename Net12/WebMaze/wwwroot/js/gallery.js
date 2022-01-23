@@ -7,8 +7,7 @@
     console.log("count of pictires " + count);
 
     $('.pic-item').hide();
-    $('.pic-item[index="' + currentPicture + '"]').show();
-    /*$('.pic-item:not([index="' + currentPicture + '"])').hide();*/
+    $('.pic-item[index="' + currentPicture + '"]').show(); 
 
     $('.right-button').click(function () {
 
