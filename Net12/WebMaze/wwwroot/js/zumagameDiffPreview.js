@@ -65,7 +65,6 @@
             colorsArray[firstColor] = colorsArray[secondColor];
             colorsArray[secondColor] = temp;
         }
-
     }
 
     function getRandomInt(min, max) {
