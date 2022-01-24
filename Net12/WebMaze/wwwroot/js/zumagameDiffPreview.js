@@ -29,6 +29,9 @@
         });
 
     function buildField() {
+
+        mixColors();
+
         $('.zumagame-difficult-preview div').remove();
 
         for (let y = 0; y < height; y++) {
@@ -41,7 +44,7 @@
                 let span = $('<span />');
                 span.addClass('zumagame-preview-cell');
 
-                if (colorCount > 1) {
+                if (colorCount > 1 && colorCount <= colorsArray.length) {
                     span.css('background', colorsArray[getRandomInt(0, colorCount)]);
                 }
 
@@ -50,6 +53,19 @@
 
             $('.zumagame-difficult-preview').append(div);
         }
+    }
+
+    function mixColors() {
+
+        for (var i = 0; i < 50; i++) {
+            const firstColor = getRandomInt(0, colorsArray.length);
+            const secondColor = getRandomInt(0, colorsArray.length);
+
+            const temp = colorsArray[firstColor];
+            colorsArray[firstColor] = colorsArray[secondColor];
+            colorsArray[secondColor] = temp;
+        }
+
     }
 
     function getRandomInt(min, max) {
