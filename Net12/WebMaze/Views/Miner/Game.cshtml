@@ -74,7 +74,7 @@
                             }
                             else
                             {
-                                <img src="@minerSource" onclick="openNearWithFlags(@cell.Id)" width="29" />;
+                                <img class="y" src="@minerSource" onclick="openNearWithFlagsOrPressNear(@cell.Id)" width="29" />;
                             }
 
                         }
@@ -89,11 +89,11 @@
                         {
                             if (@cell.IsFlag)
                             {
-                                <a href="/Miner/Step?id=@cell.Id"> <img src="~/images/miner_buttons/miner_flag.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
+                                <a href="/Miner/Step?id=@cell.Id"> <img id="@cell.Id" src="~/images/miner_buttons/miner_flag.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
                             }
                             else
                             {
-                                <a href="/Miner/Step?id=@cell.Id"> <img src="~/images/miner_buttons/miner_button.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
+                                <a href="/Miner/Step?id=@cell.Id"> <img id="@cell.Id" src="~/images/miner_buttons/miner_button.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
                             }
                         }
                         else

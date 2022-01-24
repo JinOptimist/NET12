@@ -15,33 +15,100 @@ function setFlag(cellId) {
         });
 };
 
-function openNearWithFlags(cellId) {
+/*function openNearWithFlags(cellId) {
     let data = {
         idCell: cellId
     };
-    $.post('/Miner/OpenNearWithFlags', data)
-        .done(function () {
-            location.reload();
-        });
-};
-
-
-//******************************************
-
-/*function openNearWithFlagsOrPressNear(cellId) {
-    let data = {
-        idCell: cellId
-    };
-    $.get('/Miner/CheckFlagsAndNearBombsCount', data)
-        .done(function () {
-            location.reload();
-        });)
-
     $.post('/Miner/OpenNearWithFlags', data)
         .done(function () {
             location.reload();
         });
 };*/
+
+
+
+
+
+//******************************************
+
+function openNearWithFlagsOrPressNear(cellId) {
+    let data = {
+        idCell: cellId
+    };
+    $.get('/Miner/CheckFlagsAndNearBombsCount', data)
+        .done(function(answer) {
+            if (answer == true) {
+                $.post('/Miner/OpenNearWithFlags', data)
+                    .done(function () {
+                        location.reload();
+                    });
+            }
+            else
+            {
+                /*$(".y").mousedown(function () {
+                    $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face1.png');
+                }).mouseup(function () {
+                    $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face0.png');
+                })*/
+
+                $(".y").mousedown(function () {
+                    $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face1.png');
+                    for (let i = 0; i < answer.length; i++) {
+                        let y = "#" + answer[i];
+                        $(y).attr('src', '../../../images/miner_buttons/t0.png');
+                    }
+                }).mouseup(function () {
+                    $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face0.png');
+                    for (let i = 0; i < answer.length; i++) {
+                        let y = "#" + answer[i];
+                        $(y).attr('src', "../../../images/miner_buttons/miner_button.png");
+                    }
+                })
+
+               /* $(".y").mousedown(function () {
+                    for (let i = 0; i < answer.length; i++) {
+                        let y = "#" + answer[i];
+                        $(y).attr('src', '../../../images/miner_buttons/t0.png');
+                    }
+                })
+
+                for (let i = 0; i < answer.length; i++) {
+                    let y = "#" + answer[i];
+                    $(y).attr('src', "../../../images/miner_buttons/miner_button.png");
+                }
+*/
+              
+
+                //$(".face.miner-elements").attr('src', '../../../images/miner_buttons/face_dead.png');
+
+                /*$(".y").mouseup(function () {
+                    $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face0.png');
+                })*/
+
+               /*function changeFaceWhilePressed() {
+                    $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face1.png');
+                }
+                setTimeout(changeFaceWhilePressed, 300);
+*/
+                /*for (let i = 0; i < answer.length; i++)
+                    {
+                        let y = "#" + answer[i];
+                        $(y).attr('src', '../../../images/miner_buttons/t0.png');
+                    }*/
+
+                
+                /*function aaa() {
+                    for (let i = 0; i < answer.length; i++) {
+                        let y = "#" + answer[i];
+                        $(y).attr('src', "../../../images/miner_buttons/miner_button.png");
+                    }
+                }
+                setTimeout(aaa, 500);*/
+            }
+        });
+
+    
+};
 
 //******************************************
 
