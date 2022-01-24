@@ -37,21 +37,30 @@ namespace WebMaze.Controllers
         {
             var newGame = _threeInRowService.Build();
             _threeInRowGameFieldRepository.Save(newGame);
+
             return View();
         }
 
         public IActionResult Game()
         {
-            var gameField = _threeInRowGameFieldRepository.Get(3);
+            var gameField = _threeInRowGameFieldRepository.Get(1);
             var gameFieldViewModel = _mapper.Map<ThreeInRowGameFieldViewModel>(gameField);
 
             return View(gameFieldViewModel);
         }
 
-        public IActionResult Step()
+        public IActionResult ContinueGame()
         {
+            var gameField = _threeInRowGameFieldRepository.Get(1);
+            var gameFieldViewModel = _mapper.Map<ThreeInRowGameFieldViewModel>(gameField);
 
-            return View();
+            return View(gameFieldViewModel);
+        }
+
+        public IActionResult Step(long Id)
+        {
+            _threeInRowService.Step(Id);
+            return RedirectToAction("Game");
         }
     }
 }
