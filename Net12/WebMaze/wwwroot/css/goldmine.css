@@ -7,6 +7,14 @@
     margin: 0 0 15px 0;
 }
 
+.goldmine-info {
+    background-color: papayawhip;
+}
+
+.goldmine-info.clicked {
+    background-color: aqua;
+}
+
 .goldmine-info-content {
     display: flex;
     justify-content: space-around;
