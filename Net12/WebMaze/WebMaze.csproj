@@ -57,6 +57,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Maze.resx</DependentUpon>
     </Compile>
+    <Compile Update="ResourceLocalization\News.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>News.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -72,6 +77,13 @@
       <LastGenOutput>Maze.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\Maze.Ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\News.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>News.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\News.Ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
