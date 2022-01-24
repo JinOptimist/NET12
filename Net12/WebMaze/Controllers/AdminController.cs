@@ -38,6 +38,7 @@ namespace WebMaze.Controllers
             return View(permissionViewModels);
         }
 
+        [HttpGet]
         public IActionResult EditingUsers()
         {
             var users = _userRepository.GetAll()
@@ -57,7 +58,13 @@ namespace WebMaze.Controllers
             return View(permissionUsers);
         }
 
-        public IActionResult ReflectionPages()
+        [HttpPost]
+        public IActionResult EditingUsers(PermissionUserViewModel model)
+        {
+            return View();
+        }
+
+            public IActionResult ReflectionPages()
         {
             var controllers = Assembly
                 .GetExecutingAssembly()

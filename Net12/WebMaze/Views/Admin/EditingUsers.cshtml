@@ -1,38 +1,37 @@
 ﻿@model PermissionUserViewModel
 
-<div>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Users/Permissions</th>
-                @foreach (var item in Model.Permissions)
-                {
-                    <th>@item.Name</th>
-                }
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var user in Model.Users)
-            {
+<form action="/Admin/EditingUsers" method="post">
+    <div>
+        <table border="1">
+            <thead>
                 <tr>
-                    <td>@user.UserName</td>
-                    @foreach (var permissions in Model.Permissions)
+                    <th>Users/Permissions</th>
+                    @foreach (var item in Model.Permissions)
                     {
-                        @if (permissions.UsersWhichHasThePermission.Exists(x => x.Id == user.Id))
-                        {
-                            <td>@Html.CheckBox(permissions.Name + user.Id.ToString(), true)</td>
-                        }
-
-                        else
-                        {
-                            <td>@Html.CheckBox(permissions.Name + user.Id.ToString(), false)</td>
-                        }
+                        <th>@item.Name</th>
                     }
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>@user.UserName</td>
+                        @foreach (var permissions in Model.Permissions)
+                        {
+                            <td>
+                                @Html.CheckBox(permissions.Name + user.Id.ToString(),
+                           permissions.UsersWhichHasThePermission.Exists(x => x.Id == user.Id))
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</form>
+
+
 
 
