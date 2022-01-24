@@ -7,8 +7,7 @@
             .toggleClass('active');
         $(this)
             .parent()
-            .find('.spoiler-block')
-            .first()
+            .children('.spoiler-block')            
             .slideToggle(300);
     })
 });
