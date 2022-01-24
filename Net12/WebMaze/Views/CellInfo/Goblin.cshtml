@@ -1,6 +1,4 @@
 ﻿@model CellInfoViewModel
-
-
     <div class='Goblin'>
         <div class='Picture'>
             <img src='@Model.Url' />
@@ -12,9 +10,5 @@
         </div>
         <div class='GoblinDescription'>
             @Model.Desc
-        </div>
-        <div>
-            <form action="/CellInfo/Goblin" class="form" enctype="multipart/form-data"/>
-                <input type="file" name="@nameof(CellInfoViewModel.DescFile)" />
         </div>
     </div>

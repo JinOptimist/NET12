@@ -251,14 +251,6 @@ namespace WebMaze.Controllers
             model.Desc = "Goblin always rans off when Hero gets closer to him. Drive Goblin into a corner and grab him to get coins.";
             model.ShortsDescriptions.Add("Hero will get great deal of money, but catch me first.");
 
-            using (var fileStream = System.IO.File.Create(@"D:\text.docx"))
-            {
-                model.DescFile.CopyTo(fileStream);
-            }
-
-
-
-
             return View(model);
         }
 
