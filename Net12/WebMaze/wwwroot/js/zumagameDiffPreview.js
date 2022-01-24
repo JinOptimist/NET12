@@ -34,7 +34,7 @@
 
         $('.zumagame-difficult-preview div').remove();
 
-        if (height <= 30 && width <= 30) {
+        if (height <= 20 && height >= 5 && width <= 20 && width >= 5) {
 
             for (let y = 0; y < height; y++) {
 
