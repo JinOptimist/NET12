@@ -34,24 +34,27 @@
 
         $('.zumagame-difficult-preview div').remove();
 
-        for (let y = 0; y < height; y++) {
+        if (height <= 30 && width <= 30) {
 
-            let div = $('<div />');
-            div.addClass('zumagame-field-row');
+            for (let y = 0; y < height; y++) {
 
-            for (let x = 0; x < width; x++) {
+                let div = $('<div />');
+                div.addClass('zumagame-field-row');
 
-                let span = $('<span />');
-                span.addClass('zumagame-preview-cell');
+                for (let x = 0; x < width; x++) {
 
-                if (colorCount > 1 && colorCount <= colorsArray.length) {
-                    span.css('background', colorsArray[getRandomInt(0, colorCount)]);
+                    let span = $('<span />');
+                    span.addClass('zumagame-preview-cell');
+
+                    if (colorCount > 1 && colorCount <= colorsArray.length) {
+                        span.css('background', colorsArray[getRandomInt(0, colorCount)]);
+                    }
+
+                    div.append(span);
                 }
 
-                div.append(span);
+                $('.zumagame-difficult-preview').append(div);
             }
-
-            $('.zumagame-difficult-preview').append(div);
         }
     }
 
