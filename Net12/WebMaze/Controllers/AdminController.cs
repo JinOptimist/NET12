@@ -192,7 +192,6 @@ namespace WebMaze.Controllers
                             }
 
                             var runTitleAction = para.AppendChild(new Run());
-
                             runTitleAction.AppendChild(new RunProperties { Color = new Color { Val = "006400" } });
                             runTitleAction.AppendChild(new Break());
                             runTitleAction.AppendChild(new TabChar());
