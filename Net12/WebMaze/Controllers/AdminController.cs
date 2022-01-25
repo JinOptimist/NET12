@@ -199,17 +199,11 @@ namespace WebMaze.Controllers
                             runTitleAction.AppendChild(new Text(action.Name.ToString() + "("));
 
                             var runTitleAction2 = para.AppendChild(new Run());
-                            var propAction2 = runTitleAction2.AppendChild(new RunProperties());
-                            propAction2.Color = new Color
-                            {
-                                Val = "191970"
-                            };
+                            runTitleAction2.AppendChild(new RunProperties { Color = new Color { Val = "191970" } });
                             runTitleAction2.AppendChild(new Text(paramsString));
 
                             var runTitleAction3 = para.AppendChild(new Run());
-                            var propAction3 = new RunProperties { Color = new Color { Val = "006400" } };
-
-                            runTitleAction3.AppendChild(propAction3);
+                            runTitleAction3.AppendChild(new RunProperties { Color = new Color { Val = "006400" } });
                             runTitleAction3.AppendChild(new Text(")"));
                         }
                     }
