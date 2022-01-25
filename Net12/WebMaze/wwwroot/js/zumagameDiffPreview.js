@@ -9,24 +9,59 @@
 
             colorsArray = JSON.parse(colors);
 
-            $('.diffWidth').change(function () {
-
-                width = $(this).val();
-                buildField();
-            })
-
-            $('.diffHeight').change(function () {
-
-                height = $(this).val();
-                buildField();
-            })
-
-            $('.diffColorCount').change(function () {
-
-                colorCount = $(this).val();
-                buildField();
-            })
+            checkTextBox();
         });
+
+    function checkTextBox() {
+
+        $('.diffWidth').change(function () {
+
+            width = $(this).val();
+
+            if (width < 5) {
+                $(this).val(5);
+                width = 5;
+            }
+            if (width > 20) {
+                $(this).val(20);
+                width = 20;
+            }
+
+            buildField();
+        });
+
+        $('.diffHeight').change(function () {
+
+            height = $(this).val();
+
+            if (height < 5) {
+                $(this).val(5);
+                height = 5;
+            }
+            if (height > 20) {
+                $(this).val(20);
+                height = 20;
+            }
+
+            buildField();
+        });
+
+        $('.diffColorCount').change(function () {
+
+            colorCount = $(this).val();
+
+            if (colorCount < 2) {
+                $(this).val(2);
+                colorCount = 2;
+            }
+            if (colorCount > colorsArray.length) {
+                $(this).val(colorsArray.length);
+                colorCount = colorsArray.length;
+            }
+
+            buildField();
+        });
+    }
 
     function buildField() {
 
@@ -34,27 +69,24 @@
 
         $('.zumagame-difficult-preview div').remove();
 
-        if (height <= 20 && height >= 5 && width <= 20 && width >= 5) {
+        for (let y = 0; y < height; y++) {
 
-            for (let y = 0; y < height; y++) {
+            let div = $('<div />');
+            div.addClass('zumagame-field-row');
 
-                let div = $('<div />');
-                div.addClass('zumagame-field-row');
+            for (let x = 0; x < width; x++) {
 
-                for (let x = 0; x < width; x++) {
+                let span = $('<span />');
+                span.addClass('zumagame-preview-cell');
 
-                    let span = $('<span />');
-                    span.addClass('zumagame-preview-cell');
-
-                    if (colorCount > 1 && colorCount <= colorsArray.length) {
-                        span.css('background', colorsArray[getRandomInt(0, colorCount)]);
-                    }
-
-                    div.append(span);
+                if (colorCount > 1 && colorCount <= colorsArray.length) {
+                    span.css('background', colorsArray[getRandomInt(0, colorCount)]);
                 }
 
-                $('.zumagame-difficult-preview').append(div);
+                div.append(span);
             }
+
+            $('.zumagame-difficult-preview').append(div);
         }
     }
 

@@ -15,7 +15,7 @@
             <div class="add-zumagame-difficult">
                 <div>
                     <div class="zumagame-difficult-width">
-                        Width(5 - 20): @Html.TextBoxFor(x => x.Width, new { @type = "number", autocomplete = "off", @class = "diffWidth" })
+                        Width: @Html.TextBoxFor(x => x.Width, new { type = "number", autocomplete = "off", @class = "diffWidth" })
                     </div>
                     <div>
                         @Html.ValidationMessageFor(x => x.Width)
@@ -23,7 +23,7 @@
                 </div>
                 <div>
                     <div class="zumagame-difficult-height">
-                        Height(5 - 20): @Html.TextBoxFor(x => x.Height, new { @type = "number", autocomplete = "off", @class = "diffHeight" })
+                        Height: @Html.TextBoxFor(x => x.Height, new { type = "number", autocomplete = "off", @class = "diffHeight" })
                     </div>
                     <div>
                         @Html.ValidationMessageFor(x => x.Height)
@@ -31,7 +31,7 @@
                 </div>
                 <div>
                     <div>
-                        ColorCount(2 - 16): @Html.TextBoxFor(x => x.ColorCount, new { @type = "number", autocomplete = "off", @class = "diffColorCount" })
+                        ColorCount: @Html.TextBoxFor(x => x.ColorCount, new { type = "number", autocomplete = "off", @class = "diffColorCount" })
                     </div>
                     <div>
                         @Html.ValidationMessageFor(x => x.ColorCount)
