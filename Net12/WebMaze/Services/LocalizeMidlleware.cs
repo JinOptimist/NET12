@@ -28,9 +28,6 @@ namespace WebMaze.Services
                 case Language.En:
                     CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-EN");
                     break;
-                default:
-                    CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-EN");
-                    break;
             }
 
             await _next(context);

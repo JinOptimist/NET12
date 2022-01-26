@@ -464,6 +464,8 @@ namespace WebMaze
             //Куда мне можно?
             app.UseAuthorization();
 
+            app.UseMiddleware<LocalizeUnAthorizedMidleware>();
+
             app.UseMiddleware<LocalizeMidlleware>();
 
             app.UseEndpoints(endpoints =>
