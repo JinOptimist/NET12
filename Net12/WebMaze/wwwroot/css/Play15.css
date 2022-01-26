@@ -1,8 +1,13 @@
 ﻿.number-style {
     line-height: 90px;
     font-weight: 700;
-    font-size: xxx-large;
+    font-size: 46px;
     color: antiquewhite;
+}
+
+.number {
+    width: 100%;
+    height: 100%;
 }
 
 .square {

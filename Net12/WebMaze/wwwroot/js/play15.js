@@ -7,15 +7,13 @@
     places.push(new Array(4));
     //[row][column]
     //place 0..15
-    //number 1..16
+    //number 1..15 and undefined
 
     init();
     checkWin();
-    
 
     function init () {
         for (var number = 1; number < 16; number++) {
-            let row, column;
             do {
                 let randomPlace = getRandomInt(0, 16);
                 cell = getRowAndColumnByPlace(randomPlace);
@@ -29,8 +27,9 @@
                 if (places[row][column]) {
                     var element = $('[id-row="' + row + '"][id-column="' + column + '"]');
                     var piece = $('<div class="number"><span class="number-style">' + places[row][column] + '</span></div>');
-                    piece.click(function () {
+                    piece.click(function () {                        
                         step(row, column);
+                        checkWin();
                         });
                     element.html(piece);
                 } 
@@ -40,31 +39,34 @@
     }
 
     function step(row, column) {
-        /*alert('row ' + row + ', column ' + column);*/
-      /*  $('[id-row="' + row + '"][id-column="' + column + '"] > div')*/
-
-        if (places[row - 1][column] === undefined) {
-            let temp = places[row][column];
-            places[row][column] = undefined;
-            places[row - 1][column] = temp;
-            
-            $('[id-row="' + row + '"][id-column="' + column + '"] > div').appendTo('[id-row="' + (row - 1) + '"][id-column="' + column + '"]');
-            console.log('up');            
+        if (places[row - 1] && places[row - 1][column] === undefined) {
+            return moveCell('up', row, column);          
         }
 
-            /*|| places[cell.row + 1][cell.column] == undefined
-            || places[cell.row][cell.column - 1] == undefined || places[cell.row][cell.column + 1] == undefined)*/
-    }
+        if (places[row + 1] && places[row + 1][column] === undefined) {
+            return moveCell('down', row, column);
+        }
+
+        if (places[row][column - 1] === undefined && ((column - 1) > -1)) {
+            return moveCell('left', row, column);
+        }
+
+        if (places[row][column + 1] === undefined && ((column + 1) < 4)) {
+            return moveCell('right', row, column);
+        }
+
+    }  
 
     function checkWin() {
         for (var i = 0; i < 4; i++) {
             for (var j = 0; j < 4; j++) {
-                number = places[i][j];                
-                place = number - 1;
-                cell = getRowAndColumnByPlace(place);                
+                let number = places[i][j];
+                console.log(number);
+                let place = i * 4 + j;                             
+                /*console.log('' + i + '-' + j);*/
 
-                if (places[i][j] != places[cell.row][cell.column]) {
-                    console.log(false);
+                if ((number == undefined && (place + 1) != (4 * 4)) && number != (place + 1)) {
+                    console.log('win: ' + false);
                     return false;
                 }
 
@@ -72,6 +74,38 @@
         }
         console.log('win');
         return true;
+    }
+
+    function moveCell(direction, row, column) {
+        let newRow = row, newColumn = column;
+
+        let temp = places[row][column];
+        places[row][column] = undefined;
+
+        switch (direction) {
+            case 'up':
+                newRow = row - 1;
+                break;
+            case 'down':
+                newRow = row + 1;                           
+                break;
+            case 'left':
+                newColumn = column - 1;                              
+                break;
+            case 'right':
+                newColumn = column + 1;                
+                break;
+        }
+
+        places[newRow][newColumn] = temp;
+        var elm = $('[id-row="' + row + '"][id-column="' + column + '"] > div');
+        elm.unbind("click");
+        elm.click(function () {
+            step(newRow, newColumn);
+            checkWin();
+        });
+        elm.appendTo('[id-row="' + newRow + '"][id-column="' + newColumn + '"]');
+
     }
 
     function getRowAndColumnByPlace(place) {
