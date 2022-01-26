@@ -52,10 +52,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Home.resx</DependentUpon>
     </Compile>
-    <Compile Update="ResourceLocalization\Maze.Designer.cs">
+    <Compile Update="ResourceLocalization\Maze - Копировать.Designer.cs">
+      <DependentUpon>Maze.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Maze.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ResourceLocalization\ZumaGame.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ZumaGame.resx</DependentUpon>
     </Compile>
     <Compile Update="ResourceLocalization\News.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -72,9 +77,16 @@
     <EmbeddedResource Update="ResourceLocalization\Home.Ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\ZumaGame.resx">
+      <LastGenOutput>ZumaGame.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\ZumaGame.Ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\Maze.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Maze.Designer.cs</LastGenOutput>
+      <LastGenOutput>ZumaGame.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\Maze.Ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
