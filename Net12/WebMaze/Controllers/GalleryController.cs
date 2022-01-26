@@ -19,7 +19,6 @@ using WebMaze.Services;
 namespace WebMaze.Controllers
 {
     [Authorize]
-    [IsAdmin]
     public class GalleryController : Controller
     {
         private readonly ImageRepository _repository;
@@ -47,6 +46,19 @@ namespace WebMaze.Controllers
 
         [HttpGet]
         public IActionResult Index()
+        {
+            var imageViewModels = new List<ImageViewModel>();
+
+            if (_userRepository.GetAll().Any())
+            {
+                imageViewModels = _repository.GetAll().Select(image => _mapper.Map<ImageViewModel>(image)).ToList();
+            }
+
+            return View(imageViewModels);
+        }
+
+        [HttpGet]
+        public IActionResult GalleryCarousel()
         {
             var imageViewModels = new List<ImageViewModel>();
 
