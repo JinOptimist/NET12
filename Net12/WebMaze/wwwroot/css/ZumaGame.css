@@ -62,7 +62,7 @@
 
 .zumagame-difficult-block {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .zumagame-difficult-preview {
