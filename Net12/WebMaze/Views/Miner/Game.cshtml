@@ -1,6 +1,8 @@
 ﻿@model MinerFieldViewModel
 
-<script src="~/js/miner.js"></script>
+@section Scripts{
+    <script src="~/js/miner.js"></script>
+}
 
 <div class="miner-all">
     <div class="playspace">
@@ -50,67 +52,67 @@
         <div class="miner-field">
             @for (int y = 0; y < Model.Height; y++)
             {
-            <div class="row">
-                @for (int x = 0; x < Model.Width; x++)
-                {
-                    var cell = Model.Cells.Single(c => c.X == x && c.Y == y);
-                    if (cell.IsOpen)
+                <div class="row">
+                    @for (int x = 0; x < Model.Width; x++)
                     {
-                        if (cell.FirstOpenedBomb)
+                        var cell = Model.Cells.Single(c => c.X == x && c.Y == y);
+                        if (cell.IsOpen)
                         {
-                            <img src="~/images/miner_buttons/bomb1.png" width="29" />
-                        }
-                        else if (cell.IsBomb)
-                        {
-                            <img src="~/images/miner_buttons/bomb.png" width="29" />
-                        }
-                        else
-                        {
-                            var str = cell.NearBombsCount.ToString();
-                            var minerSource = "../../images/miner_buttons/t" + str + ".png";
-                            if (Model.IsOver || Model.IsWon || cell.NearBombsCount==0)
+                            if (cell.FirstOpenedBomb)
                             {
-                                <img src="@minerSource" width="29" />;
+                                <img src="~/images/miner_buttons/bomb1.png" width="29" />
+                            }
+                            else if (cell.IsBomb)
+                            {
+                                <img src="~/images/miner_buttons/bomb.png" width="29" />
                             }
                             else
                             {
-                                <img id="@cell.Id" class="press" src="@minerSource" onclick="openNearWithFlagsOrPressNear(this.id)" width="29" />;
-                            }
+                                var str = cell.NearBombsCount.ToString();
+                                var minerSource = "../../images/miner_buttons/t" + str + ".png";
+                                if (Model.IsOver || Model.IsWon || cell.NearBombsCount == 0)
+                                {
+                                    <img src="@minerSource" width="29" />;
+                                }
+                                else
+                                {
+                                    <img id="@cell.Id" class="press" src="@minerSource" onmousedown="openNearWithFlagsOrPressNear(this.id)" width="29" />;
+                                }
 
-                        }
-                    }
-                    else
-                    {
-                        if (Model.IsOver && cell.IsFlag && !cell.IsBomb)
-                        {
-                            <a href=#> <img src="~/images/miner_buttons/bomb2.png" width="29" /></a>
-                        }
-                        else if (!(Model.IsWon || Model.IsOver))
-                        {
-                            if (@cell.IsFlag)
-                            {
-                                <a href="/Miner/Step?id=@cell.Id"> <img src="~/images/miner_buttons/miner_flag.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
-                            }
-                            else
-                            {
-                                <a href="/Miner/Step?id=@cell.Id"> <img class="@cell.Id" src="~/images/miner_buttons/miner_button.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
                             }
                         }
                         else
                         {
-
-                            if (cell.IsFlag)
+                            if (Model.IsOver && cell.IsFlag && !cell.IsBomb)
                             {
-                                <a href=#> <img src="~/images/miner_buttons/miner_flag.png" width="29" /></a>
+                                <a href=#> <img src="~/images/miner_buttons/bomb2.png" width="29" /></a>
+                            }
+                            else if (!(Model.IsWon || Model.IsOver))
+                            {
+                                if (@cell.IsFlag)
+                                {
+                                    <a href="/Miner/Step?id=@cell.Id"> <img src="~/images/miner_buttons/miner_flag.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
+                                }
+                                else
+                                {
+                                    <a href="/Miner/Step?id=@cell.Id"> <img class="@cell.Id" src="~/images/miner_buttons/miner_button.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
+                                }
                             }
                             else
                             {
-                                <a href=#> <img src="~/images/miner_buttons/miner_button.png" width="29" /></a>
+
+                                if (cell.IsFlag)
+                                {
+                                    <a href=#> <img src="~/images/miner_buttons/miner_flag.png" width="29" /></a>
+                                }
+                                else
+                                {
+                                    <a href=#> <img src="~/images/miner_buttons/miner_button.png" width="29" /></a>
+                                }
                             }
                         }
                     }
-                }
-            </div>
+                </div>
             }
         </div>
 
