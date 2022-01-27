@@ -63,7 +63,6 @@
                 let number = places[i][j];
                 console.log(number);
                 let place = i * 4 + j;                             
-                /*console.log('' + i + '-' + j);*/
 
                 if ((number == undefined && (place + 1) != (4 * 4)) && number != (place + 1)) {
                     console.log('win: ' + false);
