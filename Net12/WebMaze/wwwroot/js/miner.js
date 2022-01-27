@@ -1,8 +1,8 @@
 ﻿"use strict";
 
-window.addEventListener('contextmenu', function (e) {
+/*window.addEventListener('contextmenu', function (e) {
     e.preventDefault();
-}, false);
+}, false);*/
    
 
 function setFlag(cellId) {
@@ -30,84 +30,44 @@ function setFlag(cellId) {
 
 
 //******************************************
-
-function openNearWithFlagsOrPressNear(cellId) {
-    let data = {
-        idCell: cellId
-    };
-    $.get('/Miner/CheckFlagsAndNearBombsCount', data)
-        .done(function(answer) {
-            if (answer == true) {
+    function openNearWithFlagsOrPressNear(cellId) {
+        let data = {
+            idCell: cellId
+        };
+        $.get('/Miner/CheckFlagsAndNearBombsCount', data, function (answer) {
+            if (answer) {
                 $.post('/Miner/OpenNearWithFlags', data)
                     .done(function () {
                         location.reload();
                     });
             }
-            else
-            {
-                /*$(".y").mousedown(function () {
-                    $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face1.png');
-                }).mouseup(function () {
-                    $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face0.png');
-                })*/
+            else {
+-
+                $.get('/Miner/GetNearToPress', data, function (cells) {
+                        
+                    $(".press").mousedown(function () {
+                        $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face1.png');
+                        for (let i = 0; i < cells.length; i++) {
+                            $("." + cells[i]).attr('src', '../../../images/miner_buttons/t0.png');
+                        }
 
-                $(".y").mousedown(function () {
-                    $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face1.png');
-                    for (let i = 0; i < answer.length; i++) {
-                        let y = "#" + answer[i];
-                        $(y).attr('src', '../../../images/miner_buttons/t0.png');
-                    }
-                }).mouseup(function () {
-                    $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face0.png');
-                    for (let i = 0; i < answer.length; i++) {
-                        let y = "#" + answer[i];
-                        $(y).attr('src', "../../../images/miner_buttons/miner_button.png");
-                    }
-                })
+                    })
+                        .mouseup(function () {
+                            $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face0.png');
+                            for (let i = 0; i < cells.length; i++) {
+                                $("." + cells[i]).attr('src', "../../../images/miner_buttons/miner_button.png");
+                            }
+                            //location.reload();
+                        });
+                    
 
-               /* $(".y").mousedown(function () {
-                    for (let i = 0; i < answer.length; i++) {
-                        let y = "#" + answer[i];
-                        $(y).attr('src', '../../../images/miner_buttons/t0.png');
-                    }
-                })
-
-                for (let i = 0; i < answer.length; i++) {
-                    let y = "#" + answer[i];
-                    $(y).attr('src', "../../../images/miner_buttons/miner_button.png");
-                }
-*/
-              
-
-                //$(".face.miner-elements").attr('src', '../../../images/miner_buttons/face_dead.png');
-
-                /*$(".y").mouseup(function () {
-                    $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face0.png');
-                })*/
-
-               /*function changeFaceWhilePressed() {
-                    $(".face.miner-elements").attr('src', '../../../images/miner_buttons/face1.png');
-                }
-                setTimeout(changeFaceWhilePressed, 300);
-*/
-                /*for (let i = 0; i < answer.length; i++)
-                    {
-                        let y = "#" + answer[i];
-                        $(y).attr('src', '../../../images/miner_buttons/t0.png');
-                    }*/
-
-                
-                /*function aaa() {
-                    for (let i = 0; i < answer.length; i++) {
-                        let y = "#" + answer[i];
-                        $(y).attr('src', "../../../images/miner_buttons/miner_button.png");
-                    }
-                }
-                setTimeout(aaa, 500);*/
+                }).fail(function () { alert("error1"); });
             }
-        });
 
-    
+        }).fail(function () { alert("error2"); });
+
+
+
 };
 
 //******************************************
@@ -166,7 +126,7 @@ let clock_numbers = new Array(cl0, cl1, cl2, cl3, cl4, cl5, cl6, cl7, cl8, cl9);
 */
 
 
-
+/*
 
 
 function time1()
@@ -199,4 +159,4 @@ function time3() {
     document.getElementById('imag3').src = clock_numbers[h].src;
     h += 1;
     setTimeout(time3, 100000);
-}
+}*/

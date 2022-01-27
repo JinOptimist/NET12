@@ -102,16 +102,28 @@ namespace WebMaze.Controllers
         {
             var cell = _minerCellRepository.Get(idCell);
             var flagsCount = _minerFiledBuilder.GetNear(cell.Field.Cells, cell).Where(cell => cell.IsFlag).Count();
+            bool answer;
             if (cell.NearBombsCount == flagsCount)
             {
-                var u = true;
-                return Json(u);
+                answer = true;               
             }
             else
             {
-                var cellIds = _minerFiledBuilder.GetNear(cell.Field.Cells, cell).Where(cell => !cell.IsFlag && !cell.IsOpen).Select(x => x.Id);
-                return Json(cellIds);
-            } 
+                answer = false;
+            }
+
+            return Json(answer);
+
+        }
+
+        public IActionResult GetNearToPress(long idCell)
+        {
+            var cell = _minerCellRepository.Get(idCell);
+            var cellIds = _minerFiledBuilder
+                .GetNear(cell.Field.Cells, cell)
+                .Where(cell => !cell.IsFlag && !cell.IsOpen)
+                .Select(x => x.Id);
+            return Json(cellIds);
         }
 
         private void OpenNearWhenBombCountNull(MinerCell cell)

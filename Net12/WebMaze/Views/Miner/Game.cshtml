@@ -74,7 +74,7 @@
                             }
                             else
                             {
-                                <img class="y" src="@minerSource" onclick="openNearWithFlagsOrPressNear(@cell.Id)" width="29" />;
+                                <img id="@cell.Id" class="press" src="@minerSource" onclick="openNearWithFlagsOrPressNear(this.id)" width="29" />;
                             }
 
                         }
@@ -89,11 +89,11 @@
                         {
                             if (@cell.IsFlag)
                             {
-                                <a href="/Miner/Step?id=@cell.Id"> <img id="@cell.Id" src="~/images/miner_buttons/miner_flag.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
+                                <a href="/Miner/Step?id=@cell.Id"> <img src="~/images/miner_buttons/miner_flag.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
                             }
                             else
                             {
-                                <a href="/Miner/Step?id=@cell.Id"> <img id="@cell.Id" src="~/images/miner_buttons/miner_button.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
+                                <a href="/Miner/Step?id=@cell.Id"> <img class="@cell.Id" src="~/images/miner_buttons/miner_button.png" width="29" oncontextmenu="setFlag(@cell.Id)" /></a>
                             }
                         }
                         else
@@ -117,7 +117,7 @@
     </div>
     @if (Model.IsOver)
     {
-        <div class="game-over-1 h1">Game</div>
+        <div id="bla" class="game-over-1 h1">Game</div>
         <div class="game-over-2 h1">over!</div>
     }
     @if (Model.IsWon)
