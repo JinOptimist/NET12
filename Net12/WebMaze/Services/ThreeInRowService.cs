@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel.ThreeInRow;
 using WebMaze.EfStuff.Repositories.ThreeInRowRepositories;
+using AutoMapper;
+using WebMaze.Models.ThreeInRow;
 
 namespace WebMaze.Services
 {
@@ -13,15 +15,20 @@ namespace WebMaze.Services
         private UserService _userService;
         private ThreeInRowCellRepository _threeInRowCellRepository;
         private ThreeInRowGameFieldRepository _threeInRowGameFieldRepository;
+        private IMapper _mapper;
+
         private Random random = new Random();
 
         public ThreeInRowService(UserService userService,
             ThreeInRowCellRepository threeInRowCellRepository,
-            ThreeInRowGameFieldRepository threeInRowGameFieldRepository)
+            ThreeInRowGameFieldRepository threeInRowGameFieldRepository,
+            IMapper mapper)
         {
             _userService = userService;
             _threeInRowCellRepository = threeInRowCellRepository;
             _threeInRowGameFieldRepository = threeInRowGameFieldRepository;
+            _mapper = mapper;
+
         }
 
         string[] colors = { "none", "red", "green", "blue", "purple", "orange" };
@@ -66,11 +73,49 @@ namespace WebMaze.Services
 
         public void Step(long Id)
         {
-            var gameField = _threeInRowGameFieldRepository.Get(1);
+            var gameField = _threeInRowGameFieldRepository.Get(2);
             var cell = gameField.Cells.SingleOrDefault(cell => cell.Id == Id);
-            cell.Color = NextColor();
+            cell.Color = NextColor();            
 
             _threeInRowGameFieldRepository.Save(gameField);
+
+            CheckStatus(Id);
+        }
+
+        public void CheckStatus(long Id)
+        {
+            var gameField = _threeInRowGameFieldRepository.Get(2);
+            var gameFieldViewModel = _mapper.Map<ThreeInRowGameFieldViewModel>(gameField);
+            var cell = gameFieldViewModel.Cells.SingleOrDefault(cell => cell.Id == Id);
+
+            if (GetNear(gameFieldViewModel, Id) > 2)  
+            {
+                
+            }
+
+
+            gameField = _mapper.Map<ThreeInRowGameField>(gameFieldViewModel);
+            _threeInRowGameFieldRepository.Save(gameField);
+        }
+
+        private int GetNear(ThreeInRowGameFieldViewModel gameFieldViewModel, long Id) 
+        {
+            var cellsSameColor = new List<ThreeInRowCellViewModel>(); 
+            for (int x = 0; x < gameFieldViewModel.Width; x++)
+            {
+                for (int y = 0; y < gameFieldViewModel.Height; y++)
+                {
+                    var cell = gameFieldViewModel.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
+                    var nextCell = gameFieldViewModel.Cells.SingleOrDefault(c => c.X == x && c.Y == y + 1);
+                    if (cell.Color == nextCell.Color)
+                    {
+                        cellsSameColor.Add(cell);
+                        cell = nextCell;
+                    }
+                }
+                
+            }
+            return 1;
         }
     }
-}
+} 
