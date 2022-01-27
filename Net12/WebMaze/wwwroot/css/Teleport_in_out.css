@@ -35,5 +35,8 @@
     flex-grow: 2;
 }
 
+.click-to-change-color {
+    background-color: greenyellow;
+}
 
 

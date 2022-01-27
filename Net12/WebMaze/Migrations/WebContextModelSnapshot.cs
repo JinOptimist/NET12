@@ -640,6 +640,9 @@ namespace WebMaze.Migrations
                     b.Property<int>("Coins")
                         .HasColumnType("int");
 
+                    b.Property<int>("DefaultLocale")
+                        .HasColumnType("int");
+
                     b.Property<int>("GlobalUserRating")
                         .HasColumnType("int");
 
