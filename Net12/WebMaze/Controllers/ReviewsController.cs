@@ -59,14 +59,19 @@ namespace WebMaze.Controllers
             _reviewRepository.Save(review);
 
             var reviewDocName = $"{review.Id}.docx";
-            review.Text = "/textDocuments/review" + reviewDocName; //указали путь к документу и сохранили в базу. (Сохранили что? путь или документ)
+            review.Text = "/textDocuments/review" + reviewDocName; //указали путь к документу и сохранили в базу. 
             _reviewRepository.Save(review);
 
             var filePath = Path.Combine(_hostEnvironment.WebRootPath, "textDocuments", "review", reviewDocName);
 
-            using (var fileStream = System.IO.File.Create(@"D:\" + reviewDocName))
+            using (var fileStream = System.IO.File.Create(filePath))
             {
                 viewReview.ReviewDoc.CopyTo(fileStream);
+            }
+
+            using ()
+            {
+
             }
 
             var FeedBackUsers = _reviewRepository.GiveViewReviews(_userService);
