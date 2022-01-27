@@ -23,6 +23,12 @@ using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Services;
 using WebMaze.SignalRHubs;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace WebMaze
 {
@@ -444,8 +450,15 @@ namespace WebMaze
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app, 
+            IWebHostEnvironment env,
+            ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile("Logs/Info-{Date}.txt", 
+                outputTemplate: "[{Level}] Smile {Timestamp:o} {Message} {NewLine}{Exception}");
+            loggerFactory.AddFile("Logs/ERROR-{Date}.txt", LogLevel.Error);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

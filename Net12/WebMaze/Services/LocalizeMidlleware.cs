@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -20,6 +21,9 @@ namespace WebMaze.Services
         public async Task Invoke(HttpContext context)
         {
             var userService = context.RequestServices.GetService(typeof(UserService)) as UserService;
+            var logger = 
+                context.RequestServices.GetService(typeof(ILogger<LocalizeMidlleware>)) as ILogger<LocalizeMidlleware>;
+            
             switch (userService.GetCurrentUser()?.DefaultLocale)
             {
                 case Language.Ru:
@@ -29,6 +33,7 @@ namespace WebMaze.Services
                     CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-EN");
                     break;
                 default:
+                    logger.LogError($"UKnown localization in DB. {userService.GetCurrentUser()?.DefaultLocale}");
                     CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-EN");
                     break;
             }
