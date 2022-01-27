@@ -187,7 +187,7 @@ body {
     border-radius: 10px;
 }
 
-.messages{
+.messages {
     height: 100px;
     overflow-y: auto;
 }
@@ -202,7 +202,7 @@ body {
     border-radius: 20px;
 }
 
-.user-name{
+.user-name {
     color: aqua;
     margin-right: 10px;
 }
