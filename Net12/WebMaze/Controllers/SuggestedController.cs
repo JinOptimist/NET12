@@ -43,7 +43,6 @@ namespace WebMaze.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
-
         public IActionResult SuggestedEnemys()
         {
             var suggestedEnemysViewModels = new List<SuggestedEnemysViewModel>();
@@ -101,8 +100,6 @@ namespace WebMaze.Controllers
             {
                 suggestedEnemysViewModel.ImageFile.CopyTo(fileStream);
             }
-
-
 
             return RedirectToAction($"{nameof(SuggestedController.SuggestedEnemys)}");
         }
