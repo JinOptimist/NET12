@@ -1,5 +1,7 @@
-﻿@model ZumaGameScoreViewModel
+﻿@using WebMaze.ResourceLocalization
 
-<div class="zumagame-lose">YOU LOSE!!!!</div>
-<div class="big-center-font">Score : @Model.Score</div>
-<div class="big-center-font"><a href="/ZumaGame/Index">Return</a></div>
+@model ZumaGameScoreViewModel
+
+<div class="zumagame-lose">@ZumaGame.LoseGame</div>
+<div class="big-center-font">@ZumaGame.Score @Model.Score</div>
+<div class="big-center-font"><a href="/ZumaGame/Index">@ZumaGame.Return</a></div>
