@@ -26,6 +26,7 @@ namespace WebMaze.Controllers
     {
         private PermissionRepository _permissionRepository;
         private IMapper _mapper;
+        private UserRepository _userRepository;
 
         public AdminController(PermissionRepository permissionRepository, IMapper mapper)
         {
@@ -186,7 +187,7 @@ namespace WebMaze.Controllers
                                 paramsString += param.Name + ", ";
                             }
 
-                            if(paramsString.Length > 0)
+                            if (paramsString.Length > 0)
                             {
                                 paramsString = paramsString.Remove(paramsString.Length - 2);
                             }
@@ -213,6 +214,45 @@ namespace WebMaze.Controllers
                 return File(ms.ToArray(),
                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                    "ReflectionPages.docx");
+            }
+        }
+
+        public IActionResult DownlodListReapitUsers()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var wordDocument = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
+                {
+                    var listUsers = _userRepository.GetAll();
+
+                    var mainPart = wordDocument.AddMainDocumentPart();
+                    mainPart.Document = new Document();
+                    var body = mainPart.Document.AppendChild(new Body());
+
+                    foreach (var user in listUsers)
+                    {
+                        var para = body.AppendChild(new Paragraph());
+
+                        var runTitle = para.AppendChild(new Run());
+                        runTitle.AppendChild(new Text($"{user.Id}"));
+
+                        var properties = new ParagraphProperties();
+                        var fontSize = new FontSize() { Val = "36" };
+                        properties.Append(fontSize);
+
+                        para.Append(properties);
+
+                        var paraText = body.AppendChild(new Paragraph());
+                        var runNewsBody = paraText.AppendChild(new Run());
+                        runNewsBody.AppendChild(new Text(user.Name));
+                    }
+
+                    wordDocument.Close();
+
+                    return File(ms.ToArray(),
+                       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                       "SpecailForYou.docx");
+                }
             }
         }
     }
