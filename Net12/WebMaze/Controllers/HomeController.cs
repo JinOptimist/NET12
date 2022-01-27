@@ -96,8 +96,6 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult AddUser()
         {
-            throw new CultureNotFoundException("Not found Uganda");
-
             return View();
         }
 
