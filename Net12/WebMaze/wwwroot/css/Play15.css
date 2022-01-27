@@ -5,7 +5,7 @@
     color: antiquewhite;
 }
 
-.number {
+.number {    
     width: 100%;
     height: 100%;
 }
@@ -13,7 +13,6 @@
 .square {
     width: 100px;
     height: 100px;
-    background-color: darkgreen;
     display: inline-block;
     margin: 2px;
     border-block-color: darkseagreen;

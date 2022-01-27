@@ -25,13 +25,18 @@
         for (let row = 0; row < 4; row++) {        
             for (let column = 0; column < 4; column++) {
                 if (places[row][column]) {
+                    let number = places[row][column];
+                    
                     var element = $('[id-row="' + row + '"][id-column="' + column + '"]');
                     var piece = $('<div class="number"><span class="number-style">' + places[row][column] + '</span></div>');
+
                     piece.click(function () {                        
                         step(row, column);
                         checkWin();
                         });
                     element.html(piece);
+
+                    changeColor(number, row, column);
                 } 
             }
         }
@@ -54,7 +59,6 @@
         if (places[row][column + 1] === undefined && ((column + 1) < 4)) {
             return moveCell('right', row, column);
         }
-
     }  
 
     function checkWin() {
@@ -105,6 +109,12 @@
         });
         elm.appendTo('[id-row="' + newRow + '"][id-column="' + newColumn + '"]');
 
+        changeColor(temp, newRow, newColumn);
+    }
+
+    function changeColor(number, row, column) {
+        var elm = $('[id-row="' + row + '"][id-column="' + column + '"] > div');
+        elm.css('background-color', number == (row * 4 + column + 1) ? 'olivedrab' : 'darkgreen');  
     }
 
     function getRowAndColumnByPlace(place) {
