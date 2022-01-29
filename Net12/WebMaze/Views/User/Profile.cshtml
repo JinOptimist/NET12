@@ -1,4 +1,6 @@
-﻿@model UserViewModel
+﻿@using WebMaze.Services
+@model UserViewModel
+@inject UserService userService
 
 @section Scripts{
     <script src="~/js/showHideNews.js"></script>
@@ -24,9 +26,12 @@
     </div>
 </div>
 
-<div>
-    <a href="/Admin/DownlodListReapitUsers">Download list reapit users</a>
-</div>
+@if (userService.IsAdmin)
+{
+    <div>
+        <a href="/Admin/DownlodListReapitUsers">Download list reapit users</a>
+    </div>
+}
 
 @*<div class="header">
         <h2>Your news</h2>

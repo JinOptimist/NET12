@@ -27,11 +27,14 @@ namespace WebMaze.Controllers
         private PermissionRepository _permissionRepository;
         private IMapper _mapper;
         private UserRepository _userRepository;
+        
 
-        public AdminController(PermissionRepository permissionRepository, IMapper mapper)
+        public AdminController(PermissionRepository permissionRepository, IMapper mapper,
+            UserRepository userRepository)
         {
             _permissionRepository = permissionRepository;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
 
         public IActionResult ViewPermission()
@@ -232,26 +235,19 @@ namespace WebMaze.Controllers
                     foreach (var user in listUsers)
                     {
                         var para = body.AppendChild(new Paragraph());
-
                         var runTitle = para.AppendChild(new Run());
-                        runTitle.AppendChild(new Text($"{user.Id}"));
-
+                        runTitle.AppendChild(new Text($"{user.Name} - {user.Id}"));
                         var properties = new ParagraphProperties();
                         var fontSize = new FontSize() { Val = "36" };
                         properties.Append(fontSize);
-
                         para.Append(properties);
-
-                        var paraText = body.AppendChild(new Paragraph());
-                        var runNewsBody = paraText.AppendChild(new Run());
-                        runNewsBody.AppendChild(new Text(user.Name));
                     }
 
                     wordDocument.Close();
 
                     return File(ms.ToArray(),
                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                       "SpecailForYou.docx");
+                       "ReapitUsersName.docx");
                 }
             }
         }

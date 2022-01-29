@@ -80,5 +80,26 @@ WHERE U.Name IS NOT NULL
                 .Select(x => x.Name)
                 .ToList();
         }
+        public List<string> GetReapitUsersName(string userId)
+        {
+            var param = new SqlParameter("@newsID", userId);
+            return _dbSet.FromSqlRaw<User>(@$"SELECT DISTINCT U.*
+FROM
+	(
+		SELECT N.Id as NewsId, Max(U.Coins) userCoinsCumm
+		FROM 
+			News N 
+			LEFT JOIN NewsComments NC ON NC.NewsId = N.Id
+			LEFT JOIN Users U ON NC.AuthorId = U.Id
+		WHERE N.Id = @newsID
+		GROUP BY N.Id
+	) TempTable
+	LEFT JOIN News N ON TempTable.NewsId = N.Id
+	LEFT JOIN Users U ON U.Coins = TempTable.userCoinsCumm
+WHERE U.Name IS NOT NULL
+", param)
+                .Select(x => x.Name)
+                .ToList();
+        }
     }
 }
