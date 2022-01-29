@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -20,17 +21,26 @@ namespace WebMaze.Services
         public async Task Invoke(HttpContext context)
         {
             var userService = context.RequestServices.GetService(typeof(UserService)) as UserService;
-            switch (userService.GetCurrentUser()?.DefaultLocale)
+            var logger = 
+                context.RequestServices.GetService(typeof(ILogger<LocalizeMidlleware>)) as ILogger<LocalizeMidlleware>;
+            if (userService.GetCurrentUser() != null)
             {
-                case Language.Ru:
-                    CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("ru-RU");
-                    break;
-                case Language.En:
-                    CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-EN");
-                    break;
-                default:
-                    LanguageFromCookie(context);
-                    break;
+                switch (userService.GetCurrentUser()?.DefaultLocale)
+                {
+                    case Language.Ru:
+                        CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("ru-RU");
+                        break;
+                    case Language.En:
+                        CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-EN");
+                        break;
+                    default:
+                        logger.LogError($"UKnown localization in DB. {userService.GetCurrentUser()?.DefaultLocale}");
+                        break;
+                }
+            } 
+            else
+            {
+                LanguageFromCookie(context);
             }
 
             await _next(context);
@@ -68,6 +78,7 @@ namespace WebMaze.Services
                     break;
             }
 
+            await _next(context);
         }
     }
 }

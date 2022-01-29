@@ -14,6 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +35,9 @@
   <ItemGroup>
     <Folder Include="wwwroot\images\galleryImg\" />
     <Folder Include="wwwroot\images\gallery\" />
+    <Folder Include="wwwroot\images\SuggestedEnemies\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
+    <Folder Include="Logs\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,10 +55,20 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Home.resx</DependentUpon>
     </Compile>
-    <Compile Update="ResourceLocalization\Maze.Designer.cs">
+    <Compile Update="ResourceLocalization\Maze - Копировать.Designer.cs">
+      <DependentUpon>Maze.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Maze.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ResourceLocalization\ZumaGame.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ZumaGame.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ResourceLocalization\News.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>News.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -67,11 +80,25 @@
     <EmbeddedResource Update="ResourceLocalization\Home.Ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\ZumaGame.resx">
+      <LastGenOutput>ZumaGame.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\ZumaGame.Ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\Maze.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Maze.Designer.cs</LastGenOutput>
+      <LastGenOutput>ZumaGame.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\Maze.Ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\News.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>News.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\News.Ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
