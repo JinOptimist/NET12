@@ -78,7 +78,6 @@ namespace WebMaze.Services
                     break;
             }
 
-            await _next(context);
         }
     }
 }
