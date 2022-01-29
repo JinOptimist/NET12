@@ -1,0 +1,28 @@
+﻿@model GroupListViewModel
+@section Scripts{
+<link rel="stylesheet" href="~/css/Group.css" />
+}
+
+<div>
+    <a>@Model.Name</a>
+    <div>
+        <a>Users</a>
+        <ul>
+            @foreach (var user in Model.Users)
+            {
+                <li>@user.UserName</li>
+            }
+        </ul>
+    </div>
+</div>
+
+<form action="/User/MyGroup" method="post">
+    @Html.HiddenFor(x => x.Id);
+    <fieldset>
+        <legend><b>Add User</b></legend>
+        <label>User Name:</label>
+        <br>
+        <textarea name="UserName" placeholder="NickName"></textarea>
+        <div><input type="submit" value="Save" /></div>
+    </fieldset>
+</form>

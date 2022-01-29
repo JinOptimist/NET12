@@ -1,0 +1,31 @@
+.GroupList {
+    list-style: none;
+    border-left: 10px solid #FC7574;
+    padding: 0;
+    font-family: "Lucida Sans";
+}
+
+    .GroupList li {
+        padding: 10px;
+    }
+
+        .GroupList li:nth-child(odd) {
+            background: #E1F1FF;
+        }
+
+        .GroupList li:nth-child(even) {
+            background: white;
+        }
+.Groups{
+    display: flex;
+}
+
+.ListOfGroups {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.MyGroup{
+    text-align: center;
+}
