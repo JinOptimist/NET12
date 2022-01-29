@@ -141,6 +141,10 @@ namespace WebMaze.Controllers
             }
 
             var myGroup = _groupListRepository.Get(Id);
+            if(myGroup.Users.Any(u => u.User.Id == user.Id))
+            {
+                return MyGroup(Id);
+            }
             var UserInGroup = new UserInGroup()
             {
                 Group = myGroup,
