@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
@@ -100,6 +101,64 @@ namespace WebMaze.Controllers
         {
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult TransactionCoins(string userName, int coins)
+        {
+            var currUser = _userService.GetCurrentUser();
+            var destUser = _userRepository.GetUserByName(userName);
+
+            if(coins > 0 && currUser.Coins >= coins &&  destUser != null)
+            {
+                _userRepository.TransactionCoins(currUser.Id, destUser.Id, coins);
+            }
+
+            return RedirectToAction("Profile");
+        }
+
+        public IActionResult JSTransactionCoins(string userName, int coins)
+        {
+            var currUser = _userService.GetCurrentUser();
+            var destUser = _userRepository.GetUserByName(userName);
+            var answer = new List<string>();
+
+            if (coins > 0)
+            {
+                if (currUser.Coins >= coins)
+                {
+                    if (destUser != null)
+                    {
+                        if (_userRepository.TransactionCoins(currUser.Id, destUser.Id, coins))
+                        {
+                            answer.Add("Succes transaction");
+                            answer.Add("green");
+                        }
+                        else
+                        {
+                            answer.Add("Something WRONG");
+                            answer.Add("red");
+                        }
+                    }
+                    else
+                    {
+                        answer.Add("Not enough User");
+                        answer.Add("red");
+                    }
+                }
+                else
+                {
+                    answer.Add("Not enough Coins");
+                    answer.Add("red");
+                }
+            }
+            else
+            {
+                answer.Add("Negative value");
+                answer.Add("red");
+            }
+            answer.Add(currUser.Coins.ToString());
+
+            return Json(JsonSerializer.Serialize(answer));
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 
 namespace WebMaze.EfStuff.Repositories
 {
@@ -18,9 +19,11 @@ namespace WebMaze.EfStuff.Repositories
         private MazeLevelRepository _mazeLevelRepository;
         private CellRepository _cellRepository;
         private MazeEnemyRepository _mazeEnemyRepository;
+        private ILogger<UserRepository> _logger;
+
         public UserRepository(WebContext webContext,
             ReviewRepository reviewRepository,
-            ImageRepository imageRepository, MazeLevelRepository mazeLevelRepository, CellRepository cellRepository, FavGamesRepository favGamesRepository, MazeEnemyRepository mazeEnemyRepository) : base(webContext)
+            ImageRepository imageRepository, MazeLevelRepository mazeLevelRepository, CellRepository cellRepository, FavGamesRepository favGamesRepository, MazeEnemyRepository mazeEnemyRepository, ILogger<UserRepository> logger) : base(webContext)
         {
             _reviewRepository = reviewRepository;
             _favGamesRepository = favGamesRepository;
@@ -28,6 +31,7 @@ namespace WebMaze.EfStuff.Repositories
             _mazeLevelRepository = mazeLevelRepository;
             _cellRepository = cellRepository;
             _mazeEnemyRepository = mazeEnemyRepository;
+            _logger = logger;
         }
 
         public User GetByNameAndPassword(string login, string password)
@@ -79,6 +83,35 @@ WHERE U.Name IS NOT NULL
 ", param)
                 .Select(x => x.Name)
                 .ToList();
+        }
+
+        public bool TransactionCoins(long currUserId, long destNameId, int coins)
+        {
+            using var transaction = _webContext.Database.BeginTransaction();
+            try
+            {
+                _webContext.Database.ExecuteSqlRaw(@$"update Users
+                                                        set Coins -= {coins}
+                                                        where Id = {currUserId}");
+
+                _webContext.Database.ExecuteSqlRaw(@$"update Users
+                                                        set Coins += {coins}
+                                                        where Id = {destNameId}");
+
+                _webContext.SaveChanges();
+                transaction.Commit();
+
+                _logger.LogInformation($"Transaction between Ids {currUserId} and {destNameId} to transfer {coins} coins was successful ");
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+
+                _logger.LogError($"Transaction between Ids {currUserId} and {destNameId} to transfer {coins} coins was FAIL ");
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -2,11 +2,11 @@
 
 @section Scripts{
     <script src="~/js/showHideNews.js"></script>
-
+    <script src="~/js/transaction.js"></script>
     <link rel="stylesheet" href="~/css/profileNews.css" />
 }
 
-<div>
+<div class="user-profile">
     Profile
     <div>
         Hi @Model.UserName
@@ -15,7 +15,7 @@
         You Global Rating: @Model.GlobalUserRating
     </div>
     <div>
-        Coins: @Model.Coins
+        Coins: <span class="profile-coins">@Model.Coins</span>
 
         <form action="/User/NewCoin" method="post">
             @Html.TextBoxFor(x => x.Coins)
@@ -23,6 +23,32 @@
         </form>
     </div>
 </div>
+
+
+<div class="user-profile">
+    @using (Html.BeginForm("TransactionCoins", "User", FormMethod.Post))
+    {
+        <div>
+            Transaction Field
+        </div>
+        <div>
+            User Name: <input name="userName" type="text" class="transactionUserName" />
+        </div>
+        <div>
+            Coins Count: <input name="coins" type="number" class="transactionCoins" />
+        </div>
+        <div class="transaction-info">
+
+        </div>
+        <input type="submit" value="Отправить" />
+
+    }
+    <div class="js-transaction-field">
+        <input type="button" value="Send using JS" class="transactionButton" />
+    </div>
+</div>
+
+
 
 @*<div class="header">
         <h2>Your news</h2>

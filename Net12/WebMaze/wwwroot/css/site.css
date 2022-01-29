@@ -206,3 +206,15 @@ body {
     color: aqua;
     margin-right: 10px;
 }
+
+.user-profile {
+    margin: 30px;
+}
+
+    .user-profile * {
+        margin: 5px;
+    }
+
+.transaction-info{
+    color: black;
+}
