@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20220129133843_GroupList3")]
+    partial class GroupList3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -683,7 +685,7 @@ namespace WebMaze.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.UserInGroup", b =>
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.UsersInGroup", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -705,7 +707,7 @@ namespace WebMaze.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserInGroup");
+                    b.ToTable("UsersInGroup");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameCell", b =>
@@ -870,7 +872,7 @@ namespace WebMaze.Migrations
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GroupList", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
-                        .WithMany("Groups")
+                        .WithMany("GroupList")
                         .HasForeignKey("CreatorId");
 
                     b.Navigation("Creator");
@@ -1011,7 +1013,7 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.UserInGroup", b =>
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.UsersInGroup", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.GroupList", "Group")
                         .WithMany("Users")
@@ -1096,7 +1098,7 @@ namespace WebMaze.Migrations
 
                     b.Navigation("EnemySuggestedWhichIAprove");
 
-                    b.Navigation("Groups");
+                    b.Navigation("GroupList");
 
                     b.Navigation("Images");
 

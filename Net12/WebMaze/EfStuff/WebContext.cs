@@ -125,6 +125,11 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<MazeLevelWeb>().HasMany(x => x.Cells).WithOne(x => x.MazeLevel);
             modelBuilder.Entity<MazeLevelWeb>().HasMany(x => x.Enemies).WithOne(x => x.MazeLevel);
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<GroupList>().HasMany(x => x.Users).WithOne(x => x.Group);
+            modelBuilder.Entity<GroupList>().HasOne(x => x.Creator).WithMany(x => x.Groups);
+            modelBuilder.Entity<UserInGroup>().HasOne(x => x.User).WithMany(x => x.UsersInGroup);
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

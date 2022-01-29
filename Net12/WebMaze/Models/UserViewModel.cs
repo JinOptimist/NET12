@@ -13,6 +13,7 @@ namespace WebMaze.Models
         public int Coins { get; set; }
         public int GlobalUserRating { get; set; }
 
+        public List<GroupListViewModel> Groups { get; set; }
         public List<NewsViewModel> News { get; set; }
     }
 }

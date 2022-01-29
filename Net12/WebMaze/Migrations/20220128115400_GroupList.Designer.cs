@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20220128115400_GroupList")]
+    partial class GroupList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -669,6 +671,9 @@ namespace WebMaze.Migrations
                     b.Property<int>("GlobalUserRating")
                         .HasColumnType("int");
 
+                    b.Property<long?>("GroupListId")
+                        .HasColumnType("bigint");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -680,32 +685,9 @@ namespace WebMaze.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GroupListId");
+
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.UserInGroup", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long?>("GroupId")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserInGroup");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameCell", b =>
@@ -870,7 +852,7 @@ namespace WebMaze.Migrations
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GroupList", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
-                        .WithMany("Groups")
+                        .WithMany("GroupList")
                         .HasForeignKey("CreatorId");
 
                     b.Navigation("Creator");
@@ -1011,19 +993,11 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.UserInGroup", b =>
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
-                    b.HasOne("WebMaze.EfStuff.DbModel.GroupList", "Group")
+                    b.HasOne("WebMaze.EfStuff.DbModel.GroupList", null)
                         .WithMany("Users")
-                        .HasForeignKey("GroupId");
-
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "User")
-                        .WithMany("UsersInGroup")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Group");
-
-                    b.Navigation("User");
+                        .HasForeignKey("GroupListId");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameCell", b =>
@@ -1096,7 +1070,7 @@ namespace WebMaze.Migrations
 
                     b.Navigation("EnemySuggestedWhichIAprove");
 
-                    b.Navigation("Groups");
+                    b.Navigation("GroupList");
 
                     b.Navigation("Images");
 
@@ -1121,8 +1095,6 @@ namespace WebMaze.Migrations
                     b.Navigation("MyReviews");
 
                     b.Navigation("NewsComments");
-
-                    b.Navigation("UsersInGroup");
 
                     b.Navigation("ZumaGameDifficults");
 
