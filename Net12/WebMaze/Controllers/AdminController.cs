@@ -215,5 +215,10 @@ namespace WebMaze.Controllers
                    "ReflectionPages.docx");
             }
         }
+
+        public IActionResult DownloadCellInfoHelper()
+        {
+            return View();
+        }
     }
 }
