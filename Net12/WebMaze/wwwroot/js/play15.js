@@ -14,7 +14,7 @@
 
     function init () {
         for (var number = 1; number < 16; number++) {
-            do {
+            do {                
                 let randomPlace = getRandomInt(0, 16);
                 cell = getRowAndColumnByPlace(randomPlace);
             } while (places[cell.row][cell.column] !== undefined);
@@ -40,7 +40,6 @@
                 } 
             }
         }
-
     }
 
     function step(row, column) {
@@ -62,19 +61,19 @@
     }  
 
     function checkWin() {
-        for (var i = 0; i < 4; i++) {
-            for (var j = 0; j < 4; j++) {
-                let number = places[i][j];
-                console.log(number);
-                let place = i * 4 + j;                             
+        for (var place = 0; place < 14; place++) {
+            let number = place + 1;
+            cell = getRowAndColumnByPlace(place);
 
-                if ((number == undefined && (place + 1) != (4 * 4)) && number != (place + 1)) {
-                    console.log('win: ' + false);
-                    return false;
-                }
+            console.log(number);
 
-            }
+            if (number != places[cell.row][cell.column]) {
+                console.log('win: ' + false);
+                return false;
+            }           
         }
+       
+        $(".win-display").css('visibility','visible');
         console.log('win');
         return true;
     }

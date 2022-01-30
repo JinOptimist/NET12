@@ -13,6 +13,7 @@
 .square {
     width: 100px;
     height: 100px;
+    background-color: darkgreen;
     display: inline-block;
     margin: 2px;
     border-block-color: darkseagreen;
@@ -26,7 +27,6 @@
     align-items: center;
     text-align: center;
     flex-direction: column;
-    background-image: url(/images/play15Img/background.jpg);
 }
 
 .row15 {
@@ -34,6 +34,27 @@
     flex-direction:row;
     justify-content:center;
 
+}
+
+.back15 {
+    background-image: url(/images/play15Img/background.jpg);
+}
+
+.win-display {
+    width: 100vw;
+    height: calc(100vh - 116px);
+    position: absolute;
+    background-color: #4a3b3ba6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+}
+    
+.win-display > div {
+    color: floralwhite;
+    font-weight: 700;
+    font-size: 300px;
 }
 
 .container15-start {
