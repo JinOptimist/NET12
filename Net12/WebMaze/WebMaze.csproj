@@ -14,6 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,7 +36,9 @@
     <Folder Include="wwwroot\images\galleryImg\" />
     <Folder Include="wwwroot\images\gallery\" />
     <Folder Include="wwwroot\images\play15Img\" />
+    <Folder Include="wwwroot\images\SuggestedEnemies\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
+    <Folder Include="Logs\" />
   </ItemGroup>
 
   <ItemGroup>

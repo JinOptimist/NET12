@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,8 +13,7 @@ namespace WebMaze.Models
         public long Id { get; set; }
 
         [SwearWord("Cunt")]
-        public string Name { get; set; }
-        [Url()]
+        public string Name { get; set; }       
         public string Url { get; set; }
         [SwearWord("Cunt")]
         [WordCount(3)]
@@ -21,6 +21,6 @@ namespace WebMaze.Models
         public string UserName { get; set; }
         public bool IsActive { get; set; }
         public int GlobalUserRating { get; set; }
-
+        public IFormFile ImageFile { get; set; }
     }
 }
