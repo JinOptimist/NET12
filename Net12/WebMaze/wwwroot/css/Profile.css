@@ -1,31 +1,76 @@
-.GroupList {
-    list-style: none;
-    border-left: 10px solid #FC7574;
-    padding: 0;
-    font-family: "Lucida Sans";
+.Groups {
+    width: 550px;
+    margin-left: 10px;
+    border: solid 2px gray;
+    border-radius: 5px;
 }
-
-    .GroupList li {
-        padding: 10px;
-    }
-
-        .GroupList li:nth-child(odd) {
-            background: #E1F1FF;
-        }
-
-        .GroupList li:nth-child(even) {
-            background: white;
-        }
-.Groups{
-    display: flex;
-}
-
-.ListOfGroups {
+.ListGroup {
+    padding: 0 20px;
     display: flex;
     flex-direction: column;
-    width: 30%;
+    background: white;
+    border-radius: 0% 0% 4px 4px;
+    box-shadow: var(--page-block-shadow);
 }
 
-.MyGroup{
-    text-align: center;
+.isGroup {
+    border-bottom: 1px solid #c7c7c7;
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.group_row_photo{
+    float: left;
+}
+
+.group_row_img {
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 0;
+}
+
+.group_row_title {
+    margin-right: 15px;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+
+}
+
+.group_row_Name {
+    font-size: 16px;
+}
+
+.group_row {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+.tilte_listGroup {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+    border-bottom: solid 1px white;
+    background: #c7c7c7;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 700;
+}
+
+.button_add_group{
+  display: inline-block;
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+  user-select: none;
+  padding: .5em 2em;
+  outline: none;
+  border: 2px solid;
+  border-radius: 1px;
+  transition: 0.2s;
 }

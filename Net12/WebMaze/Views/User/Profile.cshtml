@@ -1,9 +1,9 @@
 ﻿@model UserViewModel
 
 @section Scripts{
-    <script src="~/js/showHideNews.js"></script>
-    <link rel="stylesheet" href="~/css/Profile.css" />
-    <link rel="stylesheet" href="~/css/profileNews.css" />
+<script src="~/js/showHideNews.js"></script>
+<link rel="stylesheet" href="~/css/Profile.css" />
+<link rel="stylesheet" href="~/css/profileNews.css" />
 }
 
 <div>
@@ -25,7 +25,7 @@
 </div>
 
 @*<div class="header">
-        <h2>Your news</h2>
+    <h2>Your news</h2>
     </div>*@
 
 @if (Model.News.Any())
@@ -74,19 +74,29 @@
             </table>
         </div>
     </div>
-    <div class="Groups">
-                <div class="ListOfGroups">
-                    <a>My Groups</a>
-                    <a href="~/User/AddGroup">Add Group</a>
-                    <ul class="GroupList">
-                        @foreach(var group in Model.Groups)
-                        {
-                            <li><a href="/User/MyGroup?IdGroup=@group.Id">@group.Name</a></li>
-                        }
-                    </ul>
-                </div>
-                <div class="MyGroup">
-                    Will Done.
-                </div>
-            </div>
 }
+<div class="Groups">
+        <div class="tilte_listGroup">
+            <a class="title_listGroup_name group_row_Name">Мои группы</a>
+            <a class="button_add_group group_row_Name" href="~/User/AddGroup">Добавить группу</a>
+        </div>
+        <div class="ListGroup">
+            @foreach (var group in Model.Groups)
+            {
+                <div class="isGroup">
+                    <a class="group_row_photo" href="/User/MyGroup?IdGroup=@group.Id">
+                        <img class="group_row_img" src="https://www.meme-arsenal.com/memes/15ef8d1ccbb4514e0a758c61e1623b2f.jpg" />
+                    </a>
+                    <div class="group_row">
+                        <a class="group_row_counts">Участников в группе: @group.Users.Count</a>
+                    </div>
+                    <div class="group_row_title">
+                        <a class="group_row_Name" href="/User/MyGroup?IdGroup=@group.Id">@group.Name</a>
+                    </div>
+                </div>
+            }
+        </div>
+    <div class="MyGroup">
+        Will Done.
+    </div>
+</div>
