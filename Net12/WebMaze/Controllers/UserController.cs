@@ -21,6 +21,7 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private UserService _userService;
         private GroupListRepository _groupListRepository;
+        private UserInGroupRepository _userInGroupRepository;
         private IMapper _mapper;
 
         private IHubContext<ChatHub> _chatHub;
@@ -29,19 +30,22 @@ namespace WebMaze.Controllers
         public UserController(UserRepository userRepository,
             IMapper mapper,
             UserService userService,
-            IHubContext<ChatHub> chatHub, GroupListRepository groupListRepository)
+            IHubContext<ChatHub> chatHub, GroupListRepository groupListRepository, UserInGroupRepository userInGroupRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _userService = userService;
             _chatHub = chatHub;
             _groupListRepository = groupListRepository;
+            _userInGroupRepository = userInGroupRepository;
         }
 
         [Authorize]
         public IActionResult Profile()
         {
             var user = _userService.GetCurrentUser();
+            user.Groups = user.Groups.Where(group => group.IsActive).ToList();
+            user.Groups.ForEach(group => group.Users = group.Users.Where(user => user.IsActive).ToList());
             var userViewModel = _mapper.Map<UserViewModel>(user);
             return View(userViewModel);
         }
@@ -117,6 +121,7 @@ namespace WebMaze.Controllers
         public IActionResult MyGroup(long IdGroup)
         {
             var myGroup = _groupListRepository.Get(IdGroup);
+            myGroup.Users = myGroup.Users.Where(u => u.IsActive).ToList();
             if(myGroup.Creator.Id != _userService.GetCurrentUser().Id)
             {
                 RedirectToAction("Profile", "User");
@@ -143,19 +148,34 @@ namespace WebMaze.Controllers
             var myGroup = _groupListRepository.Get(Id);
             if(myGroup.Users.Any(u => u.User.Id == user.Id))
             {
+                var IsUser = myGroup.Users.FirstOrDefault(u => u.User.Id == user.Id);
+                if (IsUser.IsActive)
+                {
+                    _userInGroupRepository.Remove(IsUser.Id);
+                }
+                else
+                {
+                    IsUser.IsActive = true;
+                    _userInGroupRepository.Save(IsUser);
+                }
+
                 return MyGroup(Id);
             }
-            var UserInGroup = new UserInGroup()
+            else
             {
-                Group = myGroup,
-                IsActive = true,
-                User = user,
-                
-            };
-            myGroup.Users.Add(UserInGroup);
-            _groupListRepository.Save(myGroup);
-            
-            return MyGroup(Id);
+                var UserInGroup = new UserInGroup()
+                {
+                    Group = myGroup,
+                    IsActive = true,
+                    User = user,
+
+                };
+                myGroup.Users.Add(UserInGroup);
+                _groupListRepository.Save(myGroup);
+
+                return MyGroup(Id);
+            }
+
         }
 
         [Authorize]
