@@ -54,11 +54,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Home.resx</DependentUpon>
     </Compile>
-    <Compile Update="ResourceLocalization\Maze - Копировать.Designer.cs">
-      <DependentUpon>Maze.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Update="ResourceLocalization\ZumaGame.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

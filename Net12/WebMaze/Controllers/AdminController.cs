@@ -27,7 +27,7 @@ namespace WebMaze.Controllers
         private PermissionRepository _permissionRepository;
         private IMapper _mapper;
         private UserRepository _userRepository;
-        
+        public static bool notReapitUsersName = false;
 
         public AdminController(PermissionRepository permissionRepository, IMapper mapper,
             UserRepository userRepository)
@@ -226,28 +226,33 @@ namespace WebMaze.Controllers
             {
                 using (var wordDocument = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
                 {
-                    var listUsers = _userRepository.GetAll();
-
-                    var mainPart = wordDocument.AddMainDocumentPart();
-                    mainPart.Document = new Document();
-                    var body = mainPart.Document.AppendChild(new Body());
-
-                    foreach (var user in listUsers)
+                    var listUsers = _userRepository.GetReapitUsersName();
+                    if (listUsers.Any())
                     {
-                        var para = body.AppendChild(new Paragraph());
-                        var runTitle = para.AppendChild(new Run());
-                        runTitle.AppendChild(new Text($"{user.Name} - {user.Id}"));
-                        var properties = new ParagraphProperties();
-                        var fontSize = new FontSize() { Val = "36" };
-                        properties.Append(fontSize);
-                        para.Append(properties);
+                        var mainPart = wordDocument.AddMainDocumentPart();
+                        mainPart.Document = new Document();
+                        var body = mainPart.Document.AppendChild(new Body());
+
+                        foreach (var user in listUsers)
+                        {
+                            var para = body.AppendChild(new Paragraph());
+                            var runTitle = para.AppendChild(new Run());
+                            runTitle.AppendChild(new Text($"{user.Name} - {user.Id}"));
+                            var properties = new ParagraphProperties();
+                            var fontSize = new FontSize() { Val = "36" };
+                            properties.Append(fontSize);
+                            para.Append(properties);
+                        }
+
+                        wordDocument.Close();
+
+                        return File(ms.ToArray(),
+                           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                           "ReapitUsersName.docx");
+
                     }
-
-                    wordDocument.Close();
-
-                    return File(ms.ToArray(),
-                       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                       "ReapitUsersName.docx");
+                    notReapitUsersName = true;
+                    return RedirectToAction("Profile", "User");
                 }
             }
         }

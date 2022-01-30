@@ -7,6 +7,7 @@ using WebMaze.EfStuff.DbModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 
+
 namespace WebMaze.EfStuff.Repositories
 {
     public class UserRepository : BaseRepository<User>
@@ -80,25 +81,47 @@ WHERE U.Name IS NOT NULL
                 .Select(x => x.Name)
                 .ToList();
         }
-        public List<string> GetReapitUsersName(string userId)
+        public List<User> GetReapitUsersNameSQL()
         {
-            var param = new SqlParameter("@newsID", userId);
-            return _dbSet.FromSqlRaw<User>(@$"SELECT DISTINCT U.*
-FROM
-	(
-		SELECT N.Id as NewsId, Max(U.Coins) userCoinsCumm
-		FROM 
-			News N 
-			LEFT JOIN NewsComments NC ON NC.NewsId = N.Id
-			LEFT JOIN Users U ON NC.AuthorId = U.Id
-		WHERE N.Id = @newsID
-		GROUP BY N.Id
-	) TempTable
-	LEFT JOIN News N ON TempTable.NewsId = N.Id
-	LEFT JOIN Users U ON U.Coins = TempTable.userCoinsCumm
-WHERE U.Name IS NOT NULL
-", param)
-                .Select(x => x.Name)
+            return _dbSet.FromSqlRaw<User>($@"SELECT Us.*
+    FROM 
+        (SELECT U.*
+                FROM Users U
+                LEFT JOIN  
+                (SELECT Id, MIN (Name) Name
+                FROM
+                (SELECT TempU.Name,TempU.Id
+                    FROM
+                    (SELECT U.Name,U.Id
+                    FROM Users U) TempU
+                    LEFT JOIN Users U ON TempU.ID!=U.Id
+                    WHERE TempU.Name=U.Name) TempAll
+                    WHERE TempAll.Id NOT IN
+                (SELECT RepeatUser.Id
+                FROM 
+                (SELECT TempU.Name, MIN(TempU.Id) Id
+                FROM
+                    (SELECT U.Name,U.Id
+                    FROM Users U) TempU
+                    LEFT JOIN Users U ON TempU.ID!=U.Id
+                    WHERE TempU.Name=U.Name
+                    GROUP BY TempU.Name) RepeatUser )
+                    GROUP BY Id) R
+                ON U.Id=R.Id
+        WHERE R.Id=U.Id) Us
+    WHERE Us.IsActive=1
+    ")               
+                .ToList();
+        }
+
+        public List<User> GetReapitUsersName()
+        {
+            return _webContext.Users
+                .ToList()
+                .Where(x=>x.IsActive)
+                .OrderBy(x => x.Id)
+                .GroupBy(x => x.Name)
+                .SelectMany(gr => gr.Skip(1))
                 .ToList();
         }
     }
