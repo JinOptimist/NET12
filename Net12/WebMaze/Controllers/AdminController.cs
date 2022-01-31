@@ -250,7 +250,6 @@ namespace WebMaze.Controllers
                            "ReapitUsersName.docx");
 
                     }
-                    NotReapitUsersName is true;
                     return RedirectToAction("Profile", "User");
                 }
             }
