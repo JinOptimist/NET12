@@ -6,7 +6,7 @@
         let transactionUserName = $('.transactionUserName').val();
         let transactionCoins = $('.transactionCoins').val();
 
-        $.get('/User/JSTransactionCoins', { userName: transactionUserName, coins: transactionCoins})
+        $.post('/User/JSTransactionCoins', { userName: transactionUserName, coins: transactionCoins})
             .done(function (answer) {
 
                 answerArray = JSON.parse(answer);

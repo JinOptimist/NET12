@@ -85,32 +85,37 @@ WHERE U.Name IS NOT NULL
                 .ToList();
         }
 
-        public bool TransactionCoins(long currUserId, long destNameId, int coins)
+        public bool TransactionCoins(long currUserId, long destUserId, int coins)
         {
-            using var transaction = _webContext.Database.BeginTransaction();
-            try
+            using (var transaction = _webContext.Database.BeginTransaction())
             {
-                _webContext.Database.ExecuteSqlRaw(@$"update Users
-                                                        set Coins -= {coins}
-                                                        where Id = {currUserId}");
+                try
+                {
+                    var currUserIdParam = new SqlParameter("@currUserId", currUserId);
+                    var destUserIdParam = new SqlParameter("@destUserId", destUserId);
+                    var coinsParam = new SqlParameter("@coins", coins);
 
-                _webContext.Database.ExecuteSqlRaw(@$"update Users
-                                                        set Coins += {coins}
-                                                        where Id = {destNameId}");
+                    _webContext.Database.ExecuteSqlRaw(@"update Users
+                                                        set Coins -= @coins
+                                                        where Id = @currUserId", currUserIdParam, coinsParam);
 
-                _webContext.SaveChanges();
-                transaction.Commit();
+                    _webContext.Database.ExecuteSqlRaw(@"update Users
+                                                        set Coins += @coins
+                                                        where Id = @destUserId", destUserIdParam, coinsParam);
 
-                _logger.LogInformation($"Transaction between Ids {currUserId} and {destNameId} to transfer {coins} coins was successful ");
+                    _webContext.SaveChanges();
+                    transaction.Commit();
+
+                    _logger.LogInformation($"Transaction between Ids {currUserId} and {destUserId} to transfer {coins} coins was successful ");
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    _logger.LogError($"Transaction between Ids {currUserId} and {destUserId} to transfer {coins} coins was FAIL ");
+                    return false;
+                }
             }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-
-                _logger.LogError($"Transaction between Ids {currUserId} and {destNameId} to transfer {coins} coins was FAIL ");
-                return false;
-            }
-
             return true;
         }
     }
