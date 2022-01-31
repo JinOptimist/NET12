@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.MyExceptions;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers.AuthAttribute
@@ -27,7 +28,8 @@ namespace WebMaze.Controllers.AuthAttribute
             if (!user.Perrmissions.Any(x => x.Name == Perrmission.Admin))
             {
                 context.Result = new ForbidResult();
-                return;
+
+                throw new SecretLinkException();
             }
 
             base.OnActionExecuting(context);
