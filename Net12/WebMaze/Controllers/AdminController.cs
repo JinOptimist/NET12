@@ -219,7 +219,7 @@ namespace WebMaze.Controllers
             }
         }
 
-        public IActionResult DownlodListReapitUsers(UserViewModel NotReapitUsersName)
+        public IActionResult DownlodListReapitUsers()
         {
             using (var ms = new MemoryStream())
             {
