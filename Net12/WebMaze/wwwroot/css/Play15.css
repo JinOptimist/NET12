@@ -1,0 +1,92 @@
+﻿.number-style {
+    line-height: 90px;
+    font-weight: 700;
+    font-size: 46px;
+    color: antiquewhite;
+}
+
+.number {    
+    width: 100%;
+    height: 100%;
+}
+
+.square {
+    width: 100px;
+    height: 100px;
+    background-color: darkgreen;
+    display: inline-block;
+    margin: 2px;
+    border-block-color: darkseagreen;
+    border-style: outset;
+}
+
+.container15 {
+    display: flex;
+    height: calc(100vh - 116px);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+.row15 {
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+
+}
+
+.back15 {
+    background-image: url(/images/play15Img/background.jpg);
+}
+
+.win-display {
+    width: 100vw;
+    height: calc(100vh - 116px);
+    position: absolute;
+    background-color: #4a3b3ba6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+}
+    
+.win-display > div {
+    color: floralwhite;
+    font-weight: 700;
+    font-size: 300px;
+}
+
+.container15-start {
+    display: flex;
+    height: calc(100vh - 116px);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    background-image: url(/images/play15Img/blackBackground.jpg);
+}
+
+.start-button {
+    font-size: 100px;
+    font-style: italic;
+    color: #fff;
+    padding: 4rem 6rem 5.5rem;
+    border: 0.2rem solid #fff;
+    border-radius: 2rem;
+    text-transform: uppercase;
+    backdrop-filter: blur(5px) brightness(20%);
+    box-shadow: 0 0px 25px 8px #00ff21, inset 0 0px 25px 8px #00ff21;
+    text-shadow: 1px 1px 9em #00ff21, 0 0 9em #00ff21, 0 0 0.3em #00ff21;
+}
+
+a {
+    
+    color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #00ff21;
+    text-decoration: none;
+}
