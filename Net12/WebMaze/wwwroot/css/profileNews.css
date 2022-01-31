@@ -2,3 +2,9 @@
 {
     display:none;
 }
+.profil {
+    display: flex;
+}
+.lang {
+    margin-left: 100px;
+}
