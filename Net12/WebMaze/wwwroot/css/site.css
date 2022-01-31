@@ -206,3 +206,13 @@ body {
     color: aqua;
     margin-right: 10px;
 }
+
+.language-selection{
+    margin-right: 5%;
+
+}
+
+
+.bottom{
+    display: flex;
+}
