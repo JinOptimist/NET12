@@ -102,7 +102,7 @@ namespace WebMaze.Controllers
             var typeOfCell = new List<Type>() { typeof(BaseCell) };
             typeOfCell.AddRange(TypeCollector(typeOfCell));
 
-            var namesTypeOfCell = typeOfCell
+             var namesTypeOfCell = typeOfCell
                 .Select(x => x.Name)
                 .Select(x => x.ToLower())
                 .ToList();
@@ -186,7 +186,7 @@ namespace WebMaze.Controllers
                                 paramsString += param.Name + ", ";
                             }
 
-                            if(paramsString.Length > 0)
+                            if (paramsString.Length > 0)
                             {
                                 paramsString = paramsString.Remove(paramsString.Length - 2);
                             }
@@ -216,9 +216,47 @@ namespace WebMaze.Controllers
             }
         }
 
-        public IActionResult DownloadCellInfoHelper()
+        public IActionResult DownloadCellInfoHelper(List<string> Model)
         {
-            return View();
+            using (var ms = new MemoryStream())
+            {
+                using (var wordDocument = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
+                {
+                    var namesTypeOfCell = Model;
+
+                    var mainPart = wordDocument.AddMainDocumentPart();
+                    mainPart.Document = new Document();
+                    var body = mainPart.Document.AppendChild(new Body());
+                    var para = body.AppendChild(new Paragraph());
+                    var runTitle = para.AppendChild(new Run());
+                    var prop = runTitle.AppendChild(new RunProperties());
+
+                    prop.AppendChild(new FontSize { Val = "18" });
+
+                    var text = runTitle.AppendChild(new Text());
+                    text.Text = "Срочно добавить описание для следующих ячеек: ";
+
+                    foreach (var item in namesTypeOfCell)
+                    {
+                        var paraName = body.AppendChild(new Paragraph());
+                        var runTitleName = para.AppendChild(new Run());
+                        var propName = runTitle.AppendChild(new RunProperties());
+
+                        propName.AppendChild(new FontSize { Val = "18" });
+
+                        var textName = runTitle.AppendChild(new Text());
+                        textName.Text = item + ", ";
+
+                    }
+
+                    wordDocument.Close();
+                }
+
+                return File(ms.ToArray(),
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "CellInfoHelper.docx");
+            }
+
         }
     }
 }
