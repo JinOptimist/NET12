@@ -102,12 +102,12 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index", "Gallery");
         }
 
-        public IActionResult Wonderful(long imageId)
+        /*public IActionResult Wonderful(long imageId)
         {
             var image = _repository.Get(imageId);
             _payForActionService.CreatorEarnMoney(image.Author.Id, 10);
 
             return RedirectToAction("Index", "Gallery");
-        }
+        }*/
     }
 }

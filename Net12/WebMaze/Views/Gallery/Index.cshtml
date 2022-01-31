@@ -21,7 +21,7 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <div>
-                                <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" class="good-button">Wonderful</a>
+                                <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" class="good-button" onclick="return buttonAjax();">Wonderful</a>
                                 <button class="bad-button">Awful</button>
                             </div>
                         }
