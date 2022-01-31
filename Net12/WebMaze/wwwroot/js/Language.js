@@ -21,8 +21,11 @@
 
     $("select.Language-Selector").change(function () {
         let myLang = $(this).val();
-        document.cookie = "Language=" + myLang;
-        location.reload();
+        setTimeout(function () {
+
+            location.reload();
+        }, 10);
+        document.cookie = "Language=" + myLang + "; path =/";
     });
 
 });

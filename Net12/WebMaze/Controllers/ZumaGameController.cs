@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
@@ -166,6 +168,16 @@ namespace WebMaze.Controllers
         {
             _zumaGameDifficultRepository.Remove(difficultId);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult GetColors()
+        {
+            var colors = Enum.GetValues(typeof(ZumaGameColors))
+                .Cast<ZumaGameColors>()
+                .Select(x => x.ToString())
+                .ToList();
+
+            return Json(JsonSerializer.Serialize(colors));
         }
     }
 }
