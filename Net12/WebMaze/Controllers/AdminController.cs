@@ -219,7 +219,7 @@ namespace WebMaze.Controllers
             }
         }
 
-        public IActionResult DownlodListReapitUsers(UserViewModel notReapitUsersName)
+        public IActionResult DownlodListReapitUsers(UserViewModel NotReapitUsersName)
         {
             using (var ms = new MemoryStream())
             {
@@ -250,7 +250,7 @@ namespace WebMaze.Controllers
                            "ReapitUsersName.docx");
 
                     }
-                    notReapitUsersName = true;
+                    NotReapitUsersName is true;
                     return RedirectToAction("Profile", "User");
                 }
             }
