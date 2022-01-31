@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Packaging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -64,14 +65,19 @@ namespace WebMaze.Controllers
 
             var filePath = Path.Combine(_hostEnvironment.WebRootPath, "textDocuments", "review", reviewDocName);
 
-            using (var fileStream = System.IO.File.Create(filePath))
-            {
-                viewReview.ReviewDoc.CopyTo(fileStream);
-            }
+            //using (var fileStream = System.IO.File.Create(filePath))
+            //{
+            //    viewReview.ReviewDoc.CopyTo(fileStream);
+            //}
 
-            using ()
+            using (var wordFileRead = WordprocessingDocument.Open(viewReview.ReviewDoc.OpenReadStream(), false))
             {
-
+                var allText = string.Join("\n", wordFileRead
+                    .MainDocumentPart
+                    .Document
+                    .Body
+                    .OfType<DocumentFormat.OpenXml.Wordprocessing.Text>()
+                    .Select(x => x.Text));
             }
 
             var FeedBackUsers = _reviewRepository.GiveViewReviews(_userService);
