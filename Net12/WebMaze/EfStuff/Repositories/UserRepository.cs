@@ -83,9 +83,7 @@ WHERE U.Name IS NOT NULL
         }
         public List<User> GetReapitUsersNameSQL()
         {
-            return _dbSet.FromSqlRaw<User>($@"SELECT Us.*
-    FROM 
-        (SELECT U.*
+            return _dbSet.FromSqlRaw<User>($@"SELECT U.*
                 FROM Users U
                 LEFT JOIN  
                 (SELECT Id, MIN (Name) Name
@@ -93,7 +91,8 @@ WHERE U.Name IS NOT NULL
                 (SELECT TempU.Name,TempU.Id
                     FROM
                     (SELECT U.Name,U.Id
-                    FROM Users U) TempU
+                        FROM Users U
+                        WHERE U.IsActive=1) TempU
                     LEFT JOIN Users U ON TempU.ID!=U.Id
                     WHERE TempU.Name=U.Name) TempAll
                     WHERE TempAll.Id NOT IN
@@ -108,8 +107,7 @@ WHERE U.Name IS NOT NULL
                     GROUP BY TempU.Name) RepeatUser )
                     GROUP BY Id) R
                 ON U.Id=R.Id
-        WHERE R.Id=U.Id) Us
-    WHERE Us.IsActive=1
+        WHERE R.Id=U.Id
     ")               
                 .ToList();
         }

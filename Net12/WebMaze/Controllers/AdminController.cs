@@ -226,7 +226,7 @@ namespace WebMaze.Controllers
             {
                 using (var wordDocument = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
                 {
-                    var listUsers = _userRepository.GetReapitUsersName();
+                    var listUsers = _userRepository.GetReapitUsersNameSQL();
                     if (listUsers.Any())
                     {
                         var mainPart = wordDocument.AddMainDocumentPart();
