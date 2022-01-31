@@ -26,6 +26,12 @@
     width: 30%;
 }
 
-.MyGroup{
+.MyGroup {
+    justify-content: center;
+    display: flex;
     text-align: center;
+}
+
+.Groups {
+    justify-content: center;
 }

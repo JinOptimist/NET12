@@ -44,8 +44,6 @@ namespace WebMaze.Controllers
         public IActionResult Profile()
         {
             var user = _userService.GetCurrentUser();
-            user.Groups = user.Groups.Where(group => group.IsActive).ToList();
-            user.Groups.ForEach(group => group.Users = group.Users.Where(user => user.IsActive).ToList());
             var userViewModel = _mapper.Map<UserViewModel>(user);
             return View(userViewModel);
         }
@@ -117,14 +115,36 @@ namespace WebMaze.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        public IActionResult AddGroup(GroupListViewModel group)
+        {
+            var MyGroup = _mapper.Map<GroupList>(group);
+            MyGroup.IsActive = true;
+            MyGroup.Creator = _userService.GetCurrentUser();
+            MyGroup.Users.Add(new UserInGroup()
+            {
+                Group = MyGroup,
+                IsActive = true,
+                User = _userService.GetCurrentUser(),
+            });
+            _groupListRepository.Save(MyGroup);
+
+            return RedirectToAction("Profile", "User");
+        }
+
+        [Authorize]
         [HttpGet]
         public IActionResult MyGroup(long IdGroup)
         {
             var myGroup = _groupListRepository.Get(IdGroup);
-            myGroup.Users = myGroup.Users.Where(u => u.IsActive).ToList();
-            if(myGroup.Creator.Id != _userService.GetCurrentUser().Id)
+            if(myGroup is null)
             {
-                RedirectToAction("Profile", "User");
+                return RedirectToAction("Profile", "User");
+            }
+            myGroup.Users = myGroup.Users.Where(u => u.IsActive).ToList();
+            if(!myGroup.Users.Any(u => u.User.Id == _userService.GetCurrentUser().Id))
+            {
+                return RedirectToAction("Profile", "User");
             }
             var ViewGroup = _mapper.Map<GroupListViewModel>(myGroup);
 
@@ -170,24 +190,13 @@ namespace WebMaze.Controllers
                     User = user,
 
                 };
-                myGroup.Users.Add(UserInGroup);
-                _groupListRepository.Save(myGroup);
+                //myGroup.Users.Add(UserInGroup);
+                _userInGroupRepository.Save(UserInGroup);
 
                 return MyGroup(Id);
             }
 
         }
 
-        [Authorize]
-        [HttpPost]
-        public IActionResult AddGroup(GroupListViewModel group)
-        {
-            var MyGroup = _mapper.Map<GroupList>(group);
-            MyGroup.IsActive = true;
-            MyGroup.Creator = _userService.GetCurrentUser();
-            _groupListRepository.Save(MyGroup);
-
-            return RedirectToAction("Profile", "User");
-        }
     }
 }

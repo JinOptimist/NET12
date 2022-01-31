@@ -1,28 +1,41 @@
 ﻿@model GroupListViewModel
+@using WebMaze.Services
+@inject UserService userService
+
 @section Scripts{
 <link rel="stylesheet" href="~/css/Group.css" />
+<link rel="stylesheet" href="~/css/Profile.css" />
 }
-
-<div>
-    <a>@Model.Name</a>
-    <div>
-        <a>Users</a>
-        <ul>
-            @foreach (var user in Model.Users)
+<div class="MyGroup">
+    <div class="Groups">
+        <div class="ListGroup">
+            @foreach (var GroupUser in Model.Users)
             {
-                <li>@user.User.UserName</li>
+                <div class="isGroup">
+                    <a class="group_row_photo">
+                        <img class="group_row_img" src="https://www.meme-arsenal.com/memes/15ef8d1ccbb4514e0a758c61e1623b2f.jpg" />
+                    </a>
+                    <div class="group_row">
+                        <a class="group_row_counts">Кол-во монет: @GroupUser.User.Coins</a>
+                    </div>
+                    <div class="group_row_title">
+                        <a class="group_row_Name">@GroupUser.User.UserName</a>
+                    </div>
+                </div>
             }
-        </ul>
+        </div>
     </div>
+    @if (Model.Creator.Id == userService.GetCurrentUser().Id)
+    {
+        <form action="/User/MyGroup" method="post">
+            @Html.HiddenFor(x => x.Id)
+        <fieldset>
+            <legend><b>Add User</b></legend>
+            <label>User Name:</label>
+            <br>
+            <textarea name="UserName" placeholder="NickName"></textarea>
+            <div><input type="submit" value="Add/Delete" /></div>
+        </fieldset>
+    </form>
+    }
 </div>
-
-<form action="/User/MyGroup" method="post">
-    @Html.HiddenFor(x => x.Id);
-    <fieldset>
-        <legend><b>Add User</b></legend>
-        <label>User Name:</label>
-        <br>
-        <textarea name="UserName" placeholder="NickName"></textarea>
-        <div><input type="submit" value="Add/Delete" /></div>
-    </fieldset>
-</form>

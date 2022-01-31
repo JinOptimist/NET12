@@ -7,6 +7,7 @@ namespace WebMaze.Models
     {
         public long Id { get; set; }
         public string Name { get; set; }
+        public User Creator { get; set; }
         public List<UserInGroupViewModel> Users { get; set; }
     }
 }

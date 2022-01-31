@@ -33,17 +33,17 @@
         <a class="button_add_group group_row_Name" href="~/User/AddGroup">Добавить группу</a>
     </div>
     <div class="ListGroup">
-        @foreach (var group in Model.Groups)
+        @foreach (var GroupUser in Model.UsersInGroup.Where(u => u.IsActive).ToList())
         {
             <div class="isGroup">
-                <a class="group_row_photo" href="/User/MyGroup?IdGroup=@group.Id">
+                <a class="group_row_photo" href="/User/MyGroup?IdGroup=@GroupUser.Group.Id">
                     <img class="group_row_img" src="https://www.meme-arsenal.com/memes/15ef8d1ccbb4514e0a758c61e1623b2f.jpg" />
                 </a>
                 <div class="group_row">
-                    <a class="group_row_counts">Участников в группе: @group.Users.Count</a>
+                    <a class="group_row_counts">Участников в группе: @GroupUser.Group.Users.Where(u => u.IsActive).ToList().Count</a>
                 </div>
                 <div class="group_row_title">
-                    <a class="group_row_Name" href="/User/MyGroup?IdGroup=@group.Id">@group.Name</a>
+                    <a class="group_row_Name" href="/User/MyGroup?IdGroup=@GroupUser.Group.Id">@GroupUser.Group.Name</a>
                 </div>
             </div>
         }
