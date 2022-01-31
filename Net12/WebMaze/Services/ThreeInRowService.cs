@@ -35,8 +35,8 @@ namespace WebMaze.Services
 
         public ThreeInRowGameField Build()
         {
-            var width = 10;
-            var height = 10;
+            var width = 6;
+            var height = 6;
             var gameField = new ThreeInRowGameField()
             {
                 Width = width,
@@ -73,49 +73,115 @@ namespace WebMaze.Services
 
         public void Step(long Id)
         {
-            var gameField = _threeInRowGameFieldRepository.Get(2);
+            var gameField = _threeInRowGameFieldRepository.Get(4);
             var cell = gameField.Cells.SingleOrDefault(cell => cell.Id == Id);
             cell.Color = NextColor();            
 
             _threeInRowGameFieldRepository.Save(gameField);
 
-            CheckStatus(Id);
+            CheckStatus();
         }
 
-        public void CheckStatus(long Id)
+        public void CheckStatus()
         {
-            var gameField = _threeInRowGameFieldRepository.Get(2);
-            var gameFieldViewModel = _mapper.Map<ThreeInRowGameFieldViewModel>(gameField);
-            var cell = gameFieldViewModel.Cells.SingleOrDefault(cell => cell.Id == Id);
+            var gameField = _threeInRowGameFieldRepository.Get(4);
 
-            if (GetNear(gameFieldViewModel, Id) > 2)  
+            var allCellToDelete = new List<ThreeInRowCell>();
+            var cellToDeleteH = new List<ThreeInRowCell>();
+            var cellToDeleteV = new List<ThreeInRowCell>();
+
+            cellToDeleteH = checkHorizontal(gameField, cellToDeleteH);
+            cellToDeleteV = checkVertical(gameField, cellToDeleteV);
+
+            allCellToDelete.AddRange(cellToDeleteH);
+            allCellToDelete.AddRange(cellToDeleteV);
+
+            foreach (var item in allCellToDelete)
             {
-                
+                item.Color = colors[0];
             }
 
-
-            gameField = _mapper.Map<ThreeInRowGameField>(gameFieldViewModel);
             _threeInRowGameFieldRepository.Save(gameField);
         }
 
-        private int GetNear(ThreeInRowGameFieldViewModel gameFieldViewModel, long Id) 
+        public List<ThreeInRowCell> checkHorizontal(ThreeInRowGameField gameField, List<ThreeInRowCell> cellsToDelete)
         {
-            var cellsSameColor = new List<ThreeInRowCellViewModel>(); 
-            for (int x = 0; x < gameFieldViewModel.Width; x++)
+            var cellToDeleteHorizontal = new List<ThreeInRowCell>();
+
+            for (int y = 0; y < gameField.Height; y++)
             {
-                for (int y = 0; y < gameFieldViewModel.Height; y++)
+                for (int x = 0; x < gameField.Width; x++)
                 {
-                    var cell = gameFieldViewModel.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
-                    var nextCell = gameFieldViewModel.Cells.SingleOrDefault(c => c.X == x && c.Y == y + 1);
-                    if (cell.Color == nextCell.Color)
+                    var cell = gameField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
+                    var nextCell = gameField.Cells.SingleOrDefault(c => c.X == x + 1 && c.Y == y);
+                    var prevCell = gameField.Cells.SingleOrDefault(c => c.X == x - 1 && c.Y == y);
+
+                    if (cell.Color != "none")
                     {
-                        cellsSameColor.Add(cell);
-                        cell = nextCell;
+                        if (nextCell != null && cell.Color == nextCell.Color)
+                        {
+                            cellToDeleteHorizontal.Add(cell);
+                        }
+                        else if (prevCell != null && cell.Color == prevCell.Color)
+                        {
+                            cellToDeleteHorizontal.Add(cell);
+                        }
+                        
                     }
+
+                    if (cellToDeleteHorizontal.Count > 2)
+                    {
+                        foreach (var item in cellToDeleteHorizontal)
+                        {
+                            cellsToDelete.Add(item);
+                        }
+                        cellsToDelete.Clear();
+                    }
+
                 }
-                
             }
-            return 1;
+
+            return cellsToDelete;
         }
+
+        public List<ThreeInRowCell> checkVertical(ThreeInRowGameField gameField, List<ThreeInRowCell> cellsToDelete)
+        {
+            var cellToDeleteVertical = new List<ThreeInRowCell>();
+
+            for (int x = 0; x < gameField.Width; x++)
+            {
+                for (int y = 0; y < gameField.Height; y++)
+                {
+                    var cell = gameField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
+                    var nextCell = gameField.Cells.SingleOrDefault(c => c.X == x && c.Y == y + 1);
+                    var prevCell = gameField.Cells.SingleOrDefault(c => c.X == x && c.Y == y - 1);
+
+                    if (cell.Color != "none")
+                    {
+                        if (nextCell != null && cell.Color == nextCell.Color)
+                        {
+                            cellToDeleteVertical.Add(cell);
+                        }
+                        else if (prevCell != null && cell.Color == prevCell.Color)
+                        {
+                            cellToDeleteVertical.Add(cell);
+                        }
+
+                    }
+
+                    if (cellToDeleteVertical.Count > 2)
+                    {
+                        foreach (var item in cellToDeleteVertical)
+                        {
+                            cellsToDelete.Add(item);
+                        }
+                    }
+
+                }
+            }
+
+            return cellsToDelete;
+        }
+
     }
 } 

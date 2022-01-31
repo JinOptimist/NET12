@@ -2,10 +2,10 @@
 @model ThreeInRowGameFieldViewModel
 
 <div class="game-field">
-    @for (int x = 0; x < Model.Width; x++)
+    @for (int y = 0; y < Model.Height; y++)
     {
     <div class="game-field-row">
-        @for (int y = 0; y < Model.Height; y++)
+        @for (int x = 0; x < Model.Width; x++)
         {
             var cell = Model.Cells.SingleOrDefault(cell => cell.X == x && cell.Y == y);
             if (cell.Color == "none")
