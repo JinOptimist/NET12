@@ -22,9 +22,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Logs\**" />
     <Compile Remove="wwwroot\Новая папка1\**" />
+    <Content Remove="Logs\**" />
     <Content Remove="wwwroot\Новая папка1\**" />
+    <EmbeddedResource Remove="Logs\**" />
     <EmbeddedResource Remove="wwwroot\Новая папка1\**" />
+    <None Remove="Logs\**" />
     <None Remove="wwwroot\Новая папка1\**" />
   </ItemGroup>
 
@@ -37,7 +41,6 @@
     <Folder Include="wwwroot\images\gallery\" />
     <Folder Include="wwwroot\images\SuggestedEnemies\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
-    <Folder Include="Logs\" />
   </ItemGroup>
 
   <ItemGroup>
