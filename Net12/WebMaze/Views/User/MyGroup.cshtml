@@ -21,6 +21,7 @@
                     </div>
                     <div class="group_row_title">
                         <a class="group_row_Name">@GroupUser.User.UserName</a>
+                        @if (GroupUser.User.Id == userService.GetCurrentUser().Id) { <a>(Я)</a> }
                     </div>
                 </div>
             }
