@@ -26,8 +26,7 @@ namespace WebMaze.Controllers
     {
         private PermissionRepository _permissionRepository;
         private IMapper _mapper;
-        private UserRepository _userRepository;
-        public static bool notReapitUsersName = false;
+        private UserRepository _userRepository;        
 
         public AdminController(PermissionRepository permissionRepository, IMapper mapper,
             UserRepository userRepository)
@@ -220,7 +219,7 @@ namespace WebMaze.Controllers
             }
         }
 
-        public IActionResult DownlodListReapitUsers()
+        public IActionResult DownlodListReapitUsers(UserViewModel notReapitUsersName)
         {
             using (var ms = new MemoryStream())
             {
