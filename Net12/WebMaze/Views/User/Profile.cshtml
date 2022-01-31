@@ -1,4 +1,5 @@
-﻿@model UserViewModel
+﻿@using WebMaze.ResourceLocalization
+@model UserViewModel
 
 @section Scripts{
     <script src="~/js/showHideNews.js"></script>
@@ -6,23 +7,49 @@
     <link rel="stylesheet" href="~/css/profileNews.css" />
 }
 
-<div>
-    Profile
-    <div>
-        Hi @Model.UserName
-    </div>
-    <div>
-        You Global Rating: @Model.GlobalUserRating
-    </div>
-    <div>
-        Coins: @Model.Coins
 
-        <form action="/User/NewCoin" method="post">
-            @Html.TextBoxFor(x => x.Coins)
-            <input type="submit" value="Change coin count" />
+
+<div class="profil">
+
+    <div>
+        Profile
+        <div>
+            Hi @Model.UserName
+        </div>
+        <div>
+            You Global Rating: @Model.GlobalUserRating
+        </div>
+        <div>
+            Coins: @Model.Coins
+
+            <form action="/User/NewCoin" method="post">
+                @Html.TextBoxFor(x => x.Coins)
+                <input type="submit" value="Change coin count" />
+            </form>
+        </div>
+    </div>
+
+    <div class="lang">
+        <form action="/" method="post">
+            <fieldset>
+                <legend>Select language:</legend>
+                <div>
+                    <input type="radio" id="eng" name="language" value="" />
+                    <label>English</label>
+
+                    <input type="radio" id="rus" name="language" value="" />
+                    <label>Russian</label>
+                </div>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </fieldset>
         </form>
     </div>
+
 </div>
+
+
 
 @*<div class="header">
         <h2>Your news</h2>
