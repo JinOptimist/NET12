@@ -17,6 +17,7 @@
                     </a>
                     <div class="group_row">
                         <a class="group_row_counts">Кол-во монет: @GroupUser.User.Coins</a>
+                        <a class="group_row_counts">Рейтинг пользователя: @GroupUser.User.GlobalUserRating</a>
                     </div>
                     <div class="group_row_title">
                         <a class="group_row_Name">@GroupUser.User.UserName</a>
@@ -29,13 +30,13 @@
     {
         <form action="/User/MyGroup" method="post">
             @Html.HiddenFor(x => x.Id)
-        <fieldset>
-            <legend><b>Add User</b></legend>
-            <label>User Name:</label>
-            <br>
-            <textarea name="UserName" placeholder="NickName"></textarea>
-            <div><input type="submit" value="Add/Delete" /></div>
-        </fieldset>
-    </form>
+            <fieldset>
+                <legend><b>Add User</b></legend>
+                <label>User Name:</label>
+                <br>
+                <textarea name="UserName" placeholder="NickName"></textarea>
+                <div><input type="submit" value="Add/Delete" /></div>
+            </fieldset>
+        </form>
     }
 </div>
