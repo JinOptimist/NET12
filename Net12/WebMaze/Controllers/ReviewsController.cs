@@ -65,19 +65,29 @@ namespace WebMaze.Controllers
 
             var filePath = Path.Combine(_hostEnvironment.WebRootPath, "textDocuments", "review", reviewDocName);
 
-            //using (var fileStream = System.IO.File.Create(filePath))
-            //{
-            //    viewReview.ReviewDoc.CopyTo(fileStream);
-            //}
-
-            using (var wordFileRead = WordprocessingDocument.Open(viewReview.ReviewDoc.OpenReadStream(), false))
+            using (var fileStream = System.IO.File.Create(filePath))
             {
-                var allText = string.Join("\n", wordFileRead
-                    .MainDocumentPart
-                    .Document
-                    .Body
-                    .OfType<DocumentFormat.OpenXml.Wordprocessing.Text>()
-                    .Select(x => x.Text));
+                viewReview.ReviewDoc.CopyTo(fileStream);
+            }
+
+            if (viewReview.ReviewDoc != null)
+            {
+
+            }
+            else
+            {
+                using (var wordFileRead = WordprocessingDocument.Open(viewReview.ReviewDoc.OpenReadStream(), false))
+                {
+                    var allText = string.Join("\n", wordFileRead
+                        .MainDocumentPart
+                        .Document
+                        .Body
+                        .OfType<DocumentFormat.OpenXml.Wordprocessing.Text>()
+                        .Select(x => x.Text));
+
+                    review.Text = allText;
+                    _reviewRepository.Save(review);
+                }
             }
 
             var FeedBackUsers = _reviewRepository.GiveViewReviews(_userService);
