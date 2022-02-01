@@ -264,8 +264,7 @@ namespace WebMaze
 
             provider.CreateMap<GroupList, GroupListViewModel>();
 
-            provider.CreateMap<GroupListViewModel, GroupList>()
-                .ForMember(group => group.Creator, opt => opt.Ignore());
+            provider.CreateMap<GroupListViewModel, GroupList>();
 
 
             var mapperConfiguration = new MapperConfiguration(provider);

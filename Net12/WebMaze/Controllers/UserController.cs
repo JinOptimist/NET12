@@ -69,7 +69,7 @@ namespace WebMaze.Controllers
             {
                 viewModel.ReturnUrl = Request.Query["ReturnUrl"];
             }
-            
+
             return View(viewModel);
         }
 
@@ -78,7 +78,7 @@ namespace WebMaze.Controllers
         {
             var user = _userRepository.GetByNameAndPassword(viewModel.Login, viewModel.Password);
 
-            if(user == null)
+            if (user == null)
             {
                 return View(viewModel);
             }
@@ -125,7 +125,8 @@ namespace WebMaze.Controllers
             {
                 Group = MyGroup,
                 IsActive = true,
-                User = _userService.GetCurrentUser(),
+                User = MyGroup.Creator,
+                UserLevel = GroupUserLevel.Admin | GroupUserLevel.Member,
             });
             _groupListRepository.Save(MyGroup);
 
@@ -137,15 +138,21 @@ namespace WebMaze.Controllers
         public IActionResult MyGroup(long IdGroup)
         {
             var myGroup = _groupListRepository.Get(IdGroup);
-            if(myGroup is null)
+            if (myGroup is null)
             {
                 return RedirectToAction("Profile", "User");
             }
-            myGroup.Users = myGroup.Users.Where(u => u.IsActive).ToList();
-            if(!myGroup.Users.Any(u => u.User.Id == _userService.GetCurrentUser().Id))
+            myGroup.Users = myGroup.Users.Where(u => u.UserLevel.HasFlag(GroupUserLevel.Member) || u.UserLevel.HasFlag(GroupUserLevel.Invited)).ToList();
+            if (!myGroup.Users.Any(u => u.User.Id == _userService.GetCurrentUser().Id))
             {
                 return RedirectToAction("Profile", "User");
             }
+            var MeUser = myGroup.Users.FirstOrDefault(u => u.User.Id == _userService.GetCurrentUser().Id);
+            if (MeUser.UserLevel == GroupUserLevel.Invited)
+            {
+                MeUser.UserLevel = GroupUserLevel.Member;
+            }
+            _userInGroupRepository.Save(MeUser);
             var ViewGroup = _mapper.Map<GroupListViewModel>(myGroup);
 
             return View(ViewGroup);
@@ -155,27 +162,37 @@ namespace WebMaze.Controllers
         public IActionResult MyGroup(string UserName, long Id)
         {
             var user = _userRepository.GetAll().FirstOrDefault(c => c.Name == UserName);
-
-            if (!_userService.GetCurrentUser().Groups.Any(c => c.Id == Id))
+            var myGroup = _groupListRepository.Get(Id);
+            //if (!_userService.GetCurrentUser().Groups.Any(c => c.Id == Id))
+            var MeUser = _userService.GetCurrentUser();
+            if (!myGroup.Users.Any(u => u.User.Id == MeUser.Id && u.UserLevel.HasFlag(GroupUserLevel.Admin)))
             {
                 return RedirectToAction("Profile", "User");
             }
             if (user == null)
             {
-                 return MyGroup(Id);
+                return MyGroup(Id);
             }
 
-            var myGroup = _groupListRepository.Get(Id);
-            if(myGroup.Users.Any(u => u.User.Id == user.Id))
+            if (myGroup.Users.Any(u => u.User.Id == user.Id))
             {
-                var IsUser = myGroup.Users.FirstOrDefault(u => u.User.Id == user.Id);
-                if (IsUser.IsActive)
+                var IsUser = myGroup.Users.Single(u => u.User.Id == user.Id);
+                if (!IsUser.UserLevel.HasFlag(GroupUserLevel.None))
                 {
-                    _userInGroupRepository.Remove(IsUser.Id);
+                    IsUser.UserLevel = GroupUserLevel.None;
+                    _userInGroupRepository.Save(IsUser);
                 }
                 else
                 {
-                    IsUser.IsActive = true;
+                    if (IsUser.UserLevel.HasFlag(GroupUserLevel.Requested))
+                    {
+                        IsUser.UserLevel = GroupUserLevel.Member;
+                    }
+                    else
+                    {
+                        IsUser.UserLevel = GroupUserLevel.Invited;
+                    }
+
                     _userInGroupRepository.Save(IsUser);
                 }
 
@@ -188,6 +205,7 @@ namespace WebMaze.Controllers
                     Group = myGroup,
                     IsActive = true,
                     User = user,
+                    UserLevel = GroupUserLevel.Invited,
 
                 };
                 //myGroup.Users.Add(UserInGroup);
