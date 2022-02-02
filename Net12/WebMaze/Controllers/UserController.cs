@@ -142,8 +142,10 @@ namespace WebMaze.Controllers
             {
                 return RedirectToAction("Profile", "User");
             }
-            myGroup.Users = myGroup.Users.Where(u => u.UserLevel.HasFlag(GroupUserLevel.Member) || u.UserLevel.HasFlag(GroupUserLevel.Invited)).ToList();
-            if (!myGroup.Users.Any(u => u.User.Id == _userService.GetCurrentUser().Id))
+            myGroup.Users = myGroup.Users.Where(u => !u.UserLevel.HasFlag(GroupUserLevel.None)).ToList();
+            if (!myGroup.Users.Any(
+                u => u.User.Id == _userService.GetCurrentUser().Id
+                && (u.UserLevel.HasFlag(GroupUserLevel.Member) || u.UserLevel.HasFlag(GroupUserLevel.Invited))))
             {
                 return RedirectToAction("Profile", "User");
             }
@@ -151,8 +153,8 @@ namespace WebMaze.Controllers
             if (MeUser.UserLevel == GroupUserLevel.Invited)
             {
                 MeUser.UserLevel = GroupUserLevel.Member;
+                _userInGroupRepository.Save(MeUser);
             }
-            _userInGroupRepository.Save(MeUser);
             var ViewGroup = _mapper.Map<GroupListViewModel>(myGroup);
 
             return View(ViewGroup);
@@ -214,6 +216,26 @@ namespace WebMaze.Controllers
                 return MyGroup(Id);
             }
 
+        }
+
+        [Authorize]
+        public IActionResult DeleteFromGroup(long GroupId, long UserId)
+        {
+            var MeUser = _userService.GetCurrentUser();
+            var MeUserInGroup = MeUser.UsersInGroup.SingleOrDefault(u => u.Group.Id == GroupId);
+            if (!(MeUserInGroup != null && (MeUserInGroup.UserLevel.HasFlag(GroupUserLevel.Admin) || (MeUserInGroup.Id == UserId && MeUserInGroup.UserLevel.HasFlag(GroupUserLevel.Member)))))
+            {
+                return RedirectToAction("Profile", "User");
+            }
+            var DeleteUser = _userInGroupRepository.Get(UserId);
+            if (DeleteUser is null || DeleteUser.Group.Id != GroupId)
+            {
+                return MyGroup(GroupId);
+            }
+            DeleteUser.UserLevel = GroupUserLevel.None;
+            _userInGroupRepository.Save(DeleteUser);
+
+            return RedirectToAction("MyGroup", "User", new { IdGroup = GroupId });
         }
 
     }
