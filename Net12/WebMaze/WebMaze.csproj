@@ -35,6 +35,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\images\galleryImg\" />
     <Folder Include="wwwroot\images\gallery\" />
+    <Folder Include="wwwroot\images\play15Img\" />
     <Folder Include="wwwroot\images\SuggestedEnemies\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
     <Folder Include="Logs\" />
@@ -55,6 +56,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Home.resx</DependentUpon>
     </Compile>
+    <Compile Update="ResourceLocalization\Maze - Копировать.Designer.cs">
+      <DependentUpon>Maze.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="ResourceLocalization\ZumaGame.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -74,6 +80,10 @@
     </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\Home.Ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\MySystem.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MySystem.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\ZumaGame.resx">
       <LastGenOutput>ZumaGame.Designer.cs</LastGenOutput>

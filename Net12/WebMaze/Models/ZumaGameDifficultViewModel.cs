@@ -16,7 +16,7 @@ namespace WebMaze.Models
         [ZumaGameLimits(5, 20)]
         public int Height { get; set; }
 
-        [ZumaGameLimits(2, 7)]
+        [ZumaGameLimits(2, 16)]
         public int ColorCount { get; set; }
         public int Price { get; set; }
         public string Author { get; set; }

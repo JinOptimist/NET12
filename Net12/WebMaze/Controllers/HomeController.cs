@@ -141,8 +141,15 @@ namespace WebMaze.Controllers
             return View(model);
         }
 
+        public IActionResult BoringError()
+        {
+            return View();
+        }
 
-
+        public IActionResult SecreteError()
+        {
+            return View();
+        }
 
 
 
