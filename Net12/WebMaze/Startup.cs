@@ -469,6 +469,9 @@ namespace WebMaze
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseMiddleware<GlobalErrorHandlerMidlleware>();
+
             app.UseStaticFiles();
 
             app.UseRouting();
