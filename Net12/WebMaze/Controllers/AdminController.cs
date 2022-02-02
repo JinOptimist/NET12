@@ -102,10 +102,10 @@ namespace WebMaze.Controllers
             var typeOfCell = new List<Type>() { typeof(BaseCell) };
             typeOfCell.AddRange(TypeCollector(typeOfCell));
 
-             var namesTypeOfCell = typeOfCell
-                .Select(x => x.Name)
-                .Select(x => x.ToLower())
-                .ToList();
+            var namesTypeOfCell = typeOfCell
+               .Select(x => x.Name)
+               .Select(x => x.ToLower())
+               .ToList();
 
             //section on removing base and intermediate types
             var noShowTypes = new List<string>() { "BaseCell", "BaseEnemy", "Character" }
@@ -216,13 +216,13 @@ namespace WebMaze.Controllers
             }
         }
 
-        public IActionResult DownloadCellInfoHelper(List<string> Model)
+        public IActionResult DownloadCellInfoHelper()
         {
             using (var ms = new MemoryStream())
             {
                 using (var wordDocument = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
                 {
-                    var namesTypeOfCell = Model;
+                    string[] namesTypeOfCell = { "test1", "test2", "test3", "test4" };
 
                     var mainPart = wordDocument.AddMainDocumentPart();
                     mainPart.Document = new Document();
@@ -231,22 +231,18 @@ namespace WebMaze.Controllers
                     var runTitle = para.AppendChild(new Run());
                     var prop = runTitle.AppendChild(new RunProperties());
 
-                    prop.AppendChild(new FontSize { Val = "18" });
+                    prop.AppendChild(new FontSize { Val = "28" });
 
                     var text = runTitle.AppendChild(new Text());
-                    text.Text = "Срочно добавить описание для следующих ячеек: ";
+                    text.Text = $"Developer Challenge: Design and add description for the following cells: ";
 
                     foreach (var item in namesTypeOfCell)
                     {
                         var paraName = body.AppendChild(new Paragraph());
                         var runTitleName = para.AppendChild(new Run());
                         var propName = runTitle.AppendChild(new RunProperties());
-
-                        propName.AppendChild(new FontSize { Val = "18" });
-
                         var textName = runTitle.AppendChild(new Text());
-                        textName.Text = item + ", ";
-
+                        textName.Text = $"{item}, ";
                     }
 
                     wordDocument.Close();
