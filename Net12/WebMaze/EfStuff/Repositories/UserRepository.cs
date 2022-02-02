@@ -83,31 +83,36 @@ WHERE U.Name IS NOT NULL
         }
         public List<User> GetReapitUsersNameSQL()
         {
-            return _dbSet.FromSqlRaw<User>($@"SELECT U.*
-                FROM Users U
-                LEFT JOIN  
-                (SELECT Id, MIN (Name) Name
-                FROM
-                (SELECT TempU.Name,TempU.Id
-                    FROM
-                    (SELECT U.Name,U.Id
-                        FROM Users U
-                        WHERE U.IsActive=1) TempU
-                    LEFT JOIN Users U ON TempU.ID!=U.Id
-                    WHERE TempU.Name=U.Name) TempAll
-                    WHERE TempAll.Id NOT IN
-                (SELECT RepeatUser.Id
-                FROM 
-                (SELECT TempU.Name, MIN(TempU.Id) Id
-                FROM
-                    (SELECT U.Name,U.Id
-                    FROM Users U) TempU
-                    LEFT JOIN Users U ON TempU.ID!=U.Id
-                    WHERE TempU.Name=U.Name
-                    GROUP BY TempU.Name) RepeatUser )
-                    GROUP BY Id) R
-                ON U.Id=R.Id
-        WHERE R.Id=U.Id
+            return _dbSet.FromSqlRaw<User>($@"
+SELECT U.*
+FROM   users U
+       INNER JOIN (SELECT id,
+                          Min (NAME) NAME
+                   FROM   (SELECT TempU.NAME,
+                                  TempU.id
+                           FROM   (SELECT U.NAME,
+                                          U.id
+                                   FROM   users U
+                                   WHERE  U.isactive = 1) TempU
+                                  LEFT JOIN users U
+                                         ON TempU.id != U.id
+                           WHERE  TempU.NAME = U.NAME) TempAll
+                   WHERE  TempAll.id NOT IN (SELECT RepeatUser.id
+                                             FROM
+                          (SELECT TempU.NAME,
+                                  Min(TempU.id) Id
+                           FROM   (SELECT U.NAME,
+                                          U.id
+                                   FROM   users U)
+                                  TempU
+                                            LEFT JOIN users U
+                                                   ON TempU.id != U.id
+                                                     WHERE  TempU.NAME = U.NAME
+                                                     GROUP  BY TempU.NAME)
+                          RepeatUser
+                                            )
+                   GROUP  BY id) R
+               ON U.id = R.id 
     ")               
                 .ToList();
         }
