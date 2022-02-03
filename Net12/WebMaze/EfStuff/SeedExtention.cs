@@ -129,6 +129,24 @@ namespace WebMaze.EfStuff
                 };
                 newsRepository.Save(testNews);
             }
+
+            if (newsRepository.Count() < 200)
+            {
+                for (int i = 0; i < 200; i++)
+                {
+                    var news = new News()
+                    {
+                        Title = DefaultNewsTitle + i,
+                        IsActive = true,
+                        Location = $"Maze {i}",
+                        Text = $"Attention! {i}",
+                        Author = author,
+                        CreationDate = DateTime.Now.AddDays(-1 * i),
+                        EventDate = DateTime.Today.AddDays(-1 * i)
+                    };
+                    newsRepository.Save(news);
+                }
+            }
         }
 
         private static void SeedGallery(IServiceScope scope)

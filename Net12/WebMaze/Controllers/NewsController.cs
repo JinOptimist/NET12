@@ -44,15 +44,21 @@ namespace WebMaze.Controllers
             _chatHub = chatHub;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int perPage = 13)
         {
             var newsViewModels = new List<NewsViewModel>();
             newsViewModels = _newsRepository
-                .GetAll()
+                .GetForPagination(perPage, page)
                 .Select(dbModel => _mapper.Map<NewsViewModel>(dbModel))
                 .ToList();
 
-            return View(newsViewModels);
+            var paggerViewModel = new PaggerViewModel<NewsViewModel>();
+
+            paggerViewModel.Records = newsViewModels;
+            paggerViewModel.TotalRecordsCount = _newsRepository.Count();
+            paggerViewModel.PerPage = perPage;
+
+            return View(paggerViewModel);
         }
 
         [IsAdmin]
