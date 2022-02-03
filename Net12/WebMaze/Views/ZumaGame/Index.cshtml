@@ -20,9 +20,25 @@
         <a href="/ZumaGame/ContinueGame">@ZumaGame.ContinueGame</a>
     }
 </div>
-<div>
 
-    @foreach (var difficult in Model.ViewModels)
+<div class="zumaGame-pagger-block">
+    @for (int i = 1; i <= Model.PaggerViewModel.TotalPageCount; i++)
+    {
+        if (i != Model.PaggerViewModel.CurrPage)
+        {
+            <a href="/ZumaGame/Index?page=@i&perPage=@Model.PaggerViewModel.PerPage" class="zumaGameLinkToPage">
+                page @i
+            </a>
+        }
+        else
+        {
+            <span>page @i</span>
+        }
+    }
+</div>
+
+<div>
+    @foreach (var difficult in Model.PaggerViewModel.Records)
     {
         <div class="manage-zumagame-difficult">
             <div>

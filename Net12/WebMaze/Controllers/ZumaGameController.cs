@@ -34,22 +34,28 @@ namespace WebMaze.Controllers
             _zumaGameDifficultRepository = zumaGameDifficultRepository;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int perPage = 8)
         {
-            var zumaGameDifficultViewModels = _zumaGameDifficultRepository.GetAll()
+            var zumaGameDifficultViewModels = _zumaGameDifficultRepository
+                .GetForPagination(perPage, page)
                 .Select(x => _mapper.Map<ZumaGameDifficultViewModel>(x)).ToList();
 
             var indexViewModel = new ZumaGameIndexViewModel
             {
-                ViewModels = zumaGameDifficultViewModels
+                PaggerViewModel = new PaggerViewModel<ZumaGameDifficultViewModel>
+                {
+                    PerPage = perPage,
+                    TotalRecordsCount = _zumaGameDifficultRepository.Count(),
+                    Records = zumaGameDifficultViewModels,
+                    CurrPage = page
+                },
+                Coins = _userService.GetCurrentUser().Coins
             };
 
             if (_userService.GetCurrentUser().ZumaGameField != null)
             {
                 indexViewModel.Continue = true;
             }
-
-            indexViewModel.Coins = _userService.GetCurrentUser().Coins;
 
             return View(indexViewModel);
         }
