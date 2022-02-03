@@ -1,8 +1,10 @@
 ﻿$(document).ready(function () {
 
-    buttonAjax() {
-
-    }
+    /*alert('testing');*/
+    $.post('/Gallery/Wonderful')
+        .done(function (reward) {
+            alert('testing');
 });
 
 
+});
