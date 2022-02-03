@@ -19,6 +19,7 @@ namespace WebMaze.Models
         public int FatigueChange { get; set; }
         public string UserName { get; set; }
         public int GlobalUserRating { get; set; }
+        public string Url { get; set; }
         public IFormFile ImageFile { get; set; }
     }
 }

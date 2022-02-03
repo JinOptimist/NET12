@@ -37,6 +37,7 @@
     <Folder Include="wwwroot\images\gallery\" />
     <Folder Include="wwwroot\images\play15Img\" />
     <Folder Include="wwwroot\images\SuggestedEnemies\" />
+    <Folder Include="wwwroot\images\NewCellImg\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
     <Folder Include="Logs\" />
   </ItemGroup>
