@@ -235,7 +235,7 @@ namespace WebMaze.Controllers
                 return MyGroup(GroupId);
             }
             DeleteUser.UserLevel = GroupUserLevel.None;
-            if(DeleteUser.Group is null)
+            if (DeleteUser.Group is null)
             {
                 logger.LogCritical($"Delete User without Group UserId = {DeleteUser.User.Id} | GroupUserId = {DeleteUser.Id} | Delete from GroupId = {GroupId}");
             }
@@ -249,7 +249,7 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult AddInGroup(long GroupId)
         {
-            if(!_userService.GetCurrentUser().UsersInGroup.Any(u => u.Group.Id == GroupId && u.UserLevel.HasFlag(GroupUserLevel.Admin)))
+            if (!_userService.GetCurrentUser().UsersInGroup.Any(u => u.Group.Id == GroupId && u.UserLevel.HasFlag(GroupUserLevel.Admin)))
             {
                 return RedirectToAction("Profile", "User");
             }
@@ -265,16 +265,16 @@ namespace WebMaze.Controllers
         {
             var InvitedUser = _userRepository.Get(UserId);
             var MyGroup = _groupListRepository.Get(GroupId);
-            if(InvitedUser is null 
+            if (InvitedUser is null
                 || MyGroup is null
                 || !_userService
                    .GetCurrentUser()
                    .UsersInGroup
-                   .Any(u => (u.Group.Id == GroupId && u.UserLevel.HasFlag(GroupUserLevel.Admin)))) 
+                   .Any(u => (u.Group.Id == GroupId && u.UserLevel.HasFlag(GroupUserLevel.Admin))))
             {
                 return RedirectToAction("Profile", "User");
             }
-            if(MyGroup.Users.Any(u => u.User.Id == InvitedUser.Id))
+            if (MyGroup.Users.Any(u => u.User.Id == InvitedUser.Id))
             {
                 var InvUser = MyGroup.Users.Single(u => u.User.Id == InvitedUser.Id);
                 if (InvUser.UserLevel.HasFlag(GroupUserLevel.Requested))
@@ -285,7 +285,7 @@ namespace WebMaze.Controllers
                 {
                     InvUser.UserLevel = GroupUserLevel.Invited;
                 }
-                    
+
             }
             else
             {
@@ -301,6 +301,48 @@ namespace WebMaze.Controllers
 
             return RedirectToAction("MyGroup", "User", new { IdGroup = GroupId });
         }
-        
+
+        [Authorize]
+        public IActionResult RequestInGroup()
+        {
+            var meUser = _userService.GetCurrentUser();
+            var groupsWithoutMe = _groupListRepository.GetAll().Where(g => !g.Users.Any(u => u.User.Id == meUser.Id && !u.UserLevel.HasFlag(GroupUserLevel.None))).ToList();
+            var groupsWithoutMeViewModel = _mapper.Map<List<GroupListViewModel>>(groupsWithoutMe);
+            return View(groupsWithoutMeViewModel);
+        }
+        [Authorize]
+        public IActionResult RequestInGroupByMe(long GroupId)
+        {
+            var Group = _groupListRepository.Get(GroupId);
+            var MeUser = _userService.GetCurrentUser();
+
+            if (Group is null || Group.Users.Any(u => u.User.Id == MeUser.Id && !u.UserLevel.HasFlag(GroupUserLevel.None)))
+            {
+                return RedirectToAction("Profile", "User");
+            }
+
+            if (Group.Users.Any(u => u.User.Id == MeUser.Id))
+            {
+                var ReqUser = Group.Users.Single(u => u.User.Id == MeUser.Id);
+                ReqUser.UserLevel = GroupUserLevel.Requested;
+
+
+            }
+            else
+            {
+                Group.Users.Add(new UserInGroup
+                {
+                    IsActive = true,
+                    User = MeUser,
+                    Group = Group,
+                    UserLevel = GroupUserLevel.Requested,
+                });
+            }
+            _groupListRepository.Save(Group);
+
+            return RedirectToAction("MyGroup", "User", new { IdGroup = GroupId });
+        }
+
+
     }
 }

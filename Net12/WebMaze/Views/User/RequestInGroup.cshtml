@@ -1,0 +1,33 @@
+﻿@model List<GroupListViewModel>
+@using WebMaze.Services
+@using WebMaze.EfStuff.DbModel
+@inject UserService userService
+
+@section Scripts{
+<link rel="stylesheet" href="~/css/Group.css" />
+<link rel="stylesheet" href="~/css/Profile.css" />
+}
+<div class="MyGroup">
+
+    <div class="Groups">
+        <div class="tilte_listGroup">
+            <a class="title_listGroup_name group_row_Name">Группы</a>
+        </div>
+        <div class="ListGroup">
+            @foreach (var Group in Model)
+            {
+                <div class="isGroup">
+                    <a class="group_row_photo" href="/User/RequestInGroupByMe?GroupId=@Group.Id">
+                        <img class="group_row_img" src="https://www.meme-arsenal.com/memes/15ef8d1ccbb4514e0a758c61e1623b2f.jpg" />
+                    </a>
+                    <div class="group_row">
+                        <a class="group_row_counts">Участников в группе: @Group.Users.Where(u => u.UserLevel.HasFlag(WebMaze.EfStuff.DbModel.GroupUserLevel.Member)).ToList().Count</a>
+                    </div>
+                    <div class="group_row_title">
+                        <a class="button_add_user" href="/User/RequestInGroupByMe?GroupId=@Group.Id">Отправить запрос в группу @Group.Name</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
