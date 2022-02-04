@@ -1,7 +1,13 @@
-﻿@model List<NewsViewModel>
+﻿@model PaggerViewModel<NewsViewModel>
 @using WebMaze.EfStuff.Repositories
-@inject NewsCommentRepository newsCommentRepository
 @using WebMaze.ResourceLocalization
+
+@inject NewsCommentRepository newsCommentRepository
+
+@section Scripts{
+    <script src="~/js/paggination.js"></script>
+}
+
 
 <div class="header">
     <h2>@News.NewsGreetings</h2>
@@ -23,15 +29,15 @@
                     <th scope="col">@News.Date_of_creation</th>
                     @if (User.Identity.IsAuthenticated)
                     {
-                <th scope="col">@News.Assessment</th>
-                <th scope="col">@News.Actions</th>
+                        <th scope="col">@News.Assessment</th>
+                        <th scope="col">@News.Actions</th>
                     }
 
                 </tr>
             </thead>
 
             <tbody>
-                @foreach (var news in Model)
+                @foreach (var news in Model.Records)
                 {
                     <tr>
                         <td>
@@ -77,7 +83,25 @@
             </tbody>
         </table>
     </div>
-
+    <div>
+        <select class="perPageOption">
+            @foreach (var perPageOption in Model.PerPageOptions)
+            {
+                var isSelectedStr = perPageOption == Model.PerPage
+                    ? "selected"
+                    : null;
+                <text>
+                    <option value="@perPageOption" selected=@isSelectedStr>@perPageOption</option>
+                </text>
+            }
+        </select>
+        @for (int i = 0; i < Model.TotalPageCount; i++)
+        {
+            <a href="/News/Index?page=@(i+1)&perPage=" class="linkToPage">
+                page @(i+1)
+            </a>
+        }
+    </div>
     @if (User.Identity.IsAuthenticated)
     {
         <p>

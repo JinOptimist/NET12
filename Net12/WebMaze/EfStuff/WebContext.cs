@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.EfStuff.DbModel.GuessTheNumber;
 
 namespace WebMaze.EfStuff
 {
@@ -30,7 +31,9 @@ namespace WebMaze.EfStuff
         public DbSet<ZumaGameColor> ZumaGameColors { get; set; }
         public DbSet<ZumaGameField> ZumaGameFields { get; set; }
         public DbSet<ZumaGameDifficult> ZumaGameDifficults { get; set; }
-
+        public DbSet<GuessTheNumberGame> GuessTheNumberGames { get; set; }
+        public DbSet<GuessTheNumberGameAnswer> GuessTheNumberGameAnswers { get; set; }
+        public DbSet<GuessTheNumberGameParameters> GuessTheNumberGameParameters { get; set; }
         public WebContext(DbContextOptions options) : base(options)
         {
         }
@@ -130,6 +133,17 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<GroupList>().HasOne(x => x.Creator).WithMany(x => x.Groups);
             modelBuilder.Entity<UserInGroup>().HasOne(x => x.User).WithMany(x => x.UsersInGroup);
 
+            modelBuilder.Entity<GuessTheNumberGame>()
+                .HasOne(x => x.Player)
+                .WithMany(x => x.GuessTheNumberGames);
+
+            modelBuilder.Entity<GuessTheNumberGame>()
+               .HasOne(x => x.Parameters)
+               .WithMany(x => x.Games);
+
+            modelBuilder.Entity<GuessTheNumberGameAnswer>()
+                .HasOne(x => x.Game)
+                .WithMany(x => x.Answers);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

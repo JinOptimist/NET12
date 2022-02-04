@@ -1,4 +1,8 @@
-﻿@model UserViewModel
+﻿@using WebMaze.Controllers
+@using WebMaze.Services
+@model UserViewModel
+@inject UserService userService
+
 
 @section Scripts{
 <script src="~/js/showHideNews.js"></script>
@@ -23,6 +27,22 @@
         </form>
     </div>
 </div>
+
+@if (userService.IsAdmin)
+{
+    @if (Model.NotReapitUsersName)
+    {
+        <div>
+            Reapit user names not found
+        </div>
+    }
+    else
+    {
+        <div>
+            <a href="/Admin/DownlodListReapitUsers">Download list reapit users</a>
+        </div>
+    }
+}
 
 @*<div class="header">
     <h2>Your news</h2>

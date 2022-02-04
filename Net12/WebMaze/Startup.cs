@@ -29,6 +29,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WebMaze.EfStuff.DbModel.GuessTheNumber;
+using WebMaze.Models.GuessTheNumber;
 
 namespace WebMaze
 {
@@ -265,6 +267,22 @@ namespace WebMaze
             provider.CreateMap<GroupList, GroupListViewModel>();
 
             provider.CreateMap<GroupListViewModel, GroupList>();
+            provider.CreateMap<GuessTheNumberGameParameters,
+                GuessTheNumberGameParametersViewModel>()
+                .ReverseMap();
+
+            provider.CreateMap<GuessTheNumberGame, GuessTheNumberGameViewModel>()
+                .ForMember(
+                    nameof(GuessTheNumberGameViewModel.PlayerName),
+                    opt => opt.MapFrom(game => game.Player.Name));
+            provider.CreateMap<GuessTheNumberGameViewModel, GuessTheNumberGame>();
+
+            provider.CreateMap<GuessTheNumberGameAnswer, GuessTheNumberGameAnswerViewModel>()
+                .ForMember(
+                    nameof(GuessTheNumberGameAnswerViewModel.GameId),
+                    opt => opt.MapFrom(game => game.Game.Id));
+            provider.CreateMap<GuessTheNumberGameAnswerViewModel,
+                GuessTheNumberGameAnswer>();
 
 
             var mapperConfiguration = new MapperConfiguration(provider);
@@ -476,14 +494,17 @@ namespace WebMaze
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseMiddleware<GlobalErrorHandlerMidlleware>();
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            // Êòî ÿ?
+            // ÃŠÃ²Ã® Ã¿?
             app.UseAuthentication();
 
-            //Êóäà ìíå ìîæíî?
+            //ÃŠÃ³Ã¤Ã  Ã¬Ã­Ã¥ Ã¬Ã®Ã¦Ã­Ã®?
             app.UseAuthorization();
 
             app.UseMiddleware<LocalizeMidlleware>();

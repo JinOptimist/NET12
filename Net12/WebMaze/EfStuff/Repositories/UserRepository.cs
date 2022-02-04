@@ -7,6 +7,7 @@ using WebMaze.EfStuff.DbModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 
+
 namespace WebMaze.EfStuff.Repositories
 {
     public class UserRepository : BaseRepository<User>
@@ -78,6 +79,52 @@ FROM
 WHERE U.Name IS NOT NULL
 ", param)
                 .Select(x => x.Name)
+                .ToList();
+        }
+        public List<User> GetReapitUsersNameSQL()
+        {
+            return _dbSet.FromSqlRaw<User>($@"
+SELECT U.*
+FROM   users U
+       INNER JOIN (SELECT id,
+                          Min (NAME) NAME
+                   FROM   (SELECT TempU.NAME,
+                                  TempU.id
+                           FROM   (SELECT U.NAME,
+                                          U.id
+                                   FROM   users U
+                                   WHERE  U.isactive = 1) TempU
+                                  LEFT JOIN users U
+                                         ON TempU.id != U.id
+                           WHERE  TempU.NAME = U.NAME) TempAll
+                   WHERE  TempAll.id NOT IN (SELECT RepeatUser.id
+                                             FROM
+                          (SELECT TempU.NAME,
+                                  Min(TempU.id) Id
+                           FROM   (SELECT U.NAME,
+                                          U.id
+                                   FROM   users U)
+                                  TempU
+                                            LEFT JOIN users U
+                                                   ON TempU.id != U.id
+                                                     WHERE  TempU.NAME = U.NAME
+                                                     GROUP  BY TempU.NAME)
+                          RepeatUser
+                                            )
+                   GROUP  BY id) R
+               ON U.id = R.id 
+    ")               
+                .ToList();
+        }
+
+        public List<User> GetReapitUsersName()
+        {
+            return _webContext.Users
+                .ToList()
+                .Where(x=>x.IsActive)
+                .OrderBy(x => x.Id)
+                .GroupBy(x => x.Name)
+                .SelectMany(gr => gr.Skip(1))
                 .ToList();
         }
     }
