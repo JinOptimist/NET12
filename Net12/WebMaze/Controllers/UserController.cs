@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -142,14 +143,14 @@ namespace WebMaze.Controllers
             {
                 return RedirectToAction("Profile", "User");
             }
-            myGroup.Users = myGroup.Users.Where(u => !u.UserLevel.HasFlag(GroupUserLevel.None)).ToList();
-            if (!myGroup.Users.Any(
+            var userInGroup = myGroup.Users.Where(u => !u.UserLevel.HasFlag(GroupUserLevel.None)).ToList();
+            if (!userInGroup.Any(
                 u => u.User.Id == _userService.GetCurrentUser().Id
                 && (u.UserLevel.HasFlag(GroupUserLevel.Member) || u.UserLevel.HasFlag(GroupUserLevel.Invited))))
             {
                 return RedirectToAction("Profile", "User");
             }
-            var MeUser = myGroup.Users.FirstOrDefault(u => u.User.Id == _userService.GetCurrentUser().Id);
+            var MeUser = userInGroup.FirstOrDefault(u => u.User.Id == _userService.GetCurrentUser().Id);
             if (MeUser.UserLevel == GroupUserLevel.Invited)
             {
                 MeUser.UserLevel = GroupUserLevel.Member;
@@ -221,6 +222,7 @@ namespace WebMaze.Controllers
         [Authorize]
         public IActionResult DeleteFromGroup(long GroupId, long UserId)
         {
+            var logger = HttpContext.RequestServices.GetService(typeof(ILogger<LocalizeMidlleware>)) as ILogger<LocalizeMidlleware>;
             var MeUser = _userService.GetCurrentUser();
             var MeUserInGroup = MeUser.UsersInGroup.SingleOrDefault(u => u.Group.Id == GroupId);
             if (!(MeUserInGroup != null && (MeUserInGroup.UserLevel.HasFlag(GroupUserLevel.Admin) || (MeUserInGroup.Id == UserId && MeUserInGroup.UserLevel.HasFlag(GroupUserLevel.Member)))))
@@ -233,10 +235,72 @@ namespace WebMaze.Controllers
                 return MyGroup(GroupId);
             }
             DeleteUser.UserLevel = GroupUserLevel.None;
+            if(DeleteUser.Group is null)
+            {
+                logger.LogCritical($"Delete User without Group UserId = {DeleteUser.User.Id} | GroupUserId = {DeleteUser.Id} | Delete from GroupId = {GroupId}");
+            }
             _userInGroupRepository.Save(DeleteUser);
+
 
             return RedirectToAction("MyGroup", "User", new { IdGroup = GroupId });
         }
 
+        [Authorize]
+        [HttpGet]
+        public IActionResult AddInGroup(long GroupId)
+        {
+            if(!_userService.GetCurrentUser().UsersInGroup.Any(u => u.Group.Id == GroupId && u.UserLevel.HasFlag(GroupUserLevel.Admin)))
+            {
+                return RedirectToAction("Profile", "User");
+            }
+            var GroupModel = _groupListRepository.Get(GroupId);
+            var NoGroupUsers = _userRepository.GetAll().Where(u => !u.UsersInGroup.Any(ug => ug.Group.Id == GroupId && (ug.UserLevel.HasFlag(GroupUserLevel.Member) || ug.UserLevel.HasFlag(GroupUserLevel.Invited)))).ToList();
+            var NoGroupUsersViewModel = _mapper.Map<List<UserViewModel>>(NoGroupUsers);
+            var usersNotFromGroup = new UsersNotFromGroupViewModel() { GroupId = GroupId, NoGroupUsers = NoGroupUsersViewModel, };
+            return View(usersNotFromGroup);
+        }
+        [Authorize]
+        [HttpGet]
+        public IActionResult AddInGroupUser(long GroupId, long UserId)
+        {
+            var InvitedUser = _userRepository.Get(UserId);
+            var MyGroup = _groupListRepository.Get(GroupId);
+            if(InvitedUser is null 
+                || MyGroup is null
+                || !_userService
+                   .GetCurrentUser()
+                   .UsersInGroup
+                   .Any(u => (u.Group.Id == GroupId && u.UserLevel.HasFlag(GroupUserLevel.Admin)))) 
+            {
+                return RedirectToAction("Profile", "User");
+            }
+            if(MyGroup.Users.Any(u => u.User.Id == InvitedUser.Id))
+            {
+                var InvUser = MyGroup.Users.Single(u => u.User.Id == InvitedUser.Id);
+                if (InvUser.UserLevel.HasFlag(GroupUserLevel.Requested))
+                {
+                    InvUser.UserLevel = GroupUserLevel.Member;
+                }
+                else
+                {
+                    InvUser.UserLevel = GroupUserLevel.Invited;
+                }
+                    
+            }
+            else
+            {
+                MyGroup.Users.Add(new UserInGroup
+                {
+                    IsActive = true,
+                    User = InvitedUser,
+                    Group = MyGroup,
+                    UserLevel = GroupUserLevel.Invited,
+                });
+            }
+            _groupListRepository.Save(MyGroup);
+
+            return RedirectToAction("MyGroup", "User", new { IdGroup = GroupId });
+        }
+        
     }
 }

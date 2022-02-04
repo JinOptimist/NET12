@@ -1,0 +1,40 @@
+﻿@model UsersNotFromGroupViewModel
+@using WebMaze.EfStuff.DbModel
+@section Scripts{
+<link rel="stylesheet" href="~/css/Group.css" />
+<link rel="stylesheet" href="~/css/Profile.css" />
+}
+<div class="MyGroup">
+    <div class="Groups">
+        <div class="tilte_listGroup">
+            <a class="title_listGroup_name group_row_Name">Пригласить пользователя в группу</a>
+        </div>
+        <div class="ListGroup">
+            @foreach (var NoGroupUser in Model.NoGroupUsers)
+            {
+                <div class="isGroup">
+                    <a class="group_row_photo">
+                        <img class="group_row_img" src="https://www.meme-arsenal.com/memes/15ef8d1ccbb4514e0a758c61e1623b2f.jpg" />
+                    </a>
+                    <div class="group_row">
+                        <div class="group_row_title">
+                            <a class="group_row_Name">@NoGroupUser.UserName</a>
+                        </div>
+                        <a class="group_row_counts">Кол-во монет: @NoGroupUser.Coins</a>
+                        <a class="group_row_counts">Рейтинг пользователя: @NoGroupUser.GlobalUserRating</a>
+                    </div>
+                        <div class="group_row_title">
+                            <ul class="topmenu">
+                                <li>
+                                    <a href="" class="down">⋮</a>
+                                    <ul class="submenu">
+                                        <li><a href="~/User/AddInGroupUser?GroupId=@Model.GroupId&UserId=@NoGroupUser.Id">Добавить в группу</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

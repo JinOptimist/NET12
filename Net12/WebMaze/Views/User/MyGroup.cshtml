@@ -20,9 +20,9 @@
                         <img class="group_row_img" src="https://www.meme-arsenal.com/memes/15ef8d1ccbb4514e0a758c61e1623b2f.jpg" />
                     </a>
                     <div class="group_row">
+                        <a class="group_row_Name">@GroupUser.User.UserName</a>
                         <a class="group_row_counts">Кол-во монет: @GroupUser.User.Coins</a>
                         <a class="group_row_counts">Рейтинг пользователя: @GroupUser.User.GlobalUserRating</a>
-                        <a class="group_row_Name">@GroupUser.User.UserName</a>
                     </div>
                     @if (userService.GetCurrentUser().UsersInGroup.FirstOrDefault(u => u.Group.Id == Model.Id).UserLevel.HasFlag(GroupUserLevel.Admin))
                     {
@@ -51,9 +51,9 @@
                         <img class="group_row_img" src="https://www.meme-arsenal.com/memes/15ef8d1ccbb4514e0a758c61e1623b2f.jpg" />
                     </a>
                     <div class="group_row">
+                        <a class="group_row_Name">@GroupUser.User.UserName</a>
                         <a class="group_row_counts">Кол-во монет: @GroupUser.User.Coins</a>
                         <a class="group_row_counts">Рейтинг пользователя: @GroupUser.User.GlobalUserRating</a>
-                        <a class="group_row_Name">@GroupUser.User.UserName</a>
                     </div>
                     @if (userService.GetCurrentUser().UsersInGroup.FirstOrDefault(u => u.Group.Id == Model.Id).UserLevel.HasFlag(GroupUserLevel.Admin))
                     {
@@ -125,17 +125,8 @@
             }
         </div>
     </div>
-    @if (Model.Creator.Id == userService.GetCurrentUser().Id)
+    @if (Model.Users.Any(u => u.User.Id == userService.GetCurrentUser().Id && u.UserLevel.HasFlag(GroupUserLevel.Admin)))
     {
-        <form action="/User/MyGroup" method="post">
-            @Html.HiddenFor(x => x.Id)
-            <fieldset>
-                <legend><b>Add User</b></legend>
-                <label>User Name:</label>
-                <br>
-                <textarea name="UserName" placeholder="NickName"></textarea>
-                <div><input type="submit" value="Add/Delete" /></div>
-            </fieldset>
-        </form>
+        <a class="button_add_user" href="~/User/AddInGroup?GroupId=@Model.Id">Invite in Group Users</a>
     }
 </div>
