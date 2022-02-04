@@ -162,21 +162,23 @@ namespace WebMaze.Migrations
 
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GroupList", b =>
-                                b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-                                            b.Property<long?>("CreatorId")
-                        .HasColumnType("bigint");
-                                            b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+            {
 
-                    b.HasKey("Id");
+                b.Property<long>("Id")
+                            .ValueGeneratedOnAdd()
+                            .HasColumnType("bigint")
+                            .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.HasIndex("CreatorId");
+                b.Property<long?>("CreatorId")
+                    .HasColumnType("bigint");
 
-                    b.ToTable("GroupList");
-                                    });
+                b.Property<string>("Name")
+                            .HasColumnType("nvarchar(max)");
+
+                b.HasKey("Id");
+                b.HasIndex("CreatorId");
+                b.ToTable("GroupList");
+            });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GuessTheNumber.GuessTheNumberGame", b =>
 
@@ -971,7 +973,7 @@ namespace WebMaze.Migrations
                         .HasForeignKey("CreatorId");
 
                     b.Navigation("Creator");
-                    });
+                });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GuessTheNumber.GuessTheNumberGame", b =>
                 {
@@ -1192,8 +1194,8 @@ namespace WebMaze.Migrations
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GroupList", b =>
                 {
                     b.Navigation("Users");
-                    });
-                    
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GuessTheNumber.GuessTheNumberGame", b =>
                 {
                     b.Navigation("Answers");
