@@ -79,7 +79,7 @@ namespace WebMaze.ResourceLocalization {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Please contact service support.
+        ///   Ищет локализованную строку, похожую на Please contact service support..
         /// </summary>
         public static string Contact_Support {
             get {
@@ -97,7 +97,7 @@ namespace WebMaze.ResourceLocalization {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Enter you answer.
+        ///   Ищет локализованную строку, похожую на Enter you answer..
         /// </summary>
         public static string Enter_Answer {
             get {
@@ -115,7 +115,7 @@ namespace WebMaze.ResourceLocalization {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Error.
+        ///   Ищет локализованную строку, похожую на Error !!!.
         /// </summary>
         public static string Error {
             get {
@@ -135,9 +135,9 @@ namespace WebMaze.ResourceLocalization {
         /// <summary>
         ///   Ищет локализованную строку, похожую на from.
         /// </summary>
-        public static string From_To {
+        public static string From_To_Range {
             get {
-                return ResourceManager.GetString("From_To", resourceCulture);
+                return ResourceManager.GetString("From_To_Range", resourceCulture);
             }
         }
         
@@ -169,7 +169,7 @@ namespace WebMaze.ResourceLocalization {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на is the hidden number.
+        ///   Ищет локализованную строку, похожую на is the hidden number..
         /// </summary>
         public static string Hidden_Number {
             get {
@@ -178,7 +178,7 @@ namespace WebMaze.ResourceLocalization {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на You loss.
+        ///   Ищет локализованную строку, похожую на You loss !!!.
         /// </summary>
         public static string Loss {
             get {
@@ -196,7 +196,7 @@ namespace WebMaze.ResourceLocalization {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Select the difficulty level.
+        ///   Ищет локализованную строку, похожую на Select the difficulty level..
         /// </summary>
         public static string Select_Difficulty {
             get {
@@ -241,7 +241,7 @@ namespace WebMaze.ResourceLocalization {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на You won.
+        ///   Ищет локализованную строку, похожую на You won !!!.
         /// </summary>
         public static string Win {
             get {

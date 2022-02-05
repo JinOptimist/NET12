@@ -15,7 +15,7 @@
         if (answer.IntroducedAnswer == Model.Game.GuessedNumber)
         {
             <div>
-                @answer.IntroducedAnswer @GuessTheNumber.Hidden_Number.
+                @answer.IntroducedAnswer @GuessTheNumber.Hidden_Number
             </div>
         }
         else
@@ -34,18 +34,18 @@
     case GuessTheNumberGameStatus.NotFinished:
 
 <div>
-    @GuessTheNumber.Enter_Number @GuessTheNumber.From_To @Model.Game.Parameters.MinRangeNumber
-    @GuessTheNumber.To @Model.Game.Parameters.MaxRangeNumber.
+    @GuessTheNumber.Enter_Number @GuessTheNumber.From_To_Range @Model.Game.Parameters.MinRangeNumber
+    @GuessTheNumber.To @Model.Game.Parameters.MaxRangeNumber
 </div>
 <div>
-    @GuessTheNumber.Still_Have @Model.Game.AttemptNumber @GuessTheNumber.Attempts @GuessTheNumber.From @Model.Game.Parameters.MaxAttempts.
+    @GuessTheNumber.Still_Have @Model.Game.AttemptNumber @GuessTheNumber.Attempts @GuessTheNumber.From @Model.Game.Parameters.MaxAttempts
 </div>
 
         <form action="/GuessTheNumber/GuessTheNumberGameAnswer" method="post">
             @Html.HiddenFor(x => x.Id)
             @Html.HiddenFor(x => x.GameId)
             <div>
-                @GuessTheNumber.Enter_Answer. @Html.TextBoxFor(x => x.IntroducedAnswer, new { @type = "number" })
+                @GuessTheNumber.Enter_Answer @Html.TextBoxFor(x => x.IntroducedAnswer, new { @type = "number" })
             </div>
             <div>
                 @Html.ValidationMessageFor(x => x.IntroducedAnswer)
@@ -63,7 +63,7 @@
     case GuessTheNumberGameStatus.Loss:
 
 <span style="font-size:30px;">
-    @GuessTheNumber.Loss !!!
+    @GuessTheNumber.Loss 
 </span>
 
         break;
@@ -71,7 +71,7 @@
     case GuessTheNumberGameStatus.Win:
 
 <span style="font-size:30px;">
-    @GuessTheNumber.Win !!!
+    @GuessTheNumber.Win 
 </span>
 
         break;
@@ -79,7 +79,7 @@
     default:
 
 <span style="font-size:30px;">
-    @GuessTheNumber.Error!!!!!
+    @GuessTheNumber.Error
 </span>
 
         break;

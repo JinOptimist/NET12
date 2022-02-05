@@ -124,24 +124,24 @@
     <value>Подтвердите ваш ответ</value>
   </data>
   <data name="Contact_Support" xml:space="preserve">
-    <value>Пожалуйста обратитесь в сесвисную поддержку</value>
+    <value>Пожалуйста обратитесь в сесвисную поддержку.</value>
   </data>
   <data name="Easy" xml:space="preserve">
     <value>Легкий</value>
   </data>
   <data name="Enter_Answer" xml:space="preserve">
-    <value>Введите ваш ответ</value>
+    <value>Введите ваш ответ.</value>
   </data>
   <data name="Enter_Number" xml:space="preserve">
     <value>Введите число</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Ошибка</value>
+    <value>Ошибка!!!</value>
   </data>
   <data name="From" xml:space="preserve">
     <value>из</value>
   </data>
-  <data name="From_To" xml:space="preserve">
+  <data name="From_To_Range" xml:space="preserve">
     <value>от</value>
   </data>
   <data name="Give_Up" xml:space="preserve">
@@ -154,7 +154,7 @@
     <value>Привет</value>
   </data>
   <data name="Hidden_Number" xml:space="preserve">
-    <value>это загаданное число</value>
+    <value>это загаданное число.</value>
   </data>
   <data name="Loss" xml:space="preserve">
     <value>Вы проиграли</value>
@@ -163,7 +163,7 @@
     <value>Средний</value>
   </data>
   <data name="Select_Difficulty" xml:space="preserve">
-    <value>Выберите уровень сложности</value>
+    <value>Выберите уровень сложности.</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Старт</value>

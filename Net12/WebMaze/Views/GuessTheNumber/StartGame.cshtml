@@ -2,19 +2,19 @@
 @using WebMaze.Services.GuessTheNumber
 @model GuessTheNumberGameDifficulty
 <div>
-    @GuessTheNumber.Select_Difficulty.
+    @GuessTheNumber.Select_Difficulty
 </div>
 <form action="/GuessTheNumber/StartGame" method="post">
     <div>
         <select name="difficulty">
             <option value="@GuessTheNumberGameDifficulty.Easy">
-                @GuessTheNumber.Easy.ToString()
+                @GuessTheNumberGameDifficulty.Easy.GetDisplayName()
             </option>
             <option value="@GuessTheNumberGameDifficulty.Medium">
-                @GuessTheNumber.Medium.ToString()
+                @GuessTheNumberGameDifficulty.Medium.GetDisplayName()
             </option>
             <option value="@GuessTheNumberGameDifficulty.Hard">
-                @GuessTheNumber.Hard.ToString()
+                @GuessTheNumberGameDifficulty.Hard.GetDisplayName()
             </option>
         </select>
 
