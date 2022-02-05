@@ -26,8 +26,6 @@
 
 
 <div class="user-profile">
-    @using (Html.BeginForm("TransactionCoins", "User", FormMethod.Post))
-    {
         <div>
             Transaction Field
         </div>
@@ -38,12 +36,10 @@
             Coins Count: <input name="coins" type="number" class="transactionCoins" />
         </div>
         <div class="transaction-info">
-
         </div>
-        <input type="submit" value="Отправить" />
-    }
+
     <div class="js-transaction-field">
-        <input type="button" value="Send using JS" class="transactionButton" />
+        <input type="button" value="Send coins" class="transactionButton" />
     </div>
 </div>
 

@@ -3,14 +3,16 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
+using WebMaze.ResourceLocalization;
 using WebMaze.Services;
 using WebMaze.SignalRHubs;
 
@@ -27,7 +29,7 @@ namespace WebMaze.Controllers
 
         public UserController(UserRepository userRepository,
             IMapper mapper,
-            UserService userService, 
+            UserService userService,
             IHubContext<ChatHub> chatHub)
         {
             _userRepository = userRepository;
@@ -65,7 +67,7 @@ namespace WebMaze.Controllers
             {
                 viewModel.ReturnUrl = Request.Query["ReturnUrl"];
             }
-            
+
             return View(viewModel);
         }
 
@@ -74,7 +76,7 @@ namespace WebMaze.Controllers
         {
             var user = _userRepository.GetByNameAndPassword(viewModel.Login, viewModel.Password);
 
-            if(user == null)
+            if (user == null)
             {
                 return View(viewModel);
             }
@@ -103,62 +105,38 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult TransactionCoins(string userName, int coins)
-        {
-            var currUser = _userService.GetCurrentUser();
-            var destUser = _userRepository.GetUserByName(userName);
-
-            if(coins > 0 && currUser.Coins >= coins &&  destUser != null)
-            {
-                _userRepository.TransactionCoins(currUser.Id, destUser.Id, coins);
-            }
-
-            return RedirectToAction("Profile");
-        }
-
         public IActionResult JSTransactionCoins(string userName, int coins)
         {
             var currUser = _userService.GetCurrentUser();
             var destUser = _userRepository.GetUserByName(userName);
-            var answer = new List<string>();
 
-            if (coins > 0)
+            if (currUser != destUser)
             {
-                if (currUser.Coins >= coins)
+                if (coins != 0)
                 {
-                    if (destUser != null)
+                    if (coins > 0)
                     {
-                        if (_userRepository.TransactionCoins(currUser.Id, destUser.Id, coins))
+                        if (currUser.Coins >= coins)
                         {
-                            answer.Add("Succes transaction");
-                            answer.Add("green");
+                            if (destUser != null)
+                            {
+                                if (_userRepository.TransactionCoins(currUser.Id, destUser.Id, coins))
+                                {
+                                    return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.SuccesTransaction)));
+                                }
+                                return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.SomethingWrong)));
+                            }
+                            return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.NotEnoughUser)));
                         }
-                        else
-                        {
-                            answer.Add("Something WRONG");
-                            answer.Add("red");
-                        }
+                        return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.NotEnoughCoins)));
                     }
-                    else
-                    {
-                        answer.Add("Not enough User");
-                        answer.Add("red");
-                    }
+                    return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.NegativeValue)));
                 }
-                else
-                {
-                    answer.Add("Not enough Coins");
-                    answer.Add("red");
-                }
+                return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.ZeroValue)));
             }
-            else
-            {
-                answer.Add("Negative value");
-                answer.Add("red");
-            }
-            answer.Add(currUser.Coins.ToString());
-
-            return Json(JsonSerializer.Serialize(answer));
+            return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.TransactionToYourself)));
         }
+
+        public IActionResult UpdateProfileCoins() => Json(_userService.GetCurrentUser().Coins);
     }
 }
