@@ -216,3 +216,16 @@ body {
 .bottom{
     display: flex;
 }
+}
+
+.user-profile {
+    margin: 30px;
+}
+
+    .user-profile * {
+        margin: 5px;
+    }
+
+.transaction-info{
+    color: black;
+}
