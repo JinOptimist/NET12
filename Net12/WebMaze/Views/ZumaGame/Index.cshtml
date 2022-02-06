@@ -2,69 +2,71 @@
 
 @model ZumaGameIndexViewModel
 
-<div class="big-center-font">
-    @ZumaGame.Welcome
-</div>
+<div class="zumagame-margin">
+    <div class="big-center-font">
+        @ZumaGame.Welcome
+    </div>
 
-<div class="menu-zumagame-difficult">
-    <a href="/ZumaGame/AddDifficult">@ZumaGame.AddDifficult</a>
-</div>
+    <div class="menu-zumagame-difficult">
+        <a href="/ZumaGame/AddDifficult">@ZumaGame.AddDifficult</a>
+    </div>
 
-<div>
-    @ZumaGame.ProfileCoins @Model.Coins
-</div>
+    <div>
+        @ZumaGame.ProfileCoins @Model.Coins
+    </div>
 
-<div class="big-center-font">
-    @if (Model.Continue)
-    {
-        <a href="/ZumaGame/ContinueGame">@ZumaGame.ContinueGame</a>
-    }
-</div>
-
-<div class="zumaGame-pagger-block">
-    @for (int i = 1; i <= Model.PaggerViewModel.TotalPageCount; i++)
-    {
-        if (i != Model.PaggerViewModel.CurrPage)
+    <div class="big-center-font">
+        @if (Model.Continue)
         {
-            <a href="/ZumaGame/Index?page=@i&perPage=@Model.PaggerViewModel.PerPage" class="zumaGameLinkToPage">
-                page @i
-            </a>
+            <a href="/ZumaGame/ContinueGame">@ZumaGame.ContinueGame</a>
         }
-        else
+    </div>
+
+    <div class="zumagame-pagger-block">
+        @for (int i = 1; i <= Model.PaggerViewModel.TotalPageCount; i++)
         {
-            <span>page @i</span>
-        }
-    }
-</div>
-
-<div>
-    @foreach (var difficult in Model.PaggerViewModel.Records)
-    {
-        <div class="manage-zumagame-difficult">
-            <div>
-                @ZumaGame.Author @difficult.Author
-            </div>
-            <div>
-                @ZumaGame.Width @difficult.Width
-            </div>
-            <div>
-                @ZumaGame.Height @difficult.Height
-            </div>
-            <div>
-                @ZumaGame.ColorCount @difficult.ColorCount
-            </div>
-            <div>
-                @ZumaGame.Price @difficult.Price
-            </div>
-            <a href="/ZumaGame/RemoveDifficult?difficultId=@difficult.Id">X</a>
-
-            <a href="/ZumaGame/AddDifficult?difficultId=@difficult.Id">E</a>
-
-            @if (!Model.Continue && Model.Coins >= difficult.Price)
+            if (i != Model.PaggerViewModel.CurrPage)
             {
-                <a href="/ZumaGame/NewGame?difficultId=@difficult.Id">@ZumaGame.NewGame</a>
-
+                <a href="/ZumaGame/Index?page=@i&perPage=@Model.PaggerViewModel.PerPage" class="zumagame-link-to-page">
+                    @ZumaGame.Page @i
+                </a>
             }
-        </div>
-    }
+            else
+            {
+                <span>@ZumaGame.Page @i</span>
+            }
+        }
+    </div>
+
+    <div>
+        @foreach (var difficult in Model.PaggerViewModel.Records)
+        {
+            <div class="manage-zumagame-difficult">
+                <div>
+                    @ZumaGame.Author @difficult.Author
+                </div>
+                <div>
+                    @ZumaGame.Width @difficult.Width
+                </div>
+                <div>
+                    @ZumaGame.Height @difficult.Height
+                </div>
+                <div>
+                    @ZumaGame.ColorCount @difficult.ColorCount
+                </div>
+                <div>
+                    @ZumaGame.Price @difficult.Price
+                </div>
+                <a href="/ZumaGame/RemoveDifficult?difficultId=@difficult.Id">X</a>
+
+                <a href="/ZumaGame/AddDifficult?difficultId=@difficult.Id">E</a>
+
+                @if (!Model.Continue && Model.Coins >= difficult.Price)
+                {
+                    <a href="/ZumaGame/NewGame?difficultId=@difficult.Id">@ZumaGame.NewGame</a>
+
+                }
+            </div>
+        }
+    </div>
 </div>

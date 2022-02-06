@@ -79,11 +79,15 @@
     width: 500px;
 }
 
-.zumaGameLinkToPage {
+.zumagame-link-to-page {
     margin: 5px;
 }
 
-.zumaGame-pagger-block {
+.zumagame-pagger-block {
     margin-top: 30px;
     margin-left: 20px;
+}
+
+.zumagame-margin {
+    margin: 20px;
 }

@@ -34,7 +34,7 @@ namespace WebMaze.Controllers
             _zumaGameDifficultRepository = zumaGameDifficultRepository;
         }
 
-        public IActionResult Index(int page = 1, int perPage = 8)
+        public IActionResult Index(int page = 1, int perPage = 7)
         {
             var zumaGameDifficultViewModels = _zumaGameDifficultRepository
                 .GetForPagination(perPage, page)
