@@ -12,7 +12,7 @@ namespace WebMaze.Models
         public string Password { get; set; }
         public int Coins { get; set; }
         public int GlobalUserRating { get; set; }
-
+        public bool NotReapitUsersName { get; set; }
         public List<NewsViewModel> News { get; set; }
     }
 }

@@ -207,6 +207,17 @@ body {
     margin-right: 10px;
 }
 
+.language-selection{
+    margin-right: 5%;
+
+}
+
+
+.bottom{
+    display: flex;
+}
+}
+
 .user-profile {
     margin: 30px;
 }

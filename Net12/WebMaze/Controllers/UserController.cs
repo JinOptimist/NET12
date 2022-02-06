@@ -43,6 +43,7 @@ namespace WebMaze.Controllers
         {
             var user = _userService.GetCurrentUser();
             var userViewModel = _mapper.Map<UserViewModel>(user);
+            userViewModel.NotReapitUsersName = !_userRepository.GetReapitUsersName().Any();
             return View(userViewModel);
         }
 
