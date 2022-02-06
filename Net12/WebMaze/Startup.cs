@@ -29,6 +29,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WebMaze.EfStuff.DbModel.GuessTheNumber;
+using WebMaze.Models.GuessTheNumber;
 
 namespace WebMaze
 {
@@ -258,6 +260,23 @@ namespace WebMaze
 
             provider.CreateMap<BaseEnemy, MazeEnemyWeb>()
                 .ConstructUsing(x => inEnemyWeb(x));
+
+            provider.CreateMap<GuessTheNumberGameParameters,
+                GuessTheNumberGameParametersViewModel>()
+                .ReverseMap();
+
+            provider.CreateMap<GuessTheNumberGame, GuessTheNumberGameViewModel>()
+                .ForMember(
+                    nameof(GuessTheNumberGameViewModel.PlayerName),
+                    opt => opt.MapFrom(game => game.Player.Name));
+            provider.CreateMap<GuessTheNumberGameViewModel, GuessTheNumberGame>();
+
+            provider.CreateMap<GuessTheNumberGameAnswer, GuessTheNumberGameAnswerViewModel>()
+                .ForMember(
+                    nameof(GuessTheNumberGameAnswerViewModel.GameId),
+                    opt => opt.MapFrom(game => game.Game.Id));
+            provider.CreateMap<GuessTheNumberGameAnswerViewModel,
+                GuessTheNumberGameAnswer>();
 
 
             var mapperConfiguration = new MapperConfiguration(provider);

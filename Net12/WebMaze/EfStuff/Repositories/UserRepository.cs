@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
+
 
 namespace WebMaze.EfStuff.Repositories
 {
@@ -18,9 +20,11 @@ namespace WebMaze.EfStuff.Repositories
         private MazeLevelRepository _mazeLevelRepository;
         private CellRepository _cellRepository;
         private MazeEnemyRepository _mazeEnemyRepository;
+        private ILogger<UserRepository> _logger;
+
         public UserRepository(WebContext webContext,
             ReviewRepository reviewRepository,
-            ImageRepository imageRepository, MazeLevelRepository mazeLevelRepository, CellRepository cellRepository, FavGamesRepository favGamesRepository, MazeEnemyRepository mazeEnemyRepository) : base(webContext)
+            ImageRepository imageRepository, MazeLevelRepository mazeLevelRepository, CellRepository cellRepository, FavGamesRepository favGamesRepository, MazeEnemyRepository mazeEnemyRepository, ILogger<UserRepository> logger) : base(webContext)
         {
             _reviewRepository = reviewRepository;
             _favGamesRepository = favGamesRepository;
@@ -28,6 +32,7 @@ namespace WebMaze.EfStuff.Repositories
             _mazeLevelRepository = mazeLevelRepository;
             _cellRepository = cellRepository;
             _mazeEnemyRepository = mazeEnemyRepository;
+            _logger = logger;
         }
 
         public User GetByNameAndPassword(string login, string password)
@@ -79,6 +84,86 @@ WHERE U.Name IS NOT NULL
 ", param)
                 .Select(x => x.Name)
                 .ToList();
+        }
+        public List<User> GetReapitUsersNameSQL()
+        {
+            return _dbSet.FromSqlRaw<User>($@"
+SELECT U.*
+FROM   users U
+       INNER JOIN (SELECT id,
+                          Min (NAME) NAME
+                   FROM   (SELECT TempU.NAME,
+                                  TempU.id
+                           FROM   (SELECT U.NAME,
+                                          U.id
+                                   FROM   users U
+                                   WHERE  U.isactive = 1) TempU
+                                  LEFT JOIN users U
+                                         ON TempU.id != U.id
+                           WHERE  TempU.NAME = U.NAME) TempAll
+                   WHERE  TempAll.id NOT IN (SELECT RepeatUser.id
+                                             FROM
+                          (SELECT TempU.NAME,
+                                  Min(TempU.id) Id
+                           FROM   (SELECT U.NAME,
+                                          U.id
+                                   FROM   users U)
+                                  TempU
+                                            LEFT JOIN users U
+                                                   ON TempU.id != U.id
+                                                     WHERE  TempU.NAME = U.NAME
+                                                     GROUP  BY TempU.NAME)
+                          RepeatUser
+                                            )
+                   GROUP  BY id) R
+               ON U.id = R.id 
+    ")               
+                .ToList();
+        }
+
+        public List<User> GetReapitUsersName()
+        {
+            return _webContext.Users
+                .ToList()
+                .Where(x=>x.IsActive)
+                .OrderBy(x => x.Id)
+                .GroupBy(x => x.Name)
+                .SelectMany(gr => gr.Skip(1))
+                .ToList();
+        }
+
+        public bool TransactionCoins(long currUserId, long destUserId, int coins)
+        {
+            using (var transaction = _webContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    var currUserIdParam = new SqlParameter("@currUserId", currUserId);
+                    var destUserIdParam = new SqlParameter("@destUserId", destUserId);
+                    var coinsParam = new SqlParameter("@coins", coins);
+
+                    _webContext.Database.ExecuteSqlRaw(@"update Users
+                                                        set Coins -= @coins
+                                                        where Id = @currUserId", currUserIdParam, coinsParam);
+
+                    _webContext.Database.ExecuteSqlRaw(@"update Users
+                                                        set Coins += @coins
+                                                        where Id = @destUserId", destUserIdParam, coinsParam);
+
+                    _webContext.SaveChanges();
+                    transaction.Commit();
+
+                    _logger.LogInformation($"Transaction between Ids {currUserId} and {destUserId} to transfer {coins} coins was successful ");
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    _logger.LogError($"Transaction between Ids {currUserId} and {destUserId} to transfer {coins} coins was FAIL ");
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

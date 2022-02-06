@@ -1,12 +1,16 @@
-﻿@model UserViewModel
+﻿@using WebMaze.Controllers
+@using WebMaze.Services
+@model UserViewModel
+@inject UserService userService
+
 
 @section Scripts{
     <script src="~/js/showHideNews.js"></script>
-
+    <script src="~/js/transaction.js"></script>
     <link rel="stylesheet" href="~/css/profileNews.css" />
 }
 
-<div>
+<div class="user-profile">
     Profile
     <div>
         Hi @Model.UserName
@@ -15,12 +19,46 @@
         You Global Rating: @Model.GlobalUserRating
     </div>
     <div>
-        Coins: @Model.Coins
+        Coins: <span class="profile-coins">@Model.Coins</span>
 
         <form action="/User/NewCoin" method="post">
             @Html.TextBoxFor(x => x.Coins)
             <input type="submit" value="Change coin count" />
         </form>
+    </div>
+</div>
+
+@if (userService.IsAdmin)
+{
+    @if (Model.NotReapitUsersName)
+    {
+        <div>
+            Reapit user names not found
+        </div>
+    }
+    else
+    {
+        <div>
+            <a href="/Admin/DownlodListReapitUsers">Download list reapit users</a>
+        </div>
+    }
+}
+
+<div class="user-profile">
+        <div>
+            Transaction Field
+        </div>
+        <div>
+            User Name: <input name="userName" type="text" class="transactionUserName" />
+        </div>
+        <div>
+            Coins Count: <input name="coins" type="number" class="transactionCoins" />
+        </div>
+        <div class="transaction-info">
+        </div>
+
+    <div class="js-transaction-field">
+        <input type="button" value="Send coins" class="transactionButton" />
     </div>
 </div>
 

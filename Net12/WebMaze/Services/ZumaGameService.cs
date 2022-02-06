@@ -34,7 +34,7 @@ namespace WebMaze.Services
             var pal = new List<ZumaGameColor>();
             foreach (var color in palette)
             {
-                pal.Add(new ZumaGameColor() { Color = color });
+                pal.Add(new ZumaGameColor { Color = color });
             }
 
             var removeColorCount = pal.Count - colorCount;
