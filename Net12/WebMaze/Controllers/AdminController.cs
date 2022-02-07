@@ -26,11 +26,13 @@ namespace WebMaze.Controllers
     {
         private PermissionRepository _permissionRepository;
         private IMapper _mapper;
+        private CellInfoHelperService _cellInfoHelperService;
 
-        public AdminController(PermissionRepository permissionRepository, IMapper mapper)
+        public AdminController(PermissionRepository permissionRepository, IMapper mapper, CellInfoHelperService cellInfoHelperService)
         {
             _permissionRepository = permissionRepository;
             _mapper = mapper;
+            _cellInfoHelperService = cellInfoHelperService;
         }
 
         public IActionResult ViewPermission()
@@ -99,51 +101,12 @@ namespace WebMaze.Controllers
         }
         public IActionResult CellInfoHelper()
         {
-            var typeOfCell = new List<Type>() { typeof(BaseCell) };
-            typeOfCell.AddRange(TypeCollector(typeOfCell));
-
-            var namesTypeOfCell = typeOfCell
-               .Select(x => x.Name)
-               .Select(x => x.ToLower())
-               .ToList();
-
-            //section on removing base and intermediate types
-            var noShowTypes = new List<string>() { "BaseCell", "BaseEnemy", "Character" }
-            .Select(x => x.ToLower())
-            .ToList();
-            namesTypeOfCell.RemoveAll(x => noShowTypes.Contains(x));
-
-            var namesOfActions = typeof(CellInfoController)
-               .GetMethods()
-               .Where(x => x.ReturnType == typeof(IActionResult))
-               .Select(x => x.Name)
-               .Select(x => x.ToLower())
-               .ToList();
-
-            namesTypeOfCell.RemoveAll(x => namesOfActions.Contains(x));
+            List<string> namesTypeOfCell = _cellInfoHelperService.GetNamesTypeOfCell();
 
             return View(namesTypeOfCell);
         }
 
-        public List<Type> TypeCollector(List<Type> inTypes)
-        {
-            List<Type> outTypes = new List<Type>();
-            foreach (var item in inTypes)
-            {
-                var heirs = Assembly.GetAssembly(typeof(BaseCell))
-                .GetTypes()
-                .Where(x => x.BaseType == item)
-                .ToList();
-
-                outTypes.AddRange(heirs);
-            }
-
-            if (outTypes.Any())
-            {
-                outTypes.AddRange(TypeCollector(outTypes));
-            }
-            return outTypes;
-        }
+        
 
         public IActionResult DownloadTreeControllers()
         {
@@ -222,7 +185,7 @@ namespace WebMaze.Controllers
             {
                 using (var wordDocument = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
                 {
-                    string[] namesTypeOfCell = { "test1", "test2", "test3", "test4" };
+                    List<string> namesTypeOfCell = _cellInfoHelperService.GetNamesTypeOfCell(); ;
 
                     var mainPart = wordDocument.AddMainDocumentPart();
                     mainPart.Document = new Document();
