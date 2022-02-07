@@ -2,8 +2,12 @@
 
 <div class="text-center">
     <h3>You can suggest your cell here.</h3>
-    <form action="/Suggested/AddNewCellSugg" method="post">
+    <form action="/Suggested/AddNewCellSugg" method="post" enctype="multipart/form-data">
         @Html.HiddenFor(x => x.Id)
+        <div>
+            You can add a picture if you want.
+            <input type="file" name="@nameof(SuggestedEnemysViewModel.ImageFile)" />
+        </div>
         <div>
             Enter a name for the cell. @Html.TextBoxFor(x => x.Title)
         </div>
