@@ -141,7 +141,22 @@ namespace WebMaze.Controllers
             return View(model);
         }
 
+        public IActionResult ChangeLang(string language)
+        {
+            var user = _userService.GetCurrentUser();
+            if (language == "2")
+            {
+                user.DefaultLocale = Language.Ru;
+            }
+            
+            if(language == "1")
+            {
+                user.DefaultLocale = Language.En;
+            }
 
+            _userRepository.Save(user);
+            return RedirectToAction("Index", "Home");
+        }
 
 
 
