@@ -3,13 +3,17 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
+using WebMaze.ResourceLocalization;
 using WebMaze.Services;
 using WebMaze.SignalRHubs;
 
@@ -26,7 +30,7 @@ namespace WebMaze.Controllers
 
         public UserController(UserRepository userRepository,
             IMapper mapper,
-            UserService userService, 
+            UserService userService,
             IHubContext<ChatHub> chatHub)
         {
             _userRepository = userRepository;
@@ -40,6 +44,7 @@ namespace WebMaze.Controllers
         {
             var user = _userService.GetCurrentUser();
             var userViewModel = _mapper.Map<UserViewModel>(user);
+            userViewModel.NotReapitUsersName = !_userRepository.GetReapitUsersName().Any();
             return View(userViewModel);
         }
 
@@ -64,7 +69,7 @@ namespace WebMaze.Controllers
             {
                 viewModel.ReturnUrl = Request.Query["ReturnUrl"];
             }
-            
+
             return View(viewModel);
         }
 
@@ -73,7 +78,7 @@ namespace WebMaze.Controllers
         {
             var user = _userRepository.GetByNameAndPassword(viewModel.Login, viewModel.Password);
 
-            if(user == null)
+            if (user == null)
             {
                 return View(viewModel);
             }
@@ -101,5 +106,39 @@ namespace WebMaze.Controllers
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult JSTransactionCoins(string userName, int coins)
+        {
+            var currUser = _userService.GetCurrentUser();
+            var destUser = _userRepository.GetUserByName(userName);
+
+            if (currUser != destUser)
+            {
+                if (coins != 0)
+                {
+                    if (coins > 0)
+                    {
+                        if (currUser.Coins >= coins)
+                        {
+                            if (destUser != null)
+                            {
+                                if (_userRepository.TransactionCoins(currUser.Id, destUser.Id, coins))
+                                {
+                                    return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.SuccesTransaction)));
+                                }
+                                return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.SomethingWrong)));
+                            }
+                            return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.NotEnoughUser)));
+                        }
+                        return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.NotEnoughCoins)));
+                    }
+                    return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.NegativeValue)));
+                }
+                return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.ZeroValue)));
+            }
+            return Json(JsonSerializer.Serialize(_userService.AnswerInfoMessage(InfoMessages.TransactionToYourself)));
+        }
+
+        public IActionResult UpdateProfileCoins() => Json(_userService.GetCurrentUser().Coins);
     }
 }

@@ -29,9 +29,9 @@ namespace WebMaze.Services
             {
                 context.Response.Redirect("/Home/SecreteError");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                context.Response.Redirect("/Home/BoringError");
+                throw;
             }
         }
     }
