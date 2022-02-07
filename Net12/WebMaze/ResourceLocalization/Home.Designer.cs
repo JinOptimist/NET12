@@ -68,14 +68,5 @@ namespace WebMaze.ResourceLocalization {
                 return ResourceManager.GetString("Home_Index_Greating", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Save.
-        /// </summary>
-        public static string Save {
-            get {
-                return ResourceManager.GetString("Save", resourceCulture);
-            }
-        }
     }
 }

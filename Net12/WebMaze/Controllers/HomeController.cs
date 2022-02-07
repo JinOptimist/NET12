@@ -144,14 +144,17 @@ namespace WebMaze.Controllers
         public IActionResult ChangeLang(string language)
         {
             var user = _userService.GetCurrentUser();
-            if (language == "2")
+
+            switch (language)
             {
-                user.DefaultLocale = Language.Ru;
-            }
-            
-            if(language == "1")
-            {
-                user.DefaultLocale = Language.En;
+                case "1":
+                    user.DefaultLocale = Language.En;
+                    break;
+                case "2":
+                    user.DefaultLocale = Language.Ru;
+                    break;
+                default:
+                    break;
             }
 
             _userRepository.Save(user);
