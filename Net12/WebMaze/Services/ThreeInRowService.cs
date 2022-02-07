@@ -35,13 +35,15 @@ namespace WebMaze.Services
 
         public ThreeInRowGameField Build()
         {
-            var width = 6;
-            var height = 6;
+            var width = 5;
+            var height = 5;
             var gameField = new ThreeInRowGameField()
             {
                 Width = width,
                 Height = height,
+                Score = 0,
                 Cells = new List<ThreeInRowCell>(),
+                NextColor = GetNextColor(),
                 Player = _userService.GetCurrentUser(),
                 IsActive = true
             };
@@ -66,47 +68,59 @@ namespace WebMaze.Services
             return gameField;
         }
 
-        public string NextColor()
+        public string GetNextColor()
         {
             return colors[random.Next(1, 6)];
         }
 
-        public void Step(long Id)
+        public void Step(long CellId, long GameId)
         {
-            var gameField = _threeInRowGameFieldRepository.Get(4);
-            var cell = gameField.Cells.SingleOrDefault(cell => cell.Id == Id);
-            cell.Color = NextColor();            
+            var gameField = _threeInRowGameFieldRepository.Get(GameId);
+            var cell = gameField.Cells.SingleOrDefault(cell => cell.Id == CellId);
+            cell.Color = gameField.NextColor;
+
+            var randomCellList = gameField.Cells.Where(c => c.Id != CellId & c.Color == "none").ToList();
+            if (randomCellList.Any())
+            {
+                var randomCellIndex = random.Next(randomCellList.Count);
+                var randomCell = randomCellList[randomCellIndex];
+                randomCell.Color = GetNextColor();
+            }
+            
+
+            gameField.NextColor = GetNextColor();
 
             _threeInRowGameFieldRepository.Save(gameField);
 
-            CheckStatus();
+            CheckStatus(GameId);
         }
 
-        public void CheckStatus()
+        public void CheckStatus(long GameId)
         {
-            var gameField = _threeInRowGameFieldRepository.Get(4);
+            var gameField = _threeInRowGameFieldRepository.Get(GameId);
 
             var allCellToDelete = new List<ThreeInRowCell>();
             var cellToDeleteH = new List<ThreeInRowCell>();
             var cellToDeleteV = new List<ThreeInRowCell>();
 
-            cellToDeleteH = checkHorizontal(gameField, cellToDeleteH);
-            cellToDeleteV = checkVertical(gameField, cellToDeleteV);
+            cellToDeleteH = checkHorizontal(gameField, cellToDeleteH).Distinct().ToList();
+            cellToDeleteV = checkVertical(gameField, cellToDeleteV).Distinct().ToList();
 
-            allCellToDelete.AddRange(cellToDeleteH);
-            allCellToDelete.AddRange(cellToDeleteV);
+            allCellToDelete = cellToDeleteH.Union(cellToDeleteV).ToList();
 
             foreach (var item in allCellToDelete)
             {
                 item.Color = colors[0];
             }
 
+            gameField.Score += allCellToDelete.Count();
+
             _threeInRowGameFieldRepository.Save(gameField);
         }
 
         public List<ThreeInRowCell> checkHorizontal(ThreeInRowGameField gameField, List<ThreeInRowCell> cellsToDelete)
         {
-            var cellToDeleteHorizontal = new List<ThreeInRowCell>();
+            var cellToDeleteH = new List<ThreeInRowCell>();
 
             for (int y = 0; y < gameField.Height; y++)
             {
@@ -118,35 +132,44 @@ namespace WebMaze.Services
 
                     if (cell.Color != "none")
                     {
+                        if (cellToDeleteH.Count == 2)
+                        {
+                            if (prevCell.Color != cell.Color)
+                            {
+                                cellToDeleteH.Clear();
+                            }
+                        }
                         if (nextCell != null && cell.Color == nextCell.Color)
                         {
-                            cellToDeleteHorizontal.Add(cell);
+                            cellToDeleteH.Add(cell);
                         }
                         else if (prevCell != null && cell.Color == prevCell.Color)
                         {
-                            cellToDeleteHorizontal.Add(cell);
+                            cellToDeleteH.Add(cell);
                         }
                         
                     }
-
-                    if (cellToDeleteHorizontal.Count > 2)
+                    else
                     {
-                        foreach (var item in cellToDeleteHorizontal)
+                        cellToDeleteH.Clear();
+                    }
+
+                    if (cellToDeleteH.Count > 2)
+                    {
+                        foreach (var item in cellToDeleteH)
                         {
                             cellsToDelete.Add(item);
                         }
-                        cellsToDelete.Clear();
                     }
-
                 }
+                cellToDeleteH.Clear();
             }
-
             return cellsToDelete;
         }
 
         public List<ThreeInRowCell> checkVertical(ThreeInRowGameField gameField, List<ThreeInRowCell> cellsToDelete)
         {
-            var cellToDeleteVertical = new List<ThreeInRowCell>();
+            var cellToDeleteV = new List<ThreeInRowCell>();
 
             for (int x = 0; x < gameField.Width; x++)
             {
@@ -158,28 +181,37 @@ namespace WebMaze.Services
 
                     if (cell.Color != "none")
                     {
+                        if (cellToDeleteV.Count == 2)
+                        {
+                            if (prevCell.Color != cell.Color)
+                            {
+                                cellToDeleteV.Clear();
+                            }
+                        }
                         if (nextCell != null && cell.Color == nextCell.Color)
                         {
-                            cellToDeleteVertical.Add(cell);
+                            cellToDeleteV.Add(cell);
                         }
                         else if (prevCell != null && cell.Color == prevCell.Color)
                         {
-                            cellToDeleteVertical.Add(cell);
+                            cellToDeleteV.Add(cell);
                         }
-
+                    }
+                    else
+                    {
+                        cellToDeleteV.Clear();
                     }
 
-                    if (cellToDeleteVertical.Count > 2)
+                    if (cellToDeleteV.Count > 2)
                     {
-                        foreach (var item in cellToDeleteVertical)
+                        foreach (var item in cellToDeleteV)
                         {
                             cellsToDelete.Add(item);
                         }
                     }
-
                 }
+                cellToDeleteV.Clear();
             }
-
             return cellsToDelete;
         }
 

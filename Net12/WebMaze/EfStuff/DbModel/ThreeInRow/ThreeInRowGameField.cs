@@ -9,8 +9,10 @@ namespace WebMaze.EfStuff.DbModel.ThreeInRow
     {
         public int Width { get; set; }
         public int Height { get; set; }
+        public int Score { get; set; }
 
         public virtual List<ThreeInRowCell> Cells { get; set; }
+        public string NextColor { get; set; }
 
         public virtual User Player { get; set; }
     }
