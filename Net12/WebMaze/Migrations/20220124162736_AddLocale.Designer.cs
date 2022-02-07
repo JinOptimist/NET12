@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20220124162736_AddLocale")]
+    partial class AddLocale
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -627,67 +629,6 @@ namespace WebMaze.Migrations
                     b.ToTable("SuggestedEnemys");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ThreeInRow.ThreeInRowCell", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Color")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("GameFieldId")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("X")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Y")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameFieldId");
-
-                    b.ToTable("ThreeInRowCell");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ThreeInRow.ThreeInRowGameField", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("NextColor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("PlayerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Width")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlayerId");
-
-                    b.ToTable("ThreeInRowGameField");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
                     b.Property<long>("Id")
@@ -1015,24 +956,6 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ThreeInRow.ThreeInRowCell", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.ThreeInRow.ThreeInRowGameField", "GameField")
-                        .WithMany("Cells")
-                        .HasForeignKey("GameFieldId");
-
-                    b.Navigation("GameField");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ThreeInRow.ThreeInRowGameField", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Player")
-                        .WithMany("ThreeInRowGameFields")
-                        .HasForeignKey("PlayerId");
-
-                    b.Navigation("Player");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameCell", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.ZumaGameField", "Field")
@@ -1090,11 +1013,6 @@ namespace WebMaze.Migrations
                     b.Navigation("NewsComments");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.ThreeInRow.ThreeInRowGameField", b =>
-                {
-                    b.Navigation("Cells");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
                     b.Navigation("AddedSStuff");
@@ -1126,8 +1044,6 @@ namespace WebMaze.Migrations
                     b.Navigation("MyReviews");
 
                     b.Navigation("NewsComments");
-
-                    b.Navigation("ThreeInRowGameFields");
 
                     b.Navigation("ZumaGameDifficults");
 
