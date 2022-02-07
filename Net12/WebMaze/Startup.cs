@@ -196,12 +196,12 @@ namespace WebMaze
             provider.CreateMap<MazeCellWeb, CellViewModel>();
             provider.CreateMap<CellViewModel, MazeCellWeb>();
 
-            provider.CreateMap<ZumaGameCell, ZumaGameCellViewModel>();
-            provider.CreateMap<ZumaGameCellViewModel, ZumaGameCell>();
+            provider.CreateMap<ZumaGameCell, SeaBattleCellViewModel>();
+            provider.CreateMap<SeaBattleCellViewModel, ZumaGameCell>();
 
-            provider.CreateMap<ZumaGameField, ZumaGameFieldViewModel>()
-                .ForMember(nameof(ZumaGameFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
-            provider.CreateMap<ZumaGameFieldViewModel, ZumaGameField>();
+            provider.CreateMap<ZumaGameField, SeaBattleFieldViewModel>()
+                .ForMember(nameof(SeaBattleFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
+            provider.CreateMap<SeaBattleFieldViewModel, ZumaGameField>();
 
             provider.CreateMap<ZumaGameDifficult, ZumaGameDifficultViewModel>()
                 .ForMember(nameof(ZumaGameDifficultViewModel.Author), opt => opt.MapFrom(db => db.Author.Name));
