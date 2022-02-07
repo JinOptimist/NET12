@@ -51,6 +51,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ResourceLocalization\InfoMessageLocalize.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InfoMessageLocalize.resx</DependentUpon>
+    </Compile>
     <Compile Update="ResourceLocalization\GuessTheNumber.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -79,6 +84,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="ResourceLocalization\InfoMessageLocalize.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>InfoMessageLocalize.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\InfoMessageLocalize.Ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\GuessTheNumber.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GuessTheNumber.Designer.cs</LastGenOutput>

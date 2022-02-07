@@ -117,58 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddDifficult" xml:space="preserve">
-    <value>Add ZumaGame Difficult</value>
+  <data name="NegativeValue" xml:space="preserve">
+    <value>Отрицательное число</value>
   </data>
-  <data name="Author" xml:space="preserve">
-    <value>Author:</value>
+  <data name="NotEnoughCoins" xml:space="preserve">
+    <value>Нет монет</value>
   </data>
-  <data name="ColorCount" xml:space="preserve">
-    <value>Color Count:</value>
+  <data name="NotEnoughUser" xml:space="preserve">
+    <value>Нет такого пользователя</value>
   </data>
-  <data name="ContinueGame" xml:space="preserve">
-    <value>Continue Game</value>
+  <data name="SomethingWrong" xml:space="preserve">
+    <value>Что-то не так</value>
   </data>
-  <data name="Defeat" xml:space="preserve">
-    <value>Defeat</value>
+  <data name="SuccesTransaction" xml:space="preserve">
+    <value>Транзакция успешна</value>
   </data>
-  <data name="Height" xml:space="preserve">
-    <value>Height:</value>
+  <data name="TransactionToYourself" xml:space="preserve">
+    <value>Транзакция самому себе</value>
   </data>
-  <data name="Index" xml:space="preserve">
-    <value>Index</value>
-  </data>
-  <data name="LoseGame" xml:space="preserve">
-    <value>YOU LOSE!!!!</value>
-  </data>
-  <data name="NewGame" xml:space="preserve">
-    <value>New Game</value>
-  </data>
-  <data name="Page" xml:space="preserve">
-    <value>Page</value>
-  </data>
-  <data name="Price" xml:space="preserve">
-    <value>Price:</value>
-  </data>
-  <data name="ProfileCoins" xml:space="preserve">
-    <value>Profile Coins:</value>
-  </data>
-  <data name="Return" xml:space="preserve">
-    <value>Return</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="Score" xml:space="preserve">
-    <value>Score:</value>
-  </data>
-  <data name="Welcome" xml:space="preserve">
-    <value>☺☻☺   Zuma!!!   ☻☺☻</value>
-  </data>
-  <data name="Width" xml:space="preserve">
-    <value>Width:</value>
-  </data>
-  <data name="WinGame" xml:space="preserve">
-    <value>YOU WIN!!!!</value>
+  <data name="ZeroValue" xml:space="preserve">
+    <value>Нулевое значение</value>
   </data>
 </root>
