@@ -62,5 +62,13 @@ namespace WebMaze.EfStuff.Repositories
 
             _webContext.SaveChanges();
         }
+
+        public virtual int Count() => _dbSet.Count();
+
+        public List<Template> GetForPagination(int perPage, int page) 
+            => _dbSet
+            .Skip((page -1) * perPage)
+            .Take(perPage)
+            .ToList();
     }
 }

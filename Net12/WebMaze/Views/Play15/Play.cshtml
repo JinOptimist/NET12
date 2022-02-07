@@ -1,0 +1,24 @@
+﻿@section Scripts{
+    <script src="~/js/play15.js"></script>
+    <link rel="stylesheet" href="~/css/Play15.css" />
+}
+<div class="win-display">
+    <div>WIN</div>
+</div>
+<div class="back15">
+
+    <div class="container15">
+        @for (var j = 0; j < 4; j++)
+        {
+            <div class="row15">
+                @for (var i = 0; i < 4; i++)
+                {
+                    <div class="square" id-column="@i" id-row="@j">
+                       
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+</div>

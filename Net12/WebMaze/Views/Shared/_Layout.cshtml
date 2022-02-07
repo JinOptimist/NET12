@@ -12,7 +12,6 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel='stylesheet' href='~/css/ruleobj.css'>
     <link rel="stylesheet" href="~/css/reviews.css" />
@@ -31,6 +30,7 @@
     <link rel="stylesheet" href="~/css/ThreeInRow.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
+    <script src="~/js/Language.js"></script>
     @RenderSection("Scripts", required: false)
     @RenderSection("Sprite", false)
 </head>
@@ -172,6 +172,10 @@
                         <a class="nav-link" href="/Maze/Couple">Couple</a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Play15/Start">15</a>
+                    </li>
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             FavoriteGames
@@ -179,6 +183,15 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/Game/AddGame">Add Fav Game</a>
                             <a class="dropdown-item" href="/Game/FavoriteGames">Fav Games</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            GuessTheNumber
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="nav-link" href="/GuessTheNumber/CheckForUnfinishedGame">Start Game</a>
                         </div>
                     </li>
 
@@ -192,10 +205,15 @@
     </div>
 
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted bottom">
         <div class="container">
             &copy; 2021 - WebMaze
         </div>
+        @if(!User.Identity.IsAuthenticated){
+        <div class="language-selection">
+            <select class="Language-Selector"></select>
+        </div>
+        }
     </footer>
 </body>
 </html>

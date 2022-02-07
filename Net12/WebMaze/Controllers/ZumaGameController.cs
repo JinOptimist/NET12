@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
@@ -32,22 +34,28 @@ namespace WebMaze.Controllers
             _zumaGameDifficultRepository = zumaGameDifficultRepository;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int perPage = 7)
         {
-            var zumaGameDifficultViewModels = _zumaGameDifficultRepository.GetAll()
+            var zumaGameDifficultViewModels = _zumaGameDifficultRepository
+                .GetForPagination(perPage, page)
                 .Select(x => _mapper.Map<ZumaGameDifficultViewModel>(x)).ToList();
 
             var indexViewModel = new ZumaGameIndexViewModel
             {
-                ViewModels = zumaGameDifficultViewModels
+                PaggerViewModel = new PaggerViewModel<ZumaGameDifficultViewModel>
+                {
+                    PerPage = perPage,
+                    TotalRecordsCount = _zumaGameDifficultRepository.Count(),
+                    Records = zumaGameDifficultViewModels,
+                    CurrPage = page
+                },
+                Coins = _userService.GetCurrentUser().Coins
             };
 
             if (_userService.GetCurrentUser().ZumaGameField != null)
             {
                 indexViewModel.Continue = true;
             }
-
-            indexViewModel.Coins = _userService.GetCurrentUser().Coins;
 
             return View(indexViewModel);
         }
@@ -166,6 +174,16 @@ namespace WebMaze.Controllers
         {
             _zumaGameDifficultRepository.Remove(difficultId);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult GetColors()
+        {
+            var colors = Enum.GetValues(typeof(ZumaGameColors))
+                .Cast<ZumaGameColors>()
+                .Select(x => x.ToString())
+                .ToList();
+
+            return Json(JsonSerializer.Serialize(colors));
         }
     }
 }
