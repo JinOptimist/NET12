@@ -10,9 +10,10 @@
     //number 1..15 and undefined
 
     init();
+    check();
     checkWin();
 
-    function init () {
+    function init() {       
         for (var number = 1; number < 16; number++) {
             do {                
                 let randomPlace = getRandomInt(0, 16);
@@ -40,6 +41,38 @@
                 } 
             }
         }
+    }
+
+    function check() {
+        /*do { */           
+        var sum = 0; var sumTemp = 0;
+
+            for (var place = 0; place < 16; place++) {
+                let cell = getRowAndColumnByPlace(place);
+                let number = places[cell.row][cell.column];
+
+                if (number === undefined) {
+                    sum += (cell.row +1);
+                    console.log('undefined, sum = ' + sum);
+                    continue;
+                }
+
+                for (var i = place; i < 16; i++) {
+                    cell = getRowAndColumnByPlace(i);
+                    if (places[cell.row][cell.column] < number) {
+                        sumTemp += 1;
+                    }
+                }
+
+                console.log(sumTemp);
+                sum += sumTemp;
+                sumTemp = 0;
+                            
+            }
+        var residue = sum % 2;
+        console.log('sum = ' + sum + 'residue = ' + residue);
+
+       /* } while (residue == 1);*/
     }
 
     function step(row, column) {
