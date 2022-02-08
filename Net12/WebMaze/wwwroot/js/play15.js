@@ -10,18 +10,21 @@
     //number 1..15 and undefined
 
     init();
-    check();
     checkWin();
 
-    function init() {       
-        for (var number = 1; number < 16; number++) {
-            do {                
-                let randomPlace = getRandomInt(0, 16);
-                cell = getRowAndColumnByPlace(randomPlace);
-            } while (places[cell.row][cell.column] !== undefined);
+    function init() {               
+        var residue;
 
-            places[cell.row][cell.column] = number;
-        }
+        do {            
+            for (var place = 0; place < 16; place++) {
+                let cell = getRowAndColumnByPlace(place);
+                places[cell.row][cell.column] = undefined;
+            }
+
+            choosePlaceForNumber();
+            residue = checkPossibilityToWin();
+
+        } while (residue == 1);
 
         for (let row = 0; row < 4; row++) {        
             for (let column = 0; column < 4; column++) {
@@ -43,36 +46,42 @@
         }
     }
 
-    function check() {
-        /*do { */           
-        var sum = 0; var sumTemp = 0;
+    function choosePlaceForNumber() {
+        for (var number = 1; number < 16; number++) {
+            do {
+                let randomPlace = getRandomInt(0, 16);
+                cell = getRowAndColumnByPlace(randomPlace);
+            } while (places[cell.row][cell.column] !== undefined);
 
-            for (var place = 0; place < 16; place++) {
-                let cell = getRowAndColumnByPlace(place);
-                let number = places[cell.row][cell.column];
+            places[cell.row][cell.column] = number;
+        }
+    }
 
-                if (number === undefined) {
-                    sum += (cell.row +1);
-                    console.log('undefined, sum = ' + sum);
-                    continue;
-                }
+    function checkPossibilityToWin() {
+        var sum = 0;
 
-                for (var i = place; i < 16; i++) {
-                    cell = getRowAndColumnByPlace(i);
-                    if (places[cell.row][cell.column] < number) {
-                        sumTemp += 1;
-                    }
-                }
+        for (var place = 0; place < 16; place++) {
+            let cell = getRowAndColumnByPlace(place);
+            let numberTemp = places[cell.row][cell.column];
 
-                console.log(sumTemp);
-                sum += sumTemp;
-                sumTemp = 0;
-                            
+            if (numberTemp === undefined) {
+                sum += (cell.row + 1);
+                console.log('undefined, sum = ' + sum);
+                continue;
             }
-        var residue = sum % 2;
-        console.log('sum = ' + sum + 'residue = ' + residue);
 
-       /* } while (residue == 1);*/
+            for (var i = place; i < 16; i++) {
+                cell = getRowAndColumnByPlace(i);
+                if (places[cell.row][cell.column] < numberTemp) {
+                    sum += 1;
+                }
+            }
+
+        }
+        
+        var residue = sum % 2;
+        console.log('sum = ' + sum + ' residue = ' + residue);
+        return residue;
     }
 
     function step(row, column) {
