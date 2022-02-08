@@ -197,7 +197,7 @@ namespace WebMaze.Controllers
                     prop.AppendChild(new FontSize { Val = "28" });
 
                     var text = runTitle.AppendChild(new Text());
-                    text.Text = $"Developer Challenge: Design and add description for the following cells: ";
+                    text.Text = $"Developer Challenge: Design and add description for the following cells:\u00A0";
 
                     foreach (var item in namesTypeOfCell)
                     {
@@ -205,7 +205,7 @@ namespace WebMaze.Controllers
                         var runTitleName = para.AppendChild(new Run());
                         var propName = runTitle.AppendChild(new RunProperties());
                         var textName = runTitle.AppendChild(new Text());
-                        textName.Text = $"{item}, ";
+                        textName.Text = $"{item},\u00A0";
                     }
 
                     wordDocument.Close();
