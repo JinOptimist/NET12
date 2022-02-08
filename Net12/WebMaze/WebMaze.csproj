@@ -29,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\SeaBattle\Game.cshtml" />
     <Content Remove="wwwroot\images\cells\tavern.png" />
   </ItemGroup>
 
@@ -43,7 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\SeaBattle\Game.cshtml" />
     <None Include="Views\ZumaGame\Game.cshtml" />
     <None Include="wwwroot\images\cells\tavern.png" />
   </ItemGroup>

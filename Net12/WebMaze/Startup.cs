@@ -31,6 +31,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using WebMaze.EfStuff.DbModel.GuessTheNumber;
 using WebMaze.Models.GuessTheNumber;
+using WebMaze.EfStuff.DbModel.SeaBattle;
 
 namespace WebMaze
 {
@@ -65,6 +66,7 @@ namespace WebMaze
             services.AddScoped<UserService>();
             services.AddScoped<MinerFiledBuilder>();
             services.AddScoped<ZumaGameService>();
+            services.AddScoped<SeaBattleService>();
 
             services.AddScoped<PayForActionService>();
 
@@ -196,12 +198,12 @@ namespace WebMaze
             provider.CreateMap<MazeCellWeb, CellViewModel>();
             provider.CreateMap<CellViewModel, MazeCellWeb>();
 
-            provider.CreateMap<ZumaGameCell, SeaBattleCellViewModel>();
-            provider.CreateMap<SeaBattleCellViewModel, ZumaGameCell>();
+            provider.CreateMap<ZumaGameCell, ZumaGameCellViewModel>();
+            provider.CreateMap<ZumaGameCellViewModel, ZumaGameCell>();
 
-            provider.CreateMap<ZumaGameField, SeaBattleFieldViewModel>()
-                .ForMember(nameof(SeaBattleFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
-            provider.CreateMap<SeaBattleFieldViewModel, ZumaGameField>();
+            provider.CreateMap<ZumaGameField, ZumaGameFieldViewModel>()
+                .ForMember(nameof(ZumaGameFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
+            provider.CreateMap<ZumaGameFieldViewModel, ZumaGameField>();
 
             provider.CreateMap<ZumaGameDifficult, ZumaGameDifficultViewModel>()
                 .ForMember(nameof(ZumaGameDifficultViewModel.Author), opt => opt.MapFrom(db => db.Author.Name));
@@ -277,6 +279,13 @@ namespace WebMaze
                     opt => opt.MapFrom(game => game.Game.Id));
             provider.CreateMap<GuessTheNumberGameAnswerViewModel,
                 GuessTheNumberGameAnswer>();
+
+            provider.CreateMap<SeaBattleBaseCell, SeaBattleCellViewModel>();
+            provider.CreateMap<SeaBattleCellViewModel, SeaBattleBaseCell>();
+
+            provider.CreateMap<SeaBattleMyField, SeaBattleFieldViewModel>()
+                .ForMember(nameof(SeaBattleFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
+            provider.CreateMap<SeaBattleFieldViewModel, SeaBattleMyField>();
 
 
             var mapperConfiguration = new MapperConfiguration(provider);

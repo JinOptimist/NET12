@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WebMaze.Models
 {
@@ -10,6 +7,9 @@ namespace WebMaze.Models
         public long Id { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public int ShipLength { get; set; }
+        public bool SideField { get; set; }
         public List<SeaBattleCellViewModel> Cells { get; set; }
+
     }
 }

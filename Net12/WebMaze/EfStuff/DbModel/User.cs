@@ -38,7 +38,8 @@ namespace WebMaze.EfStuff.DbModel
         public virtual ZumaGameField ZumaGameField { get; set; }
         public virtual List<ZumaGameDifficult> ZumaGameDifficults { get; set; }
         public virtual List<GuessTheNumberGame> GuessTheNumberGames { get; set; }
-        public virtual SeaBattleField SeaBattleField { get; set; }
-        public virtual List<SeaBattleDifficult> SeaBattleDifficults { get; set; }
+        //public virtual SeaBattleGame SeaBattleGame { get; set; }
+        //public virtual List<SeaBattleDifficult> SeaBattleDifficults { get; set; }
+
     }
 }
