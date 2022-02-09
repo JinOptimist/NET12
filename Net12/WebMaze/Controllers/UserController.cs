@@ -140,18 +140,20 @@ namespace WebMaze.Controllers
         public IActionResult MyGroup(long IdGroup)
         {
             var myGroup = _groupListRepository.Get(IdGroup);
+            var ProfileUser = _userService.GetCurrentUser();
             if (myGroup is null)
             {
                 return RedirectToAction("Profile", "User");
             }
             var userInGroup = myGroup.Users.Where(u => !u.UserLevel.HasFlag(GroupUserLevel.None)).ToList();
             if (!userInGroup.Any(
-                u => u.User.Id == _userService.GetCurrentUser().Id
+                u => u.User.Id == ProfileUser.Id
                 && (u.UserLevel.HasFlag(GroupUserLevel.Member) || u.UserLevel.HasFlag(GroupUserLevel.Invited))))
             {
                 return RedirectToAction("Profile", "User");
             }
-            var MeUser = userInGroup.FirstOrDefault(u => u.User.Id == _userService.GetCurrentUser().Id);
+
+            var MeUser = userInGroup.FirstOrDefault(u => u.User.Id == ProfileUser.Id);
             if (MeUser.UserLevel == GroupUserLevel.Invited)
             {
                 MeUser.UserLevel = GroupUserLevel.Member;
@@ -161,64 +163,7 @@ namespace WebMaze.Controllers
 
             return View(ViewGroup);
         }
-        [Authorize]
-        [HttpPost]
-        public IActionResult MyGroup(string UserName, long Id)
-        {
-            var user = _userRepository.GetAll().FirstOrDefault(c => c.Name == UserName);
-            var myGroup = _groupListRepository.Get(Id);
-            //if (!_userService.GetCurrentUser().Groups.Any(c => c.Id == Id))
-            var MeUser = _userService.GetCurrentUser();
-            if (!myGroup.Users.Any(u => u.User.Id == MeUser.Id && u.UserLevel.HasFlag(GroupUserLevel.Admin)))
-            {
-                return RedirectToAction("Profile", "User");
-            }
-            if (user == null)
-            {
-                return MyGroup(Id);
-            }
-
-            if (myGroup.Users.Any(u => u.User.Id == user.Id))
-            {
-                var IsUser = myGroup.Users.Single(u => u.User.Id == user.Id);
-                if (!IsUser.UserLevel.HasFlag(GroupUserLevel.None))
-                {
-                    IsUser.UserLevel = GroupUserLevel.None;
-                    _userInGroupRepository.Save(IsUser);
-                }
-                else
-                {
-                    if (IsUser.UserLevel.HasFlag(GroupUserLevel.Requested))
-                    {
-                        IsUser.UserLevel = GroupUserLevel.Member;
-                    }
-                    else
-                    {
-                        IsUser.UserLevel = GroupUserLevel.Invited;
-                    }
-
-                    _userInGroupRepository.Save(IsUser);
-                }
-
-                return MyGroup(Id);
-            }
-            else
-            {
-                var UserInGroup = new UserInGroup()
-                {
-                    Group = myGroup,
-                    IsActive = true,
-                    User = user,
-                    UserLevel = GroupUserLevel.Invited,
-
-                };
-                //myGroup.Users.Add(UserInGroup);
-                _userInGroupRepository.Save(UserInGroup);
-
-                return MyGroup(Id);
-            }
-
-        }
+      
 
         [Authorize]
         public IActionResult DeleteFromGroup(long GroupId, long UserId)
