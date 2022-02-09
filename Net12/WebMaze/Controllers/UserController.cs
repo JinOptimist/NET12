@@ -137,9 +137,9 @@ namespace WebMaze.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult MyGroup(long IdGroup)
+        public IActionResult MyGroup(long idGroup)
         {
-            var myGroup = _groupListRepository.Get(IdGroup);
+            var myGroup = _groupListRepository.Get(idGroup);
             var ProfileUser = _userService.GetCurrentUser();
             if (myGroup is null)
             {
@@ -166,57 +166,57 @@ namespace WebMaze.Controllers
       
 
         [Authorize]
-        public IActionResult DeleteFromGroup(long GroupId, long UserId)
+        public IActionResult DeleteFromGroup(long groupId, long userId)
         {
             var logger = HttpContext.RequestServices.GetService(typeof(ILogger<LocalizeMidlleware>)) as ILogger<LocalizeMidlleware>;
             var MeUser = _userService.GetCurrentUser();
-            var MeUserInGroup = MeUser.UsersInGroup.SingleOrDefault(u => u.Group.Id == GroupId);
-            if (!(MeUserInGroup != null && (MeUserInGroup.UserLevel.HasFlag(GroupUserLevel.Admin) || (MeUserInGroup.Id == UserId && MeUserInGroup.UserLevel.HasFlag(GroupUserLevel.Member)))))
+            var MeUserInGroup = MeUser.UsersInGroup.SingleOrDefault(u => u.Group.Id == groupId);
+            if (!(MeUserInGroup != null && (MeUserInGroup.UserLevel.HasFlag(GroupUserLevel.Admin) || (MeUserInGroup.Id == userId && MeUserInGroup.UserLevel.HasFlag(GroupUserLevel.Member)))))
             {
                 return RedirectToAction("Profile", "User");
             }
-            var DeleteUser = _userInGroupRepository.Get(UserId);
-            if (DeleteUser is null || DeleteUser.Group.Id != GroupId)
+            var DeleteUser = _userInGroupRepository.Get(userId);
+            if (DeleteUser is null || DeleteUser.Group.Id != groupId)
             {
-                return MyGroup(GroupId);
+                return MyGroup(groupId);
             }
             DeleteUser.UserLevel = GroupUserLevel.None;
             if (DeleteUser.Group is null)
             {
-                logger.LogCritical($"Delete User without Group UserId = {DeleteUser.User.Id} | GroupUserId = {DeleteUser.Id} | Delete from GroupId = {GroupId}");
+                logger.LogCritical($"Delete User without Group UserId = {DeleteUser.User.Id} | GroupUserId = {DeleteUser.Id} | Delete from GroupId = {groupId}");
             }
             _userInGroupRepository.Save(DeleteUser);
 
 
-            return RedirectToAction("MyGroup", "User", new { IdGroup = GroupId });
+            return RedirectToAction("MyGroup", "User", new { IdGroup = groupId });
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult AddInGroup(long GroupId)
+        public IActionResult AddInGroup(long groupId)
         {
-            if (!_userService.GetCurrentUser().UsersInGroup.Any(u => u.Group.Id == GroupId && u.UserLevel.HasFlag(GroupUserLevel.Admin)))
+            if (!_userService.GetCurrentUser().UsersInGroup.Any(u => u.Group.Id == groupId && u.UserLevel.HasFlag(GroupUserLevel.Admin)))
             {
                 return RedirectToAction("Profile", "User");
             }
-            var GroupModel = _groupListRepository.Get(GroupId);
-            var NoGroupUsers = _userRepository.GetAll().Where(u => !u.UsersInGroup.Any(ug => ug.Group.Id == GroupId && (ug.UserLevel.HasFlag(GroupUserLevel.Member) || ug.UserLevel.HasFlag(GroupUserLevel.Invited)))).ToList();
+            var GroupModel = _groupListRepository.Get(groupId);
+            var NoGroupUsers = _userRepository.GetAll().Where(u => !u.UsersInGroup.Any(ug => ug.Group.Id == groupId && (ug.UserLevel.HasFlag(GroupUserLevel.Member) || ug.UserLevel.HasFlag(GroupUserLevel.Invited)))).ToList();
             var NoGroupUsersViewModel = _mapper.Map<List<UserViewModel>>(NoGroupUsers);
-            var usersNotFromGroup = new UsersNotFromGroupViewModel() { GroupId = GroupId, NoGroupUsers = NoGroupUsersViewModel, };
+            var usersNotFromGroup = new UsersNotFromGroupViewModel() { GroupId = groupId, NoGroupUsers = NoGroupUsersViewModel, };
             return View(usersNotFromGroup);
         }
         [Authorize]
         [HttpGet]
-        public IActionResult AddInGroupUser(long GroupId, long UserId)
+        public IActionResult AddInGroupUser(long groupId, long userId)
         {
-            var InvitedUser = _userRepository.Get(UserId);
-            var MyGroup = _groupListRepository.Get(GroupId);
+            var InvitedUser = _userRepository.Get(userId);
+            var MyGroup = _groupListRepository.Get(groupId);
             if (InvitedUser is null
                 || MyGroup is null
                 || !_userService
                    .GetCurrentUser()
                    .UsersInGroup
-                   .Any(u => (u.Group.Id == GroupId && u.UserLevel.HasFlag(GroupUserLevel.Admin))))
+                   .Any(u => (u.Group.Id == groupId && u.UserLevel.HasFlag(GroupUserLevel.Admin))))
             {
                 return RedirectToAction("Profile", "User");
             }
@@ -245,7 +245,7 @@ namespace WebMaze.Controllers
             }
             _groupListRepository.Save(MyGroup);
 
-            return RedirectToAction("MyGroup", "User", new { IdGroup = GroupId });
+            return RedirectToAction("MyGroup", "User", new { IdGroup = groupId });
         }
 
         [Authorize]
@@ -257,9 +257,9 @@ namespace WebMaze.Controllers
             return View(groupsWithoutMeViewModel);
         }
         [Authorize]
-        public IActionResult RequestInGroupByMe(long GroupId)
+        public IActionResult RequestInGroupByMe(long groupId)
         {
-            var Group = _groupListRepository.Get(GroupId);
+            var Group = _groupListRepository.Get(groupId);
             var MeUser = _userService.GetCurrentUser();
 
             if (Group is null || Group.Users.Any(u => u.User.Id == MeUser.Id && !u.UserLevel.HasFlag(GroupUserLevel.None)))
@@ -286,7 +286,7 @@ namespace WebMaze.Controllers
             }
             _groupListRepository.Save(Group);
 
-            return RedirectToAction("MyGroup", "User", new { IdGroup = GroupId });
+            return RedirectToAction("MyGroup", "User", new { IdGroup = groupId });
         }
 
 

@@ -31,7 +31,7 @@
                                 <li>
                                     <a href="" class="down">⋮</a>
                                     <ul class="submenu">
-                                        <li><a href="~/User/DeleteFromGroup?GroupId=@Model.Id&UserId=@GroupUser.Id">Удалить из группы</a></li>
+                                        <li><a href="~/User/DeleteFromGroup?groupId=@Model.Id&userId=@GroupUser.Id">Удалить из группы</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -62,8 +62,8 @@
                                 <li>
                                     <a href="" class="down">⋮</a>
                                     <ul class="submenu">
-                                        <li><a href="/User/AddInGroupUser?GroupId=@Model.Id&UserId=@GroupUser.User.Id">Принять</a></li>
-                                        <li><a href="~/User/DeleteFromGroup?GroupId=@Model.Id&UserId=@GroupUser.Id">Отклонить</a></li>
+                                        <li><a href="/User/AddInGroupUser?groupId=@Model.Id&userId=@GroupUser.User.Id">Принять</a></li>
+                                        <li><a href="~/User/DeleteFromGroup?groupId=@Model.Id&userId=@GroupUser.Id">Отклонить</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -102,7 +102,7 @@
                                 <li>
                                     <a href="" class="down">⋮</a>
                                     <ul class="submenu">
-                                        <li><a href="~/User/DeleteFromGroup?GroupId=@Model.Id&UserId=@GroupUser.Id">Удалить из группы</a></li>
+                                        <li><a href="~/User/DeleteFromGroup?groupId=@Model.Id&userId=@GroupUser.Id">Удалить из группы</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -115,7 +115,7 @@
                                 <li>
                                     <a href="" class="down">⋮</a>
                                     <ul class="submenu">
-                                        <li><a href="~/User/DeleteFromGroup?GroupId=@Model.Id&UserId=@GroupUser.Id">Выйти из группы</a></li>
+                                        <li><a href="~/User/DeleteFromGroup?groupId=@Model.Id&userId=@GroupUser.Id">Выйти из группы</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -127,6 +127,6 @@
     </div>
     @if (Model.Users.Any(u => u.User.Id == userService.GetCurrentUser().Id && u.UserLevel.HasFlag(GroupUserLevel.Admin)))
     {
-        <a class="button_add_user" href="~/User/AddInGroup?GroupId=@Model.Id">Invite in Group Users</a>
+        <a class="button_add_user" href="~/User/AddInGroup?groupId=@Model.Id">Invite in Group Users</a>
     }
 </div>

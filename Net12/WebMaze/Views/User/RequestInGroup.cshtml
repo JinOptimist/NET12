@@ -17,14 +17,14 @@
             @foreach (var Group in Model)
             {
                 <div class="isGroup">
-                    <a class="group_row_photo" href="/User/RequestInGroupByMe?GroupId=@Group.Id">
+                    <a class="group_row_photo" href="/User/RequestInGroupByMe?groupId=@Group.Id">
                         <img class="group_row_img" src="https://www.meme-arsenal.com/memes/15ef8d1ccbb4514e0a758c61e1623b2f.jpg" />
                     </a>
                     <div class="group_row">
                         <a class="group_row_counts">Участников в группе: @Group.Users.Where(u => u.UserLevel.HasFlag(WebMaze.EfStuff.DbModel.GroupUserLevel.Member)).ToList().Count</a>
                     </div>
                     <div class="group_row_title">
-                        <a class="button_add_user" href="/User/RequestInGroupByMe?GroupId=@Group.Id">Отправить запрос в группу @Group.Name</a>
+                        <a class="button_add_user" href="/User/RequestInGroupByMe?groupId=@Group.Id">Отправить запрос в группу @Group.Name</a>
                     </div>
                 </div>
             }
