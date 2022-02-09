@@ -117,58 +117,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddDifficult" xml:space="preserve">
-    <value>Add ZumaGame Difficult</value>
+  <data name="Attempts" xml:space="preserve">
+    <value>attempts</value>
   </data>
-  <data name="Author" xml:space="preserve">
-    <value>Author:</value>
+  <data name="Confirm_Answer" xml:space="preserve">
+    <value>Confirm your answer</value>
   </data>
-  <data name="ColorCount" xml:space="preserve">
-    <value>Color Count:</value>
+  <data name="Contact_Support" xml:space="preserve">
+    <value>Please contact service support.</value>
   </data>
-  <data name="ContinueGame" xml:space="preserve">
-    <value>Continue Game</value>
+  <data name="Easy" xml:space="preserve">
+    <value>Easy</value>
   </data>
-  <data name="Defeat" xml:space="preserve">
-    <value>Defeat</value>
+  <data name="Enter_Answer" xml:space="preserve">
+    <value>Enter you answer.</value>
   </data>
-  <data name="Height" xml:space="preserve">
-    <value>Height:</value>
+  <data name="Enter_Number" xml:space="preserve">
+    <value>Enter a number</value>
   </data>
-  <data name="Index" xml:space="preserve">
-    <value>Index</value>
+  <data name="Error" xml:space="preserve">
+    <value>Error !!!</value>
   </data>
-  <data name="LoseGame" xml:space="preserve">
-    <value>YOU LOSE!!!!</value>
+  <data name="From" xml:space="preserve">
+    <value>from</value>
   </data>
-  <data name="NewGame" xml:space="preserve">
-    <value>New Game</value>
+  <data name="From_To_Range" xml:space="preserve">
+    <value>from</value>
   </data>
-  <data name="Page" xml:space="preserve">
-    <value>Page</value>
+  <data name="Give_Up" xml:space="preserve">
+    <value>I give up</value>
   </data>
-  <data name="Price" xml:space="preserve">
-    <value>Price:</value>
+  <data name="Hard" xml:space="preserve">
+    <value>Hard</value>
   </data>
-  <data name="ProfileCoins" xml:space="preserve">
-    <value>Profile Coins:</value>
+  <data name="Hi" xml:space="preserve">
+    <value>Hi</value>
   </data>
-  <data name="Return" xml:space="preserve">
-    <value>Return</value>
+  <data name="Hidden_Number" xml:space="preserve">
+    <value>is the hidden number.</value>
   </data>
-  <data name="Save" xml:space="preserve">
-    <value>Save</value>
+  <data name="Loss" xml:space="preserve">
+    <value>You loss !!!</value>
   </data>
-  <data name="Score" xml:space="preserve">
-    <value>Score:</value>
+  <data name="Medium" xml:space="preserve">
+    <value>Medium</value>
   </data>
-  <data name="Welcome" xml:space="preserve">
-    <value>☺☻☺   Zuma!!!   ☻☺☻</value>
+  <data name="Select_Difficulty" xml:space="preserve">
+    <value>Select the difficulty level.</value>
   </data>
-  <data name="Width" xml:space="preserve">
-    <value>Width:</value>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
   </data>
-  <data name="WinGame" xml:space="preserve">
-    <value>YOU WIN!!!!</value>
+  <data name="Still_Have" xml:space="preserve">
+    <value>You still have</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>than target</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>to</value>
+  </data>
+  <data name="Win" xml:space="preserve">
+    <value>You won !!!</value>
   </data>
 </root>

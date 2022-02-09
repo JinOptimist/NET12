@@ -11,7 +11,7 @@ namespace WebMaze.Models
 
         public int PerPage { get; set; }
 
-        public List<int> PerPageOptions 
+        public List<int> PerPageOptions
             => new List<int> { 7, 13, 50 };
 
         public int TotalPageCount
@@ -24,7 +24,7 @@ namespace WebMaze.Models
             }
         }
 
-
+        public int CurrPage { get; set; }
         public List<T> Records { get; set; }
     }
 }

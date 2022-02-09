@@ -1,23 +1,24 @@
-﻿@using WebMaze.Models.GuessTheNumber
-@model GuessTheNumberGameDifficulty
+﻿@using WebMaze.ResourceLocalization
 @using WebMaze.Services.GuessTheNumber
+@using WebMaze.Services
+@model GuessTheNumberGameDifficulty
 <div>
-    Select the difficulty level.
+    @GuessTheNumber.Select_Difficulty
 </div>
 <form action="/GuessTheNumber/StartGame" method="post">
     <div>
         <select name="difficulty">
             <option value="@GuessTheNumberGameDifficulty.Easy">
-                @GuessTheNumberGameDifficulty.Easy.ToString()
+                @GuessTheNumberGameDifficulty.Easy.GetDisplayName()
             </option>
             <option value="@GuessTheNumberGameDifficulty.Medium">
-                @GuessTheNumberGameDifficulty.Medium.ToString()
+                @GuessTheNumberGameDifficulty.Medium.GetDisplayName()
             </option>
             <option value="@GuessTheNumberGameDifficulty.Hard">
-                @GuessTheNumberGameDifficulty.Hard.ToString()
+                @GuessTheNumberGameDifficulty.Hard.GetDisplayName()
             </option>
         </select>
 
-        <input type="submit" value="Start" />
+        <input type="submit" value="@GuessTheNumber.Start" />
     </div>
 </form>

@@ -150,6 +150,18 @@ namespace WebMaze.Controllers
             NewCS.IsActive = true;
 
             _newCellSuggRepository.Save(NewCS);
+
+            var fileName = $"{NewCS.Id}.jpg";
+            NewCS.Url = "/images/NewCellImg/" + fileName;
+
+            _newCellSuggRepository.Save(NewCS);
+
+            var filePath = Path.Combine(
+                _hostEnvironment.WebRootPath, "images", "NewCellImg", fileName);
+            using (var fileStream = System.IO.File.Create(filePath))
+            {
+                newCellSuggestionViewModel.ImageFile.CopyTo(fileStream);
+            }
             return RedirectToAction($"{nameof(SuggestedController.NewCellSugg)}");
         }
 
