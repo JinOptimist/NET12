@@ -61,7 +61,10 @@ namespace WebMaze
             RegisterRepositoriesAuto(services);
 
             RegisterMapper(services);
-
+            services.AddScoped<ILogger>(requestService =>
+            {
+                return requestService.GetService(typeof(ILogger<LocalizeMidlleware>)) as ILogger<LocalizeMidlleware>;
+            });
             services.AddScoped<UserService>();
             services.AddScoped<MinerFiledBuilder>();
             services.AddScoped<ZumaGameService>();

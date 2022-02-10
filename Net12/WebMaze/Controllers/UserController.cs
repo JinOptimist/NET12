@@ -28,14 +28,14 @@ namespace WebMaze.Controllers
         private GroupListRepository _groupListRepository;
         private UserInGroupRepository _userInGroupRepository;
         private IMapper _mapper;
-
+        private ILogger<LocalizeMidlleware> _logger;
         private IHubContext<ChatHub> _chatHub;
 
 
         public UserController(UserRepository userRepository,
             IMapper mapper,
             UserService userService,
-            IHubContext<ChatHub> chatHub, GroupListRepository groupListRepository, UserInGroupRepository userInGroupRepository)
+            IHubContext<ChatHub> chatHub, GroupListRepository groupListRepository, UserInGroupRepository userInGroupRepository, ILogger<LocalizeMidlleware> logger)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -43,6 +43,7 @@ namespace WebMaze.Controllers
             _chatHub = chatHub;
             _groupListRepository = groupListRepository;
             _userInGroupRepository = userInGroupRepository;
+            _logger = logger;
         }
 
         [Authorize]
@@ -172,7 +173,7 @@ namespace WebMaze.Controllers
         [Authorize]
         public IActionResult DeleteFromGroup(long groupId, long userId)
         {
-            var logger = HttpContext.RequestServices.GetService(typeof(ILogger<LocalizeMidlleware>)) as ILogger<LocalizeMidlleware>;
+
             var MeUser = _userService.GetCurrentUser();
             var MeUserInGroup = MeUser.UsersInGroup.SingleOrDefault(u => u.Group.Id == groupId);
             if (!(MeUserInGroup != null && (MeUserInGroup.UserLevel.HasFlag(GroupUserLevel.Admin) || (MeUserInGroup.Id == userId && MeUserInGroup.UserLevel.HasFlag(GroupUserLevel.Member)))))
@@ -187,7 +188,7 @@ namespace WebMaze.Controllers
             DeleteUser.UserLevel = GroupUserLevel.None;
             if (DeleteUser.Group is null)
             {
-                logger.LogCritical($"Delete User without Group UserId = {DeleteUser.User.Id} | GroupUserId = {DeleteUser.Id} | Delete from GroupId = {groupId}");
+                _logger.LogCritical($"Delete User without Group UserId = {DeleteUser.User.Id} | GroupUserId = {DeleteUser.Id} | Delete from GroupId = {groupId}");
             }
             _userInGroupRepository.Save(DeleteUser);
 
