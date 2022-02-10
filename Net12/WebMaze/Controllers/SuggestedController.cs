@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.Controllers.AuthAttribute;
@@ -22,11 +24,15 @@ namespace WebMaze.Controllers
         private IMapper _mapper;
         private UserService _userService;
         private readonly PayForActionService _payForActionService;
+        private IWebHostEnvironment _hostEnvironment;
 
-        public SuggestedController(UserRepository userRepository, ReviewRepository reviewRepository,
+        public SuggestedController(UserRepository userRepository,
+            ReviewRepository reviewRepository,
             SuggestedEnemysRepository suggestedEnemysRepository,
-            IMapper mapper, NewCellSuggRepository newCellSuggRepository, UserService userService,
-            PayForActionService payForActionService)
+            IMapper mapper, NewCellSuggRepository newCellSuggRepository,
+            UserService userService,
+            PayForActionService payForActionService,
+            IWebHostEnvironment hostEnvironment)
         {
             _userRepository = userRepository;
             _suggestedEnemysRepository = suggestedEnemysRepository;
@@ -34,8 +40,8 @@ namespace WebMaze.Controllers
             _newCellSuggRepository = newCellSuggRepository;
             _userService = userService;
             _payForActionService = payForActionService;
+            _hostEnvironment = hostEnvironment;
         }
-   
 
         public IActionResult SuggestedEnemys()
         {
@@ -83,6 +89,18 @@ namespace WebMaze.Controllers
 
             _suggestedEnemysRepository.Save(dbSuggestedEnemys);
 
+            var fileName = $"{dbSuggestedEnemys.Id}.jpg";
+            dbSuggestedEnemys.Url = "/images/SuggestedEnemies/" + fileName;
+
+            _suggestedEnemysRepository.Save(dbSuggestedEnemys);
+
+            var filePath = Path.Combine(
+                _hostEnvironment.WebRootPath, "images", "SuggestedEnemies", fileName);
+            using (var fileStream = System.IO.File.Create(filePath))
+            {
+                suggestedEnemysViewModel.ImageFile.CopyTo(fileStream);
+            }
+
             return RedirectToAction($"{nameof(SuggestedController.SuggestedEnemys)}");
         }
 
@@ -123,7 +141,7 @@ namespace WebMaze.Controllers
                 return View(newCellSuggestionViewModel);
             }
 
-            var creater = _userRepository.GetRandomUser();
+            var creater = _userService.GetCurrentUser();
 
             var NewCS = new NewCellSuggestion();
 
@@ -132,6 +150,18 @@ namespace WebMaze.Controllers
             NewCS.IsActive = true;
 
             _newCellSuggRepository.Save(NewCS);
+
+            var fileName = $"{NewCS.Id}.jpg";
+            NewCS.Url = "/images/NewCellImg/" + fileName;
+
+            _newCellSuggRepository.Save(NewCS);
+
+            var filePath = Path.Combine(
+                _hostEnvironment.WebRootPath, "images", "NewCellImg", fileName);
+            using (var fileStream = System.IO.File.Create(filePath))
+            {
+                newCellSuggestionViewModel.ImageFile.CopyTo(fileStream);
+            }
             return RedirectToAction($"{nameof(SuggestedController.NewCellSugg)}");
         }
 

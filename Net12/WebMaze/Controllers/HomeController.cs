@@ -5,7 +5,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
@@ -22,25 +24,42 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
         private NewCellSuggRepository _newCellSuggRepository;
-       
+        private ILogger<HomeController> _logger;
+        private CurrenceService _currenceService;
+
         private IMapper _mapper;
         public HomeController(WebContext webContext,
          UserRepository userRepository, ReviewRepository reviewRepository,
-         IMapper mapper, UserService userService, NewCellSuggRepository newCellSuggRepository)
+         IMapper mapper, UserService userService,
+         NewCellSuggRepository newCellSuggRepository,
+         ILogger<HomeController> logger,
+         CurrenceService currenceService)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
             _mapper = mapper;
             _userService = userService;
+            _logger = logger;
+            _currenceService = currenceService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var userId = _userService.GetCurrentUser()?.Id;
+            _logger.Log(LogLevel.Information, $"User {userId} on maion page");
+
             var userViewModels = _userRepository.GetAll()
                  .Select(x => _mapper.Map<UserViewModel>(x)).ToList();
 
-            return View(userViewModels);
+            var rates = await _currenceService.GetRates();
+            var viewModel = new HomeIndexViewModel()
+            {
+                Users = userViewModels,
+                Rates = rates
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult Book()
@@ -115,7 +134,7 @@ namespace WebMaze.Controllers
             _userRepository.Remove(userId);
             return RedirectToAction("Index", "Home");
         }
-        
+
         public IActionResult Time()
         {
             var smile = DateTime.Now.Second;
@@ -135,8 +154,15 @@ namespace WebMaze.Controllers
             return View(model);
         }
 
+        public IActionResult BoringError()
+        {
+            return View();
+        }
 
-
+        public IActionResult SecreteError()
+        {
+            return View();
+        }
 
 
 

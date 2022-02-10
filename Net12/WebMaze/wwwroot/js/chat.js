@@ -18,6 +18,22 @@
         addMessage(name, `${name}: bought ${nameLevel} level at a price ${cost}`);
     });
 
+    hubConnection.on("ZumaGameWin", function (name) {
+        addMessage(`User '${name}' WIN in ZumaGame`);
+    });
+
+    hubConnection.on("ZumaGameLose", function (name) {
+        addMessage(`User '${name}' LOSE in ZumaGame`);
+    });
+
+    hubConnection.on("NewBugReport", function (name) {
+        addMessage(`User '${name}' add new bug!`);
+    });
+
+    hubConnection.on("Added news", function (name) {
+        addMessage(name, `added news`);
+    });
+
     function addMessage(userName, text) {
         var messageBlock = $('<div>');
         messageBlock.addClass('message');
@@ -44,6 +60,7 @@
         hubConnection.invoke("NewMessage", message);
         $('.new-message').val('');
     });
+
 
     hubConnection.start();
 });

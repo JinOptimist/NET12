@@ -1,41 +1,51 @@
-﻿@model List<NewsViewModel>
+﻿@model PaggerViewModel<NewsViewModel>
 @using WebMaze.EfStuff.Repositories
+@using WebMaze.ResourceLocalization
+
 @inject NewsCommentRepository newsCommentRepository
+
+@section Scripts{
+    <script src="~/js/paggination.js"></script>
+}
+
+
 <div class="header">
-    <h2>NEWS</h2>
+    <h2>@News.NewsGreetings</h2>
+    <div>
+        <a href="/News/DownloadRecentNews">@News.Download</a>
+    </div>
 </div>
 
 <div class="container">
     <div class="row justify-content-center">
-
         <table class="table table-bordered">
             <thead>
                 <tr class="align-content-md-center">
-                    <th scope="col">Title of news</th>
-                    <th scope="col">Text of news</th>
-                    <th scope="col">Location of news</th>
-                    <th scope="col">Date of event</th>
-                    <th scope="col">Author</th>
-                    <th scope="col">Date of creation</th>
+                    <th scope="col">@News.Title</th>
+                    <th scope="col">@News.Text</th>
+                    <th scope="col">@News.Location</th>
+                    <th scope="col">@News.Date_of_event</th>
+                    <th scope="col">@News.Author</th>
+                    <th scope="col">@News.Date_of_creation</th>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <th scope="col">Assessment</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">@News.Assessment</th>
+                        <th scope="col">@News.Actions</th>
                     }
 
                 </tr>
             </thead>
 
             <tbody>
-                @foreach (var news in Model)
+                @foreach (var news in Model.Records)
                 {
-                <tr>
-                    <td>
-                        <span>@news.Title</span>
-                    </td>
-                    <td>
-                        <span>@news.Text</span>
-                    </td>
+                    <tr>
+                        <td>
+                            <span>@news.Title</span>
+                        </td>
+                        <td>
+                            <span>@news.Text</span>
+                        </td>
 
                         <td>
                             <span>@news.Location</span>
@@ -55,16 +65,16 @@
                         {
                             var listcomments = newsCommentRepository.GetAllId(news.Id);
                             <td>
-                                <span>                           
-                                    <a href="@Url.Action("Wonderful","News", new {@newsId = news.Id})" class="good-button">Wonderful</a>                                
-                                    <button class="bad-button">Awful</button>
+                                <span>
+                                    <a href="@Url.Action("Wonderful","News", new {@newsId = news.Id})" class="good-button">@News.Wonderful</a>
+                                    <button class="bad-button">@News.Awful</button>
                                 </span>
                             </td>
                             <td>
                                 <a href="/News/RemoveNews?newsId=@news.Id">X</a>
                                 <a href="/News/AddNews?newsId=@news.Id">E</a>
                                 <p>
-                                    <a href="/NewsComment/Index?newsId=@news.Id">@listcomments.Count() Comments</a>
+                                    <a href="/NewsComment/Index?newsId=@news.Id">@listcomments.Count() @News.Comments</a>
                                 </p>
                             </td>
                         }
@@ -73,11 +83,29 @@
             </tbody>
         </table>
     </div>
-
+    <div>
+        <select class="perPageOption">
+            @foreach (var perPageOption in Model.PerPageOptions)
+            {
+                var isSelectedStr = perPageOption == Model.PerPage
+                    ? "selected"
+                    : null;
+                <text>
+                    <option value="@perPageOption" selected=@isSelectedStr>@perPageOption</option>
+                </text>
+            }
+        </select>
+        @for (int i = 0; i < Model.TotalPageCount; i++)
+        {
+            <a href="/News/Index?page=@(i+1)&perPage=" class="linkToPage">
+                page @(i+1)
+            </a>
+        }
+    </div>
     @if (User.Identity.IsAuthenticated)
     {
         <p>
-            <a href="/News/AddNews" style="color:red; font-size:x-large">ADD NEWS &raquo;</a>
+            <a href="/News/AddNews" style="color:red; font-size:x-large">@News.Add &raquo;</a>
         </p>
     }
 

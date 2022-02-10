@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.EfStuff.DbModel.GuessTheNumber;
 using WebMaze.EfStuff.Repositories;
+using WebMaze.EfStuff.Repositories.GuessTheNumber;
+using WebMaze.Services.GuessTheNumber;
 
 namespace WebMaze.EfStuff
 {
@@ -24,6 +27,8 @@ namespace WebMaze.EfStuff
                 SeedNews(scope);
                 SeedPermissions(scope);
                 SeedGallery(scope);
+                SeedZumaGameDifficult(scope);
+                SeedGuessTheNumberGameParametersRecords(scope);
             }
 
             return host;
@@ -128,6 +133,24 @@ namespace WebMaze.EfStuff
                 };
                 newsRepository.Save(testNews);
             }
+
+            if (newsRepository.Count() < 200)
+            {
+                for (int i = 0; i < 200; i++)
+                {
+                    var news = new News()
+                    {
+                        Title = DefaultNewsTitle + i,
+                        IsActive = true,
+                        Location = $"Maze {i}",
+                        Text = $"Attention! {i}",
+                        Author = author,
+                        CreationDate = DateTime.Now.AddDays(-1 * i),
+                        EventDate = DateTime.Today.AddDays(-1 * i)
+                    };
+                    newsRepository.Save(news);
+                }
+            }
         }
 
         private static void SeedGallery(IServiceScope scope)
@@ -146,6 +169,75 @@ namespace WebMaze.EfStuff
                     IsActive = true
                 };
                 imageRepository.Save(image);
+            }
+        }
+
+        private static void SeedZumaGameDifficult(IServiceScope scope)
+        {
+            var zumaGameDifficult = scope.ServiceProvider.GetService<ZumaGameDifficultRepository>();
+            var defaultDifficults = zumaGameDifficult.GetAll();
+
+            var userAdmin = scope.ServiceProvider.GetService<UserRepository>().GetUserByName(DefaultAdminName);
+
+            if (!defaultDifficults.Any())
+            {
+                var defaultDifficult = new ZumaGameDifficult()
+                {
+                    Width = 10,
+                    Height = 10,
+                    ColorCount = 3,
+                    Price = 100,
+                    IsActive = true,
+                    Author = userAdmin
+                };
+
+                zumaGameDifficult.Save(defaultDifficult);
+            }
+
+        }
+        private static void SeedGuessTheNumberGameParametersRecords(IServiceScope scope)
+        {
+            var seedGameParametrs = scope.ServiceProvider.GetService<GuessTheNumberGameParametersRepository>();
+            var guessTheNumberGameParameters = seedGameParametrs.GetAll();
+
+            if (!guessTheNumberGameParameters.Any())
+            {
+
+                var guessTheNumberGameParameterEasy = new GuessTheNumberGameParameters()
+                {
+                    Difficulty = GuessTheNumberGameDifficulty.Easy,
+                    MinRangeNumber = GuessTheNumberGameConstans.MinRangeNumberEasy,
+                    MaxRangeNumber = GuessTheNumberGameConstans.MaxRangeNumberEasy,
+                    GameCost = GuessTheNumberGameConstans.GameCostEasy,
+                    RewardForWinningTheGame = GuessTheNumberGameConstans.RewardForWinningTheGameEasy,
+                    MaxAttempts = 4,
+                    IsActive = true
+                };
+                seedGameParametrs.Save(guessTheNumberGameParameterEasy);
+
+                var guessTheNumberGameParameterMedium = new GuessTheNumberGameParameters()
+                {
+                    Difficulty = GuessTheNumberGameDifficulty.Medium,
+                    MinRangeNumber = GuessTheNumberGameConstans.MinRangeNumberMedium,
+                    MaxRangeNumber = GuessTheNumberGameConstans.MaxRangeNumberMedium,
+                    GameCost = GuessTheNumberGameConstans.GameCostMedium,
+                    RewardForWinningTheGame = GuessTheNumberGameConstans.RewardForWinningTheGameMedium,
+                    MaxAttempts = 7,
+                    IsActive = true
+                };
+                seedGameParametrs.Save(guessTheNumberGameParameterMedium);
+
+                var guessTheNumberGameParameterHard = new GuessTheNumberGameParameters()
+                {
+                    Difficulty = GuessTheNumberGameDifficulty.Hard,
+                    MinRangeNumber = GuessTheNumberGameConstans.MinRangeNumberHard,
+                    MaxRangeNumber = GuessTheNumberGameConstans.MaxRangeNumberHard,
+                    GameCost = GuessTheNumberGameConstans.GameCostHard,
+                    RewardForWinningTheGame = GuessTheNumberGameConstans.RewardForWinningTheGameHard,
+                    MaxAttempts = 10,
+                    IsActive = true
+                };
+                seedGameParametrs.Save(guessTheNumberGameParameterHard);
             }
         }
     }

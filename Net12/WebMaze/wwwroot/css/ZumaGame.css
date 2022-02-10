@@ -1,0 +1,93 @@
+﻿
+
+.zumagame-field-row {
+    display: flex;
+}
+
+    .zumagame-field-row a {
+        opacity: 0;
+    }
+
+.zumagame-cell {
+    display: flex;
+    width: 40px;
+    height: 40px;
+}
+
+.big-center-font {
+    font-size: 50px;
+    text-align: center;
+    margin: 10px;
+}
+
+.zumagame-win {
+    font-size: 50px;
+    text-align: center;
+    color: green;
+}
+
+.zumagame-lose {
+    font-size: 50px;
+    text-align: center;
+    color: red;
+}
+
+.add-zumagame-difficult {
+    width: min-content;
+    margin: 10px;
+}
+
+.manage-zumagame-difficult {
+    display: flex;
+    padding: 10px;
+}
+
+    .manage-zumagame-difficult * {
+        margin-right: 10px;
+    }
+
+.menu-zumagame-difficult a {
+    margin: 5px;
+}
+
+.zumagame-game {
+    display: flex;
+    justify-content: space-between;
+}
+
+.zumagame-info {
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.zumagame-difficult-block {
+    display: flex;
+    justify-content: space-around;
+}
+
+.zumagame-difficult-preview {
+    display: grid;
+}
+
+.zumagame-preview-cell {
+    width: 20px;
+    height: 20px;
+}
+
+.difficult-preview-block {
+    height: 500px;
+    width: 500px;
+}
+
+.zumagame-link-to-page {
+    margin: 5px;
+}
+
+.zumagame-pagger-block {
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.zumagame-margin {
+    margin: 20px;
+}

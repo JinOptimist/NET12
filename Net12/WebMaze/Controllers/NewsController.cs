@@ -1,8 +1,13 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.Controllers.AuthAttribute;
@@ -12,6 +17,7 @@ using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Models.Enums;
 using WebMaze.Services;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze.Controllers
 {
@@ -22,28 +28,37 @@ namespace WebMaze.Controllers
         private IMapper _mapper;
         private UserService _userService;
         private readonly PayForActionService _payForActionService;
+        private IHubContext<ChatHub> _chatHub;
 
         public NewsController(UserRepository userRepository,
             NewsRepository newsRepository,
             IMapper mapper, UserService userService,
-             PayForActionService payForActionService)
+            PayForActionService payForActionService,
+            IHubContext<ChatHub> chatHub)
         {
             _newsRepository = newsRepository;
             _userRepository = userRepository;
             _mapper = mapper;
             _userService = userService;
             _payForActionService = payForActionService;
+            _chatHub = chatHub;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int perPage = 13)
         {
             var newsViewModels = new List<NewsViewModel>();
             newsViewModels = _newsRepository
-                .GetAll()
+                .GetForPagination(perPage, page)
                 .Select(dbModel => _mapper.Map<NewsViewModel>(dbModel))
                 .ToList();
 
-            return View(newsViewModels);
+            var paggerViewModel = new PaggerViewModel<NewsViewModel>();
+
+            paggerViewModel.Records = newsViewModels;
+            paggerViewModel.TotalRecordsCount = _newsRepository.Count();
+            paggerViewModel.PerPage = perPage;
+
+            return View(paggerViewModel);
         }
 
         [IsAdmin]
@@ -78,13 +93,15 @@ namespace WebMaze.Controllers
 
             _newsRepository.Save(dbNews);
 
+            _chatHub.Clients.All.SendAsync("Added news", _userService.GetCurrentUser().Name);
+
             return RedirectToAction("Index", "News");
         }
 
         public IActionResult Wonderful(long newsId)
         {
             var news = _newsRepository.Get(newsId);
-            _payForActionService.CreatorEarnMoney(news.Author.Id, 10);           
+            _payForActionService.CreatorEarnMoney(news.Author.Id, 10);
 
             return RedirectToAction("Index", "News");
         }
@@ -93,6 +110,44 @@ namespace WebMaze.Controllers
         {
             _newsRepository.Remove(newsId);
             return RedirectToAction("Index", "News");
+        }
+
+        public IActionResult DownloadRecentNews()
+        {
+            var news = _newsRepository.GetAll();
+            using (var ms = new MemoryStream())
+            {
+                using (var wordDocument = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
+                {
+                    var mainPart = wordDocument.AddMainDocumentPart();
+                    mainPart.Document = new Document();
+                    var body = mainPart.Document.AppendChild(new Body());
+
+                    foreach (var oneNews in news)
+                    {
+                        var para = body.AppendChild(new Paragraph());
+
+                        var runTitle = para.AppendChild(new Run());
+                        runTitle.AppendChild(new Text(oneNews.Title));
+
+                        var properties = new ParagraphProperties();
+                        var fontSize = new FontSize() { Val = "36" };
+                        properties.Append(fontSize);
+
+                        para.Append(properties);
+
+                        var paraText = body.AppendChild(new Paragraph());
+                        var runNewsBody = paraText.AppendChild(new Run());
+                        runNewsBody.AppendChild(new Text(oneNews.Text));
+                    }
+
+                    wordDocument.Close();
+                }
+
+                return File(ms.ToArray(),
+                   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                   "SpecailForYou.docx");
+            }
         }
     }
 }

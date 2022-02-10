@@ -1,6 +1,17 @@
-﻿@model UserViewModel
+﻿@using WebMaze.Controllers
+@using WebMaze.Services
+@model UserViewModel
+@inject UserService userService
 
-<div>
+
+@section Scripts{
+    <script src="~/js/showHideNews.js"></script>
+    <script src="~/js/transaction.js"></script>
+    <link rel="stylesheet" href="~/css/profileNews.css" />
+<link rel="stylesheet" href="~/css/Profile.css" />
+}
+
+<div class="user-profile">
     Profile
     <div>
         Hi @Model.UserName
@@ -9,7 +20,7 @@
         You Global Rating: @Model.GlobalUserRating
     </div>
     <div>
-        Coins: @Model.Coins
+        Coins: <span class="profile-coins">@Model.Coins</span>
 
         <form action="/User/NewCoin" method="post">
             @Html.TextBoxFor(x => x.Coins)
@@ -18,15 +29,85 @@
     </div>
 </div>
 
-<div class="header">
-    <h2>Your news</h2>
+@if (userService.IsAdmin)
+{
+    @if (Model.NotReapitUsersName)
+    {
+        <div>
+            Reapit user names not found
+        </div>
+    }
+    else
+    {
+        <div>
+            <a href="/Admin/DownlodListReapitUsers">Download list reapit users</a>
+        </div>
+    }
+}
+
+<div class="user-transaction">
+        <div>
+            Transaction Field
+        </div>
+        <div>
+            User Name: <input name="userName" type="text" class="transactionUserName" />
+        </div>
+        <div>
+            Coins Count: <input name="coins" type="number" class="transactionCoins" />
+        </div>
+        <div class="transaction-info">
+        </div>
+
+    <div class="js-transaction-field">
+        <input type="button" value="Send coins" class="transactionButton" />
+    </div>
 </div>
 
+@*<div class="header">
+    <h2>Your news</h2>
+    </div>*@
+<div class="Groups">
+    <div class="tilte_listGroup">
+        <a class="title_listGroup_name group_row_Name">Мои группы</a>
+        <a class="button_add_group group_row_Name" href="~/User/AddGroup">Добавить группу</a>
+        <a class="button_add_group group_row_Name" href="~/User/RequestInGroup">Вступить в группу</a>
+    </div>
+    <div class="ListGroup">
+        @foreach (var GroupUser in Model.UsersInGroup.Where(u =>
+        u.UserLevel.HasFlag(WebMaze.EfStuff.DbModel.GroupUserLevel.Member) ||
+        u.UserLevel.HasFlag(WebMaze.EfStuff.DbModel.GroupUserLevel.Invited
+        )).ToList())
+        {
+            <div class="isGroup">
+                <a class="group_row_photo" href="/User/MyGroup?idGroup=@GroupUser.Group.Id">
+                    <img class="group_row_img" src="https://www.meme-arsenal.com/memes/15ef8d1ccbb4514e0a758c61e1623b2f.jpg" />
+                </a>
+                <div class="group_row">
+                    <a class="group_row_counts">Участников в группе: @GroupUser.Group.Users.Where(u => u.UserLevel.HasFlag(WebMaze.EfStuff.DbModel.GroupUserLevel.Member)).ToList().Count</a>
+                    @if (GroupUser.UserLevel.HasFlag(WebMaze.EfStuff.DbModel.GroupUserLevel.Invited))
+                    {
+                        <a class="group_row_counts">Вас пригласили в данную группу</a>
+                    }
+                </div>
+                <div class="group_row_title">
+                    <a class="group_row_Name" href="/User/MyGroup?idGroup=@GroupUser.Group.Id">@GroupUser.Group.Name</a>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="MyGroup">
+        Will Done.
+    </div>
+</div>
 @if (Model.News.Any())
 {
-    <div class="container">
-        <div class="row justify-content-center">
 
+    <div class="btn">
+        <input type="button" value="SHOW" />
+    </div>
+
+    <div class="users-news hidden">
+        <div class="row justify-content-center">
             <table class="table table-bordered">
                 <thead>
                     <tr class="align-content-md-center">
