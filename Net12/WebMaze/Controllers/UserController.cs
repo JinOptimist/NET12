@@ -35,7 +35,7 @@ namespace WebMaze.Controllers
         public UserController(UserRepository userRepository,
             IMapper mapper,
             UserService userService,
-            IHubContext<ChatHub> chatHub, GroupListRepository groupListRepository, UserInGroupRepository userInGroupRepository, ILogger<LocalizeMidlleware> logger)
+            IHubContext<ChatHub> chatHub, GroupListRepository groupListRepository, UserInGroupRepository userInGroupRepository, ILogger<UserController> logger)
         {
             _userRepository = userRepository;
             _mapper = mapper;
