@@ -11,7 +11,7 @@ $(document).ready(function () {
 
     $(".pressClosed").on("click", openCell).on("contextmenu", setFlag);
 
-    $(".pressOpen")
+    /*$(".pressOpen")
         .mousedown(function () {
             $(".face.miner-elements")
                 .attr('src', '/images/miner_buttons/face_worry.png');
@@ -25,31 +25,36 @@ $(document).ready(function () {
             updateImagesToCommon(cells);
 
             stillDown = false;
-        });
+        });*/
+
+    $(".pressOpen")
+        .on("mousedown", pressNear)
+        //.on("click", OpenWithFlags)
+        //.on("mouseup", unpressNear)
+        .on("click", unpressNear)
+        .on("click", OpenWithFlags);
 
     $("a[href='/Miner/StartGame']").click(function () {
         sessionStorage.removeItem('isPlaying');
         sessionStorage.removeItem('secUnits');
         sessionStorage.removeItem('secTens');
         sessionStorage.removeItem('secHundreds');
-        //sessionStorage.removeItem('n3');
     })
 
     if (sessionStorage.getItem('isPlaying').localeCompare("true") == 0) {
         timer();
         intervalId = setInterval(timer, 1000);
-    } else if (sessionStorage.getItem('isPlaying').localeCompare("false") == 0) {
-
+    }
+    else if (sessionStorage.getItem('isPlaying').localeCompare("false") == 0) {
         $(".miner-number3.miner-elements.miner-numbers").attr('src', timerImages[parseInt(sessionStorage.getItem('secHundreds'))]);
         $(".miner-number4.miner-elements.miner-numbers").attr('src', timerImages[parseInt(sessionStorage.getItem('secTens'))]);
         $(".miner-number5.miner-elements.miner-numbers").attr('src', timerImages[parseInt(sessionStorage.getItem('secUnits'))]);
-
-        //clearInterval(intervalId);
     }
 
 });
 
-    
+    //после проигрыша открыть все бомбы
+    //после выигрыша расставить флажки
 
 function openCell() {
     let data = {
@@ -57,10 +62,6 @@ function openCell() {
     };
     $.get('/Miner/Step', data, function (field) {
         updateField(field);
-        if (field.isOver) {
-            sessionStorage.setItem('isPlaying', 'false');
-            clearInterval(intervalId);
-        }
     });
 
     if (sessionStorage.getItem('isPlaying') == null) {
@@ -129,7 +130,11 @@ function updateField(field) {
                     else {
                         $("#" + cell.id)
                             .addClass("pressOpen")
-                            .on("mousedown", pressNearOrOpenWithFlags);
+                            .on("mousedown", pressNear)
+                            //.on("mouseup", unpressNear)
+                            .on("click", unpressNear)
+                            .on("click", OpenWithFlags);
+                            //.on("click", OpenWithFlags);
                     }
                     $("#" + cell.id)
                         .attr('src', minerSource)
@@ -155,6 +160,11 @@ function updateField(field) {
         }
     }
 
+    if (field.isOver || field.isWon) {
+        sessionStorage.setItem('isPlaying', 'false');
+        clearInterval(intervalId);
+    }
+
     if (field.isOver) {
         $(".face.miner-elements")
             .attr('src', '/images/miner_buttons/face_dead.png');
@@ -175,6 +185,41 @@ function updateField(field) {
             $(".miner-all").append('<div class="won-and-over h2">won!</div>');
         }
     }
+}
+
+function pressNear() {
+    let data = {
+        idCell: $(this).attr('id')
+    };
+    $.get('/Miner/GetNearToPress', data, function (cellsFromServer) {
+
+        cells = cellsFromServer;
+        updateImagesToEmpty(cellsFromServer);
+    });
+}
+
+function unpressNear() {
+    let data = {
+        idCell: $(this).attr('id')
+    };
+    $.get('/Miner/GetNearToPress', data, function (cellsFromServer) {
+
+        cells = cellsFromServer;
+        updateImagesToCommon(cellsFromServer);
+    });
+}
+
+function OpenWithFlags() {
+    let data = {
+        idCell: $(this).attr('id')
+    };
+    $.get('/Miner/CheckFlagsAndNearBombsCount', data, function (answer) {
+        if (answer) {
+            $.get('/Miner/OpenNearWithFlags', data, function (field) {
+                updateField(field);
+            });
+        }
+    });
 }
 
 function pressNearOrOpenWithFlags() {
@@ -234,8 +279,6 @@ function timer() {
     let secTens = parseInt(sessionStorage.getItem('secTens'));
     let secHundreds = parseInt(sessionStorage.getItem('secHundreds'));
 
-    //let newNumberSrcForSecUnits = timerImages[secUnits];
-
     secUnits += 1;
     if (secUnits == 10) {
         secUnits = 0;
@@ -257,12 +300,10 @@ function timer() {
     $(".miner-number4.miner-elements.miner-numbers").attr('src', timerImages[secTens]);
     $(".miner-number5.miner-elements.miner-numbers").attr('src', timerImages[secUnits]);
 
-
     sessionStorage.setItem('secUnits', secUnits);
     sessionStorage.setItem('secTens', secTens);
     sessionStorage.setItem('secHundreds', secHundreds);
 
-    //setInterval(timer, 1000);
 }
 
 
