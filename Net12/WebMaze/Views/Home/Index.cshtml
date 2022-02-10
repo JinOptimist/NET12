@@ -1,5 +1,5 @@
 ﻿@using WebMaze.ResourceLocalization
-@model List<UserViewModel>
+@model HomeIndexViewModel
 
 @section Scripts{
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
@@ -29,7 +29,7 @@
                 Good news
             </div>
             <div>
-                @foreach (var user in Model)
+                @foreach (var user in Model.Users)
                 {
                     <div class="@(user.Coins > 0 ? "rich" : "poor")">
                         @user.UserName
@@ -39,7 +39,20 @@
                 }
             </div>
             <div>
-                Coins: @Model.Sum(x => x.Coins)
+                Coins: @Model.Users.Sum(x => x.Coins)
+            </div>
+        </div>
+        <div class="rates">
+            <div>
+                rates
+            </div>
+            <div>
+                @foreach (var rate in Model.Rates)
+                {
+                    <div>
+                       @rate.Cur_Name @(rate.Cur_Scale != 1 ? rate.Cur_Scale + " * " : "") @rate.Cur_OfficialRate
+                    </div>
+                }
             </div>
         </div>
     </div>

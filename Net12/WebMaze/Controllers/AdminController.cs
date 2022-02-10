@@ -26,12 +26,14 @@ namespace WebMaze.Controllers
     {
         private PermissionRepository _permissionRepository;
         private IMapper _mapper;
+        private UserRepository _userRepository;
         private CellInfoHelperService _cellInfoHelperService;
-
+        public AdminController(PermissionRepository permissionRepository, IMapper mapper, UserRepository userRepository)
         public AdminController(PermissionRepository permissionRepository, IMapper mapper, CellInfoHelperService cellInfoHelperService)
         {
             _permissionRepository = permissionRepository;
             _mapper = mapper;
+            _userRepository = userRepository;
             _cellInfoHelperService = cellInfoHelperService;
         }
 
@@ -105,7 +107,6 @@ namespace WebMaze.Controllers
 
             return View(namesTypeOfCell);
         }
-
 
 
         public IActionResult DownloadTreeControllers()
@@ -186,6 +187,42 @@ namespace WebMaze.Controllers
             return File(answer,
                     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                     "CellInfoHelper.docx");
+        }
+
+        public IActionResult DownlodListReapitUsers()
+        {
+            using (var ms = new MemoryStream())
+            {
+                using (var wordDocument = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
+                {
+                    var listUsers = _userRepository.GetReapitUsersNameSQL();
+                    if (listUsers.Any())
+                    {
+                        var mainPart = wordDocument.AddMainDocumentPart();
+                        mainPart.Document = new Document();
+                        var body = mainPart.Document.AppendChild(new Body());
+
+                        foreach (var user in listUsers)
+                        {
+                            var para = body.AppendChild(new Paragraph());
+                            var runTitle = para.AppendChild(new Run());
+                            runTitle.AppendChild(new Text($"{user.Name} - {user.Id}"));
+                            var properties = new ParagraphProperties();
+                            var fontSize = new FontSize() { Val = "36" };
+                            properties.Append(fontSize);
+                            para.Append(properties);
+                        }
+
+                        wordDocument.Close();
+
+                        return File(ms.ToArray(),
+                           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                           "ReapitUsersName.docx");
+
+                    }
+                    return RedirectToAction("Profile", "User");
+                }
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ namespace WebMaze.EfStuff.DbModel
         public int MoneyChange { get; set; }
         public int HealtsChange { get; set; }
         public int FatigueChange { get; set; }
+        public string Url { get; set; }
 
         public virtual User Creater { get; set; }
 

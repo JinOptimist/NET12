@@ -142,6 +142,15 @@ namespace WebMaze.ResourceLocalization {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Page.
+        /// </summary>
+        public static string Page {
+            get {
+                return ResourceManager.GetString("Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Price:.
         /// </summary>
         public static string Price {

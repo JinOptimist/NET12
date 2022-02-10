@@ -4,6 +4,10 @@
     border: 1px #000 solid;
 }
 
+.navbar-nav {
+    flex-wrap: wrap;
+}
+
 .rich {
     color: green;
 }
@@ -207,12 +211,27 @@ body {
     margin-right: 10px;
 }
 
-.language-selection{
+.language-selection {
     margin-right: 5%;
-
 }
 
-
-.bottom{
+.bottom {
     display: flex;
+}
+
+.user-profile {
+    margin: 30px;
+}
+
+    .user-profile *, .user-transaction * {
+        margin: 5px;
+    }
+
+.transaction-info {
+    color: black;
+}
+
+.user-transaction {
+    border: 1px solid;
+    margin: 30px;
 }
