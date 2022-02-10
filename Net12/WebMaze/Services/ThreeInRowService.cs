@@ -104,8 +104,8 @@ namespace WebMaze.Services
             var cellToDeleteH = new List<ThreeInRowCell>();
             var cellToDeleteV = new List<ThreeInRowCell>();
 
-            cellToDeleteH = checkHorizontal(gameField, cellToDeleteH).Distinct().ToList();
-            cellToDeleteV = checkVertical(gameField, cellToDeleteV).Distinct().ToList();
+            cellToDeleteH = checkHorizontal(gameField, cellToDeleteH);
+            cellToDeleteV = checkVertical(gameField, cellToDeleteV);
 
             allCellToDelete = cellToDeleteH.Union(cellToDeleteV).ToList();
 
