@@ -28,7 +28,7 @@ namespace WebMaze.Controllers
         private GroupListRepository _groupListRepository;
         private UserInGroupRepository _userInGroupRepository;
         private IMapper _mapper;
-        private ILogger<LocalizeMidlleware> _logger;
+        private ILogger<UserController> _logger;
         private IHubContext<ChatHub> _chatHub;
 
 
