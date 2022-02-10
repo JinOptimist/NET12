@@ -4,6 +4,10 @@
     border: 1px #000 solid;
 }
 
+.navbar-nav {
+    flex-wrap: wrap;
+}
+
 .rich {
     color: green;
 }
