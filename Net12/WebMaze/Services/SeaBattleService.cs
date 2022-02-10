@@ -26,20 +26,21 @@ namespace WebMaze.Services
             Four = 4
         }
 
-        //public SeaBattleGame CreateGame(SeaBattleDifficult difficult)
-        //{
-        //    var game = new SeaBattleGame();
+        public SeaBattleGame CreateGame(SeaBattleDifficult difficult)
+        {
+            var game = new SeaBattleGame();
 
-        //    var myField = BuildField(difficult);
-        //    //var enemyField = BuildField<SeaBattleEnemyField>(difficult);
+            var myField = BuildField<SeaBattleMyField, SeaBattleMyCell>(difficult);
+            //var enemyField = BuildField<SeaBattleEnemyField>(difficult);
 
-        //    myField.Game = game;
-        //    //enemyField.Game = game;
-        //    game.MyField = myField;
-        //    //game.EnemyField = enemyField;
+            myField.Game = game;
+            //enemyField.Game = game;
 
-        //    return game;
-        //}
+            game.MyField = myField;
+            //game.EnemyField = enemyField;
+
+            return game;
+        }
         public T BuildField<T, Y>(SeaBattleDifficult difficult) where T : SeaBattleBaseField<Y>, new()
                                                                 where Y : SeaBattleBaseCell, new()
         {
@@ -82,7 +83,7 @@ namespace WebMaze.Services
             }
             //////////////////////////
 
-            FillEmptyCells<T, Y>(field, difficult);
+            //FillEmptyCells<T, Y>(field, difficult);
 
             return field;
         }
