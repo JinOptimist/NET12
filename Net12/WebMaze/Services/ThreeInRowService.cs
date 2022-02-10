@@ -31,7 +31,8 @@ namespace WebMaze.Services
 
         }
 
-        string[] colors = { "none", "red", "green", "blue", "purple", "orange" };
+        string None = "none";
+        string[] colors = { "red", "green", "blue", "purple", "orange" };
 
         public ThreeInRowGameField Build()
         {
@@ -56,7 +57,7 @@ namespace WebMaze.Services
                     {
                         X = x,
                         Y = y,
-                        Color = colors[0],
+                        Color = None,
                         GameField = gameField,
                         IsActive = true
                     };
@@ -70,7 +71,7 @@ namespace WebMaze.Services
 
         public string GetNextColor()
         {
-            return colors[random.Next(1, 6)];
+            return colors[random.Next(colors.Length)];
         }
 
         public void Step(long CellId, long GameId)
@@ -79,14 +80,14 @@ namespace WebMaze.Services
             var cell = gameField.Cells.SingleOrDefault(cell => cell.Id == CellId);
             cell.Color = gameField.NextColor;
 
-            var randomCellList = gameField.Cells.Where(c => c.Id != CellId & c.Color == "none").ToList();
+            var randomCellList = gameField.Cells.Where(c => c.Id != CellId & c.Color == None).ToList();
             if (randomCellList.Any())
             {
                 var randomCellIndex = random.Next(randomCellList.Count);
                 var randomCell = randomCellList[randomCellIndex];
                 randomCell.Color = GetNextColor();
             }
-            
+
 
             gameField.NextColor = GetNextColor();
 
@@ -110,7 +111,7 @@ namespace WebMaze.Services
 
             foreach (var item in allCellToDelete)
             {
-                item.Color = colors[0];
+                item.Color = None;
             }
 
             gameField.Score += allCellToDelete.Count();
@@ -127,39 +128,43 @@ namespace WebMaze.Services
                 for (int x = 0; x < gameField.Width; x++)
                 {
                     var cell = gameField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
-                    var nextCell = gameField.Cells.SingleOrDefault(c => c.X == x + 1 && c.Y == y);
                     var prevCell = gameField.Cells.SingleOrDefault(c => c.X == x - 1 && c.Y == y);
 
-                    if (cell.Color != "none")
+                    if (cell.Color == None)
                     {
-                        if (cellToDeleteH.Count == 2)
-                        {
-                            if (prevCell.Color != cell.Color)
-                            {
-                                cellToDeleteH.Clear();
-                            }
-                        }
-                        if (nextCell != null && cell.Color == nextCell.Color)
-                        {
-                            cellToDeleteH.Add(cell);
-                        }
-                        else if (prevCell != null && cell.Color == prevCell.Color)
-                        {
-                            cellToDeleteH.Add(cell);
-                        }
-                        
-                    }
-                    else
-                    {
-                        cellToDeleteH.Clear();
+                        continue;
                     }
 
-                    if (cellToDeleteH.Count > 2)
+                    if (cell.X == 0 )
                     {
-                        foreach (var item in cellToDeleteH)
+                        cellToDeleteH.Add(cell);
+                        continue;
+                    }
+
+                    if (cell.Color == prevCell.Color)
+                    {
+                        cellToDeleteH.Add(cell);
+                        continue;
+                    }
+                    if (cell.Color != prevCell.Color)
+                    {
+                        if (cellToDeleteH.Count > 2)
                         {
-                            cellsToDelete.Add(item);
+                            foreach (var item in cellToDeleteH)
+                            {
+                                cellsToDelete.Add(item);
+                            }
                         }
+                        cellToDeleteH.Clear();
+                        cellToDeleteH.Add(cell);
+                        continue;
+                    }
+                }
+                if (cellToDeleteH.Count > 2)
+                {
+                    foreach (var item in cellToDeleteH)
+                    {
+                        cellsToDelete.Add(item);
                     }
                 }
                 cellToDeleteH.Clear();
@@ -176,38 +181,43 @@ namespace WebMaze.Services
                 for (int y = 0; y < gameField.Height; y++)
                 {
                     var cell = gameField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
-                    var nextCell = gameField.Cells.SingleOrDefault(c => c.X == x && c.Y == y + 1);
                     var prevCell = gameField.Cells.SingleOrDefault(c => c.X == x && c.Y == y - 1);
 
-                    if (cell.Color != "none")
+                    if (cell.Color == None)
                     {
-                        if (cellToDeleteV.Count == 2)
-                        {
-                            if (prevCell.Color != cell.Color)
-                            {
-                                cellToDeleteV.Clear();
-                            }
-                        }
-                        if (nextCell != null && cell.Color == nextCell.Color)
-                        {
-                            cellToDeleteV.Add(cell);
-                        }
-                        else if (prevCell != null && cell.Color == prevCell.Color)
-                        {
-                            cellToDeleteV.Add(cell);
-                        }
-                    }
-                    else
-                    {
-                        cellToDeleteV.Clear();
+                        continue;
                     }
 
-                    if (cellToDeleteV.Count > 2)
+                    if (cell.Y == 0)
                     {
-                        foreach (var item in cellToDeleteV)
+                        cellToDeleteV.Add(cell);
+                        continue;
+                    }
+
+                    if (cell.Color == prevCell.Color)
+                    {
+                        cellToDeleteV.Add(cell);
+                        continue;
+                    }
+                    if (cell.Color != prevCell.Color)
+                    {
+                        if (cellToDeleteV.Count > 2)
                         {
-                            cellsToDelete.Add(item);
+                            foreach (var item in cellToDeleteV)
+                            {
+                                cellsToDelete.Add(item);
+                            }
                         }
+                        cellToDeleteV.Clear();
+                        cellToDeleteV.Add(cell);
+                        continue;
+                    }
+                }
+                if (cellToDeleteV.Count > 2)
+                {
+                    foreach (var item in cellToDeleteV)
+                    {
+                        cellsToDelete.Add(item);
                     }
                 }
                 cellToDeleteV.Clear();
@@ -216,4 +226,4 @@ namespace WebMaze.Services
         }
 
     }
-} 
+}

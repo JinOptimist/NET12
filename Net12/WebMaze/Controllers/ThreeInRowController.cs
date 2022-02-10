@@ -51,36 +51,36 @@ namespace WebMaze.Controllers
             var newGame = _threeInRowService.Build();
             _threeInRowGameFieldRepository.Save(newGame);
 
-            return RedirectToAction("WelcomePage");
+            return RedirectToAction("PlayGame", new { id = newGame.Id });
         }
 
-        public IActionResult PlayGame(long Id)
+        public IActionResult PlayGame(long id)
         {
-            var gameField = _threeInRowGameFieldRepository.Get(Id);
+            var gameField = _threeInRowGameFieldRepository.Get(id);
             var gameFieldViewModel = _mapper.Map<ThreeInRowGameFieldViewModel>(gameField);
 
             if (!gameField.Cells.Where(c=> c.Color == "none").Any())
             {
                 gameField.IsActive = false;
                 _threeInRowGameFieldRepository.Save(gameField);
-                return RedirectToAction("GameOver", new { GameId = Id });
+                return RedirectToAction("GameOver", new { gameId = id });
             }
 
             return View(gameFieldViewModel);
         }
 
-        public IActionResult GameOver(long GameId)
+        public IActionResult GameOver(long gameId)
         {
-            var gameField = _threeInRowGameFieldRepository.Get(GameId);
+            var gameField = _threeInRowGameFieldRepository.Get(gameId);
             var gameFieldViewModel = _mapper.Map<ThreeInRowGameFieldViewModel>(gameField);
 
             return View(gameFieldViewModel);
         }
 
-        public IActionResult Step(long CellId, long GameId)
+        public IActionResult Step(long cellId, long gameId)
         {            
-            _threeInRowService.Step(CellId, GameId);
-            return RedirectToAction("PlayGame", new {Id =  GameId });
+            _threeInRowService.Step(cellId, gameId);
+            return RedirectToAction("PlayGame", new { id = gameId });
         }
     }
 }
