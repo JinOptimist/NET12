@@ -11,10 +11,10 @@ namespace WebMaze.Services
     public class SeaBattleService
     {
         private UserService _userService;
-        private SeaBattleCellRepository<SeaBattleMyCell> _seaBattleCellRepository;
+        private SeaBattleMyCellRepository _seaBattleCellRepository;
         private Random _random = new Random();
 
-        public SeaBattleService(UserService userService, SeaBattleCellRepository<SeaBattleMyCell> seaBattleCellRepository)
+        public SeaBattleService(UserService userService, SeaBattleMyCellRepository seaBattleCellRepository)
         {
             _userService = userService;
             _seaBattleCellRepository = seaBattleCellRepository;

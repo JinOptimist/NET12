@@ -17,16 +17,16 @@ namespace WebMaze.Controllers
         private IMapper _mapper;
         private SeaBattleService _seaBattleService;
         private SeaBattleDifficultRepository _seaBattleDifficultRepository;
-        private SeaBattleFieldRepository<SeaBattleEnemyField, SeaBattleEnemyCell> _seaBattleEnemyFieldRepository;
-        private SeaBattleFieldRepository<SeaBattleMyField, SeaBattleMyCell> _seaBattleMyFieldRepository;
+        private SeaBattleMyFieldRepository _seaBattleEnemyFieldRepository;
+        private SeaBattleEnemyFieldRepository _seaBattleMyFieldRepository;
         private SeaBattleGameRepository _seaBattleGameRepository;
 
         public SeaBattleController(IMapper mapper,
                                     SeaBattleService seaBattleService,
                                     SeaBattleDifficultRepository seaBattleDifficultRepository,
-                                    SeaBattleGameRepository seaBattleGameRepository,
-                                    SeaBattleFieldRepository<SeaBattleEnemyField, SeaBattleEnemyCell> seaBattleEnemyFieldRepository,
-                                    SeaBattleFieldRepository<SeaBattleMyField, SeaBattleMyCell> seaBattleMyFieldRepository)
+                                    SeaBattleGameRepository seaBattleGameRepository, 
+                                    SeaBattleMyFieldRepository seaBattleEnemyFieldRepository, 
+                                    SeaBattleEnemyFieldRepository seaBattleMyFieldRepository)
         {
             _mapper = mapper;
             _seaBattleService = seaBattleService;
