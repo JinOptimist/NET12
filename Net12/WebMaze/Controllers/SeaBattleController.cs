@@ -94,5 +94,43 @@ namespace WebMaze.Controllers
 
         //    return RedirectToAction("Game", new { id = _userService.GetCurrentUser().SeaBattleGame.Id });
         //}
+
+        //public void Datetimeee()
+        //{
+        //    var viewModelDay = newsViewModel.EventDay;// DateTime.Now;
+
+        //    var firstDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+        //    var lastDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
+
+        //    var firstDayOfWeek = firstDayOfMonth.DayOfWeek;
+
+        //    var lastDayOfWeek = lastDayOfMonth.DayOfWeek;
+
+        //    int resultDayOfWeek;
+
+        //    //if (firstDayOfWeek <= viewModelDay)
+        //    //{
+        //    //    resultDayOfWeek = viewModelDay - firstDayOfWeek;
+        //    //}
+        //    //else
+        //    //{
+        //    //    resultDayOfWeek = viewModelDay - firstDayOfWeek + 7;
+        //    //}
+        //    //var resultData = firstDayOfMonth.AddDays(resultDayOfWeek);
+        //    //dbNews.CreationDate = resultData;
+        //    if (lastDayOfWeek >= viewModelDay)
+        //    {
+        //        resultDayOfWeek = -(lastDayOfWeek - viewModelDay);
+        //    }
+        //    else
+        //    {
+        //        resultDayOfWeek = -(lastDayOfWeek - viewModelDay + 7);
+
+        //    }
+        //    var resultData = lastDayOfMonth.AddDays(resultDayOfWeek);
+        //    dbNews.CreationDate = resultData;
+
+        //}
     }
 }
