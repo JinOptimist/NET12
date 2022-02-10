@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff;
@@ -22,21 +23,26 @@ namespace WebMaze.Controllers
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
         private NewCellSuggRepository _newCellSuggRepository;
+        private ILogger<HomeController> _logger;
        
         private IMapper _mapper;
         public HomeController(WebContext webContext,
          UserRepository userRepository, ReviewRepository reviewRepository,
-         IMapper mapper, UserService userService, NewCellSuggRepository newCellSuggRepository)
+         IMapper mapper, UserService userService, NewCellSuggRepository newCellSuggRepository, ILogger<HomeController> logger)
         {
             _webContext = webContext;
             _userRepository = userRepository;
             _reviewRepository = reviewRepository;
             _mapper = mapper;
             _userService = userService;
+            _logger = logger;
         }
 
         public IActionResult Index()
         {
+            var userId = _userService.GetCurrentUser()?.Id;
+            _logger.Log(LogLevel.Information, $"User {userId} on maion page");
+
             var userViewModels = _userRepository.GetAll()
                  .Select(x => _mapper.Map<UserViewModel>(x)).ToList();
 
@@ -135,8 +141,15 @@ namespace WebMaze.Controllers
             return View(model);
         }
 
+        public IActionResult BoringError()
+        {
+            return View();
+        }
 
-
+        public IActionResult SecreteError()
+        {
+            return View();
+        }
 
 
 

@@ -59,3 +59,22 @@
     padding-left: 100px;
     padding-right: 100px;
 }
+
+.zumagame-difficult-block {
+    display: flex;
+    justify-content: space-around;
+}
+
+.zumagame-difficult-preview {
+    display: grid;
+}
+
+.zumagame-preview-cell {
+    width: 20px;
+    height: 20px;
+}
+
+.difficult-preview-block {
+    height: 500px;
+    width: 500px;
+}
