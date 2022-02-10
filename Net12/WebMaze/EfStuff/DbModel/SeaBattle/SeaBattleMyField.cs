@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace WebMaze.EfStuff.DbModel.SeaBattle
 {
-    public class SeaBattleMyField : SeaBattleBaseField
+    public class SeaBattleMyField : SeaBattleBaseField<SeaBattleMyCell>
     {
         public long HitInShipId { get; set; }
 
         public virtual List<SeaBattleMyCell> PossibleShootCells { get; set; }
-        public virtual List<SeaBattleMyCell> Cells { get; set; }
     }
 }

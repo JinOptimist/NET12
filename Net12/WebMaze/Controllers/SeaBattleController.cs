@@ -17,20 +17,23 @@ namespace WebMaze.Controllers
         private IMapper _mapper;
         private SeaBattleService _seaBattleService;
         private SeaBattleDifficultRepository _seaBattleDifficultRepository;
-        private SeaBattleEnemyFieldRepository _seaBattleEnemyFieldRepository;
-        private SeaBattleEnemyCellRepository _seaBattleEnemyCellRepository;
-        private UserService _userService;
+        private SeaBattleFieldRepository<SeaBattleEnemyField, SeaBattleEnemyCell> _seaBattleEnemyFieldRepository;
+        private SeaBattleFieldRepository<SeaBattleMyField, SeaBattleMyCell> _seaBattleMyFieldRepository;
         private SeaBattleGameRepository _seaBattleGameRepository;
 
-        public SeaBattleController(SeaBattleService seaBattleService, SeaBattleDifficultRepository seaBattleDifficultRepository, IMapper mapper, SeaBattleEnemyFieldRepository seaBattleEnemyFieldRepository, SeaBattleEnemyCellRepository seaBattleEnemyCellRepository, UserService userService, SeaBattleGameRepository seaBattleGameRepository)
+        public SeaBattleController(IMapper mapper,
+                                    SeaBattleService seaBattleService,
+                                    SeaBattleDifficultRepository seaBattleDifficultRepository,
+                                    SeaBattleGameRepository seaBattleGameRepository,
+                                    SeaBattleFieldRepository<SeaBattleEnemyField, SeaBattleEnemyCell> seaBattleEnemyFieldRepository,
+                                    SeaBattleFieldRepository<SeaBattleMyField, SeaBattleMyCell> seaBattleMyFieldRepository)
         {
+            _mapper = mapper;
             _seaBattleService = seaBattleService;
             _seaBattleDifficultRepository = seaBattleDifficultRepository;
-            _mapper = mapper;
-            _seaBattleEnemyFieldRepository = seaBattleEnemyFieldRepository;
-            _seaBattleEnemyCellRepository = seaBattleEnemyCellRepository;
-            _userService = userService;
             _seaBattleGameRepository = seaBattleGameRepository;
+            _seaBattleEnemyFieldRepository = seaBattleEnemyFieldRepository;
+            _seaBattleMyFieldRepository = seaBattleMyFieldRepository;
         }
 
         public IActionResult Index()
@@ -39,18 +42,17 @@ namespace WebMaze.Controllers
             return View();
         }
 
-        public IActionResult NewGame(long difficultId)
-        {
+        //public IActionResult NewGame(long difficultId)
+        //{
 
-            var difficult = _seaBattleDifficultRepository.Get(difficultId);
+        //    var difficult = _seaBattleDifficultRepository.Get(difficultId);
 
-            var game = _seaBattleService.CreateGame(difficult);
-            _seaBattleGameRepository.Save(game);
+        //    //var game = _seaBattleService.CreateGame(difficult);
+        //    _seaBattleGameRepository.Save(game);
 
 
-
-            return RedirectToAction("Game", new { id = game.Id });
-        }
+        //    return RedirectToAction("Game", new { id = game.Id });
+        //}
 
         public IActionResult Game(long id)
         {
@@ -63,12 +65,12 @@ namespace WebMaze.Controllers
                 TwoSizeShip = 4
             };
 
-            var field = _seaBattleService.BuildField(difficult);
-            if (field == null)
+            var myField = _seaBattleService.BuildField<SeaBattleMyField,SeaBattleMyCell>(difficult);
+            if (myField == null)
             {
                 return RedirectToAction("BoringError", "Home");
             }
-            var fieldViewModel = _mapper.Map<SeaBattleFieldViewModel>(field);
+            var fieldViewModel = _mapper.Map<SeaBattleFieldViewModel>(myField);
 
             var fieldViewModels = new SeaBattleGameViewModel
             {

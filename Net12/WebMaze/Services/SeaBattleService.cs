@@ -11,10 +11,10 @@ namespace WebMaze.Services
     public class SeaBattleService
     {
         private UserService _userService;
-        private SeaBattleMyCellRepository _seaBattleCellRepository;
+        private SeaBattleCellRepository<SeaBattleMyCell> _seaBattleCellRepository;
         private Random _random = new Random();
 
-        public SeaBattleService(UserService userService, SeaBattleMyCellRepository seaBattleCellRepository)
+        public SeaBattleService(UserService userService, SeaBattleCellRepository<SeaBattleMyCell> seaBattleCellRepository)
         {
             _userService = userService;
             _seaBattleCellRepository = seaBattleCellRepository;
@@ -26,28 +26,29 @@ namespace WebMaze.Services
             Four = 4
         }
 
-        public SeaBattleGame CreateGame(SeaBattleDifficult difficult)
+        //public SeaBattleGame CreateGame(SeaBattleDifficult difficult)
+        //{
+        //    var game = new SeaBattleGame();
+
+        //    var myField = BuildField(difficult);
+        //    //var enemyField = BuildField<SeaBattleEnemyField>(difficult);
+
+        //    myField.Game = game;
+        //    //enemyField.Game = game;
+        //    game.MyField = myField;
+        //    //game.EnemyField = enemyField;
+
+        //    return game;
+        //}
+        public T BuildField<T, Y>(SeaBattleDifficult difficult) where T : SeaBattleBaseField<Y>, new()
+                                                                where Y : SeaBattleBaseCell, new()
         {
-            var game = new SeaBattleGame();
 
-            var myField = BuildField(difficult);
-            //var enemyField = BuildField<SeaBattleEnemyField>(difficult);
-
-            myField.Game = game;
-            //enemyField.Game = game;
-            game.MyField = myField;
-            //game.EnemyField = enemyField;
-
-            return game;
-        }
-        public SeaBattleMyField BuildField(SeaBattleDifficult difficult)
-        {
-
-            var field = new SeaBattleMyField()
+            var field = new T()
             {
                 Width = difficult.Width,
                 Height = difficult.Height,
-                Cells = new List<SeaBattleMyCell>(),
+                Cells = new List<Y>(),
                 Game = new SeaBattleGame(),
                 IsActive = true
             };
@@ -55,34 +56,39 @@ namespace WebMaze.Services
             //for (int i = (int)ShipSize.Two; i <= (int)ShipSize.Four; i++)
             for (int i = 2; i <= 4; i++)
             {
-                if (!GenerateShips(field, difficult, i))
+                int attempt = 0;
+                while (true)
                 {
-                    return null;
+                    if (GenerateShips<T, Y>(field, difficult, i))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        attempt++;
+                    }
+
+                    if (attempt >= 5)
+                    {
+                        return null;
+                    }
                 }
             }
 
-            //for (int y = 0; y < difficult.Height; y++)
-            //{
-            //    for (int x = 0; x < difficult.Width; x++)
-            //    {
-            //        var myCell = new SeaBattleMyCell()
-            //        {
-            //            X = x,
-            //            Y = y,
-            //            ShipLength = 0,
-            //            ShipHere = false,
-            //            Hit = false,
-            //            IsActive = true
-            //        };
-            //        field.Cells.Add(myCell);
-            //    }
-            //}
+            ////////////////////////??????????
+            if (field.GetType() is SeaBattleEnemyField)
+            {
 
+            }
+            //////////////////////////
+
+            FillEmptyCells<T, Y>(field, difficult);
 
             return field;
         }
 
-        private bool GenerateShips(SeaBattleMyField field, SeaBattleDifficult difficult, int shipSize)
+        private bool GenerateShips<T, Y>(T field, SeaBattleDifficult difficult, int shipSize) where T : SeaBattleBaseField<Y>
+                                                                                              where Y : SeaBattleBaseCell, new()
         {
             int startSpawnY;
             int startSpawnX;
@@ -127,7 +133,7 @@ namespace WebMaze.Services
                         {
                             for (int i = 0; i < shipSize; i++)
                             {
-                                var cell = new SeaBattleMyCell()
+                                var cell = new Y()
                                 {
                                     X = startSpawnX - i,
                                     Y = startSpawnY,
@@ -161,7 +167,7 @@ namespace WebMaze.Services
                         {
                             for (int i = 0; i < shipSize; i++)
                             {
-                                var cell = new SeaBattleMyCell()
+                                var cell = new Y()
                                 {
                                     X = startSpawnX + i,
                                     Y = startSpawnY,
@@ -195,7 +201,7 @@ namespace WebMaze.Services
                         {
                             for (int i = 0; i < shipSize; i++)
                             {
-                                var cell = new SeaBattleMyCell()
+                                var cell = new Y()
                                 {
                                     X = startSpawnX,
                                     Y = startSpawnY - i,
@@ -228,7 +234,7 @@ namespace WebMaze.Services
                         {
                             for (int i = 0; i < shipSize; i++)
                             {
-                                var cell = new SeaBattleMyCell()
+                                var cell = new Y()
                                 {
                                     X = startSpawnX,
                                     Y = startSpawnY + i,
@@ -258,6 +264,28 @@ namespace WebMaze.Services
             }
 
             return true;
+        }
+
+        private void FillEmptyCells<T, Y>(T field, SeaBattleDifficult difficult) where T : SeaBattleBaseField<Y>
+                                                                                 where Y : SeaBattleBaseCell, new()
+        {
+            for (int y = 0; y < difficult.Height; y++)
+            {
+                for (int x = 0; x < difficult.Width; x++)
+                {
+                    var myCell = new Y()
+                    {
+                        X = x,
+                        Y = y,
+                        ShipLength = 0,
+                        ShipHere = false,
+                        Hit = false,
+                        IsActive = true
+                    };
+                    field.Cells.Add(myCell);
+
+                }
+            }
         }
 
     }
