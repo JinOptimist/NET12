@@ -1,6 +1,37 @@
-﻿
+﻿@model PermissionUserViewModel
 
-<div class="text-center">
-    <h3>Administration: Editing users</h3>
-    <div>there is nothing here yet... </div>
-</div>
+<form action="/Admin/EditingUsers" method="post">
+    <div>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Users/Permissions</th>
+                    @foreach (var item in Model.Permissions)
+                    {
+                        <th>@item.Name</th>
+                    }
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>@user.UserName</td>
+                        @foreach (var permissions in Model.Permissions)
+                        {
+                            <td>
+                                @Html.CheckBox(permissions.Name + user.Id.ToString(),
+                           permissions.UsersWhichHasThePermission.Exists(x => x.Id == user.Id))
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</form>
+
+
+
+

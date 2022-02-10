@@ -44,13 +44,33 @@ namespace WebMaze.Controllers
             return View(permissionViewModels);
         }
 
-
+        [HttpGet]
         public IActionResult EditingUsers()
+        {
+            var users = _userRepository.GetAll()
+                .Select(x => _mapper.Map<UserViewModel>(x))
+                .ToList();
+
+            var permissions = _permissionRepository.GetAll()
+                .Select(x => _mapper.Map<PermissionViewModel>(x))
+                .ToList();
+
+            var permissionUsers = new PermissionUserViewModel()
+            {
+                Permissions = permissions,
+                Users = users
+            };
+
+            return View(permissionUsers);
+        }
+
+        [HttpPost]
+        public IActionResult EditingUsers(PermissionUserViewModel model)
         {
             return View();
         }
 
-        public IActionResult ReflectionPages()
+            public IActionResult ReflectionPages()
         {
             var controllers = Assembly
                 .GetExecutingAssembly()

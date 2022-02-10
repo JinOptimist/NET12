@@ -120,6 +120,20 @@ namespace WebMaze.Controllers
                 using (var wordDocument = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
                 {
                     var mainPart = wordDocument.AddMainDocumentPart();
+
+                    StyleDefinitionsPart styleDefinitionsPart = mainPart.AddNewPart<StyleDefinitionsPart>();
+                    var styles = new Styles();
+                    var docDefaults = new DocDefaults(
+                        new RunPropertiesDefault(
+                            new RunPropertiesBaseStyle(
+                                new FontSize()
+                                {
+                                    Val = "36"
+                                })));
+                    styles.AppendChild(docDefaults);
+                    styleDefinitionsPart.Styles = styles;
+
+
                     mainPart.Document = new Document();
                     var body = mainPart.Document.AppendChild(new Body());
 
@@ -130,11 +144,11 @@ namespace WebMaze.Controllers
                         var runTitle = para.AppendChild(new Run());
                         runTitle.AppendChild(new Text(oneNews.Title));
 
-                        var properties = new ParagraphProperties();
-                        var fontSize = new FontSize() { Val = "36" };
-                        properties.Append(fontSize);
+                        //var properties = new ParagraphProperties();
+                        //var fontSize = new FontSize() { Val = "36" };
+                        //properties.Append(fontSize);
 
-                        para.Append(properties);
+                        //para.Append(properties);
 
                         var paraText = body.AppendChild(new Paragraph());
                         var runNewsBody = paraText.AppendChild(new Run());
@@ -151,3 +165,4 @@ namespace WebMaze.Controllers
         }
     }
 }
+
