@@ -61,7 +61,6 @@ namespace WebMaze
             RegisterRepositoriesAuto(services);
 
             RegisterMapper(services);
-
             services.AddScoped<UserService>();
             services.AddScoped<MinerFiledBuilder>();
             services.AddScoped<ZumaGameService>();
@@ -261,6 +260,12 @@ namespace WebMaze
             provider.CreateMap<BaseEnemy, MazeEnemyWeb>()
                 .ConstructUsing(x => inEnemyWeb(x));
 
+            provider.CreateMap<UserInGroup, UserInGroupViewModel>();
+            provider.CreateMap<UserInGroupViewModel, UserInGroup>();
+
+            provider.CreateMap<GroupList, GroupListViewModel>();
+
+            provider.CreateMap<GroupListViewModel, GroupList>();
             provider.CreateMap<GuessTheNumberGameParameters,
                 GuessTheNumberGameParametersViewModel>()
                 .ReverseMap();
@@ -287,6 +292,7 @@ namespace WebMaze
             services.AddScoped<IMapper>(x => mapper);
 
         }
+
         private MazeLevelWeb inMazeModel(MazeLevel maze)
         {
             var model = new MazeLevelWeb()
@@ -433,7 +439,6 @@ namespace WebMaze
             }
             return null;
         }
-
         private MazeEnemyWeb inEnemyWeb(BaseEnemy enemy)
         {
             var dict = new Dictionary<Type, MazeEnemyInfo>()
@@ -495,10 +500,10 @@ namespace WebMaze
 
             app.UseRouting();
 
-            // Êòî ÿ?
+            // ÃŠÃ²Ã® Ã¿?
             app.UseAuthentication();
 
-            //Êóäà ìíå ìîæíî?
+            //ÃŠÃ³Ã¤Ã  Ã¬Ã­Ã¥ Ã¬Ã®Ã¦Ã­Ã®?
             app.UseAuthorization();
 
             app.UseMiddleware<LocalizeMidlleware>();
