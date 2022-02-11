@@ -7,6 +7,7 @@ namespace WebMaze.Models
 {
     public class SeaBattleGameViewModel
     {
+        public long Id { get; set; }
         public SeaBattleFieldViewModel MyField { get; set; }
         public SeaBattleFieldViewModel EnemyField { get; set; }
     }

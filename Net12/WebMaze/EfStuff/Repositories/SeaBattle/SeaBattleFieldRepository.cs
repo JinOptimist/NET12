@@ -7,9 +7,9 @@ using WebMaze.EfStuff.DbModel.SeaBattle;
 
 namespace WebMaze.EfStuff.Repositories
 {
-    public class SeaBattleMyFieldRepository : BaseRepository<SeaBattleMyField>
+    public class SeaBattleFieldRepository : BaseRepository<SeaBattleField>
     {
-        public SeaBattleMyFieldRepository(WebContext webContext) : base(webContext)
+        public SeaBattleFieldRepository(WebContext webContext) : base(webContext)
         {
         }
     }

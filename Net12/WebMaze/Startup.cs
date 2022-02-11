@@ -280,13 +280,17 @@ namespace WebMaze
             provider.CreateMap<GuessTheNumberGameAnswerViewModel,
                 GuessTheNumberGameAnswer>();
 
-            provider.CreateMap<SeaBattleBaseCell, SeaBattleCellViewModel>();
-            provider.CreateMap<SeaBattleCellViewModel, SeaBattleBaseCell>();
+            provider.CreateMap<SeaBattleCell, SeaBattleCellViewModel>();
+            provider.CreateMap<SeaBattleCellViewModel, SeaBattleCell>();
 
-            provider.CreateMap<SeaBattleMyField, SeaBattleFieldViewModel>()
+            provider.CreateMap<SeaBattleField, SeaBattleFieldViewModel>()
                 .ForMember(nameof(SeaBattleFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
-            provider.CreateMap<SeaBattleFieldViewModel, SeaBattleMyField>();
+            provider.CreateMap<SeaBattleFieldViewModel, SeaBattleField>();
 
+            provider.CreateMap<SeaBattleGame, SeaBattleGameViewModel>();
+                //.ForMember(nameof(SeaBattleGame.MyField), opt => opt.MapFrom(db => db.MyField))
+                //.ForMember(nameof(SeaBattleGame.EnemyField), opt => opt.MapFrom(db => db.EnemyField));
+            provider.CreateMap<SeaBattleGameViewModel, SeaBattleGame>();
 
             var mapperConfiguration = new MapperConfiguration(provider);
 
@@ -319,7 +323,7 @@ namespace WebMaze
             {
                 Height = model.Height,
                 Width = model.Width,
-                
+
 
             };
             maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroMaxHp)
@@ -481,11 +485,11 @@ namespace WebMaze
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
-            IApplicationBuilder app, 
+            IApplicationBuilder app,
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddFile("Logs/Info-{Date}.txt", 
+            loggerFactory.AddFile("Logs/Info-{Date}.txt",
                 outputTemplate: "[{Level}] Smile {Timestamp:o} {Message} {NewLine}{Exception}");
             loggerFactory.AddFile("Logs/ERROR-{Date}.txt", LogLevel.Error);
 

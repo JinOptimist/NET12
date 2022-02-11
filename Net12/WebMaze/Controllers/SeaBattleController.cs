@@ -17,23 +17,19 @@ namespace WebMaze.Controllers
         private IMapper _mapper;
         private SeaBattleService _seaBattleService;
         private SeaBattleDifficultRepository _seaBattleDifficultRepository;
-        private SeaBattleMyFieldRepository _seaBattleEnemyFieldRepository;
-        private SeaBattleEnemyFieldRepository _seaBattleMyFieldRepository;
         private SeaBattleGameRepository _seaBattleGameRepository;
-
+        private SeaBattleFieldRepository _seaBattleFieldRepository;
         public SeaBattleController(IMapper mapper,
                                     SeaBattleService seaBattleService,
                                     SeaBattleDifficultRepository seaBattleDifficultRepository,
-                                    SeaBattleGameRepository seaBattleGameRepository, 
-                                    SeaBattleMyFieldRepository seaBattleEnemyFieldRepository, 
-                                    SeaBattleEnemyFieldRepository seaBattleMyFieldRepository)
+                                    SeaBattleGameRepository seaBattleGameRepository,
+                                    SeaBattleFieldRepository seaBattleFieldRepository)
         {
             _mapper = mapper;
             _seaBattleService = seaBattleService;
             _seaBattleDifficultRepository = seaBattleDifficultRepository;
             _seaBattleGameRepository = seaBattleGameRepository;
-            _seaBattleEnemyFieldRepository = seaBattleEnemyFieldRepository;
-            _seaBattleMyFieldRepository = seaBattleMyFieldRepository;
+            _seaBattleFieldRepository = seaBattleFieldRepository;
         }
 
         public IActionResult Index()
@@ -42,43 +38,37 @@ namespace WebMaze.Controllers
             return View();
         }
 
-        //public IActionResult NewGame(long difficultId)
-        //{
-
-        //    var difficult = _seaBattleDifficultRepository.Get(difficultId);
-
-        //    //var game = _seaBattleService.CreateGame(difficult);
-        //    _seaBattleGameRepository.Save(game);
-
-
-        //    return RedirectToAction("Game", new { id = game.Id });
-        //}
-
-        public IActionResult Game(long id)
+        public IActionResult NewGame(long difficultId)
         {
+
             var difficult = new SeaBattleDifficult
             {
-                Height = 10,
-                Width = 10,
+                Height = 12,
+                Width = 12,
                 FourSizeShip = 2,
                 ThreeSizeShip = 3,
                 TwoSizeShip = 4
             };
 
-            var myField = _seaBattleService.BuildField<SeaBattleMyField,SeaBattleMyCell>(difficult);
-            if (myField == null)
+            var game = _seaBattleService.CreateGame(difficult);
+
+            if (game == null)
             {
                 return RedirectToAction("BoringError", "Home");
             }
-            var fieldViewModel = _mapper.Map<SeaBattleFieldViewModel>(myField);
+            _seaBattleGameRepository.Save(game);
 
-            var fieldViewModels = new SeaBattleGameViewModel
-            {
-                MyField = fieldViewModel,
-                EnemyField = fieldViewModel
-            };
 
-            return View(fieldViewModels);
+            return RedirectToAction("Game", new { id = game.Id });
+        }
+
+        public IActionResult Game(long id)
+        {
+            var game = _seaBattleGameRepository.Get(id);
+
+            var gameViewModel = _mapper.Map<SeaBattleGameViewModel>(game);
+
+            return View(gameViewModel);
         }
 
         //public IActionResult ClickOnCell(long id)
@@ -95,42 +85,5 @@ namespace WebMaze.Controllers
         //    return RedirectToAction("Game", new { id = _userService.GetCurrentUser().SeaBattleGame.Id });
         //}
 
-        //public void Datetimeee()
-        //{
-        //    var viewModelDay = newsViewModel.EventDay;// DateTime.Now;
-
-        //    var firstDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-
-        //    var lastDayOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
-
-        //    var firstDayOfWeek = firstDayOfMonth.DayOfWeek;
-
-        //    var lastDayOfWeek = lastDayOfMonth.DayOfWeek;
-
-        //    int resultDayOfWeek;
-
-        //    //if (firstDayOfWeek <= viewModelDay)
-        //    //{
-        //    //    resultDayOfWeek = viewModelDay - firstDayOfWeek;
-        //    //}
-        //    //else
-        //    //{
-        //    //    resultDayOfWeek = viewModelDay - firstDayOfWeek + 7;
-        //    //}
-        //    //var resultData = firstDayOfMonth.AddDays(resultDayOfWeek);
-        //    //dbNews.CreationDate = resultData;
-        //    if (lastDayOfWeek >= viewModelDay)
-        //    {
-        //        resultDayOfWeek = -(lastDayOfWeek - viewModelDay);
-        //    }
-        //    else
-        //    {
-        //        resultDayOfWeek = -(lastDayOfWeek - viewModelDay + 7);
-
-        //    }
-        //    var resultData = lastDayOfMonth.AddDays(resultDayOfWeek);
-        //    dbNews.CreationDate = resultData;
-
-        //}
     }
 }

@@ -1,8 +1,8 @@
 ﻿@model SeaBattleGameViewModel
 
 <div class="big-center-font">
-    <a href="/SeaBattle/Game">Test</a>
-    <p>0 - left 1 - right 2 - up 3 - down</p>
+    <a href="/SeaBattle/NewGame">Test</a>
+    <p>1 - left 2 - right 3 - up 4 - down</p>
 </div>
 
 <div class="seabattle-game">
@@ -16,7 +16,7 @@
                     var cell = Model.MyField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
                     if (cell != null)
                     {
-                        <span class="seabattle-fill-cell" dataDirection=@cell.Direction data-number=@cell.SpawnNumber>
+                        <span class="seabattle-fill-cell">
                         </span>
                     }
                     else
@@ -30,15 +30,15 @@
     </div>
 
     <div class="seabattle-field">
-        @for (int y = 0; y < Model.MyField.Height; y++)
+        @for (int y = 0; y < Model.EnemyField.Height; y++)
         {
             <div class="seabattle-field-row">
-                @for (int x = 0; x < Model.MyField.Width; x++)
+                @for (int x = 0; x < Model.EnemyField.Width; x++)
                 {
-                    var cell = Model.MyField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
+                    var cell = Model.EnemyField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
                     if (cell != null)
                     {
-                        <span class="seabattle-fill-cell" dataDirection=@cell.Direction data-number=@cell.SpawnNumber>
+                        <span class="seabattle-fill-cell">
                             <a href="/SeaBattle/ClickOnCell?id=@cell.Id"></a>
                         </span>
                     }
