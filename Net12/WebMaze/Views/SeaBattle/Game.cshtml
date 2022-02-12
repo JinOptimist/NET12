@@ -14,15 +14,31 @@
                 @for (int x = 0; x < Model.MyField.Width; x++)
                 {
                     var cell = Model.MyField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
-                    if (cell != null)
+                    if (cell.ShipHere)
                     {
-                        <span class="seabattle-fill-cell">
-                        </span>
+                        if (cell.Hit)
+                        {
+                            <span class="seabattle-damadge-ship-cell">
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="seabattle-normal-ship-cell">
+                            </span>
+                        }
                     }
                     else
                     {
-                        <span class="seabattle-empty-cell">
-                        </span>
+                        if (cell.Hit)
+                        {
+                            <span class="seabattle-hit-cell">
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="seabattle-empty-cell">
+                            </span>
+                        }
                     }
                 }
             </div>
@@ -36,18 +52,33 @@
                 @for (int x = 0; x < Model.EnemyField.Width; x++)
                 {
                     var cell = Model.EnemyField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
-                    if (cell != null)
+                    if (cell.ShipHere)
                     {
-                        <span class="seabattle-fill-cell">
-                            <a href="/SeaBattle/ClickOnCell?id=@cell.Id"></a>
-                        </span>
+                        if (cell.Hit)
+                        {
+                            <span class="seabattle-damadge-ship-cell">
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="seabattle-normal-ship-cell">
+                                <a href="/SeaBattle/ClickOnCell?id=@cell.Id"></a>
+                            </span>
+                        }
                     }
                     else
                     {
-                        <span class="seabattle-empty-cell">
-                            <a href="#"></a>
-                        </span>
-
+                        if (cell.Hit)
+                        {
+                            <span class="seabattle-hit-cell">
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="seabattle-empty-cell">
+                                <a href="/SeaBattle/ClickOnCell?id=@cell.Id"></a>
+                            </span>
+                        }
                     }
                 }
             </div>

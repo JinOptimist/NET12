@@ -280,12 +280,21 @@ namespace WebMaze
             provider.CreateMap<GuessTheNumberGameAnswerViewModel,
                 GuessTheNumberGameAnswer>();
 
-            provider.CreateMap<SeaBattleCell, SeaBattleCellViewModel>();
-            provider.CreateMap<SeaBattleCellViewModel, SeaBattleCell>();
+            provider.CreateMap<SeaBattleMyCell, SeaBattleCellViewModel>();
+            provider.CreateMap<SeaBattleCellViewModel, SeaBattleMyCell>();
 
-            provider.CreateMap<SeaBattleField, SeaBattleFieldViewModel>()
+            provider.CreateMap<SeaBattleEnemyCell, SeaBattleCellViewModel>();
+            provider.CreateMap<SeaBattleCellViewModel, SeaBattleEnemyCell>()
+                .ForMember(nameof(SeaBattleEnemyCell.ShipHere), opt => opt.Ignore());
+
+            provider.CreateMap<SeaBattleMyField, SeaBattleFieldViewModel>()
                 .ForMember(nameof(SeaBattleFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
-            provider.CreateMap<SeaBattleFieldViewModel, SeaBattleField>();
+            provider.CreateMap<SeaBattleFieldViewModel, SeaBattleMyField>();
+
+            provider.CreateMap<SeaBattleEnemyField, SeaBattleFieldViewModel>()
+                .ForMember(nameof(SeaBattleFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
+            provider.CreateMap<SeaBattleFieldViewModel, SeaBattleEnemyField>();
+
 
             provider.CreateMap<SeaBattleGame, SeaBattleGameViewModel>();
                 //.ForMember(nameof(SeaBattleGame.MyField), opt => opt.MapFrom(db => db.MyField))

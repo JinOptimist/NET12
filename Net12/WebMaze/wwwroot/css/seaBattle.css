@@ -10,27 +10,38 @@
 
     .seabattle-field-row a {
         opacity: 0;
+        display: flex;
+        width: 30px;
+        height: 30px;
     }
 
 .seabattle-empty-cell {
-    background-color: white;
-    border: 1px solid gray;
+    background-color: lightblue;
+    border: 1px solid dimgray;
     width: 30px;
     height: 30px;
 }
 
-.seabattle-fill-cell {
+.seabattle-hit-cell {
+    background-color: yellow;
+    border: 1px solid dimgray;
+    width: 30px;
+    height: 30px;
+}
+
+.seabattle-normal-ship-cell {
     background-color: black;
     border: 1px solid transparent;
     width: 30px;
     height: 30px;
 }
 
-    .seabattle-empty-cell a, .seabattle-fill-cell a {
-        display: flex;
-        width: 30px;
-        height: 30px;
-    }
+.seabattle-damadge-ship-cell {
+    background-color: darkred;
+    border: 1px solid transparent;
+    width: 30px;
+    height: 30px;
+}
 
 .seabattle-field {
     border: 5px solid green;

@@ -11,54 +11,40 @@ namespace WebMaze.Services
     public class SeaBattleService
     {
         private UserService _userService;
-        private SeaBattleCellRepository _seaBattleCellRepository;
         private Random _random = new Random();
 
-        public SeaBattleService(UserService userService, SeaBattleCellRepository seaBattleCellRepository)
+        public SeaBattleService(UserService userService)
         {
             _userService = userService;
-            _seaBattleCellRepository = seaBattleCellRepository;
-        }
-        public enum ShipSize
-        {
-            Two = 2,
-            Three = 3,
-            Four = 4
         }
 
         public SeaBattleGame CreateGame(SeaBattleDifficult difficult)
         {
-            var game = new SeaBattleGame();
 
-            var myField = BuildField(difficult);
-            var enemyField = BuildField(difficult);
+            var myField = BuildMyField(difficult);
+            var enemyField = BuildEnemyField(difficult);
+
             if(myField == null || enemyField == null)
             {
                 return null;
             }
-            //myField.Game = game;
-            //enemyField.Game = game;
 
-            game.Gamer = _userService.GetCurrentUser();
-            game.MyField = myField;
-            //game.EnemyField =new SeaBattleEnemyField
-            //{
-            //    Height = enemyField.Height,
-            //    Width = enemyField.Width,
-            //    Cells = enemyField.Cells
-            //}
+            var game = new SeaBattleGame
+            {
+                User = _userService.GetCurrentUser(),
+                MyField = myField,
+                EnemyField = enemyField
+            };
 
             return game;
         }
-        public SeaBattleField BuildField(SeaBattleDifficult difficult)
+        public SeaBattleMyField BuildMyField(SeaBattleDifficult difficult)
         {
-
-            var field = new SeaBattleField()
+            var field = new SeaBattleMyField()
             {
                 Width = difficult.Width,
                 Height = difficult.Height,
-                Cells = new List<SeaBattleCell>(),
-                IsActive = true
+                Cells = new List<SeaBattleMyCell>()
             };
 
             //for (int i = (int)ShipSize.Two; i <= (int)ShipSize.Four; i++)
@@ -67,7 +53,7 @@ namespace WebMaze.Services
                 int attempt = 0;
                 while (true)
                 {
-                    if (GenerateShips(field, difficult, i))
+                    if (GenerateMyShips(field, difficult, i))
                     {
                         break;
                     }
@@ -83,12 +69,12 @@ namespace WebMaze.Services
                 }
             }
 
-            FillEmptyCells(field, difficult);
+            FillEmptyMyCells(field, difficult);
 
             return field;
         }
 
-        private bool GenerateShips(SeaBattleField field, SeaBattleDifficult difficult, int shipSize)
+        private bool GenerateMyShips(SeaBattleMyField field, SeaBattleDifficult difficult, int shipSize)
         {
             int startSpawnY;
             int startSpawnX;
@@ -111,7 +97,6 @@ namespace WebMaze.Services
             }
 
             var tryCount = 0;
-
             while (ships > 0)
             {
                 // 1 - left 2 - right 3 - up 4 - down
@@ -133,7 +118,7 @@ namespace WebMaze.Services
                         {
                             for (int i = 0; i < shipSize; i++)
                             {
-                                var cell = new SeaBattleCell()
+                                var cell = new SeaBattleMyCell()
                                 {
                                     X = startSpawnX - i,
                                     Y = startSpawnY,
@@ -165,7 +150,7 @@ namespace WebMaze.Services
                         {
                             for (int i = 0; i < shipSize; i++)
                             {
-                                var cell = new SeaBattleCell()
+                                var cell = new SeaBattleMyCell()
                                 {
                                     X = startSpawnX + i,
                                     Y = startSpawnY,
@@ -197,7 +182,7 @@ namespace WebMaze.Services
                         {
                             for (int i = 0; i < shipSize; i++)
                             {
-                                var cell = new SeaBattleCell()
+                                var cell = new SeaBattleMyCell()
                                 {
                                     X = startSpawnX,
                                     Y = startSpawnY - i,
@@ -228,7 +213,7 @@ namespace WebMaze.Services
                         {
                             for (int i = 0; i < shipSize; i++)
                             {
-                                var cell = new SeaBattleCell()
+                                var cell = new SeaBattleMyCell()
                                 {
                                     X = startSpawnX,
                                     Y = startSpawnY + i,
@@ -258,7 +243,7 @@ namespace WebMaze.Services
             return true;
         }
 
-        private void FillEmptyCells(SeaBattleField field, SeaBattleDifficult difficult)
+        private void FillEmptyMyCells(SeaBattleMyField field, SeaBattleDifficult difficult)
         {
             for (int y = 0; y < difficult.Height; y++)
             {
@@ -266,20 +251,247 @@ namespace WebMaze.Services
                 {
                     if (!field.Cells.Where(cell => cell.X == x && cell.Y == y).Any())
                     {
-                        var cell = new SeaBattleCell()
+                        var cell = new SeaBattleMyCell()
                         {
                             X = x,
                             Y = y,
                             ShipLength = 0,
                             ShipHere = false,
-                            Hit = false,
-                            IsActive = true
+                            Hit = false
                         };
                         field.Cells.Add(cell);
                     }
                 }
             }
         }
+
+        public SeaBattleEnemyField BuildEnemyField(SeaBattleDifficult difficult)
+        {
+            var field = new SeaBattleEnemyField()
+            {
+                Width = difficult.Width,
+                Height = difficult.Height,
+                Cells = new List<SeaBattleEnemyCell>()
+            };
+
+            //for (int i = (int)ShipSize.Two; i <= (int)ShipSize.Four; i++)
+            for (int i = 2; i <= 4; i++)
+            {
+                int attempt = 0;
+                while (true)
+                {
+                    if (GenerateEnemyShips(field, difficult, i))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        attempt++;
+                    }
+
+                    if (attempt >= 5)
+                    {
+                        return null;
+                    }
+                }
+            }
+
+            FillEmptyEnemyCells(field, difficult);
+
+            return field;
+        }
+
+        private bool GenerateEnemyShips(SeaBattleEnemyField field, SeaBattleDifficult difficult, int shipSize)
+        {
+            int startSpawnY;
+            int startSpawnX;
+            int ships;
+
+            switch (shipSize)
+            {
+                case 2:
+                    ships = difficult.TwoSizeShip;
+                    break;
+                case 3:
+                    ships = difficult.ThreeSizeShip;
+                    break;
+                case 4:
+                    ships = difficult.FourSizeShip;
+                    break;
+                default:
+                    ships = 0;
+                    break;
+            }
+
+            var tryCount = 0;
+            while (ships > 0)
+            {
+                // 1 - left 2 - right 3 - up 4 - down
+                var direction = _random.Next(1, 5);
+
+                switch (direction)
+                {
+                    case 1:
+                        startSpawnY = _random.Next(difficult.Height);
+                        startSpawnX = _random.Next(shipSize - 1, difficult.Width);
+
+                        if (!field.Cells
+                            .Where(x => startSpawnX - x.X >= -1
+                                        && startSpawnX - x.X <= 4
+                                        && Math.Abs(x.Y - startSpawnY) <= 1
+                                        && x.ShipHere)
+                            .ToList()
+                            .Any())
+                        {
+                            for (int i = 0; i < shipSize; i++)
+                            {
+                                var cell = new SeaBattleEnemyCell()
+                                {
+                                    X = startSpawnX - i,
+                                    Y = startSpawnY,
+                                    ShipLength = shipSize,
+                                    ShipHere = true,
+                                    Hit = false
+                                };
+                                field.Cells.Add(cell);
+                            }
+                            ships--;
+                        }
+                        else
+                        {
+                            tryCount++;
+                        }
+
+                        break;
+                    case 2:
+                        startSpawnY = _random.Next(difficult.Height);
+                        startSpawnX = _random.Next(difficult.Width - (shipSize - 1));
+
+                        if (!field.Cells
+                            .Where(x => x.X - startSpawnX >= -1
+                                        && x.X - startSpawnX <= 4
+                                        && Math.Abs(x.Y - startSpawnY) <= 1
+                                        && x.ShipHere)
+                            .ToList()
+                            .Any())
+                        {
+                            for (int i = 0; i < shipSize; i++)
+                            {
+                                var cell = new SeaBattleEnemyCell()
+                                {
+                                    X = startSpawnX + i,
+                                    Y = startSpawnY,
+                                    ShipLength = shipSize,
+                                    ShipHere = true,
+                                    Hit = false
+                                };
+                                field.Cells.Add(cell);
+                            }
+                            ships--;
+                        }
+                        else
+                        {
+                            tryCount++;
+                        }
+
+                        break;
+                    case 3:
+                        startSpawnY = _random.Next(shipSize - 1, difficult.Height);
+                        startSpawnX = _random.Next(difficult.Width);
+
+                        if (!field.Cells
+                            .Where(x => Math.Abs(x.X - startSpawnX) <= 1
+                                        && startSpawnY - x.Y >= -1
+                                        && startSpawnY - x.Y <= 4
+                                        && x.ShipHere)
+                            .ToList()
+                            .Any())
+                        {
+                            for (int i = 0; i < shipSize; i++)
+                            {
+                                var cell = new SeaBattleEnemyCell()
+                                {
+                                    X = startSpawnX,
+                                    Y = startSpawnY - i,
+                                    ShipLength = shipSize,
+                                    ShipHere = true,
+                                    Hit = false
+                                };
+                                field.Cells.Add(cell);
+                            }
+                            ships--;
+                        }
+                        else
+                        {
+                            tryCount++;
+                        }
+                        break;
+                    case 4:
+                        startSpawnY = _random.Next(difficult.Height - (shipSize - 1));
+                        startSpawnX = _random.Next(difficult.Width);
+
+                        if (!field.Cells
+                            .Where(x => Math.Abs(x.X - startSpawnX) <= 1
+                                        && x.Y - startSpawnY >= -1
+                                        && x.Y - startSpawnY <= 4
+                                        && x.ShipHere)
+                            .ToList()
+                            .Any())
+                        {
+                            for (int i = 0; i < shipSize; i++)
+                            {
+                                var cell = new SeaBattleEnemyCell()
+                                {
+                                    X = startSpawnX,
+                                    Y = startSpawnY + i,
+                                    ShipLength = shipSize,
+                                    ShipHere = true,
+                                    Hit = false
+                                };
+                                field.Cells.Add(cell);
+                            }
+                            ships--;
+                        }
+                        else
+                        {
+                            tryCount++;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                if (tryCount >= 1000)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void FillEmptyEnemyCells(SeaBattleEnemyField field, SeaBattleDifficult difficult)
+        {
+            for (int y = 0; y < difficult.Height; y++)
+            {
+                for (int x = 0; x < difficult.Width; x++)
+                {
+                    if (!field.Cells.Where(cell => cell.X == x && cell.Y == y).Any())
+                    {
+                        var cell = new SeaBattleEnemyCell()
+                        {
+                            X = x,
+                            Y = y,
+                            ShipLength = 0,
+                            ShipHere = false,
+                            Hit = false
+                        };
+                        field.Cells.Add(cell);
+                    }
+                }
+            }
+        }
+
 
     }
 }

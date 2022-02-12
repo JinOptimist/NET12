@@ -14,22 +14,36 @@ namespace WebMaze.Controllers
 {
     public class SeaBattleController : Controller
     {
+        private Random _random = new Random();
         private IMapper _mapper;
         private SeaBattleService _seaBattleService;
         private SeaBattleDifficultRepository _seaBattleDifficultRepository;
         private SeaBattleGameRepository _seaBattleGameRepository;
-        private SeaBattleFieldRepository _seaBattleFieldRepository;
+        private UserService _userService;
+        private SeaBattleEnemyCellRepository _seaBattleEnemyCellRepository;
+        private SeaBattleMyFieldRepository _seaBattleMyFieldRepository;
+        private SeaBattleMyCellRepository _seaBattleMyCellRepository;
+        private SeaBattleEnemyFieldRepository _seaBattleEnemyFieldRepository;
+
         public SeaBattleController(IMapper mapper,
                                     SeaBattleService seaBattleService,
                                     SeaBattleDifficultRepository seaBattleDifficultRepository,
                                     SeaBattleGameRepository seaBattleGameRepository,
-                                    SeaBattleFieldRepository seaBattleFieldRepository)
+                                    UserService userService,
+                                    SeaBattleEnemyCellRepository seaBattleEnemyCellRepository,
+                                    SeaBattleMyCellRepository seaBattleMyCellRepository,
+                                    SeaBattleMyFieldRepository seaBattleMyFieldRepository, 
+                                    SeaBattleEnemyFieldRepository seaBattleEnemyFieldRepository)
         {
             _mapper = mapper;
             _seaBattleService = seaBattleService;
             _seaBattleDifficultRepository = seaBattleDifficultRepository;
             _seaBattleGameRepository = seaBattleGameRepository;
-            _seaBattleFieldRepository = seaBattleFieldRepository;
+            _userService = userService;
+            _seaBattleEnemyCellRepository = seaBattleEnemyCellRepository;
+            _seaBattleMyCellRepository = seaBattleMyCellRepository;
+            _seaBattleMyFieldRepository = seaBattleMyFieldRepository;
+            _seaBattleEnemyFieldRepository = seaBattleEnemyFieldRepository;
         }
 
         public IActionResult Index()
@@ -49,15 +63,24 @@ namespace WebMaze.Controllers
                 ThreeSizeShip = 3,
                 TwoSizeShip = 4
             };
+            var user = _userService.GetCurrentUser();
 
-            var game = _seaBattleService.CreateGame(difficult);
+            var game = new SeaBattleGame();
 
-            if (game == null)
+            if (user.SeaBattleGame == null)
             {
-                return RedirectToAction("BoringError", "Home");
-            }
-            _seaBattleGameRepository.Save(game);
+                game = _seaBattleService.CreateGame(difficult);
 
+                if (game == null)
+                {
+                    return RedirectToAction("BoringError", "Home");
+                }
+                _seaBattleGameRepository.Save(game);
+            }
+            else
+            {
+                game = user.SeaBattleGame;
+            }
 
             return RedirectToAction("Game", new { id = game.Id });
         }
@@ -68,22 +91,56 @@ namespace WebMaze.Controllers
 
             var gameViewModel = _mapper.Map<SeaBattleGameViewModel>(game);
 
+            foreach (var cell in gameViewModel.EnemyField.Cells)
+            {
+                if (cell.ShipHere && !cell.Hit)
+                {
+                    cell.ShipHere = false;
+                }
+            }
+
             return View(gameViewModel);
         }
 
-        //public IActionResult ClickOnCell(long id)
-        //{
-        //    var enemyCell = _seaBattleEnemyCellRepository.Get(id);
-        //    var enemyField = enemyCell.Field;
+        public IActionResult ClickOnCell(long id)
+        {
+            var enemyCell = _seaBattleEnemyCellRepository.Get(id);
+            enemyCell.Hit = true;
+            _seaBattleEnemyCellRepository.Save(enemyCell);
 
-        //    if (enemyCell.ShipHere)
-        //    {
-        //        enemyCell.Hit = true;
-        //    }
-        //    _seaBattleEnemyCellRepository.Save(enemyCell);
+            var enemyField = enemyCell.Field;
+            if (enemyField.Cells.Where(x=> x.ShipHere).Count() == enemyField.Cells.Where(x => x.ShipHere && x.Hit).Count())
+            {
+                _seaBattleGameRepository.Remove(enemyField.Game.Id);
+                return RedirectToAction("Index");
+                return RedirectToAction("WinGame");
+            }
 
-        //    return RedirectToAction("Game", new { id = _userService.GetCurrentUser().SeaBattleGame.Id });
-        //}
+            var myFieldId = enemyCell.Field.Game.MyField.Id;
+            var myField = _seaBattleMyFieldRepository.Get(myFieldId);
+
+
+            var cell = new SeaBattleMyCell();
+            do
+            {
+                var hitX = _random.Next(myField.Width);
+                var hitY = _random.Next(myField.Height);
+
+                cell = myField.Cells.Where(x => !x.Hit && x.X == hitX && x.Y == hitY).SingleOrDefault();
+            }
+            while (cell == null);
+
+            cell.Hit = true;
+            _seaBattleMyCellRepository.Save(cell);
+
+
+            if (myField.Cells.Where(x => x.ShipHere).Count() == myField.Cells.Where(x => x.ShipHere && x.Hit).Count())
+            {
+                return RedirectToAction("LoseGame");
+            }
+
+            return RedirectToAction("Game", new { id = _userService.GetCurrentUser().SeaBattleGame.Id });
+        }
 
     }
 }

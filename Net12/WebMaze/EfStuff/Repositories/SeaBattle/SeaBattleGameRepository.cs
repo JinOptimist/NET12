@@ -11,5 +11,11 @@ namespace WebMaze.EfStuff.Repositories.SeaBattle
         public SeaBattleGameRepository(WebContext webContext) : base(webContext)
         {
         }
+
+        public override void Remove(SeaBattleGame model)
+        {
+            _dbSet.Remove(model);
+            _webContext.SaveChanges();
+        }
     }
 }
