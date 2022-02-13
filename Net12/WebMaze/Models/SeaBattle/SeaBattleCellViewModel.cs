@@ -8,9 +8,6 @@
         public int ShipLength { get; set; }
         public bool ShipHere { get; set; }
         public bool Hit { get; set; }
-        public int Direction { get; set; }
-        public int SpawnNumber { get; set; }
-
-
+        public int ShipNumber { get; set; }
     }
 }

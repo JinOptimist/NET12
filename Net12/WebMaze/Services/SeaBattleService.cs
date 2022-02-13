@@ -11,11 +11,18 @@ namespace WebMaze.Services
     public class SeaBattleService
     {
         private UserService _userService;
+        private SeaBattleEnemyCellRepository _seaBattleEnemyCellRepository;
+        private SeaBattleMyCellRepository _seaBattleMyCellRepository;
         private Random _random = new Random();
+        private int shipNumber;
 
-        public SeaBattleService(UserService userService)
+        public SeaBattleService(UserService userService, 
+                                SeaBattleEnemyCellRepository seaBattleEnemyCellRepository, 
+                                SeaBattleMyCellRepository seaBattleMyCellRepository)
         {
             _userService = userService;
+            _seaBattleEnemyCellRepository = seaBattleEnemyCellRepository;
+            _seaBattleMyCellRepository = seaBattleMyCellRepository;
         }
 
         public SeaBattleGame CreateGame(SeaBattleDifficult difficult)
@@ -47,8 +54,9 @@ namespace WebMaze.Services
                 Cells = new List<SeaBattleMyCell>()
             };
 
+            shipNumber = 1;
             //for (int i = (int)ShipSize.Two; i <= (int)ShipSize.Four; i++)
-            for (int i = 2; i <= 4; i++)
+            for (int i = 4; i >= 2; i--)
             {
                 int attempt = 0;
                 while (true)
@@ -68,8 +76,26 @@ namespace WebMaze.Services
                     }
                 }
             }
+            field.ShipCount = shipNumber;
 
-            FillEmptyMyCells(field, difficult);
+            for (int y = 0; y < difficult.Height; y++)
+            {
+                for (int x = 0; x < difficult.Width; x++)
+                {
+                    if (!field.Cells.Where(cell => cell.X == x && cell.Y == y).Any())
+                    {
+                        var cell = new SeaBattleMyCell()
+                        {
+                            X = x,
+                            Y = y,
+                            ShipLength = 0,
+                            ShipHere = false,
+                            Hit = false
+                        };
+                        field.Cells.Add(cell);
+                    }
+                }
+            }
 
             return field;
         }
@@ -124,11 +150,14 @@ namespace WebMaze.Services
                                     Y = startSpawnY,
                                     ShipLength = shipSize,
                                     ShipHere = true,
-                                    Hit = false
+                                    Hit = false,
+                                    ShipNumber = shipNumber,
+                                    ShipDirection = direction
                                 };
                                 field.Cells.Add(cell);
                             }
                             ships--;
+                            shipNumber++;
                         }
                         else
                         {
@@ -156,11 +185,14 @@ namespace WebMaze.Services
                                     Y = startSpawnY,
                                     ShipLength = shipSize,
                                     ShipHere = true,
-                                    Hit = false
+                                    Hit = false,
+                                    ShipNumber = shipNumber,
+                                    ShipDirection = direction
                                 };
                                 field.Cells.Add(cell);
                             }
                             ships--;
+                            shipNumber++;
                         }
                         else
                         {
@@ -188,11 +220,14 @@ namespace WebMaze.Services
                                     Y = startSpawnY - i,
                                     ShipLength = shipSize,
                                     ShipHere = true,
-                                    Hit = false
+                                    Hit = false,
+                                    ShipNumber = shipNumber,
+                                    ShipDirection = direction
                                 };
                                 field.Cells.Add(cell);
                             }
                             ships--;
+                            shipNumber++;
                         }
                         else
                         {
@@ -219,11 +254,14 @@ namespace WebMaze.Services
                                     Y = startSpawnY + i,
                                     ShipLength = shipSize,
                                     ShipHere = true,
-                                    Hit = false
+                                    Hit = false,
+                                    ShipNumber = shipNumber,
+                                    ShipDirection = direction
                                 };
                                 field.Cells.Add(cell);
                             }
                             ships--;
+                            shipNumber++;
                         }
                         else
                         {
@@ -243,28 +281,6 @@ namespace WebMaze.Services
             return true;
         }
 
-        private void FillEmptyMyCells(SeaBattleMyField field, SeaBattleDifficult difficult)
-        {
-            for (int y = 0; y < difficult.Height; y++)
-            {
-                for (int x = 0; x < difficult.Width; x++)
-                {
-                    if (!field.Cells.Where(cell => cell.X == x && cell.Y == y).Any())
-                    {
-                        var cell = new SeaBattleMyCell()
-                        {
-                            X = x,
-                            Y = y,
-                            ShipLength = 0,
-                            ShipHere = false,
-                            Hit = false
-                        };
-                        field.Cells.Add(cell);
-                    }
-                }
-            }
-        }
-
         public SeaBattleEnemyField BuildEnemyField(SeaBattleDifficult difficult)
         {
             var field = new SeaBattleEnemyField()
@@ -274,6 +290,7 @@ namespace WebMaze.Services
                 Cells = new List<SeaBattleEnemyCell>()
             };
 
+            shipNumber = 1;
             //for (int i = (int)ShipSize.Two; i <= (int)ShipSize.Four; i++)
             for (int i = 2; i <= 4; i++)
             {
@@ -296,7 +313,26 @@ namespace WebMaze.Services
                 }
             }
 
-            FillEmptyEnemyCells(field, difficult);
+            field.ShipCount = shipNumber;
+
+            for (int y = 0; y < difficult.Height; y++)
+            {
+                for (int x = 0; x < difficult.Width; x++)
+                {
+                    if (!field.Cells.Where(cell => cell.X == x && cell.Y == y).Any())
+                    {
+                        var cell = new SeaBattleEnemyCell()
+                        {
+                            X = x,
+                            Y = y,
+                            ShipLength = 0,
+                            ShipHere = false,
+                            Hit = false
+                        };
+                        field.Cells.Add(cell);
+                    }
+                }
+            }
 
             return field;
         }
@@ -351,11 +387,14 @@ namespace WebMaze.Services
                                     Y = startSpawnY,
                                     ShipLength = shipSize,
                                     ShipHere = true,
-                                    Hit = false
+                                    Hit = false,
+                                    ShipNumber = shipNumber,
+                                    ShipDirection = direction
                                 };
                                 field.Cells.Add(cell);
                             }
                             ships--;
+                            shipNumber++;
                         }
                         else
                         {
@@ -383,11 +422,14 @@ namespace WebMaze.Services
                                     Y = startSpawnY,
                                     ShipLength = shipSize,
                                     ShipHere = true,
-                                    Hit = false
+                                    Hit = false,
+                                    ShipNumber = shipNumber,
+                                    ShipDirection = direction
                                 };
                                 field.Cells.Add(cell);
                             }
                             ships--;
+                            shipNumber++;
                         }
                         else
                         {
@@ -415,11 +457,14 @@ namespace WebMaze.Services
                                     Y = startSpawnY - i,
                                     ShipLength = shipSize,
                                     ShipHere = true,
-                                    Hit = false
+                                    Hit = false,
+                                    ShipNumber = shipNumber,
+                                    ShipDirection = direction
                                 };
                                 field.Cells.Add(cell);
                             }
                             ships--;
+                            shipNumber++;
                         }
                         else
                         {
@@ -446,11 +491,14 @@ namespace WebMaze.Services
                                     Y = startSpawnY + i,
                                     ShipLength = shipSize,
                                     ShipHere = true,
-                                    Hit = false
+                                    Hit = false,
+                                    ShipNumber = shipNumber,
+                                    ShipDirection = direction
                                 };
                                 field.Cells.Add(cell);
                             }
                             ships--;
+                            shipNumber++;
                         }
                         else
                         {
@@ -470,28 +518,75 @@ namespace WebMaze.Services
             return true;
         }
 
-        private void FillEmptyEnemyCells(SeaBattleEnemyField field, SeaBattleDifficult difficult)
+        public void FillNearKilledEnemyShips(SeaBattleEnemyField enemyField)
         {
-            for (int y = 0; y < difficult.Height; y++)
+
+            for (int i = 1; i < enemyField.ShipCount; i++)
             {
-                for (int x = 0; x < difficult.Width; x++)
+                var ship = enemyField.Cells.Where(x => x.ShipNumber == i).ToList();
+                var shipLenght = ship.First().ShipLength;
+
+                if (shipLenght == ship.Where(x => x.Hit).Count())
                 {
-                    if (!field.Cells.Where(cell => cell.X == x && cell.Y == y).Any())
+                    var hitNearShip = new List<SeaBattleEnemyCell>();
+
+                    foreach (var cellShip in ship)
                     {
-                        var cell = new SeaBattleEnemyCell()
+                        var baseNear = enemyField.Cells
+                            .Where(cell =>
+                                    (Math.Abs(cell.X - cellShip.X) <= 1 && Math.Abs(cell.Y - cellShip.Y) <= 1
+                                    && !cell.ShipHere))
+                            .ToList();
+
+                        hitNearShip = hitNearShip.Union(baseNear).ToList();
+                    }
+
+                    foreach (var cellHit in hitNearShip)
+                    {
+                        if (!cellHit.Hit)
                         {
-                            X = x,
-                            Y = y,
-                            ShipLength = 0,
-                            ShipHere = false,
-                            Hit = false
-                        };
-                        field.Cells.Add(cell);
+                            cellHit.Hit = true;
+                            _seaBattleEnemyCellRepository.Save(cellHit);
+                        }
                     }
                 }
             }
         }
 
+        public void FillNearKilledMyShips(SeaBattleMyField myField)
+        {
+
+            for (int i = 1; i < myField.ShipCount; i++)
+            {
+                var ship = myField.Cells.Where(x => x.ShipNumber == i).ToList();
+                var shipLenght = ship.First().ShipLength;
+
+                if (shipLenght == ship.Where(x => x.Hit).Count())
+                {
+                    var hitNearShip = new List<SeaBattleMyCell>();
+
+                    foreach (var cellShip in ship)
+                    {
+                        var baseNear = myField.Cells
+                            .Where(cell =>
+                                    (Math.Abs(cell.X - cellShip.X) <= 1 && Math.Abs(cell.Y - cellShip.Y) <= 1
+                                    && !cell.ShipHere))
+                            .ToList();
+
+                        hitNearShip = hitNearShip.Union(baseNear).ToList();
+                    }
+
+                    foreach (var cellHit in hitNearShip)
+                    {
+                        if (!cellHit.Hit)
+                        {
+                            cellHit.Hit = true;
+                            _seaBattleMyCellRepository.Save(cellHit);
+                        }
+                    }
+                }
+            }
+        }
 
     }
 }

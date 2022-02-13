@@ -32,7 +32,7 @@ namespace WebMaze.Controllers
                                     UserService userService,
                                     SeaBattleEnemyCellRepository seaBattleEnemyCellRepository,
                                     SeaBattleMyCellRepository seaBattleMyCellRepository,
-                                    SeaBattleMyFieldRepository seaBattleMyFieldRepository, 
+                                    SeaBattleMyFieldRepository seaBattleMyFieldRepository,
                                     SeaBattleEnemyFieldRepository seaBattleEnemyFieldRepository)
         {
             _mapper = mapper;
@@ -109,18 +109,19 @@ namespace WebMaze.Controllers
             _seaBattleEnemyCellRepository.Save(enemyCell);
 
             var enemyField = enemyCell.Field;
-            if (enemyField.Cells.Where(x=> x.ShipHere).Count() == enemyField.Cells.Where(x => x.ShipHere && x.Hit).Count())
+            if (!enemyField.Cells.Where(x => x.ShipHere && !x.Hit).Any())
             {
                 _seaBattleGameRepository.Remove(enemyField.Game.Id);
                 return RedirectToAction("Index");
                 return RedirectToAction("WinGame");
             }
 
+            _seaBattleService.FillNearKilledEnemyShips(enemyField);
+
             var myFieldId = enemyCell.Field.Game.MyField.Id;
             var myField = _seaBattleMyFieldRepository.Get(myFieldId);
-
-
             var cell = new SeaBattleMyCell();
+
             do
             {
                 var hitX = _random.Next(myField.Width);
@@ -133,13 +134,20 @@ namespace WebMaze.Controllers
             cell.Hit = true;
             _seaBattleMyCellRepository.Save(cell);
 
-
-            if (myField.Cells.Where(x => x.ShipHere).Count() == myField.Cells.Where(x => x.ShipHere && x.Hit).Count())
+            if (!myField.Cells.Where(x => x.ShipHere && !x.Hit).Any())
             {
                 return RedirectToAction("LoseGame");
             }
 
+            _seaBattleService.FillNearKilledMyShips(myField);
+
             return RedirectToAction("Game", new { id = _userService.GetCurrentUser().SeaBattleGame.Id });
+        }
+
+        public IActionResult Remove()
+        {
+            _seaBattleGameRepository.Remove(_userService.GetCurrentUser().SeaBattleGame);
+            return RedirectToAction("Index");
         }
 
     }

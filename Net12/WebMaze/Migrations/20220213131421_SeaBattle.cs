@@ -59,10 +59,11 @@ namespace WebMaze.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Width = table.Column<int>(type: "int", nullable: false),
                     Height = table.Column<int>(type: "int", nullable: false),
                     GameId = table.Column<long>(type: "bigint", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    ShipCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,10 +82,12 @@ namespace WebMaze.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    LastHitToShip = table.Column<long>(type: "bigint", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Width = table.Column<int>(type: "int", nullable: false),
                     Height = table.Column<int>(type: "int", nullable: false),
                     GameId = table.Column<long>(type: "bigint", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    ShipCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,13 +106,15 @@ namespace WebMaze.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    FieldId = table.Column<long>(type: "bigint", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     X = table.Column<int>(type: "int", nullable: false),
                     Y = table.Column<int>(type: "int", nullable: false),
-                    ShipLength = table.Column<int>(type: "int", nullable: false),
                     ShipHere = table.Column<bool>(type: "bit", nullable: false),
                     Hit = table.Column<bool>(type: "bit", nullable: false),
-                    FieldId = table.Column<long>(type: "bigint", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    ShipLength = table.Column<int>(type: "int", nullable: false),
+                    ShipNumber = table.Column<int>(type: "int", nullable: false),
+                    ShipDirection = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,13 +133,15 @@ namespace WebMaze.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    FieldId = table.Column<long>(type: "bigint", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     X = table.Column<int>(type: "int", nullable: false),
                     Y = table.Column<int>(type: "int", nullable: false),
-                    ShipLength = table.Column<int>(type: "int", nullable: false),
                     ShipHere = table.Column<bool>(type: "bit", nullable: false),
                     Hit = table.Column<bool>(type: "bit", nullable: false),
-                    FieldId = table.Column<long>(type: "bigint", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    ShipLength = table.Column<int>(type: "int", nullable: false),
+                    ShipNumber = table.Column<int>(type: "int", nullable: false),
+                    ShipDirection = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

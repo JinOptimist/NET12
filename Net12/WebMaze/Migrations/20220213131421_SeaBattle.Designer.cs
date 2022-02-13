@@ -10,7 +10,7 @@ using WebMaze.EfStuff;
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    [Migration("20220212154842_SeaBattle")]
+    [Migration("20220213131421_SeaBattle")]
     partial class SeaBattle
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -707,10 +707,16 @@ namespace WebMaze.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int>("ShipDirection")
+                        .HasColumnType("int");
+
                     b.Property<bool>("ShipHere")
                         .HasColumnType("bit");
 
                     b.Property<int>("ShipLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShipNumber")
                         .HasColumnType("int");
 
                     b.Property<int>("X")
@@ -741,6 +747,9 @@ namespace WebMaze.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<int>("ShipCount")
+                        .HasColumnType("int");
 
                     b.Property<int>("Width")
                         .HasColumnType("int");
@@ -796,10 +805,16 @@ namespace WebMaze.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int>("ShipDirection")
+                        .HasColumnType("int");
+
                     b.Property<bool>("ShipHere")
                         .HasColumnType("bit");
 
                     b.Property<int>("ShipLength")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShipNumber")
                         .HasColumnType("int");
 
                     b.Property<int>("X")
@@ -830,6 +845,12 @@ namespace WebMaze.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<long>("LastHitToShip")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("ShipCount")
+                        .HasColumnType("int");
 
                     b.Property<int>("Width")
                         .HasColumnType("int");

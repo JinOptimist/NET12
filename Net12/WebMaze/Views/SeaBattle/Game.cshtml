@@ -3,6 +3,7 @@
 <div class="big-center-font">
     <a href="/SeaBattle/NewGame">Test</a>
     <p>1 - left 2 - right 3 - up 4 - down</p>
+    <a href="/SeaBattle/Remove">Remove</a>
 </div>
 
 <div class="seabattle-game">
@@ -18,12 +19,12 @@
                     {
                         if (cell.Hit)
                         {
-                            <span class="seabattle-damadge-ship-cell">
+                            <span class="seabattle-damadge-ship-cell" shipNumber =@cell.ShipNumber>
                             </span>
                         }
                         else
                         {
-                            <span class="seabattle-normal-ship-cell">
+                            <span class="seabattle-normal-ship-cell" shipNumber =@cell.ShipNumber>
                             </span>
                         }
                     }
@@ -56,7 +57,7 @@
                     {
                         if (cell.Hit)
                         {
-                            <span class="seabattle-damadge-ship-cell">
+                            <span class="seabattle-damadge-ship-cell" shipNumber =@cell.ShipNumber>
                             </span>
                         }
                         else
