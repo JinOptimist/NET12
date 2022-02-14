@@ -1,10 +1,13 @@
 ﻿$(document).ready(function () {
+    $('.good-button').click(function (evt) {
+        evt.preventDefault();
 
-    /*alert('testing');*/
-    $.post('/Gallery/Wonderful')
-        .done(function (reward) {
-            alert('testing');
-});
+        let temp = $(this).attr('data-id');
+        console.log(temp);
 
-
+        $.ajax({
+            url: '/Gallery/Wonderful',
+            data: { imageId: temp }
+        })
+    });
 });
