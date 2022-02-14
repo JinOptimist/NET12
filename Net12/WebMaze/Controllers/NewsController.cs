@@ -14,7 +14,6 @@ using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
-using WebMaze.EfStuff.Repositories.Enums;
 using WebMaze.Models;
 using WebMaze.Models.Enums;
 using WebMaze.Services;

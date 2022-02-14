@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
-using WebMaze.EfStuff.Repositories.Enums;
 
 namespace WebMaze.EfStuff.Repositories
 {
