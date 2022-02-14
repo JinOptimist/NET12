@@ -2,12 +2,9 @@
     $('.good-button').click(function (evt) {
         evt.preventDefault();
 
-        let temp = $(this).attr('data-id');
-        console.log(temp);
-
         $.ajax({
             url: '/Gallery/Wonderful',
-            data: { imageId: temp }
+            data: { imageId: $(this).attr('data-id')}
         })
     });
 });

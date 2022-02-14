@@ -24,13 +24,10 @@
                     </div>
                     @if (User.Identity.IsAuthenticated)
                     {
-                    <div>
-                        @*<a href="@Url.Action("Index","Gallery", new {@imageId = image.Id})" class="good-button">Wonderful</a>*@
-                        @*@Ajax.ActionLink("Update", "SomeAction", new AjaxOptions { UpdateTargetId = "target-element" })*@
-                        
-                        <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" data-id="@image.Id" class="good-button">Wonderful</a>
-                        <button class="bad-button">Awful</button>
-                    </div>
+                        <div>                        
+                            <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" data-id="@image.Id" class="good-button">Wonderful</a>
+                            <button class="bad-button">Awful</button>
+                        </div>
                     }
 
                 </div>

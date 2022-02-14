@@ -108,7 +108,6 @@ namespace WebMaze.Controllers
             var image = _repository.Get(imageId);
             _payForActionService.CreatorEarnMoney(image.Author.Id, reward);
 
-            /*return Json(reward);*/
             return RedirectToAction("Index", "Gallery");
         }
     }
