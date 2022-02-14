@@ -21,12 +21,12 @@
         <table class="table table-bordered">
             <thead>
                 <tr class="align-content-md-center">
-                    <th scope="col">@News.Title</th>
-                    <th scope="col">@News.Text</th>
-                    <th scope="col">@News.Location</th>
-                    <th scope="col">@News.Date_of_event</th>
-                    <th scope="col">@News.Author</th>
-                    <th scope="col">@News.Date_of_creation</th>
+                    <th scope="col"><a href="/News/Index?page=&perPage=&typeSorted=Title">@News.Title</a></th>
+                    <th scope="col"><a href="/News/Index?page=&perPage=&typeSorted=Text">@News.Text</a></th>
+                    <th scope="col"><a href="/News/Index?page=&perPage=&typeSorted=Location">@News.Location</th>
+                    <th scope="col"><a href="/News/Index?page=&perPage=&typeSorted=EventDate">@News.Date_of_event</a></th>
+                    <th scope="col"><a href="/News/Index?page=&perPage=&typeSorted=Author.Name">@News.Author</a></th>
+                    <th scope="col"><a href="/News/Index?page=&perPage=&typeSorted=CreationDate">@News.Date_of_creation</a></th>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <th scope="col">@News.Assessment</th>

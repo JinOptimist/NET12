@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
 
@@ -70,5 +71,24 @@ namespace WebMaze.EfStuff.Repositories
             .Skip((page -1) * perPage)
             .Take(perPage)
             .ToList();
+
+        public virtual List<Template> GetSortedNews(string columnName)
+        {
+            var table = Expression.Parameter(typeof(Template), "obj");
+            var ListOfProperty = columnName.Split(".");
+            var member = Expression.Property(table, ListOfProperty[0]);
+            var size = ListOfProperty.Length;
+            for (int i = 1; size > 1; i++)
+            {
+                var item = ListOfProperty[i];
+                var next = Expression.Property(member, item);
+                member = next;
+                size--;
+            }
+            var condition = Expression.Lambda<Func<Template, object>>(Expression.Convert(member, typeof(object)), table);
+            return _dbSet.OrderBy(condition).ToList();
+        }
     }
+
+  
 }

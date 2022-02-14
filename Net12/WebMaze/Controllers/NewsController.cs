@@ -14,6 +14,7 @@ using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
+using WebMaze.EfStuff.Repositories.Enums;
 using WebMaze.Models;
 using WebMaze.Models.Enums;
 using WebMaze.Services;
@@ -44,11 +45,11 @@ namespace WebMaze.Controllers
             _chatHub = chatHub;
         }
 
-        public IActionResult Index(int page = 1, int perPage = 13)
+        public IActionResult Index(int page = 1, int perPage = 13, string typeSorted = "CreationDate")
         {
             var newsViewModels = new List<NewsViewModel>();
             newsViewModels = _newsRepository
-                .GetForPagination(perPage, page)
+                .GetForPagination(perPage, page, typeSorted)
                 .Select(dbModel => _mapper.Map<NewsViewModel>(dbModel))
                 .ToList();
 
