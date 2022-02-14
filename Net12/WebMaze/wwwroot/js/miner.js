@@ -1,37 +1,18 @@
-﻿/*window.addEventListener('contextmenu', function (e) {
+﻿window.addEventListener('contextmenu', function (e) {
     e.preventDefault();
-}, false);*/
+}, false);
 
-let cells = [];
-let stillDown = false;
 let timerImages = ["/images/miner_buttons/number0.png", "/images/miner_buttons/number1.png", "/images/miner_buttons/number2.png", "/images/miner_buttons/number3.png", "/images/miner_buttons/number4.png", "/images/miner_buttons/number5.png", "/images/miner_buttons/number6.png", "/images/miner_buttons/number7.png", "/images/miner_buttons/number8.png", "/images/miner_buttons/number9.png"];
 let intervalId;
+let hundred = 1000;
 
 $(document).ready(function () {
 
     $(".pressClosed").on("click", openCell).on("contextmenu", setFlag);
 
-    /*$(".pressOpen")
-        .mousedown(function () {
-            $(".face.miner-elements")
-                .attr('src', '/images/miner_buttons/face_worry.png');
-
-            stillDown = true;
-        })
-        .mouseup(function () {
-            $(".face.miner-elements")
-                .attr('src', '/images/miner_buttons/face_smile.png');
-
-            updateImagesToCommon(cells);
-
-            stillDown = false;
-        });*/
-
     $(".pressOpen")
         .on("mousedown", pressNear)
-        //.on("click", OpenWithFlags)
-        //.on("mouseup", unpressNear)
-        .on("click", unpressNear)
+        .on("mouseup", unpressNear)
         .on("click", OpenWithFlags);
 
     $("a[href='/Miner/StartGame']").click(function () {
@@ -41,11 +22,11 @@ $(document).ready(function () {
         sessionStorage.removeItem('secHundreds');
     })
 
-    if (sessionStorage.getItem('isPlaying').localeCompare("true") == 0) {
+    if (sessionStorage.getItem('isPlaying') == "true") {
         timer();
         intervalId = setInterval(timer, 1000);
     }
-    else if (sessionStorage.getItem('isPlaying').localeCompare("false") == 0) {
+    else if (sessionStorage.getItem('isPlaying') == "false") {
         $(".miner-number3.miner-elements.miner-numbers").attr('src', timerImages[parseInt(sessionStorage.getItem('secHundreds'))]);
         $(".miner-number4.miner-elements.miner-numbers").attr('src', timerImages[parseInt(sessionStorage.getItem('secTens'))]);
         $(".miner-number5.miner-elements.miner-numbers").attr('src', timerImages[parseInt(sessionStorage.getItem('secUnits'))]);
@@ -53,18 +34,16 @@ $(document).ready(function () {
 
 });
 
-    //*******после проигрыша открыть все бомбы
-    //после выигрыша расставить флажки
-    //деньги юзеру при выигрыше
 
 function openCell() {
+    console.log('openCell');
     let data = {
         idCell: $(this).attr('id')
     };
     $.get('/Miner/Step', data, function (field) {
         updateField(field);
     });
-
+    
     if (sessionStorage.getItem('isPlaying') == null) {
 
         sessionStorage.setItem('secUnits', '0');
@@ -77,6 +56,7 @@ function openCell() {
 }
 
 function setFlag() {
+    console.log('setFlag');
     let cellId = $(this).attr('id');
     let data = {
         idCell: cellId
@@ -103,16 +83,19 @@ function setFlag() {
 }
 
 function updateField(field) {
+    console.log('updateField');
+    let cell;
     for (let y = 0; y < field.height; y++) {
         for (let x = 0; x < field.width; x++) {
-            let cell = field.cells.find(function (c) {
+            cell = field.cells.find(function (c) {
                 return c.x == x && c.y == y;
             });
+
+            $("#" + cell.id).off('click').off('mousedown').off('mouseup').off('contextmenu');
+
             if (cell.isOpen) {
                 $("#" + cell.id)
-                    .removeClass("pressClosed")
-                    .off('contextmenu')
-                    .off("click", openCell);
+                    .removeClass("pressClosed");
                 if (cell.firstOpenedBomb) {
                     $("#" + cell.id)
                         .attr('src', '/images/miner_buttons/red_bomb.png');
@@ -125,17 +108,14 @@ function updateField(field) {
                     let str = cell.nearBombsCount.toString();
                     let minerSource = "/images/miner_buttons/bomb_amount" + str + ".png";
                     if (field.isOver || field.isWon || cell.nearBombsCount == 0) {
-                        $("#" + cell.id)
-                            .off('click');
+                        
                     }
                     else {
                         $("#" + cell.id)
                             .addClass("pressOpen")
                             .on("mousedown", pressNear)
-                            //.on("mouseup", unpressNear)
-                            .on("click", unpressNear)
+                            .on("mouseup", unpressNear)
                             .on("click", OpenWithFlags);
-                            //.on("click", OpenWithFlags);
                     }
                     $("#" + cell.id)
                         .attr('src', minerSource)
@@ -145,15 +125,25 @@ function updateField(field) {
                 if (field.isOver && cell.isFlag && !cell.isBomb) {
                     $("#" + cell.id)
                         .removeClass("pressClosed")
-                        .off('contextmenu')
-                        .off('click')
                         .attr('src', '/images/miner_buttons/crossed_bomb.png');
                 }
                 else if (field.isOver || field.isWon) {
+                    if (cell.isFlag) {
+                        $("#" + cell.id).attr('src', '/images/miner_buttons/miner_flag.png');
+                    }
                     $("#" + cell.id)
-                        .removeClass("pressClosed")
-                        .off('contextmenu')
-                        .off('click');
+                        .removeClass("pressClosed");
+                }
+                else {
+                    if (cell.isFlag) {
+                        $("#" + cell.id)
+                            .on('contextmenu',setFlag);
+                    }
+                    else {
+                        $("#" + cell.id)
+                            .on('contextmenu', setFlag)
+                            .on('click', openCell);
+                    }
                 }
             }
 
@@ -162,6 +152,7 @@ function updateField(field) {
     }
 
     if (field.isOver || field.isWon) {
+        changeFlagsCount(cell.id);
         sessionStorage.setItem('isPlaying', 'false');
         clearInterval(intervalId);
     }
@@ -170,47 +161,63 @@ function updateField(field) {
         $(".face.miner-elements")
             .attr('src', '/images/miner_buttons/face_dead.png');
 
-        if ($(".miner-all").find(".won-and-over h1").length <= 0) {
-            $(".miner-all").prepend('<div class="won-and-over h1">Game</div>');
-            $(".miner-all").append('<div class="won-and-over h1">over!</div>');
-        }
+        $(".miner-all")
+            .prepend('<div class="you-lose">Good luck next time!</div >')
 
+        $(".miner-win-over-playspace")
+            .prepend('<div class="won-and-over h1">Game</div>');
+        $(".miner-win-over-playspace")
+            .append('<div class="won-and-over h1">over!</div>');
     }
     else if (field.isWon) {
+        let timeScore = hundred - parseInt(sessionStorage.getItem('secHundreds') + sessionStorage.getItem('secTens') + sessionStorage.getItem('secUnits'));
+        let data = {
+            score: timeScore
+        };
+        $.post('/Miner/GiveMoneyToUserForWinning', data);
 
         $(".face.miner-elements")
             .attr('src', '/images/miner_buttons/face_win.png');
 
-        if ($(".miner-all").find(".won-and-over h2").length <= 0) {
-            $(".miner-all").prepend('<div class="won-and-over h2">You</div>');
-            $(".miner-all").append('<div class="won-and-over h2">won!</div>');
-        }
+        $(".miner-all")
+            .prepend('<div class="you-won-money">You earned ' + timeScore + ' coins!</div >')
+
+        $(".miner-win-over-playspace")
+            .prepend('<div class="won-and-over h2">You</div>');
+        $(".miner-win-over-playspace")
+            .append('<div class="won-and-over h2">won!</div>');
     }
 }
 
 function pressNear() {
+    console.log('pressNear');
     let data = {
         idCell: $(this).attr('id')
     };
     $.get('/Miner/GetNearToPress', data, function (cellsFromServer) {
 
-        cells = cellsFromServer;
-        updateImagesToEmpty(cellsFromServer);
+        if (cellsFromServer != null)
+        {
+            updateImagesToEmpty(cellsFromServer);
+        }
     });
 }
 
 function unpressNear() {
+    console.log('unpressNear');
     let data = {
         idCell: $(this).attr('id')
     };
     $.get('/Miner/GetNearToPress', data, function (cellsFromServer) {
 
-        cells = cellsFromServer;
-        updateImagesToCommon(cellsFromServer);
+        if (cellsFromServer != null) {
+            updateImagesToCommon(cellsFromServer);
+        }
     });
 }
 
 function OpenWithFlags() {
+    console.log('openWithFlags');
     let data = {
         idCell: $(this).attr('id')
     };
@@ -223,29 +230,8 @@ function OpenWithFlags() {
     });
 }
 
-function pressNearOrOpenWithFlags() {
-        let data = {
-            idCell: $(this).attr('id')
-        };
-        $.get('/Miner/CheckFlagsAndNearBombsCount', data, function (answer) {
-            if (answer) {
-                $.get('/Miner/OpenNearWithFlags', data, function (field) {
-                    updateField(field);
-                })
-            } else {
-                $.get('/Miner/GetNearToPress', data, function (cellsFromServer) {
-
-                    cells = cellsFromServer;
-
-                    if (stillDown) {
-                        updateImagesToEmpty(cellsFromServer);
-                    }
-                });
-            }
-        });
-}
-
 function changeFlagsCount(cellId) {
+    console.log('changeFlagsCount');
     let data = {
         idCell: cellId
     };
@@ -275,7 +261,7 @@ function changeFlagsCount(cellId) {
 }
 
 function timer() {
-    
+    console.log('timer');
     let secUnits = parseInt(sessionStorage.getItem('secUnits'));
     let secTens = parseInt(sessionStorage.getItem('secTens'));
     let secHundreds = parseInt(sessionStorage.getItem('secHundreds'));
@@ -308,7 +294,6 @@ function timer() {
 }
 
 
-
 function updateImagesToEmpty(cells) {
     for (let i = 0; i < cells.length; i++) {
         $("#" + cells[i]).attr('src', '/images/miner_buttons/bomb_amount0.png');
@@ -320,3 +305,4 @@ function updateImagesToCommon(cells) {
         $("#" + cells[i]).attr('src', "/images/miner_buttons/miner_button.png");
     }
 }
+

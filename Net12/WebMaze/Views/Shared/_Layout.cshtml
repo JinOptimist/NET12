@@ -155,13 +155,14 @@
                     }
 
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Miner/StartGame">Miner</a>
-                    </li>
+
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
                             <a class="nav-link" href="/ZumaGame/Index">ZumaGame</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Miner/StartGame">Miner</a>
                         </li>
                     }
                     <li class="nav-item">
