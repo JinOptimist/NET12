@@ -46,6 +46,10 @@ namespace WebMaze.Controllers
 
         public IActionResult Index(int page = 1, int perPage = 13)
         {
+
+            var test = _newsRepository.GetAllSorted();
+
+
             var newsViewModels = new List<NewsViewModel>();
             newsViewModels = _newsRepository
                 .GetForPagination(perPage, page)

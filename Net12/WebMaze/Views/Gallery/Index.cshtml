@@ -1,34 +1,38 @@
 ﻿@model List<ImageViewModel>
 
+@section Scripts{
+    <script src="~/js/galleryAjax.js"></script>
+}
+
 <div class="whole-page">
 
-        <div class="text-center">
-            <h1>Users gallery</h1>
+    <div class="text-center">
+        <h1>Users gallery</h1>
 
-            <div class="pic-to-gallery">
-                @foreach (var image in Model)
-                {
+        <div class="pic-to-gallery">
+            @foreach (var image in Model)
+            {
+                <div>
                     <div>
-                        <div>
-                            <img class="image" src="@image.Picture">
-                        </div>
-                        <div class="t-to-gallery">
-                            @image.Assessment
-                        </div>
-                        <div class="t-to-gallery">
-                            @image.Description
-                        </div>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <div>
-                                <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" class="good-button">Wonderful</a>
-                                <button class="bad-button">Awful</button>
-                            </div>
-                        }
-
+                        <img class="image" src="@image.Picture">
                     </div>
+                    <div class="t-to-gallery">
+                        @image.Assessment
+                    </div>
+                    <div class="t-to-gallery">
+                        @image.Description
+                    </div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div>                        
+                            <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" data-id="@image.Id" class="good-button">Wonderful</a>
+                            <button class="bad-button">Awful</button>
+                        </div>
+                    }
 
-                }
-            </div>
+                </div>
+
+            }
         </div>
     </div>
+</div>

@@ -62,6 +62,7 @@ namespace WebMaze
             services.AddScoped<CurrenceService>();
 
             services.AddScoped<PayForAddActionFilter>();
+            services.AddScoped<CellInfoHelperService>();
 
             services.AddHttpContextAccessor();
 
