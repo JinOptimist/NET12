@@ -35,11 +35,8 @@ namespace WebMaze.EfStuff
         public DbSet<GuessTheNumberGame> GuessTheNumberGames { get; set; }
         public DbSet<GuessTheNumberGameAnswer> GuessTheNumberGameAnswers { get; set; }
         public DbSet<GuessTheNumberGameParameters> GuessTheNumberGameParameters { get; set; }
-        public DbSet<SeaBattleMyCell> SeaBattleMyCells { get; set; }
-        public DbSet<SeaBattleEnemyCell> SeaBattleEnemyCells { get; set; }
-
-        public DbSet<SeaBattleMyField> SeaBattleMyFields { get; set; }
-        public DbSet<SeaBattleEnemyField> SeaBattleEnemyFields { get; set; }
+        public DbSet<SeaBattleCell> SeaBattleCells { get; set; }
+        public DbSet<SeaBattleField> SeaBattleFields { get; set; }
         public DbSet<SeaBattleGame> SeaBattleGames { get; set; }
         public DbSet<SeaBattleDifficult> SeaBattleDifficults { get; set; }
 
@@ -160,23 +157,11 @@ namespace WebMaze.EfStuff
                 .WithMany(x => x.SeaBattleDifficults);
 
             modelBuilder.Entity<SeaBattleGame>()
-                .HasOne(x => x.MyField)
+                .HasMany(x => x.Fields)
                 .WithOne(x => x.Game)
-                .HasForeignKey<SeaBattleMyField>(x => x.GameId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<SeaBattleGame>()
-                .HasOne(x => x.EnemyField)
-                .WithOne(x => x.Game)
-                .HasForeignKey<SeaBattleEnemyField>(x => x.GameId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<SeaBattleMyField>()
-                .HasMany(x => x.Cells)
-                .WithOne(x => x.Field)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<SeaBattleEnemyField>()
+            modelBuilder.Entity<SeaBattleField>()
                 .HasMany(x => x.Cells)
                 .WithOne(x => x.Field)
                 .OnDelete(DeleteBehavior.Cascade);

@@ -20,30 +20,24 @@ namespace WebMaze.Controllers
         private SeaBattleDifficultRepository _seaBattleDifficultRepository;
         private SeaBattleGameRepository _seaBattleGameRepository;
         private UserService _userService;
-        private SeaBattleEnemyCellRepository _seaBattleEnemyCellRepository;
-        private SeaBattleMyFieldRepository _seaBattleMyFieldRepository;
-        private SeaBattleMyCellRepository _seaBattleMyCellRepository;
-        private SeaBattleEnemyFieldRepository _seaBattleEnemyFieldRepository;
+        private SeaBattleCellRepository _seaBattleCellRepository;
+        private SeaBattleFieldRepository _seaBattleFieldRepository;
 
         public SeaBattleController(IMapper mapper,
                                     SeaBattleService seaBattleService,
                                     SeaBattleDifficultRepository seaBattleDifficultRepository,
                                     SeaBattleGameRepository seaBattleGameRepository,
                                     UserService userService,
-                                    SeaBattleEnemyCellRepository seaBattleEnemyCellRepository,
-                                    SeaBattleMyCellRepository seaBattleMyCellRepository,
-                                    SeaBattleMyFieldRepository seaBattleMyFieldRepository,
-                                    SeaBattleEnemyFieldRepository seaBattleEnemyFieldRepository)
+                                    SeaBattleCellRepository seaBattleCellRepository,
+                                    SeaBattleFieldRepository seaBattleFieldRepository)
         {
             _mapper = mapper;
             _seaBattleService = seaBattleService;
             _seaBattleDifficultRepository = seaBattleDifficultRepository;
             _seaBattleGameRepository = seaBattleGameRepository;
             _userService = userService;
-            _seaBattleEnemyCellRepository = seaBattleEnemyCellRepository;
-            _seaBattleMyCellRepository = seaBattleMyCellRepository;
-            _seaBattleMyFieldRepository = seaBattleMyFieldRepository;
-            _seaBattleEnemyFieldRepository = seaBattleEnemyFieldRepository;
+            _seaBattleCellRepository = seaBattleCellRepository;
+            _seaBattleFieldRepository = seaBattleFieldRepository;
         }
 
         public IActionResult Index()
@@ -104,11 +98,14 @@ namespace WebMaze.Controllers
 
         public IActionResult ClickOnCell(long id)
         {
-            var enemyCell = _seaBattleEnemyCellRepository.Get(id);
+            var enemyCell = _seaBattleCellRepository.Get(id);
+
             enemyCell.Hit = true;
-            _seaBattleEnemyCellRepository.Save(enemyCell);
+
+            _seaBattleCellRepository.Save(enemyCell);
 
             var enemyField = enemyCell.Field;
+
             if (!enemyField.Cells.Where(x => x.ShipHere && !x.Hit).Any())
             {
                 _seaBattleGameRepository.Remove(enemyField.Game.Id);
@@ -116,12 +113,11 @@ namespace WebMaze.Controllers
                 return RedirectToAction("WinGame");
             }
 
-            _seaBattleService.FillNearKilledEnemyShips(enemyField);
+            _seaBattleService.FillNearKilledShips(enemyField);
 
-            var myFieldId = enemyCell.Field.Game.MyField.Id;
-            var myField = _seaBattleMyFieldRepository.Get(myFieldId);
-            var cell = new SeaBattleMyCell();
+            var myField = enemyCell.Field.Game.Fields.Where(x => !x.IsField).Single();
 
+            var cell = new SeaBattleCell();
             do
             {
                 var hitX = _random.Next(myField.Width);
@@ -132,14 +128,14 @@ namespace WebMaze.Controllers
             while (cell == null);
 
             cell.Hit = true;
-            _seaBattleMyCellRepository.Save(cell);
+            _seaBattleCellRepository.Save(cell);
 
             if (!myField.Cells.Where(x => x.ShipHere && !x.Hit).Any())
             {
                 return RedirectToAction("LoseGame");
             }
 
-            _seaBattleService.FillNearKilledMyShips(myField);
+            _seaBattleService.FillNearKilledShips(myField);
 
             return RedirectToAction("Game", new { id = _userService.GetCurrentUser().SeaBattleGame.Id });
         }

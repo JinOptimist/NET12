@@ -280,25 +280,17 @@ namespace WebMaze
             provider.CreateMap<GuessTheNumberGameAnswerViewModel,
                 GuessTheNumberGameAnswer>();
 
-            provider.CreateMap<SeaBattleMyCell, SeaBattleCellViewModel>();
-            provider.CreateMap<SeaBattleCellViewModel, SeaBattleMyCell>();
+            provider.CreateMap<SeaBattleCell, SeaBattleCellViewModel>();
+            provider.CreateMap<SeaBattleCellViewModel, SeaBattleCell>()
+                .ForMember(nameof(SeaBattleCell.ShipHere), opt => opt.Ignore());
 
-            provider.CreateMap<SeaBattleEnemyCell, SeaBattleCellViewModel>();
-            provider.CreateMap<SeaBattleCellViewModel, SeaBattleEnemyCell>()
-                .ForMember(nameof(SeaBattleEnemyCell.ShipHere), opt => opt.Ignore());
-
-            provider.CreateMap<SeaBattleMyField, SeaBattleFieldViewModel>()
+            provider.CreateMap<SeaBattleField, SeaBattleFieldViewModel>()
                 .ForMember(nameof(SeaBattleFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
-            provider.CreateMap<SeaBattleFieldViewModel, SeaBattleMyField>();
+            provider.CreateMap<SeaBattleFieldViewModel, SeaBattleField>();
 
-            provider.CreateMap<SeaBattleEnemyField, SeaBattleFieldViewModel>()
-                .ForMember(nameof(SeaBattleFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
-            provider.CreateMap<SeaBattleFieldViewModel, SeaBattleEnemyField>();
-
-
-            provider.CreateMap<SeaBattleGame, SeaBattleGameViewModel>();
-                //.ForMember(nameof(SeaBattleGame.MyField), opt => opt.MapFrom(db => db.MyField))
-                //.ForMember(nameof(SeaBattleGame.EnemyField), opt => opt.MapFrom(db => db.EnemyField));
+            provider.CreateMap<SeaBattleGame, SeaBattleGameViewModel>()
+                .ForMember(nameof(SeaBattleGameViewModel.MyField), opt => opt.MapFrom(db => db.Fields.Where(x => !x.IsField).Single()))
+                .ForMember(nameof(SeaBattleGameViewModel.EnemyField), opt => opt.MapFrom(db => db.Fields.Where(x => x.IsField).Single()));
             provider.CreateMap<SeaBattleGameViewModel, SeaBattleGame>();
 
             var mapperConfiguration = new MapperConfiguration(provider);

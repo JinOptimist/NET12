@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebMaze.EfStuff.DbModel.SeaBattle
 {
-    public class SeaBattleBaseCell : BaseModel
+    public class SeaBattleCell : BaseModel
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -14,5 +14,7 @@ namespace WebMaze.EfStuff.DbModel.SeaBattle
         public int ShipLength { get; set; }
         public int ShipNumber { get; set; }
         public int ShipDirection { get; set; }
+        public virtual SeaBattleField Field { get; set; }
+
     }
 }

@@ -54,46 +54,24 @@ namespace WebMaze.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SeaBattleEnemyFields",
+                name: "SeaBattleFields",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Width = table.Column<int>(type: "int", nullable: false),
                     Height = table.Column<int>(type: "int", nullable: false),
-                    GameId = table.Column<long>(type: "bigint", nullable: false),
-                    ShipCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SeaBattleEnemyFields", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SeaBattleEnemyFields_SeaBattleGames_GameId",
-                        column: x => x.GameId,
-                        principalTable: "SeaBattleGames",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SeaBattleMyFields",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ShipCount = table.Column<int>(type: "int", nullable: false),
                     LastHitToShip = table.Column<long>(type: "bigint", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    Width = table.Column<int>(type: "int", nullable: false),
-                    Height = table.Column<int>(type: "int", nullable: false),
-                    GameId = table.Column<long>(type: "bigint", nullable: false),
-                    ShipCount = table.Column<int>(type: "int", nullable: false)
+                    IsField = table.Column<bool>(type: "bit", nullable: false),
+                    GameId = table.Column<long>(type: "bigint", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SeaBattleMyFields", x => x.Id);
+                    table.PrimaryKey("PK_SeaBattleFields", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SeaBattleMyFields_SeaBattleGames_GameId",
+                        name: "FK_SeaBattleFields_SeaBattleGames_GameId",
                         column: x => x.GameId,
                         principalTable: "SeaBattleGames",
                         principalColumn: "Id",
@@ -101,58 +79,36 @@ namespace WebMaze.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SeaBattleEnemyCells",
+                name: "SeaBattleCells",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FieldId = table.Column<long>(type: "bigint", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     X = table.Column<int>(type: "int", nullable: false),
                     Y = table.Column<int>(type: "int", nullable: false),
                     ShipHere = table.Column<bool>(type: "bit", nullable: false),
                     Hit = table.Column<bool>(type: "bit", nullable: false),
                     ShipLength = table.Column<int>(type: "int", nullable: false),
                     ShipNumber = table.Column<int>(type: "int", nullable: false),
-                    ShipDirection = table.Column<int>(type: "int", nullable: false)
+                    ShipDirection = table.Column<int>(type: "int", nullable: false),
+                    FieldId = table.Column<long>(type: "bigint", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SeaBattleEnemyCells", x => x.Id);
+                    table.PrimaryKey("PK_SeaBattleCells", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SeaBattleEnemyCells_SeaBattleEnemyFields_FieldId",
+                        name: "FK_SeaBattleCells_SeaBattleFields_FieldId",
                         column: x => x.FieldId,
-                        principalTable: "SeaBattleEnemyFields",
+                        principalTable: "SeaBattleFields",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "SeaBattleMyCells",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FieldId = table.Column<long>(type: "bigint", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    X = table.Column<int>(type: "int", nullable: false),
-                    Y = table.Column<int>(type: "int", nullable: false),
-                    ShipHere = table.Column<bool>(type: "bit", nullable: false),
-                    Hit = table.Column<bool>(type: "bit", nullable: false),
-                    ShipLength = table.Column<int>(type: "int", nullable: false),
-                    ShipNumber = table.Column<int>(type: "int", nullable: false),
-                    ShipDirection = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SeaBattleMyCells", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SeaBattleMyCells_SeaBattleMyFields_FieldId",
-                        column: x => x.FieldId,
-                        principalTable: "SeaBattleMyFields",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_SeaBattleCells_FieldId",
+                table: "SeaBattleCells",
+                column: "FieldId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SeaBattleDifficults_GamerId",
@@ -160,50 +116,27 @@ namespace WebMaze.Migrations
                 column: "GamerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SeaBattleEnemyCells_FieldId",
-                table: "SeaBattleEnemyCells",
-                column: "FieldId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SeaBattleEnemyFields_GameId",
-                table: "SeaBattleEnemyFields",
-                column: "GameId",
-                unique: true);
+                name: "IX_SeaBattleFields_GameId",
+                table: "SeaBattleFields",
+                column: "GameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SeaBattleGames_UserId",
                 table: "SeaBattleGames",
                 column: "UserId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SeaBattleMyCells_FieldId",
-                table: "SeaBattleMyCells",
-                column: "FieldId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SeaBattleMyFields_GameId",
-                table: "SeaBattleMyFields",
-                column: "GameId",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "SeaBattleCells");
+
+            migrationBuilder.DropTable(
                 name: "SeaBattleDifficults");
 
             migrationBuilder.DropTable(
-                name: "SeaBattleEnemyCells");
-
-            migrationBuilder.DropTable(
-                name: "SeaBattleMyCells");
-
-            migrationBuilder.DropTable(
-                name: "SeaBattleEnemyFields");
-
-            migrationBuilder.DropTable(
-                name: "SeaBattleMyFields");
+                name: "SeaBattleFields");
 
             migrationBuilder.DropTable(
                 name: "SeaBattleGames");

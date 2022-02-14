@@ -18,8 +18,6 @@ namespace WebMaze.EfStuff.DbModel.SeaBattle
         public int DirectionToShoot { get; set; }
         public long UserId { get; set; }
         public virtual User User { get; set; }
-        public virtual SeaBattleMyField MyField { get; set; }
-        public virtual SeaBattleEnemyField EnemyField { get; set; }
-
+        public virtual List<SeaBattleField> Fields { get; set; }
     }
 }
