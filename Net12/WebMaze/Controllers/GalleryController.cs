@@ -57,6 +57,18 @@ namespace WebMaze.Controllers
             return View(imageViewModels);
         }
 
+        public IActionResult Sorted()
+        {
+            var imageViewModels = new List<ImageViewModel>();
+
+            if (_userRepository.GetAll().Any())
+            {
+                imageViewModels = _repository.GetSortedBy().Select(image => _mapper.Map<ImageViewModel>(image)).ToList();
+            }
+
+            return View(imageViewModels);
+        }
+
         [HttpGet]
         public IActionResult GalleryCarousel()
         {
