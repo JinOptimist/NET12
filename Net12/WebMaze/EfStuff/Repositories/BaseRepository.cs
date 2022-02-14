@@ -77,7 +77,7 @@ namespace WebMaze.EfStuff.Repositories
             var table = Expression.Parameter(typeof(Template), "obj");
             var ListOfProperty = columnName.Split(".");
             var member = Expression.Property(table, ListOfProperty[0]);
-            for (int i = 1; i <= ListOfProperty.Length; i++)
+            for (int i = 1; i < ListOfProperty.Length; i++)
             {
                 var item = ListOfProperty[i];
                 var next = Expression.Property(member, item);
