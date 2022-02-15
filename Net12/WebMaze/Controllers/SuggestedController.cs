@@ -148,20 +148,23 @@ namespace WebMaze.Controllers
             NewCS = _mapper.Map<NewCellSuggestion>(newCellSuggestionViewModel);
             NewCS.Creater = creater;
             NewCS.IsActive = true;
-
             _newCellSuggRepository.Save(NewCS);
 
-            var fileName = $"{NewCS.Id}.jpg";
-            NewCS.Url = "/images/NewCellImg/" + fileName;
-
-            _newCellSuggRepository.Save(NewCS);
-
-            var filePath = Path.Combine(
-                _hostEnvironment.WebRootPath, "images", "NewCellImg", fileName);
-            using (var fileStream = System.IO.File.Create(filePath))
+            if (newCellSuggestionViewModel.ImageFile != null)
             {
-                newCellSuggestionViewModel.ImageFile.CopyTo(fileStream);
+                var fileName = $"{NewCS.Id}.jpg";
+                NewCS.Url = "/images/NewCellImg/" + fileName;
+
+                _newCellSuggRepository.Save(NewCS);
+
+                var filePath = Path.Combine(
+                    _hostEnvironment.WebRootPath, "images", "NewCellImg", fileName);
+                using (var fileStream = System.IO.File.Create(filePath))
+                {
+                    newCellSuggestionViewModel.ImageFile.CopyTo(fileStream);
+                }
             }
+
             return RedirectToAction($"{nameof(SuggestedController.NewCellSugg)}");
         }
 
