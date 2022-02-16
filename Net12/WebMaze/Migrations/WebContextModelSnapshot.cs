@@ -670,9 +670,6 @@ namespace WebMaze.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ShipDirection")
-                        .HasColumnType("int");
-
                     b.Property<bool>("ShipHere")
                         .HasColumnType("bit");
 
@@ -705,9 +702,6 @@ namespace WebMaze.Migrations
                     b.Property<int>("FourSizeShip")
                         .HasColumnType("int");
 
-                    b.Property<long?>("GamerId")
-                        .HasColumnType("bigint");
-
                     b.Property<int>("Height")
                         .HasColumnType("int");
 
@@ -720,12 +714,15 @@ namespace WebMaze.Migrations
                     b.Property<int>("TwoSizeShip")
                         .HasColumnType("int");
 
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("Width")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GamerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("SeaBattleDifficults");
                 });
@@ -771,12 +768,6 @@ namespace WebMaze.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("DirectionToShoot")
-                        .HasColumnType("int");
-
-                    b.Property<long>("HitInShipId")
-                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -1197,11 +1188,11 @@ namespace WebMaze.Migrations
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleDifficult", b =>
                 {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Gamer")
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "User")
                         .WithMany("SeaBattleDifficults")
-                        .HasForeignKey("GamerId");
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("Gamer");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleField", b =>

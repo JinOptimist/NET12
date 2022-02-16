@@ -13,8 +13,6 @@ namespace WebMaze.EfStuff.DbModel.SeaBattle
         public bool Hit { get; set; }
         public int ShipLength { get; set; }
         public int ShipNumber { get; set; }
-        public int ShipDirection { get; set; }
         public virtual SeaBattleField Field { get; set; }
-
     }
 }

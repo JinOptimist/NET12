@@ -17,15 +17,15 @@ namespace WebMaze.Migrations
                     TwoSizeShip = table.Column<int>(type: "int", nullable: false),
                     ThreeSizeShip = table.Column<int>(type: "int", nullable: false),
                     FourSizeShip = table.Column<int>(type: "int", nullable: false),
-                    GamerId = table.Column<long>(type: "bigint", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SeaBattleDifficults", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SeaBattleDifficults_Users_GamerId",
-                        column: x => x.GamerId,
+                        name: "FK_SeaBattleDifficults_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -37,8 +37,6 @@ namespace WebMaze.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    HitInShipId = table.Column<long>(type: "bigint", nullable: false),
-                    DirectionToShoot = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<long>(type: "bigint", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -90,7 +88,6 @@ namespace WebMaze.Migrations
                     Hit = table.Column<bool>(type: "bit", nullable: false),
                     ShipLength = table.Column<int>(type: "int", nullable: false),
                     ShipNumber = table.Column<int>(type: "int", nullable: false),
-                    ShipDirection = table.Column<int>(type: "int", nullable: false),
                     FieldId = table.Column<long>(type: "bigint", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -111,9 +108,9 @@ namespace WebMaze.Migrations
                 column: "FieldId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SeaBattleDifficults_GamerId",
+                name: "IX_SeaBattleDifficults_UserId",
                 table: "SeaBattleDifficults",
-                column: "GamerId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SeaBattleFields_GameId",

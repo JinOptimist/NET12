@@ -12,14 +12,17 @@ namespace WebMaze.Services
     {
         private UserService _userService;
         private SeaBattleCellRepository _seaBattleCellRepository;
+        private SeaBattleFieldRepository _seaBattleFieldRepository;
         private Random _random = new Random();
         private int shipNumber;
 
         public SeaBattleService(UserService userService,
-                                SeaBattleCellRepository seaBattleCellRepository)
+                                SeaBattleCellRepository seaBattleCellRepository, 
+                                SeaBattleFieldRepository seaBattleFieldRepository)
         {
             _userService = userService;
             _seaBattleCellRepository = seaBattleCellRepository;
+            _seaBattleFieldRepository = seaBattleFieldRepository;
         }
 
         public SeaBattleGame CreateGame(SeaBattleDifficult difficult)
@@ -152,8 +155,7 @@ namespace WebMaze.Services
                                     ShipLength = shipSize,
                                     ShipHere = true,
                                     Hit = false,
-                                    ShipNumber = shipNumber,
-                                    ShipDirection = direction
+                                    ShipNumber = shipNumber
                                 };
                                 field.Cells.Add(cell);
                             }
@@ -187,8 +189,7 @@ namespace WebMaze.Services
                                     ShipLength = shipSize,
                                     ShipHere = true,
                                     Hit = false,
-                                    ShipNumber = shipNumber,
-                                    ShipDirection = direction
+                                    ShipNumber = shipNumber
                                 };
                                 field.Cells.Add(cell);
                             }
@@ -222,8 +223,7 @@ namespace WebMaze.Services
                                     ShipLength = shipSize,
                                     ShipHere = true,
                                     Hit = false,
-                                    ShipNumber = shipNumber,
-                                    ShipDirection = direction
+                                    ShipNumber = shipNumber
                                 };
                                 field.Cells.Add(cell);
                             }
@@ -256,8 +256,7 @@ namespace WebMaze.Services
                                     ShipLength = shipSize,
                                     ShipHere = true,
                                     Hit = false,
-                                    ShipNumber = shipNumber,
-                                    ShipDirection = direction
+                                    ShipNumber = shipNumber
                                 };
                                 field.Cells.Add(cell);
                             }
@@ -317,5 +316,27 @@ namespace WebMaze.Services
             }
         }
 
+        public void RandomHit(SeaBattleField myField)
+        {
+            var cell = new SeaBattleCell();
+            do
+            {
+                var hitX = _random.Next(myField.Width);
+                var hitY = _random.Next(myField.Height);
+
+                cell = myField.Cells.Where(x => !x.Hit && x.X == hitX && x.Y == hitY).SingleOrDefault();
+            }
+            while (cell == null);
+
+            cell.Hit = true;
+
+            _seaBattleCellRepository.Save(cell);
+
+            if (cell.ShipHere)
+            {
+                myField.LastHitToShip = cell.Id;
+                _seaBattleFieldRepository.Save(myField);
+            }
+        }
     }
 }
