@@ -44,7 +44,7 @@ namespace WebMaze.Controllers
             _chatHub = chatHub;
         }
 
-        public IActionResult Index(int page = 1, int perPage = 13)
+        public IActionResult Index(int page = 1, int perPage = 13, string typeSorted = "CreationDate")
         {
 
             var test = _newsRepository.GetAllSorted();
@@ -52,7 +52,7 @@ namespace WebMaze.Controllers
 
             var newsViewModels = new List<NewsViewModel>();
             newsViewModels = _newsRepository
-                .GetForPagination(perPage, page)
+                .GetForPagination(perPage, page, typeSorted)
                 .Select(dbModel => _mapper.Map<NewsViewModel>(dbModel))
                 .ToList();
 
