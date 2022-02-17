@@ -277,6 +277,8 @@ function timer() {
 
             if (secHundreds == 10) {
                 secHundreds = 9;
+                secTens = 9;
+                secUnits = 9;
                 sessionStorage.setItem('startTimer', 'false');
                 clearInterval(intervalId);
             }
