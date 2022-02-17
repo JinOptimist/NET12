@@ -1,0 +1,50 @@
+﻿
+.content {
+    display: flex;
+    justify-content: space-around;
+}
+
+.game-field {
+    margin: 15px;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.game-field-row {
+
+}
+
+.game-field-cell {
+    display: inline-block;
+    min-width: 20px;
+    min-height: 20px;
+}
+.game-field-cell.link {
+    min-width: 20px;
+    min-height: 20px;
+    border: 1px solid black;
+}
+
+.game-field-cell.none {
+    background-color: white;
+}
+
+.game-field-cell.red {
+    background-color: red;
+}
+
+.game-field-cell.green {
+    background-color: green;
+}
+
+.game-field-cell.blue {
+    background-color: blue;
+}
+
+.game-field-cell.purple {
+    background-color: purple;
+}
+
+.game-field-cell.orange {
+    background-color: orange;
+}

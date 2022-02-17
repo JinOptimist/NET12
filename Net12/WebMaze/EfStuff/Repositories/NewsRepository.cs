@@ -32,5 +32,12 @@ namespace WebMaze.EfStuff.Repositories
         {
             return _dbSet.SingleOrDefault(x => x.Title == title);
         }
+        
+
+        public List<News> GetForPagination(int perPage, int page, string columnName = "CreationDate")
+            => GetSortedNews(columnName)
+            .Skip((page - 1) * perPage)
+            .Take(perPage)
+            .ToList();
     }
 }
