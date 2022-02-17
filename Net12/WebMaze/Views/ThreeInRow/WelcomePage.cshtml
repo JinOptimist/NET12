@@ -1,0 +1,17 @@
+﻿@using WebMaze.Models.ThreeInRow
+@model List<ThreeInRowGameFieldViewModel>
+
+<div>
+    Welcome to Three In Row Game!!!
+</div>
+
+<div>
+    @foreach (var item in Model)
+    {
+    <div class="maze-text-info">
+        <span> Game id: @item.Id Score: @item.Score <a href="/ThreeInRow/PlayGame?Id=@item.Id">Play</a> </span>
+    </div>
+    }
+</div>
+
+<a href="/ThreeInRow/CreateGame">CreateGame</a>
