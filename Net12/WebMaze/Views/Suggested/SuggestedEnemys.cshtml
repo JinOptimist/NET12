@@ -43,8 +43,9 @@
             @if (User.Identity.IsAuthenticated)
             {
         <div>
-            <a href="@Url.Action("WonderfulSuggestedEnemy","Suggested", new { @suggestedEnemysId = suggestedEnemys.Id })" class="good-button">Wonderful</a>           
-            <button class="bad-button">Awful</button>
+            <a href="@Url.Action("WonderfulSuggestedEnemy","Suggested", new { @suggestedEnemysId = suggestedEnemys.Id })" class="good-button">Wonderful</a>
+            <a href="@Url.Action("AwfulSuggestedEnemy","Suggested", new {@suggestedEnemysId = suggestedEnemys.Id})" class="bad-button">Awful</a>
+
         </div>
             }
         </div>

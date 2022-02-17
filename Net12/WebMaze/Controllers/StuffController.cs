@@ -85,5 +85,14 @@ namespace WebMaze.Controllers
 
             return RedirectToAction("Stuff", "Stuff");
         }
+
+        public IActionResult Awful(long stuffId)
+        {
+            var stuff = _staffForHeroRepository.Get(stuffId);
+
+            _payForActionService.CreatorDislikeFine(stuff.Proposer.Id, TypesOfPayment.Fine);
+
+            return RedirectToAction("Stuff", "Stuff");
+        }
     }
 }

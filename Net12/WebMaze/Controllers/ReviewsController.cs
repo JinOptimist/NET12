@@ -66,6 +66,15 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index", "Reviews");
         }
 
+        public IActionResult Awful(long reviewId)
+        {
+            var review = _reviewRepository.Get(reviewId);
+
+            _payForActionService.CreatorDislikeFine(review.Creator.Id, TypesOfPayment.Fine);
+
+            return RedirectToAction("Index", "Reviews");
+        }
+
         public IActionResult RemoveReview(long idReview)
         {
             if (HttpContext.User.Identity.IsAuthenticated)

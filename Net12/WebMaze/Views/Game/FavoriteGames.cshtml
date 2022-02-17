@@ -37,14 +37,14 @@
                     </div>
                     <div class="favGame-description"  >
                         <b>Description:</b> @game.Desc
-                        <div>
-                            @if (User.Identity.IsAuthenticated)
-                            {
+                    <div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
                             <br>
-                                <a href="@Url.Action("Wonderful","Game", new { @gameId = game.Id})" class="good-button">Wonderful</a>                                
-                                <button class="bad-button">Awful</button> 
-                            }
-                        </div>
+                            <a href="@Url.Action("Wonderful","Game", new { @gameId = game.Id})" class="good-button">Wonderful</a>
+                            <a href="@Url.Action("Awful","Game", new {@gameId = game.Id})" class="bad-button">Awful</a>
+                        }
+                    </div>
                     </div>
                     <div class="favGame-user-elements">
                         <div><b>Username:</b> @game.Username</div>
