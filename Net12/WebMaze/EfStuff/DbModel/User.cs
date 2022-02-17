@@ -37,6 +37,8 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<MinerField> MinerFields { get; set; }
         public virtual ZumaGameField ZumaGameField { get; set; }
         public virtual List<ZumaGameDifficult> ZumaGameDifficults { get; set; }
+        public virtual List<GroupList> Groups { get; set; }
+        public virtual List<UserInGroup> UsersInGroup { get; set; }
         public virtual List<GuessTheNumberGame> GuessTheNumberGames { get; set; }
         public virtual List<ThreeInRowGameField> ThreeInRowGameFields { get; set; }
     }

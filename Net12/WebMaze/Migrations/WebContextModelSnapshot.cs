@@ -160,12 +160,34 @@ namespace WebMaze.Migrations
                     b.ToTable("GameDevices");
                 });
 
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.GroupList", b =>
+            {
+
+                b.Property<long>("Id")
+                            .ValueGeneratedOnAdd()
+                            .HasColumnType("bigint")
+                            .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                b.Property<long?>("CreatorId")
+                    .HasColumnType("bigint");
+
+                b.Property<string>("Name")
+                            .HasColumnType("nvarchar(max)");
+
+                b.HasKey("Id");
+                b.HasIndex("CreatorId");
+                b.ToTable("GroupList");
+            });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GuessTheNumber.GuessTheNumberGame", b =>
+
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
 
                     b.Property<int>("AttemptNumber")
                         .HasColumnType("int");
@@ -176,8 +198,10 @@ namespace WebMaze.Migrations
                     b.Property<int>("GuessedNumber")
                         .HasColumnType("int");
 
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
 
                     b.Property<long?>("ParametersId")
                         .HasColumnType("bigint");
@@ -251,6 +275,7 @@ namespace WebMaze.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GuessTheNumberGameParameters");
+
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
@@ -530,6 +555,9 @@ namespace WebMaze.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -814,6 +842,34 @@ namespace WebMaze.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.UserInGroup", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long?>("GroupId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("UserLevel")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserInGroup");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameCell", b =>
                 {
                     b.Property<long>("Id")
@@ -973,6 +1029,16 @@ namespace WebMaze.Migrations
                     b.Navigation("Creater");
                 });
 
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.GroupList", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
+                        .WithMany("Groups")
+                        .HasForeignKey("CreatorId");
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GuessTheNumber.GuessTheNumberGame", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.GuessTheNumber.GuessTheNumberGameParameters", "Parameters")
@@ -995,6 +1061,7 @@ namespace WebMaze.Migrations
                         .HasForeignKey("GameId");
 
                     b.Navigation("Game");
+
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Image", b =>
@@ -1150,6 +1217,21 @@ namespace WebMaze.Migrations
                     b.Navigation("Player");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.UserInGroup", b =>
+            {
+                b.HasOne("WebMaze.EfStuff.DbModel.GroupList", "Group")
+                    .WithMany("Users")
+                    .HasForeignKey("GroupId");
+
+                b.HasOne("WebMaze.EfStuff.DbModel.User", "User")
+                    .WithMany("UsersInGroup")
+                    .HasForeignKey("UserId");
+
+                b.Navigation("Group");
+
+                b.Navigation("User");
+            });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.ZumaGameCell", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.ZumaGameField", "Field")
@@ -1190,6 +1272,12 @@ namespace WebMaze.Migrations
                     b.Navigation("Gamer");
                 });
 
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.GroupList", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GuessTheNumber.GuessTheNumberGame", b =>
                 {
                     b.Navigation("Answers");
@@ -1198,6 +1286,7 @@ namespace WebMaze.Migrations
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GuessTheNumber.GuessTheNumberGameParameters", b =>
                 {
                     b.Navigation("Games");
+
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelWeb", b =>
@@ -1230,7 +1319,11 @@ namespace WebMaze.Migrations
 
                     b.Navigation("EnemySuggestedWhichIAprove");
 
+
+                    b.Navigation("Groups");
+
                     b.Navigation("GuessTheNumberGames");
+
 
                     b.Navigation("Images");
 
@@ -1257,6 +1350,8 @@ namespace WebMaze.Migrations
                     b.Navigation("NewsComments");
 
                     b.Navigation("ThreeInRowGameFields");
+
+                    b.Navigation("UsersInGroup");
 
                     b.Navigation("ZumaGameDifficults");
 
