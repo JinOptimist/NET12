@@ -9,6 +9,7 @@ let hundred = 1000;
 $(document).ready(function () {
 
     $(".pressClosed").on("click", openCell).on("contextmenu", setFlag);
+    $(".flag").on("contextmenu", setFlag);
 
     $(".pressOpen")
         .on("mousedown", pressNear)
@@ -36,7 +37,6 @@ $(document).ready(function () {
 
 
 function openCell() {
-    console.log('openCell');
     let data = {
         idCell: $(this).attr('id')
     };
@@ -160,11 +160,10 @@ function updateField(field) {
             .attr('src', '/images/miner_buttons/face_dead.png');
 
         $(".miner-all")
-            .prepend('<div class="you-lose">Good luck next time!</div >')
+            .prepend('<div class="you-lose">' + field.username + ', good luck next time!</div >')
 
         $(".miner-win-over-playspace")
-            .prepend('<div class="won-and-over h1">Game</div>');
-        $(".miner-win-over-playspace")
+            .prepend('<div class="won-and-over h1">Game</div>')
             .append('<div class="won-and-over h1">over!</div>');
     }
     else if (field.isWon) {
@@ -178,11 +177,10 @@ function updateField(field) {
             .attr('src', '/images/miner_buttons/face_win.png');
 
         $(".miner-all")
-            .prepend('<div class="you-won-money">You earned ' + timeScore + ' coins!</div >')
+            .prepend('<div class="you-won-money">' + field.username + ', you earned ' + timeScore + ' coins!</div >')
 
         $(".miner-win-over-playspace")
-            .prepend('<div class="won-and-over h2">You</div>');
-        $(".miner-win-over-playspace")
+            .prepend('<div class="won-and-over h2">You</div>')
             .append('<div class="won-and-over h2">won!</div>');
     }
 }

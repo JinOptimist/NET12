@@ -21,9 +21,11 @@
 
 .you-won-money {
     text-align: center;
+    font-family: cursive;
+    font-style: italic;
     font-size: 50px;
     overflow: hidden;
-    text-shadow: 0 0 tomato, 0 0 yellowgreen, 0 0 skyblue;
+    text-shadow: #f00404 1px 1px 0, #ca4c1c 2px 2px 0, #c7822d 3px 3px 0, #bd7141 4px 4px 0, #ddbe27 5px 5px 0;
     color: transparent;
     transition: all 1s;
 }
