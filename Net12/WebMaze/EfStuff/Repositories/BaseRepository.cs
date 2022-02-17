@@ -24,6 +24,12 @@ namespace WebMaze.EfStuff.Repositories
             return _dbSet.SingleOrDefault(x => x.Id == id);
         }
 
+        protected virtual IQueryable<Template> GetAllQueryable()
+        {
+            return _dbSet.Where(x => x.IsActive);
+        }
+
+
         public virtual List<Template> GetAll()
         {
             return _dbSet.Where(x => x.IsActive).ToList();
@@ -41,7 +47,7 @@ namespace WebMaze.EfStuff.Repositories
             }
             _webContext.SaveChanges();
         }
-        
+
         public virtual void Remove(long id)
         {
             Remove(Get(id));
@@ -64,11 +70,12 @@ namespace WebMaze.EfStuff.Repositories
             _webContext.SaveChanges();
         }
 
-        public virtual int Count() => _dbSet.Count();
+        public virtual int Count(bool getRemovedRecord = false)
+            => _dbSet.Count(x => x.IsActive || getRemovedRecord);
 
-        public List<Template> GetForPagination(int perPage, int page) 
+        public List<Template> GetForPagination(int perPage, int page)
             => _dbSet
-            .Skip((page -1) * perPage)
+            .Skip((page - 1) * perPage)
             .Take(perPage)
             .ToList();
 
@@ -89,5 +96,5 @@ namespace WebMaze.EfStuff.Repositories
         }
     }
 
-  
+
 }
