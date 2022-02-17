@@ -14,27 +14,26 @@ namespace WebMaze.EfStuff.Repositories
 
         }
 
-        public List<Image> GetSortedBy(string prop = "Assessment")
-        {
-            //split column name by . then foreach expr.prop
-            var table = Expression.Parameter(typeof(Image), "image");// image =>
-            var allProp = prop.Split(".");
-            foreach (var item in allProp)
-            {
+        public List<Image> GetSortedBy(int assessment, string name)
+        {            
+            var table = Expression.Parameter(typeof(Image), "image");// image =>            
+            //var propAssessment = Expression.Property(table, "Assessment"); // image.Assessment
+            //var cond = Expression.Constant(assessment);
+            //var greaterThanExpr = Expression.GreaterThanOrEqual(propAssessment, cond);
 
-            }
-            var author = Expression.Property(table, "Author"); // image.Assessment
-            var authorName = Expression.Property(author, "Name"); // image.Assessment
+            //var condition = Expression.Lambda<Func<Image, bool>>(greaterThanExpr, table);// image => image.Assessment >= assessment
+
+            var propAuthor = Expression.Property(table, "Author");
+            var propName = Expression.Property(propAuthor, "Name");
             var cond = Expression.Constant(name);
-            //var greaterThanExpr = Expression.GreaterThanOrEqual(member, cond);
-            var eq = Expression.Equal(authorName, cond);// news => news.Title == 'good news'
+            var equal = Expression.Equal(propName, cond);
 
+            var condition = Expression.Lambda<Func<Image, bool>>(equal, table);// image => image.Assessment >= assessment
 
-            var condition = Expression.Lambda<Func<Image, bool>>(eq, table);
 
             return _dbSet.
-                Where(condition)
-                .ToList();
+                    Where(condition)
+                    .ToList();
         }
 
         public void RemoveByUser(long userId)

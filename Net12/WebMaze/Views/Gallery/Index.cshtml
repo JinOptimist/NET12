@@ -4,9 +4,11 @@
     <script src="~/js/galleryAjax.js"></script>
 }
 
-<form action="@Url.Action("Sorted", "Gallery")" method="GET">
+
+<form action="@Url.Action("Sort", "Gallery")" method="GET">
     <a href="#">Sorted by prop</a>
-    <input type="text" name="inputProp">    
+    <input type="number" name="inAssesment">
+    <input type="text" name="inName">
     <input type="submit" value="Send" />
 </form>
 
