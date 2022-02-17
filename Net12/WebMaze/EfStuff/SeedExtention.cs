@@ -246,25 +246,28 @@ namespace WebMaze.EfStuff
         {
             var newCellSuggRepository = scope.ServiceProvider.GetService<NewCellSuggRepository>();
             var userRepository = scope.ServiceProvider.GetService<UserRepository>();
-            int countTestEntry = 5; // Here you can set the required number of test records in the database NewCellSuggestions.
+            int countTestEntry = 40; // Here you can set the required number of test records in the database NewCellSuggestions.
 
             if (newCellSuggRepository.Count() < countTestEntry)
             {
-                var namesTestUsers = new List<string>() { "Bob", "Sam", "Tom", "Mike" };
+                var namesTestUsers = new List<string>() { "Bob", "Sam", "Tom", "Mike" }; //To add another test user just add a new name. 
 
                 for (int i = 0; i < namesTestUsers.Count; i++)
                 {
-                    var testUser = new User()
+                    if (userRepository.GetUserByName(namesTestUsers[i]) == null)
                     {
-                        Name = namesTestUsers[i],
-                        Password = "1234",
-                        Coins = 100,
-                        Age = 18,
-                        IsActive = true,
-                        GlobalUserRating = 100
-                    };
+                        var testUser = new User()
+                        {
+                            Name = namesTestUsers[i],
+                            Password = "1234",
+                            Coins = 100,
+                            Age = 18,
+                            IsActive = true,
+                            GlobalUserRating = 100
+                        };
 
-                    userRepository.Save(testUser);
+                        userRepository.Save(testUser);
+                    }
 
                 }
 
