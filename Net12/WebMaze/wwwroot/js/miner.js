@@ -56,7 +56,6 @@ function openCell() {
 }
 
 function setFlag() {
-    console.log('setFlag');
     let cellId = $(this).attr('id');
     let data = {
         idCell: cellId
@@ -83,7 +82,6 @@ function setFlag() {
 }
 
 function updateField(field) {
-    console.log('updateField');
     let cell;
     for (let y = 0; y < field.height; y++) {
         for (let x = 0; x < field.width; x++) {
@@ -190,7 +188,6 @@ function updateField(field) {
 }
 
 function pressNear() {
-    console.log('pressNear');
     let data = {
         idCell: $(this).attr('id')
     };
@@ -204,7 +201,6 @@ function pressNear() {
 }
 
 function unpressNear() {
-    console.log('unpressNear');
     let data = {
         idCell: $(this).attr('id')
     };
@@ -217,7 +213,6 @@ function unpressNear() {
 }
 
 function OpenWithFlags() {
-    console.log('openWithFlags');
     let data = {
         idCell: $(this).attr('id')
     };
@@ -231,7 +226,6 @@ function OpenWithFlags() {
 }
 
 function changeFlagsCount(cellId) {
-    console.log('changeFlagsCount');
     let data = {
         idCell: cellId
     };
@@ -261,7 +255,6 @@ function changeFlagsCount(cellId) {
 }
 
 function timer() {
-    console.log('timer');
     let secUnits = parseInt(sessionStorage.getItem('secUnits'));
     let secTens = parseInt(sessionStorage.getItem('secTens'));
     let secHundreds = parseInt(sessionStorage.getItem('secHundreds'));

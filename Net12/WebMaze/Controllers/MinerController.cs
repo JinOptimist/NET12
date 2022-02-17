@@ -105,7 +105,6 @@ namespace WebMaze.Controllers
             }
 
             return Json(answer);
-
         }
 
         public IActionResult GetNearToPress(long idCell)
