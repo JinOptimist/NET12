@@ -7,6 +7,9 @@
 
     });
 
+    $("a[href='/Miner/StartGame']").click(function () {
+        sessionStorage.clear();
+    })
 
 });
 

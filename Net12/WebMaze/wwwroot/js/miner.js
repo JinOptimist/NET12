@@ -17,10 +17,7 @@ $(document).ready(function () {
         .on("click", OpenWithFlags);
 
     $("a[href='/Miner/StartGame']").click(function () {
-        sessionStorage.removeItem('isPlaying');
-        sessionStorage.removeItem('secUnits');
-        sessionStorage.removeItem('secTens');
-        sessionStorage.removeItem('secHundreds');
+        sessionStorage.clear();
     })
 
     if (sessionStorage.getItem('isPlaying') == "true") {
