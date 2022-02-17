@@ -112,6 +112,17 @@ namespace WebMaze.Controllers
             return RedirectToAction("SuggestedEnemys", "Suggested");
         }
 
+        public IActionResult AwfulSuggestedEnemy(long suggestedEnemysId)
+        {
+
+            var suggestedEnemys = _suggestedEnemysRepository.Get(suggestedEnemysId);
+
+            _payForActionService.CreatorDislikeFine(suggestedEnemys.Creater.Id, TypesOfPayment.Fine);
+
+            return RedirectToAction("SuggestedEnemys", "Suggested");
+        }
+
+
         public IActionResult NewCellSugg()
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
@@ -179,5 +190,16 @@ namespace WebMaze.Controllers
 
             return RedirectToAction("NewCellSugg", "Suggested");
         }
+
+        public IActionResult AwfulNewCellSuggestion(long newCellSuggestionId)
+        {
+
+            var newCellSuggestion = _newCellSuggRepository.Get(newCellSuggestionId);
+
+            _payForActionService.CreatorDislikeFine(newCellSuggestion.Creater.Id, TypesOfPayment.Fine);
+
+            return RedirectToAction("NewCellSugg", "Suggested");
+        }
+
     }
 }

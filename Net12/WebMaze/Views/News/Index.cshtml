@@ -67,7 +67,8 @@
                             <td>
                                 <span>
                                     <a href="@Url.Action("Wonderful","News", new {@newsId = news.Id})" class="good-button">@News.Wonderful</a>
-                                    <button class="bad-button">@News.Awful</button>
+                                    <a href="@Url.Action("Awful","News", new {@newsId = news.Id})" class="bad-button">Awful</a>
+
                                 </span>
                             </td>
                             <td>

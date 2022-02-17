@@ -233,6 +233,17 @@ namespace WebMaze.Controllers
             return RedirectToAction("ManageMazeDifficult", "Maze");
         }
 
+        public IActionResult Awful(long difficultId)
+        {
+
+            var diffcult = _mazeDifficultRepository.Get(difficultId);
+
+            _payForActionService.CreatorDislikeFine(diffcult.Creater.Id, TypesOfPayment.Fine);
+
+            return RedirectToAction("ManageMazeDifficult", "Maze");
+        }
+
+
         public IActionResult GetUrlsForCouple()
         {
             var path = Path.Combine(_environment.WebRootPath, "imgYellowTeam");

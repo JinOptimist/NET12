@@ -91,5 +91,16 @@ namespace WebMaze.Controllers
 
             return RedirectToAction("BugReports", "BugReport");
         }
+     
+        public IActionResult Awful(long bugReportId)
+        {
+
+            var bugReport = _bugReportRepository.Get(bugReportId);
+
+            _payForActionService.CreatorDislikeFine(bugReport.Creater.Id, TypesOfPayment.Fine);
+
+            return RedirectToAction("BugReports", "BugReport");
+        }
+
     }
 }

@@ -110,6 +110,17 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index", "News");
         }
 
+        public IActionResult Awful(long newsId)
+        {
+
+            var news = _newsRepository.Get(newsId);
+
+            _payForActionService.CreatorDislikeFine(news.Author.Id, TypesOfPayment.Fine);
+
+            return RedirectToAction("Index", "News");
+        }
+
+
         public IActionResult RemoveNews(long newsId)
         {
             _newsRepository.Remove(newsId);
