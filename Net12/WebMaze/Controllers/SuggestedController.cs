@@ -112,14 +112,22 @@ namespace WebMaze.Controllers
             return RedirectToAction("SuggestedEnemys", "Suggested");
         }
 
-        public IActionResult NewCellSugg()
+        public IActionResult NewCellSugg(int page = 1, int perPage =13)
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
-            newCellSuggestionsViewModel = _newCellSuggRepository.GetAll()
+            newCellSuggestionsViewModel = _newCellSuggRepository
+                .GetForPagination(perPage, page)
                 .Select(dbModel => _mapper.Map<NewCellSuggestionViewModel>(dbModel))
                 .ToList();
 
-            return View(newCellSuggestionsViewModel);
+            var paggerViewModel = new PaggerViewModel<NewCellSuggestionViewModel>();
+
+            paggerViewModel.Records = newCellSuggestionsViewModel;
+            paggerViewModel.TotalRecordsCount = _newCellSuggRepository.Count();
+            paggerViewModel.PerPage = perPage;
+            paggerViewModel.CurrPage = page;
+
+            return View(paggerViewModel);
         }
 
         [Authorize]

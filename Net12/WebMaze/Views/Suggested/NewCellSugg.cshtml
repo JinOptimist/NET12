@@ -1,7 +1,8 @@
-﻿@model List<NewCellSuggestionViewModel>
+﻿@model PaggerViewModel<NewCellSuggestionViewModel>
 
 @section Scripts{
         <link rel="stylesheet" href="~/css/NewCellSugg.css" />
+        <script src="~/js/paggination.js"></script>
 }
 
 <div class="text-center">
@@ -9,13 +10,13 @@
         <h3>List of new cells suggestions:</h3>
     </div>
     <div>
-        @{int i = 0;}
-        @foreach (var newCellSuggestionViewModel in Model)
+        @{int numberBlock = 0;}
+        @foreach (var newCellSuggestionViewModel in Model.Records)
         {
             <div>
                 @newCellSuggestionViewModel.Title
-                <a href="#hidden @i " onclick="view('hidden @i'); return false">Details... </a>
-                <div id="hidden @i" style="display: none;">
+                <a href="#hidden @numberBlock " onclick="view('hidden @numberBlock'); return false">Details... </a>
+                <div id="hidden @numberBlock" style="display: none;">
                     <div>
                         <img class="newCellImg" src="@newCellSuggestionViewModel.Url" />
                     </div>
@@ -36,10 +37,44 @@
                     }
                     <a href="/Suggested/AddNewCellSugg?Id=@newCellSuggestionViewModel.Id"><input type="submit" value="Edit" /></a>
                     <a href="/Suggested/RemoveNewCellSuggestion?Id=@newCellSuggestionViewModel.Id"><input type="submit" value="Remove" /></a>
-                    @{++i;}
+                    @{++numberBlock;}
                 </div>
             </div>
         }
+    </div>
+    <div>
+        PerPage
+        <select class="perPageOption">
+            @foreach (var perPageOption in Model.PerPageOptions)
+            {
+                var isSelectedStr = perPageOption == Model.PerPage
+                    ? "selected"
+                    : null;
+                <text>
+                    <option value="@perPageOption" selected=@isSelectedStr>@perPageOption</option>
+                </text>
+            }
+        </select>
+        <input type="hidden" value="@Model.CurrPage" class="CurrPage" />
+        <a href="" class="prev linkToPage">Prev</a>
+        @if (Model.CurrPage > PaggerViewModel<object>.AdditionalElementsNearCurrent)
+        {
+            <a href="/Suggested/NewCellSugg?page=1&perPage=" class="linkToPage">page 1</a>
+            <span>...</span>
+        }
+        @for (int i = Model.StartIndex; i < Model.EndIndex; i++)
+        {
+            <a href="/Suggested/NewCellSugg?page=@(i+1)&perPage="
+               class="linkToPage @(i + 1 == Model.CurrPage ? "active" : "")">page @(i+1)</a>
+        }
+
+        @if (Model.CurrPage < Model.TotalPageCount - PaggerViewModel<object>.AdditionalElementsNearCurrent)
+        {
+            <span>...</span>
+            <a href="/News/Index?page=@Model.TotalPageCount&perPage=" class="linkToPage">page @Model.TotalPageCount</a>
+        }
+        <a href="" class="next linkToPage">Next</a>
+
     </div>
     <div>
         <a href="/Suggested/AddNewCellSugg"><input type="submit" value="Add new cell suggestion" /></a>
