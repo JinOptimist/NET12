@@ -1,5 +1,11 @@
 ﻿@model List<ImageViewModel>
 
+<form action="@Url.Action("Sorted", "Gallery")" method="GET">
+    <a href="#">Sorted by prop</a>
+    <input type="text" name="inputProp">    
+    <input type="submit" value="Send" />
+</form>
+
 <div class="whole-page">
 
         <div class="text-center">

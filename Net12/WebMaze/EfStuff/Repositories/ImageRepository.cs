@@ -14,18 +14,26 @@ namespace WebMaze.EfStuff.Repositories
 
         }
 
-        public List<Image> GetSortedBy()
+        public List<Image> GetSortedBy(string prop = "Assessment")
         {
-            Expression<Func<Image, bool>> goodImages = x => x.Assessment > 5;
+            //split column name by . then foreach expr.prop
+            var table = Expression.Parameter(typeof(Image), "image");// image =>
+            var allProp = prop.Split(".");
+            foreach (var item in allProp)
+            {
 
-            Expression<Func<Image, int>> dbColumn = x => x.Assessment; // x => x.Assessment
-            var compareWith = Expression.Constant(5); // 5
-            //var equal = Expression.Equal(dbColumn, compareWith); //x => x.Assessment == 5
+            }
+            var author = Expression.Property(table, "Author"); // image.Assessment
+            var authorName = Expression.Property(author, "Name"); // image.Assessment
+            var cond = Expression.Constant(name);
+            //var greaterThanExpr = Expression.GreaterThanOrEqual(member, cond);
+            var eq = Expression.Equal(authorName, cond);// news => news.Title == 'good news'
 
-            //Expression<Func<Image, bool>> condition = (Expression<Func<Image, bool>>)Expression.Lambda(equal);
+
+            var condition = Expression.Lambda<Func<Image, bool>>(eq, table);
 
             return _dbSet.
-                Where(goodImages)
+                Where(condition)
                 .ToList();
         }
 
