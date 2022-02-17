@@ -61,6 +61,7 @@ namespace WebMaze.Controllers
             paggerViewModel.Records = newsViewModels;
             paggerViewModel.TotalRecordsCount = _newsRepository.Count();
             paggerViewModel.PerPage = perPage;
+            paggerViewModel.CurrPage = page;
 
             return View(paggerViewModel);
         }
