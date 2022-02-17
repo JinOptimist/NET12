@@ -5,12 +5,19 @@
 }
 
 
-<form action="@Url.Action("Sort", "Gallery")" method="GET">
+<form action="@Url.Action("SortByAssesment", "Gallery")" method="GET">
     <a href="#">Sorted by prop</a>
     <input type="number" name="inAssesment">
+    <input type="submit" value="Send" />
+</form>
+
+<form action="@Url.Action("SortByName", "Gallery")" method="GET">
+    <a href="#">Sorted by name</a>
     <input type="text" name="inName">
     <input type="submit" value="Send" />
 </form>
+
+
 
 <div class="whole-page">
 
@@ -20,25 +27,25 @@
         <div class="pic-to-gallery">
             @foreach (var image in Model)
             {
+            <div>
                 <div>
-                    <div>
-                        <img class="image" src="@image.Picture">
-                    </div>
-                    <div class="t-to-gallery">
-                        @image.Assessment
-                    </div>
-                    <div class="t-to-gallery">
-                        @image.Description
-                    </div>
-                    @if (User.Identity.IsAuthenticated)
+                    <img class="image" src="@image.Picture">
+                </div>
+                <div class="t-to-gallery">
+                    @image.Assessment
+                </div>
+                <div class="t-to-gallery">
+                    @image.Description
+                </div>
+                @if (User.Identity.IsAuthenticated)
                     {
-                        <div>                        
-                            <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" data-id="@image.Id" class="good-button">Wonderful</a>
-                            <button class="bad-button">Awful</button>
-                        </div>
+                <div>
+                    <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" data-id="@image.Id" class="good-button">Wonderful</a>
+                    <button class="bad-button">Awful</button>
+                </div>
                     }
 
-                </div>
+            </div>
 
             }
         </div>
