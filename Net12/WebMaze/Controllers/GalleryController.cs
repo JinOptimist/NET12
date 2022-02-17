@@ -112,8 +112,7 @@ namespace WebMaze.Controllers
         }
 
         public IActionResult Awful(long imageId)
-        {
-            
+        {            
             var image = _repository.Get(imageId);
 
             _payForActionService.CreatorDislikeFine(image.Author.Id, TypesOfPayment.Fine);

@@ -68,7 +68,6 @@ namespace WebMaze.Controllers
 
         public IActionResult Awful(long reviewId)
         {
-
             var review = _reviewRepository.Get(reviewId);
 
             _payForActionService.CreatorDislikeFine(review.Creator.Id, TypesOfPayment.Fine);

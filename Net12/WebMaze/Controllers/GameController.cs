@@ -85,13 +85,11 @@ namespace WebMaze.Controllers
         
         public IActionResult Awful(long gameId)
         {
-
             var game = _favGamesRepository.Get(gameId);
 
             _payForActionService.CreatorDislikeFine(game.Creater.Id, TypesOfPayment.Fine);
 
             return RedirectToAction("FavoriteGames", "Game");
         }
-
     }
 }
