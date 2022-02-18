@@ -50,7 +50,7 @@ namespace WebMaze.Controllers
                .ToList();
             foreach (var item in requestViewModel)
             {
-                if (item.RequestAmount>user.Coins && item.RequestStatus==RequestStatusEnums.WaitingForAnAnswer)
+                if (item.RequestAmount > user.Coins && item.RequestStatus == RequestStatusEnums.WaitingForAnAnswer)
                 {
                     item.MassegeErrors = MassegeErrorsRequestEnums.NotEnoughCoins;
                 }
@@ -64,7 +64,7 @@ namespace WebMaze.Controllers
         {
             var model = _mapper.Map<RequestForMoneyViewModel>(_requestForMoneyRepository.Get(requestId))
          ?? new RequestForMoneyViewModel();
-            model.MassegeErrors = massege; 
+            model.MassegeErrors = massege;
             return View(model);
         }
 
@@ -135,19 +135,18 @@ namespace WebMaze.Controllers
         {
             var requestRecipient = _userService.GetCurrentUser();
             var request = _requestForMoneyRepository.Get(requestId);
-            var requestCreator = _userRepository.Get(request.RequestCreator.Id);            
-            requestCreator.Coins = requestCreator.Coins + request.RequestAmount;
-            _userRepository.Save(requestCreator);
-
-            requestRecipient.Coins = requestRecipient.Coins - request.RequestAmount;
-            _userRepository.Save(requestRecipient);
-
-            request.RequestStatus = RequestStatusEnums.RequestApproved;
-            _requestForMoneyRepository.Save(request);
-
-            return RedirectToAction($"{nameof(RequestForMoneyController.RequestCoins)}");
+            var requestCreator = _userRepository.Get(request.RequestCreator.Id);
+            if (_requestForMoneyRepository.TrasactionRequest(request, requestCreator, requestRecipient))
+            {
+                return RedirectToAction($"{nameof(RequestForMoneyController.RequestCoins)}");
+            }
+            return RedirectToAction($"{nameof(RequestForMoneyController.RequestCoinsError)}");
         }
 
+        public IActionResult RequestCoinsError()
+        {
+            return View();
+        }
     }
 }
 

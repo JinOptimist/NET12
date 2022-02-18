@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.Services;
 
 namespace WebMaze.EfStuff.Repositories
 {
     public class RequestForMoneyRepository : BaseRepository<RequestForMoney>
     {
-        public RequestForMoneyRepository(WebContext webContext) : base(webContext)
-        {
+        private UserRepository _userRepository;
+        private RequestForMoneyRepository _requestForMoneyRepository;
 
+        public RequestForMoneyRepository(WebContext webContext, UserRepository userRepository,
+            RequestForMoneyRepository requestForMoneyRepository) : base(webContext)
+        {
+            _userRepository = userRepository;
+            _requestForMoneyRepository = requestForMoneyRepository;
         }
-        //public virtual RequestForMoney GetCurrentRequest(long userId)
-        //{
-        //    return (RequestForMoney) _dbSet.Where(g => g.RequestRecipient.Id == userId);
-        //}
+        
         public virtual List<RequestForMoney> GetCurrentUserRequests(long userId)
         {
             return _dbSet.Where(g =>
@@ -38,33 +41,34 @@ namespace WebMaze.EfStuff.Repositories
             g.RequestCreator.Id == userId).ToList();
         }
 
-        //public bool TrasactionRequest(long requestId)
-        //{
+        public bool TrasactionRequest(RequestForMoney request, User requestCreator, User requestRecipient)
+        {
 
-        //    using (var transaction = _webContext.Database.BeginTransaction())
-        //    {
-        //        var requestRecipient = _userService.GetCurrentUser();
-        //        var request = _requestForMoneyRepository.Get(requestId);
-        //        var requestCreator = _userRepository.Get(request.RequestCreator.Id);
-        //        try
-        //        {
-        //            requestCreator.Coins = requestCreator.Coins + request.RequestAmount;
-        //            _userRepository.Save(requestCreator);
+            using (var transaction = _webContext.Database.BeginTransaction())
+            {
+                
+                try
+                {
+                    requestCreator.Coins = requestCreator.Coins + request.RequestAmount;
+                    _userRepository.Save(requestCreator);
 
-        //            requestRecipient.Coins = requestRecipient.Coins - request.RequestAmount;
-        //            _userRepository.Save(requestRecipient);
+                    requestRecipient.Coins = requestRecipient.Coins - request.RequestAmount;
+                    _userRepository.Save(requestRecipient);
 
-        //            request.RequestStatus = RequestStatusEnums.RequestApproved;
-        //            _requestForMoneyRepository.Save(request);
+                    request.RequestStatus = RequestStatusEnums.RequestApproved;
+                    _requestForMoneyRepository.Save(request);
 
-        //            transaction.Commit();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            transaction.Rollback();
-        //        }
-        //    }
-        //}
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
 
     }
