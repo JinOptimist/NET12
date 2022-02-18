@@ -32,6 +32,7 @@
                 }
             </select>
             <input type="hidden" value="@Model.CurrPage" class="CurrPage" />
+            <input type="hidden" value="@Model.TotalPageCount" class="TotalPageCount" />
             <a href="" class="prev linkToPage">Prev</a>
             @if (Model.CurrPage > PaggerViewModel<object>.AdditionalElementsNearCurrent)
             {
