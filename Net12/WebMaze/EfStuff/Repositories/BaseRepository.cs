@@ -5,7 +5,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
-using WebMaze.Services;
 
 namespace WebMaze.EfStuff.Repositories
 {
@@ -95,35 +94,7 @@ namespace WebMaze.EfStuff.Repositories
             var condition = Expression.Lambda<Func<Template, object>>(Expression.Convert(member, typeof(object)), table);
             return _dbSet.OrderBy(condition).ToList();
         }
-
-        public bool TrasactionRequest(RequestForMoney request, User requestCreator, User requestRecipient,
-            RequestForMoneyRepository _requestForMoneyRepository, UserRepository _userRepository)
-        {
-
-            using (var transaction = _webContext.Database.BeginTransaction())
-            {
-
-                try
-                {
-                    requestCreator.Coins = requestCreator.Coins + request.RequestAmount;
-                    _userRepository.Save(requestCreator);
-
-                    requestRecipient.Coins = requestRecipient.Coins - request.RequestAmount;
-                    _userRepository.Save(requestRecipient);
-
-                    request.RequestStatus = RequestStatusEnums.RequestApproved;
-                    _requestForMoneyRepository.Save(request);
-
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    return false;
-                }
-            }
-
-            return true;
-        }
     }
+
+
 }

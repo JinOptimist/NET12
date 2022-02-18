@@ -7,6 +7,11 @@
     <h3>
         Request Coins
     </h3>
+
+    <div>
+        <a href="/RequestForMoney/AddRequestCoins">Add Request Coins</a>
+    </div>
+   
     <div>
         @foreach (var request in Model)
 
@@ -25,16 +30,16 @@
                     </div>
 
                     <div>
-                        @if (request.MassegeErrors==WebMaze.Services.RequestForMoney.MassegeErrorsRequestEnums.NotEnoughCoins)
+                        @if (request.MassegeErrors == WebMaze.Services.RequestForMoney.MassegeErrorsRequestEnums.NotEnoughCoins)
                         {
                             <a>
-                            You don't have enough coins
+                                You don't have enough coins
                             </a>
                         }
                         else
                         {
 
-                        <a href="/RequestForMoney/AcceptRequestCoins?requestId=@request.Id"><input type="button" value="Accept" /></a>
+                            <a href="/RequestForMoney/AcceptRequestCoins?requestId=@request.Id"><input type="button" value="Accept" /></a>
 
                         }
                         <a href="/RequestForMoney/RejectRequestCoins?requestId=@request.Id"><input type="button" value="Reject" /></a>
