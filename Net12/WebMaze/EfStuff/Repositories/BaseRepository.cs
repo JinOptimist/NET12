@@ -70,5 +70,6 @@ namespace WebMaze.EfStuff.Repositories
             .Skip((page -1) * perPage)
             .Take(perPage)
             .ToList();
+
     }
 }

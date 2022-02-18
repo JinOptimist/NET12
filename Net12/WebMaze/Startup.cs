@@ -278,6 +278,14 @@ namespace WebMaze
             provider.CreateMap<GuessTheNumberGameAnswerViewModel,
                 GuessTheNumberGameAnswer>();
 
+            provider.CreateMap<RequestForMoney, RequestForMoneyViewModel>()
+                .ForMember(nameof(RequestForMoneyViewModel.RequestRecipient),
+                    opt => opt.MapFrom(r => r.RequestRecipient.Name))
+                .ForMember(nameof(RequestForMoneyViewModel.RequestCreator),
+                    opt => opt.MapFrom(r => r.RequestCreator.Name));
+            provider.CreateMap<RequestForMoneyViewModel,
+                RequestForMoney>();
+
 
             var mapperConfiguration = new MapperConfiguration(provider);
 

@@ -1,0 +1,77 @@
+﻿@model RequestForMoneyViewModel
+
+@section Scripts{ 
+    <script src="~/js/requestCoins.js"></script>
+    
+}
+
+<form name="myForm" action="/RequestforMoney/AddRequestCoins" onsubmit="return validateForm()" method="post">
+    @Html.HiddenFor(x => x.Id)
+    <div>
+        <div>
+            Request for money field
+        </div>
+        <div>
+            <div>
+                User Name: <input name="userName" type="text" required />
+            </div>
+
+
+            @*<select name="user">
+                    <option value="0">Select user</option>
+                    @foreach (var user in Model.Users)
+                    {
+                        if (Model.RequestCreator != Model.RequestRecipient)
+                        {
+                            <option
+                                    value="@user.UserName">
+                            </option>
+                        }
+                    }
+
+                </select>*@
+        </div>
+        <div>
+            Request coins: <input name="requestCoins" type="number" required />
+        </div>
+
+        <div>
+
+            @switch (Model.MassegeErrors)
+            {
+                case WebMaze.Services.RequestForMoney.MassegeErrorsRequestEnums.NotEnoughUser:
+                    <div>
+                        User with this name not found
+                    </div>
+                    break;
+
+                case WebMaze.Services.RequestForMoney.MassegeErrorsRequestEnums.NegativeValue:
+                    <div>
+                        Invalid coin value
+                    </div>
+                    break;
+
+                case WebMaze.Services.RequestForMoney.MassegeErrorsRequestEnums.RequestToYourself:
+                    <div>
+                        You are trying to query yourself
+                    </div>
+                    break;
+
+                case WebMaze.Services.RequestForMoney.MassegeErrorsRequestEnums.UserNotEnoughCoins:
+                    <div>
+                        The user does not have that many coins
+                    </div>
+                    break;
+
+                default:
+                    break;
+            }
+        </div>
+
+        <div class="js-transaction-field">
+            <input type="submit" value="Request coins" class="transactionButton" />
+        </div>
+
+
+    </div>
+</form>

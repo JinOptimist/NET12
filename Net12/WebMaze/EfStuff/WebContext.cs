@@ -34,6 +34,8 @@ namespace WebMaze.EfStuff
         public DbSet<GuessTheNumberGame> GuessTheNumberGames { get; set; }
         public DbSet<GuessTheNumberGameAnswer> GuessTheNumberGameAnswers { get; set; }
         public DbSet<GuessTheNumberGameParameters> GuessTheNumberGameParameters { get; set; }
+        public DbSet<RequestForMoney> RequestForMoneys { get; set; }
+
         public WebContext(DbContextOptions options) : base(options)
         {
         }
@@ -140,6 +142,15 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<GuessTheNumberGameAnswer>()
                 .HasOne(x => x.Game)
                 .WithMany(x => x.Answers);
+
+            modelBuilder.Entity<RequestForMoney>()
+                .HasOne(x => x.RequestCreator)
+                .WithMany(x => x.RequestCreators);
+
+            modelBuilder.Entity<RequestForMoney>()
+                .HasOne(x => x.RequestRecipient)
+                .WithMany(x => x.RequestRecipients);
+            
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
