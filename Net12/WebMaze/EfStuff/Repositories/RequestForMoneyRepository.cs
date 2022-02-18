@@ -9,14 +9,11 @@ namespace WebMaze.EfStuff.Repositories
 {
     public class RequestForMoneyRepository : BaseRepository<RequestForMoney>
     {
-        private UserRepository _userRepository;
-        private RequestForMoneyRepository _requestForMoneyRepository;
+       
 
-        public RequestForMoneyRepository(WebContext webContext, UserRepository userRepository,
-            RequestForMoneyRepository requestForMoneyRepository) : base(webContext)
+        public RequestForMoneyRepository(WebContext webContext) : base(webContext)
         {
-            _userRepository = userRepository;
-            _requestForMoneyRepository = requestForMoneyRepository;
+            
         }
         
         public virtual List<RequestForMoney> GetCurrentUserRequests(long userId)
@@ -40,36 +37,6 @@ namespace WebMaze.EfStuff.Repositories
            ||
             g.RequestCreator.Id == userId).ToList();
         }
-
-        public bool TrasactionRequest(RequestForMoney request, User requestCreator, User requestRecipient)
-        {
-
-            using (var transaction = _webContext.Database.BeginTransaction())
-            {
                 
-                try
-                {
-                    requestCreator.Coins = requestCreator.Coins + request.RequestAmount;
-                    _userRepository.Save(requestCreator);
-
-                    requestRecipient.Coins = requestRecipient.Coins - request.RequestAmount;
-                    _userRepository.Save(requestRecipient);
-
-                    request.RequestStatus = RequestStatusEnums.RequestApproved;
-                    _requestForMoneyRepository.Save(request);
-
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-
     }
 }

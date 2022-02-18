@@ -136,7 +136,8 @@ namespace WebMaze.Controllers
             var requestRecipient = _userService.GetCurrentUser();
             var request = _requestForMoneyRepository.Get(requestId);
             var requestCreator = _userRepository.Get(request.RequestCreator.Id);
-            if (_requestForMoneyRepository.TrasactionRequest(request, requestCreator, requestRecipient))
+            if (_requestForMoneyRepository.TrasactionRequest(request, requestCreator, requestRecipient,
+                _requestForMoneyRepository, _userRepository))
             {
                 return RedirectToAction($"{nameof(RequestForMoneyController.RequestCoins)}");
             }
