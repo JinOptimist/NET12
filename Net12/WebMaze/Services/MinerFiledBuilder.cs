@@ -66,7 +66,7 @@ namespace WebMaze.Services
             return minerFiled;
         }
 
-        private List<MinerCell> GetNear(List<MinerCell> cells, MinerCell currentCell)
+        public List<MinerCell> GetNear(List<MinerCell> cells, MinerCell currentCell)
         {
             return cells
                     .Where(cell => 

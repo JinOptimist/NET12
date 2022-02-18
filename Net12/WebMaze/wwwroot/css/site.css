@@ -4,6 +4,10 @@
     border: 1px #000 solid;
 }
 
+.navbar-nav {
+    flex-wrap: wrap;
+}
+
 .rich {
     color: green;
 }
@@ -230,4 +234,9 @@ body {
 .user-transaction {
     border: 1px solid;
     margin: 30px;
+}
+
+
+.linkToPage.active {
+    color: red;
 }

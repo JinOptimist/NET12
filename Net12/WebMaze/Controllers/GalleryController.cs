@@ -104,8 +104,18 @@ namespace WebMaze.Controllers
 
         public IActionResult Wonderful(long imageId)
         {
+            var reward = 10;
             var image = _repository.Get(imageId);
-            _payForActionService.CreatorEarnMoney(image.Author.Id, 10);
+            _payForActionService.CreatorEarnMoney(image.Author.Id, reward);
+
+            return RedirectToAction("Index", "Gallery");
+        }
+
+        public IActionResult Awful(long imageId)
+        {            
+            var image = _repository.Get(imageId);
+
+            _payForActionService.CreatorDislikeFine(image.Author.Id, TypesOfPayment.Fine);
 
             return RedirectToAction("Index", "Gallery");
         }

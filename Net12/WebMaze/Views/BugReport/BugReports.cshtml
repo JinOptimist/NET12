@@ -22,9 +22,9 @@
                 <div class="content-report-description-content">
                     @if (User.Identity.IsAuthenticated)
                     {
-                    <div>                        
+                    <div>
                         <a href="@Url.Action("Wonderful","BugReport", new {@bugReportId = bugReports.Id})" class="good-button">Wonderful</a>
-                        <button class="bad-button">Awful</button>
+                        <a href="@Url.Action("Awful","BugReport", new {@bugReportId = bugReports.Id})" class="bad-button">Awful</a>
                     </div>
                     }
                 </div>

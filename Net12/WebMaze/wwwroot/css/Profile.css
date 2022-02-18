@@ -1,0 +1,94 @@
+.Groups {
+    width: 550px;
+    margin-left: 10px;
+    border: solid 2px gray;
+    border-radius: 5px;
+}
+.ListGroup {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 0% 0% 4px 4px;
+    box-shadow: var(--page-block-shadow);
+    width: 95%;
+}
+
+.isGroup {
+    border-bottom: 1px solid #c7c7c7;
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.group_row_photo{
+    float: left;
+}
+
+.group_row_img {
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 0;
+}
+
+.group_row_title {
+    margin-right: 15px;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    text-decoration: none;
+}
+
+.group_row_Name {
+    font-size: 16px;
+}
+
+.group_row {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: auto;
+    -webkit-font-smoothing: antialiased;
+    flex-direction: column;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.tilte_listGroup {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+    border-bottom: solid 1px white;
+    background: #c7c7c7;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 700;
+}
+
+.button_add_group{
+  display: inline-block;
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+  user-select: none;
+  padding: .5em 2em;
+  outline: none;
+  border: 2px solid;
+  border-radius: 1px;
+  transition: 0.2s;
+}
+
+.button_add_user {
+    display: inline-block;
+    color: gray;
+    font-weight: 700;
+    text-decoration: none;
+    user-select: none;
+    padding: .5em 2em;
+    outline: none;
+    border: 2px solid;
+    border-radius: 1px;
+    transition: 0.2s;
+}

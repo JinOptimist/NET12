@@ -1,0 +1,111 @@
+.GroupList {
+    list-style: none;
+    border-left: 10px solid #FC7574;
+    padding: 0;
+    font-family: "Lucida Sans";
+}
+
+    .GroupList li {
+        padding: 10px;
+    }
+
+        .GroupList li:nth-child(odd) {
+            background: #E1F1FF;
+        }
+
+        .GroupList li:nth-child(even) {
+            background: white;
+        }
+.Groups {
+    display: flex;
+    flex-direction: column;
+}
+
+.ListOfGroups {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.MyGroup {
+    justify-content: center;
+    display: flex;
+    text-align: center;
+}
+.topmenu > li {
+    display: inline-block;
+    position: relative;
+}
+
+    .topmenu > li > a {
+        position: relative;
+        padding: 10px 15px;
+        font-family: 'Kaushan Script', cursive;
+        font-size: 1.5em;
+        line-height: 1;
+        letter-spacing: 3px;
+        text-decoration: none;
+    }
+
+        .topmenu > li > a:before {
+            content: "";
+            position: absolute;
+            z-index: 5;
+            left: 50%;
+            top: 100%;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            transform: translate(-50%, 20px);
+            opacity: 0;
+            transition: .3s;
+        }
+
+.topmenu li:hover a:before {
+    transform: translate(-50%, 0);
+    opacity: 1;
+}
+
+.submenu {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    top: 100%;
+    width: 150px;
+    padding: 15px 0 15px;
+    margin-top: 5px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 30px rgba(0,0,0,.2);
+    box-sizing: border-box;
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(-50%, 20px);
+    transition: .3s;
+}
+
+.topmenu > li:hover .submenu {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.submenu a {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 5px 10px;
+    transition: .3s linear;
+}
+
+    .submenu a:hover {
+        background: #e8e8e8;
+    }
+ul {
+    margin: 0;
+    padding: 0;
+}
+li {
+    list-style-type: none;
+}

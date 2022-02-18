@@ -40,5 +40,20 @@ namespace WebMaze.Services
             user.Coins += amount;
             _userRepository.Save(user);
         }
+
+        public void CreatorDislikeFine(long userId, TypesOfPayment typesOfPayment)
+        {
+            var user = _userRepository.Get(userId);
+
+            if(user.Coins < (int)typesOfPayment)
+            {                
+                user.Coins -= user.Coins;
+                _userRepository.Save(user);
+            } 
+            else
+            {
+                Payment(typesOfPayment);
+            }
+        }
     }
 }
