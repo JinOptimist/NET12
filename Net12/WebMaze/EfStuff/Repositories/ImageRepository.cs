@@ -14,35 +14,20 @@ namespace WebMaze.EfStuff.Repositories
 
         }
 
-            public List<Image> GetSorted(int assessment)
+        public List<Image> GetSorted (object value, string columnName = "Assesment")
         {
             var table = Expression.Parameter(typeof(Image), "image");// image =>            
 
-            var propAssessment = Expression.Property(table, "Assessment"); // image.Assessment
-            var cond = Expression.Constant(assessment);
+            var propAssessment = Expression.Property(table, columnName); // image.Assessment
+            var cond = Expression.Constant(value);
             var greaterThanExpr = Expression.GreaterThanOrEqual(propAssessment, cond);
 
             var condition = Expression.Lambda<Func<Image, bool>>(greaterThanExpr, table);// image => image.Assessment >= assessment
 
+
             return _dbSet.
                   Where(condition)
                   .ToList();
-        }
-
-        public List<Image> GetSorted(string name)
-        {
-            var table = Expression.Parameter(typeof(Image), "image");          
-
-            var propAuthor = Expression.Property(table, "Author");
-            var propName = Expression.Property(propAuthor, "Name");
-            var cond = Expression.Constant(name);
-            var equal = Expression.Equal(propName, cond);
-
-            var condition = Expression.Lambda<Func<Image, bool>>(equal, table);
-
-            return _dbSet.
-                   Where(condition)
-                   .ToList();
         }
 
         public void RemoveByUser(long userId)

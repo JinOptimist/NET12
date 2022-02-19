@@ -45,30 +45,21 @@ namespace WebMaze.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string name, int assessment = 0)
+        public IActionResult Index(string columnName, object value)
         {
             var imageViewModels = new List<ImageViewModel>();
 
             if (_userRepository.GetAll().Any())
             {
-                if (name != null)
-                {
-                    imageViewModels = _repository.GetSorted(name).Select(image => _mapper.Map<ImageViewModel>(image)).ToList();
-                    return View(imageViewModels);
-                }
-                imageViewModels = _repository.GetSorted(assessment).Select(image => _mapper.Map<ImageViewModel>(image)).ToList();
+                imageViewModels = _repository.GetSorted(value, columnName).Select(image => _mapper.Map<ImageViewModel>(image)).ToList();
             }
 
             return View(imageViewModels);
         }
 
-        public IActionResult SortByAssesment(int inAssesment)
+        public IActionResult GetSorted(int inColumnName, object inValue)
         {
-            return RedirectToAction("Index", new { assessment = inAssesment });
-        }
-        public IActionResult SortByName(string inName)
-        {
-            return RedirectToAction("Index", new {name = inName });
+            return RedirectToAction("Index", new { columnName = inColumnName, value = inValue });
         }
 
         [HttpGet]
