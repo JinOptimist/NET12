@@ -118,7 +118,6 @@ namespace WebMaze.Controllers
                         var runDescription = paraDescription.AppendChild(new Run());
                         runDescription.AppendChild(new Text(oneReport.Description));
                     }
-
                     wordDocument.Close();
                 }
 
