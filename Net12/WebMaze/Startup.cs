@@ -302,6 +302,9 @@ namespace WebMaze
                 .ForMember(nameof(SeaBattleGameViewModel.EnemyField), opt => opt.MapFrom(db => db.Fields.Where(x => x.IsField).Single()));
             provider.CreateMap<SeaBattleGameViewModel, SeaBattleGame>();
 
+            provider.CreateMap<SeaBattleDifficult, SeaBattleDifficultViewModel>();
+            provider.CreateMap<SeaBattleDifficultViewModel, SeaBattleDifficult>();
+
             var mapperConfiguration = new MapperConfiguration(provider);
 
             var mapper = new Mapper(mapperConfiguration);

@@ -14,22 +14,19 @@ namespace WebMaze.Controllers
 {
     public class SeaBattleController : Controller
     {
-        private Random _random = new Random();
         private IMapper _mapper;
         private SeaBattleService _seaBattleService;
         private SeaBattleDifficultRepository _seaBattleDifficultRepository;
         private SeaBattleGameRepository _seaBattleGameRepository;
         private UserService _userService;
         private SeaBattleCellRepository _seaBattleCellRepository;
-        private SeaBattleFieldRepository _seaBattleFieldRepository;
 
         public SeaBattleController(IMapper mapper,
                                     SeaBattleService seaBattleService,
                                     SeaBattleDifficultRepository seaBattleDifficultRepository,
                                     SeaBattleGameRepository seaBattleGameRepository,
                                     UserService userService,
-                                    SeaBattleCellRepository seaBattleCellRepository,
-                                    SeaBattleFieldRepository seaBattleFieldRepository)
+                                    SeaBattleCellRepository seaBattleCellRepository)
         {
             _mapper = mapper;
             _seaBattleService = seaBattleService;
@@ -37,28 +34,29 @@ namespace WebMaze.Controllers
             _seaBattleGameRepository = seaBattleGameRepository;
             _userService = userService;
             _seaBattleCellRepository = seaBattleCellRepository;
-            _seaBattleFieldRepository = seaBattleFieldRepository;
         }
 
         public IActionResult Index()
         {
+            var indexViewModel = new SeaBattleIndexViewModel();
 
-            return View();
+            indexViewModel.SeaBattleDifficultViewModels = _seaBattleDifficultRepository
+                .GetAll()
+                .Select(x => _mapper.Map<SeaBattleDifficultViewModel>(x))
+                .ToList();
+
+            if (_userService.GetCurrentUser().SeaBattleGame != null)
+            {
+                indexViewModel.IsContinue = true;
+            }
+
+            return View(indexViewModel);
         }
 
         public IActionResult NewGame(long difficultId)
         {
-
-            var difficult = new SeaBattleDifficult
-            {
-                Height = 12,
-                Width = 12,
-                FourSizeShip = 2,
-                ThreeSizeShip = 3,
-                TwoSizeShip = 4
-            };
             var user = _userService.GetCurrentUser();
-
+            var difficult = _seaBattleDifficultRepository.Get(difficultId);
             var game = new SeaBattleGame();
 
             if (user.SeaBattleGame == null)
@@ -77,6 +75,10 @@ namespace WebMaze.Controllers
             }
 
             return RedirectToAction("Game", new { id = game.Id });
+        }
+        public IActionResult ContinueGame()
+        {
+            return RedirectToAction("Game", new { id = _userService.GetCurrentUser().SeaBattleGame.Id });
         }
 
         public IActionResult Game(long id)
@@ -108,7 +110,6 @@ namespace WebMaze.Controllers
 
             if (!enemyField.Cells.Where(x => x.ShipHere && !x.Hit).Any())
             {
-                _seaBattleGameRepository.Remove(enemyField.Game.Id);
                 return RedirectToAction("WinGame");
             }
 
@@ -118,7 +119,6 @@ namespace WebMaze.Controllers
 
             if (!myField.Cells.Where(x => x.ShipHere && !x.Hit).Any())
             {
-                _seaBattleGameRepository.Remove(myField.Game.Id);
                 return RedirectToAction("LoseGame");
             }
 
@@ -138,11 +138,13 @@ namespace WebMaze.Controllers
 
         public IActionResult WinGame()
         {
+            _seaBattleGameRepository.Remove(_userService.GetCurrentUser().SeaBattleGame.Id);
             return View();
         }
 
         public IActionResult LoseGame()
         {
+            _seaBattleGameRepository.Remove(_userService.GetCurrentUser().SeaBattleGame.Id);
             return View();
         }
 

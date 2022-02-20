@@ -46,3 +46,19 @@
 .seabattle-field {
     border: 5px solid green;
 }
+
+.seabattle-margin {
+    margin: 20px;
+}
+
+.manage-seabattle-difficult {
+    display: flex;
+    padding: 10px;
+    margin: 10px;
+    max-width: max-content;
+    border: 1px solid black;
+}
+
+.manage-seabattle-difficult * {
+    margin-right: 10px;
+}

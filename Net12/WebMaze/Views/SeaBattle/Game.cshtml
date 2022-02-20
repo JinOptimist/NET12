@@ -1,8 +1,9 @@
-﻿@model SeaBattleGameViewModel
+﻿@using WebMaze.ResourceLocalization
+
+@model SeaBattleGameViewModel
 
 <div class="big-center-font">
-    <a href="/SeaBattle/NewGame">Test</a>
-    <p><a href="/SeaBattle/Remove">Remove</a></p>
+    @SeaBattle.LetsGo
 </div>
 
 <div class="seabattle-game">
@@ -18,12 +19,12 @@
                     {
                         if (cell.Hit)
                         {
-                            <span class="seabattle-damadge-ship-cell" shipNumber =@cell.ShipNumber>
+                            <span class="seabattle-damadge-ship-cell" shipNumber=@cell.ShipNumber>
                             </span>
                         }
                         else
                         {
-                            <span class="seabattle-normal-ship-cell" shipNumber =@cell.ShipNumber>
+                            <span class="seabattle-normal-ship-cell" shipNumber=@cell.ShipNumber>
                             </span>
                         }
                     }
@@ -56,7 +57,7 @@
                     {
                         if (cell.Hit)
                         {
-                            <span class="seabattle-damadge-ship-cell" shipNumber =@cell.ShipNumber>
+                            <span class="seabattle-damadge-ship-cell" shipNumber=@cell.ShipNumber>
                             </span>
                         }
                         else
@@ -85,3 +86,8 @@
         }
     </div>
 </div>
+
+<div class="big-center-font">
+    <a href="/SeaBattle/LoseGame">@SeaBattle.Defeat</a>
+</div>
+
