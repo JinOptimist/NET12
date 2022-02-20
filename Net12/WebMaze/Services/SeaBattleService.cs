@@ -338,5 +338,170 @@ namespace WebMaze.Services
                 _seaBattleFieldRepository.Save(myField);
             }
         }
+
+        public void DestroyShip(SeaBattleField myField)
+        {
+            var lastHitCell = _seaBattleCellRepository.Get(myField.LastHitToShip);
+
+            var getNearCells = myField.Cells
+                .Where(cell => (cell.X == lastHitCell.X && Math.Abs(cell.Y - lastHitCell.Y) == 1
+                || Math.Abs(cell.X - lastHitCell.X) == 1 && cell.Y == lastHitCell.Y))
+                .ToList();
+
+            var shipHere = getNearCells.Where(x => x.ShipHere && x.Hit).ToList();
+            if (shipHere.Any())
+            {
+                var secondHit = shipHere.First();
+                if (lastHitCell.X == secondHit.X)
+                {
+                    bool isShoot = false;
+
+                    //vertical ship down
+                    for (int i = 1; i <= lastHitCell.ShipLength; i++)
+                    {
+                        var downCellToHit = myField.Cells
+                            .Where(cell => cell.X == lastHitCell.X && cell.Y - lastHitCell.Y == i)
+                            .SingleOrDefault();
+
+                        if (downCellToHit != null)
+                        {
+                            if (downCellToHit.Hit)
+                            {
+                                if (!downCellToHit.ShipHere)
+                                {
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                downCellToHit.Hit = true;
+                                _seaBattleCellRepository.Save(downCellToHit);
+                                isShoot = true;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    if (!isShoot)
+                    {
+                        //vertical ship up
+                        for (int i = 1; i <= lastHitCell.ShipLength; i++)
+                        {
+                            var upCellToHit = myField.Cells
+                                .Where(cell => cell.X == lastHitCell.X && lastHitCell.Y - cell.Y == i)
+                                .SingleOrDefault();
+
+                            if (upCellToHit != null)
+                            {
+                                if (upCellToHit.Hit)
+                                {
+                                    if (!upCellToHit.ShipHere)
+                                    {
+                                        myField.LastHitToShip = -1;
+                                        RandomHit(myField);
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    upCellToHit.Hit = true;
+                                    _seaBattleCellRepository.Save(upCellToHit);
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                myField.LastHitToShip = -1;
+                                RandomHit(myField);
+                                break;
+                            }
+                        }
+                    }
+                }
+                else if (lastHitCell.Y == secondHit.Y)
+                {
+                    bool isShoot = false;
+
+                    //horizontal ship right
+                    for (int i = 1; i <= lastHitCell.ShipLength; i++)
+                    {
+                        var rightCellToHit = myField.Cells
+                            .Where(cell => cell.X - lastHitCell.X == i && cell.Y == lastHitCell.Y)
+                            .SingleOrDefault();
+
+                        if (rightCellToHit != null)
+                        {
+                            if (rightCellToHit.Hit)
+                            {
+                                if (!rightCellToHit.ShipHere)
+                                {
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                rightCellToHit.Hit = true;
+                                _seaBattleCellRepository.Save(rightCellToHit);
+                                isShoot = true;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    if (!isShoot)
+                    {
+                        //horizontal ship left
+                        for (int i = 1; i <= lastHitCell.ShipLength; i++)
+                        {
+                            var upCellToHit = myField.Cells
+                                .Where(cell => lastHitCell.X - cell.X == i && cell.Y == lastHitCell.Y)
+                                .SingleOrDefault();
+
+                            if (upCellToHit != null)
+                            {
+                                if (upCellToHit.Hit)
+                                {
+                                    if (!upCellToHit.ShipHere)
+                                    {
+                                        myField.LastHitToShip = -1;
+                                        RandomHit(myField);
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    upCellToHit.Hit = true;
+                                    _seaBattleCellRepository.Save(upCellToHit);
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                myField.LastHitToShip = -1;
+                                RandomHit(myField);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var cellsToHit = getNearCells.Where(x => !x.Hit).ToList();
+                var cellToHit = cellsToHit[_random.Next(cellsToHit.Count())];
+
+                cellToHit.Hit = true;
+                _seaBattleCellRepository.Save(cellToHit);
+            }
+
+        }
     }
 }

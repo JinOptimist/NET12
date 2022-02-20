@@ -152,10 +152,6 @@ namespace WebMaze.EfStuff
                 .WithOne(x => x.SeaBattleGame)
                 .HasForeignKey<SeaBattleGame>(x => x.UserId);
 
-            modelBuilder.Entity<SeaBattleDifficult>()
-                .HasOne(x => x.User)
-                .WithMany(x => x.SeaBattleDifficults);
-
             modelBuilder.Entity<SeaBattleGame>()
                 .HasMany(x => x.Fields)
                 .WithOne(x => x.Game)

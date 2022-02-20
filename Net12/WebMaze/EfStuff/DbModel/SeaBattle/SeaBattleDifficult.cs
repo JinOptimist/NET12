@@ -13,6 +13,5 @@ namespace WebMaze.EfStuff.DbModel.SeaBattle
         public int TwoSizeShip { get; set; }
         public int ThreeSizeShip { get; set; }
         public int FourSizeShip { get; set; }
-        public virtual User User { get; set; }
     }
 }
