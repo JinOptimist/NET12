@@ -1,5 +1,9 @@
 ﻿@model List<NewCellSuggestionViewModel>
 
+@section Scripts{
+        <link rel="stylesheet" href="~/css/NewCellSugg.css" />
+}
+
 <div class="text-center">
     <div>
         <h3>List of new cells suggestions:</h3>
@@ -12,6 +16,9 @@
                 @newCellSuggestionViewModel.Title
                 <a href="#hidden @i " onclick="view('hidden @i'); return false">Details... </a>
                 <div id="hidden @i" style="display: none;">
+                    <div>
+                        <img class="newCellImg" src="@newCellSuggestionViewModel.Url" />
+                    </div>
                     <p>Description: @newCellSuggestionViewModel.Description</p>
                     <p>
                         Money: @newCellSuggestionViewModel.MoneyChange
@@ -21,12 +28,12 @@
                     <p>User Name: @newCellSuggestionViewModel.UserName</p>
                     <p>Rating: @newCellSuggestionViewModel.GlobalUserRating</p>
                     @if (User.Identity.IsAuthenticated)
-                    {
-                <div>
-                    <a href="@Url.Action("WonderfulNewCellSuggestion","Suggested", new {@newCellSuggestionId = newCellSuggestionViewModel.Id})" class="good-button">Wonderful</a>                    
-                    <button class="bad-button">Awful</button>
-                </div>
-                    }
+                        {
+                        <div>
+                            <a href="@Url.Action("WonderfulNewCellSuggestion","Suggested", new {@newCellSuggestionId = newCellSuggestionViewModel.Id})" class="good-button">Wonderful</a>
+                            <a href="@Url.Action("AwfulNewCellSuggestion","Suggested", new {@newCellSuggestionId = newCellSuggestionViewModel.Id})" class="bad-button">Awful</a>
+                        </div>
+                        }
                     <a href="/Suggested/AddNewCellSugg?Id=@newCellSuggestionViewModel.Id"><input type="submit" value="Edit" /></a>
                     <a href="/Suggested/RemoveNewCellSuggestion?Id=@newCellSuggestionViewModel.Id"><input type="submit" value="Remove" /></a>
                     @{++i;}

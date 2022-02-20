@@ -9,6 +9,7 @@ namespace WebMaze.Models.Enums
     {
         Small = 100,
         Medium = 200,
-        Huge = 250
+        Huge = 250,
+        Fine =10
     }
 }

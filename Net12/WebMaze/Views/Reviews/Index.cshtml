@@ -35,7 +35,7 @@
                         {
                             <div>
                                 <a href="@Url.Action("Wonderful","Reviews", new { @reviewId = item.Id })" class="good-button">Wonderful</a>
-                                <button class="bad-button">Awful</button>
+                                <a href="@Url.Action("Awful","Reviews", new {@reviewId = item.Id})" class="bad-button">Awful</a>
                             </div>
                         }
                     </div>

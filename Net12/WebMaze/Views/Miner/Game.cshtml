@@ -1,21 +1,177 @@
 ﻿@model MinerFieldViewModel
 
-<div>
-    @for (int y = 0; y < Model.Height; y++)
-    {
-        <div class="row">
-            @for (int x = 0; x < Model.Width; x++)
+@section Scripts{
+    <script src="~/js/miner.js"></script>
+}
+
+<div class="miner-all">
+
+    <div class="miner-win-over-playspace">
+
+        @if (Model.IsOver)
+        {
+            <div class="won-and-over h1">Game</div>
+        }
+
+        @if (Model.IsWon)
+        {
+            <div class="won-and-over h2">You</div>
+        }
+
+        <div class="playspace">
+            @for (var i = 0; i < 18; i++)
             {
-                var cell = Model.Cells.Single(c => c.X == x && c.Y == y);
-                if (cell.IsOpen)
+                var minerClass = "miner-element" + i.ToString();
+
+                if (i < 2 || (i > 7 && i < 10) || (i > 13 && i < 16))
                 {
-                    <a href="#">@cell.NearBombsCount</a> 
+                    <img src="~/images/miner_buttons/w.png" class="@minerClass miner-elements" />
+                }
+                else if ((i > 9 && i < 12) || (i > 15 && i < 18))
+                {
+                    <img src="~/images/miner_buttons/br.png" class="@minerClass miner-elements" />
+                }
+                else if (i > 3 && i < 6)
+                {
+                    <img src="~/images/miner_buttons/ul.png" class="@minerClass miner-elements" />
                 }
                 else
                 {
-                    <a href="/Miner/Step?id=@cell.Id"> @(cell.IsBomb ? "B" : "O")</a>
+                    <img src="~/images/miner_buttons/dg.png" class="@minerClass miner-elements" />
                 }
             }
+
+            <a href="/Miner/StartGame">
+                @if (Model.IsOver)
+                {
+                    <img src="~/images/miner_buttons/face_dead.png" class="face miner-elements" />
+                }
+                else if (Model.IsWon)
+                {
+                    <img src="~/images/miner_buttons/face_win.png" class="face miner-elements" />
+                }
+                else
+                {
+                    <img src="~/images/miner_buttons/face_smile.png" class="face miner-elements" />
+                }
+            </a>
+
+            @{ var leftFlagsCount = 10 - Model.Cells.Where(x => x.IsFlag).Count();
+                var numbers = leftFlagsCount.ToString();
+
+                if (numbers.Length == 1)
+                {
+                    numbers = "00" + numbers;
+                }
+                else if (numbers.Length == 2)
+                {
+                    if (leftFlagsCount == 10)
+                    {
+                        numbers = "0" + numbers;
+                    }
+                    else
+                    {
+                        numbers = numbers.Remove(0, 1);
+                        numbers = "-0" + numbers;
+                    }
+                }
+
+                numbers.ToArray(); }
+
+
+            @for (var i = 0; i < 3; i++)
+            {
+                var newNumberClass = "miner-number" + i;
+                var newNumberSrc = "/images/miner_buttons/number" + numbers[i] + ".png";
+
+                <img src=@newNumberSrc class="@newNumberClass miner-elements miner-numbers" />
+            }
+
+            @for (var i = 3; i < 6; i++)
+            {
+                var minerClass = "miner-number" + i;
+                <img src="~/images/miner_buttons/number0.png" class="@minerClass miner-elements miner-numbers" />
+            }
+
+            <div class="miner-field">
+                @for (int y = 0; y < Model.Height; y++)
+                {
+                    <div class="row">
+                        @for (int x = 0; x < Model.Width; x++)
+                        {
+                            var cell = Model.Cells.Single(c => c.X == x && c.Y == y);
+                            if (cell.IsOpen)
+                            {
+                                if (cell.FirstOpenedBomb)
+                                {
+                                    <img id="@cell.Id" src="~/images/miner_buttons/red_bomb.png" width="29" />
+                                }
+                                else if (cell.IsBomb)
+                                {
+                                    <img id="@cell.Id" src="~/images/miner_buttons/bomb.png" width="29" />
+                                }
+                                else
+                                {
+                                    var str = cell.NearBombsCount.ToString();
+                                    var minerSource = "../../images/miner_buttons/bomb_amount" + str + ".png";
+                                    if (Model.IsOver || Model.IsWon || cell.NearBombsCount == 0)
+                                    {
+                                        <img id="@cell.Id" src="@minerSource" width="29" />;
+                                    }
+                                    else
+                                    {
+                                        <img id="@cell.Id" class="pressOpen" src="@minerSource" width="29" />;
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                if (Model.IsOver && cell.IsFlag && !cell.IsBomb)
+                                {
+                                    <img id="@cell.Id" src="~/images/miner_buttons/crossed_bomb.png" width="29" />
+                                }
+                                else if (!(Model.IsWon || Model.IsOver))
+                                {
+                                    if (@cell.IsFlag)
+                                    {
+                                        <img id="@cell.Id" class="flag" src="~/images/miner_buttons/miner_flag.png" width="29" />
+                                    }
+                                    else
+                                    {
+                                        <img id="@cell.Id" class="pressClosed" src="~/images/miner_buttons/miner_button.png" width="29" />
+                                    }
+                                }
+                                else
+                                {
+
+                                    if (cell.IsFlag)
+                                    {
+                                        <img id="@cell.Id" src="~/images/miner_buttons/miner_flag.png" width="29" />
+                                    }
+                                    else
+                                    {
+                                        <img id="@cell.Id" src="~/images/miner_buttons/miner_button.png" width="29" />
+                                    }
+                                }
+                            }
+                        }
+                    </div>
+                }
+            </div>
+
         </div>
-    }
+
+        @if (Model.IsOver)
+        {
+            <div class="won-and-over h1">over!</div>
+        }
+
+        @if (Model.IsWon)
+        {
+            <div class="won-and-over h2">won!</div>
+        }
+    </div>
 </div>
+
+

@@ -112,6 +112,15 @@ namespace WebMaze.Controllers
             return RedirectToAction("SuggestedEnemys", "Suggested");
         }
 
+        public IActionResult AwfulSuggestedEnemy(long suggestedEnemysId)
+        {
+            var suggestedEnemys = _suggestedEnemysRepository.Get(suggestedEnemysId);
+
+            _payForActionService.CreatorDislikeFine(suggestedEnemys.Creater.Id, TypesOfPayment.Fine);
+
+            return RedirectToAction("SuggestedEnemys", "Suggested");
+        }
+
         public IActionResult NewCellSugg()
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
@@ -150,6 +159,18 @@ namespace WebMaze.Controllers
             NewCS.IsActive = true;
 
             _newCellSuggRepository.Save(NewCS);
+
+            var fileName = $"{NewCS.Id}.jpg";
+            NewCS.Url = "/images/NewCellImg/" + fileName;
+
+            _newCellSuggRepository.Save(NewCS);
+
+            var filePath = Path.Combine(
+                _hostEnvironment.WebRootPath, "images", "NewCellImg", fileName);
+            using (var fileStream = System.IO.File.Create(filePath))
+            {
+                newCellSuggestionViewModel.ImageFile.CopyTo(fileStream);
+            }
             return RedirectToAction($"{nameof(SuggestedController.NewCellSugg)}");
         }
 
@@ -164,6 +185,15 @@ namespace WebMaze.Controllers
         {
             var newCellSuggestion = _newCellSuggRepository.Get(newCellSuggestionId);
             _payForActionService.CreatorEarnMoney(newCellSuggestion.Creater.Id, 10);
+
+            return RedirectToAction("NewCellSugg", "Suggested");
+        }
+
+        public IActionResult AwfulNewCellSuggestion(long newCellSuggestionId)
+        {
+            var newCellSuggestion = _newCellSuggRepository.Get(newCellSuggestionId);
+
+            _payForActionService.CreatorDislikeFine(newCellSuggestion.Creater.Id, TypesOfPayment.Fine);
 
             return RedirectToAction("NewCellSugg", "Suggested");
         }

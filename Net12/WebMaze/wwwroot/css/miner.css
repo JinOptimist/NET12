@@ -1,0 +1,280 @@
+﻿.title{
+    font-size: 60px;
+}
+
+.miner-field {
+    left: 20px;
+    top: 108px;
+    width: 288px;
+    height: 288px;
+    position: absolute;
+    margin-left: 15px;
+}
+
+.won-and-over {
+    margin-left: 10%;
+    margin-top: 12%;
+    margin-right: 10%;
+    margin-bottom: auto;
+    font-size: 150px;
+}
+
+.you-won-money {
+    text-align: center;
+    font-family: cursive;
+    font-style: italic;
+    font-size: 50px;
+    overflow: hidden;
+    text-shadow: #f00404 1px 1px 0, #ca4c1c 2px 2px 0, #c7822d 3px 3px 0, #bd7141 4px 4px 0, #ddbe27 5px 5px 0;
+    color: transparent;
+    transition: all 1s;
+}
+
+.you-won-money:hover {
+    text-shadow: -400px 0 tomato, 400px 0 yellowgreen, 0 0 skyblue;
+}
+
+.you-lose {
+    text-align: center;
+    font-size: 50px;
+    display: inline-block;
+    text-shadow: 1px 1px 1px #cf1616, 1px -1px 1px #cf1616, -1px 1px 1px #cf1616, -1px -1px 1px #cf1616;
+    color: #e5df16;
+    transition: all 1s;
+}
+
+.you-lose:after {
+    content: "";
+    display: block;
+    position: relative;
+    z-index: -1;
+    width: 100%;
+    margin: auto;
+    border-bottom: 3px solid #c42121;
+    bottom: .15em;
+    transition: all 1s;
+}
+
+.you-lose:hover:after {
+    width: 0%;
+    border-bottom-width: 1px;
+}
+
+.miner-elements {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+.playspace {
+    left: 40%;
+    top: 15%;
+    width: 328px;
+    height: 412px;
+    background-color: silver;
+    position: absolute;
+}
+
+.h1 {
+    text-shadow: 1px 1px 0 hsl(20,100%,50%), 2px 2px 0 hsl(20,100%,50%), 3px 3px 0 hsl(35,100%,50%), 4px 4px 0 hsl(35,100%,50%), 5px 5px 0 hsl(45,100%,50%), 6px 6px 0 hsl(45,100%,55%), 7px 7px 0 hsl(55,100%,60%), 8px 8px 0 hsl(55,100%,65%);
+    color: hsl(0,100%,40%);
+    transition: all 1s;
+}
+
+.h1:hover {
+    text-shadow: 1px -1px 0 hsl(290,100%,40%), 2px -2px 0 hsl(290,100%,40%), 3px -3px 0 hsl(280,100%,60%), 4px -4px 0 hsl(280,100%,60%), 5px -5px 0 hsl(270,100%,75%), 6px -6px 0 hsl(270,100%,80%), 7px -7px 0 hsl(260,100%,85%), 8px -8px 0 hsl(260,100%,90%);
+    color: hsl(300,100%,30%);
+}
+
+.h2 {
+    text-shadow: 1px 1px 0 hsl(62deg 57% 51%), 2px 2px 0 hsl(105deg 73% 52%), 3px 3px 0 hsl(102deg 71% 47%), 4px 4px 0 hsl(97deg 78% 36%), 5px 5px 0 hsl(108deg 87% 44%), 6px 6px 0 hsl(102deg 69% 29%), 7px 7px 0 hsl(125deg 77% 23%), 8px 8px 0 hsl(100deg 77% 31%);
+    color: hsl(61deg 67% 56%);
+    transition: all 1s;
+    /*text-shadow: -8px 8px 0 hsl(105deg,72%,32%), -7px 7px 0 hsl(80,100%,55%), -6px 6px 0 hsl(80,100%,60%), -5px 5px 0 hsl(80,100%,65%), -4px 4px 0 hsl(80,100%,70%), -3px 3px 0 hsl(80,100%,75%), -2px 2px 0 hsl(80,100%,80%), -1px 1px 0 hsl(80,100%,85%), 0 0 0 hsl(80,100%,95%);
+    color: transparent;
+    transition: all 1s;*/
+}
+
+.h2:hover {
+    text-shadow: -8px -8px 0 hsl(200,100%,35%), -7px -7px 0 hsl(200,100%,55%), -6px -6px 0 hsl(200,100%,60%), -5px -5px 0 hsl(200,100%,65%), -4px -4px 0 hsl(200,100%,70%), -3px -3px 0 hsl(200,100%,75%), -2px -2px 0 hsl(200,100%,80%), -1px -1px 0 hsl(200,100%,85%), 0 0 0 hsl(200,100%,95%);
+    color: transparent;
+}
+
+.miner-element0 {
+    left: 0px; 
+    top: 4px;
+    width: 4px;
+    height: 408px;
+}
+
+.miner-element1 {
+    left: 0px;
+    top: 0px;
+    width: 324px;
+    height: 4px;
+}
+
+.miner-element2 {
+    left: 4px;
+    top: 412px;
+    width: 320px;
+    height: 4px;
+}
+
+.miner-element3 {
+    left: 324px;
+    top: 4px;
+    width: 4px;
+    height: 412px;
+}
+
+.miner-element4 {
+    left: 324px;
+    top: 0px;
+    width: 4px;
+    height: 4px;
+}
+
+.miner-element5 {
+    left: 0px;
+    top: 412px;
+    width: 4px;
+    height: 4px;
+}
+
+.miner-element6 {
+    left: 16px;
+    top: 20px;
+    width: 4px;
+    height: 68px;
+}
+
+.miner-element7 {
+    left: 16px;
+    top: 16px;
+    width: 292px;
+    height: 4px;
+}
+
+.miner-element8 {
+    left: 20px;
+    top: 88px;
+    width: 288px;
+    height: 4px;
+}
+
+.miner-element9 {
+    left: 308px;
+    top: 20px;
+    width: 4px;
+    height: 72px;
+}
+
+.miner-element10 {
+    left: 308px;
+    top: 16px;
+    width: 4px;
+    height: 4px;
+}
+
+.miner-element11 {
+    left: 16px;
+    top: 88px;
+    width: 4px;
+    height: 4px;
+}
+
+.miner-element12 {
+    left: 16px;
+    top: 108px;
+    width: 4px;
+    height: 288px;
+}
+
+.miner-element13 {
+    left: 16px;
+    top: 104px;
+    width: 292px;
+    height: 4px;
+}
+
+.miner-element14 {
+    left: 20px;
+    top: 396px;
+    width: 288px;
+    height: 4px;
+}
+
+.miner-element15 {
+    left: 308px;
+    top: 108px;
+    width: 4px;
+    height: 292px;
+}
+
+.miner-element16 {
+    left: 308px;
+    top: 104px;
+    width: 4px;
+    height: 4px;
+}
+
+.miner-element17 {
+    left: 16px;
+    top: 396px;
+    width: 4px;
+    height: 4px;
+}
+
+.face {
+    left: 138px;
+    top: 28px;
+    width: 52px;
+    height: 52px;
+}
+
+.miner-numbers {
+    top: 30px;
+    width: 26px;
+    height: 46px;
+}
+
+.miner-number0 {
+    left: 30px;
+}
+
+.miner-number1 {
+    left: 56px;
+}
+
+.miner-number2 {
+    left: 82px;
+}
+
+.miner-number3 {
+    left: 220px;
+}
+
+.miner-number4 {
+    left: 246px;
+}
+
+.miner-number5 {
+    left: 272px;
+}
+
+.miner-all {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url(../images/miner_background.png);
+    background-size: cover
+}
+
+.miner-win-over-playspace {
+    display: flex;
+    justify-content: space-between;
+}

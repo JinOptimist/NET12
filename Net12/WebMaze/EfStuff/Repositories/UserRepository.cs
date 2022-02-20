@@ -37,17 +37,17 @@ namespace WebMaze.EfStuff.Repositories
 
         public User GetByNameAndPassword(string login, string password)
         {
-            return _dbSet.SingleOrDefault(x => x.Name == login && x.Password == password);
+            return GetAllQueryable().SingleOrDefault(x => x.Name == login && x.Password == password);
         }
 
         public User GetRandomUser()
         {
-            return _webContext.Users.First();
+            return GetAllQueryable().First();
         }
 
         public User GetUserByName(string name)
         {
-            return _dbSet.SingleOrDefault(x => x.Name == name);
+            return GetAllQueryable().FirstOrDefault(x => x.Name == name);
         }
 
         public override void Remove(User user)
