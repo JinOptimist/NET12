@@ -15,7 +15,7 @@
                 @for (int x = 0; x < Model.MyField.Width; x++)
                 {
                     var cell = Model.MyField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
-                    if (cell.ShipHere)
+                    if (cell.IsShip)
                     {
                         if (cell.Hit)
                         {
@@ -53,7 +53,7 @@
                 @for (int x = 0; x < Model.EnemyField.Width; x++)
                 {
                     var cell = Model.EnemyField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
-                    if (cell.ShipHere)
+                    if (cell.IsShip)
                     {
                         if (cell.Hit)
                         {

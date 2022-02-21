@@ -38,12 +38,12 @@ namespace WebMaze.Controllers
 
         public IActionResult Index()
         {
-            var indexViewModel = new SeaBattleIndexViewModel();
-
-            indexViewModel.SeaBattleDifficultViewModels = _seaBattleDifficultRepository
-                .GetAll()
-                .Select(x => _mapper.Map<SeaBattleDifficultViewModel>(x))
-                .ToList();
+            var indexViewModel = new SeaBattleIndexViewModel
+            {
+                SeaBattleDifficultViewModels = _seaBattleDifficultRepository.GetAll()
+                                                                            .Select(x => _mapper.Map<SeaBattleDifficultViewModel>(x))
+                                                                            .ToList()
+            };
 
             if (_userService.GetCurrentUser().SeaBattleGame != null)
             {
@@ -89,9 +89,9 @@ namespace WebMaze.Controllers
 
             foreach (var cell in gameViewModel.EnemyField.Cells)
             {
-                if (cell.ShipHere && !cell.Hit)
+                if (cell.IsShip && !cell.Hit)
                 {
-                    cell.ShipHere = false;
+                    cell.IsShip = false;
                 }
             }
 
@@ -108,7 +108,7 @@ namespace WebMaze.Controllers
 
             var enemyField = enemyCell.Field;
 
-            if (!enemyField.Cells.Where(x => x.ShipHere && !x.Hit).Any())
+            if (!enemyField.Cells.Where(x => x.IsShip && !x.Hit).Any())
             {
                 return RedirectToAction("WinGame");
             }
@@ -117,11 +117,6 @@ namespace WebMaze.Controllers
 
             var myField = enemyCell.Field.Game.Fields.Where(x => !x.IsField).Single();
 
-            if (!myField.Cells.Where(x => x.ShipHere && !x.Hit).Any())
-            {
-                return RedirectToAction("LoseGame");
-            }
-
             if (myField.LastHitToShip > 0)
             {
                 _seaBattleService.DestroyShip(myField);
@@ -129,6 +124,11 @@ namespace WebMaze.Controllers
             else
             {
                 _seaBattleService.RandomHit(myField);
+            }
+
+            if (!myField.Cells.Where(x => x.IsShip && !x.Hit).Any())
+            {
+                return RedirectToAction("LoseGame");
             }
 
             _seaBattleService.FillNearKilledShips(myField);

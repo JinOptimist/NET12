@@ -93,7 +93,7 @@ namespace WebMaze.Services
                             X = x,
                             Y = y,
                             ShipLength = 0,
-                            ShipHere = false,
+                            IsShip = false,
                             Hit = false
                         };
                         field.Cells.Add(cell);
@@ -142,7 +142,7 @@ namespace WebMaze.Services
                             .Where(x => startSpawnX - x.X >= -1
                                         && startSpawnX - x.X <= 4
                                         && Math.Abs(x.Y - startSpawnY) <= 1
-                                        && x.ShipHere)
+                                        && x.IsShip)
                             .ToList()
                             .Any())
                         {
@@ -153,7 +153,7 @@ namespace WebMaze.Services
                                     X = startSpawnX - i,
                                     Y = startSpawnY,
                                     ShipLength = shipSize,
-                                    ShipHere = true,
+                                    IsShip = true,
                                     Hit = false,
                                     ShipNumber = shipNumber
                                 };
@@ -176,7 +176,7 @@ namespace WebMaze.Services
                             .Where(x => x.X - startSpawnX >= -1
                                         && x.X - startSpawnX <= 4
                                         && Math.Abs(x.Y - startSpawnY) <= 1
-                                        && x.ShipHere)
+                                        && x.IsShip)
                             .ToList()
                             .Any())
                         {
@@ -187,7 +187,7 @@ namespace WebMaze.Services
                                     X = startSpawnX + i,
                                     Y = startSpawnY,
                                     ShipLength = shipSize,
-                                    ShipHere = true,
+                                    IsShip = true,
                                     Hit = false,
                                     ShipNumber = shipNumber
                                 };
@@ -210,7 +210,7 @@ namespace WebMaze.Services
                             .Where(x => Math.Abs(x.X - startSpawnX) <= 1
                                         && startSpawnY - x.Y >= -1
                                         && startSpawnY - x.Y <= 4
-                                        && x.ShipHere)
+                                        && x.IsShip)
                             .ToList()
                             .Any())
                         {
@@ -221,7 +221,7 @@ namespace WebMaze.Services
                                     X = startSpawnX,
                                     Y = startSpawnY - i,
                                     ShipLength = shipSize,
-                                    ShipHere = true,
+                                    IsShip = true,
                                     Hit = false,
                                     ShipNumber = shipNumber
                                 };
@@ -243,7 +243,7 @@ namespace WebMaze.Services
                             .Where(x => Math.Abs(x.X - startSpawnX) <= 1
                                         && x.Y - startSpawnY >= -1
                                         && x.Y - startSpawnY <= 4
-                                        && x.ShipHere)
+                                        && x.IsShip)
                             .ToList()
                             .Any())
                         {
@@ -254,7 +254,7 @@ namespace WebMaze.Services
                                     X = startSpawnX,
                                     Y = startSpawnY + i,
                                     ShipLength = shipSize,
-                                    ShipHere = true,
+                                    IsShip = true,
                                     Hit = false,
                                     ShipNumber = shipNumber
                                 };
@@ -298,7 +298,7 @@ namespace WebMaze.Services
                         var baseNear = field.Cells
                             .Where(cell =>
                                     (Math.Abs(cell.X - cellShip.X) <= 1 && Math.Abs(cell.Y - cellShip.Y) <= 1
-                                    && !cell.ShipHere))
+                                    && !cell.IsShip))
                             .ToList();
 
                         hitNearShip = hitNearShip.Union(baseNear).ToList();
@@ -332,7 +332,7 @@ namespace WebMaze.Services
 
             _seaBattleCellRepository.Save(cell);
 
-            if (cell.ShipHere)
+            if (cell.IsShip)
             {
                 myField.LastHitToShip = cell.Id;
                 _seaBattleFieldRepository.Save(myField);
@@ -348,7 +348,7 @@ namespace WebMaze.Services
                 || Math.Abs(cell.X - lastHitCell.X) == 1 && cell.Y == lastHitCell.Y))
                 .ToList();
 
-            var shipHere = getNearCells.Where(x => x.ShipHere && x.Hit).ToList();
+            var shipHere = getNearCells.Where(x => x.IsShip && x.Hit).ToList();
             if (shipHere.Any())
             {
                 var secondHit = shipHere.First();
@@ -367,7 +367,7 @@ namespace WebMaze.Services
                         {
                             if (downCellToHit.Hit)
                             {
-                                if (!downCellToHit.ShipHere)
+                                if (!downCellToHit.IsShip)
                                 {
                                     break;
                                 }
@@ -399,7 +399,7 @@ namespace WebMaze.Services
                             {
                                 if (upCellToHit.Hit)
                                 {
-                                    if (!upCellToHit.ShipHere)
+                                    if (!upCellToHit.IsShip)
                                     {
                                         myField.LastHitToShip = -1;
                                         RandomHit(myField);
@@ -437,7 +437,7 @@ namespace WebMaze.Services
                         {
                             if (rightCellToHit.Hit)
                             {
-                                if (!rightCellToHit.ShipHere)
+                                if (!rightCellToHit.IsShip)
                                 {
                                     break;
                                 }
@@ -469,7 +469,7 @@ namespace WebMaze.Services
                             {
                                 if (upCellToHit.Hit)
                                 {
-                                    if (!upCellToHit.ShipHere)
+                                    if (!upCellToHit.IsShip)
                                     {
                                         myField.LastHitToShip = -1;
                                         RandomHit(myField);

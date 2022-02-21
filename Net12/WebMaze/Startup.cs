@@ -291,7 +291,7 @@ namespace WebMaze
 
             provider.CreateMap<SeaBattleCell, SeaBattleCellViewModel>();
             provider.CreateMap<SeaBattleCellViewModel, SeaBattleCell>()
-                .ForMember(nameof(SeaBattleCell.ShipHere), opt => opt.Ignore());
+                .ForMember(nameof(SeaBattleCell.IsShip), opt => opt.Ignore());
 
             provider.CreateMap<SeaBattleField, SeaBattleFieldViewModel>()
                 .ForMember(nameof(SeaBattleFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));

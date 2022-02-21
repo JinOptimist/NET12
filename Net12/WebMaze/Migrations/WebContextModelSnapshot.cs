@@ -708,7 +708,7 @@ namespace WebMaze.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("ShipHere")
+                    b.Property<bool>("IsShip")
                         .HasColumnType("bit");
 
                     b.Property<int>("ShipLength")

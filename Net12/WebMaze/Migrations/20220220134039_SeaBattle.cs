@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebMaze.Migrations
 {
@@ -6,7 +7,6 @@ namespace WebMaze.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
             migrationBuilder.CreateTable(
                 name: "SeaBattleDifficults",
                 columns: table => new
@@ -78,7 +78,7 @@ namespace WebMaze.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     X = table.Column<int>(type: "int", nullable: false),
                     Y = table.Column<int>(type: "int", nullable: false),
-                    ShipHere = table.Column<bool>(type: "bit", nullable: false),
+                    IsShip = table.Column<bool>(type: "bit", nullable: false),
                     Hit = table.Column<bool>(type: "bit", nullable: false),
                     ShipLength = table.Column<int>(type: "int", nullable: false),
                     ShipNumber = table.Column<int>(type: "int", nullable: false),
@@ -111,6 +111,7 @@ namespace WebMaze.Migrations
                 table: "SeaBattleGames",
                 column: "UserId",
                 unique: true);
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -126,7 +127,6 @@ namespace WebMaze.Migrations
 
             migrationBuilder.DropTable(
                 name: "SeaBattleGames");
-
         }
     }
 }
