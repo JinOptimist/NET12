@@ -1,17 +1,19 @@
 ﻿@model List<ImageViewModel>
+@using WebMaze.Models.Enums;
+
 
 @section Scripts{
     <script src="~/js/galleryAjax.js"></script>
 }
 
 
-<form action="@Url.Action("GetSorted", "Gallery", new {columnName = "Assessment" })" method="GET">
-    <a href="#">Sorted by prop</a>
+<form action="@Url.Action("GetSorted", "Gallery", new {inColumnName = "Assessment", inSortType = SortType.GreaterThan })" method="GET">
+    <a href="#">Sorted by int</a>
     <input type="number" name="inValue">
     <input type="submit" value="Send" />
 </form>
 
-<form action="@Url.Action("GetSorted", "Gallery", new {columnName = "Author.Name"} )" method="GET">
+<form action="@Url.Action("GetSorted", "Gallery", new {inColumnName = "Author.Name", inSortType = SortType.Equal} )" method="GET">
     <a href="#">Sorted by name</a>
     <input type="text" name="inValue">
     <input type="submit" value="Send" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
+using WebMaze.Models.Enums;
 
 namespace WebMaze.EfStuff.Repositories
 {
@@ -14,16 +15,37 @@ namespace WebMaze.EfStuff.Repositories
 
         }
 
-        public List<Image> GetSorted (object value, string columnName = "Assesment")
+        public List<Image> GetSorted(object value, string columnName, SortType sortType)
         {
-            var table = Expression.Parameter(typeof(Image), "image");// image =>            
+            var table = Expression.Parameter(typeof(Image), "image");
+            var propList = columnName.Split(".");
+            var prop = Expression.Property(table, propList[0]);
 
-            var propAssessment = Expression.Property(table, columnName); // image.Assessment
-            var cond = Expression.Constant(value);
-            var greaterThanExpr = Expression.GreaterThanOrEqual(propAssessment, cond);
+            for (int i = 1; i < propList.Length - 1; i++)
+            {
+                prop = Expression.Property(prop, propList[i]);
+            }
 
-            var condition = Expression.Lambda<Func<Image, bool>>(greaterThanExpr, table);// image => image.Assessment >= assessment
+            var condValue = Expression.Constant(null);
+            Expression<Func<Image, bool>> condition = null;
 
+            switch (sortType)
+            {
+                case SortType.Equal:
+                    condValue = Expression.Constant(value);
+                    var equal = Expression.Equal(prop, condValue);
+                    condition = Expression.Lambda<Func<Image, bool>>(equal, table);
+
+                    break;
+                case SortType.GreaterThan:
+                    condValue = Expression.Constant(value);
+                    var greaterThanExpr = Expression.GreaterThanOrEqual(prop, condValue);
+                    condition = Expression.Lambda<Func<Image, bool>>(greaterThanExpr, table);
+                    break;
+                default:
+
+                    break;
+            }
 
             return _dbSet.
                   Where(condition)
