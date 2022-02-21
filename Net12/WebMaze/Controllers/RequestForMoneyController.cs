@@ -75,6 +75,7 @@ namespace WebMaze.Controllers
 
             var requestCreator = _userService.GetCurrentUser();
             var requestRecipient = _userRepository.GetUserByName(userName);
+
             if (requestRecipient == null)
             {
                 return RedirectToAction($"{nameof(RequestForMoneyController.AddRequestCoins)}", new { massege = MassegeErrorsRequestEnums.NotEnoughUser });
@@ -120,8 +121,7 @@ namespace WebMaze.Controllers
 
         [HttpGet]
         public IActionResult RejectRequestCoins(long requestId)
-        {
-            var requestRecipient = _userService.GetCurrentUser();
+        {            
             var request = _requestForMoneyRepository.Get(requestId);
             request.RequestStatus = RequestStatusEnums.RequestDenied;
             _requestForMoneyRepository.Save(request);
@@ -133,10 +133,10 @@ namespace WebMaze.Controllers
         [HttpGet]
         public IActionResult AcceptRequestCoins(long requestId)
         {
-            var requestRecipient = _userService.GetCurrentUser();
             var request = _requestForMoneyRepository.Get(requestId);
-            var requestCreator = _userRepository.Get(request.RequestCreator.Id);
-            if (_requestForMoneyRepository.TrasactionRequest(request, requestCreator, requestRecipient,
+            var requestCreator = request.RequestCreator;
+            var requestRecipient = request.RequestRecipient;
+            if (_requestForMoneyRepository.AttemptTrasactionRequest(request, requestCreator, requestRecipient,
                 _requestForMoneyRepository, _userRepository))
             {
                 return RedirectToAction($"{nameof(RequestForMoneyController.RequestCoins)}");
