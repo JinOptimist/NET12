@@ -15,32 +15,11 @@
                 @for (int x = 0; x < Model.MyField.Width; x++)
                 {
                     var cell = Model.MyField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
-                    if (cell.IsShip)
-                    {
-                        if (cell.Hit)
-                        {
-                            <span class="seabattle-damadge-ship-cell" shipNumber=@cell.ShipNumber>
-                            </span>
-                        }
-                        else
-                        {
-                            <span class="seabattle-normal-ship-cell" shipNumber=@cell.ShipNumber>
-                            </span>
-                        }
-                    }
-                    else
-                    {
-                        if (cell.Hit)
-                        {
-                            <span class="seabattle-hit-cell">
-                            </span>
-                        }
-                        else
-                        {
-                            <span class="seabattle-empty-cell">
-                            </span>
-                        }
-                    }
+
+                    <span class="@(cell.IsShip
+                    ? cell.Hit ? "seabattle-damadge-ship-cell" : "seabattle-normal-ship-cell"
+                    : cell.Hit ? "seabattle-hit-cell" : "seabattle-empty-cell")">
+                    </span>
                 }
             </div>
         }
@@ -53,34 +32,20 @@
                 @for (int x = 0; x < Model.EnemyField.Width; x++)
                 {
                     var cell = Model.EnemyField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
-                    if (cell.IsShip)
+
+                    if (cell.Hit)
                     {
-                        if (cell.Hit)
-                        {
-                            <span class="seabattle-damadge-ship-cell" shipNumber=@cell.ShipNumber>
-                            </span>
-                        }
-                        else
-                        {
-                            <span class="seabattle-normal-ship-cell">
-                                <a href="/SeaBattle/ClickOnCell?id=@cell.Id"></a>
-                            </span>
-                        }
+                        <span class="@(cell.IsShip ? "seabattle-damadge-ship-cell" : "seabattle-hit-cell")">
+                        </span>
                     }
                     else
                     {
-                        if (cell.Hit)
-                        {
-                            <span class="seabattle-hit-cell">
-                            </span>
-                        }
-                        else
-                        {
-                            <span class="seabattle-empty-cell">
-                                <a href="/SeaBattle/ClickOnCell?id=@cell.Id"></a>
-                            </span>
-                        }
+                        <span class="@(cell.IsShip ? "seabattle-normal-ship-cell" : "seabattle-empty-cell")">
+                            <a href="/SeaBattle/ClickOnCell?id=@cell.Id"></a>
+                        </span>
                     }
+
+
                 }
             </div>
         }

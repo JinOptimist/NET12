@@ -31,11 +31,6 @@ namespace WebMaze.Services
             var myField = BuildField(difficult, false);
             var enemyField = BuildField(difficult, true);
 
-            if (myField == null || enemyField == null)
-            {
-                return null;
-            }
-
             var game = new SeaBattleGame()
             {
                 User = _userService.GetCurrentUser(),
@@ -62,23 +57,7 @@ namespace WebMaze.Services
             //for (int i = (int)ShipSize.Two; i <= (int)ShipSize.Four; i++)
             for (int i = 4; i >= 2; i--)
             {
-                int attempt = 0;
-                while (true)
-                {
-                    if (GenerateMyShips(field, difficult, i))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        attempt++;
-                    }
-
-                    if (attempt >= 5)
-                    {
-                        return null;
-                    }
-                }
+                GenerateMyShips(field, difficult, i);
             }
             field.ShipCount = shipNumber;
 
@@ -104,7 +83,7 @@ namespace WebMaze.Services
             return field;
         }
 
-        private bool GenerateMyShips(SeaBattleField field, SeaBattleDifficult difficult, int shipSize)
+        private void GenerateMyShips(SeaBattleField field, SeaBattleDifficult difficult, int shipSize)
         {
             int startSpawnY;
             int startSpawnX;
@@ -126,7 +105,6 @@ namespace WebMaze.Services
                     break;
             }
 
-            var tryCount = 0;
             while (ships > 0)
             {
                 // 1 - left 2 - right 3 - up 4 - down
@@ -162,12 +140,8 @@ namespace WebMaze.Services
                             ships--;
                             shipNumber++;
                         }
-                        else
-                        {
-                            tryCount++;
-                        }
-
                         break;
+
                     case 2:
                         startSpawnY = _random.Next(difficult.Height);
                         startSpawnX = _random.Next(difficult.Width - (shipSize - 1));
@@ -196,12 +170,8 @@ namespace WebMaze.Services
                             ships--;
                             shipNumber++;
                         }
-                        else
-                        {
-                            tryCount++;
-                        }
-
                         break;
+
                     case 3:
                         startSpawnY = _random.Next(shipSize - 1, difficult.Height);
                         startSpawnX = _random.Next(difficult.Width);
@@ -230,11 +200,8 @@ namespace WebMaze.Services
                             ships--;
                             shipNumber++;
                         }
-                        else
-                        {
-                            tryCount++;
-                        }
                         break;
+
                     case 4:
                         startSpawnY = _random.Next(difficult.Height - (shipSize - 1));
                         startSpawnX = _random.Next(difficult.Width);
@@ -263,22 +230,12 @@ namespace WebMaze.Services
                             ships--;
                             shipNumber++;
                         }
-                        else
-                        {
-                            tryCount++;
-                        }
                         break;
+
                     default:
                         break;
                 }
-
-                if (tryCount >= 1000)
-                {
-                    return false;
-                }
             }
-
-            return true;
         }
 
         public void FillNearKilledShips(SeaBattleField field)
@@ -297,7 +254,8 @@ namespace WebMaze.Services
                     {
                         var baseNear = field.Cells
                             .Where(cell =>
-                                    (Math.Abs(cell.X - cellShip.X) <= 1 && Math.Abs(cell.Y - cellShip.Y) <= 1
+                                    (Math.Abs(cell.X - cellShip.X) <= 1 
+                                    && Math.Abs(cell.Y - cellShip.Y) <= 1
                                     && !cell.IsShip))
                             .ToList();
 
@@ -339,12 +297,13 @@ namespace WebMaze.Services
             }
         }
 
-        public void DestroyShip(SeaBattleField myField)
+        public void TryToDestroyShip(SeaBattleField myField)
         {
             var lastHitCell = _seaBattleCellRepository.Get(myField.LastHitToShip);
 
             var getNearCells = myField.Cells
-                .Where(cell => (cell.X == lastHitCell.X && Math.Abs(cell.Y - lastHitCell.Y) == 1
+                .Where(cell => 
+                (cell.X == lastHitCell.X && Math.Abs(cell.Y - lastHitCell.Y) == 1
                 || Math.Abs(cell.X - lastHitCell.X) == 1 && cell.Y == lastHitCell.Y))
                 .ToList();
 

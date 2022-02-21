@@ -63,10 +63,6 @@ namespace WebMaze.Controllers
             {
                 game = _seaBattleService.CreateGame(difficult);
 
-                if (game == null)
-                {
-                    return RedirectToAction("BoringError", "Home");
-                }
                 _seaBattleGameRepository.Save(game);
             }
             else
@@ -87,6 +83,7 @@ namespace WebMaze.Controllers
 
             var gameViewModel = _mapper.Map<SeaBattleGameViewModel>(game);
 
+            //заменяем целые ячейки кораблей на вражеском поле пустыми ячейками
             foreach (var cell in gameViewModel.EnemyField.Cells)
             {
                 if (cell.IsShip && !cell.Hit)
@@ -108,25 +105,25 @@ namespace WebMaze.Controllers
 
             var enemyField = enemyCell.Field;
 
-            if (!enemyField.Cells.Where(x => x.IsShip && !x.Hit).Any())
+            if (!enemyField.Cells.Any(x => x.IsShip && !x.Hit))
             {
                 return RedirectToAction("WinGame");
             }
 
             _seaBattleService.FillNearKilledShips(enemyField);
 
-            var myField = enemyCell.Field.Game.Fields.Where(x => !x.IsEnemyField).Single();
+            var myField = enemyCell.Field.Game.Fields.Single(x => !x.IsEnemyField);
 
             if (myField.LastHitToShip > 0)
             {
-                _seaBattleService.DestroyShip(myField);
+                _seaBattleService.TryToDestroyShip(myField);
             }
             else
             {
                 _seaBattleService.RandomHit(myField);
             }
 
-            if (!myField.Cells.Where(x => x.IsShip && !x.Hit).Any())
+            if (!myField.Cells.Any(x => x.IsShip && !x.Hit))
             {
                 return RedirectToAction("LoseGame");
             }
@@ -146,12 +143,6 @@ namespace WebMaze.Controllers
         {
             _seaBattleGameRepository.Remove(_userService.GetCurrentUser().SeaBattleGame.Id);
             return View();
-        }
-
-        public IActionResult Remove()
-        {
-            _seaBattleGameRepository.Remove(_userService.GetCurrentUser().SeaBattleGame);
-            return RedirectToAction("Index");
         }
 
     }
