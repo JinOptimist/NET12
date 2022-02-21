@@ -271,6 +271,8 @@ namespace WebMaze.EfStuff
 
                 }
 
+                var random = new Random(); 
+
                 for (int i = 0; i < countTestEntry; i++)
                 {
                     var testNewCellSugg = new NewCellSuggestion()
@@ -278,7 +280,7 @@ namespace WebMaze.EfStuff
                         Title = $"TestCellSugg-{i}",
                         IsActive = true,
                         Url = "/imgYellowTeam/stoc.jpg",
-                        Creater = userRepository.GetUserByName(namesTestUsers[new Random().Next(namesTestUsers.Count)])
+                        Creater = userRepository.GetUserByName(namesTestUsers[random.Next(namesTestUsers.Count)])
                     };
 
                     newCellSuggRepository.Save(testNewCellSugg);
