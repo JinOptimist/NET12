@@ -23,15 +23,18 @@
             moveNext();
         }
 
-         //arrow left
+        //arrow left
         if (event.which == 37) {
             movePrev();
         }
     });
 
-    function moveNext (evt) {
-        var page = $('.CurrPage').val() - 0;
-        page++;
+    function moveNext(evt) {
+        let page = $('.CurrPage').val() - 0;
+        let TotalPageCount = $('.TotalPageCount').val() - 0;
+        if (page < TotalPageCount) {
+            page++;
+        }
 
         moveToPage(page);
 
@@ -39,8 +42,10 @@
     }
 
     function movePrev(evt) {
-        var page = $('.CurrPage').val() - 0;
-        page--;
+        let page = $('.CurrPage').val() - 0;
+        if (page > 1) {
+            page--;
+        }
 
         moveToPage(page);
 
