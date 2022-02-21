@@ -475,10 +475,16 @@ namespace WebMaze.Migrations
                     b.Property<long?>("FieldId")
                         .HasColumnType("bigint");
 
+                    b.Property<bool>("FirstOpenedBomb")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsBomb")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsFlag")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsOpen")
@@ -514,6 +520,12 @@ namespace WebMaze.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsOver")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsWon")
                         .HasColumnType("bit");
 
                     b.Property<int>("Width")

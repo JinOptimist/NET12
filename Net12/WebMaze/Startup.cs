@@ -184,7 +184,8 @@ namespace WebMaze
                 .ForMember(nameof(GameViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Creater.GlobalUserRating));
             provider.CreateMap<GameViewModel, Game>();
 
-            provider.CreateMap<MinerField, MinerFieldViewModel>();
+            provider.CreateMap<MinerField, MinerFieldViewModel>()
+                .ForMember(nameof(MinerFieldViewModel.Username), opt => opt.MapFrom(dbField => dbField.Gamer.Name));
             provider.CreateMap<MinerCell, MinerCellViewModel>();
 
             provider.CreateMap<MazeLevelWeb, MazeViewModel>();

@@ -76,6 +76,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="ResourceLocalization\MySystem.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MySystem.resx</DependentUpon>
+    </Compile>
     <Compile Update="ResourceLocalization\ZumaGame.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
