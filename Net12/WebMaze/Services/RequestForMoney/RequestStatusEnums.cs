@@ -9,7 +9,6 @@ namespace WebMaze.Services
     {
         WaitingForAnAnswer = 1,
         RequestDenied = 2,
-        RequestApproved = 3,
-        NotEnoughCoins = 4
+        RequestApproved = 3
     }
 }
