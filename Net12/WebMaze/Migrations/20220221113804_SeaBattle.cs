@@ -55,7 +55,7 @@ namespace WebMaze.Migrations
                     Height = table.Column<int>(type: "int", nullable: false),
                     ShipCount = table.Column<int>(type: "int", nullable: false),
                     LastHitToShip = table.Column<long>(type: "bigint", nullable: false),
-                    IsField = table.Column<bool>(type: "bit", nullable: false),
+                    IsEnemyField = table.Column<bool>(type: "bit", nullable: false),
                     GameId = table.Column<long>(type: "bigint", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -127,6 +127,7 @@ namespace WebMaze.Migrations
 
             migrationBuilder.DropTable(
                 name: "SeaBattleGames");
+
         }
     }
 }

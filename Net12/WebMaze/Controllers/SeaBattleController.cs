@@ -115,7 +115,7 @@ namespace WebMaze.Controllers
 
             _seaBattleService.FillNearKilledShips(enemyField);
 
-            var myField = enemyCell.Field.Game.Fields.Where(x => !x.IsField).Single();
+            var myField = enemyCell.Field.Game.Fields.Where(x => !x.IsEnemyField).Single();
 
             if (myField.LastHitToShip > 0)
             {

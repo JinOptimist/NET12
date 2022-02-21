@@ -11,11 +11,7 @@ namespace WebMaze.EfStuff.DbModel.SeaBattle
         public int Height { get; set; }
         public int ShipCount { get; set; }
         public long LastHitToShip { get; set; }
-        /// <summary>
-        /// 0(false) - My Field
-        /// 1(true) - Enemy Field
-        /// </summary>
-        public bool IsField { get; set; }
+        public bool IsEnemyField { get; set; }
         public virtual SeaBattleGame Game { get; set; }
         public virtual List<SeaBattleCell> Cells { get; set; }
     }

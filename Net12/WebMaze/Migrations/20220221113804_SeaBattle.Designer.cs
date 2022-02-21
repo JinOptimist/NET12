@@ -10,7 +10,7 @@ using WebMaze.EfStuff;
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    [Migration("20220220134039_SeaBattle")]
+    [Migration("20220221113804_SeaBattle")]
     partial class SeaBattle
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -778,7 +778,7 @@ namespace WebMaze.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsField")
+                    b.Property<bool>("IsEnemyField")
                         .HasColumnType("bit");
 
                     b.Property<long>("LastHitToShip")

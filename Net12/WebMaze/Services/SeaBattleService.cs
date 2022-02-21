@@ -53,7 +53,7 @@ namespace WebMaze.Services
             {
                 Width = difficult.Width,
                 Height = difficult.Height,
-                IsField = isField,
+                IsEnemyField = isField,
                 LastHitToShip = -1,
                 Cells = new List<SeaBattleCell>()
             };
