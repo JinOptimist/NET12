@@ -25,6 +25,7 @@ using WebMaze.SignalRHubs;
 using Microsoft.Extensions.Logging;
 using WebMaze.EfStuff.DbModel.GuessTheNumber;
 using WebMaze.Models.GuessTheNumber;
+using WebMaze.EfStuff.DbModel.SeaBattle;
 
 namespace WebMaze
 {
@@ -59,6 +60,7 @@ namespace WebMaze
             services.AddScoped<MinerFiledBuilder>();
             services.AddScoped<ZumaGameService>();
             services.AddScoped<ThreeInRowService>();
+            services.AddScoped<SeaBattleService>();
 
             services.AddScoped<PayForActionService>();
 
@@ -295,6 +297,21 @@ namespace WebMaze
             provider.CreateMap<GuessTheNumberGameAnswerViewModel,
                 GuessTheNumberGameAnswer>();
 
+            provider.CreateMap<SeaBattleCell, SeaBattleCellViewModel>();
+            provider.CreateMap<SeaBattleCellViewModel, SeaBattleCell>()
+                .ForMember(nameof(SeaBattleCell.IsShip), opt => opt.Ignore());
+
+            provider.CreateMap<SeaBattleField, SeaBattleFieldViewModel>()
+                .ForMember(nameof(SeaBattleFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
+            provider.CreateMap<SeaBattleFieldViewModel, SeaBattleField>();
+
+            provider.CreateMap<SeaBattleGame, SeaBattleGameViewModel>()
+                .ForMember(nameof(SeaBattleGameViewModel.MyField), opt => opt.MapFrom(db => db.Fields.Where(x => !x.IsEnemyField).Single()))
+                .ForMember(nameof(SeaBattleGameViewModel.EnemyField), opt => opt.MapFrom(db => db.Fields.Where(x => x.IsEnemyField).Single()));
+            provider.CreateMap<SeaBattleGameViewModel, SeaBattleGame>();
+
+            provider.CreateMap<SeaBattleDifficult, SeaBattleDifficultViewModel>();
+            provider.CreateMap<SeaBattleDifficultViewModel, SeaBattleDifficult>();
 
             var mapperConfiguration = new MapperConfiguration(provider);
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel.GuessTheNumber;
 using WebMaze.EfStuff.DbModel.ThreeInRow;
+using WebMaze.EfStuff.DbModel.SeaBattle;
 
 namespace WebMaze.EfStuff.DbModel
 {
@@ -42,5 +43,7 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<UserInGroup> UsersInGroup { get; set; }
         public virtual List<GuessTheNumberGame> GuessTheNumberGames { get; set; }
         public virtual List<ThreeInRowGameField> ThreeInRowGameFields { get; set; }
+        public virtual SeaBattleGame SeaBattleGame { get; set; }
+
     }
 }

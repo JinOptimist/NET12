@@ -121,14 +121,22 @@ namespace WebMaze.Controllers
             return RedirectToAction("SuggestedEnemys", "Suggested");
         }
 
-        public IActionResult NewCellSugg()
+        public IActionResult NewCellSugg(int page = 1, int perPage =13)
         {
             var newCellSuggestionsViewModel = new List<NewCellSuggestionViewModel>();
-            newCellSuggestionsViewModel = _newCellSuggRepository.GetAll()
+            newCellSuggestionsViewModel = _newCellSuggRepository
+                .GetForPagination(perPage, page)
                 .Select(dbModel => _mapper.Map<NewCellSuggestionViewModel>(dbModel))
                 .ToList();
 
-            return View(newCellSuggestionsViewModel);
+            var paggerViewModel = new PaggerViewModel<NewCellSuggestionViewModel>();
+
+            paggerViewModel.Records = newCellSuggestionsViewModel;
+            paggerViewModel.TotalRecordsCount = _newCellSuggRepository.Count();
+            paggerViewModel.PerPage = perPage;
+            paggerViewModel.CurrPage = page;
+
+            return View(paggerViewModel);
         }
 
         [Authorize]
@@ -157,20 +165,23 @@ namespace WebMaze.Controllers
             NewCS = _mapper.Map<NewCellSuggestion>(newCellSuggestionViewModel);
             NewCS.Creater = creater;
             NewCS.IsActive = true;
-
             _newCellSuggRepository.Save(NewCS);
 
-            var fileName = $"{NewCS.Id}.jpg";
-            NewCS.Url = "/images/NewCellImg/" + fileName;
-
-            _newCellSuggRepository.Save(NewCS);
-
-            var filePath = Path.Combine(
-                _hostEnvironment.WebRootPath, "images", "NewCellImg", fileName);
-            using (var fileStream = System.IO.File.Create(filePath))
+            if (newCellSuggestionViewModel.ImageFile != null)
             {
-                newCellSuggestionViewModel.ImageFile.CopyTo(fileStream);
+                var fileName = $"{NewCS.Id}.jpg";
+                NewCS.Url = "/images/NewCellImg/" + fileName;
+
+                _newCellSuggRepository.Save(NewCS);
+
+                var filePath = Path.Combine(
+                    _hostEnvironment.WebRootPath, "images", "NewCellImg", fileName);
+                using (var fileStream = System.IO.File.Create(filePath))
+                {
+                    newCellSuggestionViewModel.ImageFile.CopyTo(fileStream);
+                }
             }
+
             return RedirectToAction($"{nameof(SuggestedController.NewCellSugg)}");
         }
 
