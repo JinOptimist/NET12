@@ -26,6 +26,7 @@ namespace WebMaze.Controllers
         private NewCellSuggRepository _newCellSuggRepository;
         private ILogger<HomeController> _logger;
         private CurrenceService _currenceService;
+        private BookRepository _bookRepository;
 
         private IMapper _mapper;
         public HomeController(WebContext webContext,
@@ -33,7 +34,8 @@ namespace WebMaze.Controllers
          IMapper mapper, UserService userService,
          NewCellSuggRepository newCellSuggRepository,
          ILogger<HomeController> logger,
-         CurrenceService currenceService)
+         CurrenceService currenceService,
+         BookRepository bookRepository)
         {
             _webContext = webContext;
             _userRepository = userRepository;
@@ -42,6 +44,7 @@ namespace WebMaze.Controllers
             _userService = userService;
             _logger = logger;
             _currenceService = currenceService;
+            _bookRepository = bookRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -64,19 +67,10 @@ namespace WebMaze.Controllers
 
         public IActionResult Book()
         {
-            var bookViewModels = new List<BookViewModel>();
-            foreach (var dbBook in _webContext.Books)
-            {
-                var bookViewModel = new BookViewModel();
-                bookViewModel.Name = dbBook.Name;
-                bookViewModel.Link = dbBook.Link;
-                bookViewModel.ImageLink = dbBook.ImageLink;
-                bookViewModel.Author = dbBook.Author;
-                bookViewModel.Desc = dbBook.Desc;
-                bookViewModel.ReleaseDate = dbBook.ReleaseDate;
-                bookViewModel.PublicationDate = dbBook.PublicationDate;
-                bookViewModels.Add(bookViewModel);
-            }
+            var bookViewModels = _bookRepository
+                .GetAllSortedByAuthor()
+                .Select(Book => _mapper.Map<BookViewModel>(Book))
+                .ToList();
 
             return View(bookViewModels);
         }
@@ -89,19 +83,14 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult AddBook(BookViewModel bookViewModel)
         {
-            var dbBook = new Book()
+            if (!ModelState.IsValid)
             {
-                Name = bookViewModel.Name,
-                Link = bookViewModel.Link,
-                ImageLink = bookViewModel.ImageLink,
-                Author = bookViewModel.Author,
-                Desc = bookViewModel.Desc,
-                ReleaseDate = bookViewModel.ReleaseDate,
-                PublicationDate = bookViewModel.PublicationDate
-            };
-            _webContext.Books.Add(dbBook);
+                return View(bookViewModel);
+            }
 
-            _webContext.SaveChanges();
+            var dbBook = _mapper.Map<Book>(bookViewModel);
+            dbBook.Creator = _userService.GetCurrentUser();
+            _bookRepository.Save(dbBook);            
 
             return RedirectToAction("Index", "Home");
         }

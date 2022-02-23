@@ -159,6 +159,14 @@ namespace WebMaze
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
 
+            provider.CreateMap<Book, BookViewModel>()
+                .ForMember(dest => dest.CreatorName, opt => opt.MapFrom(src => src.Creator.Name));
+
+            provider.CreateMap<BookViewModel, Book>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true))
+                .ForMember(dest => dest.Creator, opt => opt.Ignore());
+
             provider.CreateMap<UserViewModel, User>();
 
             provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()

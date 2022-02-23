@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20220221182625_ChangeBookcs2")]
+    partial class ChangeBookcs2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,10 +43,7 @@ namespace WebMaze.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Author")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("CreatorId")
+                    b.Property<long?>("AuthorId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Desc")
@@ -70,7 +69,7 @@ namespace WebMaze.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Books");
                 });
@@ -1022,11 +1021,11 @@ namespace WebMaze.Migrations
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Book", b =>
                 {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
-                        .WithMany("Books")
-                        .HasForeignKey("CreatorId");
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
 
-                    b.Navigation("Creator");
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.BugReport", b =>
@@ -1337,8 +1336,6 @@ namespace WebMaze.Migrations
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
                     b.Navigation("AddedSStuff");
-
-                    b.Navigation("Books");
 
                     b.Navigation("CellSuggestionsWhichIAprove");
 

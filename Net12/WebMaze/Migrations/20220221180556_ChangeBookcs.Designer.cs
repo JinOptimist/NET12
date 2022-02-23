@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20220221180556_ChangeBookcs")]
+    partial class ChangeBookcs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,9 +46,6 @@ namespace WebMaze.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("CreatorId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Desc")
                         .HasColumnType("nvarchar(max)");
 
@@ -69,8 +68,6 @@ namespace WebMaze.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
 
                     b.ToTable("Books");
                 });
@@ -1020,15 +1017,6 @@ namespace WebMaze.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Book", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
-                        .WithMany("Books")
-                        .HasForeignKey("CreatorId");
-
-                    b.Navigation("Creator");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.BugReport", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
@@ -1337,8 +1325,6 @@ namespace WebMaze.Migrations
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
                     b.Navigation("AddedSStuff");
-
-                    b.Navigation("Books");
 
                     b.Navigation("CellSuggestionsWhichIAprove");
 

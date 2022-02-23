@@ -68,6 +68,14 @@ namespace WebMaze.EfStuff
                .WithMany(x => x.Images);
 
             modelBuilder.Entity<User>()
+                .HasMany(x => x.Books)
+                .WithOne(x => x.Creator);
+
+            modelBuilder.Entity<Book>()
+               .HasOne(x => x.Creator)
+               .WithMany(x => x.Books);
+
+            modelBuilder.Entity<User>()
                 .HasMany(x => x.MyEnemySuggested)
                 .WithOne(x => x.Creater);
 
