@@ -26,26 +26,25 @@ namespace WebMaze.EfStuff.Repositories
                 prop = Expression.Property(prop, propList[i]);
             }
 
-            var condValue = Expression.Constant(null);
-            Expression<Func<Image, bool>> condition = null;
+            ConstantExpression conditionValue;
+            BinaryExpression operation;
+            Expression<Func<Image, bool>> condition;
 
             switch (sortType)
             {
                 case SortType.Equal:
-                    condValue = Expression.Constant(value);
-                    var equal = Expression.Equal(prop, condValue);
-                    condition = Expression.Lambda<Func<Image, bool>>(equal, table);
-
+                    conditionValue = Expression.Constant(value);
+                    operation = Expression.Equal(prop, conditionValue);
                     break;
                 case SortType.GreaterThan:
-                    condValue = Expression.Constant(Convert.ToInt32(value));
-                    var greaterThanExpr = Expression.GreaterThanOrEqual(prop, condValue);
-                    condition = Expression.Lambda<Func<Image, bool>>(greaterThanExpr, table);
+                    conditionValue = Expression.Constant(Convert.ToInt32(value));
+                    operation = Expression.GreaterThanOrEqual(prop, conditionValue);
                     break;
                 default:
-
+                    throw new Exception();
                     break;
             }
+            condition = Expression.Lambda<Func<Image, bool>>(operation, table);
 
             return _dbSet.
                   Where(condition)

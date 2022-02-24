@@ -8,18 +8,16 @@
 
 
 <form action="/Gallery/Index" method="get">
-    Sorted by int
     <input type="hidden"  name="columnName" value="Assessment"/>
     <input type="hidden" name="sortType" value="@SortType.GreaterThan"/>
-    <input type="number" name="value">
-    <input type="submit" value="Send" />
+    <input type="number" name="value" placeholder="Min assessment">
+    <input type="submit" value="Sort" />
 </form>
 
 <form action="/Gallery/Index" method="get">
-    Sorted by name
     <input type="hidden"  name="columnName" value="Author.Name"/>
     <input type="hidden" name="sortType" value="@SortType.Equal"/>
-    <input type="text" name="value">
+    <input type="text" name="value" placeholder="Author name">
     <input type="submit" value="Send" />
 </form>
 
