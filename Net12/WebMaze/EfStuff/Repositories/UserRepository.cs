@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 
@@ -155,7 +153,7 @@ FROM   users U
 
                     _logger.LogInformation($"Transaction between Ids {currUserId} and {destUserId} to transfer {coins} coins was successful ");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     transaction.Rollback();
 

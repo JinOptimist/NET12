@@ -42,7 +42,6 @@ namespace WebMaze.EfStuff.Repositories
                     break;
                 default:
                     throw new Exception();
-                    break;
             }
             condition = Expression.Lambda<Func<Image, bool>>(operation, table);
 
