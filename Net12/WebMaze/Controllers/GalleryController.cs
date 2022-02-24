@@ -45,12 +45,8 @@ namespace WebMaze.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(object value, string columnName = "Assessment", SortType sortType = SortType.GreaterThan)
+        public IActionResult Index(string value = "0", string columnName = "Assessment", SortType sortType = SortType.GreaterThan)
         {
-            if (value is object)
-            {
-                value = 0;
-            }
             var imageViewModels = new List<ImageViewModel>();
 
             if (_userRepository.GetAll().Any())
@@ -59,11 +55,6 @@ namespace WebMaze.Controllers
             }
 
             return View(imageViewModels);
-        }
-
-        public IActionResult GetSorted(object inValue, string inColumnName, SortType inSortType)
-        {
-            return RedirectToAction("Index", new {value = inValue, columnName = inColumnName, sortType = inSortType});
         }
 
         [HttpGet]

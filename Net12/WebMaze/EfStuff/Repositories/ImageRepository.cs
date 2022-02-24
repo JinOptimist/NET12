@@ -21,7 +21,7 @@ namespace WebMaze.EfStuff.Repositories
             var propList = columnName.Split(".");
             var prop = Expression.Property(table, propList[0]);
 
-            for (int i = 1; i < propList.Length - 1; i++)
+            for (int i = 1; i < propList.Length; i++)
             {
                 prop = Expression.Property(prop, propList[i]);
             }
@@ -38,7 +38,7 @@ namespace WebMaze.EfStuff.Repositories
 
                     break;
                 case SortType.GreaterThan:
-                    condValue = Expression.Constant(value);
+                    condValue = Expression.Constant(Convert.ToInt32(value));
                     var greaterThanExpr = Expression.GreaterThanOrEqual(prop, condValue);
                     condition = Expression.Lambda<Func<Image, bool>>(greaterThanExpr, table);
                     break;
