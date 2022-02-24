@@ -76,6 +76,16 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="ResourceLocalization\MySystem.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MySystem.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ResourceLocalization\SeaBattle.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SeaBattle.resx</DependentUpon>
+    </Compile>
     <Compile Update="ResourceLocalization\ZumaGame.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -113,6 +123,13 @@
     <EmbeddedResource Update="ResourceLocalization\MySystem.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MySystem.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\SeaBattle.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SeaBattle.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\SeaBattle.Ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\ZumaGame.resx">
       <LastGenOutput>ZumaGame.Designer.cs</LastGenOutput>

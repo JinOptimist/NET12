@@ -7,6 +7,7 @@ namespace WebMaze.Models
 {
     public class PaggerViewModel<T>
     {
+        public const int AdditionalElementsNearCurrent = 5;
         public int TotalRecordsCount { get; set; }
 
         public int PerPage { get; set; }
@@ -25,6 +26,33 @@ namespace WebMaze.Models
         }
 
         public int CurrPage { get; set; }
+
+        public int StartIndex
+        {
+            get
+            {
+                var start = CurrPage - AdditionalElementsNearCurrent;
+                if (start < 0)
+                {
+                    start = 0;
+                }
+                return start;
+            }
+        }
+
+        public int EndIndex
+        {
+            get
+            {
+                var end = CurrPage + AdditionalElementsNearCurrent;
+                if (end > TotalPageCount)
+                {
+                    end = TotalPageCount;
+                }
+                return end;
+            }
+        }
+
         public List<T> Records { get; set; }
     }
 }

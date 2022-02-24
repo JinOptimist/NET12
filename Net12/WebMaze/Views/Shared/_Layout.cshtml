@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="~/css/NewsComments.css" />
     <link rel="stylesheet" href="~/css/ZumaGame.css" />
     <link rel="stylesheet" href="~/css/ThreeInRow.css" />
+    <link rel="stylesheet" href="~/css/miner.css" />
+    <link rel="stylesheet" href="~/css/seaBattle.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
     <script src="~/js/Language.js"></script>
@@ -159,13 +161,14 @@
                     </li>
 
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Miner/StartGame">StartGame</a>
-                    </li>
+
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
                             <a class="nav-link" href="/ZumaGame/Index">ZumaGame</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Miner/StartGame">Miner</a>
                         </li>
                     }
                     <li class="nav-item">
@@ -194,6 +197,13 @@
                             <a class="nav-link" href="/GuessTheNumber/CheckForUnfinishedGame">Start Game</a>
                         </div>
                     </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/SeaBattle/Index">Sea Battle</a>
+                        </li>
+                    }
+
 
                 </ul>
             </div>

@@ -110,5 +110,14 @@ namespace WebMaze.Controllers
 
             return RedirectToAction("Index", "Gallery");
         }
+
+        public IActionResult Awful(long imageId)
+        {            
+            var image = _repository.Get(imageId);
+
+            _payForActionService.CreatorDislikeFine(image.Author.Id, TypesOfPayment.Fine);
+
+            return RedirectToAction("Index", "Gallery");
+        }
     }
 }

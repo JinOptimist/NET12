@@ -61,6 +61,7 @@ namespace WebMaze.Controllers
             paggerViewModel.Records = newsViewModels;
             paggerViewModel.TotalRecordsCount = _newsRepository.Count();
             paggerViewModel.PerPage = perPage;
+            paggerViewModel.CurrPage = page;
 
             return View(paggerViewModel);
         }
@@ -106,6 +107,15 @@ namespace WebMaze.Controllers
         {
             var news = _newsRepository.Get(newsId);
             _payForActionService.CreatorEarnMoney(news.Author.Id, 10);
+
+            return RedirectToAction("Index", "News");
+        }
+
+        public IActionResult Awful(long newsId)
+        {
+            var news = _newsRepository.Get(newsId);
+
+            _payForActionService.CreatorDislikeFine(news.Author.Id, TypesOfPayment.Fine);
 
             return RedirectToAction("Index", "News");
         }
