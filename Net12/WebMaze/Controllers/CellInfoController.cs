@@ -251,7 +251,7 @@ namespace WebMaze.Controllers
             model.Url = "/images/Goblin.png";
             model.Desc = "Goblin always rans off when Hero gets closer to him. Drive Goblin into a corner and grab him to get coins.";
             model.ShortsDescriptions.Add("Hero will get great deal of money, but catch me first.");
-            
+
             return View(model);
         }
 

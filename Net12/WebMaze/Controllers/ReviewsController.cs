@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Packaging;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff.DbModel;
@@ -19,13 +22,15 @@ namespace WebMaze.Controllers
         private IMapper _mapper;
         private UserService _userService;
         private readonly PayForActionService _payForActionService;
-        public ReviewsController(IMapper mapper, UserService userService, ReviewRepository reviewRepository, 
-            PayForActionService payForActionService)
+        private IWebHostEnvironment _hostEnvironment;
+        public ReviewsController(IMapper mapper, UserService userService, ReviewRepository reviewRepository,
+            PayForActionService payForActionService, IWebHostEnvironment hostEnvironment)
         {
             _reviewRepository = reviewRepository;
             _mapper = mapper;
             _userService = userService;
             _payForActionService = payForActionService;
+            _hostEnvironment = hostEnvironment;
         }
 
 
@@ -53,6 +58,38 @@ namespace WebMaze.Controllers
 
             review.IsActive = true;
             _reviewRepository.Save(review);
+
+            var reviewDocName = $"{review.Id}.docx";
+            review.Text = "/textDocuments/review" + reviewDocName; //указали путь к документу и сохранили в базу. 
+            _reviewRepository.Save(review);
+
+            var filePath = Path.Combine(_hostEnvironment.WebRootPath, "textDocuments", "review", reviewDocName);
+
+            using (var fileStream = System.IO.File.Create(filePath))
+            {
+                viewReview.ReviewDoc.CopyTo(fileStream);
+            }
+
+            if (viewReview.ReviewDoc != null)
+            {
+
+            }
+            else
+            {
+                using (var wordFileRead = WordprocessingDocument.Open(viewReview.ReviewDoc.OpenReadStream(), false))
+                {
+                    var allText = string.Join("\n", wordFileRead
+                        .MainDocumentPart
+                        .Document
+                        .Body
+                        .OfType<DocumentFormat.OpenXml.Wordprocessing.Text>()
+                        .Select(x => x.Text));
+
+                    review.Text = allText;
+                    _reviewRepository.Save(review);
+                }
+            }
+
             var FeedBackUsers = _reviewRepository.GiveViewReviews(_userService);
 
             return View(FeedBackUsers);

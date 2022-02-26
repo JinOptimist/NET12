@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace WebMaze.Models
         public string Url { get; set; }
         public string Desc { get; set; }
         public bool CanStep { get; set; }
-
+ 
         public string Spec { get; set; }
         public List<string> ShortsDescriptions { get; set; } = new List<string>();
     }

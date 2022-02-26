@@ -43,6 +43,7 @@
     <Folder Include="wwwroot\images\SuggestedEnemies\" />
     <Folder Include="wwwroot\images\NewCellImg\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
+    <Folder Include="wwwroot\textDocuments\review\" />
   </ItemGroup>
 
   <ItemGroup>

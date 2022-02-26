@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,5 +18,6 @@ namespace WebMaze.Models
         public string TextInfo { get; set; }
         public string UserName { get; internal set; }
         public bool CanEdit {  get; set; }
+        public IFormFile ReviewDoc {  get; set; }
     }
 }
