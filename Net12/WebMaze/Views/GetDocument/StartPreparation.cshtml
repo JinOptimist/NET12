@@ -1,9 +1,14 @@
-﻿
+﻿@using WebMaze.Models.GenerationDocument
+@model DocumentStatus
 
-<div>   
-    Preperation started!
-</div>
-
-<div>   
-    <a href="/GetDocument/GetStatus?documentId=1"> Get status</a>
+<div document-fields>
+    <form action="/GetDocument/StartPreparation" method="post">        
+        <div>
+            @Html.TextBoxFor(x => x.Pages)
+            <div>
+                @Html.TextAreaFor(x => x.Document)
+            </div>            
+        </div>     
+        <input type="submit" value="StartPreparation" />
+    </form>
 </div>

@@ -11,7 +11,7 @@ namespace WebMaze.Controllers
 {
     public class GetDocumentController : Controller
     {
-        private IHubContext<DocumentPreparationHub> _documentPreparationHub;       
+        private IHubContext<DocumentPreparationHub> _documentPreparationHub;
 
         public GetDocumentController(IHubContext<DocumentPreparationHub> documentPreparationHub)
         {
@@ -26,7 +26,14 @@ namespace WebMaze.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult StartPreparation()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult StartPreparation(DocumentStatus documentViewModel)
         {
             CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
             CancellationToken token = cancelTokenSource.Token;
@@ -38,8 +45,8 @@ namespace WebMaze.Controllers
                 {
                     Id = 1,
                     Percent = 0,
-                    Pages = 100,
-                    Document = "Text",
+                    Pages = documentViewModel.Pages,
+                    Document = documentViewModel.Document,
                     CancellationTokenSource = cancelTokenSource
                 };
 
@@ -49,22 +56,20 @@ namespace WebMaze.Controllers
             Task task = new Task(() => DocumentPreparation(document), token);
             task.Start();
 
+            return RedirectToAction("GetStatus");
+        }
+
+        public IActionResult GetStatus()
+        {
             return View();
         }
 
-        public IActionResult GetStatus(int documentId)
-        {
-            var doc = DocumentPreparationTasks.First(x => x.Id == documentId);
-            return View();
-        }
-
-        public IActionResult DownloadDocument()
+        public void DownloadDocument()
         {
 
-            return View();
         }       
 
-        public IActionResult StopPreparation(int documentId)
+        public void StopPreparation(int documentId)
         {
             var document = DocumentPreparationTasks.First(x => x.Id == documentId);
             document.CancellationTokenSource.Cancel();
@@ -72,8 +77,6 @@ namespace WebMaze.Controllers
             {
                 DocumentPreparationTasks.Remove(document);
             }
-
-            return Json(true);
         }
 
         private void DocumentPreparation(DocumentStatus document)
