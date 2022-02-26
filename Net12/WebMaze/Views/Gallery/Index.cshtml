@@ -1,38 +1,54 @@
 ﻿@model List<ImageViewModel>
+@using WebMaze.Models.Enums;
 
-@section Scripts{ 
-    <script src="~/js/gallery.js"></script>
-} 
+
+@section Scripts{
+    <script src="~/js/galleryAjax.js"></script>
+}
+
+
+<form action="/Gallery/Index" method="get">
+    <input type="hidden"  name="columnName" value="Assessment"/>
+    <input type="hidden" name="sortType" value="@SortType.GreaterThan"/>
+    <input type="number" name="value" placeholder="Min assessment">
+    <input type="submit" value="Sort" />
+</form>
+
+<form action="/Gallery/Index" method="get">
+    <input type="hidden"  name="columnName" value="Author.Name"/>
+    <input type="hidden" name="sortType" value="@SortType.Equal"/>
+    <input type="text" name="value" placeholder="Author name">
+    <input type="submit" value="Send" />
+</form>
 
 <div class="whole-page">
 
-    <div class="text-center">
-        <h1>Users gallery</h1>
+        <div class="text-center">
+            <h1>Users gallery</h1>
 
-        <div class="pic-to-gallery">
-            @foreach (var image in Model)
-            {
-                <div>
+            <div class="pic-to-gallery">
+                @foreach (var image in Model)
+                {
                     <div>
-                        <img class="image" src="@image.Picture">
-                    </div>
-                    <div class="t-to-gallery">
-                        @image.Assessment
-                    </div>
-                    <div class="t-to-gallery">
-                        @image.Description
-                    </div>
-                    @if (User.Identity.IsAuthenticated)
-                    {
                         <div>
-                            <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" class="good-button">Wonderful</a>
-                            <button class="bad-button">Awful</button>
+                            <img class="image" src="@image.Picture">
                         </div>
-                    }
+                        <div class="t-to-gallery">
+                            @image.Assessment
+                        </div>
+                        <div class="t-to-gallery">
+                            @image.Description
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div>
+                                <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" class="good-button">Wonderful</a>                                
+                                <a href="@Url.Action("Awful","Gallery", new {@imageId = image.Id})" class="bad-button">Awful</a>
+                            </div>
+                        }
+                    </div>
 
-                </div>
-
-            }
+                }
+            </div>
         </div>
     </div>
-</div>

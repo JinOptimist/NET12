@@ -12,7 +12,6 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel='stylesheet' href='~/css/ruleobj.css'>
     <link rel="stylesheet" href="~/css/reviews.css" />
@@ -28,8 +27,12 @@
     <link rel="stylesheet" href="~/css/PayForAction.css" />
     <link rel="stylesheet" href="~/css/NewsComments.css" />
     <link rel="stylesheet" href="~/css/ZumaGame.css" />
+    <link rel="stylesheet" href="~/css/ThreeInRow.css" />
+    <link rel="stylesheet" href="~/css/miner.css" />
+    <link rel="stylesheet" href="~/css/seaBattle.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
+    <script src="~/js/Language.js"></script>
     @RenderSection("Scripts", required: false)
     @RenderSection("Sprite", false)
 </head>
@@ -66,6 +69,7 @@
                             Info
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/CellInfo/Carousel">Carousel</a>
                             <a class="dropdown-item" href="/CellInfo/Trap">Trap info</a>
                             <a class="dropdown-item" href="/CellInfo/Tavern">Tavern info</a>
                             <a class="dropdown-item" href="/CellInfo/Walker">Walker info</a>
@@ -138,7 +142,7 @@
                         <a class="nav-link" href="/GameDevices/GameDevices">Game devices</a>
                     </li>
 
-                    @if (userService.IsAdmin)
+                    @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -146,23 +150,33 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
+                                <a class="dropdown-item" href="/Gallery/GalleryCarousel">Carousel</a>
                                 <a class="dropdown-item" href="/Gallery/AddImage">Add Image</a>
                             </div>
                         </li>
                     }
 
-
                     <li class="nav-item">
-                        <a class="nav-link" href="/Miner/StartGame">StartGame</a>
+                        <a class="nav-link" href="/ThreeInRow/WelcomePage">Three In Row</a>
                     </li>
+
+
+
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
                             <a class="nav-link" href="/ZumaGame/Index">ZumaGame</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Miner/StartGame">Miner</a>
+                        </li>
                     }
                     <li class="nav-item">
                         <a class="nav-link" href="/Maze/Couple">Couple</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Play15/Start">15</a>
                     </li>
 
                     <li class="nav-item dropdown">
@@ -175,6 +189,22 @@
                         </div>
                     </li>
 
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            GuessTheNumber
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="nav-link" href="/GuessTheNumber/CheckForUnfinishedGame">Start Game</a>
+                        </div>
+                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/SeaBattle/Index">Sea Battle</a>
+                        </li>
+                    }
+
+
                 </ul>
             </div>
         </nav>
@@ -185,10 +215,15 @@
     </div>
 
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted bottom">
         <div class="container">
             &copy; 2021 - WebMaze
         </div>
+        @if(!User.Identity.IsAuthenticated){
+        <div class="language-selection">
+            <select class="Language-Selector"></select>
+        </div>
+        }
     </footer>
 </body>
 </html>

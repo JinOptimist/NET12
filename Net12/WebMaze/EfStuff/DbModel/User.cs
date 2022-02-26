@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.EfStuff.DbModel.GuessTheNumber;
+using WebMaze.EfStuff.DbModel.ThreeInRow;
+using WebMaze.EfStuff.DbModel.SeaBattle;
 
 namespace WebMaze.EfStuff.DbModel
 {
@@ -13,6 +16,8 @@ namespace WebMaze.EfStuff.DbModel
         public int Age { get; set; }
         public int Coins { get; set; }
         public int GlobalUserRating { get; set; }
+
+        public Language DefaultLocale { get; set; }
 
         public virtual List<Perrmission> Perrmissions { get; set; }
         public virtual List<NewCellSuggestion> MyCellSuggestions { get; set; }
@@ -33,5 +38,11 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<MinerField> MinerFields { get; set; }
         public virtual ZumaGameField ZumaGameField { get; set; }
         public virtual List<ZumaGameDifficult> ZumaGameDifficults { get; set; }
+        public virtual List<GroupList> Groups { get; set; }
+        public virtual List<UserInGroup> UsersInGroup { get; set; }
+        public virtual List<GuessTheNumberGame> GuessTheNumberGames { get; set; }
+        public virtual List<ThreeInRowGameField> ThreeInRowGameFields { get; set; }
+        public virtual SeaBattleGame SeaBattleGame { get; set; }
+
     }
 }

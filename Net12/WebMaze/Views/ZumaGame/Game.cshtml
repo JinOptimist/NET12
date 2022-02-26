@@ -1,7 +1,9 @@
-﻿@model ZumaGameFieldViewModel
+﻿@using WebMaze.ResourceLocalization
+
+@model ZumaGameFieldViewModel
 
 <div class="big-center-font">
-    ☺☻☺   Zuma!!!   ☻☺☻
+    @ZumaGame.Welcome
 </div>
 
 <div class="zumagame-game">
@@ -36,9 +38,8 @@
 
     <div class="zumagame-info">
         <div>
-            Score:
+            @ZumaGame.Score
         </div>
-
         <div>
             @Model.Score
         </div>
@@ -46,5 +47,5 @@
 </div>
 
 <div class="big-center-font">
-    <a href="/ZumaGame/LoseGame?id=@Model.Id">Defeat</a>
+    <a href="/ZumaGame/LoseGame?id=@Model.Id">@ZumaGame.Defeat</a>
 </div>

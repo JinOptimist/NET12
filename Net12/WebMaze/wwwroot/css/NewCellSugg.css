@@ -1,0 +1,7 @@
+﻿.newCellImg {
+    height: 260px;
+    width: 260px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-size: cover;
+}

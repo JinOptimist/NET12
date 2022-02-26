@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Hosting;
 using Net12.Maze;
 using Net12.Maze.Cells;
 using System;
@@ -34,7 +35,7 @@ namespace WebMaze.Controllers
         private readonly PayForActionService _payForActionService;
         private IHubContext<ChatHub> _chatHub;
 
-        private IHostingEnvironment _environment;
+        private IHostEnvironment _environment;
 
 
         public MazeController(MazeDifficultRepository mazzeDifficultRepository,
@@ -43,8 +44,8 @@ namespace WebMaze.Controllers
             UserRepository userRepository,
             MazeEnemyRepository mazeEnemyRepository, 
             PayForActionService payForActionService,
-            IHubContext<ChatHub> chatHub, 
-            IHostingEnvironment environment)
+            IHubContext<ChatHub> chatHub,
+            IHostEnvironment environment)
         {
             _mazeDifficultRepository = mazzeDifficultRepository;
             _mapper = mapper;
@@ -233,9 +234,18 @@ namespace WebMaze.Controllers
             return RedirectToAction("ManageMazeDifficult", "Maze");
         }
 
+        public IActionResult Awful(long difficultId)
+        {
+            var diffcult = _mazeDifficultRepository.Get(difficultId);
+
+            _payForActionService.CreatorDislikeFine(diffcult.Creater.Id, TypesOfPayment.Fine);
+
+            return RedirectToAction("ManageMazeDifficult", "Maze");
+        }
+
         public IActionResult GetUrlsForCouple()
         {
-            var path = Path.Combine(_environment.WebRootPath, "imgYellowTeam");
+            var path = Path.Combine(_environment.ContentRootPath, "wwwroot", "imgYellowTeam");
             var urls =
                 Directory.GetFiles(path)
                     .Select(x => Path.GetFileNameWithoutExtension(x))

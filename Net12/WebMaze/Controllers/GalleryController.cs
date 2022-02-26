@@ -19,7 +19,6 @@ using WebMaze.Services;
 namespace WebMaze.Controllers
 {
     [Authorize]
-    [IsAdmin]
     public class GalleryController : Controller
     {
         private readonly ImageRepository _repository;
@@ -46,7 +45,20 @@ namespace WebMaze.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string value = "0", string columnName = "Assessment", SortType sortType = SortType.GreaterThan)
+        {
+            var imageViewModels = new List<ImageViewModel>();
+
+            if (_userRepository.GetAll().Any())
+            {
+                imageViewModels = _repository.GetSorted(value, columnName, sortType).Select(image => _mapper.Map<ImageViewModel>(image)).ToList();
+            }
+
+            return View(imageViewModels);
+        }
+
+        [HttpGet]
+        public IActionResult GalleryCarousel()
         {
             var imageViewModels = new List<ImageViewModel>();
 
@@ -92,8 +104,18 @@ namespace WebMaze.Controllers
 
         public IActionResult Wonderful(long imageId)
         {
+            var reward = 10;
             var image = _repository.Get(imageId);
-            _payForActionService.CreatorEarnMoney(image.Author.Id, 10);
+            _payForActionService.CreatorEarnMoney(image.Author.Id, reward);
+
+            return RedirectToAction("Index", "Gallery");
+        }
+
+        public IActionResult Awful(long imageId)
+        {            
+            var image = _repository.Get(imageId);
+
+            _payForActionService.CreatorDislikeFine(image.Author.Id, TypesOfPayment.Fine);
 
             return RedirectToAction("Index", "Gallery");
         }

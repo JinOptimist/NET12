@@ -39,12 +39,12 @@
             <a href="/Maze/RemoveMazeDifficult?Id=@difficult.Id">X</a>
             <a href="/Maze/AddMazeDifficult?Id=@difficult.Id">E</a>
             @if (User.Identity.IsAuthenticated)
-                    {
-        <div>
-            <a href="@Url.Action("Wonderful","Maze", new {@difficultId = difficult.Id })" class="good-button">Wonderful</a>            
-            <button class="bad-button">Awful</button>
-        </div>
-                    }
+            {
+                <div>
+                    <a href="@Url.Action("Wonderful","Maze", new {@difficultId = difficult.Id })" class="good-button">Wonderful</a>
+                    <a href="@Url.Action("Awful","Maze", new {@difficultId = difficult.Id})" class="bad-button">Awful</a>
+                </div>
+            }
         </div>
     }
 </div>
