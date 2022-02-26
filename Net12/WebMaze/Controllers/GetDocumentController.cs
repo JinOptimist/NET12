@@ -1,14 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WebMaze.Models.GenerationDocument;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze.Controllers
 {
     public class GetDocumentController : Controller
     {
+        private IHubContext<DocumentPreparationHub> _documentPreparationHub;       
+
+        public GetDocumentController(IHubContext<DocumentPreparationHub> documentPreparationHub)
+        {
+            _documentPreparationHub = documentPreparationHub;
+        }
+
         public static List<DocumentStatus> DocumentPreparationTasks = new List<DocumentStatus>();
 
         public IActionResult Index()
@@ -28,10 +37,8 @@ namespace WebMaze.Controllers
                 document = new DocumentStatus
                 {
                     Id = 1,
-                    //Id = DocumentPreparationTasks.Any()
-                    //    ? DocumentPreparationTasks.Max(x => x.Id) + 1
-                    //    : 1,
                     Percent = 0,
+                    Pages = 100,
                     Document = "Text",
                     CancellationTokenSource = cancelTokenSource
                 };
@@ -48,30 +55,14 @@ namespace WebMaze.Controllers
         public IActionResult GetStatus(int documentId)
         {
             var doc = DocumentPreparationTasks.First(x => x.Id == documentId);
-            return Json(doc.Document);
+            return View();
         }
 
         public IActionResult DownloadDocument()
         {
 
             return View();
-        }
-
-        private void DocumentPreparation(DocumentStatus document)
-        {
-            for (int i = 0; i < 50; i++)
-            {
-                document.Document += $" {document.Percent} ";
-                document.Percent++;
-                document
-                    .CancellationTokenSource
-                    .Token
-                    .ThrowIfCancellationRequested();
-                Thread.Sleep(1000);
-            }
-
-            //return RedirectToAction("DownloadDocument");
-        }
+        }       
 
         public IActionResult StopPreparation(int documentId)
         {
@@ -83,6 +74,22 @@ namespace WebMaze.Controllers
             }
 
             return Json(true);
+        }
+
+        private void DocumentPreparation(DocumentStatus document)
+        {
+            for (int i = 0; i < document.Pages; i++)
+            {
+                document.Document += $" {document.Percent} ";
+                document.Percent++;
+                document
+                    .CancellationTokenSource
+                    .Token
+                    .ThrowIfCancellationRequested();
+                Thread.Sleep(1000);
+
+                _documentPreparationHub.Clients.All.SendAsync("Notification", document.Percent, document.Pages);
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace WebMaze.Models.GenerationDocument
         public int Id { get; set; }
 
         public int Percent { get; set; }
-
+        public int Pages { get; set; }
         public string Document { get; set; }
 
         public CancellationTokenSource CancellationTokenSource { get; set; }

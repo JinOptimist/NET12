@@ -1,0 +1,34 @@
+﻿.status{
+    display: flex;
+    justify-content: center;
+}
+.status-title{
+    font-size: 20px;
+
+}
+
+.status-percent{
+    
+}
+
+.status-percent-text{
+
+}
+
+.status-percent-line {
+    padding: 1px;
+    height: 15px;
+    width: 154px;
+    border: 1px solid #000000;
+}
+
+.status-percent-line-bg {
+    min-height: 100%;
+    width: 0px;
+    justify-content: left;
+    background-color: green;
+}
+
+.content{
+
+}

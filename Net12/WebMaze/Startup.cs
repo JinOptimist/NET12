@@ -536,7 +536,7 @@ namespace WebMaze
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<ChatHub>("/documentPreparation");
+                endpoints.MapHub<DocumentPreparationHub>("/documentPreparation");
             });
 
             app.UseEndpoints(endpoints =>
