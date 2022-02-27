@@ -13,51 +13,27 @@
         </div>
         <div>
             <div>
-                User Name: <input name="userName" type="text" required />
+                User Name: @Html.TextBoxFor(x => x.RequestRecipient)
             </div>
-
+            <div>
+                @Html.ValidationMessageFor(x => x.RequestRecipient)
+            </div>
         </div>
         <div>
-            Request coins: <input name="requestCoins" type="number" required />
+            Request coins: @Html.TextBoxFor(x=>x.RequestAmount)
         </div>
+        <div>
+            @Html.ValidationMessageFor(x => x.RequestAmount)
+        </div>        
 
         <div>
-
-            @switch (Model.MassegeErrors)
-            {
-                case WebMaze.Services.RequestForMoney.MassegeErrorsRequestEnums.NotEnoughUser:
-                    <div>
-                        User with this name not found
-                    </div>
-                    break;
-
-                case WebMaze.Services.RequestForMoney.MassegeErrorsRequestEnums.NegativeValue:
-                    <div>
-                        Invalid coin value
-                    </div>
-                    break;
-
-                case WebMaze.Services.RequestForMoney.MassegeErrorsRequestEnums.RequestToYourself:
-                    <div>
-                        You are trying to query yourself
-                    </div>
-                    break;
-
-                case WebMaze.Services.RequestForMoney.MassegeErrorsRequestEnums.UserNotEnoughCoins:
-                    <div>
-                        The user does not have that many coins
-                    </div>
-                    break;
-
-                default:
-                    break;
-            }
+            @Html.ValidationSummary(true)
         </div>
 
         <div class="js-transaction-field">
             <input type="submit" value="Request coins" class="transactionButton" />
         </div>
-      
+
         <div>
             <a href="/RequestForMoney/RequestCoins">Request Coins</a>
         </div>

@@ -25,6 +25,7 @@ using WebMaze.SignalRHubs;
 using Microsoft.Extensions.Logging;
 using WebMaze.EfStuff.DbModel.GuessTheNumber;
 using WebMaze.Models.GuessTheNumber;
+using WebMaze.Services.RequestForMoney;
 
 namespace WebMaze
 {
@@ -66,6 +67,7 @@ namespace WebMaze
 
             services.AddScoped<PayForAddActionFilter>();
             services.AddScoped<CellInfoHelperService>();
+            services.AddScoped<TransactionRequestCoins>();
 
             services.AddHttpContextAccessor();
 

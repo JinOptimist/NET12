@@ -26,25 +26,27 @@ namespace WebMaze.Controllers
         private UserService _userService;
         private RequestForMoneyRepository _requestForMoneyRepository;
         private IWebHostEnvironment _hostEnvironment;
+        private TransactionRequestCoins _transactionRequestCoins;
+
         public RequestForMoneyController(UserRepository userRepository,
             IMapper mapper,
             UserService userService,
             RequestForMoneyRepository requestForMoneyRepository,
-            IWebHostEnvironment hostEnvironment)
+            IWebHostEnvironment hostEnvironment,
+            TransactionRequestCoins transactionRequestCoins)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _userService = userService;
             _requestForMoneyRepository = requestForMoneyRepository;
             _hostEnvironment = hostEnvironment;
-
+            _transactionRequestCoins = transactionRequestCoins ?? throw new ArgumentException(nameof(transactionRequestCoins));
         }
 
         public IActionResult RequestCoins()
         {
             var user = _userService.GetCurrentUser();
-            var requestViewModel = new List<RequestForMoneyViewModel>();
-            requestViewModel = _requestForMoneyRepository
+            var requestViewModel = _requestForMoneyRepository
                .GetAllRequestsCurrentUser(user.Id)
                .Select(dbModel => _mapper.Map<RequestForMoneyViewModel>(dbModel))
                .ToList();
@@ -70,54 +72,58 @@ namespace WebMaze.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult AddRequestCoins(string userName, int requestCoins)
+        public IActionResult AddRequestCoins(RequestForMoneyViewModel requestForMoneyViewModel)
         {
 
             var requestCreator = _userService.GetCurrentUser();
-            var requestRecipient = _userRepository.GetUserByName(userName);
-
+            var requestRecipient = _userRepository.GetUserByName(requestForMoneyViewModel.RequestRecipient);
+           
             if (requestRecipient == null)
             {
-                return RedirectToAction($"{nameof(RequestForMoneyController.AddRequestCoins)}", new { massege = MassegeErrorsRequestEnums.NotEnoughUser });
+                ModelState.AddModelError("RequestRecipient", "User with this name not found");
+                return View(requestForMoneyViewModel);
             }
-            if (requestCoins == 0)
+            if (requestForMoneyViewModel.RequestAmount == 0)
             {
-                return RedirectToAction($"{nameof(RequestForMoneyController.AddRequestCoins)}", new { massege = MassegeErrorsRequestEnums.NegativeValue });
+                ModelState.AddModelError("RequestAmount", "Invalid coin value");
+                return View(requestForMoneyViewModel);
             }
             if (requestCreator.Id == requestRecipient.Id)
             {
-                return RedirectToAction($"{nameof(RequestForMoneyController.AddRequestCoins)}", new { massege = MassegeErrorsRequestEnums.RequestToYourself });
+                ModelState.AddModelError("RequestRecipient", "You are trying to query yourself");
+                return View(requestForMoneyViewModel);
             }
-            if (requestRecipient.Coins < requestCoins)
+            if (requestRecipient.Coins < requestForMoneyViewModel.RequestAmount)
             {
-                return RedirectToAction($"{nameof(RequestForMoneyController.AddRequestCoins)}", new { massege = MassegeErrorsRequestEnums.UserNotEnoughCoins });
+                ModelState.AddModelError("RequestAmount", "The user does not have that many coins");
+                return View(requestForMoneyViewModel);
             }
-            if (requestCoins < 0)
+            if (requestForMoneyViewModel.RequestAmount < 0)
             {
-                return RedirectToAction($"{nameof(RequestForMoneyController.AddRequestCoins)}", new { massege = MassegeErrorsRequestEnums.NegativeValue });
+                ModelState.AddModelError("RequestAmount", "Invalid coin value");
+                return View(requestForMoneyViewModel);
             }
-
+            
             var request = new RequestForMoney
             {
                 IsActive = true,
                 RequestStatus = RequestStatusEnums.WaitingForAnAnswer,
                 RequestCreationDate = DateTime.Now,
-                RequestAmount = requestCoins,
+                RequestAmount = requestForMoneyViewModel.RequestAmount,
                 RequestCreator = requestCreator,
                 RequestRecipient = requestRecipient
             };
             _requestForMoneyRepository.Save(request);
 
-            return RedirectToAction($"{nameof(RequestForMoneyController.RequestCoins)}");
+            return RedirectToAction($"{nameof(RequestForMoneyController.RequestCoins)}");            
+            
         }
-
 
         public IActionResult RemoveRequestCoins(long requestId)
         {
             _requestForMoneyRepository.Remove(requestId);
             return RedirectToAction($"{nameof(RequestForMoneyController.RequestCoins)}");
         }
-
 
         [HttpGet]
         public IActionResult RejectRequestCoins(long requestId)
@@ -129,15 +135,14 @@ namespace WebMaze.Controllers
             return RedirectToAction($"{nameof(RequestForMoneyController.RequestCoins)}");
         }
 
-
         [HttpGet]
         public IActionResult AcceptRequestCoins(long requestId)
         {
             var request = _requestForMoneyRepository.Get(requestId);
             var requestCreator = request.RequestCreator;
-            var requestRecipient = request.RequestRecipient;
-            if (_requestForMoneyRepository.AttemptTrasactionRequest(request, requestCreator, requestRecipient,
-                _requestForMoneyRepository, _userRepository))
+            var requestRecipient = request.RequestRecipient;           
+
+            if (_transactionRequestCoins.AttemptTransactionRequest(request, requestCreator, requestRecipient))
             {
                 return RedirectToAction($"{nameof(RequestForMoneyController.RequestCoins)}");
             }

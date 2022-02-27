@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.Services;
+using WebMaze.Services.RequestForMoney;
 
 namespace WebMaze.EfStuff.Repositories
 {
@@ -33,36 +34,6 @@ namespace WebMaze.EfStuff.Repositories
             return _dbSet.Where(g =>
                     g.RequestRecipient.Id == userId ||
                     g.RequestCreator.Id == userId).ToList();
-        }
-
-        public bool AttemptTrasactionRequest(RequestForMoney request, User requestCreator, User requestRecipient,
-            RequestForMoneyRepository _requestForMoneyRepository, UserRepository _userRepository)
-        {
-
-            using (var transaction = _webContext.Database.BeginTransaction())
-            {
-
-                try
-                {
-                    requestCreator.Coins = requestCreator.Coins + request.RequestAmount;
-                    _userRepository.Save(requestCreator);
-
-                    requestRecipient.Coins = requestRecipient.Coins - request.RequestAmount;
-                    _userRepository.Save(requestRecipient);
-
-                    request.RequestStatus = RequestStatusEnums.RequestApproved;
-                    _requestForMoneyRepository.Save(request);
-
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    return false;
-                }
-            }
-
-            return true;
-        }
+        }       
     }
 }

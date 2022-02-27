@@ -7,7 +7,8 @@ using WebMaze.EfStuff.DbModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
-
+using WebMaze.Services;
+using WebMaze.Services.RequestForMoney;
 
 namespace WebMaze.EfStuff.Repositories
 {
@@ -15,16 +16,19 @@ namespace WebMaze.EfStuff.Repositories
     {
         private ReviewRepository _reviewRepository;
         private FavGamesRepository _favGamesRepository;
-
         private ImageRepository _imageRepository;
         private MazeLevelRepository _mazeLevelRepository;
         private CellRepository _cellRepository;
         private MazeEnemyRepository _mazeEnemyRepository;
         private ILogger<UserRepository> _logger;
+        
 
         public UserRepository(WebContext webContext,
             ReviewRepository reviewRepository,
-            ImageRepository imageRepository, MazeLevelRepository mazeLevelRepository, CellRepository cellRepository, FavGamesRepository favGamesRepository, MazeEnemyRepository mazeEnemyRepository, ILogger<UserRepository> logger) : base(webContext)
+            ImageRepository imageRepository, MazeLevelRepository mazeLevelRepository,
+            CellRepository cellRepository, FavGamesRepository favGamesRepository,
+            MazeEnemyRepository mazeEnemyRepository,
+            ILogger<UserRepository> logger) : base(webContext)
         {
             _reviewRepository = reviewRepository;
             _favGamesRepository = favGamesRepository;
@@ -32,7 +36,7 @@ namespace WebMaze.EfStuff.Repositories
             _mazeLevelRepository = mazeLevelRepository;
             _cellRepository = cellRepository;
             _mazeEnemyRepository = mazeEnemyRepository;
-            _logger = logger;
+            _logger = logger;            
         }
 
         public User GetByNameAndPassword(string login, string password)
