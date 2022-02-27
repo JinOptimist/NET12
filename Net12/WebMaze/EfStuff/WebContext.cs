@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.DbModel.GuessTheNumber;
+using WebMaze.EfStuff.DbModel.SeaBattle;
 
 namespace WebMaze.EfStuff
 {
@@ -34,6 +35,10 @@ namespace WebMaze.EfStuff
         public DbSet<GuessTheNumberGame> GuessTheNumberGames { get; set; }
         public DbSet<GuessTheNumberGameAnswer> GuessTheNumberGameAnswers { get; set; }
         public DbSet<GuessTheNumberGameParameters> GuessTheNumberGameParameters { get; set; }
+        public DbSet<SeaBattleCell> SeaBattleCells { get; set; }
+        public DbSet<SeaBattleField> SeaBattleFields { get; set; }
+        public DbSet<SeaBattleGame> SeaBattleGames { get; set; }
+        public DbSet<SeaBattleDifficult> SeaBattleDifficults { get; set; }
         public DbSet<RequestForMoney> RequestForMoneys { get; set; }
 
         public WebContext(DbContextOptions options) : base(options)
@@ -146,6 +151,22 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<GuessTheNumberGameAnswer>()
                 .HasOne(x => x.Game)
                 .WithMany(x => x.Answers);
+
+            modelBuilder.Entity<SeaBattleGame>()
+                .HasOne(x => x.User)
+                .WithOne(x => x.SeaBattleGame)
+                .HasForeignKey<SeaBattleGame>(x => x.UserId);
+
+            modelBuilder.Entity<SeaBattleGame>()
+                .HasMany(x => x.Fields)
+                .WithOne(x => x.Game)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SeaBattleField>()
+                .HasMany(x => x.Cells)
+                .WithOne(x => x.Field)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             modelBuilder.Entity<RequestForMoney>()
                 .HasOne(x => x.RequestCreator)

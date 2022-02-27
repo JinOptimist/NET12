@@ -8,22 +8,26 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.GenerationDocument;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers
 {
     public class HomeController : Controller
     {
+        public static List<DocumentGenerationTaskInfo> DocumentGenerationTasks
+            = new List<DocumentGenerationTaskInfo>();
+
         private readonly WebContext _webContext;
         private UserService _userService;
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
-        private NewCellSuggRepository _newCellSuggRepository;
         private ILogger<HomeController> _logger;
         private CurrenceService _currenceService;
 
@@ -31,7 +35,6 @@ namespace WebMaze.Controllers
         public HomeController(WebContext webContext,
          UserRepository userRepository, ReviewRepository reviewRepository,
          IMapper mapper, UserService userService,
-         NewCellSuggRepository newCellSuggRepository,
          ILogger<HomeController> logger,
          CurrenceService currenceService)
         {
@@ -164,8 +167,62 @@ namespace WebMaze.Controllers
             return View();
         }
 
+        public IActionResult StartTask()
+        {
+            var cancellationTokenSource = new CancellationTokenSource();
+            DocumentGenerationTaskInfo documentGeneration;
+            lock (DocumentGenerationTasks)
+            {
+                documentGeneration = new DocumentGenerationTaskInfo()
+                {
+                    Id = DocumentGenerationTasks.Any()
+                        ? DocumentGenerationTasks.Max(x => x.Id) + 1
+                        : 1,
+                    Percent = 0,
+                    CancellationTokenSource = cancellationTokenSource,
+                    Document = "Start\r\n"
+                };
+                DocumentGenerationTasks.Add(documentGeneration);
+            }
 
+            var token = cancellationTokenSource.Token;
 
+            var task = new Task(() => Timer(documentGeneration), token);
+            task.Start();
+
+            return Json(documentGeneration.Id);
+        }
+
+        public IActionResult Kill(int documentId)
+        {
+            var doc = DocumentGenerationTasks.First(x => x.Id == documentId);
+            doc.CancellationTokenSource.Cancel();
+            lock (DocumentGenerationTasks)
+            {
+                DocumentGenerationTasks.Remove(doc);
+            }
+
+            return Json(true);
+        }
+
+        public IActionResult GetDocument(int id)
+        {
+            var doc = DocumentGenerationTasks.First(x => x.Id == id);
+            return Json(doc.Document);
+        }
+
+        private void Timer(DocumentGenerationTaskInfo documentGeneration)
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                documentGeneration.Document += $" {documentGeneration.Percent} ";
+                documentGeneration.Percent++;
+                documentGeneration
+                    .CancellationTokenSource
+                    .Token
+                    .ThrowIfCancellationRequested();
+                Thread.Sleep(1000);
+            }
+        }
     }
-
 }
