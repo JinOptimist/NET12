@@ -62,11 +62,10 @@ namespace WebMaze.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult AddRequestCoins(long requestId, MassegeErrorsRequestEnums massege)
+        public IActionResult AddRequestCoins(long requestId)
         {
             var model = _mapper.Map<RequestForMoneyViewModel>(_requestForMoneyRepository.Get(requestId))
-         ?? new RequestForMoneyViewModel();
-            model.MassegeErrors = massege;
+         ?? new RequestForMoneyViewModel();           
             return View(model);
         }
 
