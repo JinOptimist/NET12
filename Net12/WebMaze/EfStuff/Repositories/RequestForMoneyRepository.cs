@@ -10,8 +10,6 @@ namespace WebMaze.EfStuff.Repositories
 {
     public class RequestForMoneyRepository : BaseRepository<RequestForMoney>
     {
-
-
         public RequestForMoneyRepository(WebContext webContext) : base(webContext)
         {
 
@@ -20,20 +18,20 @@ namespace WebMaze.EfStuff.Repositories
         public virtual List<RequestForMoney> GetCurrentUserRequests(long userId)
         {
             return _dbSet.Where(g =>
-                    g.RequestStatus == Services.RequestStatusEnums.WaitingForAnAnswer &&
-                    g.RequestRecipient.Id == userId).ToList();
+                    g.RequestStatus == Services.RequestStatusEnums.WaitingForAnAnswer
+                    && g.RequestRecipient.Id == userId).ToList();
         }
         public virtual List<RequestForMoney> GetRequestsToTheCurrentUser(long userId)
         {
             return _dbSet.Where(g =>
-                    g.RequestStatus == Services.RequestStatusEnums.WaitingForAnAnswer &&
-                    g.RequestCreator.Id == userId).ToList();
+                    g.RequestStatus == Services.RequestStatusEnums.WaitingForAnAnswer
+                    && g.RequestCreator.Id == userId).ToList();
         }
         public virtual List<RequestForMoney> GetAllRequestsCurrentUser(long userId)
         {
             return _dbSet.Where(g =>
-                    g.RequestRecipient.Id == userId ||
-                    g.RequestCreator.Id == userId).ToList();
+                    g.RequestRecipient.Id == userId
+                    || g.RequestCreator.Id == userId).ToList();
         }       
     }
 }

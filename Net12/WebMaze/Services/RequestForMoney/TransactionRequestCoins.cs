@@ -23,13 +23,16 @@ namespace WebMaze.Services.RequestForMoney
         }
 
 
-        public bool AttemptTransactionRequest(EfStuff.DbModel.RequestForMoney request, User requestCreator, User requestRecipient)
+        public bool AttemptTransactionRequest(EfStuff.DbModel.RequestForMoney request)
         {
             using (var transaction = _webContext.Database.BeginTransaction())
             {
+                    var requestCreator = request.RequestCreator;
+                    var requestRecipient = request.RequestRecipient;
 
                 try
                 {
+
                     requestCreator.Coins = requestCreator.Coins + request.RequestAmount;
                     _userRepository.Save(requestCreator);
 

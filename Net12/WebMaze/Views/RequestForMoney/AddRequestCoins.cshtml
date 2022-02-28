@@ -1,10 +1,5 @@
 ﻿@model RequestForMoneyViewModel
 
-@section Scripts{ 
-    <script src="~/js/requestCoins.js"></script>
-    
-}
-
 <form name="myForm" action="/RequestforMoney/AddRequestCoins" onsubmit="return validateForm()" method="post">
     @Html.HiddenFor(x => x.Id)
     <div>
