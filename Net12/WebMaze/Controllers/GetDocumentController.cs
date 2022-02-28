@@ -42,7 +42,9 @@ namespace WebMaze.Controllers
             {
                 document = new DocumentStatus
                 {
-                    Id = 1,
+                    Id = DocumentPreparationTasks.Any()
+                        ? DocumentPreparationTasks.Max(x => x.Id) + 1
+                        : 1,
                     Percent = 0,
                     Pages = documentViewModel.Pages,
                     Document = documentViewModel.Document,
