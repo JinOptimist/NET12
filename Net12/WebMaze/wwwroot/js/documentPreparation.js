@@ -7,11 +7,11 @@
         updateStatus(percent, pages);
     });
 
-    function updateStatus(data, pages) {
-        $('.status-percent-text').text(`Ready ${data} of ${pages}`);
-        $('.status-percent-line-bg').width((data * 150 / pages));
+    function updateStatus(percent, pages) {
+        $('.status-percent-text').text(`Ready ${percent} of ${pages}`);
+        $('.status-percent-line-bg').width((percent * 150 / pages));
 
-        if (data == pages) {
+        if (percent == pages) {
             downloadDocument();
         }
     };
@@ -32,20 +32,14 @@
     function downloadDocument() {
         $('.status-percent-text').text('Finished');
         $('.cancel-button').css("display", "none");
-        $('.download-button').css("display", "block");
-
-        $('.cancel-button').click(function (evt) {
-            evt.preventDefault();
-
-            stopPreparation();
-        });
+        $('.download-button').css("display", "block");        
     };
 
     function stopPreparation() {
         $.ajax({
             url: '/GetDocument/StopPreparation',
             data: {
-                documentId: 1
+                documentId: $('.documnetId').val()
             }
         });
     };

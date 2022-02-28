@@ -1,9 +1,11 @@
-﻿
+﻿@model int
 
 @section Scripts{ 
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/documentPreparation.js"></script>
 }
+
+<input class="documnetId" type="hidden" value="@Model"/>
 
 <div class="status">
     <div class="status-title"> Status info: 

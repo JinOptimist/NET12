@@ -57,12 +57,13 @@ namespace WebMaze.Controllers
             Task task = new Task(() => DocumentPreparation(document), token);
             task.Start();
 
-            return RedirectToAction("GetStatus");
+            return RedirectToAction("GetStatus", new {id = document.Id });
         }
 
-        public IActionResult GetStatus()
+        public IActionResult GetStatus(int id)
         {
-            return View();
+            var documentId = id;
+            return View(documentId);
         }
 
         public void StopPreparation(int documentId)
@@ -93,3 +94,4 @@ namespace WebMaze.Controllers
         }
     }
 }
+
