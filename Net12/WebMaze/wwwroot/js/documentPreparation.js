@@ -25,12 +25,7 @@
         $('.cancel-button').css("display", "none");
         $('.back-button').css("display", "block");
 
-        $.ajax({
-            url: '/GetDocument/StopPreparation',
-            data: {
-                documentId: 1
-            }
-        });
+        stopPreparation();
 
     });
 
@@ -42,16 +37,17 @@
         $('.cancel-button').click(function (evt) {
             evt.preventDefault();
 
-            $.ajax({
-                url: '/GetDocument/StopPreparation',
-                data: {
-                    documentId: 1
-                }
-            });
-
+            stopPreparation();
         });
+    };
 
-
+    function stopPreparation() {
+        $.ajax({
+            url: '/GetDocument/StopPreparation',
+            data: {
+                documentId: 1
+            }
+        });
     };
 
     hubConnection.start();
