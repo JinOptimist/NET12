@@ -1,0 +1,34 @@
+﻿@model int
+
+@section Scripts{ 
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/documentPreparation.js"></script>
+}
+
+<input class="documnetId" type="hidden" value="@Model"/>
+
+<div class="status">
+    <div class="status-title"> Status info: 
+        <div class="status-percent"> 
+            <div class="status-percent-text"> </div>
+            <div class="status-percent-line"> 
+                <div class="status-percent-line-bg"> </div>
+            </div>
+        </div>
+    </div>
+    
+
+</div>
+
+
+<div class="cancel-button">   
+    <a href="#"> Cancel preparation</a>
+</div>
+
+<div class="back-button">   
+    <a href="/GetDocument/Index">Back</a>
+</div>
+
+<div class="download-button">
+    <a href="#"> Download</a>
+</div>
