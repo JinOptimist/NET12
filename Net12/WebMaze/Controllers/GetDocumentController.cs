@@ -22,7 +22,6 @@ namespace WebMaze.Controllers
 
         public IActionResult Index()
         {
-
             return View();
         }
 
@@ -64,11 +63,6 @@ namespace WebMaze.Controllers
             return View();
         }
 
-        public void DownloadDocument()
-        {
-
-        }       
-
         public void StopPreparation(int documentId)
         {
             var document = DocumentPreparationTasks.First(x => x.Id == documentId);
@@ -89,10 +83,11 @@ namespace WebMaze.Controllers
                     .CancellationTokenSource
                     .Token
                     .ThrowIfCancellationRequested();
-                Thread.Sleep(1000);
-
                 _documentPreparationHub.Clients.All.SendAsync("Notification", document.Percent, document.Pages);
+
+                Thread.Sleep(1000);                
             }
+
         }
     }
 }

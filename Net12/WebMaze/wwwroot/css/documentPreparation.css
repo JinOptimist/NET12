@@ -7,14 +7,6 @@
 
 }
 
-.status-percent{
-    
-}
-
-.status-percent-text{
-
-}
-
 .status-percent-line {
     padding: 1px;
     height: 15px;
@@ -30,11 +22,11 @@
 }
 
 .content{
-
+    display: flex;
 }
 
-.stop-button{
-
+.back-button {
+    display: none;
 }
 
 .download-button {

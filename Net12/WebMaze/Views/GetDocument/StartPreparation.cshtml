@@ -4,9 +4,11 @@
 <div document-fields>
     <form action="/GetDocument/StartPreparation" method="post">        
         <div>
-            @Html.TextBoxFor(x => x.Pages)
+            <div>   
+                Pages: @Html.TextBoxFor(x => x.Pages)
+            </div>
             <div>
-                @Html.TextAreaFor(x => x.Document)
+                Text: @Html.TextAreaFor(x => x.Document)
             </div>            
         </div>     
         <input type="submit" value="StartPreparation" />

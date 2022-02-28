@@ -12,8 +12,14 @@
         $('.status-percent-line-bg').width((data * 150 / pages));
     };
 
-    $('.stop-button').click(function (evt) {
+    $('.cancel-button').click(function (evt) {
         evt.preventDefault();
+
+        $('.status-percent-text').text("Canceled");
+        $('.status-percent-line-bg').css("background-color", "red");
+
+        $('.cancel-button').css("display", "none");
+        $('.back-button').css("display", "block");
 
         $.ajax({
             url: '/GetDocument/StopPreparation',
@@ -22,11 +28,7 @@
             }
         });
 
-        $('.status-percent-text').text("Stopped");
-        $('.status-percent-line-bg').css("background-color", "red");
-
-        $('.stop-button').css("display", "none");
-    });    
+    });
 
     hubConnection.start();
 });
