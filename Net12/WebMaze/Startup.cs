@@ -2,9 +2,7 @@ using AutoMapper;
 using AutoMapper.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Net12.Maze;
@@ -14,15 +12,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.DbModel.Maze;
+using WebMaze.EfStuff.DbModel.ThreeInRow;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.ThreeInRow;
 using WebMaze.Services;
 using WebMaze.SignalRHubs;
+using Microsoft.Extensions.Logging;
+using WebMaze.EfStuff.DbModel.GuessTheNumber;
+using WebMaze.Models.GuessTheNumber;
+using WebMaze.EfStuff.DbModel.SeaBattle;
 
 namespace WebMaze
 {
@@ -53,14 +56,18 @@ namespace WebMaze
             RegisterRepositoriesAuto(services);
 
             RegisterMapper(services);
-
             services.AddScoped<UserService>();
             services.AddScoped<MinerFiledBuilder>();
-            services.AddScoped<ZumaGameFieldBuilder>();
+            services.AddScoped<ZumaGameService>();
+            services.AddScoped<ThreeInRowService>();
+            services.AddScoped<SeaBattleService>();
 
             services.AddScoped<PayForActionService>();
 
+            services.AddScoped<CurrenceService>();
+
             services.AddScoped<PayForAddActionFilter>();
+            services.AddScoped<CellInfoHelperService>();
 
             services.AddHttpContextAccessor();
 
@@ -179,7 +186,8 @@ namespace WebMaze
                 .ForMember(nameof(GameViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Creater.GlobalUserRating));
             provider.CreateMap<GameViewModel, Game>();
 
-            provider.CreateMap<MinerField, MinerFieldViewModel>();
+            provider.CreateMap<MinerField, MinerFieldViewModel>()
+                .ForMember(nameof(MinerFieldViewModel.Username), opt => opt.MapFrom(dbField => dbField.Gamer.Name));
             provider.CreateMap<MinerCell, MinerCellViewModel>();
 
             provider.CreateMap<MazeLevelWeb, MazeViewModel>();
@@ -199,8 +207,15 @@ namespace WebMaze
                 .ForMember(nameof(ZumaGameDifficultViewModel.Author), opt => opt.MapFrom(db => db.Author.Name));
             provider.CreateMap<ZumaGameDifficultViewModel, ZumaGameDifficult>();
 
-            provider.CreateMap<Perrmission, PermissionViewModel>();
+            provider.CreateMap<ThreeInRowGameField, ThreeInRowGameFieldViewModel>();
+            provider.CreateMap<ThreeInRowGameFieldViewModel, ThreeInRowGameField>();
+            provider.CreateMap<ThreeInRowCell, ThreeInRowCellViewModel>();
+            provider.CreateMap<ThreeInRowCellViewModel, ThreeInRowCell>();
+
+            provider.CreateMap<Perrmission, PermissionViewModel>()
+            .ForMember(nameof(PermissionViewModel.Count), opt => opt.MapFrom(db => db.UsersWhichHasThePermission.Count));
             provider.CreateMap<PermissionViewModel, Perrmission>();
+
             provider.CreateMap<MazeLevelWeb, MazeLevel>()
                 .ConstructUsing(x => inMazeLevel(x))
                 .ForMember(maze => maze.Cells, db => db.MapFrom(model => model.Cells))
@@ -251,6 +266,44 @@ namespace WebMaze
             provider.CreateMap<BaseEnemy, MazeEnemyWeb>()
                 .ConstructUsing(x => inEnemyWeb(x));
 
+            provider.CreateMap<UserInGroup, UserInGroupViewModel>();
+            provider.CreateMap<UserInGroupViewModel, UserInGroup>();
+
+            provider.CreateMap<GroupList, GroupListViewModel>();
+
+            provider.CreateMap<GroupListViewModel, GroupList>();
+            provider.CreateMap<GuessTheNumberGameParameters,
+                GuessTheNumberGameParametersViewModel>()
+                .ReverseMap();
+
+            provider.CreateMap<GuessTheNumberGame, GuessTheNumberGameViewModel>()
+                .ForMember(
+                    nameof(GuessTheNumberGameViewModel.PlayerName),
+                    opt => opt.MapFrom(game => game.Player.Name));
+            provider.CreateMap<GuessTheNumberGameViewModel, GuessTheNumberGame>();
+
+            provider.CreateMap<GuessTheNumberGameAnswer, GuessTheNumberGameAnswerViewModel>()
+                .ForMember(
+                    nameof(GuessTheNumberGameAnswerViewModel.GameId),
+                    opt => opt.MapFrom(game => game.Game.Id));
+            provider.CreateMap<GuessTheNumberGameAnswerViewModel,
+                GuessTheNumberGameAnswer>();
+
+            provider.CreateMap<SeaBattleCell, SeaBattleCellViewModel>();
+            provider.CreateMap<SeaBattleCellViewModel, SeaBattleCell>()
+                .ForMember(nameof(SeaBattleCell.IsShip), opt => opt.Ignore());
+
+            provider.CreateMap<SeaBattleField, SeaBattleFieldViewModel>()
+                .ForMember(nameof(SeaBattleFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
+            provider.CreateMap<SeaBattleFieldViewModel, SeaBattleField>();
+
+            provider.CreateMap<SeaBattleGame, SeaBattleGameViewModel>()
+                .ForMember(nameof(SeaBattleGameViewModel.MyField), opt => opt.MapFrom(db => db.Fields.Where(x => !x.IsEnemyField).Single()))
+                .ForMember(nameof(SeaBattleGameViewModel.EnemyField), opt => opt.MapFrom(db => db.Fields.Where(x => x.IsEnemyField).Single()));
+            provider.CreateMap<SeaBattleGameViewModel, SeaBattleGame>();
+
+            provider.CreateMap<SeaBattleDifficult, SeaBattleDifficultViewModel>();
+            provider.CreateMap<SeaBattleDifficultViewModel, SeaBattleDifficult>();
 
             var mapperConfiguration = new MapperConfiguration(provider);
 
@@ -260,6 +313,7 @@ namespace WebMaze
             services.AddScoped<IMapper>(x => mapper);
 
         }
+
         private MazeLevelWeb inMazeModel(MazeLevel maze)
         {
             var model = new MazeLevelWeb()
@@ -283,7 +337,7 @@ namespace WebMaze
             {
                 Height = model.Height,
                 Width = model.Width,
-                
+
 
             };
             maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroMaxHp)
@@ -406,7 +460,6 @@ namespace WebMaze
             }
             return null;
         }
-
         private MazeEnemyWeb inEnemyWeb(BaseEnemy enemy)
         {
             var dict = new Dictionary<Type, MazeEnemyInfo>()
@@ -444,8 +497,15 @@ namespace WebMaze
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile("Logs/Info-{Date}.txt",
+                outputTemplate: "[{Level}] Smile {Timestamp:o} {Message} {NewLine}{Exception}");
+            loggerFactory.AddFile("Logs/ERROR-{Date}.txt", LogLevel.Error);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -454,19 +514,29 @@ namespace WebMaze
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseMiddleware<GlobalErrorHandlerMidlleware>();
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            // Êòî ÿ?
+            // ÃŠÃ²Ã® Ã¿?
             app.UseAuthentication();
 
-            //Êóäà ìíå ìîæíî?
+            //ÃŠÃ³Ã¤Ã  Ã¬Ã­Ã¥ Ã¬Ã®Ã¦Ã­Ã®?
             app.UseAuthorization();
+
+            app.UseMiddleware<LocalizeMidlleware>();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ChatHub>("/chat");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<DocumentPreparationHub>("/documentPreparation");
             });
 
             app.UseEndpoints(endpoints =>

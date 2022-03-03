@@ -7,6 +7,8 @@
         </div>
         <div class="title-link">
             <a href="/BugReport/AddBugReport">Add Bug Report</a>
+            <a href="/BugReport/DownloadAll">Download all</a>
+
         </div>
     </div>
     <div class="content-all">
@@ -22,9 +24,9 @@
                 <div class="content-report-description-content">
                     @if (User.Identity.IsAuthenticated)
                     {
-                    <div>                        
+                    <div>
                         <a href="@Url.Action("Wonderful","BugReport", new {@bugReportId = bugReports.Id})" class="good-button">Wonderful</a>
-                        <button class="bad-button">Awful</button>
+                        <a href="@Url.Action("Awful","BugReport", new {@bugReportId = bugReports.Id})" class="bad-button">Awful</a>
                     </div>
                     }
                 </div>

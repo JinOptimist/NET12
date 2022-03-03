@@ -1,0 +1,31 @@
+﻿@model List<ImageViewModel>
+
+@section Scripts{
+    <script src="~/js/galleryCarousel.js"></script>
+    <link rel="stylesheet" href="~/css/gallery.css" />
+}
+
+<div class="gallery-name">
+    <span>Users gallery(carousel)</span>
+</div>
+
+<div class="carousel-container">
+
+    <div class="left-button">
+        <button class="l-button"><span>Left</span></button>
+    </div>
+
+    <div class="img-container">
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            <div class="pic-item" index="@i">
+                <img src="@Model[i].Picture">
+            </div>
+        }
+    </div>
+
+    <div class="right-button">
+        <button class="r-button"><span>Rigft</span></button>
+    </div>
+
+</div>

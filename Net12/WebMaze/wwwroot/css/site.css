@@ -4,6 +4,10 @@
     border: 1px #000 solid;
 }
 
+.navbar-nav {
+    flex-wrap: wrap;
+}
+
 .rich {
     color: green;
 }
@@ -187,7 +191,7 @@ body {
     border-radius: 10px;
 }
 
-.messages{
+.messages {
     height: 100px;
     overflow-y: auto;
 }
@@ -202,7 +206,37 @@ body {
     border-radius: 20px;
 }
 
-.user-name{
+.user-name {
     color: aqua;
     margin-right: 10px;
+}
+
+.language-selection {
+    margin-right: 5%;
+}
+
+.bottom {
+    display: flex;
+}
+
+.user-profile {
+    margin: 30px;
+}
+
+    .user-profile *, .user-transaction * {
+        margin: 5px;
+    }
+
+.transaction-info {
+    color: black;
+}
+
+.user-transaction {
+    border: 1px solid;
+    margin: 30px;
+}
+
+
+.linkToPage.active {
+    color: red;
 }

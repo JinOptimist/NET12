@@ -1,0 +1,13 @@
+﻿@model GroupListViewModel
+@section Scripts{
+    <link rel="stylesheet" href="~/css/Group.css" />
+}
+
+<form action="/User/AddGroup" method="post">
+                <fieldset>
+                <legend><b>Enter Data:</b></legend>
+                <label>Group Name:</label><br>
+                <div>@Html.TextBoxFor(x => x.Name, new{required = "required"})</div>
+                <div><input type="submit" value="Save"/></div>
+            </fieldset>
+</form>

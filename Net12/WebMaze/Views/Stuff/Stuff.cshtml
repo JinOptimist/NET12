@@ -1,22 +1,21 @@
 ﻿@model List<StuffForHeroViewModel>
 
-<html>
-<head>
+@section Scripts{ 
     <link rel="stylesheet" href="~/css/AddStuffForHero.css" />
-</head>
-<body>
-    <div class="background">
-        <div class="intro">
-            Design exclusive features for your HERO
-        </div>
-        <div class="create-button">
-            <a class="button" href="/Stuff/AddStuffForHero">
-                Create stuff
-            </a>
-        </div>
+}
 
-        @foreach (var stuff in Model)
-        {
+<div class="background stuff">
+    <div class="intro">
+        Design exclusive features for your HERO
+    </div>
+    <div class="create-button">
+        <a class="button" href="/Stuff/AddStuffForHero">
+            Create stuff
+        </a>
+    </div>
+
+    @foreach (var stuff in Model)
+    {
         <div class="stuff-list">
             <div class="stuff stuff--1">
                 <div class="picture">
@@ -41,8 +40,9 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                 <div>
-                    <a href="@Url.Action("Wonderful","Stuff", new {@stuffId = stuff.Id})" class="good-button">Wonderful</a>                    
-                    <button class="bad-button">Awful</button>
+                    <a href="@Url.Action("Wonderful","Stuff", new {@stuffId = stuff.Id})" class="good-button">Wonderful</a>
+                    <a href="@Url.Action("Awful","Stuff", new {@stuffId = stuff.Id})" class="bad-button">Awful</a>
+
                 </div>
                     }
                     <div>
@@ -52,8 +52,6 @@
 
                 </div>
             </div>
-         </div>
-        }
-    </div>
-</body>
-</html>
+        </div>
+    }
+</div>

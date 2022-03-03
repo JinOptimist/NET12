@@ -4,18 +4,19 @@
     <div class="add-text">
         Fill out the form to add your picture
     </div>
-    <form action="/Gallery/AddImage" method="post" class="form">
+    <form action="/Gallery/AddImage" method="post" class="form" enctype="multipart/form-data">
         <div>
             @Html.ValidationSummary(true)
         </div>
         <div class="form-for-pic">
-            Picture URL @Html.TextBoxFor(x => x.Picture)
+            Picture URL
+            <input type="file" name="@nameof(ImageViewModel.ImageFile)" />
         </div>
         <div class="form-for-pic">
             Foto description's @Html.TextBoxFor(x => x.Description)
         </div>
         <div class="form-for-pic">
-            Assessment @Html.TextBoxFor(x => x.Assessment)
+            Assessment @Html.TextBoxFor(x => x.Assessment, new { @type = "number" })
         </div>
         <div>
             <input type="submit" value="Save" class="form-button" />
