@@ -22,7 +22,7 @@
 
     $('input[name="Rating"]').bind('input', function () {
         let str = $(this).val();
-        $(".favGame-preview-rating").text(str);
+        $(".favGame-preview-rating").text(str+"/10");
     });
 
 });
