@@ -5,15 +5,13 @@
 }
 
 .add-favGame-preview {
-    display: flex;
+    display: inline;
     flex-direction: column;
-    width: 800px;
-    height: 500px;
 }
 
 .add-favGame-objects {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .favGame-preview-title-main-wrap {
@@ -43,13 +41,24 @@
 }
 
 .favGame-preview-title {
+    display: inline-flex;
     font-size: 40px;
-    color: white;
+    margin: 10px 0 10px 0;
+    padding: 0 10px 0 10px;
+    backdrop-filter: blur(5px) brightness(40%);
+    box-shadow: 0 0 4px 5px #fff;
+    width: fit-content;
+    align-self: center;
 }
 
 .favGame-preview-genre {
     font-size: 20px;
     color: white;
+}
+
+.all-preview-elements {
+    display: flex;
+    flex-direction: column;
 }
 
 .title-favGame, .favGame-preview-title {
@@ -59,6 +68,8 @@
     padding: 0 10px 0 10px;
     backdrop-filter: blur(5px) brightness(40%);
     box-shadow: 0 0 4px 5px #fff;
+    width: fit-content;
+    align-self: center;
 }
 
 .title-favGames {
@@ -77,7 +88,7 @@
 }
 
 .all-about-favGame {
-    display: flex;
+    display: inline-flex;
     justify-content: space-around;
     font-size: 18px;
 }
@@ -95,7 +106,6 @@
 }
 
 .favGame-description {
-    /*display: flex;*/
     margin: auto 40px auto 40px;
     padding: 10px;
     border-radius: 30px;
