@@ -40,17 +40,6 @@
     text-shadow: 0 0 10px black, 0 2px 0 #BFE2FF;
 }
 
-.favGame-preview-title {
-    display: inline-flex;
-    font-size: 40px;
-    margin: 10px 0 10px 0;
-    padding: 0 10px 0 10px;
-    backdrop-filter: blur(5px) brightness(40%);
-    box-shadow: 0 0 4px 5px #fff;
-    width: fit-content;
-    align-self: center;
-}
-
 .favGame-preview-genre {
     font-size: 20px;
     color: white;
@@ -59,12 +48,13 @@
 .all-preview-elements {
     display: flex;
     flex-direction: column;
+    color: white;
 }
 
 .title-favGame, .favGame-preview-title {
     display: inline-flex;
     font-size: 40px;
-    margin: 30px 0 10px 0;
+    margin: 30px 40px 10px 40px;
     padding: 0 10px 0 10px;
     backdrop-filter: blur(5px) brightness(40%);
     box-shadow: 0 0 4px 5px #fff;
@@ -101,7 +91,6 @@
     flex-direction: column;
     padding: 10px;
     border-radius: 30px;
-    color: white;
     backdrop-filter: blur(1px) brightness(50%);
 }
 
@@ -109,7 +98,6 @@
     margin: auto 40px auto 40px;
     padding: 10px;
     border-radius: 30px;
-    color: white;
     backdrop-filter: blur(5px) brightness(40%);
 }
 

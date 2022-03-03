@@ -1,4 +1,6 @@
-﻿@model GameViewModel
+﻿@using WebMaze.Services
+@inject UserService userService
+@model GameViewModel
 
 @{
     Layout = "~/Views/Shared/_LayoutFavGames.cshtml";
@@ -51,7 +53,7 @@
                             <div><input name="Rating" type="radio" checked value="0">0</div>
                             @for (var i = 1; i < 11; i++)
                             {
-                                <div><input name="Rating" type="radio" value="@i">@i</div>
+                            <div><input name="Rating" type="radio" value="@i">@i</div>
                             }
                         </div>
                         <div>
@@ -85,10 +87,11 @@
                                 <b>Description:</b><div class="favGame-preview-description"></div>
                             </div>
 
-                                <div class="favGame-user-elements">
-                      
-                                </div>
+                            <div class="favGame-user-elements">
+                                <div><b>Username:</b> @userService.GetCurrentUser().Name</div>
+                                <div><b>Age:</b> @userService.GetCurrentUser().Age</div>
                             </div>
+                        </div>
                     </div>
                 </div>
 
