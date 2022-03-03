@@ -14,6 +14,7 @@ using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Models.GenerationDocument;
 using WebMaze.Services;
 
@@ -70,14 +71,18 @@ namespace WebMaze.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Book()
+        public IActionResult Book(BookFilter? bookFilter)
         {
             var bookViewModels = _bookRepository
-                .GetAllSortedByAuthor()
+                .GetAllSortedByParam(bookFilter)
                 .Select(Book => _mapper.Map<BookViewModel>(Book))
                 .ToList();
 
-            return View(bookViewModels);
+            return View(new SortedBooksViewModel() 
+            { 
+                BookFilter = bookFilter, 
+                Books = bookViewModels
+            });
         }
 
         [HttpGet]
