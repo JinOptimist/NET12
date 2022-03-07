@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel.SeaBattle;
 using WebMaze.EfStuff.Repositories;
@@ -70,11 +71,16 @@ namespace WebMaze.Controllers
                 game = user.SeaBattleGame;
             }
 
+            _seaBattleService.StartTask(game.Id);
+
             return RedirectToAction("Game", new { id = game.Id });
         }
         public IActionResult ContinueGame()
         {
-            return RedirectToAction("Game", new { id = _userService.GetCurrentUser().SeaBattleGame.Id });
+            var gameId = _userService.GetCurrentUser().SeaBattleGame.Id;
+            _seaBattleService.StartTask(gameId);
+
+            return RedirectToAction("Game", new { id = gameId });
         }
 
         public IActionResult Game(long id)
@@ -114,21 +120,13 @@ namespace WebMaze.Controllers
 
             var myField = enemyCell.Field.Game.Fields.Single(x => !x.IsEnemyField);
 
-            if (myField.LastHitToShip > 0)
-            {
-                _seaBattleService.TryToDestroyShip(myField);
-            }
-            else
-            {
-                _seaBattleService.RandomHit(myField);
-            }
+            _seaBattleService.EnemyTurn(myField);
 
             if (!myField.Cells.Any(x => x.IsShip && !x.Hit))
             {
                 return RedirectToAction("LoseGame");
             }
 
-            _seaBattleService.FillNearKilledShips(myField);
 
             return RedirectToAction("Game", new { id = _userService.GetCurrentUser().SeaBattleGame.Id });
         }
@@ -145,5 +143,10 @@ namespace WebMaze.Controllers
             return View();
         }
 
+        public void UserIsActive(long id)
+        {
+            var taskModel = SeaBattleService.SeaBattleTasks.First(x => x.Id == id);
+            taskModel.UserIsActive = true;
+        }
     }
 }

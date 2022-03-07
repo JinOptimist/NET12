@@ -1,32 +1,24 @@
 ﻿$(document).ready(function () {
-    let timer = 10;
+    let gameId = $('.seabattle-game').attr('gameId');
 
     const hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/seaBattle")
         .build();
 
     //Что делать, когда пршло новое сообщение
-    hubConnection.on("NewMessage", function (message) {
-        location.reload();
-    });
+    hubConnection.on(gameId, function (seconds) {
 
+        if (seconds == 0) {
+            location.reload();
+        }
+        $('.seaBattleTimer').text(seconds);
+    });
 
     setInterval(function () {
 
-        if (timer < 0) {
-            timer = 10;
-        }
-        $('.seaBattleTimer').text(timer);
+        $.set('/SeaBattle/UserIsActive');
 
-
-        if (timer == 0) {
-            //Отправить новое сообщзение на сервер
-            hubConnection.invoke("AIShooting");
-        }
-
-
-        timer--;
-    }, 1000);
+    }, 20 * 1000);
 
     hubConnection.start();
 });

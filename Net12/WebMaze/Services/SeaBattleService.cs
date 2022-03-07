@@ -1,10 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.SignalR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel.SeaBattle;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.EfStuff.Repositories.SeaBattle;
+using WebMaze.Models;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze.Services
 {
@@ -16,13 +20,18 @@ namespace WebMaze.Services
         private Random _random = new Random();
         private int shipNumber;
 
+        public static List<SeaBattleTaskModel> SeaBattleTasks = new List<SeaBattleTaskModel>();
+        private IHubContext<SeaBattleHub> _seaBattleHub;
+
         public SeaBattleService(UserService userService,
-                                SeaBattleCellRepository seaBattleCellRepository, 
-                                SeaBattleFieldRepository seaBattleFieldRepository)
+                                SeaBattleCellRepository seaBattleCellRepository,
+                                SeaBattleFieldRepository seaBattleFieldRepository,
+                                IHubContext<SeaBattleHub> seaBattleHub)
         {
             _userService = userService;
             _seaBattleCellRepository = seaBattleCellRepository;
             _seaBattleFieldRepository = seaBattleFieldRepository;
+            _seaBattleHub = seaBattleHub;
         }
 
         public SeaBattleGame CreateGame(SeaBattleDifficult difficult)
@@ -254,7 +263,7 @@ namespace WebMaze.Services
                     {
                         var baseNear = field.Cells
                             .Where(cell =>
-                                    (Math.Abs(cell.X - cellShip.X) <= 1 
+                                    (Math.Abs(cell.X - cellShip.X) <= 1
                                     && Math.Abs(cell.Y - cellShip.Y) <= 1
                                     && !cell.IsShip))
                             .ToList();
@@ -302,7 +311,7 @@ namespace WebMaze.Services
             var lastHitCell = _seaBattleCellRepository.Get(myField.LastHitToShip);
 
             var getNearCells = myField.Cells
-                .Where(cell => 
+                .Where(cell =>
                 (cell.X == lastHitCell.X && Math.Abs(cell.Y - lastHitCell.Y) == 1
                 || Math.Abs(cell.X - lastHitCell.X) == 1 && cell.Y == lastHitCell.Y))
                 .ToList();
@@ -461,6 +470,91 @@ namespace WebMaze.Services
                 _seaBattleCellRepository.Save(cellToHit);
             }
 
+        }
+
+        public void StartTask(long id)
+        {
+
+            CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+            CancellationToken token = cancelTokenSource.Token;
+            SeaBattleTaskModel taskModel;
+
+            var myField = _userService.GetCurrentUser().SeaBattleGame.Fields.Single(x => !x.IsEnemyField);
+
+            lock (SeaBattleTasks)
+            {
+                if (!SeaBattleTasks.Any(x => x.Id == id))
+                {
+                    taskModel = new SeaBattleTaskModel
+                    {
+                        Id = id,
+                        CancellationTokenSource = cancelTokenSource
+                    };
+
+                    SeaBattleTasks.Add(taskModel);
+
+                    Task task = new Task(() => EnemyTurnTask(taskModel, myField), token);
+
+                    task.Start();
+                }
+            }
+        }
+
+        public void EnemyTurn(SeaBattleField myField)
+        {
+
+            if (myField.LastHitToShip > 0)
+            {
+                TryToDestroyShip(myField);
+            }
+            else
+            {
+                RandomHit(myField);
+            }
+
+            FillNearKilledShips(myField);
+        }
+
+        private void EnemyTurnTask(SeaBattleTaskModel taskModel, SeaBattleField myField)
+        {
+            var timerIsActiveUser = 0;
+            var secondsToEnemyTurn = 10;
+
+            while (timerIsActiveUser <= 100)
+            {
+
+                taskModel
+                    .CancellationTokenSource
+                    .Token
+                    .ThrowIfCancellationRequested();
+
+                if (taskModel.UserIsActive)
+                {
+                    timerIsActiveUser = 0;
+                    taskModel.UserIsActive = false;
+                }
+
+                if (secondsToEnemyTurn == 0)
+                {
+                    EnemyTurn(myField);
+                    secondsToEnemyTurn = 10;
+                }
+
+
+                secondsToEnemyTurn--;
+                timerIsActiveUser++;
+
+                Thread.Sleep(1000);
+
+                _seaBattleHub.Clients.All.SendAsync(myField.Game.Id.ToString(), secondsToEnemyTurn);
+
+            }
+
+            //taskModel.CancellationTokenSource.Cancel();
+            //lock (SeaBattleTasks)
+            //{
+            //    SeaBattleTasks.Remove(taskModel);
+            //}
         }
     }
 }
