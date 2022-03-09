@@ -1,11 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebMaze.EfStuff.DbModel;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using WebMaze.EfStuff.Repositories;
 
 namespace WebMaze.Controllers
@@ -24,9 +17,9 @@ namespace WebMaze.Controllers
 
         public IActionResult CellSuggestionWinner()
         {
-            var myList = _searchSpecificUsersRepository.GetWonUsersInNewCellSugg();
+            var CellSuggWinners = _searchSpecificUsersRepository.GetWonUsersInNewCellSugg();
 
-            return View(myList);
+            return View(CellSuggWinners);
         }
     }
 }

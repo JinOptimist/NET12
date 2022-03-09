@@ -1,10 +1,7 @@
-﻿using WebMaze.EfStuff.DbModel;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Logging;
+using WebMaze.EfStuff.DbModel;
 
 namespace WebMaze.EfStuff.Repositories
 {
