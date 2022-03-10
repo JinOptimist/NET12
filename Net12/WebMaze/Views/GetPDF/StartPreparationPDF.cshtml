@@ -1,0 +1,16 @@
+﻿@using WebMaze.Models.GenerationDocument
+@model PDFGenerationTaskInfo
+
+<div document-fields>
+    <form action="/GetPDF/StartPreparationPDF" method="post">
+        <div>
+            <div>
+                Name: @Html.TextBoxFor(x => x.Name)
+            </div>
+            <div>
+                Url: @Html.TextBoxFor(x => x.Url)
+            </div>
+        </div>
+        <input type="submit" value="StartPreparation" />
+    </form>
+</div>
