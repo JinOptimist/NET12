@@ -21,7 +21,7 @@ namespace WebMaze.Controllers
         public static List<DocumentStatus> DocumentPreparationTasks = new List<DocumentStatus>();
 
         public IActionResult Index()
-        {
+        {          
             return View();
         }
 
@@ -74,6 +74,7 @@ namespace WebMaze.Controllers
             {
                 DocumentPreparationTasks.Remove(document);
             }
+            _documentPreparationHub.Clients.All.SendAsync("stopNotification", document.Id, document.Percent, document.Pages);
         }
 
         private void DocumentPreparation(DocumentStatus document)
@@ -86,11 +87,10 @@ namespace WebMaze.Controllers
                     .CancellationTokenSource
                     .Token
                     .ThrowIfCancellationRequested();
-                _documentPreparationHub.Clients.All.SendAsync("Notification", document.Percent, document.Pages);
+                _documentPreparationHub.Clients.All.SendAsync("Notification",document.Id, document.Percent, document.Pages);
 
                 Thread.Sleep(1000);                
             }
-
         }
     }
 }

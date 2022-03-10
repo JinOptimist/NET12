@@ -1,12 +1,15 @@
-﻿
+﻿@model List<int>
+
+@section Scripts{ 
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/documentPreparation.js"></script>
+}
 
 <div class="content">       
     <div class="content-title">   
         Get document
     </div>
-
     <div>   
         <a href="/GetDocument/StartPreparation"> Start preparation</a>
     </div>
 </div>
-
