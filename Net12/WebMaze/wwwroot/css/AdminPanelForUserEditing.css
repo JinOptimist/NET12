@@ -1,0 +1,123 @@
+﻿.PageBody {
+    background: #9c9c9c;
+}
+
+.PageBodyContainer {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+
+.HeaderOfPageBody {
+    width: 100%;
+    float: left;
+    text-align: center;
+    color: #A9A9A9;
+    font-size: 80px;
+    font-variant: small-caps;
+    font-weight: 900;
+    background-color: #414141;
+    border-radius: 0 0 10px 10px;
+    margin-bottom: 2%;
+    text-shadow: 0px 9px 14px rgba(0, 0, 0, 0.57);
+}
+
+.MainPageBodyPart {
+    width: 100%;
+    float: left;
+    text-align: left;
+    color: #A9A9A9;
+    font-size: 60px;
+    font-variant: small-caps;
+    font-weight: 900;
+    background-color: #414141;
+    border-radius: 10px 10px 10px 10px;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-bottom: 1%;
+    text-shadow: 0px 9px 14px rgba(0, 0, 0, 0.57);
+}
+
+.MainHeader {
+    display: flex;
+}
+
+.UserListName {
+    width: 30%;
+    display: flex;
+    float: left;
+    color: #A9A9A9;
+    text-align: left;
+    font-size: 60px;
+    align-items: center;
+    justify-content: center;
+}
+
+.PermissionsName {
+    width: 70%;
+    display: flex;
+    float: right;
+    color: #A9A9A9;
+    text-align: left;
+    font-size: 60px;
+    align-items: center;
+    justify-content: center;
+}
+
+.MainTable{
+    font-size: 30px;
+    display: flex;
+    align-items: stretch;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.UserList {
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 30%;
+}
+
+.Admin {
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.News Creator {
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.Forum Moderator {
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.Remove {
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+/*
+    Header and footer preset
+*/
+.footer.border-top.footer.text-muted.bottom {
+    background: #ffffff;
+    visibility: hidden;
+}
+
+body {
+    position: absolute;
+    background: #9c9c9c;
+}
