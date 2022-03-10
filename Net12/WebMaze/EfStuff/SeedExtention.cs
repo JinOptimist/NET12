@@ -20,6 +20,7 @@ namespace WebMaze.EfStuff
         public const string DefaultMazeDifficultName = "Default";
         public const string DefaultNewsTitle = "TestNews";
         public const string DefaultImageDesc = "Admin image";
+        public const string DefaultBookDesc = "It's a default book. This section of site would be better if you download your own books.";
         public static IHost Seed(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
@@ -28,7 +29,7 @@ namespace WebMaze.EfStuff
                 SeedMazeDifficult(scope);
                 SeedNews(scope);
                 SeedPermissions(scope);
-                SeedGallery(scope);
+                SeedGallery(scope);            
                 SeedZumaGameDifficult(scope);
                 SeedGuessTheNumberGameParametersRecords(scope);
                 SeedNewCellSugg(scope);
@@ -174,7 +175,7 @@ namespace WebMaze.EfStuff
                 };
                 imageRepository.Save(image);
             }
-        }
+        }       
 
         private static void SeedZumaGameDifficult(IServiceScope scope)
         {

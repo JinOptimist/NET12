@@ -18,15 +18,16 @@ namespace WebMaze.EfStuff.Repositories
         {
         }
 
-        public List<Book> GetAllSortedByParam(BookFilter? bookFilter)
+        public List<Book> GetAllSortedByParam(BookFilter? bookFilter, bool asc)
         {
             var typeCreator = false;
 
             bookFilter = bookFilter ?? BookFilter.Author;
-                       
+            if (bookFilter == BookFilter.OldDate || bookFilter == BookFilter.NewDate)
+                bookFilter = BookFilter.ReleaseDate;
             string stringBookFilter = bookFilter.ToString();
 
-            typeCreator = (bookFilter == BookFilter.Creator) ? true : false;
+            typeCreator = (bookFilter == BookFilter.Creator) ? true : false;            
         
             var table = Expression.Parameter(typeof(Book), "book");// book =>
             var member = Expression.Property(table, stringBookFilter); // book.Author
@@ -35,18 +36,18 @@ namespace WebMaze.EfStuff.Repositories
             {
                 var condition = Expression.Lambda<Func<Book, User>>(member, table);
 
-                return _dbSet
-                    .OrderBy(condition)
+                return (asc ? _dbSet.OrderBy(condition) : _dbSet.OrderByDescending(condition))
                     .ToList();
             }
             else
             {
                 var condition = Expression.Lambda<Func<Book, string>>(member, table);
 
-                return _dbSet
-                    .OrderBy(condition)// book => book.Author
+                return (asc ? _dbSet.OrderBy(condition) : _dbSet.OrderByDescending(condition))
+                    // book => book.Author
                     /*.OrderBy(x => x.Author)*/
                     .ToList();
+               
             }
             
         }

@@ -11,6 +11,7 @@ namespace WebMaze.Models.Enums
         Author = 2,
         OldDate = 3,
         NewDate = 4,
-        Creator = 5
+        Creator = 5,
+        ReleaseDate = 6
     }
 }
