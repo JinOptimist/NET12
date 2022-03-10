@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel.SeaBattle;
@@ -17,6 +19,7 @@ namespace WebMaze.Services
         private UserService _userService;
         private SeaBattleCellRepository _seaBattleCellRepository;
         private SeaBattleFieldRepository _seaBattleFieldRepository;
+        private IHttpContextAccessor _httpContextAccessor;
         private Random _random = new Random();
         private int shipNumber;
 
@@ -26,12 +29,14 @@ namespace WebMaze.Services
         public SeaBattleService(UserService userService,
                                 SeaBattleCellRepository seaBattleCellRepository,
                                 SeaBattleFieldRepository seaBattleFieldRepository,
-                                IHubContext<SeaBattleHub> seaBattleHub)
+                                IHubContext<SeaBattleHub> seaBattleHub,
+                                IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
             _seaBattleCellRepository = seaBattleCellRepository;
             _seaBattleFieldRepository = seaBattleFieldRepository;
             _seaBattleHub = seaBattleHub;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public SeaBattleGame CreateGame(SeaBattleDifficult difficult)
@@ -479,7 +484,7 @@ namespace WebMaze.Services
             CancellationToken token = cancelTokenSource.Token;
             SeaBattleTaskModel taskModel;
 
-            var myField = _userService.GetCurrentUser().SeaBattleGame.Fields.Single(x => !x.IsEnemyField);
+            var gameId = _userService.GetCurrentUser().SeaBattleGame.Id;
 
             lock (SeaBattleTasks)
             {
@@ -493,7 +498,7 @@ namespace WebMaze.Services
 
                     SeaBattleTasks.Add(taskModel);
 
-                    Task task = new Task(() => EnemyTurnTask(taskModel, myField), token);
+                    Task task = new Task(() => EnemyTurnTask(taskModel, gameId), token);
 
                     task.Start();
                 }
@@ -515,18 +520,18 @@ namespace WebMaze.Services
             FillNearKilledShips(myField);
         }
 
-        private void EnemyTurnTask(SeaBattleTaskModel taskModel, SeaBattleField myField)
+        private void EnemyTurnTask(SeaBattleTaskModel taskModel, long gameId)
         {
             var timerIsActiveUser = 0;
-            var secondsToEnemyTurn = 10;
+            var secondsToEnemyTurn = 2;
+
+            var client = new HttpClient();
+            var path = _httpContextAccessor.HttpContext.Request.Host.ToUriComponent();
 
             while (timerIsActiveUser <= 100)
             {
 
-                taskModel
-                    .CancellationTokenSource
-                    .Token
-                    .ThrowIfCancellationRequested();
+                taskModel.CancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                 if (taskModel.UserIsActive)
                 {
@@ -536,25 +541,23 @@ namespace WebMaze.Services
 
                 if (secondsToEnemyTurn == 0)
                 {
-                    EnemyTurn(myField);
-                    secondsToEnemyTurn = 10;
+                    client.GetAsync("http://" + path + "/SeaBattle/EnemyTurn?gameId=" + gameId);
+                    secondsToEnemyTurn = 2;
                 }
 
 
                 secondsToEnemyTurn--;
                 timerIsActiveUser++;
 
+                _seaBattleHub.Clients.All.SendAsync(gameId.ToString(), secondsToEnemyTurn);
+
                 Thread.Sleep(1000);
-
-                _seaBattleHub.Clients.All.SendAsync(myField.Game.Id.ToString(), secondsToEnemyTurn);
-
             }
 
-            //taskModel.CancellationTokenSource.Cancel();
-            //lock (SeaBattleTasks)
-            //{
-            //    SeaBattleTasks.Remove(taskModel);
-            //}
+            lock (SeaBattleTasks)
+            {
+                SeaBattleTasks.Remove(taskModel);
+            }
         }
     }
 }

@@ -8,17 +8,15 @@
     //Что делать, когда пршло новое сообщение
     hubConnection.on(gameId, function (seconds) {
 
+
         if (seconds == 0) {
-            location.reload();
+            $.get('/SeaBattle/UserIsActive', { id: gameId });
+            window.location.href = "/SeaBattle/Game?id=" + gameId;
+            //location.reload();
         }
         $('.seaBattleTimer').text(seconds);
     });
 
-    setInterval(function () {
-
-        $.set('/SeaBattle/UserIsActive');
-
-    }, 20 * 1000);
 
     hubConnection.start();
 });
