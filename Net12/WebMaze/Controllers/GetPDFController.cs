@@ -76,12 +76,11 @@ namespace WebMaze.Controllers
                 PDFPreparationTasks.Remove(pdf);
             }
         }
-
         private void PDFPreparation(PDFGenerationTaskInfo pdf)
         {
             for (int i = 0; i < 100; i++)
             {
-                pdf.Percent++;                
+                pdf.Percent++;
                 if (pdf.CancellationTokenSource.Token.IsCancellationRequested)
                 {
                     return;
@@ -111,7 +110,6 @@ namespace WebMaze.Controllers
              .SetTextAlignment(TextAlignment.CENTER);
                 document.Add(img);
                 document.Close();
-
 
                 byte[] byte1 = stream.ToArray();
                 return File(byte1, "application/pdf", $"{pdf.Name}.pdf");
