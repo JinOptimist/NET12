@@ -9,7 +9,7 @@ using WebMaze.EfStuff.DbModel.SeaBattle;
 
 namespace WebMaze.EfStuff.DbModel
 {
-    public class User : BaseModel, IComparable
+    public class User : BaseModel
     {
         public string Name { get; set; }
         public string Password { get; set; }
@@ -44,11 +44,5 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<GuessTheNumberGame> GuessTheNumberGames { get; set; }
         public virtual List<ThreeInRowGameField> ThreeInRowGameFields { get; set; }
         public virtual SeaBattleGame SeaBattleGame { get; set; }
-
-        public int CompareTo(object obj)
-        {
-            User Temp = (User)obj;            
-            return Name.CompareTo(Temp.Name);
-        }
     }
 }

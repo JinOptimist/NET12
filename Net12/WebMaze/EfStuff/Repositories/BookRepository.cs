@@ -19,37 +19,33 @@ namespace WebMaze.EfStuff.Repositories
         }
 
         public List<Book> GetAllSortedByParam(BookFilter? bookFilter, bool asc)
-        {
-            var typeCreator = false;
-
-            bookFilter = bookFilter ?? BookFilter.Author;
+        {         
+            bookFilter = bookFilter ?? BookFilter.Author;     
             if (bookFilter == BookFilter.OldDate || bookFilter == BookFilter.NewDate)
                 bookFilter = BookFilter.ReleaseDate;
             string stringBookFilter = bookFilter.ToString();
 
-            typeCreator = (bookFilter == BookFilter.Creator) ? true : false;            
-        
+            var typeCreator = (bookFilter == BookFilter.Creator) ? true : false;
+
             var table = Expression.Parameter(typeof(Book), "book");// book =>
-            var member = Expression.Property(table, stringBookFilter); // book.Author
+
+            MemberExpression member;
 
             if (typeCreator)
             {
-                var condition = Expression.Lambda<Func<Book, User>>(member, table);
-
-                return (asc ? _dbSet.OrderBy(condition) : _dbSet.OrderByDescending(condition))
-                    .ToList();
+                var field = "Name";
+                var middleMember = Expression.Property(table, stringBookFilter);
+                member = Expression.Property(middleMember, field); // book.Creator.Name
             }
             else
             {
+                member = Expression.Property(table, stringBookFilter); // book.Author
+            };
+
                 var condition = Expression.Lambda<Func<Book, string>>(member, table);
 
-                return (asc ? _dbSet.OrderBy(condition) : _dbSet.OrderByDescending(condition))
-                    // book => book.Author
-                    /*.OrderBy(x => x.Author)*/
+                return (asc ? _dbSet.OrderBy(condition) : _dbSet.OrderByDescending(condition))                   
                     .ToList();
-               
-            }
-            
         }
 
     }
