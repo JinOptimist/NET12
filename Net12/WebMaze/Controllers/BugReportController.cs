@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Net12.Maze;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.Controllers.AuthAttribute;
@@ -30,8 +34,8 @@ namespace WebMaze.Controllers
 
         public BugReportController(UserRepository userRepository,
             BugReportRepository bugReportRepository,
-            IMapper mapper, 
-            UserService userService, 
+            IMapper mapper,
+            UserService userService,
             IHubContext<ChatHub> chatHub,
             PayForActionService payForActionService)
         {
@@ -45,7 +49,7 @@ namespace WebMaze.Controllers
         public IActionResult BugReports()
         {
             var bugReportViewModels = new List<BugReportViewModel>();
-            
+
             bugReportViewModels = _bugReportRepository
                 .GetAll()
                 .Select(dbModel => _mapper.Map<BugReportViewModel>(dbModel))
@@ -69,7 +73,7 @@ namespace WebMaze.Controllers
             if (!ModelState.IsValid)
             {
                 return View(bugReportViewModel);
-            }           
+            }
 
             var creater = _userService.GetCurrentUser();
 
@@ -91,7 +95,7 @@ namespace WebMaze.Controllers
 
             return RedirectToAction("BugReports", "BugReport");
         }
-     
+
         public IActionResult Awful(long bugReportId)
         {
             var bugReport = _bugReportRepository.Get(bugReportId);
@@ -99,6 +103,37 @@ namespace WebMaze.Controllers
             _payForActionService.CreatorDislikeFine(bugReport.Creater.Id, TypesOfPayment.Fine);
 
             return RedirectToAction("BugReports", "BugReport");
+        }
+
+        public IActionResult DownloadAll()
+        {
+            var reports = _bugReportRepository.GetAll();
+            using (var ms = new MemoryStream())
+            {
+                using (var wordDocument = WordprocessingDocument.Create(ms, WordprocessingDocumentType.Document))
+                {
+                    var mainPart = wordDocument.AddMainDocumentPart();
+                    mainPart.Document = new Document();
+                    var body = mainPart.Document.AppendChild(new Body());
+
+                    foreach (var oneReport in reports)
+                    {
+                        var paraCreater = body.AppendChild(new Paragraph());
+
+                        var runCreater = paraCreater.AppendChild(new Run());
+                        runCreater.AppendChild(new Text(oneReport.Creater.Name));
+
+                        var paraDescription = body.AppendChild(new Paragraph());
+                        var runDescription = paraDescription.AppendChild(new Run());
+                        runDescription.AppendChild(new Text(oneReport.Description));
+                    }
+                    wordDocument.Close();
+                }
+
+                return File(ms.ToArray(),
+                   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                   "AllReports.docx");
+            }
         }
     }
 }

@@ -4,13 +4,62 @@
     background-attachment: fixed;
 }
 
-.title-favGame {
+.add-favGame-preview {
+    display: inline;
+    flex-direction: column;
+}
+
+.add-favGame-objects {
+    display: flex;
+    justify-content: space-between;
+}
+
+.favGame-preview-title-main-wrap {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.favGame-preview-title-main {
+    margin-top: -12px;
+    align-self: center;
+    transform: perspective(300px) rotateX(15deg) scaleY(0.8);
+    transition: all 0.5s;
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 90px;
+    letter-spacing: 3px;
+    color: #b841df;
+    text-shadow: 0 0 10px rgb(129 25 110 / 90%), 0 10px 0 #c81a9a;
+}
+
+.favGame-preview-title-main-wrap:hover .favGame-preview-title-main {
+    transform: perspective(1000px) rotateX(15deg) scale(1.07);
+    text-shadow: 0 0 10px black, 0 2px 0 #BFE2FF;
+}
+
+.favGame-preview-genre {
+    font-size: 20px;
+    color: white;
+}
+
+.all-preview-elements {
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.title-favGame, .favGame-preview-title {
     display: inline-flex;
     font-size: 40px;
-    margin: 30px 0 10px 0;
+    margin: 30px 40px 10px 40px;
     padding: 0 10px 0 10px;
     backdrop-filter: blur(5px) brightness(40%);
     box-shadow: 0 0 4px 5px #fff;
+    width: fit-content;
+    align-self: center;
 }
 
 .title-favGames {
@@ -29,7 +78,7 @@
 }
 
 .all-about-favGame {
-    display: flex;
+    display: inline-flex;
     justify-content: space-around;
     font-size: 18px;
 }
@@ -46,7 +95,6 @@
 }
 
 .favGame-description {
-    /*display: flex;*/
     margin: auto 40px auto 40px;
     padding: 10px;
     border-radius: 30px;

@@ -28,7 +28,6 @@ namespace WebMaze.Controllers
         private UserService _userService;
         private UserRepository _userRepository;
         private ReviewRepository _reviewRepository;
-        private NewCellSuggRepository _newCellSuggRepository;
         private ILogger<HomeController> _logger;
         private CurrenceService _currenceService;
 
@@ -36,7 +35,6 @@ namespace WebMaze.Controllers
         public HomeController(WebContext webContext,
          UserRepository userRepository, ReviewRepository reviewRepository,
          IMapper mapper, UserService userService,
-         NewCellSuggRepository newCellSuggRepository,
          ILogger<HomeController> logger,
          CurrenceService currenceService)
         {

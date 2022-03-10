@@ -6,8 +6,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.DbModel.GuessTheNumber;
+using WebMaze.EfStuff.DbModel.SeaBattle;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.EfStuff.Repositories.GuessTheNumber;
+using WebMaze.EfStuff.Repositories.SeaBattle;
 using WebMaze.Services.GuessTheNumber;
 
 namespace WebMaze.EfStuff
@@ -30,6 +32,7 @@ namespace WebMaze.EfStuff
                 SeedZumaGameDifficult(scope);
                 SeedGuessTheNumberGameParametersRecords(scope);
                 SeedNewCellSugg(scope);
+                SeedSeaBattleDifficult(scope);
             }
 
             return host;
@@ -289,5 +292,81 @@ namespace WebMaze.EfStuff
             }
 
         }
+
+        private static void SeedSeaBattleDifficult(IServiceScope scope)
+        {
+
+            var seaBattleDifficult = scope.ServiceProvider.GetService<SeaBattleDifficultRepository>();
+
+            if (!seaBattleDifficult.GetAll().Any())
+            {
+                var defaultDifficult = new SeaBattleDifficult()
+                {
+                    Height = 12,
+                    Width = 12,
+                    FourSizeShip = 2,
+                    ThreeSizeShip = 3,
+                    TwoSizeShip = 4,
+                    IsActive = true
+                };
+                seaBattleDifficult.Save(defaultDifficult);
+
+                defaultDifficult = new SeaBattleDifficult()
+                {
+                    Height = 12,
+                    Width = 12,
+                    FourSizeShip = 3,
+                    ThreeSizeShip = 4,
+                    TwoSizeShip = 5,
+                    IsActive = true
+                };
+                seaBattleDifficult.Save(defaultDifficult);
+
+                defaultDifficult = new SeaBattleDifficult()
+                {
+                    Height = 14,
+                    Width = 14,
+                    FourSizeShip = 4,
+                    ThreeSizeShip = 5,
+                    TwoSizeShip = 6,
+                    IsActive = true
+                };
+                seaBattleDifficult.Save(defaultDifficult);
+
+                defaultDifficult = new SeaBattleDifficult()
+                {
+                    Height = 10,
+                    Width = 10,
+                    FourSizeShip = 1,
+                    ThreeSizeShip = 3,
+                    TwoSizeShip = 4,
+                    IsActive = true
+                };
+                seaBattleDifficult.Save(defaultDifficult);
+
+                defaultDifficult = new SeaBattleDifficult()
+                {
+                    Height = 10,
+                    Width = 10,
+                    FourSizeShip = 1,
+                    ThreeSizeShip = 2,
+                    TwoSizeShip = 2,
+                    IsActive = true
+                };
+                seaBattleDifficult.Save(defaultDifficult);
+
+                defaultDifficult = new SeaBattleDifficult()
+                {
+                    Height = 14,
+                    Width = 14,
+                    FourSizeShip = 1,
+                    ThreeSizeShip = 6,
+                    TwoSizeShip = 8,
+                    IsActive = true
+                };
+                seaBattleDifficult.Save(defaultDifficult);
+            }
+        }
+
     }
 }
