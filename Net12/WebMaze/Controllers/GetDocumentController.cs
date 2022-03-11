@@ -21,8 +21,19 @@ namespace WebMaze.Controllers
         public static List<DocumentStatus> DocumentPreparationTasks = new List<DocumentStatus>();
 
         public IActionResult Index()
-        {          
-            return View();
+        {
+            var documentViewModels = new List<DocumentStatus>();
+            foreach (var document in DocumentPreparationTasks)
+            {
+                var documentViewModel = new DocumentStatus();
+                documentViewModel.Id = document.Id;
+                documentViewModel.Pages = document.Pages;
+                documentViewModel.Percent = document.Percent;
+
+                documentViewModels.Add(documentViewModel);
+            }
+
+            return View(documentViewModels);
         }
 
         [HttpGet]
@@ -57,11 +68,17 @@ namespace WebMaze.Controllers
             Task task = new Task(() => DocumentPreparation(document), token);
             task.Start();
 
+            _documentPreparationHub.Clients.All.SendAsync("NewDocument", document.Id);
+
             return RedirectToAction("GetStatus", new {id = document.Id });
         }
 
         public IActionResult GetStatus(int id)
         {
+            if (!DocumentPreparationTasks.Any(x => x.Id == id))
+            {
+                return RedirectToAction("Index");
+            }
             var documentId = id;
             return View(documentId);
         }
@@ -74,7 +91,7 @@ namespace WebMaze.Controllers
             {
                 DocumentPreparationTasks.Remove(document);
             }
-            _documentPreparationHub.Clients.All.SendAsync("stopNotification", document.Id, document.Percent, document.Pages);
+            _documentPreparationHub.Clients.All.SendAsync("stopNotification", document.Id);
         }
 
         private void DocumentPreparation(DocumentStatus document)
@@ -88,10 +105,11 @@ namespace WebMaze.Controllers
                     .Token
                     .ThrowIfCancellationRequested();
                 _documentPreparationHub.Clients.All.SendAsync("Notification",document.Id, document.Percent, document.Pages);
-
+                
                 Thread.Sleep(1000);                
             }
         }
+
     }
 }
 

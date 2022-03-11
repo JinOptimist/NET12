@@ -13,9 +13,13 @@ namespace WebMaze.SignalRHubs
         {
             await Clients.All.SendAsync("Notification",id, percent, pages);
         }
-        public async Task stopNotification(int id, string percent, string pages)
+        public async Task stopNotification(int id)
         {
-            await Clients.All.SendAsync("stopNotification", id, percent, pages);
+            await Clients.All.SendAsync("stopNotification", id);
         }
+        public async Task NewDocument(int id)
+        {
+            await Clients.All.SendAsync("NewDocument", id);
+        }        
     }
 }

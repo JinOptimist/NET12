@@ -14,6 +14,7 @@
         $('.status-percent-text').text(`Ready ${percent} of ${pages}`);
         $('.status-percent-line-bg').width((percent * 150 / pages));
 
+
         if (percent == pages) {
             downloadDocument();
         }
@@ -26,13 +27,14 @@
     };
 
 
-    hubConnection.on("stopNotification", function (id, percent, pages) {
+
+    hubConnection.on("stopNotification", function (id) {
         if (id == $('.documnetId').val()) {
-            stopUpdateStatus(id, percent, pages);
+            stopUpdateStatus(id);
         }
     });
 
-    function stopUpdateStatus(id, percent, pages) {
+    function stopUpdateStatus(id) {
         $('.status-percent-text').text("Canceled");
         $('.status-percent-line-bg').css("background-color", "red");
 
@@ -54,6 +56,12 @@
             }
         });
     };
+
+
+
+    hubConnection.on("NewDocument", function (id) {
+        $('.doc').append($('<div/>').addClass(`doc-info-${id}`).text(`Document ID: ${id}`));
+    });
 
     hubConnection.start();
 });
