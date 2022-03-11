@@ -5,7 +5,7 @@
 @inject NewsCommentRepository newsCommentRepository
 
 @section Scripts{
-    <script src="~/js/paggination.js"></script>
+<script src="~/js/paggination.js"></script>
 }
 
 
@@ -17,6 +17,26 @@
 </div>
 
 <div class="container">
+    <form method="post" action="/News/Index">
+        <fieldset class="form-group border p-3">
+            <legend class="w-auto px-2">Searcher</legend>
+            <div class="form-group">
+                <label for="username">Column</label>
+                <select name="ColumnName" class="form-select" aria-label="Default select example">
+                    <option selected value="Title">Title</option>
+                    <option value="Author">Author</option>
+                    <option value="Title">Text of News</option>
+                    <option value="CreationDate">Creation Date</option>
+                </select>
+                <select name="typeSearch" class="form-select" aria-label="Default select example">
+                    <option value="2">Contain</option>
+                    <option value="1">Equal</option>
+                </select>
+                <input type="text" class="form-control password" id="MyText" placeholder="Text..." name="textSearch">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </fieldset>
+    </form>
     <div class="row justify-content-center">
         <div>
             PerPage
@@ -24,10 +44,10 @@
                 @foreach (var perPageOption in Model.PerPageOptions)
                 {
                     var isSelectedStr = perPageOption == Model.PerPage
-                        ? "selected"
-                        : null;
+                    ? "selected"
+                    : null;
                     <text>
-                        <option value="@perPageOption" selected=@isSelectedStr>@perPageOption</option>
+                    <option value="@perPageOption" selected=@isSelectedStr>@perPageOption</option>
                     </text>
                 }
             </select>
@@ -42,7 +62,7 @@
             @for (int i = Model.StartIndex; i < Model.EndIndex; i++)
             {
                 <a href="/News/Index?page=@(i+1)&perPage="
-                   class="linkToPage @(i + 1 == Model.CurrPage ? "active" : "")">page @(i+1)</a>
+               class="linkToPage @(i + 1 == Model.CurrPage ? "active" : "")">page @(i+1)</a>
             }
 
             @if (Model.CurrPage < Model.TotalPageCount - PaggerViewModel<object>.AdditionalElementsNearCurrent)
@@ -119,6 +139,8 @@
             </tbody>
         </table>
     </div>
+
+
 
     @if (User.Identity.IsAuthenticated)
     {
