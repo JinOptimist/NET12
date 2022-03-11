@@ -17,6 +17,10 @@ namespace WebMaze.SignalRHubs
         {
             await Clients.All.SendAsync("stopNotification", id);
         }
+        public async Task downloadDocument(int id, string percent, string pages)
+        {
+            await Clients.All.SendAsync("downloadDocument", id, percent, pages);
+        }
         public async Task NewDocument(int id)
         {
             await Clients.All.SendAsync("NewDocument", id);

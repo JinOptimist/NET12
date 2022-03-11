@@ -108,8 +108,9 @@ namespace WebMaze.Controllers
                 
                 Thread.Sleep(1000);                
             }
-        }
 
+            _documentPreparationHub.Clients.All.SendAsync("downloadDocument", document.Id, document.Percent, document.Pages);
+        }
     }
 }
 

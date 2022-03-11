@@ -15,8 +15,12 @@
         @foreach (var document in Model)
        {
            <div class="doc-info-@document.Id">
-               Document ID: @document.Id
-           </div>
+               Document ID: @document.Id 
+                @if (document.Pages == document.Percent)
+                {
+                    <span> is ready</span>
+                }
+            </div>
        }
     </div>
 
