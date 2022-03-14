@@ -92,6 +92,7 @@
     align-items: center;
     justify-content: center;
     display: flex;
+    width: 17.5%;
 }
 
 .News Creator {
@@ -99,6 +100,7 @@
     align-items: center;
     justify-content: center;
     display: flex;
+    width: 17.5%;
 }
 
 .Forum Moderator {
@@ -106,6 +108,7 @@
     align-items: center;
     justify-content: center;
     display: flex;
+    width: 17.5%;
 }
 
 .Remove {
@@ -113,6 +116,7 @@
     align-items: center;
     justify-content: center;
     display: flex;
+    width: 17.5%;
 }
 
 /*Main table*/
@@ -120,35 +124,39 @@
 .MainTable {
     display: flex;
     font-size: 30px;
+    align-items: stretch;
+}
+
+.FirstColumn {
+    display: flex;
+    word-wrap: break-word;
     align-items: center;
     justify-content: center;
 }
 
-.FirstColumn {
-    word-wrap: break-word;
-    align-items: center;
-    width: 30%;
-}
-
 .SecondColumn {
+    display: flex;
     word-wrap: break-word;
     align-items: center;
     justify-content: center;
 }
 
 .ThirdColumn {
+    display: flex;
     word-wrap: break-word;
     align-items: center;
     justify-content: center;
 }
 
 .FourthColumn {
+    display: flex;
     word-wrap: break-word;
     align-items: center;
     justify-content: center;
 }
 
 .FifthColumn {
+    display: flex;
     word-wrap: break-word;
     align-items: center;
     justify-content: center;
