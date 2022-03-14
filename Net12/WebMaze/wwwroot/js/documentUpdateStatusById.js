@@ -26,9 +26,6 @@
 
     hubConnection.on("ReadyDocument", function (id, percent, pages) {        
         if (id == $('.documnetId').val()) {
-            //if (percent == pages) {
-            //    readyDocument();
-            //}
             readyDocument();
         }
     });
