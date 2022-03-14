@@ -58,9 +58,8 @@ namespace WebMaze.EfStuff.Repositories
                 member = next;
 
             }
-
-            var constName = Expression.Constant(TextSearch); // 'good news'
-
+            
+            var constName = Expression.Constant(TextSearch, typeof(string)); // 'good news'
             if (TypeOfSearch == 1)
             {
      
@@ -73,11 +72,13 @@ namespace WebMaze.EfStuff.Repositories
             {
 
                 
-                MethodInfo method = typeof(string).GetMethod("Contains", new[] { typeof(string) });
-                var containsMethodExp = Expression.Call(Expression.Convert(Expression.Convert(member, typeof(object)), typeof(string)), method, constName);
+                MethodInfo method = typeof(string).GetMethod("Contains", new[] { typeof(String) });
+                var memberInObj = Expression.Convert(member, typeof(object));
+                var memberInString = Expression.Convert(memberInObj, typeof(String));
+                var containsMethodExp = Expression.Call(memberInString, method, constName);
 
                 
-                var condition = Expression.Lambda<Func<News, bool>>(Expression.Convert(containsMethodExp, typeof(bool)), table);
+                var condition = Expression.Lambda<Func<News, bool>>(containsMethodExp, table);
 
                 MyList = _dbSet.Where(condition).ToList();
             } else
