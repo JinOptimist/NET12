@@ -3,8 +3,6 @@
         .withUrl("/documentUpdateStatusById")
         .build();
 
-
-
     hubConnection.on("UpdateStatus", function (id, percent, pages) {        
         if (id == $('.documnetId').val()) {
             updateStatus(id, percent, pages);
@@ -16,12 +14,6 @@
         $('.status-percent-text').text(`Ready ${percent} of ${pages}`);
         $('.status-percent-line-bg').width((percent * 150 / pages));        
     };
-
-    function updateStatusAll(id, percent, pages) {
-        $(`.doc-info-${id}`).text(`Document ID: ${id} Ready ${percent} of ${pages}`);
-    };
-
-
 
 
     hubConnection.on("ReadyDocument", function (id, percent, pages) {        
@@ -35,7 +27,6 @@
         $('.cancel-button').css("display", "none");
         $('.download-button').css("display", "block");
     };
-
 
 
     hubConnection.on("CancelPreparation", function (id) {
@@ -66,7 +57,6 @@
             }
         });
     };
-
 
 
     hubConnection.on("NewDocument", function (id) {
