@@ -1,4 +1,6 @@
-﻿.PageBody {
+﻿/*Header of internal page*/
+
+.PageBody {
     background: #9c9c9c;
 }
 
@@ -39,6 +41,10 @@
     text-shadow: 0px 9px 14px rgba(0, 0, 0, 0.57);
 }
 
+/*Table*/
+
+/*Header of the table*/
+
 .MainHeader {
     display: flex;
 }
@@ -65,7 +71,7 @@
     justify-content: center;
 }
 
-.MainTable{
+.MainTableNames{
     font-size: 30px;
     display: flex;
     align-items: stretch;
@@ -107,6 +113,45 @@
     align-items: center;
     justify-content: center;
     display: flex;
+}
+
+/*Main table*/
+
+.MainTable {
+    display: flex;
+    font-size: 30px;
+    align-items: center;
+    justify-content: center;
+}
+
+.FirstColumn {
+    word-wrap: break-word;
+    align-items: center;
+    width: 30%;
+}
+
+.SecondColumn {
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+}
+
+.ThirdColumn {
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+}
+
+.FourthColumn {
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+}
+
+.FifthColumn {
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
 }
 
 /*
