@@ -11,5 +11,9 @@ namespace WebMaze.EfStuff.Repositories.SeaBattle
         public SeaBattleDifficultRepository(WebContext webContext) : base(webContext)
         {
         }
+
+        public List<SeaBattleDifficult> GetSortedSeaBattles(string columnName = "Height")
+           => GetSortedNews(columnName)
+           .ToList();
     }
 }
