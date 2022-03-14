@@ -83,7 +83,7 @@ namespace WebMaze.Controllers
             return View(documentId);
         }
 
-        public void StopPreparation(int documentId)
+        public void CancelPreparation(int documentId)
         {
             var document = DocumentPreparationTasks.First(x => x.Id == documentId);
             document.CancellationTokenSource.Cancel();
@@ -91,7 +91,7 @@ namespace WebMaze.Controllers
             {
                 DocumentPreparationTasks.Remove(document);
             }
-            _documentPreparationHub.Clients.All.SendAsync("stopNotification", document.Id);
+            _documentPreparationHub.Clients.All.SendAsync("CancelPreparation", document.Id);
         }
 
         private void DocumentPreparation(DocumentStatus document)
@@ -104,12 +104,12 @@ namespace WebMaze.Controllers
                     .CancellationTokenSource
                     .Token
                     .ThrowIfCancellationRequested();
-                _documentPreparationHub.Clients.All.SendAsync("Notification",document.Id, document.Percent, document.Pages);
+                _documentPreparationHub.Clients.All.SendAsync("UpdateStatus", document.Id, document.Percent, document.Pages);
                 
                 Thread.Sleep(1000);                
             }
 
-            _documentPreparationHub.Clients.All.SendAsync("downloadDocument", document.Id, document.Percent, document.Pages);
+            _documentPreparationHub.Clients.All.SendAsync("ReadyDocument", document.Id, document.Percent, document.Pages);
         }
     }
 }

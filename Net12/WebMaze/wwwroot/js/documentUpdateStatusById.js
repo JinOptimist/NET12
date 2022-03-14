@@ -1,42 +1,39 @@
 ﻿$(document).ready(function () {
     const hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl("/documentPreparation")
+        .withUrl("/documentUpdateStatusById")
         .build();
 
 
 
-    hubConnection.on("Notification", function (id, percent, pages) {
-        updateStatusAll(id, percent, pages);
-        
+    hubConnection.on("UpdateStatus", function (id, percent, pages) {        
         if (id == $('.documnetId').val()) {
             updateStatus(id, percent, pages);
         }
     });
-
-    function updateStatusAll(id, percent, pages) {
-        $(`.doc-info-${id}`).text(`Document ID: ${id} Ready ${percent} of ${pages}`);
-    };
-
+    
     function updateStatus(id, percent, pages) {
         $('.status-document-name').text(`Document Id:${id}`)
         $('.status-percent-text').text(`Ready ${percent} of ${pages}`);
         $('.status-percent-line-bg').width((percent * 150 / pages));        
     };
 
+    function updateStatusAll(id, percent, pages) {
+        $(`.doc-info-${id}`).text(`Document ID: ${id} Ready ${percent} of ${pages}`);
+    };
 
 
 
-    hubConnection.on("downloadDocument", function (id, percent, pages) {
-        $(`.doc-info-${id}`).text(`Document ID: ${id} is ready`);
-        
+
+    hubConnection.on("ReadyDocument", function (id, percent, pages) {        
         if (id == $('.documnetId').val()) {
-            if (percent == pages) {
-                downloadDocument();
-            }
+            //if (percent == pages) {
+            //    readyDocument();
+            //}
+            readyDocument();
         }
     });
 
-    function downloadDocument() {
+    function readyDocument() {
         $('.status-percent-text').text('Finished');
         $('.cancel-button').css("display", "none");
         $('.download-button').css("display", "block");
@@ -44,15 +41,13 @@
 
 
 
-    hubConnection.on("stopNotification", function (id) {
-        $(`.doc-info-${id}`).text(`Document ID: ${id} is canceld`);
-
+    hubConnection.on("CancelPreparation", function (id) {
         if (id == $('.documnetId').val()) {
-            stopUpdateStatus(id);
+            cancelUpdateStatus(id);
         }
     });
 
-    function stopUpdateStatus(id) {
+    function cancelUpdateStatus(id) {
         $('.status-percent-text').text("Canceled");
         $('.status-percent-line-bg').css("background-color", "red");
 
@@ -63,12 +58,12 @@
     $('.cancel-button').click(function (evt) {
         evt.preventDefault();
 
-        stopPreparation();
+        cancelPreparation();
     });
 
-    function stopPreparation() {
+    function cancelPreparation() {
         $.ajax({
-            url: '/GetDocument/StopPreparation',
+            url: '/GetDocument/CancelPreparation',
             data: {
                 documentId: $('.documnetId').val()
             }

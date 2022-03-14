@@ -9,17 +9,17 @@ namespace WebMaze.SignalRHubs
 {
     public class DocumentPreparationHub : Hub
     {
-        public async Task Notification(int id, string percent, string pages)
+        public async Task UpdateStatus(int id, string percent, string pages)
         {
-            await Clients.All.SendAsync("Notification",id, percent, pages);
+            await Clients.All.SendAsync("UpdateStatus", id, percent, pages);
         }
-        public async Task stopNotification(int id)
+        public async Task CancelPreparation(int id)
         {
-            await Clients.All.SendAsync("stopNotification", id);
+            await Clients.All.SendAsync("CancelPreparation", id);
         }
-        public async Task downloadDocument(int id, string percent, string pages)
+        public async Task ReadyDocument(int id, string percent, string pages)
         {
-            await Clients.All.SendAsync("downloadDocument", id, percent, pages);
+            await Clients.All.SendAsync("ReadyDocument", id, percent, pages);
         }
         public async Task NewDocument(int id)
         {
