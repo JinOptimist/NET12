@@ -14,36 +14,26 @@ namespace WebMaze.EfStuff.Repositories
         public List<User> GetWonUsersInNewCellSugg()
         {
             return _dbSet.FromSqlRaw<User>($@"
- SELECT *
-FROM Users
-WHERE Id in
-    (SELECT CreaterId
-     FROM
-       (SELECT CreaterId,
-               COUNT(*) AS amount
+SELECT U.*
+FROM
+  (SELECT CreaterId AS cId
+   FROM
+     (SELECT CreaterId,
+             COUNT(*) AS amount
+      FROM NewCellSuggestions AS N
+      INNER JOIN Users ON N.CreaterId = Users.Id
+      WHERE users.isactive = 1
+      GROUP BY CreaterId) AS TEMP
+   WHERE amount =
+       (SELECT max(amount)
         FROM
-          (SELECT CreaterId
-           FROM
-             (SELECT CreaterId,
-                     Users.IsActive
-              FROM NewCellSuggestions AS N
-              INNER JOIN Users ON N.CreaterId = Users.Id) AS TEMP
-           WHERE IsActive = 1) AS TEMP
-        GROUP BY CreaterId) AS TEMP
-     WHERE amount =
-         (SELECT max(amount)
-          FROM
-            (SELECT CreaterId,
-                    COUNT(*) AS amount
-             FROM
-               (SELECT CreaterId
-                FROM
-                  (SELECT CreaterId,
-                          Users.IsActive
-                   FROM NewCellSuggestions AS N
-                   INNER JOIN Users ON N.CreaterId = Users.Id) AS TEMP
-                WHERE IsActive = 1) AS TEMP
-             GROUP BY CreaterId) AS TEMP))")
+          (SELECT CreaterId,
+                  COUNT(*) AS amount
+           FROM NewCellSuggestions AS N
+           INNER JOIN Users ON N.CreaterId = Users.Id
+           WHERE users.isactive = 1
+           GROUP BY CreaterId) AS TEMP)) AS GoodIds
+LEFT JOIN Users U ON U.Id = GoodIds.cId")
                 .ToList();
         }
     }
