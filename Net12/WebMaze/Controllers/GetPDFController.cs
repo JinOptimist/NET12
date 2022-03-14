@@ -26,6 +26,20 @@ namespace WebMaze.Controllers
 
         public static List<PDFGenerationTaskInfo> PDFPreparationTasks = new List<PDFGenerationTaskInfo>();
 
+        public IActionResult Index()
+        {
+            var pdfViewModels = new List<PDFGenerationTaskInfo>();
+            foreach (var pdf in PDFPreparationTasks)
+            {
+                var pdfViewModel = new PDFGenerationTaskInfo();
+                pdfViewModel.Id = pdf.Id;
+                pdfViewModel.Percent = pdf.Percent;
+
+                pdfViewModels.Add(pdfViewModel);
+            }
+            return View(pdfViewModels);
+        }
+
         [HttpGet]
         public IActionResult StartPreparationPDF()
         {
@@ -35,6 +49,10 @@ namespace WebMaze.Controllers
         [HttpPost]
         public IActionResult StartPreparationPDF(PDFGenerationTaskInfo pdfGenerationTaskInfo)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(pdfGenerationTaskInfo);
+            }
             CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
             CancellationToken token = cancelTokenSource.Token;
             PDFGenerationTaskInfo pdf;
@@ -43,6 +61,7 @@ namespace WebMaze.Controllers
             {
                 pdf = new PDFGenerationTaskInfo
                 {
+                    
                     Id = PDFPreparationTasks.Any()
                         ? PDFPreparationTasks.Max(x => x.Id) + 1
                         : 1,
@@ -58,14 +77,19 @@ namespace WebMaze.Controllers
             Task task = new Task(() => PDFPreparation(pdf), token);
             task.Start();
 
-            return RedirectToAction($"{nameof(GetPDFController.GetStatusPDF)}", new { id = pdf.Id });
+            _pdfPreparationHub.Clients.All.SendAsync("NewPdf", pdf.Id);
+
+            return RedirectToAction($"{nameof(GetPDFController.GetStatusPDF)}",  pdf );
         }
 
-        public IActionResult GetStatusPDF(int id)
+        public IActionResult GetStatusPDF(PDFGenerationTaskInfo pdf)
         {
-            var pdfId = id;
-            return View(pdfId);
-        }
+            if (!PDFPreparationTasks.Any(x => x.Id == pdf.Id))
+            {
+                return RedirectToAction("Index");
+            }
+            return View(pdf);
+        }        
 
         public void StopPreparationPDF(int pdfId)
         {
@@ -75,20 +99,22 @@ namespace WebMaze.Controllers
             {
                 PDFPreparationTasks.Remove(pdf);
             }
+            _pdfPreparationHub.Clients.All.SendAsync("stopNotification", pdf.Id);
         }
+
         private void PDFPreparation(PDFGenerationTaskInfo pdf)
         {
             for (int i = 0; i < 100; i++)
             {
+                _pdfPreparationHub.Clients.All.SendAsync("Progres", pdf.Id, pdf.Percent);
                 pdf.Percent++;
                 if (pdf.CancellationTokenSource.Token.IsCancellationRequested)
                 {
                     return;
                 }
-                _pdfPreparationHub.Clients.All.SendAsync("Progres", pdf.Percent);
                 Thread.Sleep(1000);
-
             }
+            _pdfPreparationHub.Clients.All.SendAsync("Progres", pdf.Id, pdf.Percent);
         }
         public IActionResult DownlodPDF(int pdfId)
         {
@@ -101,13 +127,13 @@ namespace WebMaze.Controllers
                 var document = new Document(pdfReady);
 
                 Paragraph header = new Paragraph($"{pdf.Name}")
-            .SetTextAlignment(TextAlignment.CENTER)
-            .SetFontSize(20);
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFontSize(20);
                 document.Add(header);
 
                 Image img = new Image(ImageDataFactory
-             .Create($"{pdf.Url}"))
-             .SetTextAlignment(TextAlignment.CENTER);
+                .Create($"{pdf.Url}"))
+                .SetTextAlignment(TextAlignment.CENTER);
                 document.Add(img);
                 document.Close();
 

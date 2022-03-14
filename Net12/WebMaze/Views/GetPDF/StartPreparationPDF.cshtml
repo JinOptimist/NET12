@@ -8,7 +8,13 @@
                 Name: @Html.TextBoxFor(x => x.Name)
             </div>
             <div>
+                @Html.ValidationMessageFor(x => x.Name)
+            </div>
+            <div>
                 Url: @Html.TextBoxFor(x => x.Url)
+            </div>
+            <div>
+                @Html.ValidationMessageFor(x => x.Url)
             </div>
         </div>
         <input type="submit" value="StartPreparation" />
