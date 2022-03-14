@@ -72,9 +72,9 @@ namespace WebMaze.EfStuff.Repositories
             {
 
                 
-                MethodInfo method = typeof(string).GetMethod("Contains", new[] { typeof(String) });
+                MethodInfo method = typeof(string).GetMethod("Contains", new[] { typeof(string) });
                 var memberInObj = Expression.Convert(member, typeof(object));
-                var memberInString = Expression.Convert(memberInObj, typeof(String));
+                var memberInString = Expression.Convert(memberInObj, typeof(string));
                 var containsMethodExp = Expression.Call(memberInString, method, constName);
 
                 
