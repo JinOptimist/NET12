@@ -525,8 +525,8 @@ namespace WebMaze.Services
             var timerIsActiveUser = 0;
             var secondsToEnemyTurn = 2;
 
-            var client = new HttpClient();
-            var path = _httpContextAccessor.HttpContext.Request.Host.ToUriComponent();
+            //var client = new HttpClient();
+            //var path = _httpContextAccessor.HttpContext.Request.Host.ToUriComponent();
 
             while (timerIsActiveUser <= 100)
             {
@@ -539,9 +539,10 @@ namespace WebMaze.Services
                     taskModel.UserIsActive = false;
                 }
 
+                _seaBattleHub.Clients.All.SendAsync(gameId.ToString(), secondsToEnemyTurn);
+
                 if (secondsToEnemyTurn == 0)
                 {
-                    client.GetAsync("http://" + path + "/SeaBattle/EnemyTurn?gameId=" + gameId);
                     secondsToEnemyTurn = 2;
                 }
 
@@ -549,7 +550,6 @@ namespace WebMaze.Services
                 secondsToEnemyTurn--;
                 timerIsActiveUser++;
 
-                _seaBattleHub.Clients.All.SendAsync(gameId.ToString(), secondsToEnemyTurn);
 
                 Thread.Sleep(1000);
             }

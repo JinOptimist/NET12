@@ -92,6 +92,14 @@ namespace WebMaze.Controllers
         {
             var game = _seaBattleGameRepository.Get(id);
 
+            var myField = game.Fields.Single(x => !x.IsEnemyField);
+
+            if (!myField.Cells.Any(x => x.IsShip && !x.Hit))
+            {
+                return RedirectToAction("LoseGame", new { gameId = id });
+            }
+
+
             var gameViewModel = _mapper.Map<SeaBattleGameViewModel>(game);
 
             //заменяем целые ячейки кораблей на вражеском поле пустыми ячейками
@@ -141,11 +149,6 @@ namespace WebMaze.Controllers
             var myField = _seaBattleGameRepository.Get(gameId).Fields.Single(x => !x.IsEnemyField);
 
             _seaBattleService.EnemyTurn(myField);
-
-            if (!myField.Cells.Any(x => x.IsShip && !x.Hit))
-            {
-                return RedirectToAction("LoseGame", new { gameId });
-            }
 
             return RedirectToAction("Game", new { id = gameId });
         }

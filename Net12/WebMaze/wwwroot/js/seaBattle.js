@@ -10,9 +10,16 @@
 
 
         if (seconds == 0) {
+            $.post('/SeaBattle/EnemyTurn', { gameId: gameId });
+
             $.get('/SeaBattle/UserIsActive', { id: gameId });
-            window.location.href = "/SeaBattle/Game?id=" + gameId;
-            //location.reload();
+
+            setTimeout(function () {
+
+                //window.location.href = "/SeaBattle/Game?id=" + gameId;
+                location.reload();
+
+            }, 200)
         }
         $('.seaBattleTimer').text(seconds);
     });
