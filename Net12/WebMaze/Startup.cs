@@ -546,7 +546,12 @@ namespace WebMaze
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<DocumentPreparationHub>("/documentPreparation");
+                endpoints.MapHub<DocumentPreparationHub>("/documentUpdateStatusById");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<DocumentPreparationHub>("/documentUpdateStatusAll");
             });
 
             app.UseEndpoints(endpoints =>

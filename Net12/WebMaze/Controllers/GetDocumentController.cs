@@ -22,7 +22,18 @@ namespace WebMaze.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var documentViewModels = new List<DocumentStatus>();
+            foreach (var document in DocumentPreparationTasks)
+            {
+                var documentViewModel = new DocumentStatus();
+                documentViewModel.Id = document.Id;
+                documentViewModel.Pages = document.Pages;
+                documentViewModel.Percent = document.Percent;
+
+                documentViewModels.Add(documentViewModel);
+            }
+
+            return View(documentViewModels);
         }
 
         [HttpGet]
@@ -57,16 +68,22 @@ namespace WebMaze.Controllers
             Task task = new Task(() => DocumentPreparation(document), token);
             task.Start();
 
+            _documentPreparationHub.Clients.All.SendAsync("NewDocument", document.Id);
+
             return RedirectToAction("GetStatus", new {id = document.Id });
         }
 
         public IActionResult GetStatus(int id)
         {
+            if (!DocumentPreparationTasks.Any(x => x.Id == id))
+            {
+                return RedirectToAction("Index");
+            }
             var documentId = id;
             return View(documentId);
         }
 
-        public void StopPreparation(int documentId)
+        public void CancelPreparation(int documentId)
         {
             var document = DocumentPreparationTasks.First(x => x.Id == documentId);
             document.CancellationTokenSource.Cancel();
@@ -74,6 +91,7 @@ namespace WebMaze.Controllers
             {
                 DocumentPreparationTasks.Remove(document);
             }
+            _documentPreparationHub.Clients.All.SendAsync("CancelPreparation", document.Id);
         }
 
         private void DocumentPreparation(DocumentStatus document)
@@ -86,11 +104,12 @@ namespace WebMaze.Controllers
                     .CancellationTokenSource
                     .Token
                     .ThrowIfCancellationRequested();
-                _documentPreparationHub.Clients.All.SendAsync("Notification", document.Percent, document.Pages);
-
+                _documentPreparationHub.Clients.All.SendAsync("UpdateStatus", document.Id, document.Percent, document.Pages);
+                
                 Thread.Sleep(1000);                
             }
 
+            _documentPreparationHub.Clients.All.SendAsync("ReadyDocument", document.Id, document.Percent, document.Pages);
         }
     }
 }
