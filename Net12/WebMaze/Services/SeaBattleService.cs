@@ -522,33 +522,32 @@ namespace WebMaze.Services
 
         private void EnemyTurnTask(SeaBattleTaskModel taskModel, long gameId)
         {
-            var timerIsActiveUser = 0;
-            var secondsToEnemyTurn = 2;
+            var seaBattleTask = SeaBattleService.SeaBattleTasks.First(x => x.Id == gameId);
 
             //var client = new HttpClient();
             //var path = _httpContextAccessor.HttpContext.Request.Host.ToUriComponent();
 
-            while (timerIsActiveUser <= 100)
+            while (seaBattleTask.TimerIsActiveUser <= 100)
             {
 
                 taskModel.CancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                 if (taskModel.UserIsActive)
                 {
-                    timerIsActiveUser = 0;
+                    seaBattleTask.TimerIsActiveUser = 0;
                     taskModel.UserIsActive = false;
                 }
 
-                _seaBattleHub.Clients.All.SendAsync(gameId.ToString(), secondsToEnemyTurn);
+                _seaBattleHub.Clients.All.SendAsync(gameId.ToString(), seaBattleTask.SecondsToEnemyTurn);
 
-                if (secondsToEnemyTurn == 0)
+                if (seaBattleTask.SecondsToEnemyTurn == 0)
                 {
-                    secondsToEnemyTurn = 2;
+                    seaBattleTask.SecondsToEnemyTurn = 10;
                 }
 
 
-                secondsToEnemyTurn--;
-                timerIsActiveUser++;
+                seaBattleTask.SecondsToEnemyTurn--;
+                seaBattleTask.TimerIsActiveUser++;
 
 
                 Thread.Sleep(1000);

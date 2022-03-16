@@ -10,6 +10,8 @@ namespace WebMaze.Models
     {
         public long Id { get; set; }
         public bool UserIsActive { get; set; }
+        public int SecondsToEnemyTurn { get; set; } = 10;
+        public int TimerIsActiveUser { get; set; }
         public CancellationTokenSource CancellationTokenSource { get; set; }
     }
 }

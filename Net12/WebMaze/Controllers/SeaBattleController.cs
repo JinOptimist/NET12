@@ -116,6 +116,7 @@ namespace WebMaze.Controllers
 
         public IActionResult ClickOnCell(long id)
         {
+
             var enemyCell = _seaBattleCellRepository.Get(id);
 
             enemyCell.Hit = true;
@@ -127,6 +128,14 @@ namespace WebMaze.Controllers
             if (!enemyField.Cells.Any(x => x.IsShip && !x.Hit))
             {
                 return RedirectToAction("WinGame", new { gameId = enemyField.Game.Id });
+            }
+
+            var seaBattleTask = SeaBattleService.SeaBattleTasks.First(x => x.Id == enemyField.Game.Id);
+
+            lock (SeaBattleService.SeaBattleTasks)
+            {
+                seaBattleTask.SecondsToEnemyTurn = 10;
+                seaBattleTask.TimerIsActiveUser = 0;
             }
 
             _seaBattleService.FillNearKilledShips(enemyField);
