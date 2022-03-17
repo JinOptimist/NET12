@@ -8,7 +8,6 @@
     //Что делать, когда пршло новое сообщение
     hubConnection.on(gameId, function (seconds) {
 
-
         if (seconds == 0) {
             $.post('/SeaBattle/EnemyTurn', { gameId: gameId });
 

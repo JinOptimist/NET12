@@ -542,13 +542,12 @@ namespace WebMaze.Services
 
                 if (seaBattleTask.SecondsToEnemyTurn == 0)
                 {
+                    //client.GetAsync("http://" + path + "/SeaBattle/EnemyTurn?gameId=" + gameId);
                     seaBattleTask.SecondsToEnemyTurn = 10;
                 }
 
-
                 seaBattleTask.SecondsToEnemyTurn--;
                 seaBattleTask.TimerIsActiveUser++;
-
 
                 Thread.Sleep(1000);
             }
