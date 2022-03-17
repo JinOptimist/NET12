@@ -71,7 +71,7 @@ namespace WebMaze.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Book(BookFilter? bookFilter, bool asc)
+        public IActionResult Book(string bookFilter, bool asc)
         {
             var bookViewModels = _bookRepository
                 .GetAllSortedByParam(bookFilter, asc)

@@ -18,9 +18,40 @@ namespace WebMaze.EfStuff.Repositories
         {
         }
 
-        public List<Book> GetAllSortedByParam(BookFilter? bookFilter, bool asc)
-        {         
-            bookFilter = bookFilter ?? BookFilter.Author;     
+        public List<Book> GetAllSortedByParam(string bookFilter, bool asc)
+        {
+            var table = Expression.Parameter(typeof(Book), "book");
+
+            bookFilter = bookFilter ?? "Author";
+            
+            var members = new List<MemberExpression>();            
+            var newWords = bookFilter.Split('.');
+            var counter = 0;
+
+            if (newWords[0] == "OldDate" || newWords[0] == "NewDate")
+            {
+                newWords[0] = "ReleaseDate";
+            }
+
+            do
+            {                
+                if (counter == 0)
+                {
+                    members.Add(Expression.Property(table, newWords[counter]));
+                }
+                else
+                {
+                    members.Add(Expression.Property(members[counter - 1], newWords[counter]));
+                }
+                counter++;
+            } while (counter < newWords.Length) ;
+
+            var condition = Expression.Lambda<Func<Book, string>>(members[counter - 1], table);
+
+            return (asc ? _dbSet.OrderBy(condition) : _dbSet.OrderByDescending(condition))
+                    .ToList();
+
+            /*bookFilter = bookFilter ?? BookFilter.Author;
             if (bookFilter == BookFilter.OldDate || bookFilter == BookFilter.NewDate)
                 bookFilter = BookFilter.ReleaseDate;
             string stringBookFilter = bookFilter.ToString();
@@ -42,10 +73,10 @@ namespace WebMaze.EfStuff.Repositories
                 member = Expression.Property(table, stringBookFilter); // book.Author
             };
 
-                var condition = Expression.Lambda<Func<Book, string>>(member, table);
+            var condition = Expression.Lambda<Func<Book, string>>(member, table);
 
-                return (asc ? _dbSet.OrderBy(condition) : _dbSet.OrderByDescending(condition))                   
-                    .ToList();
+            return (asc ? _dbSet.OrderBy(condition) : _dbSet.OrderByDescending(condition))
+                    .ToList();*/
         }
 
     }

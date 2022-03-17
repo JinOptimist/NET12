@@ -19,8 +19,7 @@ namespace WebMaze.EfStuff
         public const string DefaultAdminName = "admin";
         public const string DefaultMazeDifficultName = "Default";
         public const string DefaultNewsTitle = "TestNews";
-        public const string DefaultImageDesc = "Admin image";
-        public const string DefaultBookDesc = "It's a default book. This section of site would be better if you download your own books.";
+        public const string DefaultImageDesc = "Admin image";       
         public static IHost Seed(this IHost host)
         {
             using (var scope = host.Services.CreateScope())

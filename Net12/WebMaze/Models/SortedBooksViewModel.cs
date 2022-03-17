@@ -8,7 +8,7 @@ namespace WebMaze.Models
 {
     public class SortedBooksViewModel
     {
-        public BookFilter? BookFilter { get; set; }
+        public string BookFilter { get; set; }
         public bool Asc { get; set; }
         public virtual List<BookViewModel> Books { get; set; }
     }

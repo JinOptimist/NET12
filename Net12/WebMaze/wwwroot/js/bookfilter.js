@@ -6,29 +6,30 @@
         
         switch (fullPath) {
             case 'bookName':
-                colorIfPressed(path, 'bookName', 'change-color');
+                colorIfPressed(path);
                 break;
             case 'author':
-                colorIfPressed(path, 'change-color');
+                colorIfPressed(path);
                 break;
             case 'oldDate':
-                colorIfPressed(path, 'change-color');
+                colorIfPressed(path);
                 break;
             case 'newDate':
-                colorIfPressed(path, 'change-color');
+                colorIfPressed(path);
                 break;
             case 'creator':
-                colorIfPressed(path, 'change-color');
+                colorIfPressed(path);
                 break;          
         }
     });
 
-    function colorIfPressed(path, button, newClass) {
-        if (path.hasClass(newClass)) {
-            path.toggleClass(newClass);
+    function colorIfPressed(path) {
+
+        if (path.hasClass('change-color')) {
+            path.toggleClass('change-color');
         }
         else {
-            path.addClass(newClass);
+            path.addClass('change-color');
         }
     }
 
