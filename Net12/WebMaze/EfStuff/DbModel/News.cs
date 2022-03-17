@@ -12,6 +12,7 @@ namespace WebMaze.EfStuff.DbModel
         public string Title { get; set; }
         public string Location { get; set; }
         public DateTime EventDate { get; set; }
+        public DateTime DateTimeOfPublication { get; set; }
         public virtual User Author { get; set; }
         public virtual List<NewsComment> NewsComments { get; set; }
     }
