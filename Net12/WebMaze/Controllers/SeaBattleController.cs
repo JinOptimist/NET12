@@ -140,17 +140,7 @@ namespace WebMaze.Controllers
 
             _seaBattleService.FillNearKilledShips(enemyField);
 
-            //var myField = enemyCell.Field.Game.Fields.Single(x => !x.IsEnemyField);
-
-            //_seaBattleService.EnemyTurn(myField);
-
-            //if (!myField.Cells.Any(x => x.IsShip && !x.Hit))
-            //{
-            //    return RedirectToAction("LoseGame");
-            //}
-
             return RedirectToAction("EnemyTurn", new { gameId = enemyField.Game.Id });
-            //return RedirectToAction("Game", new { id = _userService.GetCurrentUser().SeaBattleGame.Id });
         }
 
         public IActionResult EnemyTurn(long gameId)
