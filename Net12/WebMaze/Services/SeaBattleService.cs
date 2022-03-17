@@ -22,9 +22,11 @@ namespace WebMaze.Services
         private IHttpContextAccessor _httpContextAccessor;
         private Random _random = new Random();
         private int shipNumber;
+        private IHubContext<SeaBattleHub> _seaBattleHub;
 
         public static List<SeaBattleTaskModel> SeaBattleTasks = new List<SeaBattleTaskModel>();
-        private IHubContext<SeaBattleHub> _seaBattleHub;
+        private const int MAX_SECONDS_USER_INACTIVE = 100;
+        public const int SECONDS_TO_ENEMY_TURN = 10;
 
         public SeaBattleService(UserService userService,
                                 SeaBattleCellRepository seaBattleCellRepository,
@@ -477,23 +479,22 @@ namespace WebMaze.Services
 
         }
 
-        public void StartTask(long id)
+        public void StartTask(long gameId)
         {
 
             CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
             CancellationToken token = cancelTokenSource.Token;
             SeaBattleTaskModel taskModel;
 
-            var gameId = _userService.GetCurrentUser().SeaBattleGame.Id;
-
             lock (SeaBattleTasks)
             {
-                if (!SeaBattleTasks.Any(x => x.Id == id))
+                if (!SeaBattleTasks.Any(x => x.Id == gameId))
                 {
                     taskModel = new SeaBattleTaskModel
                     {
-                        Id = id,
-                        CancellationTokenSource = cancelTokenSource
+                        Id = gameId,
+                        CancellationTokenSource = cancelTokenSource,
+                        LastActiveUserDateTime = DateTime.Now
                     };
 
                     SeaBattleTasks.Add(taskModel);
@@ -522,32 +523,29 @@ namespace WebMaze.Services
 
         private void EnemyTurnTask(SeaBattleTaskModel taskModel, long gameId)
         {
-            var seaBattleTask = SeaBattleService.SeaBattleTasks.First(x => x.Id == gameId);
-
             //var client = new HttpClient();
             //var path = _httpContextAccessor.HttpContext.Request.Host.ToUriComponent();
 
-            while (seaBattleTask.TimerIsActiveUser <= 100)
+            while ((DateTime.Now - taskModel.LastActiveUserDateTime).TotalSeconds <= MAX_SECONDS_USER_INACTIVE)
             {
 
                 taskModel.CancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                if (taskModel.UserIsActive)
+                if (taskModel.IsActiveUser)
                 {
-                    seaBattleTask.TimerIsActiveUser = 0;
-                    taskModel.UserIsActive = false;
+                    taskModel.LastActiveUserDateTime = DateTime.Now;
+                    taskModel.IsActiveUser = false;
                 }
 
-                _seaBattleHub.Clients.All.SendAsync(gameId.ToString(), seaBattleTask.SecondsToEnemyTurn);
+                _seaBattleHub.Clients.All.SendAsync(gameId.ToString(), taskModel.SecondsToEnemyTurn);
 
-                if (seaBattleTask.SecondsToEnemyTurn == 0)
+                if (taskModel.SecondsToEnemyTurn == 0)
                 {
                     //client.GetAsync("http://" + path + "/SeaBattle/EnemyTurn?gameId=" + gameId);
-                    seaBattleTask.SecondsToEnemyTurn = 10;
+                    taskModel.SecondsToEnemyTurn = SECONDS_TO_ENEMY_TURN;
                 }
 
-                seaBattleTask.SecondsToEnemyTurn--;
-                seaBattleTask.TimerIsActiveUser++;
+                taskModel.SecondsToEnemyTurn--;
 
                 Thread.Sleep(1000);
             }

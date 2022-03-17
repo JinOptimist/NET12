@@ -1,28 +1,38 @@
 ﻿$(document).ready(function () {
     let gameId = $('.seabattle-game').attr('gameId');
+    let isLoseGame = true;
 
     const hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/seaBattle")
         .build();
 
-    //Что делать, когда пршло новое сообщение
-    hubConnection.on(gameId, function (seconds) {
+    hubConnection.on(gameId + "LoseGame", function () {
 
-        if (seconds == 0) {
-            $.post('/SeaBattle/EnemyTurn', { gameId: gameId });
-
-            $.get('/SeaBattle/UserIsActive', { id: gameId });
-
-            setTimeout(function () {
-
-                //window.location.href = "/SeaBattle/Game?id=" + gameId;
-                location.reload();
-
-            }, 200)
-        }
-        $('.seaBattleTimer').text(seconds);
+        isLoseGame = true;
+        window.location.href = "/SeaBattle/LoseGame?gameId=" + gameId;
     });
 
+    if (!isLoseGame) {
+        //Что делать, когда пршло новое сообщение
+        hubConnection.on(gameId, function (seconds) {
 
+            if (seconds == 0) {
+
+                $.get('/SeaBattle/UserIsActive', { gameId: gameId })
+                    .done(function () {
+
+                        $.get('/SeaBattle/EnemyTurn', { gameId: gameId })
+                            .done(function () {
+
+                                //window.location.href = "/SeaBattle/Game?gameId=" + gameId;
+                                location.reload();
+
+                            });
+                    });
+            }
+
+            $('.seaBattleTimer').text(seconds);
+        });
+    }
     hubConnection.start();
 });

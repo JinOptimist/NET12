@@ -30,7 +30,7 @@ namespace WebMaze.Controllers
                                     SeaBattleDifficultRepository seaBattleDifficultRepository,
                                     SeaBattleGameRepository seaBattleGameRepository,
                                     UserService userService,
-                                    SeaBattleCellRepository seaBattleCellRepository, 
+                                    SeaBattleCellRepository seaBattleCellRepository,
                                     IHubContext<SeaBattleHub> seaBattleHub)
         {
             _mapper = mapper;
@@ -78,26 +78,26 @@ namespace WebMaze.Controllers
 
             _seaBattleService.StartTask(game.Id);
 
-            return RedirectToAction("Game", new { id = game.Id });
+            return RedirectToAction("Game", new { gameId = game.Id });
         }
         public IActionResult ContinueGame()
         {
             var gameId = _userService.GetCurrentUser().SeaBattleGame.Id;
             _seaBattleService.StartTask(gameId);
 
-            return RedirectToAction("Game", new { id = gameId });
+            return RedirectToAction("Game", new { gameId });
         }
 
-        public IActionResult Game(long id)
+        public IActionResult Game(long gameId)
         {
-            var game = _seaBattleGameRepository.Get(id);
+            var game = _seaBattleGameRepository.Get(gameId);
 
             var myField = game.Fields.Single(x => !x.IsEnemyField);
 
-            if (!myField.Cells.Any(x => x.IsShip && !x.Hit))
-            {
-                return RedirectToAction("LoseGame", new { gameId = id });
-            }
+            //if (!myField.Cells.Any(x => x.IsShip && !x.Hit))
+            //{
+            //    return RedirectToAction("LoseGame", new { gameId = id });
+            //}
 
 
             var gameViewModel = _mapper.Map<SeaBattleGameViewModel>(game);
@@ -134,13 +134,22 @@ namespace WebMaze.Controllers
 
             lock (SeaBattleService.SeaBattleTasks)
             {
-                seaBattleTask.SecondsToEnemyTurn = 10;
-                seaBattleTask.TimerIsActiveUser = 0;
+                seaBattleTask.SecondsToEnemyTurn = SeaBattleService.SECONDS_TO_ENEMY_TURN;
+                seaBattleTask.LastActiveUserDateTime = DateTime.Now;
             }
 
             _seaBattleService.FillNearKilledShips(enemyField);
 
-            return RedirectToAction("EnemyTurn", new { gameId = enemyField.Game.Id });
+            var myField = enemyField.Game.Fields.Single(x => !x.IsEnemyField);
+
+            _seaBattleService.EnemyTurn(myField);
+
+            if (!myField.Cells.Any(x => x.IsShip && !x.Hit))
+            {
+                return RedirectToAction("LoseGame", new { gameId = myField.Game.Id });
+            }
+
+            return RedirectToAction("Game", new { gameId = myField.Game.Id });
         }
 
         public IActionResult EnemyTurn(long gameId)
@@ -149,7 +158,12 @@ namespace WebMaze.Controllers
 
             _seaBattleService.EnemyTurn(myField);
 
-            return RedirectToAction("Game", new { id = gameId });
+            if (!myField.Cells.Any(x => x.IsShip && !x.Hit))
+            {
+                _seaBattleHub.Clients.All.SendAsync(gameId.ToString() + "LoseGame");
+            }
+
+            return Json(true);
         }
 
         public IActionResult WinGame(long gameId)
@@ -180,10 +194,11 @@ namespace WebMaze.Controllers
             return View();
         }
 
-        public void UserIsActive(long id)
+        public IActionResult UserIsActive(long gameId)
         {
-            var taskModel = SeaBattleService.SeaBattleTasks.First(x => x.Id == id);
-            taskModel.UserIsActive = true;
+            var taskModel = SeaBattleService.SeaBattleTasks.First(x => x.Id == gameId);
+            taskModel.IsActiveUser = true;
+            return Json(true);
         }
 
 
