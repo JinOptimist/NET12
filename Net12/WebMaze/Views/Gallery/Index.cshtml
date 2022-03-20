@@ -1,4 +1,25 @@
 ﻿@model List<ImageViewModel>
+@using WebMaze.Models.Enums;
+
+
+@section Scripts{
+    <script src="~/js/galleryAjax.js"></script>
+}
+
+
+<form action="/Gallery/Index" method="get">
+    <input type="hidden"  name="columnName" value="Assessment"/>
+    <input type="hidden" name="sortType" value="@SortType.GreaterThan"/>
+    <input type="number" name="value" placeholder="Min assessment">
+    <input type="submit" value="Sort" />
+</form>
+
+<form action="/Gallery/Index" method="get">
+    <input type="hidden"  name="columnName" value="Author.Name"/>
+    <input type="hidden" name="sortType" value="@SortType.Equal"/>
+    <input type="text" name="value" placeholder="Author name">
+    <input type="submit" value="Send" />
+</form>
 
 <div class="whole-page">
 

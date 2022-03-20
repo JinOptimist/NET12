@@ -7,7 +7,5 @@
         int Max_hp { get; set; }
         int MaxFatigue { get; set; }
         int Money { get; set; }
-
-        bool TryToStep();
     }
 }

@@ -45,13 +45,13 @@ namespace WebMaze.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string value = "0", string columnName = "Assessment", SortType sortType = SortType.GreaterThan)
         {
             var imageViewModels = new List<ImageViewModel>();
 
             if (_userRepository.GetAll().Any())
             {
-                imageViewModels = _repository.GetAll().Select(image => _mapper.Map<ImageViewModel>(image)).ToList();
+                imageViewModels = _repository.GetSorted(value, columnName, sortType).Select(image => _mapper.Map<ImageViewModel>(image)).ToList();
             }
 
             return View(imageViewModels);

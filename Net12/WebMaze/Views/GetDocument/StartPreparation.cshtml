@@ -1,0 +1,16 @@
+﻿@using WebMaze.Models.GenerationDocument
+@model DocumentStatus
+
+<div document-fields>
+    <form action="/GetDocument/StartPreparation" method="post">        
+        <div>
+            <div>   
+                Pages: @Html.TextBoxFor(x => x.Pages)
+            </div>
+            <div>
+                Text: @Html.TextAreaFor(x => x.Document)
+            </div>            
+        </div>     
+        <input type="submit" value="StartPreparation" />
+    </form>
+</div>

@@ -674,6 +674,40 @@ namespace WebMaze.Migrations
                     b.ToTable("Perrmissions");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.RequestForMoney", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("RequestAmount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RequestCreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("RequestCreatorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("RequestRecipientId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("RequestStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestCreatorId");
+
+                    b.HasIndex("RequestRecipientId");
+
+                    b.ToTable("RequestForMoneys");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
                 {
                     b.Property<long>("Id")
@@ -1315,6 +1349,21 @@ namespace WebMaze.Migrations
                     b.Navigation("News");
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.RequestForMoney", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "RequestCreator")
+                        .WithMany("RequestCreators")
+                        .HasForeignKey("RequestCreatorId");
+
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "RequestRecipient")
+                        .WithMany("RequestRecipients")
+                        .HasForeignKey("RequestRecipientId");
+
+                    b.Navigation("RequestCreator");
+
+                    b.Navigation("RequestRecipient");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
@@ -1542,6 +1591,10 @@ namespace WebMaze.Migrations
                     b.Navigation("ThreeInRowGameFields");
 
                     b.Navigation("UsersInGroup");
+
+                    b.Navigation("RequestCreators");
+
+                    b.Navigation("RequestRecipients");
 
                     b.Navigation("ZumaGameDifficults");
 
