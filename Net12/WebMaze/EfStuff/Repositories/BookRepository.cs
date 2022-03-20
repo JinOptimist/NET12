@@ -26,58 +26,20 @@ namespace WebMaze.EfStuff.Repositories
             
             var members = new List<MemberExpression>();            
             var newWords = bookFilter.Split('.');
-            var counter = 0;
 
-            if (newWords[0] == "OldDate" || newWords[0] == "NewDate")
-            {
-                newWords[0] = "ReleaseDate";
-            }
+            members.Add(Expression.Property(table, newWords[0]));
+            var counter = 1;
 
-            do
-            {                
-                if (counter == 0)
-                {
-                    members.Add(Expression.Property(table, newWords[counter]));
-                }
-                else
-                {
-                    members.Add(Expression.Property(members[counter - 1], newWords[counter]));
-                }
+            while (counter < newWords.Length)
+            {                                
+                members.Add(Expression.Property(members[counter - 1], newWords[counter]));                
                 counter++;
-            } while (counter < newWords.Length) ;
+            } ;
 
-            var condition = Expression.Lambda<Func<Book, string>>(members[counter - 1], table);
+            var condition = Expression.Lambda<Func<Book, string>>(members.Last(), table);
 
             return (asc ? _dbSet.OrderBy(condition) : _dbSet.OrderByDescending(condition))
                     .ToList();
-
-            /*bookFilter = bookFilter ?? BookFilter.Author;
-            if (bookFilter == BookFilter.OldDate || bookFilter == BookFilter.NewDate)
-                bookFilter = BookFilter.ReleaseDate;
-            string stringBookFilter = bookFilter.ToString();
-
-            var typeCreator = (bookFilter == BookFilter.Creator) ? true : false;
-
-            var table = Expression.Parameter(typeof(Book), "book");// book =>
-
-            MemberExpression member;
-
-            if (typeCreator)
-            {
-                var field = "Name";
-                var middleMember = Expression.Property(table, stringBookFilter);
-                member = Expression.Property(middleMember, field); // book.Creator.Name
-            }
-            else
-            {
-                member = Expression.Property(table, stringBookFilter); // book.Author
-            };
-
-            var condition = Expression.Lambda<Func<Book, string>>(member, table);
-
-            return (asc ? _dbSet.OrderBy(condition) : _dbSet.OrderByDescending(condition))
-                    .ToList();*/
         }
-
     }
 }

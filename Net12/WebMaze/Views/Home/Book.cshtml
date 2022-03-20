@@ -2,7 +2,6 @@
 @using WebMaze.Models.Enums
 
 @section Scripts{
-    <script src="~/js/bookfilter.js"></script>
     <link rel="stylesheet" href="~/css/bookButtons.css" />
 }
 
@@ -12,19 +11,10 @@
     <div class="buttons-block">
         <b class="text1">Sort by:</b>
         <div class="buttons-bl">
-            <a href="@Url.Action("Book", "Home", new { bookFilter = "Name", asc = (Model.BookFilter == "Name" ? !Model.Asc : true) })" class="button" data-button-type="bookName">Book name</a>
-            <a href="@Url.Action("Book", "Home", new { bookFilter = "Author", asc = (Model.BookFilter == "Author" ? !Model.Asc : true) })" class="button" data-button-type="author">Author</a>
-
-            <div class="date-buttons">
-                <div class="text2">
-                    Release Date
-                </div>
-                <div class="buttons-block2">
-                    <a href="@Url.Action("Book", "Home", new { bookFilter = "OldDate", asc = (Model.BookFilter == "OldDate" ? !Model.Asc : true) })" class="button" data-button-type="oldDate">From oldest to newest</a>
-                    <a href="@Url.Action("Book", "Home", new { bookFilter = "NewDate", asc = (Model.BookFilter == "NewDate" ? !Model.Asc : false) })" class="button" data-button-type="newDate">From newest to oldest</a>
-                </div>
-            </div>
-            <a href="@Url.Action("Book", "Home", new { bookFilter = "Creator.Name", asc = (Model.BookFilter == "Creator.Name" ? !Model.Asc : true) })" class="button" data-button-type="creator">Creator of the record</a>
+            <a href="@Url.Action("Book", "Home", new { bookFilter = "Name", asc = (Model.BookFilter == "Name" ? !Model.Asc : true) })" class="button @Html.Raw(Model.BookFilter == "Name" ? "change-color" : string.Empty)">Book name</a>
+            <a href="@Url.Action("Book", "Home", new { bookFilter = "Author", asc = (Model.BookFilter == "Author" ? !Model.Asc : true) })" class="button @Html.Raw(Model.BookFilter == "Author" ? "change-color" : string.Empty)">Author</a>
+            <a href="@Url.Action("Book", "Home", new { bookFilter = "ReleaseDate", asc = (Model.BookFilter == "ReleaseDate" ? !Model.Asc : true) })" class="button @Html.Raw(Model.BookFilter == "ReleaseDate" ? "change-color" : string.Empty)">Release Date</a>                      
+            <a href="@Url.Action("Book", "Home", new { bookFilter = "Creator.Name", asc = (Model.BookFilter == "Creator.Name" ? !Model.Asc : true) })" class="button @Html.Raw(Model.BookFilter == "Creator.Name" ? "change-color" : string.Empty)">Creator of the record</a>
         </div>
     </div>
 
