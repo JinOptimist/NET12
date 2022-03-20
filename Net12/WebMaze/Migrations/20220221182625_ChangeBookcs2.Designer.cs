@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20220221182625_ChangeBookcs2")]
+    partial class ChangeBookcs2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,10 +43,7 @@ namespace WebMaze.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Author")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("CreatorId")
+                    b.Property<long?>("AuthorId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Desc")
@@ -70,7 +69,7 @@ namespace WebMaze.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatorId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Books");
                 });
@@ -674,40 +673,6 @@ namespace WebMaze.Migrations
                     b.ToTable("Perrmissions");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.RequestForMoney", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("RequestAmount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("RequestCreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("RequestCreatorId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("RequestRecipientId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("RequestStatus")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RequestCreatorId");
-
-                    b.HasIndex("RequestRecipientId");
-
-                    b.ToTable("RequestForMoneys");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
                 {
                     b.Property<long>("Id")
@@ -732,130 +697,6 @@ namespace WebMaze.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleCell", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long?>("FieldId")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("Hit")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsShip")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ShipLength")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShipNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("X")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Y")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FieldId");
-
-                    b.ToTable("SeaBattleCells");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleDifficult", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("FourSizeShip")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ThreeSizeShip")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TwoSizeShip")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Width")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SeaBattleDifficults");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleField", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long?>("GameId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsEnemyField")
-                        .HasColumnType("bit");
-
-                    b.Property<long>("LastHitToShip")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("ShipCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Width")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId");
-
-                    b.ToTable("SeaBattleFields");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleGame", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("SeaBattleGames");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.StuffForHero", b =>
@@ -1180,11 +1021,11 @@ namespace WebMaze.Migrations
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Book", b =>
                 {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
-                        .WithMany("Books")
-                        .HasForeignKey("CreatorId");
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
 
-                    b.Navigation("Creator");
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.BugReport", b =>
@@ -1349,21 +1190,6 @@ namespace WebMaze.Migrations
                     b.Navigation("News");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.RequestForMoney", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "RequestCreator")
-                        .WithMany("RequestCreators")
-                        .HasForeignKey("RequestCreatorId");
-
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "RequestRecipient")
-                        .WithMany("RequestRecipients")
-                        .HasForeignKey("RequestRecipientId");
-
-                    b.Navigation("RequestCreator");
-
-                    b.Navigation("RequestRecipient");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
@@ -1371,37 +1197,6 @@ namespace WebMaze.Migrations
                         .HasForeignKey("CreatorId");
 
                     b.Navigation("Creator");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleCell", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleField", "Field")
-                        .WithMany("Cells")
-                        .HasForeignKey("FieldId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Field");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleField", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleGame", "Game")
-                        .WithMany("Fields")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleGame", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "User")
-                        .WithOne("SeaBattleGame")
-                        .HasForeignKey("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleGame", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.StuffForHero", b =>
@@ -1533,16 +1328,6 @@ namespace WebMaze.Migrations
                     b.Navigation("NewsComments");
                 });
 
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleField", b =>
-                {
-                    b.Navigation("Cells");
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.SeaBattle.SeaBattleGame", b =>
-                {
-                    b.Navigation("Fields");
-                });
-
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.ThreeInRow.ThreeInRowGameField", b =>
                 {
                     b.Navigation("Cells");
@@ -1551,8 +1336,6 @@ namespace WebMaze.Migrations
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
                     b.Navigation("AddedSStuff");
-
-                    b.Navigation("Books");
 
                     b.Navigation("CellSuggestionsWhichIAprove");
 
@@ -1586,15 +1369,9 @@ namespace WebMaze.Migrations
 
                     b.Navigation("NewsComments");
 
-                    b.Navigation("SeaBattleGame");
-
                     b.Navigation("ThreeInRowGameFields");
 
                     b.Navigation("UsersInGroup");
-
-                    b.Navigation("RequestCreators");
-
-                    b.Navigation("RequestRecipients");
 
                     b.Navigation("ZumaGameDifficults");
 

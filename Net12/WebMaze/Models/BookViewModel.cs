@@ -9,9 +9,9 @@ namespace WebMaze.Models
     {
         public string Name { get; set; }
         public string Author { get; set; }
+        public string CreatorName { get; set; }
         public string Desc { get; set; }
         public string ReleaseDate { get; set; }
-
         public string Link { get; set; }
         public string ImageLink { get; set; }
 
