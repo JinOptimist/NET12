@@ -13,18 +13,25 @@ namespace WebMaze.Services
     {
         public async Task<List<CurrencyRateDto>> GetRates()
         {
-            var client = new HttpClient();
-            var dateStr = DateTime.Now.ToString("yyyy-M-d");//2016-7-6
-            var uri = new Uri($"https://www.nbrb.by/api/exrates/rates?ondate={dateStr}&periodicity=0");
-            
-            
-            var response = await client.GetAsync(uri);
+            try
+            {
+                var client = new HttpClient();
+                var dateStr = DateTime.Now.ToString("yyyy-M-d");//2016-7-6
+                var uri = new Uri($"https://www.nbrb.by/api/exrates/rates?ondate={dateStr}&periodicity=0");
 
-            var json = await response.Content.ReadAsStringAsync();
 
-            var rates = JsonConvert.DeserializeObject<List<CurrencyRateDto>>(json);
+                var response = await client.GetAsync(uri);
 
-            return rates;
+                var json = await response.Content.ReadAsStringAsync();
+
+                var rates = JsonConvert.DeserializeObject<List<CurrencyRateDto>>(json);
+
+                return rates;
+            }
+            catch
+            {
+                return new List<CurrencyRateDto>();
+            }
         }
     }
 }
