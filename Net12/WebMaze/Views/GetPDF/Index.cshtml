@@ -1,26 +1,31 @@
-﻿@using WebMaze.Models.GenerationDocument
+﻿@using WebMaze.Models.GenerationDocument;
 @model List<PDFGenerationTaskInfo>
 
 @section Scripts{
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
-    <script src="~/js/pdfUpdateStatusAll.js"></script>
+    <script src="~/js/pdfPreparationInTheIndex.js"></script>
 }
 
 <div class="content">
     <div class="content-title">
         Get PDF
     </div>
-    <div class="doc">
 
+    <div class="doc">
         @foreach (var pdf in Model)
         {
             <div class="doc-info-@pdf.Id">
-                Document : @pdf.Name
-                @if (pdf.Percent == 100)
-                {
-                    <span> is ready</span>
-                }
+                  <div>
+                    PDF : @pdf.Name
+                    @if (pdf.Percent == 100)
+                    {
+                        <span> is ready</span>
+                    }
+                  </div> 
             </div>
+                  <div>
+                      <a href="/GetPDF/GetStatusPDF?pdfId=@pdf.Id"> Back to PDF</a>
+                  </div>
         }
     </div>
 

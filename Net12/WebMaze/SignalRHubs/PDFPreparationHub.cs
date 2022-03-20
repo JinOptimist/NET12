@@ -9,17 +9,23 @@ namespace WebMaze.SignalRHubs
 {
     public class PDFPreparationHub : Hub
     {
-        public async Task Progres(string percent, int pdfId)
+        public async Task Progres(int pdfId, string pdfName, string percent)
         {
-            await Clients.All.SendAsync("Progres", percent, pdfId);
+            await Clients.All.SendAsync("Progres", pdfId, pdfName, percent);
         }
-        public async Task stopProgres(int pdfId)
+        public async Task StopProgres(int pdfId, string pdfName)
         {
-            await Clients.All.SendAsync("stopProgres", pdfId);
+            await Clients.All.SendAsync("StopProgres", pdfId, pdfName);
         }
-        public async Task downloadPDF(int pdfId, string percent)
+
+        public async Task ReadyDocument(int pdfId, string pdfName)
         {
-            await Clients.All.SendAsync("downloadPDF", pdfId, percent);
+            await Clients.All.SendAsync("ReadyPDF", pdfId, pdfName);
+        }
+
+        public async Task DownloadPDF(int pdfId, string pdfName, string percent)
+        {
+            await Clients.All.SendAsync("DownloadPDF", pdfId, pdfName, percent);
         }
     }
 }

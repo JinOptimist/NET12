@@ -19,6 +19,8 @@ namespace WebMaze.Models.GenerationDocument
         public string Url { get; set; }
 
         public CancellationTokenSource CancellationTokenSource { get; set; }
-   
+        public byte[] ReadyPDF { get; set; }
+
+        //public Task<byte[]> Task { get; set; }
     }
 }

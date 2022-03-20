@@ -1,5 +1,4 @@
-﻿@using WebMaze.Models.GenerationDocument
-@model int
+﻿@model int
 @section Scripts{
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/pdfPreparation.js"></script>
@@ -10,6 +9,7 @@
 <div class="status">
     <div class="status-title">
         Status info:
+        <div class="status-document-name"> </div>
         <div class="status-percent">
             <div class="status-percent-text"> </div>
             <div class="status-percent-line">
@@ -24,10 +24,10 @@
     <a href="#"> Cancel preparation</a>
 </div>
 
-<div class="back-button">
-    <a href="/GetDocument/Index">Back</a>
+<div class="download-button">
+    <a href="/GetPDF/DownloadPDF?pdfId=@Model">Download PDF</a>
 </div>
 
-<div class="download-button">
-    <a href="/GetPDF/DownlodPDF?pdfId=@Model">Download PDF</a>
+<div>
+    <a href="/GetPDF/Index">Back to get PDF</a>
 </div>

@@ -61,35 +61,36 @@ namespace WebMaze.Controllers
             {
                 pdf = new PDFGenerationTaskInfo
                 {
-                    
+
                     Id = PDFPreparationTasks.Any()
                         ? PDFPreparationTasks.Max(x => x.Id) + 1
                         : 1,
                     Percent = 0,
                     Url = pdfGenerationTaskInfo.Url,
-                    Name = pdfGenerationTaskInfo.Name,
+                    Name = pdfGenerationTaskInfo.Name,               
                     CancellationTokenSource = cancelTokenSource
                 };
 
                 PDFPreparationTasks.Add(pdf);
             }
 
+            //var task = new Task<byte[]>(() => PDFPreparation(pdf), token);
+            //pdf.Task = task;
             Task task = new Task(() => PDFPreparation(pdf), token);
-            task.Start();
+            task.Start();            
 
-            _pdfPreparationHub.Clients.All.SendAsync("NewPdf", pdf.Id);
-
-            return RedirectToAction($"{nameof(GetPDFController.GetStatusPDF)}",  pdf );
+            return RedirectToAction($"{nameof(GetPDFController.GetStatusPDF)}", new { pdfId = pdf.Id });
         }
 
-        public IActionResult GetStatusPDF(PDFGenerationTaskInfo pdf)
+        public IActionResult GetStatusPDF(int pdfId)
         {
-            if (!PDFPreparationTasks.Any(x => x.Id == pdf.Id))
+            if (!PDFPreparationTasks.Any(x => x.Id == pdfId))
             {
                 return RedirectToAction("Index");
-            }
-            return View(pdf);
-        }        
+            }   
+            
+            return View(pdfId);
+        }
 
         public void StopPreparationPDF(int pdfId)
         {
@@ -99,48 +100,60 @@ namespace WebMaze.Controllers
             {
                 PDFPreparationTasks.Remove(pdf);
             }
-            _pdfPreparationHub.Clients.All.SendAsync("stopNotification", pdf.Id);
+            _pdfPreparationHub.Clients.All.SendAsync("StopProgres", pdf.Id, pdf.Name);
         }
 
         private void PDFPreparation(PDFGenerationTaskInfo pdf)
         {
-            for (int i = 0; i < 100; i++)
+           const int InterestWhenDone = 100;            
+
+
+            for (int i = 0; i < InterestWhenDone; i++)
             {
-                _pdfPreparationHub.Clients.All.SendAsync("Progres", pdf.Id, pdf.Percent);
                 pdf.Percent++;
+
                 if (pdf.CancellationTokenSource.Token.IsCancellationRequested)
                 {
                     return;
                 }
-                Thread.Sleep(1000);
+
+                _pdfPreparationHub.Clients.All.SendAsync("Progres", pdf.Id, pdf.Name, pdf.Percent);
+
+                Thread.Sleep(100);
             }
-            _pdfPreparationHub.Clients.All.SendAsync("Progres", pdf.Id, pdf.Percent);
+            var stream = new MemoryStream();
+            var writer = new PdfWriter(stream);
+            var pdfReady = new PdfDocument(writer);
+            var document = new Document(pdfReady);
+
+            Paragraph header = new Paragraph($"{pdf.Name}")
+            .SetTextAlignment(TextAlignment.CENTER)
+            .SetFontSize(20);
+            document.Add(header);
+
+            Image img = new Image(ImageDataFactory
+            .Create($"{pdf.Url}"))
+            .SetTextAlignment(TextAlignment.CENTER);
+            document.Add(img);
+            document.Close();
+
+            byte[] byte1 = stream.ToArray();
+
+            pdf.ReadyPDF = byte1;
+
+                _pdfPreparationHub.Clients.All.SendAsync("ReadyPDF", pdf.Id, pdf.Name, pdf.Percent);
+           
         }
-        public IActionResult DownlodPDF(int pdfId)
+        public IActionResult DownloadPDF(int pdfId)
         {
             var pdf = PDFPreparationTasks.First(x => x.Id == pdfId);
 
+            var file = pdf.ReadyPDF;
+
             {
-                var stream = new MemoryStream();
-                var writer = new PdfWriter(stream);
-                var pdfReady = new PdfDocument(writer);
-                var document = new Document(pdfReady);
-
-                Paragraph header = new Paragraph($"{pdf.Name}")
-                .SetTextAlignment(TextAlignment.CENTER)
-                .SetFontSize(20);
-                document.Add(header);
-
-                Image img = new Image(ImageDataFactory
-                .Create($"{pdf.Url}"))
-                .SetTextAlignment(TextAlignment.CENTER);
-                document.Add(img);
-                document.Close();
-
-                byte[] byte1 = stream.ToArray();
-                return File(byte1, "application/pdf", $"{pdf.Name}.pdf");
+               
+                return File(file, "application/pdf", $"{pdf.Name}.pdf");
             }
         }
     }
 }
-
