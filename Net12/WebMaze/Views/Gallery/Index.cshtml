@@ -1,33 +1,37 @@
 ﻿@model List<ImageViewModel>
 
+@section Scripts{
+    <script src="~/js/galleryAjax.js"></script>
+}
+
 <div class="whole-page">
 
-        <div class="text-center">
-            <h1>Users gallery</h1>
+    <div class="text-center">
+        <h1>Users gallery</h1>
 
-            <div class="pic-to-gallery">
-                @foreach (var image in Model)
-                {
+        <div class="pic-to-gallery">
+            @foreach (var image in Model)
+            {
+                <div>
                     <div>
-                        <div>
-                            <img class="image" src="@image.Picture">
-                        </div>
-                        <div class="t-to-gallery">
-                            @image.Assessment
-                        </div>
-                        <div class="t-to-gallery">
-                            @image.Description
-                        </div>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <div>
-                                <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" class="good-button">Wonderful</a>                                
-                                <a href="@Url.Action("Awful","Gallery", new {@imageId = image.Id})" class="bad-button">Awful</a>
-                            </div>
-                        }
+                        <img class="image" src="@image.Picture">
                     </div>
+                    <div class="t-to-gallery">
+                        @image.Assessment
+                    </div>
+                    <div class="t-to-gallery">
+                        @image.Description
+                    </div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                <div>                    
+                    <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" class="good-button" data-id="@image.Id">Wonderful</a>
+                    <a href="@Url.Action("Awful","Gallery", new {@imageId = image.Id})" class="bad-button" data-id="@image.Id">Awful</a>
+                </div>
+                    }
+                </div>
 
-                }
-            </div>
+            }
         </div>
     </div>
+</div>
