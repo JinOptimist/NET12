@@ -499,7 +499,7 @@ namespace WebMaze.Services
 
                     SeaBattleTasks.Add(taskModel);
 
-                    Task task = new Task(() => EnemyTurnTask(taskModel, gameId), token);
+                    Task task = new Task(() => EnemyTurnTask(taskModel), token);
 
                     task.Start();
                 }
@@ -521,7 +521,7 @@ namespace WebMaze.Services
             FillNearKilledShips(myField);
         }
 
-        private void EnemyTurnTask(SeaBattleTaskModel taskModel, long gameId)
+        private void EnemyTurnTask(SeaBattleTaskModel taskModel)
         {
             //var client = new HttpClient();
             //var path = _httpContextAccessor.HttpContext.Request.Host.ToUriComponent();
@@ -536,8 +536,8 @@ namespace WebMaze.Services
                     taskModel.LastActiveUserDateTime = DateTime.Now;
                     taskModel.IsActiveUser = false;
                 }
-
-                _seaBattleHub.Clients.All.SendAsync(gameId.ToString(), taskModel.SecondsToEnemyTurn);
+                
+                _seaBattleHub.Clients.All.SendAsync(taskModel.Id.ToString(), taskModel.SecondsToEnemyTurn);
 
                 if (taskModel.SecondsToEnemyTurn == 0)
                 {
