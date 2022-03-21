@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     let gameId = $('.seabattle-game').attr('gameId');
-    let isLoseGame = true;
+    let isLoseGame = false;
 
     const hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/seaBattle")
