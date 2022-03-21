@@ -31,10 +31,20 @@
                 id: IdParam,
                 turn: MyTurn,
             }
-            $.post("/Maze/Maze", data).done(function () {
-                location.href = location.href;
-            });
-
+            //$.post("/Maze/Maze", data).done(function () {
+            //    location.href = location.href;
+            //});
+            $.ajax({
+                tyre: "POST",
+                url: "/Maze/Maze",
+                data: {
+                    id: IdParam,
+                    turn: MyTurn,
+                },
+                success: function (data) {
+                    $("*").html(data);
+                }
+            })
         }
 
 
