@@ -42,8 +42,8 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <div>
-                                <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" class="good-button">Wonderful</a>                                
-                                <a href="@Url.Action("Awful","Gallery", new {@imageId = image.Id})" class="bad-button">Awful</a>
+                                <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" data-id="@image.Id" class="good-button">Wonderful</a>                                
+                                <a href="@Url.Action("Awful","Gallery", new {@imageId = image.Id})" data-id="@image.Id" class="bad-button">Awful</a>
                             </div>
                         }
                     </div>
