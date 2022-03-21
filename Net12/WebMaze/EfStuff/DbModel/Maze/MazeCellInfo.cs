@@ -2,7 +2,7 @@
 {
     public enum MazeCellInfo
     {
-        Grow,
+        Ground,
         Trap,
         Tavern,
         WeakWall,
