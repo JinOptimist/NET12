@@ -17,8 +17,7 @@ using WebMaze.Models.Enums;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers
-{
-    [Authorize]
+{    
     public class GalleryController : Controller
     {
         private readonly ImageRepository _repository;
@@ -70,6 +69,7 @@ namespace WebMaze.Controllers
             return View(imageViewModels);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult AddImage()
         {

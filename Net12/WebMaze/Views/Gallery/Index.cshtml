@@ -4,10 +4,11 @@
 
 @section Scripts{
     <script src="~/js/galleryAjax.js"></script>
+    <link rel="stylesheet" href="~/css/gallery.css" />
 }
 
 
-<form action="/Gallery/Index" method="get">
+@*<form action="/Gallery/Index" method="get">
     <input type="hidden"  name="columnName" value="Assessment"/>
     <input type="hidden" name="sortType" value="@SortType.GreaterThan"/>
     <input type="number" name="value" placeholder="Min assessment">
@@ -19,12 +20,28 @@
     <input type="hidden" name="sortType" value="@SortType.Equal"/>
     <input type="text" name="value" placeholder="Author name">
     <input type="submit" value="Send" />
-</form>
+</form>*@
 
 <div class="whole-page">
 
         <div class="text-center">
             <h1>Users gallery</h1>
+
+            <div>
+                <form action="/Gallery/Index" method="get">
+                    <input type="hidden" name="columnName" value="Assessment" />
+                    <input type="hidden" name="sortType" value="@SortType.GreaterThan" />
+                    <input type="number" name="value" placeholder="Min assessment">
+                    <input type="submit" value="Sort" />
+                </form>
+
+                <form action="/Gallery/Index" method="get">
+                    <input type="hidden" name="columnName" value="Author.Name" />
+                    <input type="hidden" name="sortType" value="@SortType.Equal" />
+                    <input type="text" name="value" placeholder="Author name">
+                    <input type="submit" value="Send" />
+                </form>
+            </div>
 
             <div class="pic-to-gallery">
                 @foreach (var image in Model)
