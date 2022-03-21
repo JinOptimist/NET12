@@ -3,16 +3,16 @@
         .withUrl("/pdfPreparationInTheIndex")
         .build();
 
-    hubConnection.on("Progres", function (id, percent, pdfName) {
-        $(`.doc-info-${id}`).text(`PDF: ${pdfName} Ready ${percent} of 100%`);
+    hubConnection.on("Progres", function (pdfId, pdfName, percent) {
+        $(`.doc-info-${pdfId}`).text(`PDF:${pdfName} with ID:${pdfId} Ready ${percent} of 100%`);
     });
 
-    hubConnection.on("ReadyPDF", function (id, pdfName) {
-        $(`.doc-info-${id}`).text(`PDF: ${pdfName} is ready`);
+    hubConnection.on("ReadyPDF", function (pdfId, pdfName) {
+        $(`.doc-info-${pdfId}`).text(`PDF:${pdfName} with ID:${pdfId} is ready`);
     });
 
-    hubConnection.on("StopProgres", function (id, pdfName) {
-        $(`.doc-info-${id}`).text(`PDF: ${pdfName} is canceled`);
+    hubConnection.on("StopProgres", function (pdfId, pdfName) {
+        $(`.doc-info-${pdfId}`).text(`PDF:${pdfName} with ID:${pdfId} is canceled`);
     });    
 
     hubConnection.start();

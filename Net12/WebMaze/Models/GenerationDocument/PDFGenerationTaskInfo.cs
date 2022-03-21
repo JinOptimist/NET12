@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace WebMaze.Models.GenerationDocument
 {
@@ -17,10 +13,9 @@ namespace WebMaze.Models.GenerationDocument
         public string Name { get; set; }
         [Required]
         public string Url { get; set; }
-
+        public bool ReadyToDownload { get; set; }
         public CancellationTokenSource CancellationTokenSource { get; set; }
-        public byte[] ReadyPDF { get; set; }
+        public string ReadyPDF { get; set; }
 
-        //public Task<byte[]> Task { get; set; }
     }
 }
