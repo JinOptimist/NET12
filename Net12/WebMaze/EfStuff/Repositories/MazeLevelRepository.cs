@@ -23,7 +23,7 @@ namespace WebMaze.EfStuff.Repositories
             {
                 { typeof(Wall), MazeCellInfo.Wall},
                 { typeof(WeakWall), MazeCellInfo.WeakWall},
-                { typeof(Ground), MazeCellInfo.Grow},
+                { typeof(Ground), MazeCellInfo.Ground},
                 { typeof(GoldMine), MazeCellInfo.Goldmine},
                 { typeof(Coin), MazeCellInfo.Coin},
                 { typeof(Bed),MazeCellInfo.Bed},
