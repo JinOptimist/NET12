@@ -66,6 +66,19 @@ namespace WebMaze.Controllers
             return View(paggerViewModel);
         }
 
+        [HttpPost]
+        public IActionResult Index(string ColumnName, int typeSearch, string textSearch)
+        {
+            var MyList = _newsRepository.GetFiltList(typeSearch, ColumnName, textSearch);
+
+            var paggerViewModel = new PaggerViewModel<NewsViewModel>();
+            paggerViewModel.Records = _mapper.Map<List<NewsViewModel>>(MyList);
+            paggerViewModel.TotalRecordsCount = _newsRepository.Count();
+            paggerViewModel.PerPage = 13;
+            paggerViewModel.CurrPage = 1;
+
+            return View(paggerViewModel);
+        }
         [IsAdmin]
         [HttpGet]
         public IActionResult AddNews(long newsId)

@@ -36,11 +36,12 @@ namespace WebMaze.Controllers
             _seaBattleCellRepository = seaBattleCellRepository;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string typeSorted = "Height")
         {
+
             var indexViewModel = new SeaBattleIndexViewModel
             {
-                SeaBattleDifficultViewModels = _seaBattleDifficultRepository.GetAll()
+                SeaBattleDifficultViewModels = _seaBattleDifficultRepository.GetSortedSeaBattles(typeSorted)
                                                                             .Select(x => _mapper.Map<SeaBattleDifficultViewModel>(x))
                                                                             .ToList()
             };

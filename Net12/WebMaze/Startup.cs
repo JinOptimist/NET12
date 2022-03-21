@@ -163,6 +163,14 @@ namespace WebMaze
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
 
+            provider.CreateMap<Book, BookViewModel>()
+                .ForMember(dest => dest.CreatorName, opt => opt.MapFrom(src => src.Creator.Name));
+
+            provider.CreateMap<BookViewModel, Book>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true))
+                .ForMember(dest => dest.Creator, opt => opt.Ignore());
+
             provider.CreateMap<UserViewModel, User>();
 
             provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
@@ -255,6 +263,27 @@ namespace WebMaze
                          enemy.MazeLevel = b;
                      }
                  });
+
+            provider.CreateMap<MazeLevelWeb, MazeLevelViewModel>();
+            provider.CreateMap<MazeCellWeb, MazeCellViewModel>()
+                .ForMember(nameof(MazeCellViewModel.CellType), opt => opt.MapFrom(dbModel => dbModel.TypeCell.ToString()))
+                .AfterMap((dbModel, viewModel) =>
+                {
+                    var enemy = dbModel
+                        .MazeLevel
+                        .Enemies
+                        .FirstOrDefault(x => x.X == dbModel.X && x.Y == dbModel.Y);
+
+                    if (dbModel.MazeLevel.HeroX == dbModel.X
+                        && dbModel.MazeLevel.HeroY == dbModel.Y)
+                    {
+                        viewModel.CellType = typeof(Hero).Name;
+                    }
+                    else if (enemy != null)
+                    {
+                        viewModel.CellType = enemy.TypeEnemy.ToString();
+                    }
+                });
 
             provider.CreateMap<MazeCellWeb, BaseCell>()
                 .ConstructUsing(x => inBaseCell(x));
@@ -360,7 +389,7 @@ namespace WebMaze
             {
                 { typeof(Wall), MazeCellInfo.Wall},
                 { typeof(WeakWall), MazeCellInfo.WeakWall},
-                { typeof(Ground), MazeCellInfo.Grow},
+                { typeof(Ground), MazeCellInfo.Ground},
                 { typeof(GoldMine), MazeCellInfo.Goldmine},
                 { typeof(Coin), MazeCellInfo.Coin},
                 { typeof(Bed),MazeCellInfo.Bed},
@@ -413,7 +442,7 @@ namespace WebMaze
         {
             switch (model.TypeCell)
             {
-                case MazeCellInfo.Grow:
+                case MazeCellInfo.Ground:
                     return new Ground(model.X, model.Y, null) { Id = model.Id };
                 case MazeCellInfo.Wall:
                     return new Wall(model.X, model.Y, null) { Id = model.Id };
@@ -546,7 +575,12 @@ namespace WebMaze
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<DocumentPreparationHub>("/documentPreparation");
+                endpoints.MapHub<DocumentPreparationHub>("/documentUpdateStatusById");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<DocumentPreparationHub>("/documentUpdateStatusAll");
             });
 
             app.UseEndpoints(endpoints =>
