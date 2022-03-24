@@ -26,5 +26,19 @@ namespace WebMaze.Services
 
             return rates;
         }
+
+        public async Task<CurrencyRate> GetRateById(int cur_Id)
+        {
+            var client = new HttpClient();
+            var uri = new Uri($"https://www.nbrb.by/api/exrates/rates/{cur_Id}");
+
+            var response = await client.GetAsync(uri);
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            var rate = JsonConvert.DeserializeObject<CurrencyRate>(json);
+
+            return rate;
+        }
     }
 }
