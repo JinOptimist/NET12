@@ -94,12 +94,6 @@ namespace WebMaze.Controllers
 
             var myField = game.Fields.Single(x => !x.IsEnemyField);
 
-            //if (!myField.Cells.Any(x => x.IsShip && !x.Hit))
-            //{
-            //    return RedirectToAction("LoseGame", new { gameId = id });
-            //}
-
-
             var gameViewModel = _mapper.Map<SeaBattleGameViewModel>(game);
 
             //заменяем целые ячейки кораблей на вражеском поле пустыми ячейками
@@ -160,7 +154,7 @@ namespace WebMaze.Controllers
 
             if (!myField.Cells.Any(x => x.IsShip && !x.Hit))
             {
-                _seaBattleHub.Clients.All.SendAsync(gameId.ToString() + "LoseGame");
+                return Json(false);
             }
 
             return Json(true);
@@ -200,7 +194,6 @@ namespace WebMaze.Controllers
             taskModel.IsActiveUser = true;
             return Json(true);
         }
-
 
     }
 }
