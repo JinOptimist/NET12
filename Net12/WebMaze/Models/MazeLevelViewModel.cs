@@ -11,6 +11,7 @@ namespace WebMaze.Models
 
         public int HeroNowHp { get; set; }
         public int HeroNowFatigure { get; set; }
+        public int HeroMaxFatigure { get; set; }
 
         public List<MazeCellViewModel> Cells { get; set; }
     }

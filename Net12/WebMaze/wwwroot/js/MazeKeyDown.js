@@ -43,6 +43,8 @@
                     $(`[data-x=${cell.x}][data-y=${cell.y}] img`)
                         .attr('src', `/images/cells/${cell.cellType}.jpg`);
                 }
+                $('.myHealth').text(`My Health: ${mazeData.heroNowHp}`);
+                $('.myFatigue').text(`My Fatigue: ${mazeData.heroNowFatigure}/${mazeData.heroMaxFatigure}`);
             });
     }
 });

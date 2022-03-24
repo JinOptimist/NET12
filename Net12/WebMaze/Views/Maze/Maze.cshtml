@@ -14,8 +14,8 @@
 </div>
 
 <div>
-    <span>My HP: @Model.Hero.Hp</span>
-    <a>My Fatigue: @Model.Hero.CurrentFatigue</a>
+    <span class="myHealth">My Health: @Model.Hero.Hp</span>
+    <span class="myFatigue">My Fatigue: @Model.Hero.CurrentFatigue</span>
     <a>My Money: @Model.Hero.Money</a>
 </div>
 <div class="text-center">
@@ -32,9 +32,7 @@
                     }
                     else if (Model.Enemies.Any(e => e.X == x && e.Y == y))
                     {
-                        <img class="cellMaze" 
-                             src="~/images/cells/@(Model
-                            .Enemies.First(e => e.X == x && e.Y == y).GetType().Name).jpg" />
+                        <img class="cellMaze" src="~/images/cells/@(Model.Enemies.First(e => e.X == x && e.Y == y).GetType().Name).jpg" />
                     }
                     else if (Model[x, y] is BaseCell)
                     {
