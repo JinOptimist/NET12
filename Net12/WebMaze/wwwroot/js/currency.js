@@ -1,10 +1,10 @@
 ﻿$(document).ready(function (evt) {
     console.log("1");
 
-    $('input').click(function (evt) {
+    $('.get').click(function (evt) {
         evt.preventDefault();
 
-        window.location.replace(`/Currency/GetRateById?currencyId=${$('select').val()}`);
+        window.location.replace(`/Currency/GetRateById?currencyId=${$('select[name="currency"]').val()}`);
     });
 });
 
