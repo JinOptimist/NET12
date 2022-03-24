@@ -123,7 +123,7 @@ namespace WebMaze.Controllers
                 Thread.Sleep(100);
             }
 
-            var filePath = Path.Combine(_hostEnvironment.WebRootPath, "createdDocuments", $"{pdf.Name}.pdf");
+            var filePath = Path.Combine(_hostEnvironment.WebRootPath, "createdDocuments", $"{pdf.Name}-{pdf.Id}.pdf");
             
             PdfWriter writer = new PdfWriter(filePath);
             PdfDocument pdfReady = new PdfDocument(writer);
