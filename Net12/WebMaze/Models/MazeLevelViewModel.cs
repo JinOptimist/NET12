@@ -10,6 +10,7 @@ namespace WebMaze.Models
         public int Id { get; set; }
 
         public int HeroNowHp { get; set; }
+        public int HeroMaxHp { get; set; }
         public int HeroNowFatigure { get; set; }
         public int HeroMaxFatigure { get; set; }
 

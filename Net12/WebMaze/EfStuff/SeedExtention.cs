@@ -103,7 +103,7 @@ namespace WebMaze.EfStuff
                 defaultDifficult = new MazeDifficultProfile()
                 {
                     Name = DefaultMazeDifficultName,
-                    Width = 10,
+                    Width = 15,
                     Height = 10,
                     HeroMoney = 100,
                     HeroMaxHp = 100,
