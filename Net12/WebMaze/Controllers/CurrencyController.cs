@@ -18,9 +18,9 @@ namespace WebMaze.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var rates = await _currenceService.GetRates();
+            var currencies = await _currenceService.GetAllCurrencies();
 
-            return View(rates);
+            return View(currencies);
         }
 
         public async Task<IActionResult> GetRateById(int currencyId)
