@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff.DbModel;
@@ -34,12 +35,38 @@ namespace WebMaze.Controllers
             _payForActionService = payForActionService;
         }
 
-        public IActionResult Stuff()
+        public IActionResult Stuff(int page = 1, int perPage = 10)
         {
-            var staffsForHero = new List<StuffForHeroViewModel>();
-            staffsForHero = _staffForHeroRepository
-                    .GetAll().Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel)).ToList();
-            return View(staffsForHero);
+
+            var stuffsForHeroViewModel = _staffForHeroRepository
+                    .GetQueryableForPagination(perPage, page)
+                    .Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel))
+                    .ToList();
+
+            var filteredColumnNames = Assembly
+                .GetExecutingAssembly()
+                .GetTypes()
+                .Where(x => x.Name == "StuffForHeroViewModel")
+                .FirstOrDefault()
+                .GetProperties()
+                .Select(x => x.Name)
+                .ToList();
+
+            filteredColumnNames.Remove("Id");
+            filteredColumnNames.Remove("PictureLink");
+
+            var stuffsForHeroIndexViewModel = new StuffForHeroIndexViewModel
+            {
+                StuffForHeroViewModels = new PaggerViewModel<StuffForHeroViewModel>
+                {
+                    PerPage = perPage,
+                    CurrPage = page,
+                    Records = stuffsForHeroViewModel
+                },
+                FilteredColumnNames = filteredColumnNames
+            };
+
+            return View(stuffsForHeroIndexViewModel);
         }
 
         [Authorize]

@@ -1,10 +1,10 @@
-﻿@model List<StuffForHeroViewModel>
+﻿@model StuffForHeroIndexViewModel
 
-@section Scripts{ 
+@section Scripts{
     <link rel="stylesheet" href="~/css/AddStuffForHero.css" />
 }
 
-<div class="background stuff">
+<div>
     <div class="intro">
         Design exclusive features for your HERO
     </div>
@@ -14,10 +14,11 @@
         </a>
     </div>
 
-    @foreach (var stuff in Model)
-    {
-        <div class="stuff-list">
-            <div class="stuff stuff--1">
+    <div class="stuff-list">
+        @foreach (var stuff in Model.StuffForHeroViewModels.Records)
+        {
+
+            <div class="stuff">
                 <div class="picture">
                     <img class="gun" src='@stuff.PictureLink' />
                 </div>
@@ -39,11 +40,11 @@
                     </div>
                     @if (User.Identity.IsAuthenticated)
                     {
-                <div>
-                    <a href="@Url.Action("Wonderful","Stuff", new {@stuffId = stuff.Id})" class="good-button">Wonderful</a>
-                    <a href="@Url.Action("Awful","Stuff", new {@stuffId = stuff.Id})" class="bad-button">Awful</a>
+                        <div>
+                            <a href="@Url.Action("Wonderful","Stuff", new {@stuffId = stuff.Id})" class="good-button">Wonderful</a>
+                            <a href="@Url.Action("Awful","Stuff", new {@stuffId = stuff.Id})" class="bad-button">Awful</a>
 
-                </div>
+                        </div>
                     }
                     <div>
                         <a href="/Stuff/RemoveStuff?stuffId=@stuff.Id">X</a>
@@ -52,6 +53,7 @@
 
                 </div>
             </div>
-        </div>
-    }
+        }
+
+    </div>
 </div>

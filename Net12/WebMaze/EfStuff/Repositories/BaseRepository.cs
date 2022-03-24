@@ -79,6 +79,11 @@ namespace WebMaze.EfStuff.Repositories
             .Take(perPage)
             .ToList();
 
+        public IQueryable<Template> GetQueryableForPagination(int perPage, int page)
+            => _dbSet
+            .Skip((page - 1) * perPage)
+            .Take(perPage);
+
         public virtual List<Template> GetSortedNews(string columnName)
         {
             var table = Expression.Parameter(typeof(Template), "obj");
