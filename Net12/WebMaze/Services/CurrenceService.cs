@@ -13,22 +13,17 @@ namespace WebMaze.Services
     {
         public async Task<List<CurrencyRateDto>> GetRates()
         {
-            var client = new HttpClient();
             var dateStr = DateTime.Now.ToString("yyyy-M-d");//2016-7-6
-            var uri = new Uri($"https://www.nbrb.by/api/exrates/rates?ondate={dateStr}&periodicity=0");            
-            
-            var response = await client.GetAsync(uri);
+            var uri = $"https://www.nbrb.by/api/exrates/rates?ondate={dateStr}&periodicity=0";
 
-            var json = await response.Content.ReadAsStringAsync();
-
-            var rates = JsonConvert.DeserializeObject<List<CurrencyRateDto>>(json);
+            var rates = await CallAPI<List<CurrencyRateDto>>(uri);
 
             return rates;
         }
 
         public async Task<List<CurrencyRate>> GetAllCurrencies()
         {
-            var uri = new Uri("https://www.nbrb.by/api/exrates/rates?periodicity=0");
+            var uri = "https://www.nbrb.by/api/exrates/rates?periodicity=0";
 
             var currencies = await CallAPI<List<CurrencyRate>>(uri);
 
@@ -37,14 +32,14 @@ namespace WebMaze.Services
 
         public async Task<CurrencyRate> GetRateById(int cur_Id)
         {
-            var uri = new Uri($"https://www.nbrb.by/api/exrates/rates/{cur_Id}");
+            var uri = $"https://www.nbrb.by/api/exrates/rates/{cur_Id}";
 
             var rate = await CallAPI<CurrencyRate>(uri);
 
             return rate;
         }
 
-        private async Task<Template> CallAPI<Template>(Uri uri)
+        private async Task<Template> CallAPI<Template>(string uri)
         {
             var client = new HttpClient();
 
