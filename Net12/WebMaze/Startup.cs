@@ -585,6 +585,11 @@ namespace WebMaze
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<SeaBattleHub>("/seaBattle");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

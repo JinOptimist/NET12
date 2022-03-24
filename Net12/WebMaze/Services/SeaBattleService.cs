@@ -1,10 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using WebMaze.EfStuff.DbModel.SeaBattle;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.EfStuff.Repositories.SeaBattle;
+using WebMaze.Models;
+using WebMaze.SignalRHubs;
 
 namespace WebMaze.Services
 {
@@ -13,16 +19,26 @@ namespace WebMaze.Services
         private UserService _userService;
         private SeaBattleCellRepository _seaBattleCellRepository;
         private SeaBattleFieldRepository _seaBattleFieldRepository;
+        private IHttpContextAccessor _httpContextAccessor;
         private Random _random = new Random();
         private int shipNumber;
+        private IHubContext<SeaBattleHub> _seaBattleHub;
+
+        public static List<SeaBattleTaskModel> SeaBattleTasks = new List<SeaBattleTaskModel>();
+        private const int MAX_SECONDS_USER_INACTIVE = 100;
+        public const int SECONDS_TO_ENEMY_TURN = 10;
 
         public SeaBattleService(UserService userService,
-                                SeaBattleCellRepository seaBattleCellRepository, 
-                                SeaBattleFieldRepository seaBattleFieldRepository)
+                                SeaBattleCellRepository seaBattleCellRepository,
+                                SeaBattleFieldRepository seaBattleFieldRepository,
+                                IHubContext<SeaBattleHub> seaBattleHub,
+                                IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
             _seaBattleCellRepository = seaBattleCellRepository;
             _seaBattleFieldRepository = seaBattleFieldRepository;
+            _seaBattleHub = seaBattleHub;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public SeaBattleGame CreateGame(SeaBattleDifficult difficult)
@@ -254,7 +270,7 @@ namespace WebMaze.Services
                     {
                         var baseNear = field.Cells
                             .Where(cell =>
-                                    (Math.Abs(cell.X - cellShip.X) <= 1 
+                                    (Math.Abs(cell.X - cellShip.X) <= 1
                                     && Math.Abs(cell.Y - cellShip.Y) <= 1
                                     && !cell.IsShip))
                             .ToList();
@@ -302,7 +318,7 @@ namespace WebMaze.Services
             var lastHitCell = _seaBattleCellRepository.Get(myField.LastHitToShip);
 
             var getNearCells = myField.Cells
-                .Where(cell => 
+                .Where(cell =>
                 (cell.X == lastHitCell.X && Math.Abs(cell.Y - lastHitCell.Y) == 1
                 || Math.Abs(cell.X - lastHitCell.X) == 1 && cell.Y == lastHitCell.Y))
                 .ToList();
@@ -461,6 +477,83 @@ namespace WebMaze.Services
                 _seaBattleCellRepository.Save(cellToHit);
             }
 
+        }
+
+        public void StartTask(long gameId)
+        {
+
+            CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+            CancellationToken token = cancelTokenSource.Token;
+            SeaBattleTaskModel taskModel;
+
+            lock (SeaBattleTasks)
+            {
+                if (!SeaBattleTasks.Any(x => x.Id == gameId))
+                {
+                    taskModel = new SeaBattleTaskModel
+                    {
+                        Id = gameId,
+                        CancellationTokenSource = cancelTokenSource,
+                        LastActiveUserDateTime = DateTime.Now
+                    };
+
+                    SeaBattleTasks.Add(taskModel);
+
+                    Task task = new Task(() => EnemyTurnTask(taskModel), token);
+
+                    task.Start();
+                }
+            }
+        }
+
+        public void EnemyTurn(SeaBattleField myField)
+        {
+
+            if (myField.LastHitToShip > 0)
+            {
+                TryToDestroyShip(myField);
+            }
+            else
+            {
+                RandomHit(myField);
+            }
+
+            FillNearKilledShips(myField);
+        }
+
+        private void EnemyTurnTask(SeaBattleTaskModel taskModel)
+        {
+            //var client = new HttpClient();
+            //var path = _httpContextAccessor.HttpContext.Request.Host.ToUriComponent();
+
+            while ((DateTime.Now - taskModel.LastActiveUserDateTime).TotalSeconds <= MAX_SECONDS_USER_INACTIVE)
+            {
+
+                taskModel.CancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                if (taskModel.IsActiveUser)
+                {
+                    taskModel.LastActiveUserDateTime = DateTime.Now;
+                    taskModel.IsActiveUser = false;
+                }
+                
+                _seaBattleHub.Clients.All.SendAsync(taskModel.Id.ToString(), taskModel.SecondsToEnemyTurn);
+
+                if (taskModel.SecondsToEnemyTurn == 0)
+                {
+                    //client.GetAsync("http://" + path + "/SeaBattle/EnemyTurn?gameId=" + gameId);
+                    taskModel.SecondsToEnemyTurn = SECONDS_TO_ENEMY_TURN;
+                }
+
+                taskModel.SecondsToEnemyTurn--;
+
+                Thread.Sleep(1000);
+            }
+
+            lock (SeaBattleTasks)
+            {
+                SeaBattleTasks.Remove(taskModel);
+            }
         }
     }
 }
