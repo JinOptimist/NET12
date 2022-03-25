@@ -365,8 +365,8 @@ namespace WebMaze
                 HeroNowHp = maze.Hero.Hp,
                 HeroX = maze.Hero.X,
                 HeroY = maze.Hero.Y,
-
-
+                Message = maze.Message,
+                HeroMoney = maze.Hero.Money,
             };
             return model;
         }
@@ -376,6 +376,7 @@ namespace WebMaze
             {
                 Height = model.Height,
                 Width = model.Width,
+                Message = model.Message,
 
 
             };
