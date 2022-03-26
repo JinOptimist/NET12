@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 
 namespace Net12.Maze
-{   
-  
+{
+
     public class MazeLevel : IMazeLevel
 
     {
@@ -125,6 +125,10 @@ namespace Net12.Maze
             //{
             //    enemy.Step();
             //}
+        }
+        public void EnemiesStep()
+        {
+            Enemies.ForEach(x => x.GoStep());
         }
     }
 }

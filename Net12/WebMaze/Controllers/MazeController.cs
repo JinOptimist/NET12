@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
@@ -34,9 +35,11 @@ namespace WebMaze.Controllers
         private MazeEnemyRepository _mazeEnemyRepository;
         private readonly PayForActionService _payForActionService;
         private IHubContext<ChatHub> _chatHub;
-
         private IHostEnvironment _environment;
+        private List<UserMazeActivity> _userMazeActivities = new List<UserMazeActivity>();
 
+        private const int DELAY_MOVING_ENEMIES = 1; // sec
+        private const int MAX_TIME_ACTIVITY = 5; // sec
 
         public MazeController(MazeDifficultRepository mazzeDifficultRepository,
             MazeLevelRepository mazeLevelRepository, IMapper mapper,
@@ -91,6 +94,7 @@ namespace WebMaze.Controllers
 
             _chatHub.Clients.All.SendAsync("StartMaze", _userService.GetCurrentUser().Name);
 
+
             return View(maz);
         }
 
@@ -98,6 +102,7 @@ namespace WebMaze.Controllers
         [Authorize]
         public IActionResult Maze(long Id, int turn)
         {
+            _userMazeActivities.Where(u => u.MazeId == Id).ToList().ForEach(u => u.CancellationTokenSource.Cancel());
             var myModel = _mazeLevelRepository.Get(Id);
             var maze = _mapper.Map<MazeLevel>(myModel);
             maze.GetCoins = GetCoinsFromMaze;
@@ -119,9 +124,40 @@ namespace WebMaze.Controllers
             }
 
             _mazeLevelRepository.ChangeModel(myModel, maze, _mapper);
-
             _mazeLevelRepository.Save(myModel);
+
+
             return View(maze);
+        }
+
+        [Authorize]
+        public void GoEnemies(long mazeId)
+        {
+            var dataMaze = (MazeLevelRepository)HttpContext.RequestServices.GetService(typeof(MazeLevelRepository));
+
+            var myModel = dataMaze.Get(mazeId);
+            var mazeActivity = _userMazeActivities.First(u => u.MazeId == mazeId);
+            
+            var mazeLevelDbModel = dataMaze.Get(mazeId);
+            var maze = _mapper.Map<MazeLevel>(mazeLevelDbModel);
+            maze.GetCoins = GetCoinsFromMaze;
+
+            while ((DateTime.Now - mazeActivity.LastActivity).TotalSeconds < MAX_TIME_ACTIVITY)
+            {
+                Thread.Sleep(DELAY_MOVING_ENEMIES * 1000);
+
+
+
+                maze.EnemiesStep();
+
+                dataMaze.ChangeModel(myModel, maze, _mapper);
+
+                dataMaze.Save(myModel);
+            
+
+
+
+            }
         }
         [Authorize]
         [HttpGet]
@@ -156,8 +192,8 @@ namespace WebMaze.Controllers
                 model.Name = viewMaze.Name;
                 model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
                 _mazeLevelRepository.Save(model);
-
                 _chatHub.Clients.All.SendAsync("BuyMaze", _userService.GetCurrentUser().Name, complixity.Name, complixity.CoinCount);
+
                 return RedirectToAction("Index");
             }
         }
@@ -231,6 +267,9 @@ namespace WebMaze.Controllers
         [Authorize]
         public IActionResult GetMazeData(long mazeId, int stepDirection)
         {
+
+
+            //_userMazeActivities.Where(u => u.MazeId == mazeId).ToList().ForEach(u => u.CancellationTokenSource.Cancel());
             var mazeLevelDbModel = _mazeLevelRepository.Get(mazeId);
             var maze = _mapper.Map<MazeLevel>(mazeLevelDbModel);
             maze.GetCoins = GetCoinsFromMaze;
@@ -257,7 +296,23 @@ namespace WebMaze.Controllers
 
             var viewModel = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);
 
-            return Json(viewModel);
+            CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+            CancellationToken token = cancelTokenSource.Token;
+            var mazeActivity = new UserMazeActivity() { MazeId = maze.Id, CancellationTokenSource = cancelTokenSource, LastActivity = DateTime.Now };
+            _userMazeActivities.Add(mazeActivity);
+
+            Task t_Enemies = new Task(() => GoEnemies(mazeId), token);
+            t_Enemies.Start();
+            try
+            {
+                return Json(viewModel);
+            }
+            finally
+            {
+                Thread.Sleep(10 * 1000);
+            }
+            
+
         }
         public IActionResult Wonderful(long difficultId)
         {
