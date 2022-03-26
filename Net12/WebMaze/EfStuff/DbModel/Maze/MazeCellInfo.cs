@@ -18,6 +18,7 @@
         Wall,
         Bed,
         Bless,
-        WolfPit
+        WolfPit,
+        Exit
     }
 }

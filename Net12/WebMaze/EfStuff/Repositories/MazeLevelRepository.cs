@@ -38,7 +38,7 @@ namespace WebMaze.EfStuff.Repositories
                 { typeof(WolfPit), MazeCellInfo.WolfPit},
                 { typeof(Tavern), MazeCellInfo.Tavern},
                 { typeof(Healer), MazeCellInfo.Healer},
-
+                { typeof(Exit), MazeCellInfo.Exit}
             };
 
             model.Height = maze.Height;

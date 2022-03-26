@@ -405,6 +405,7 @@ namespace WebMaze
                 { typeof(WolfPit), MazeCellInfo.WolfPit},
                 { typeof(Tavern), MazeCellInfo.Tavern},
                 { typeof(Healer), MazeCellInfo.Healer},
+                { typeof(Exit), MazeCellInfo.Exit}
 
             };
             var model = new MazeCellWeb();
@@ -477,6 +478,8 @@ namespace WebMaze
                     return new Bless(model.X, model.Y, null) { Id = model.Id };
                 case MazeCellInfo.WolfPit:
                     return new WolfPit(model.X, model.Y, null) { Id = model.Id };
+                case MazeCellInfo.Exit:
+                    return new Exit(model.X, model.Y, null) { Id = model.Id };
                 default:
                     return new Ground(model.X, model.Y, null) { Id = model.Id };
             }

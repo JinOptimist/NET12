@@ -29,6 +29,7 @@ namespace Net12.Maze
 
             if (!onlyWall)
             {
+                BuildExit();
                 BuildWolfPit();
                 BuildGoldMine();
                 BuildBed();
@@ -307,6 +308,13 @@ namespace Net12.Maze
             var grounds = maze.Cells.OfType<Ground>().Cast<BaseCell>().ToList();
             var randomGround = GetRandom(grounds);
             maze.Enemies.Add(new BullEnemy(randomGround.X, randomGround.Y, maze));
+        }
+
+        private void BuildExit()
+        {
+            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            var lastGround = grounds.Last();
+            maze[lastGround.X, lastGround.Y] = new Exit(lastGround.X, lastGround.Y, maze);
         }
     }
 }
