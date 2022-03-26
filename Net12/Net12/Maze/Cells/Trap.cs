@@ -12,7 +12,7 @@ namespace Net12.Maze
         {
             if (Maze.Hero.Hp > 0)
             {
-                Maze.Hero.Hp--;
+                Maze.Hero.Hp -= 5;
             }
 
             Maze.ReplaceCell(new Ground(X, Y, Maze));

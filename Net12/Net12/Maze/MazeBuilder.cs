@@ -52,7 +52,7 @@ namespace Net12.Maze
                 BuildWalker();
                 BuildGoblin();
             }
-           
+
             return maze;
         }
 
@@ -76,15 +76,15 @@ namespace Net12.Maze
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new Fountain(randomGround.X, randomGround.Y, maze);
 
-           
+
         }
         private void BuildGoblin()
         {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
             var randomGround = GetRandom(grounds);
-           var g = new Goblin(randomGround.X, randomGround.Y, maze);
+            var g = new Goblin(randomGround.X, randomGround.Y, maze);
             maze.Enemies.Add(g);
-            
+
         }
 
         private void BuildBed()
@@ -93,7 +93,7 @@ namespace Net12.Maze
             var randomGround = GetRandom(grounds);
             maze[randomGround.X, randomGround.Y] = new Bed(randomGround.X, randomGround.Y, maze);
         }
-     
+
         private void BuildCoin()
         {
             var grounds = maze.Cells.Where(x => x is Ground).ToList();
@@ -250,15 +250,16 @@ namespace Net12.Maze
 
         private void BuildWolfPit()
         {
-            {
-                var groundCenter = maze.Cells.FirstOrDefault(cell => GetNear<Ground>(cell).Count() == 4);
 
-                if (groundCenter == null)
-                {
-                    return;
-                }
-                maze[groundCenter.X, groundCenter.Y] = new WolfPit(groundCenter.X, groundCenter.Y, maze);
+
+            var groundCenter = maze.Cells.FirstOrDefault(cell => GetNear<Ground>(cell).Count() == 4);
+
+            if (groundCenter == null)
+            {
+                return;
             }
+            maze[groundCenter.X, groundCenter.Y] = new WolfPit(groundCenter.X, groundCenter.Y, maze);
+
         }
 
         private void BuildWeakWalls()
