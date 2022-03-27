@@ -42,7 +42,7 @@ namespace WebMaze.Controllers
             MazeLevelRepository mazeLevelRepository, IMapper mapper,
             UserService userService, CellRepository cellRepository,
             UserRepository userRepository,
-            MazeEnemyRepository mazeEnemyRepository, 
+            MazeEnemyRepository mazeEnemyRepository,
             PayForActionService payForActionService,
             IHubContext<ChatHub> chatHub,
             IHostEnvironment environment)
@@ -197,7 +197,7 @@ namespace WebMaze.Controllers
             if (!ModelState.IsValid)
             {
                 return View(mazeDifficultProfileViewModel);
-            }            
+            }
 
             var dbMazeDifficult = _mapper.Map<MazeDifficultProfile>(mazeDifficultProfileViewModel);
             dbMazeDifficult.IsActive = true;
@@ -226,6 +226,39 @@ namespace WebMaze.Controllers
             return RedirectToAction("ManageMazeDifficult", "Maze");
         }
 
+
+
+        [Authorize]
+        public IActionResult GetMazeData(long mazeId, int stepDirection)
+        {
+            var mazeLevelDbModel = _mazeLevelRepository.Get(mazeId);
+            var maze = _mapper.Map<MazeLevel>(mazeLevelDbModel);
+            maze.GetCoins = GetCoinsFromMaze;
+
+            switch (stepDirection)
+            {
+                case 1:
+                    maze.HeroStep(Direction.Up);
+                    break;
+                case 2:
+                    maze.HeroStep(Direction.Down);
+                    break;
+                case 3:
+                    maze.HeroStep(Direction.Left);
+                    break;
+                case 4:
+                    maze.HeroStep(Direction.Right);
+                    break;
+            }
+
+            _mazeLevelRepository.ChangeModel(mazeLevelDbModel, maze, _mapper);
+
+            _mazeLevelRepository.Save(mazeLevelDbModel);
+
+            var viewModel = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);
+
+            return Json(viewModel);
+        }
         public IActionResult Wonderful(long difficultId)
         {
             var diffcult = _mazeDifficultRepository.Get(difficultId);

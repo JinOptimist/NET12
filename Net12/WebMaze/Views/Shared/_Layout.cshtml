@@ -135,7 +135,10 @@
                             Books
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/Home/AddBook">Add Book</a>
+                            @if (User.Identity.IsAuthenticated) 
+                            {
+                                <a class="dropdown-item" href="/Home/AddBook">Add Book</a> 
+                            }                                
                             <a class="dropdown-item" href="/Home/Book">Books</a>
                         </div>
                     </li>

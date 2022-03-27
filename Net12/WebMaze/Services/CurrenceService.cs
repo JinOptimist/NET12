@@ -13,12 +13,20 @@ namespace WebMaze.Services
     {
         public async Task<List<CurrencyRateDto>> GetRates()
         {
-            var dateStr = DateTime.Now.ToString("yyyy-M-d");//2016-7-6
-            var uri = $"https://www.nbrb.by/api/exrates/rates?ondate={dateStr}&periodicity=0";
+            try
+            {
+                var dateStr = DateTime.Now.ToString("yyyy-M-d");//2016-7-6
+                var uri = $"https://www.nbrb.by/api/exrates/rates?ondate={dateStr}&periodicity=0";
 
-            var rates = await CallAPI<List<CurrencyRateDto>>(uri);
+                var rates = await CallAPI<List<CurrencyRateDto>>(uri);
 
-            return rates;
+                return rates;
+
+            }
+            catch
+            {
+                return new List<CurrencyRateDto>();
+            }
         }
 
         public async Task<List<CurrencyRate>> GetAllCurrencies()
@@ -51,5 +59,7 @@ namespace WebMaze.Services
 
             return result;
         }
+    }
+}
     }
 }
