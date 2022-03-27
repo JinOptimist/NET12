@@ -1,4 +1,4 @@
-﻿@model PaggerViewModel<StuffForHeroViewModel>
+﻿@model StuffForHeroIndexViewModel
 
 @section Scripts{
     <link rel="stylesheet" href="~/css/AddStuffForHero.css" />
@@ -14,11 +14,11 @@
 </div>
 
 <div class="stuff-pagger-block">
-    @for (int i = 1; i <= Model.TotalPageCount; i++)
+    @for (int i = 1; i <= Model.PaggerViewModel.TotalPageCount; i++)
     {
-        if (i != Model.CurrPage)
+        if (i != Model.PaggerViewModel.CurrPage)
         {
-            <a href="/Stuff/Stuff?page=@i&perPage=@Model.PerPage&typeSorted=@Model.LastSort">
+            <a href="/Stuff/Stuff?page=@i&perPage=@Model.PaggerViewModel.PerPage&typeSorted=@Model.LastSort&isDescending=@Model.IsDescending">
                 Page @i
             </a>
         }
@@ -31,7 +31,7 @@
 
 
 <div class="stuff-list">
-    @foreach (var stuff in Model.Records)
+    @foreach (var stuff in Model.PaggerViewModel.Records)
     {
 
         <div class="stuff">
@@ -44,13 +44,11 @@
             <div class="info">
 
                 <span class="name">
-                    @*<a href="@Url.Action("Stuff","Stuff", new {
-                                        page = Model.CurrPage,
-                                        perPage = Model.PerPage,
+                    <a href="@Url.Action("Stuff","Stuff", new {
+                                        page = Model.PaggerViewModel.CurrPage,
+                                        perPage = Model.PaggerViewModel.PerPage,
                                         typeSorted = nameof(stuff.Name)})">
-                            Name: @stuff.Name
-                        </a>*@
-                    <a href="/Stuff/Stuff?page=@Model.CurrPage&perPage=@Model.PerPage&typeSorted=Name">
+
                         Name: @stuff.Name
                     </a>
                 </span>
@@ -60,21 +58,34 @@
                 </span>
 
                 <span class="price">
-                    <a href="/Stuff/Stuff?page=@Model.CurrPage&perPage=@Model.PerPage&typeSorted=Price">
-                        Price: @stuff.Price
-                    </a>
+                    <a href="@Url.Action("Stuff","Stuff", new {
+                                        page = Model.PaggerViewModel.CurrPage,
+                                        perPage = Model.PaggerViewModel.PerPage,
+                                        typeSorted = nameof(stuff.Price)})">
+
+                            Price: @stuff.Price
+                        </a>
                 </span>
 
                 <span>
-                    <a href="/Stuff/Stuff?page=@Model.CurrPage&perPage=@Model.PerPage&typeSorted=Proposer.Name">
-                        Author: @stuff.Proposer
-                    </a>
+                    <a href="@Url.Action("Stuff","Stuff", new {
+                                        page = Model.PaggerViewModel.CurrPage,
+                                        perPage = Model.PaggerViewModel.PerPage,
+                                        typeSorted = "Proposer.Name"})">
+
+                            Author: @stuff.Proposer
+                        </a>
                 </span>
 
                 <span>
-                    <a href="/Stuff/Stuff?page=@Model.CurrPage&perPage=@Model.PerPage&typeSorted=Proposer.GlobalUserRating&isDescending=@true">
-                        Rating: @stuff.GlobalUserRating
-                    </a>
+                    <a href="@Url.Action("Stuff","Stuff", new {
+                                        page = Model.PaggerViewModel.CurrPage,
+                                        perPage = Model.PaggerViewModel.PerPage,
+                                        typeSorted = "Proposer.GlobalUserRating",
+                                        isDescending=true})">
+
+                            Rating: @stuff.GlobalUserRating
+                        </a>
                 </span>
 
                 @if (User.Identity.IsAuthenticated)

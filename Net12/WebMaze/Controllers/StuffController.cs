@@ -58,69 +58,75 @@ namespace WebMaze.Controllers
             //    .Select(x => x.Name)
             //    .ToList();
 
-            var paggerViewModel = new PaggerViewModel<StuffForHeroViewModel>
+            var indexViewModel = new StuffForHeroIndexViewModel
             {
-                PerPage = perPage,
-                CurrPage = page,
-                TotalRecordsCount = _staffForHeroRepository.Count(),
-                Records = stuffsForHeroViewModels,
-                LastSort = typeSorted
+                PaggerViewModel = new PaggerViewModel<StuffForHeroViewModel>
+                {
+                    PerPage = perPage,
+                    CurrPage = page,
+                    TotalRecordsCount = _staffForHeroRepository.Count(),
+                    Records = stuffsForHeroViewModels,
+                },
+                LastSort = typeSorted,
+                IsDescending = isDescending
+
             };
 
-            return View(paggerViewModel);
-        }
 
-        [Authorize]
-        [HttpGet]
-        public IActionResult AddStuffForHero(long stuffId)
-        {
-            var model = _mapper.Map<StuffForHeroViewModel>(_staffForHeroRepository.Get(stuffId))
-                ?? new StuffForHeroViewModel();
-            return View(model);
-        }
-
-        [Authorize]
-        [PayForAddActionFilter(TypesOfPayment.Huge)]
-        [HttpPost]
-        public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(stuffForHeroViewModel);
-            }
-
-            var proposer = _userService.GetCurrentUser();
-
-            var dbStuffForHero = _mapper.Map<StuffForHero>(stuffForHeroViewModel);
-
-            dbStuffForHero.Proposer = proposer;
-            dbStuffForHero.IsActive = true;
-
-            _staffForHeroRepository.Save(dbStuffForHero);
-            return RedirectToAction("Stuff");
-        }
-
-        public IActionResult RemoveStuff(long stuffId)
-        {
-            _staffForHeroRepository.Remove(stuffId);
-            return RedirectToAction("Stuff");
-        }
-
-        public IActionResult Wonderful(long stuffId)
-        {
-            var stuff = _staffForHeroRepository.Get(stuffId);
-            _payForActionService.CreatorEarnMoney(stuff.Proposer.Id, 10);
-
-            return RedirectToAction("Stuff", "Stuff");
-        }
-
-        public IActionResult Awful(long stuffId)
-        {
-            var stuff = _staffForHeroRepository.Get(stuffId);
-
-            _payForActionService.CreatorDislikeFine(stuff.Proposer.Id, TypesOfPayment.Fine);
-
-            return RedirectToAction("Stuff", "Stuff");
-        }
+            return View(indexViewModel);
     }
+
+    [Authorize]
+    [HttpGet]
+    public IActionResult AddStuffForHero(long stuffId)
+    {
+        var model = _mapper.Map<StuffForHeroViewModel>(_staffForHeroRepository.Get(stuffId))
+            ?? new StuffForHeroViewModel();
+        return View(model);
+    }
+
+    [Authorize]
+    [PayForAddActionFilter(TypesOfPayment.Huge)]
+    [HttpPost]
+    public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(stuffForHeroViewModel);
+        }
+
+        var proposer = _userService.GetCurrentUser();
+
+        var dbStuffForHero = _mapper.Map<StuffForHero>(stuffForHeroViewModel);
+
+        dbStuffForHero.Proposer = proposer;
+        dbStuffForHero.IsActive = true;
+
+        _staffForHeroRepository.Save(dbStuffForHero);
+        return RedirectToAction("Stuff");
+    }
+
+    public IActionResult RemoveStuff(long stuffId)
+    {
+        _staffForHeroRepository.Remove(stuffId);
+        return RedirectToAction("Stuff");
+    }
+
+    public IActionResult Wonderful(long stuffId)
+    {
+        var stuff = _staffForHeroRepository.Get(stuffId);
+        _payForActionService.CreatorEarnMoney(stuff.Proposer.Id, 10);
+
+        return RedirectToAction("Stuff", "Stuff");
+    }
+
+    public IActionResult Awful(long stuffId)
+    {
+        var stuff = _staffForHeroRepository.Get(stuffId);
+
+        _payForActionService.CreatorDislikeFine(stuff.Proposer.Id, TypesOfPayment.Fine);
+
+        return RedirectToAction("Stuff", "Stuff");
+    }
+}
 }
