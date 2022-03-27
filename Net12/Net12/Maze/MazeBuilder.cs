@@ -44,7 +44,6 @@ namespace Net12.Maze
                 BuildBless();
                 BuildTrap();
                 BuildFountain();
-                BuildBed();
                 BuildBullEnemy();
                 BuildGeyser();
                 BuildWallworm();
@@ -58,55 +57,82 @@ namespace Net12.Maze
 
         private void BuildGeyser()
         {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
-            var randomGround = GetRandom(grounds);
-            maze.Enemies.Add(new Geyser(randomGround.X, randomGround.Y, maze));
+            int amountGeyser = (maze.Width * maze.Height) / 250;
+            for (int i = 0; i <= amountGeyser; i++)
+            {
+                var grounds = maze.Cells.Where(x => x is Ground).ToList();
+                var randomGround = GetRandom(grounds);
+                maze.Enemies.Add(new Geyser(randomGround.X, randomGround.Y, maze));
+            }
         }
 
         private void BuildSlime()
         {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
-            var randomGround = GetRandom(grounds);
-            maze.Enemies.Add(new Slime(randomGround.X, randomGround.Y, maze));
+            int amountSlime = (maze.Width * maze.Height) / 450;
+            for (int i = 0; i <= amountSlime; i++)
+            {
+                var grounds = maze.Cells.Where(x => x is Ground).ToList();
+                var randomGround = GetRandom(grounds);
+                maze.Enemies.Add(new Slime(randomGround.X, randomGround.Y, maze));
+            }
         }
+
         private void BuildFountain()
         {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
-            //grounds.Remove(Hero.X, Hero.Y,);
-            var randomGround = GetRandom(grounds);
-            maze[randomGround.X, randomGround.Y] = new Fountain(randomGround.X, randomGround.Y, maze);
-
-
+            int amountFountain = (maze.Width * maze.Height) / 450;
+            for (int i = 0; i <= amountFountain; i++)
+            {
+                var grounds = maze.Cells.Where(x => x is Ground).ToList();
+                //grounds.Remove(Hero.X, Hero.Y,);
+                var randomGround = GetRandom(grounds);
+                maze[randomGround.X, randomGround.Y] = new Fountain(randomGround.X, randomGround.Y, maze);
+            }
         }
+
         private void BuildGoblin()
         {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
-            var randomGround = GetRandom(grounds);
-            var g = new Goblin(randomGround.X, randomGround.Y, maze);
-            maze.Enemies.Add(g);
-
+            int amountGoblin = (maze.Width * maze.Height) / 200;
+            for (int i = 0; i <= amountGoblin; i++)
+            {
+                var grounds = maze.Cells.Where(x => x is Ground).ToList();
+                var randomGround = GetRandom(grounds);
+                var g = new Goblin(randomGround.X, randomGround.Y, maze);
+                maze.Enemies.Add(g);
+            }
         }
 
         private void BuildBed()
         {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
-            var randomGround = GetRandom(grounds);
-            maze[randomGround.X, randomGround.Y] = new Bed(randomGround.X, randomGround.Y, maze);
+            int amountBed = (maze.Width * maze.Height) / 200;
+            for (int i = 0; i <= amountBed; i++)
+            {
+                var grounds = maze.Cells.Where(x => x is Ground).ToList();
+                var randomGround = GetRandom(grounds);
+                maze[randomGround.X, randomGround.Y] = new Bed(randomGround.X, randomGround.Y, maze);
+            }
         }
 
         private void BuildCoin()
         {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
-            var randonGround = GetRandom(grounds);
-            maze[randonGround.X, randonGround.Y] = new Coin(randonGround.X, randonGround.Y, maze, 3);
+            int amountCoin = (maze.Width * maze.Height) / 100;
+            for (int i = 0; i <= amountCoin; i++)
+            {
+                var grounds = maze.Cells.Where(x => x is Ground).ToList();
+                var randonGround = GetRandom(grounds);
+                maze[randonGround.X, randonGround.Y] = new Coin(randonGround.X, randonGround.Y, maze, 3);
+            }
         }
 
         private void BuildWalker()
         {
-            var list = maze.Cells.Where(point => point is Ground).ToList();
-            var point = GetRandom(list);
-            var enemy = new Walker(point.X, point.Y, point.Maze);
-            maze.Enemies.Add(enemy);
+            int amountWalker = (maze.Width * maze.Height) / 150;
+            for (int i = 0; i <= amountWalker; i++)
+            {
+                var list = maze.Cells.Where(point => point is Ground).ToList();
+                var point = GetRandom(list);
+                var enemy = new Walker(point.X, point.Y, point.Maze);
+                maze.Enemies.Add(enemy);
+            }
         }
 
         private void BuildBless()
@@ -122,36 +148,52 @@ namespace Net12.Maze
 
         private void BuildVitalityPotion()
         {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
-            var randomGround = GetRandom(grounds);
-            maze[randomGround.X, randomGround.Y] = new VitalityPotion(randomGround.X, randomGround.Y, maze, 5);
+            int amountVitalityPotion = (maze.Width * maze.Height) / 250;
+            for (int i = 0; i <= amountVitalityPotion; i++)
+            {
+                var grounds = maze.Cells.Where(x => x is Ground).ToList();
+                var randomGround = GetRandom(grounds);
+                maze[randomGround.X, randomGround.Y] = new VitalityPotion(randomGround.X, randomGround.Y, maze, 5);
+            }
         }
 
         private void BuildTrap()
         {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
-            grounds = grounds.Where(x => GetNear<Ground>(x).Count >= 2).ToList();
-
-            if (grounds.Any())
+            int amountTrap = (maze.Width * maze.Height) / 40;
+            for (int i = 0; i < amountTrap; i++)
             {
-                var groundToTrap = GetRandom(grounds);
-                maze[groundToTrap.X, groundToTrap.Y] = new Trap(groundToTrap.X, groundToTrap.Y, maze);
+                var grounds = maze.Cells.Where(x => x is Ground).ToList();
+                grounds = grounds.Where(x => GetNear<Ground>(x).Count >= 2).ToList();
+
+                if (grounds.Any())
+                {
+                    var groundToTrap = GetRandom(grounds);
+                    maze[groundToTrap.X, groundToTrap.Y] = new Trap(groundToTrap.X, groundToTrap.Y, maze);
+                }
             }
         }
 
         private void BuildTavern()
         {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
-            var randomGround = GetRandom(grounds);
-            maze[randomGround.X, randomGround.Y] = new Tavern(randomGround.X, randomGround.Y, maze);
+            int amountTavern = (maze.Width * maze.Height) / 400;
+            for (int i = 0; i <= amountTavern; i++)
+            {
+                var grounds = maze.Cells.Where(x => x is Ground).ToList();
+                var randomGround = GetRandom(grounds);
+                maze[randomGround.X, randomGround.Y] = new Tavern(randomGround.X, randomGround.Y, maze);
+            }
         }
 
         private void BuildPudder()
         {
-            var grounds = maze.Cells.Where(x => x is Ground).ToList();
+            int amountPudder = (maze.Width * maze.Height) / 40;
+            for (int i = 0; i <= amountPudder; i++)
+            {
+                var grounds = maze.Cells.Where(x => x is Ground).ToList();
 
-            var randomGround = GetRandom(grounds);
-            maze[randomGround.X, randomGround.Y] = new Puddle(randomGround.X, randomGround.Y, maze);
+                var randomGround = GetRandom(grounds);
+                maze[randomGround.X, randomGround.Y] = new Puddle(randomGround.X, randomGround.Y, maze);
+            }
         }
 
         private void BuildWall()
@@ -221,9 +263,10 @@ namespace Net12.Maze
 
         private void BuildHealPotion()
         {
-            var grounds = maze.Cells.Where(x => x is Ground).Where(x => (x.X != maze.Hero.X && x.Y != maze.Hero.Y)).ToList();
-            for (int i = 0; i < 3; i++)
+            int amountHeaiPotion = (maze.Width * maze.Height) / 250;
+            for (int i = 0; i <= amountHeaiPotion; i++)
             {
+                var grounds = maze.Cells.Where(x => x is Ground).Where(x => (x.X != maze.Hero.X && x.Y != maze.Hero.Y)).ToList();
                 var randomGround = GetRandom(grounds);
                 maze[randomGround.X, randomGround.Y] = new HealPotion(randomGround.X, randomGround.Y, maze);
 
@@ -250,22 +293,22 @@ namespace Net12.Maze
 
         private void BuildWolfPit()
         {
-
-
-            var groundCenter = maze.Cells.FirstOrDefault(cell => GetNear<Ground>(cell).Count() == 4);
-
-            if (groundCenter == null)
+            int amountWolfPit = (maze.Width * maze.Height) / 50;
+            for (int i = 0; i <= amountWolfPit; i++)
             {
-                return;
+                var groundCenter = maze.Cells.FirstOrDefault(cell => GetNear<Ground>(cell).Count() == 3);
+
+                if (groundCenter == null)
+                {
+                    return;
+                }
+                maze[groundCenter.X, groundCenter.Y] = new WolfPit(groundCenter.X, groundCenter.Y, maze);
             }
-            maze[groundCenter.X, groundCenter.Y] = new WolfPit(groundCenter.X, groundCenter.Y, maze);
 
         }
 
         private void BuildWeakWalls()
         {
-
-
             var wallsOfMaze = maze.Cells.OfType<Wall>().Cast<BaseCell>().ToList();
             var wallToCheckForFourWall = wallsOfMaze.Where(cell => GetNear<Wall>(cell).Count <= 2).Cast<BaseCell>().ToList();
             var countOfWallInTheMaze = wallsOfMaze.Count;
@@ -306,9 +349,13 @@ namespace Net12.Maze
 
         private void BuildBullEnemy()
         {
-            var grounds = maze.Cells.OfType<Ground>().Cast<BaseCell>().ToList();
-            var randomGround = GetRandom(grounds);
-            maze.Enemies.Add(new BullEnemy(randomGround.X, randomGround.Y, maze));
+            int amountBullEnemy = (maze.Width * maze.Height) / 120;
+            for (int i = 0; i <= amountBullEnemy; i++)
+            {
+                var grounds = maze.Cells.OfType<Ground>().Cast<BaseCell>().ToList();
+                var randomGround = GetRandom(grounds);
+                maze.Enemies.Add(new BullEnemy(randomGround.X, randomGround.Y, maze));
+            }
         }
 
         private void BuildExit()
