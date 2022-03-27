@@ -1,59 +1,97 @@
-﻿@model StuffForHeroIndexViewModel
+﻿@model PaggerViewModel<StuffForHeroViewModel>
 
 @section Scripts{
     <link rel="stylesheet" href="~/css/AddStuffForHero.css" />
 }
 
-<div>
-    <div class="intro">
-        Design exclusive features for your HERO
-    </div>
-    <div class="create-button">
-        <a class="button" href="/Stuff/AddStuffForHero">
-            Create stuff
-        </a>
-    </div>
+<div class="intro">
+    Design exclusive features for your HERO
+</div>
+<div class="create-button">
+    <a class="button" href="/Stuff/AddStuffForHero">
+        Create stuff
+    </a>
+</div>
 
-    <div class="stuff-list">
-        @foreach (var stuff in Model.StuffForHeroViewModels.Records)
+<div class="stuff-pagger-block">
+    @for (int i = 1; i <= Model.TotalPageCount; i++)
+    {
+        if (i != Model.CurrPage)
         {
-
-            <div class="stuff">
-                <div class="picture">
-                    <img class="gun" src='@stuff.PictureLink' />
-                </div>
-                <div class="info">
-                    <div class="name">
-                        Name: @stuff.Name
-                    </div>
-                    <div class="description">
-                        Description:  @stuff.Description
-                    </div>
-                    <div class="price">
-                        Price: @stuff.Price
-                    </div>
-                    <div>
-                        Author: @stuff.Proposer
-                    </div>
-                    <div>
-                        Rating: @stuff.GlobalUserRating
-                    </div>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <div>
-                            <a href="@Url.Action("Wonderful","Stuff", new {@stuffId = stuff.Id})" class="good-button">Wonderful</a>
-                            <a href="@Url.Action("Awful","Stuff", new {@stuffId = stuff.Id})" class="bad-button">Awful</a>
-
-                        </div>
-                    }
-                    <div>
-                        <a href="/Stuff/RemoveStuff?stuffId=@stuff.Id">X</a>
-                        <a href="/Stuff/AddStuffForHero?stuffId=@stuff.Id">E</a>
-                    </div>
-
-                </div>
-            </div>
+            <a href="/Stuff/Stuff?page=@i&perPage=@Model.PerPage&typeSorted=@Model.LastSort">
+                Page @i
+            </a>
         }
+        else
+        {
+            <span>Page @i</span>
+        }
+    }
+</div>
 
-    </div>
+
+<div class="stuff-list">
+    @foreach (var stuff in Model.Records)
+    {
+
+        <div class="stuff">
+
+            <div class="picture">
+
+                <img class="gun" src='@stuff.PictureLink' />
+            </div>
+
+            <div class="info">
+
+                <span class="name">
+                    @*<a href="@Url.Action("Stuff","Stuff", new {
+                                        page = Model.CurrPage,
+                                        perPage = Model.PerPage,
+                                        typeSorted = nameof(stuff.Name)})">
+                            Name: @stuff.Name
+                        </a>*@
+                    <a href="/Stuff/Stuff?page=@Model.CurrPage&perPage=@Model.PerPage&typeSorted=Name">
+                        Name: @stuff.Name
+                    </a>
+                </span>
+
+                <span class="description">
+                    Description:  @stuff.Description
+                </span>
+
+                <span class="price">
+                    <a href="/Stuff/Stuff?page=@Model.CurrPage&perPage=@Model.PerPage&typeSorted=Price">
+                        Price: @stuff.Price
+                    </a>
+                </span>
+
+                <span>
+                    <a href="/Stuff/Stuff?page=@Model.CurrPage&perPage=@Model.PerPage&typeSorted=Proposer.Name">
+                        Author: @stuff.Proposer
+                    </a>
+                </span>
+
+                <span>
+                    <a href="/Stuff/Stuff?page=@Model.CurrPage&perPage=@Model.PerPage&typeSorted=Proposer.GlobalUserRating&isDescending=@true">
+                        Rating: @stuff.GlobalUserRating
+                    </a>
+                </span>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div>
+                        <a href="@Url.Action("Wonderful","Stuff", new {@stuffId = stuff.Id})" class="good-button">Wonderful</a>
+                        <a href="@Url.Action("Awful","Stuff", new {@stuffId = stuff.Id})" class="bad-button">Awful</a>
+
+                    </div>
+                }
+                <div>
+                    <a href="/Stuff/RemoveStuff?stuffId=@stuff.Id">X</a>
+                    <a href="/Stuff/AddStuffForHero?stuffId=@stuff.Id">E</a>
+                </div>
+
+            </div>
+        </div>
+    }
+
 </div>

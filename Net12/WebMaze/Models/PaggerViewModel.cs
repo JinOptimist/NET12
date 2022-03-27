@@ -53,6 +53,7 @@ namespace WebMaze.Models
             }
         }
 
+        public string LastSort { get; set; }
         public List<T> Records { get; set; }
     }
 }

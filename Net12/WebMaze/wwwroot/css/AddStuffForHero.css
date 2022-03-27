@@ -28,18 +28,13 @@
 }
 
 .button {
-    margin: 30px 0 0 0;
-    text-align: center;
-    vertical-align: top;
     padding: 15px 40px;
     border-radius: 4px;
     border: 0;
     cursor: pointer;
-    font-size: 14px;
     color: #2c3531;
     text-transform: uppercase;
     text-decoration: none;
-    transition: background .1s linear;
     background-color: #ffcb9a;
 }
 
@@ -57,7 +52,7 @@
 }
 
 .stuff-list {
-    margin: 60px 100px;
+    margin: 30px;
     display: flex;
     flex-wrap: wrap;
 }
@@ -66,11 +61,23 @@
     padding: 30px;
     border: solid 1px;
     display: flex;
-    width: 50%;
+    width: 49%;
+    margin-bottom: 5px;
+    margin-right: 5px;
 }
 
 .info {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
+
+.stuff-pagger-block {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.stuff-pagger-block a{
+    margin-right: 5px;
 }
