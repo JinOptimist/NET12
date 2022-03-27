@@ -1,5 +1,4 @@
-﻿$(document).ready(function (evt) {
-    console.log("1");
+﻿$(document).ready(function () {
 
     $('.get').click(function (evt) {
         evt.preventDefault();
