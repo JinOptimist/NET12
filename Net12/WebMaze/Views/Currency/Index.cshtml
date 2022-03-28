@@ -1,0 +1,20 @@
+﻿@using System.Collections.Generic;
+@using WebMaze.Models.CurrencyDto
+@model List<CurrencyRate>
+
+@section Scripts{ 
+    <script src="~/js/currency.js"></script>
+}
+
+
+<div>
+    Currency:
+
+    <select name="currency">
+     @foreach (var item in Model)
+       {
+            <option value="@item.Cur_ID">@item.Cur_Name</option>
+       }
+    </select>
+    <input class="get" type="button" value="Get"/>
+</div>

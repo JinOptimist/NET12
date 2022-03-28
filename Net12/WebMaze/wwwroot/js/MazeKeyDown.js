@@ -31,18 +31,36 @@
     function SendDirection(MyTurn) {
         event.preventDefault();
 
-        const paramsUrl = new URLSearchParams(window.location.search);
-        const mazeId = paramsUrl.get("id");
+        let gameStatus = $('.myStatus').text();
 
-        let url = `/Maze/GetMazeData?mazeId=${mazeId}&stepDirection=${MyTurn}`;
-        $.get(url)
-            .done(function (mazeData) {
-                for (var i = 0; i < mazeData.cells.length; i++) {
-                    let cell = mazeData.cells[i];
+        if (gameStatus == "Game Status: WASTED") {
+            $('.endGame').text(`Wasted!`);
+            $('.endGame').css('display', 'block');
+        }
+        else if (gameStatus == "Game Status: You won!") {
+            $('.endGame').text(`You won!`);
+            $('.endGame').css('display', 'block');
+        }
+        else {
 
-                    $(`[data-x=${cell.x}][data-y=${cell.y}] img`)
-                        .attr('src', `/images/cells/${cell.cellType}.jpg`);
-                }
-            });
+            const paramsUrl = new URLSearchParams(window.location.search);
+            const mazeId = paramsUrl.get("id");
+
+            let url = `/Maze/GetMazeData?mazeId=${mazeId}&stepDirection=${MyTurn}`;
+            $.get(url)
+                .done(function (mazeData) {
+                    for (var i = 0; i < mazeData.cells.length; i++) {
+                        let cell = mazeData.cells[i];
+
+                        $(`[data-x=${cell.x}][data-y=${cell.y}] img`)
+                            .attr('src', `/images/cells/${cell.cellType}.jpg`);
+                    }
+                    $('.myHealth').text(`My Health: ${mazeData.heroNowHp}/${mazeData.heroMaxHp}`);
+                    $('.myFatigue').text(`My Fatigue: ${mazeData.heroNowFatigure}/${mazeData.heroMaxFatigure}`);
+                    $('.myStatus').text(`Game Status: ${mazeData.message}`);
+                });
+        }
+
+
     }
 });

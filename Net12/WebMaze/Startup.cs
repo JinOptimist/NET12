@@ -366,8 +366,8 @@ namespace WebMaze
                 HeroNowHp = maze.Hero.Hp,
                 HeroX = maze.Hero.X,
                 HeroY = maze.Hero.Y,
-
-
+                Message = maze.Message,
+                HeroMoney = maze.Hero.Money,
             };
             return model;
         }
@@ -377,6 +377,7 @@ namespace WebMaze
             {
                 Height = model.Height,
                 Width = model.Width,
+                Message = model.Message,
 
 
             };
@@ -405,6 +406,7 @@ namespace WebMaze
                 { typeof(WolfPit), MazeCellInfo.WolfPit},
                 { typeof(Tavern), MazeCellInfo.Tavern},
                 { typeof(Healer), MazeCellInfo.Healer},
+                { typeof(Exit), MazeCellInfo.Exit}
 
             };
             var model = new MazeCellWeb();
@@ -477,6 +479,8 @@ namespace WebMaze
                     return new Bless(model.X, model.Y, null) { Id = model.Id };
                 case MazeCellInfo.WolfPit:
                     return new WolfPit(model.X, model.Y, null) { Id = model.Id };
+                case MazeCellInfo.Exit:
+                    return new Exit(model.X, model.Y, null) { Id = model.Id };
                 default:
                     return new Ground(model.X, model.Y, null) { Id = model.Id };
             }
@@ -582,6 +586,11 @@ namespace WebMaze
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<DocumentPreparationHub>("/documentUpdateStatusAll");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<SeaBattleHub>("/seaBattle");
             });
 
             app.UseEndpoints(endpoints =>
