@@ -11,7 +11,8 @@ namespace Net12.Maze.Cells
 
         public override bool TryToStep()
         {
-            Maze.Hero.Hp -= 10;
+            Maze.Hero.Hp -= 5;
+            Maze.Message = "-5HP";
             return true;
         }
     }

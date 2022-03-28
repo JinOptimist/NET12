@@ -137,11 +137,12 @@ namespace Net12.Maze
 
         private void BuildBless()
         {
-            var res_point = maze.Cells.FirstOrDefault(point => GetNear<Wall>(point).Count == 3 && GetNear<BaseCell>(point).Count == 4);
+            var res_point = maze.Cells.Where(point => GetNear<Wall>(point).Count == 3 && GetNear<BaseCell>(point).Count == 4).ToList();
 
             if (res_point != null)
             {
-                maze[res_point.X, res_point.Y] = new Bless(res_point.X, res_point.Y, maze);
+                var randomGround = GetRandom(res_point);
+                maze[randomGround.X, randomGround.Y] = new Bless(randomGround.X, randomGround.Y, maze);
 
             }
         }
@@ -159,7 +160,7 @@ namespace Net12.Maze
 
         private void BuildTrap()
         {
-            int amountTrap = (maze.Width * maze.Height) / 40;
+            int amountTrap = (maze.Width * maze.Height) / 20;
             for (int i = 0; i < amountTrap; i++)
             {
                 var grounds = maze.Cells.Where(x => x is Ground).ToList();
@@ -175,7 +176,7 @@ namespace Net12.Maze
 
         private void BuildTavern()
         {
-            int amountTavern = (maze.Width * maze.Height) / 400;
+            int amountTavern = (maze.Width * maze.Height) / 180;
             for (int i = 0; i <= amountTavern; i++)
             {
                 var grounds = maze.Cells.Where(x => x is Ground).ToList();
@@ -296,13 +297,14 @@ namespace Net12.Maze
             int amountWolfPit = (maze.Width * maze.Height) / 50;
             for (int i = 0; i <= amountWolfPit; i++)
             {
-                var groundCenter = maze.Cells.FirstOrDefault(cell => GetNear<Ground>(cell).Count() == 3);
+                var groundCenter = maze.Cells.Where(cell => GetNear<Ground>(cell).Count() == 4).ToList();
 
                 if (groundCenter == null)
                 {
                     return;
                 }
-                maze[groundCenter.X, groundCenter.Y] = new WolfPit(groundCenter.X, groundCenter.Y, maze);
+                var randomGround = GetRandom(groundCenter);
+                maze[randomGround.X, randomGround.Y] = new WolfPit(randomGround.X, randomGround.Y, maze);
             }
 
         }
