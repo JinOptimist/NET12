@@ -1,4 +1,5 @@
-﻿using iText.IO.Image;
+﻿using AutoMapper;
+using iText.IO.Image;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
@@ -20,26 +21,22 @@ namespace WebMaze.Controllers
     {
         private IHubContext<PDFPreparationHub> _pdfPreparationHub;
         private IWebHostEnvironment _hostEnvironment;
+        private IMapper _mapper;       
 
-        public GetPDFController(IHubContext<PDFPreparationHub> pdfPreparationHub, IWebHostEnvironment hostEnvironment)
+        public GetPDFController(IHubContext<PDFPreparationHub> pdfPreparationHub,
+            IWebHostEnvironment hostEnvironment, IMapper mapper)
         {
             _pdfPreparationHub = pdfPreparationHub;
             _hostEnvironment = hostEnvironment;
+            _mapper = mapper;
         }
 
         public static List<PDFGenerationTaskInfo> PDFPreparationTasks = new List<PDFGenerationTaskInfo>();
 
         public IActionResult Index()
-        {
-            var pdfViewModels = new List<PDFGenerationTaskInfo>();
-            foreach (var pdf in PDFPreparationTasks)
-            {
-                var pdfViewModel = new PDFGenerationTaskInfo();
-                pdfViewModel.Id = pdf.Id;
-                pdfViewModel.Percent = pdf.Percent;
-                pdfViewModels.Add(pdfViewModel);
-            }
-            return View(pdfViewModels);
+        {           
+
+            return View(PDFPreparationTasks);
         }
 
         [HttpGet]
@@ -106,8 +103,7 @@ namespace WebMaze.Controllers
 
         private void PDFPreparation(PDFGenerationTaskInfo pdf)
         {
-           const int InterestWhenDone = 100;            
-
+           const int InterestWhenDone = 100;
 
             for (int i = 0; i < InterestWhenDone; i++)
             {
@@ -152,10 +148,10 @@ namespace WebMaze.Controllers
 
             var file = pdf.ReadyPDF;
 
-            {
                 var stream = new FileStream($"{file}", FileMode.Open);
                 return File(stream, "application/pdf"); 
-            }
+            
         }
+
     }
 }

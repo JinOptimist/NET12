@@ -4,8 +4,7 @@ using System.Threading;
 namespace WebMaze.Models.GenerationDocument
 {
     public class PDFGenerationTaskInfo
-    {
-        
+    {        
         public int Id { get; set; }
 
         public int Percent { get; set; }
