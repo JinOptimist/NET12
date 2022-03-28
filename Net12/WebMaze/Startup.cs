@@ -27,6 +27,8 @@ using WebMaze.EfStuff.DbModel.GuessTheNumber;
 using WebMaze.Models.GuessTheNumber;
 using WebMaze.EfStuff.DbModel.SeaBattle;
 using WebMaze.Services.RequestForMoney;
+using WebMaze.Models.GenerationDocument;
+using WebMaze.Controllers;
 
 namespace WebMaze
 {
@@ -341,8 +343,7 @@ namespace WebMaze
                 .ForMember(nameof(RequestForMoneyViewModel.RequestCreator),
                     opt => opt.MapFrom(r => r.RequestCreator.Name));
             provider.CreateMap<RequestForMoneyViewModel,
-                RequestForMoney>();
-
+                RequestForMoney>();           
 
             var mapperConfiguration = new MapperConfiguration(provider);
 
@@ -590,6 +591,16 @@ namespace WebMaze
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<SeaBattleHub>("/seaBattle");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<PDFPreparationHub>("/pdfPreparation");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<PDFPreparationHub>("/pdfPreparationInTheIndex");
             });
 
             app.UseEndpoints(endpoints =>
