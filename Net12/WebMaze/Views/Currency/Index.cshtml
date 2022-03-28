@@ -1,20 +1,60 @@
 ﻿@using System.Collections.Generic;
 @using WebMaze.Models.CurrencyDto
+@using System
 @model List<CurrencyRate>
+@{
+    var dateNow = DateTime.Now;
 
-@section Scripts{ 
+    string dateToday = dateNow.ToString("yyyy-MM-dd");
+
+    var date = dateNow.AddYears(-1);
+    string minDate = date.ToString("yyyy-MM-dd");
+}
+
+@section Scripts{
     <script src="~/js/currency.js"></script>
 }
 
 
 <div>
     Currency:
-
-    <select name="currency">
-     @foreach (var item in Model)
-       {
-            <option value="@item.Cur_ID">@item.Cur_Name</option>
-       }
+    <select class="type" name="typeOfRequest">
+        <option value="1">Get by Id</option>
+        <option value="2">Get on Date</option>
+        <option value="3">Get on Period</option>
     </select>
-    <input class="get" type="button" value="Get"/>
+
+    <div class="GetById">
+        <select name="currency">
+            @foreach (var item in Model)
+            {
+                <option value="@item.Cur_ID">@item.Cur_Name</option>
+            }
+        </select>
+        <input class="getById" type="button" value="Get" />
+    </div>
+
+    <div class="GetOnDate">
+        <select name="currency">
+            @foreach (var item in Model)
+            {
+                <option value="@item.Cur_ID">@item.Cur_Name</option>
+            }
+        </select>
+        On date:<input name="onDate" value="@dateToday" type="date" min="@minDate" max="@dateToday" />
+
+        <input class="getOnDate" type="button" value="Get" />
+    </div>
+
+    <div class="GetOnPeriod">
+        <select name="currency">
+            @foreach (var item in Model)
+            {
+                <option value="@item.Cur_ID">@item.Cur_Name</option>
+            }
+        </select>
+        startDate:<input name="startDate" value="@minDate" type="date" min="@minDate" max="@dateToday" />
+        endDate:<input name="endDate" value="@dateToday" type="date" min="@minDate" max="@dateToday" />
+        <input class="getOnPeriod" type="button" value="Get" />
+    </div>
 </div>

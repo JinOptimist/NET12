@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebMaze.Models.CurrencyDto;
@@ -28,6 +29,18 @@ namespace WebMaze.Controllers
             var rate = await _currenceService.GetRateById(currencyId);
 
             return View(rate);
+        }
+        public async Task<IActionResult> GetRateByIdOnDate(int currencyId, DateTime date)
+        {            
+            var rate = await _currenceService.GetRateByIdOnDate(currencyId, date);
+
+            return View(rate);
+        }
+        public async Task<IActionResult> GetRateByIdOnPeriod(int currencyId, DateTime onStartDate, DateTime onEndDate)
+        {
+            var rateList = await _currenceService.GetRateByIdOnPeriod(currencyId, onStartDate, onEndDate);
+
+            return View(rateList);
         }
     }
 }
