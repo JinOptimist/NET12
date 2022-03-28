@@ -46,9 +46,7 @@ namespace WebMaze.Controllers
 
         public IActionResult Index(int page = 1, int perPage = 13, string typeSorted = "CreationDate")
         {
-
             var test = _newsRepository.GetAllSorted();
-
 
             var newsViewModels = new List<NewsViewModel>();
             newsViewModels = _newsRepository
@@ -86,7 +84,8 @@ namespace WebMaze.Controllers
             var model = _mapper.Map<NewsViewModel>(_newsRepository.Get(newsId))
                 ?? new NewsViewModel()
                 {
-                    EventDate = DateTime.Now
+                    EventDate = DateTime.Now,
+                    DateTimeOfPublication=DateTime.Now
                 };
             return View(model);
         }
@@ -108,6 +107,7 @@ namespace WebMaze.Controllers
             dbNews.CreationDate = DateTime.Now.Date;
             dbNews.Author = author;
             dbNews.IsActive = true;
+            dbNews.IsPublished = dbNews.DateTimeOfPublication > DateTime.Now ? false : true;
 
             _newsRepository.Save(dbNews);
 

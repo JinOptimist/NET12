@@ -123,12 +123,16 @@ namespace WebMaze.EfStuff
             var author = scope.ServiceProvider.GetService<UserRepository>().GetUserByName(DefaultAdminName);
             var newsRepository = scope.ServiceProvider.GetService<NewsRepository>();
             var testNews = newsRepository.GetNewsByName(DefaultNewsTitle);
+            var dateTimeToday = DateTime.Now;
+            var testDateTimeOfPublication = dateTimeToday.AddDays(2);
             if (testNews == null)
             {
                 testNews = new News()
                 {
                     Title = DefaultNewsTitle,
                     IsActive = true,
+                    DateTimeOfPublication = testDateTimeOfPublication,
+                    IsPublished = testDateTimeOfPublication > dateTimeToday ? false : true,
                     Location = "Maze",
                     Text = "Attention! New cell is soon!",
                     Author = author,
@@ -142,6 +146,7 @@ namespace WebMaze.EfStuff
             {
                 for (int i = 0; i < 200; i++)
                 {
+                    var testDateOfPublication = DateTime.Today.AddDays(2 * i);
                     var news = new News()
                     {
                         Title = DefaultNewsTitle + i,
@@ -150,7 +155,9 @@ namespace WebMaze.EfStuff
                         Text = $"Attention! {i}",
                         Author = author,
                         CreationDate = DateTime.Now.AddDays(-1 * i),
-                        EventDate = DateTime.Today.AddDays(-1 * i)
+                        EventDate = DateTime.Today.AddDays(-1 * i),
+                        DateTimeOfPublication = testDateOfPublication,
+                        IsPublished = testDateOfPublication > DateTime.Today ? false : true
                     };
                     newsRepository.Save(news);
                 }
@@ -274,7 +281,7 @@ namespace WebMaze.EfStuff
 
                 }
 
-                var random = new Random(); 
+                var random = new Random();
 
                 for (int i = 0; i < countTestEntry; i++)
                 {
