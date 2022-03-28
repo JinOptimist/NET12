@@ -2,11 +2,21 @@
 
 @model SeaBattleGameViewModel
 
+@section Scripts{
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/seaBattle.js"></script>
+}
+
+
 <div class="big-center-font">
     @SeaBattle.LetsGo
 </div>
 
-<div class="seabattle-game">
+<div class="seaBattleTimer big-center-font">
+    --
+</div>
+
+<div class="seabattle-game" gameId=@Model.Id>
 
     <div class="seabattle-field">
         @for (int y = 0; y < Model.MyField.Height; y++)
@@ -53,6 +63,6 @@
 </div>
 
 <div class="big-center-font">
-    <a href="/SeaBattle/LoseGame">@SeaBattle.Defeat</a>
+    <a href="/SeaBattle/LoseGame?gameId=@Model.Id">@SeaBattle.Defeat</a>
 </div>
 
