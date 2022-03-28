@@ -11,7 +11,7 @@ namespace Net12.Maze.Cells.Enemies
         {
             X = x;
             Y = y;
-            Hp = 50;
+            Hp = 30;
         }
 
 

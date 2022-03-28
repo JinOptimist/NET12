@@ -27,7 +27,7 @@ namespace Net12.Maze.Cells.Enemies
                .OfType<Ground>()
                .ToList();
 
-            if (random.Next(0, 100) < 33)
+            if (random.Next(0, 100) < 20)
             {
                 Maze.Cells.Remove(Maze[X, Y]);
                 Maze.Cells.Add(new Coin(X, Y, Maze, 5));
