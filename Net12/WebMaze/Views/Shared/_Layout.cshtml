@@ -166,8 +166,15 @@
                         <a class="nav-link" href="/ThreeInRow/WelcomePage">Three In Row</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/GetDocument/Index">Get document</a>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Get documents
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="nav-link" href="/GetDocument/Index">Get document</a>
+                            <a class="nav-link" href="/GetPDF/Index">Get PDF</a>
+                        </div>
                     </li>
 
                     @if (User.Identity.IsAuthenticated)
@@ -231,10 +238,11 @@
         <div class="container">
             &copy; 2021 - WebMaze
         </div>
-        @if(!User.Identity.IsAuthenticated){
-        <div class="language-selection">
-            <select class="Language-Selector"></select>
-        </div>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="language-selection">
+                <select class="Language-Selector"></select>
+            </div>
         }
     </footer>
 </body>
