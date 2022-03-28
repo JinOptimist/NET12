@@ -3,11 +3,11 @@ using System.Threading;
 
 namespace WebMaze.Models.GenerationDocument
 {
-    public class PDFGenerationTaskInfo
+    public class PDFGenerationTaskInfoViewModel
     {        
         public int Id { get; set; }
 
-        public int Percent { get; set; }
+        public int Progress { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

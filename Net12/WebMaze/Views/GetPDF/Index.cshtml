@@ -1,5 +1,5 @@
 ﻿@using WebMaze.Models.GenerationDocument;
-@model List<PDFGenerationTaskInfo>
+@model List<PDFGenerationTaskInfoViewModel>
 
 @section Scripts{
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
@@ -20,11 +20,14 @@
                     @if (pdf.ReadyToDownload)
                     {
                         <span> is ready</span>
+                        <span>
+                            <a href="/GetPDF/DownloadPDF?pdfId=@pdf.Id">Download PDF</a>
+                        </span>
                     }
                   </div> 
             </div>
                   <div>
-                      <a href="/GetPDF/GetStatusPDF?pdfId=@pdf.Id"> Back to PDF</a>
+                      <a href="/GetPDF/GetStatusPDF?pdfId=@pdf.Id"> Back to PDF</a>                      
                   </div>
         }
     </div>

@@ -3,9 +3,9 @@
         .withUrl("/pdfPreparation")
         .build();
 
-    hubConnection.on("Progres", function (pdfId, pdfName, percent) {
+    hubConnection.on("Progres", function (pdfId, pdfName, progress) {
         if (pdfId == $('.pdfId').val()) {
-            updateStatus(pdfId, pdfName, percent);
+            updateStatus(pdfId, pdfName, progress);
         }
     });
 

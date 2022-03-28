@@ -3,8 +3,8 @@
         .withUrl("/pdfPreparationInTheIndex")
         .build();
 
-    hubConnection.on("Progres", function (pdfId, pdfName, percent) {
-        $(`.doc-info-${pdfId}`).text(`PDF:${pdfName} with ID:${pdfId} Ready ${percent} of 100%`);
+    hubConnection.on("Progres", function (pdfId, pdfName, progress) {
+        $(`.doc-info-${pdfId}`).text(`PDF:${pdfName} with ID:${pdfId} Ready ${progress} of 100%`);
     });
 
     hubConnection.on("ReadyPDF", function (pdfId, pdfName) {

@@ -1,5 +1,5 @@
 ﻿@using WebMaze.Models.GenerationDocument
-@model PDFGenerationTaskInfo
+@model PDFGenerationTaskInfoViewModel
 @section Scripts{
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/pdfPreparation.js"></script>
@@ -39,7 +39,7 @@ else
 }
 
 <div class="cancel-button">
-    <a href="#"> Cancel preparation</a>
+    <a href="#"> Remove preparation</a>
 </div>
 
 <div>
