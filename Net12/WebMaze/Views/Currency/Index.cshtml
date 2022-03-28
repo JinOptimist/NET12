@@ -6,9 +6,8 @@
     var dateNow = DateTime.Now;
 
     string dateToday = dateNow.ToString("yyyy-MM-dd");
-
-    var date = dateNow.AddYears(-1);
-    string minDate = date.ToString("yyyy-MM-dd");
+    string minDatePeriod = dateNow.AddYears(-1).ToString("yyyy-MM-dd");
+    string minOnDate = dateNow.AddMonths(-3).ToString("yyyy-MM-dd");
 }
 
 @section Scripts{
@@ -41,7 +40,7 @@
                 <option value="@item.Cur_ID">@item.Cur_Name</option>
             }
         </select>
-        On date:<input name="onDate" value="@dateToday" type="date" min="@minDate" max="@dateToday" />
+        On date:<input name="onDate" value="@dateToday" type="date" min="@minOnDate" max="@dateToday" />
 
         <input class="getOnDate" type="button" value="Get" />
     </div>
@@ -53,8 +52,8 @@
                 <option value="@item.Cur_ID">@item.Cur_Name</option>
             }
         </select>
-        startDate:<input name="startDate" value="@minDate" type="date" min="@minDate" max="@dateToday" />
-        endDate:<input name="endDate" value="@dateToday" type="date" min="@minDate" max="@dateToday" />
+        startDate:<input name="startDate" value="@minDatePeriod" type="date" min="@minDatePeriod" max="@dateToday" />
+        endDate:<input name="endDate" value="@dateToday" type="date" min="@minDatePeriod" max="@dateToday" />
         <input class="getOnPeriod" type="button" value="Get" />
     </div>
 </div>
