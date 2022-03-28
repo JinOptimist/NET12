@@ -1,0 +1,13 @@
+﻿@using WebMaze.Models.CurrencyDto
+@model List<CurrencyRate>
+
+<div>
+    @foreach (var rate in @Model)
+    {
+        <div>
+            On date: @rate.Date - Currency rate: @rate.Cur_OfficialRate
+        </div>
+    }
+    <a href="/Currency/Index">Back</a>
+
+</div>
