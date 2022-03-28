@@ -8,11 +8,35 @@
     <div class="add-text">
         Fill out the form to add your picture
     </div>
+    
     <form action="/Gallery/AddImage" method="post" class="form" enctype="multipart/form-data">
-        <div>
-            @Html.ValidationSummary(true)
+        <div class="ios-toggle">
+            <input type="checkbox" id="ios-toggle" /><label for="ios-toggle" />
         </div>
-        <div class="form-for-pic">
+
+        <div class="choose-how">
+            <div class="pic-upload">
+                <div>
+                    Upload picture
+                </div>
+                <div>
+                    <input type="file" name="@nameof(ImageViewModel.ImageFile)" class="file"/>
+                </div>
+            </div>
+
+            <div class="pic-url">
+                <div>
+                    Picture URL
+                </div>
+                <div>
+                    @Html.TextBoxFor(x => x.Picture, new { Class = "url" })
+                </div>
+            </div>
+        </div>
+        @*<div>
+            @Html.ValidationSummary(true)
+        </div>*@
+        @*<div class="form-for-pic">
             Picture URL
             <input type="file" name="@nameof(ImageViewModel.ImageFile)" />
         </div>
@@ -21,10 +45,10 @@
         </div>
         <div class="form-for-pic">
             Assessment @Html.TextBoxFor(x => x.Assessment, new { @type = "number" })
-        </div>
+        </div>*@
         <div>
-            <input type="submit" value="Save" class="form-button" />
+            <input type="submit" value="Save" class="good-button" />
         </div>
-    </form>
+    </form>    
 </div>
 
