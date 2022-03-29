@@ -48,7 +48,7 @@ namespace WebMaze.EfStuff.Repositories
             return GetAllQueryable().First();
         }
 
-        public User GetFullRandomUser() => GetAllQueryable().ToList().ElementAt(_random.Next(Count()));
+        public User GetFullRandomUser() => GetAllQueryable().Skip(_random.Next(Count())).Take(1).First();
 
         public User GetUserByName(string name)
         {
