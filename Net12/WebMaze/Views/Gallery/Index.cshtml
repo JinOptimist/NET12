@@ -18,14 +18,14 @@
                     <input type="hidden" name="columnName" value="Assessment" />
                     <input type="hidden" name="sortType" value="@SortType.GreaterThan" />
                     <input type="number" name="value" placeholder="Min assessment" class="form">
-                    <input type="submit" value="Sort" class="good-button" />
+                    <input type="submit" value="Sort" class="good-button" data-id="sortButton"/>
                 </form>
 
                 <form action="/Gallery/Index" method="get" class="f-input">
                     <input type="hidden" name="columnName" value="Author.Name" />
                     <input type="hidden" name="sortType" value="@SortType.Equal" />
                     <input type="text" name="value" placeholder="Author name" class="form">
-                    <input type="submit" value="Send" class="good-button" />
+                    <input type="submit" value="Send" class="good-button" data-id="sortButton"/>
                 </form>
             </div>
         </div>

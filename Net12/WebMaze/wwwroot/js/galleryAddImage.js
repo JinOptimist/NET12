@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    $('.good-button').click(function (evt) {
+   /* $('.good-button').click(function (evt) {
         if ($(this).attr('data-id') != "sortButton") {
             evt.preventDefault();
 
@@ -9,14 +9,6 @@
             })
         }
         
-    });
+    });*/
 
-    $('.bad-button').click(function (evt) {
-        evt.preventDefault();
-
-        $.ajax({
-            url: '/Gallery/Awful',
-            data: { imageId: $(this).attr('data-id') }
-        })
-    });
 });

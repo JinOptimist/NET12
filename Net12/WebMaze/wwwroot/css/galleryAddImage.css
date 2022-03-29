@@ -43,43 +43,17 @@
    width: 300px;
 }
 
-.url {
-    background-color: #3BD16F;
-    border-color: #989898;
-    color: white;
+.addField {
+    background-color: #E3E3E3;
+    border-color: #E3E3E3;
+    color: #01B636;
     outline: none;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.form-for-pic {
+    display: flex;
+    flex-direction: column;
+}
 
 /*toggle*/
 .ios-toggle {
@@ -88,8 +62,6 @@
     font-size: 13px;
     width: 5.3em;
     width: 550px;
-    /*margin-left: 20px;*/
-    
 }
 
     .ios-toggle input,
