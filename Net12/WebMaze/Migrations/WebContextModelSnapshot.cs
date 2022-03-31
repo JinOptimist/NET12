@@ -44,11 +44,17 @@ namespace WebMaze.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("CreatorId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Desc")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageLink")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
@@ -63,6 +69,8 @@ namespace WebMaze.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Books");
                 });
@@ -435,6 +443,9 @@ namespace WebMaze.Migrations
                     b.Property<int>("HeroMaxHp")
                         .HasColumnType("int");
 
+                    b.Property<int>("HeroMoney")
+                        .HasColumnType("int");
+
                     b.Property<int>("HeroNowFatigure")
                         .HasColumnType("int");
 
@@ -449,6 +460,9 @@ namespace WebMaze.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -664,6 +678,40 @@ namespace WebMaze.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Perrmissions");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.RequestForMoney", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("RequestAmount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RequestCreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("RequestCreatorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("RequestRecipientId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("RequestStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestCreatorId");
+
+                    b.HasIndex("RequestRecipientId");
+
+                    b.ToTable("RequestForMoneys");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
@@ -1136,6 +1184,15 @@ namespace WebMaze.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Book", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
+                        .WithMany("Books")
+                        .HasForeignKey("CreatorId");
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.BugReport", b =>
                 {
                     b.HasOne("WebMaze.EfStuff.DbModel.User", "Creater")
@@ -1296,6 +1353,21 @@ namespace WebMaze.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("News");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.RequestForMoney", b =>
+                {
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "RequestCreator")
+                        .WithMany("RequestCreators")
+                        .HasForeignKey("RequestCreatorId");
+
+                    b.HasOne("WebMaze.EfStuff.DbModel.User", "RequestRecipient")
+                        .WithMany("RequestRecipients")
+                        .HasForeignKey("RequestRecipientId");
+
+                    b.Navigation("RequestCreator");
+
+                    b.Navigation("RequestRecipient");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.Review", b =>
@@ -1486,6 +1558,8 @@ namespace WebMaze.Migrations
                 {
                     b.Navigation("AddedSStuff");
 
+                    b.Navigation("Books");
+
                     b.Navigation("CellSuggestionsWhichIAprove");
 
                     b.Navigation("EnemySuggestedWhichIAprove");
@@ -1517,6 +1591,10 @@ namespace WebMaze.Migrations
                     b.Navigation("MyReviews");
 
                     b.Navigation("NewsComments");
+
+                    b.Navigation("RequestCreators");
+
+                    b.Navigation("RequestRecipients");
 
                     b.Navigation("SeaBattleGame");
 

@@ -19,7 +19,7 @@ namespace WebMaze.EfStuff
         public const string DefaultAdminName = "admin";
         public const string DefaultMazeDifficultName = "Default";
         public const string DefaultNewsTitle = "TestNews";
-        public const string DefaultImageDesc = "Admin image";
+        public const string DefaultImageDesc = "Admin image";       
         public static IHost Seed(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
@@ -28,7 +28,7 @@ namespace WebMaze.EfStuff
                 SeedMazeDifficult(scope);
                 SeedNews(scope);
                 SeedPermissions(scope);
-                SeedGallery(scope);
+                SeedGallery(scope);            
                 SeedZumaGameDifficult(scope);
                 SeedGuessTheNumberGameParametersRecords(scope);
                 SeedNewCellSugg(scope);
@@ -103,10 +103,10 @@ namespace WebMaze.EfStuff
                 defaultDifficult = new MazeDifficultProfile()
                 {
                     Name = DefaultMazeDifficultName,
-                    Width = 10,
-                    Height = 10,
-                    HeroMoney = 100,
-                    HeroMaxHp = 100,
+                    Width = 20,
+                    Height = 20,
+                    HeroMoney = 10,
+                    HeroMaxHp = 50,
                     HeroMaxFatigue = 30,
                     CoinCount = 5,
                     IsActive = true,
@@ -174,7 +174,7 @@ namespace WebMaze.EfStuff
                 };
                 imageRepository.Save(image);
             }
-        }
+        }       
 
         private static void SeedZumaGameDifficult(IServiceScope scope)
         {

@@ -23,7 +23,7 @@ namespace WebMaze.EfStuff.Repositories
             {
                 { typeof(Wall), MazeCellInfo.Wall},
                 { typeof(WeakWall), MazeCellInfo.WeakWall},
-                { typeof(Ground), MazeCellInfo.Grow},
+                { typeof(Ground), MazeCellInfo.Ground},
                 { typeof(GoldMine), MazeCellInfo.Goldmine},
                 { typeof(Coin), MazeCellInfo.Coin},
                 { typeof(Bed),MazeCellInfo.Bed},
@@ -38,7 +38,7 @@ namespace WebMaze.EfStuff.Repositories
                 { typeof(WolfPit), MazeCellInfo.WolfPit},
                 { typeof(Tavern), MazeCellInfo.Tavern},
                 { typeof(Healer), MazeCellInfo.Healer},
-
+                { typeof(Exit), MazeCellInfo.Exit}
             };
 
             model.Height = maze.Height;
@@ -49,6 +49,7 @@ namespace WebMaze.EfStuff.Repositories
             model.HeroNowHp = maze.Hero.Hp;
             model.HeroX = maze.Hero.X;
             model.HeroY = maze.Hero.Y;
+            model.Message = maze.Message;
 
             foreach (var cell in maze.Cells)
             {

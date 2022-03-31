@@ -1,0 +1,39 @@
+﻿@using WebMaze.Models.GenerationDocument;
+@model List<PDFGenerationTaskInfoViewModel>
+
+@section Scripts{
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/pdfPreparationInTheIndex.js"></script>
+}
+
+<div class="content">
+    <div class="content-title">
+        Get PDF
+    </div>
+
+    <div class="doc">
+        @foreach (var pdf in Model)
+        {
+            <div class="doc-info-@pdf.Id">
+                  <div>
+                    PDF : @pdf.Id
+                    @if (pdf.ReadyToDownload)
+                    {
+                        <span> is ready</span>
+                        <span>
+                            <a href="/GetPDF/DownloadPDF?pdfId=@pdf.Id">Download PDF</a>
+                        </span>
+                    }
+                  </div> 
+            </div>
+                  <div>
+                      <a href="/GetPDF/GetStatusPDF?pdfId=@pdf.Id"> Back to PDF</a>                      
+                  </div>
+        }
+    </div>
+
+    <div>
+        <a href="/GetPDF/StartPreparationPDF"> Start preparation PDF</a>
+    </div>
+</div>
+

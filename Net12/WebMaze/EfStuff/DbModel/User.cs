@@ -30,6 +30,7 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<News> MyNews { get; set; }
 
         public virtual List<Image> Images { get; set; }
+        public virtual List<Book> Books { get; set; }
         public virtual List<BugReport> MyBugReports { get; set; }
         public virtual List<GameDevices> MyGameDevices { get; set; }
         public virtual List<MazeDifficultProfile> MazeDifficultProfiles { get; set; }
@@ -43,6 +44,7 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<GuessTheNumberGame> GuessTheNumberGames { get; set; }
         public virtual List<ThreeInRowGameField> ThreeInRowGameFields { get; set; }
         public virtual SeaBattleGame SeaBattleGame { get; set; }
-
+        public virtual List<RequestForMoney> RequestRecipients { get; set; }
+        public virtual List<RequestForMoney> RequestCreators { get; set; }
     }
 }

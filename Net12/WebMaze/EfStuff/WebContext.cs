@@ -39,6 +39,7 @@ namespace WebMaze.EfStuff
         public DbSet<SeaBattleField> SeaBattleFields { get; set; }
         public DbSet<SeaBattleGame> SeaBattleGames { get; set; }
         public DbSet<SeaBattleDifficult> SeaBattleDifficults { get; set; }
+        public DbSet<RequestForMoney> RequestForMoneys { get; set; }
 
         public WebContext(DbContextOptions options) : base(options)
         {
@@ -72,6 +73,14 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<Image>()
                .HasOne(x => x.Author)
                .WithMany(x => x.Images);
+
+            modelBuilder.Entity<User>()
+                .HasMany(x => x.Books)
+                .WithOne(x => x.Creator);
+
+            modelBuilder.Entity<Book>()
+               .HasOne(x => x.Creator)
+               .WithMany(x => x.Books);
 
             modelBuilder.Entity<User>()
                 .HasMany(x => x.MyEnemySuggested)
@@ -166,6 +175,15 @@ namespace WebMaze.EfStuff
                 .WithOne(x => x.Field)
                 .OnDelete(DeleteBehavior.Cascade);
 
+
+            modelBuilder.Entity<RequestForMoney>()
+                .HasOne(x => x.RequestCreator)
+                .WithMany(x => x.RequestCreators);
+
+            modelBuilder.Entity<RequestForMoney>()
+                .HasOne(x => x.RequestRecipient)
+                .WithMany(x => x.RequestRecipients);
+            
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
