@@ -1,4 +1,5 @@
-﻿@section Scripts{
+﻿@model AdminMenuViewModel
+@section Scripts{
 <link rel="stylesheet" href="~/css/AdminPanelForUserEditing.css" />
 }
 
@@ -29,12 +30,15 @@
             </div>
             <div class="MainTable">
                 <table>
-                    <tr><td width= 30%><div class="FirstColumn">User1</div></td>
-                        <td width= 17.5%><div class="SecondColumn"><input class="apple-switch" type="checkbox"></div><div></td>
-                        <td width= 17.5%><div class="ThirdColumn"><input class="apple-switch" type="checkbox"><div></td>
-                        <td width= 17.5%><div class="FourthColumn"><input class="apple-switch" type="checkbox"><div></td>
-                        <td width= 17.5%><div class="FifthColumn"><input class="apple-switch1" type="checkbox"><div></td>
+                    @foreach (var user in Model.Users)
+                    {
+                    <tr><td width= 30%><div id="Ftc-@user.Id" class="FirstColumn">@user.UserName</div></td>
+                        <td width= 17.5%><div id="Scc-@user.Id" class="SecondColumn"><input class="apple-switch" type="checkbox"></div><div></td>
+                        <td width= 17.5%><div id="Thc-@user.Id" class="ThirdColumn"><input class="apple-switch" type="checkbox"><div></td>
+                        <td width= 17.5%><div id="Foc-@user.Id" class="FourthColumn"><input class="apple-switch" type="checkbox"><div></td>
+                        <td width= 17.5%><div id="Ffc-@user.Id" class="FifthColumn"><input class="apple-switch-red" type="checkbox"><div></td>
                     </tr>
+                    }
                 </table>
             </div>
         </div>

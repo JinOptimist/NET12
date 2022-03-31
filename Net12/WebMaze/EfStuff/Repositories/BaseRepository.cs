@@ -35,6 +35,11 @@ namespace WebMaze.EfStuff.Repositories
             return _dbSet.Where(x => x.IsActive).ToList();
         }
 
+        public virtual List<Template> GetFullAll()
+        {
+            return _dbSet.ToList();
+        }
+
         public virtual void Save(Template model)
         {
             if (model.Id > 0)

@@ -174,7 +174,7 @@ input.apple-switch:checked:after {
 
 /*Remove button*/
 
-input.apple-switch1 {
+input.apple-switch-red {
     position: relative;
     appearance: none;
     outline: none;
@@ -187,7 +187,7 @@ input.apple-switch1 {
     transition-duration: 200ms;
 }
 
-    input.apple-switch1:after {
+    input.apple-switch-red:after {
         content: "";
         position: absolute;
         top: 1px;
@@ -199,12 +199,12 @@ input.apple-switch1 {
         box-shadow: 2px 4px 6px rgba(0,0,0,0.2);
     }
 
-    input.apple-switch1:checked {
+    input.apple-switch-red:checked {
         border-color: #FF6347;
         box-shadow: inset 20px 0 0 0 #FF6347;
     }
 
-        input.apple-switch1:checked:after {
+        input.apple-switch-red:checked:after {
             left: 20px;
             box-shadow: -2px 4px 3px rgba(0,0,0,0.05);
         }
