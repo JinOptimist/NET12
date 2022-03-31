@@ -1,14 +1,20 @@
 ﻿$(document).ready(function () {
-   /* $('.good-button').click(function (evt) {
-        if ($(this).attr('data-id') != "sortButton") {
-            evt.preventDefault();
+    $('#ios-toggle').val($(this).is(':checked'));
 
-            $.ajax({
-                url: '/Gallery/Wonderful',
-                data: { imageId: $(this).attr('data-id') }
-            })
+    $('#ios-toggle').change(function () {
+        if ($(this).is(":checked")) {
+            //url
+            $(this).attr('value', 'true');
+            $('.file').prop("disabled", true);
+            $('.addFieldURL').prop("disabled", false);
+            $('.file').val('');
+        } else {
+            //file
+            $(this).attr('value', 'false');
+            $('.file').prop("disabled", false);
+            $('.addFieldURL').attr("disabled", true);
+            $('.addFieldURL').val('');
         }
-        
-    });*/
 
+    });
 });

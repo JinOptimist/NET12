@@ -1,6 +1,7 @@
 ﻿@model ImageViewModel
 
 @section Scripts{    
+    <script src="~/js/galleryAddImage.js"></script>
     <link rel="stylesheet" href="~/css/galleryAddImage.css" />
 }
 
@@ -11,8 +12,7 @@
     
     <form action="/Gallery/AddImage" method="post" class="form" enctype="multipart/form-data">
         <div class="ios-toggle">
-            @*@Html.CheckBoxFor(x=>x.IsUploadByFile, new { id = "ios-toggle" })<label for="ios-toggle" />*@
-            <input type="checkbox" id="ios-toggle" /><label for="ios-toggle" />
+            <input type="checkbox" id="ios-toggle" name="IsUploadByURL" value="true" /><label for="ios-toggle" />
         </div>
 
         <div class="choose-how">
@@ -30,11 +30,11 @@
                     Picture URL
                 </div>
                 <div>
-                    @Html.TextBoxFor(x => x.Picture, new { Class = "addField" })
+                    @Html.TextBoxFor(x => x.Picture, new { Class = "addFieldURL", disabled = "disabled" })
                 </div>
             </div>
         </div>
-
+        
         <div class="form-for-pic">
             Foto description's
             @Html.TextBoxFor(x => x.Description, new { Class = "addField" })

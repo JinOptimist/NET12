@@ -85,16 +85,17 @@ namespace WebMaze.Controllers
                 return View(imageViewModel);
             }
 
-            ModelState.AddModelError(string.Empty, "valid????");
-            return View(imageViewModel);
+            /*ModelState.AddModelError(string.Empty, "valid????");
+            return View(imageViewModel);*/
 
             var dbImage = _mapper.Map<Image>(imageViewModel);
-            dbImage.Author = _userService.GetCurrentUser();
+            dbImage.Author = _userService.GetCurrentUser();           
 
-            if (imageViewModel.IsUploadByFile)
+            if (!imageViewModel.IsUploadByURL)
             {
                 var fileName = $"{dbImage.Id}.jpg";
                 dbImage.Picture = "/images/gallery/" + fileName;
+                
 
                 var filePath = Path.Combine(_hostEnvironment.WebRootPath, "images", "gallery", fileName);
                 using (var fileStream = System.IO.File.Create(filePath))

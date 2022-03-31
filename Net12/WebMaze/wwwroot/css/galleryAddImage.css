@@ -50,6 +50,13 @@
     outline: none;
 }
 
+.addFieldURL {
+    background-color: #E3E3E3;
+    border-color: #E3E3E3;
+    color: #01B636;
+    outline: none;
+}
+
 .form-for-pic {
     display: flex;
     flex-direction: column;
