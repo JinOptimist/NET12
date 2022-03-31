@@ -13,7 +13,7 @@ namespace Net12.Maze.Cells.Enemies
 
         public override bool TryToStep()
         {
-            return false;
+            return true;
         }
     }
 }

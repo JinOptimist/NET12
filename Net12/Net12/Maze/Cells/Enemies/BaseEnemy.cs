@@ -26,7 +26,7 @@ namespace Net12.Maze.Cells.Enemies
                     Maze.Enemies.Remove(this);
                 }
             }
-            return false;
+            return true;
         }
 
         public abstract BaseCell BeforeStep();
