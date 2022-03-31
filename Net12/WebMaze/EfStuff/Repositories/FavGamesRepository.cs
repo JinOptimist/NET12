@@ -17,5 +17,11 @@ namespace WebMaze.EfStuff.Repositories
             var targetGames = _dbSet.Where(x => x.Creater != null && x.Creater.Id == userId).ToList();
             targetGames.ForEach(x => Remove(x));
         }
+
+        public Game GetFavGameByDesc(string desc)
+        {
+            return _dbSet.SingleOrDefault(x => x.Desc == desc);
+        }
+
     }
 }
