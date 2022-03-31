@@ -54,16 +54,15 @@
 .stuff-list {
     margin: 30px;
     display: flex;
-    flex-wrap: wrap;
 }
 
 .stuff {
-    padding: 30px;
+    padding: 10px;
     border: solid 1px;
     display: flex;
-    width: 49%;
     margin-bottom: 5px;
     margin-right: 5px;
+    flex: 1;
 }
 
 .info {
@@ -80,4 +79,8 @@
 
 .stuff-pagger-block a{
     margin-right: 5px;
+}
+
+.stuff-rating-block{
+    margin: 5px;
 }

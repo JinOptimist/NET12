@@ -27,7 +27,8 @@ namespace WebMaze.Controllers
 
         public StuffController(UserRepository userRepository,
             StuffRepository stuffForHeroRepository,
-            IMapper mapper, UserService userService,
+            IMapper mapper,
+            UserService userService,
             PayForActionService payForActionService)
         {
             _staffForHeroRepository = stuffForHeroRepository;
@@ -47,12 +48,7 @@ namespace WebMaze.Controllers
                     .Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel))
                     .ToList();
 
-
-            //var filteredColumnNames = Assembly
-            //    .GetExecutingAssembly()
-            //    .GetTypes()
-            //    .Where(x => x.Name == "StuffForHeroViewModel")
-            //    .Single()
+            //var filteredColumnNames = typeof(StuffForHeroViewModel)
             //    .GetProperties()
             //    .Where(x => x.GetCustomAttributes().Any(x => x.GetType() == typeof(FilteredAttribute)))
             //    .Select(x => x.Name)
@@ -72,61 +68,60 @@ namespace WebMaze.Controllers
 
             };
 
-
             return View(indexViewModel);
-    }
-
-    [Authorize]
-    [HttpGet]
-    public IActionResult AddStuffForHero(long stuffId)
-    {
-        var model = _mapper.Map<StuffForHeroViewModel>(_staffForHeroRepository.Get(stuffId))
-            ?? new StuffForHeroViewModel();
-        return View(model);
-    }
-
-    [Authorize]
-    [PayForAddActionFilter(TypesOfPayment.Huge)]
-    [HttpPost]
-    public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
-    {
-        if (!ModelState.IsValid)
-        {
-            return View(stuffForHeroViewModel);
         }
 
-        var proposer = _userService.GetCurrentUser();
+        [Authorize]
+        [HttpGet]
+        public IActionResult AddStuffForHero(long stuffId)
+        {
+            var model = _mapper.Map<StuffForHeroViewModel>(_staffForHeroRepository.Get(stuffId))
+                ?? new StuffForHeroViewModel();
+            return View(model);
+        }
 
-        var dbStuffForHero = _mapper.Map<StuffForHero>(stuffForHeroViewModel);
+        [Authorize]
+        [PayForAddActionFilter(TypesOfPayment.Huge)]
+        [HttpPost]
+        public IActionResult AddStuffForHero(StuffForHeroViewModel stuffForHeroViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(stuffForHeroViewModel);
+            }
 
-        dbStuffForHero.Proposer = proposer;
-        dbStuffForHero.IsActive = true;
+            var proposer = _userService.GetCurrentUser();
 
-        _staffForHeroRepository.Save(dbStuffForHero);
-        return RedirectToAction("Stuff");
+            var dbStuffForHero = _mapper.Map<StuffForHero>(stuffForHeroViewModel);
+
+            dbStuffForHero.Proposer = proposer;
+            dbStuffForHero.IsActive = true;
+
+            _staffForHeroRepository.Save(dbStuffForHero);
+            return RedirectToAction("Stuff");
+        }
+
+        public IActionResult RemoveStuff(long stuffId)
+        {
+            _staffForHeroRepository.Remove(stuffId);
+            return RedirectToAction("Stuff");
+        }
+
+        public IActionResult Wonderful(long stuffId)
+        {
+            var stuff = _staffForHeroRepository.Get(stuffId);
+            _payForActionService.CreatorEarnMoney(stuff.Proposer.Id, 10);
+
+            return RedirectToAction("Stuff", "Stuff");
+        }
+
+        public IActionResult Awful(long stuffId)
+        {
+            var stuff = _staffForHeroRepository.Get(stuffId);
+
+            _payForActionService.CreatorDislikeFine(stuff.Proposer.Id, TypesOfPayment.Fine);
+
+            return RedirectToAction("Stuff", "Stuff");
+        }
     }
-
-    public IActionResult RemoveStuff(long stuffId)
-    {
-        _staffForHeroRepository.Remove(stuffId);
-        return RedirectToAction("Stuff");
-    }
-
-    public IActionResult Wonderful(long stuffId)
-    {
-        var stuff = _staffForHeroRepository.Get(stuffId);
-        _payForActionService.CreatorEarnMoney(stuff.Proposer.Id, 10);
-
-        return RedirectToAction("Stuff", "Stuff");
-    }
-
-    public IActionResult Awful(long stuffId)
-    {
-        var stuff = _staffForHeroRepository.Get(stuffId);
-
-        _payForActionService.CreatorDislikeFine(stuff.Proposer.Id, TypesOfPayment.Fine);
-
-        return RedirectToAction("Stuff", "Stuff");
-    }
-}
 }

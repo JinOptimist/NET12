@@ -10,7 +10,7 @@ namespace WebMaze.EfStuff
     {
 
         public static IQueryable<Template> GetQueryableForPagination<Template>(this IQueryable<Template> templates, int perPage, int page)
-            =>templates
+            => templates
             .Skip((page - 1) * perPage)
             .Take(perPage);
     }
