@@ -53,5 +53,10 @@ namespace Net12.Maze.Cells.Enemies
             var index = random.Next(cells.Count);
             return cells[index];
         }
+
+        public override bool TryToStep()
+        {
+            return true;
+        }
     }
 }
