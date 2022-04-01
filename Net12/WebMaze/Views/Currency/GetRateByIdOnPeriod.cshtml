@@ -1,5 +1,11 @@
 ﻿@using WebMaze.Models.CurrencyDto
 @model List<CurrencyRate>
+@section Scripts{
+    <script src="~/js/currencyGraph.js"></script>
+    <script src="~/lib/chart/chart.js"></script>
+}
+
+<canvas id="myChart" max-width="400" max-height="400"></canvas>
 
 <div>
     @foreach (var rate in @Model)
