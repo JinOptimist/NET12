@@ -1,12 +1,35 @@
 ﻿$(document).ready(function () {
     console.log("1");
 
-    const labels = ["10.01.22", "11.01.22", "12.01.22", "13.01.22", "14.01.22", "15.01.22", "16.01.22"];//fill from service
+    const paramsUrl = new URLSearchParams(window.location.search);
+    const currencyId = paramsUrl.get("currencyId");
+    const onStartDate = paramsUrl.get("onStartDate");
+    const onEndDate = paramsUrl.get("onEndDate");
+
+    //let dates = ["10.01.22", "11.01.22", "12.01.22", "13.01.22", "14.01.22", "15.01.22", "16.01.22"];//fill from service
+    //let rates = [3, 2, 4, 3, 4, 1, 2];
+    let dates = [];
+    let rates = [];
+
+    let url = `/Currency/GetRateByIdOnPeriodJson?currencyId=${currencyId}&onStartDate=${onStartDate}&onEndDate=${onEndDate}`;
+    $.get(url)
+        .done(function (rateList) {
+            for (var i = 0; i < rateList.length; i++) {
+                let rate = rateList[i].cur_OfficialRate;
+                let date = rateList[i].date;
+
+                rates.push(rate);
+                dates.push(date);                
+            }
+        });
+
+
+    
     const data = {
-        labels: labels,
+        labels: dates,
         datasets: [{
             label: 'Rate',
-            data: [3, 2, 4, 3, 4, 1, 2],//fill from service
+            data: rates,//fill from service
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
             tension: 0.1

@@ -67,6 +67,16 @@ namespace WebMaze.Services
 
             return rateList;
         }
+        public async Task<List<CurrencyRateGraph>> GetRateByIdOnPeriodJson(int cur_Id, DateTime onStartDate, DateTime onEndDate)
+        {
+            var startDate = onStartDate.ToString("yyyy-M-d");
+            var endDate = onEndDate.ToString("yyyy-M-d");
+            var uri = $"https://www.nbrb.by/API/ExRates/Rates/Dynamics/{cur_Id}?startDate={startDate}&endDate={endDate}";
+
+            var rateList = await CallAPI<List<CurrencyRateGraph>>(uri);
+
+            return rateList;
+        }
 
         private async Task<Template> CallAPI<Template>(string uri)
         {
