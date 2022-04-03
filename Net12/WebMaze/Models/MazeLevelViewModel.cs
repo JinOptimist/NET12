@@ -15,7 +15,7 @@ namespace WebMaze.Models
         public int HeroMaxFatigure { get; set; }
         public int HeroMoney { get; set; }
         public string Message { get; set; }
-
+        public string MessageExitStatus { get; set; }
         public List<MazeCellViewModel> Cells { get; set; }
     }
 }

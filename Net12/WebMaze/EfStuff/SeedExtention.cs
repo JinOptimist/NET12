@@ -110,7 +110,8 @@ namespace WebMaze.EfStuff
                     HeroMaxFatigue = 30,
                     CoinCount = 5,
                     IsActive = true,
-                    Creater = userRepository.GetUserByName(DefaultAdminName)
+                    Creater = userRepository.GetUserByName(DefaultAdminName),
+                    CoinsToOpenTheDoor = 60
                 };
 
                 mazeDifficult.Save(defaultDifficult);

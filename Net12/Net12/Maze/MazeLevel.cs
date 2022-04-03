@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 
 namespace Net12.Maze
-{   
-  
+{
+
     public class MazeLevel : IMazeLevel
 
     {
@@ -17,12 +17,15 @@ namespace Net12.Maze
 
         public List<BaseEnemy> Enemies { get; set; } = new List<BaseEnemy>();
 
+
         public int Width { get; set; }
         public int Height { get; set; }
 
         public IHero Hero { get; set; }
 
+        public string MessageExitStatus { get; set; }
         public string Message { get; set; } = "Play";
+        public int CoinsToOpenTheDoor { get; set; }
 
         public Action<int> GetCoins { get; set; }
 
@@ -73,6 +76,15 @@ namespace Net12.Maze
 
         public void HeroStep(Direction direction)
         {
+            if (Hero.Money < CoinsToOpenTheDoor)
+            {
+                MessageExitStatus = "Exit is close";
+            }
+            else
+            {
+                MessageExitStatus = "Exit is open";
+            }
+
             Message = "Step";
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;

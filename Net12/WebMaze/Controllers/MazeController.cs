@@ -146,14 +146,18 @@ namespace WebMaze.Controllers
             }
             else
             {
+
                 _userService.GetCurrentUser().Coins -= complixity.CoinCount;
 
                 var maze = new MazeBuilder().Build(complixity.Width, complixity.Height, complixity.HeroMaxHp, complixity.HeroMaxHp, GetCoinsFromMaze, false);
                 maze.Hero.MaxFatigue = complixity.HeroMaxFatigue;
+                maze.Hero.Money = complixity.HeroMoney;
 
                 var model = _mapper.Map<MazeLevelWeb>(maze);
                 model.IsActive = true;
                 model.Name = viewMaze.Name;
+                model.HeroMoney = maze.Hero.Money;
+                model.DifficultProfile = complixity;
                 model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
                 _mazeLevelRepository.Save(model);
 
@@ -226,8 +230,6 @@ namespace WebMaze.Controllers
             return RedirectToAction("ManageMazeDifficult", "Maze");
         }
 
-
-
         [Authorize]
         public IActionResult GetMazeData(long mazeId, int stepDirection)
         {
@@ -257,7 +259,15 @@ namespace WebMaze.Controllers
 
             var viewModel = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);
 
-            return Json(viewModel);
+            if (viewModel.Message != "You won!")
+            {
+                return Json(viewModel);
+            }
+
+            var user = _userService.GetCurrentUser();
+            user.Coins += viewModel.HeroMoney * 2;
+            _userRepository.Save(user);
+            return Json(viewModel);          
         }
         public IActionResult Wonderful(long difficultId)
         {
@@ -290,15 +300,15 @@ namespace WebMaze.Controllers
 
         public IActionResult CoupleWin(int CardsCount, int Steps)
         {
-
             return Json(true);
         }
 
         public void GetCoinsFromMaze(int coins)
         {
-            var user = _userService.GetCurrentUser();
-            user.Coins += coins;
-            _userRepository.Save(user);
+            //var user = _userService.GetCurrentUser();
+            // user.Coins += coins;
+            //_userRepository.Save(user);
         }
+      
     }
 }

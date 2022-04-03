@@ -9,7 +9,7 @@ namespace WebMaze.EfStuff.DbModel
         public virtual List<MazeCellWeb> Cells { get; set; }
         public virtual List<MazeEnemyWeb> Enemies { get; set; }
         public virtual User Creator { get; set; }
-
+        public virtual MazeDifficultProfile DifficultProfile { get; set; }
         public string Name { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
@@ -24,6 +24,6 @@ namespace WebMaze.EfStuff.DbModel
         public int HeroMoney { get; set; }
 
         public string Message { get; set; }
-
+        public string MessageExitStatus { get; set; }
     }
 }

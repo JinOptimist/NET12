@@ -142,6 +142,7 @@ namespace WebMaze.EfStuff
             modelBuilder.Entity<User>().HasMany(x => x.ListMazeLevels).WithOne(x => x.Creator);
             modelBuilder.Entity<MazeLevelWeb>().HasMany(x => x.Cells).WithOne(x => x.MazeLevel);
             modelBuilder.Entity<MazeLevelWeb>().HasMany(x => x.Enemies).WithOne(x => x.MazeLevel);
+            modelBuilder.Entity<MazeLevelWeb>().HasOne(x => x.DifficultProfile).WithMany(x => x.Mazes);
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<GroupList>().HasMany(x => x.Users).WithOne(x => x.Group);

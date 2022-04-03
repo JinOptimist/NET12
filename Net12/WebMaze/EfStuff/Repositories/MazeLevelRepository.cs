@@ -50,6 +50,8 @@ namespace WebMaze.EfStuff.Repositories
             model.HeroX = maze.Hero.X;
             model.HeroY = maze.Hero.Y;
             model.Message = maze.Message;
+            model.HeroMoney = maze.Hero.Money;
+            model.MessageExitStatus = maze.MessageExitStatus;
 
             foreach (var cell in maze.Cells)
             {
