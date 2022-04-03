@@ -233,10 +233,10 @@ namespace WebMaze.Controllers
         [Authorize]
         public IActionResult GetMazeData(long mazeId, int stepDirection)
         {
+            var user = _userService.GetCurrentUser();
             var mazeLevelDbModel = _mazeLevelRepository.Get(mazeId);
             var maze = _mapper.Map<MazeLevel>(mazeLevelDbModel);
             maze.GetCoins = GetCoinsFromMaze;
-
             switch (stepDirection)
             {
                 case 1:
@@ -258,16 +258,20 @@ namespace WebMaze.Controllers
             _mazeLevelRepository.Save(mazeLevelDbModel);
 
             var viewModel = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);
-
-            if (viewModel.Message != "You won!")
+            if (viewModel.Message != "WASTED")
             {
+                if (viewModel.Message != "You won!")
+                {
+                    return Json(viewModel);
+                }
+
+                user.Coins += viewModel.HeroMoney * 2;
+                _userRepository.Save(user);
                 return Json(viewModel);
             }
-
-            var user = _userService.GetCurrentUser();
-            user.Coins += viewModel.HeroMoney * 2;
+            user.Coins += viewModel.HeroMoney;
             _userRepository.Save(user);
-            return Json(viewModel);          
+            return Json(viewModel);
         }
         public IActionResult Wonderful(long difficultId)
         {
@@ -309,6 +313,6 @@ namespace WebMaze.Controllers
             // user.Coins += coins;
             //_userRepository.Save(user);
         }
-      
+
     }
 }
