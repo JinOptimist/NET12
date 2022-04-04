@@ -4,8 +4,9 @@
 @model MazeLevel
 
 @section Scripts{
-    <script src="~/js/MazeKeyDown.js"></script>
-   }
+<script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+<script src="~/js/MazeKeyDown.js"></script>
+}
 
 <div class="menu-maze-difficult">
     <a href="/Maze/AddMazeDifficult">Add Maze Difficult</a>
@@ -43,7 +44,9 @@
                     }
                     else if (Model.Enemies.Any(e => e.X == x && e.Y == y))
                     {
-                        <img class="cellMaze" src="~/images/cells/@(Model.Enemies.First(e => e.X == x && e.Y == y).GetType().Name).jpg" />
+                        <img class="cellMaze" 
+                             src="~/images/cells/@(Model
+                            .Enemies.First(e => e.X == x && e.Y == y).GetType().Name).jpg" />
                     }
                     else if (Model[x, y] is BaseCell)
                     {

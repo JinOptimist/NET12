@@ -29,6 +29,7 @@ namespace Net12.Maze
 
             if (!onlyWall)
             {
+                BuildBless();
                 BuildExit();
                 BuildWolfPit();
                 BuildGoldMine();
@@ -41,7 +42,6 @@ namespace Net12.Maze
                 BuildCoin();
                 BuildWeakWalls();
                 BuildTavern();
-                BuildBless();
                 BuildTrap();
                 BuildFountain();
                 BuildBullEnemy();

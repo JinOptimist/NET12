@@ -97,7 +97,7 @@ namespace Net12.Maze.Cells.Enemies
         {
             if (Maze.Hero.X == X && Maze.Hero.Y == Y)
             {
-                Maze.Hero.Hp--;
+                Maze.Hero.Hp -= 5;
             }
         }
 

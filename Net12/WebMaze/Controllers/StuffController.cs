@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using WebMaze.Controllers.AuthAttribute;
+using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
@@ -24,7 +27,8 @@ namespace WebMaze.Controllers
 
         public StuffController(UserRepository userRepository,
             StuffRepository stuffForHeroRepository,
-            IMapper mapper, UserService userService,
+            IMapper mapper,
+            UserService userService,
             PayForActionService payForActionService)
         {
             _staffForHeroRepository = stuffForHeroRepository;
@@ -34,12 +38,37 @@ namespace WebMaze.Controllers
             _payForActionService = payForActionService;
         }
 
-        public IActionResult Stuff()
+        public IActionResult Stuff(int page = 1, int perPage = 10, string typeSorted = "Name", bool isDescending = false)
         {
-            var staffsForHero = new List<StuffForHeroViewModel>();
-            staffsForHero = _staffForHeroRepository
-                    .GetAll().Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel)).ToList();
-            return View(staffsForHero);
+
+            var stuffsForHeroViewModels = _staffForHeroRepository
+                    .SortedBy(typeSorted, isDescending)
+                    .GetQueryableForPagination(perPage, page)
+                    .ToList()
+                    .Select(dbModel => _mapper.Map<StuffForHeroViewModel>(dbModel))
+                    .ToList();
+
+            //var filteredColumnNames = typeof(StuffForHeroViewModel)
+            //    .GetProperties()
+            //    .Where(x => x.GetCustomAttributes().Any(x => x.GetType() == typeof(FilteredAttribute)))
+            //    .Select(x => x.Name)
+            //    .ToList();
+
+            var indexViewModel = new StuffForHeroIndexViewModel
+            {
+                PaggerViewModel = new PaggerViewModel<StuffForHeroViewModel>
+                {
+                    PerPage = perPage,
+                    CurrPage = page,
+                    TotalRecordsCount = _staffForHeroRepository.Count(),
+                    Records = stuffsForHeroViewModels,
+                },
+                LastSort = typeSorted,
+                IsDescending = isDescending
+
+            };
+
+            return View(indexViewModel);
         }
 
         [Authorize]
@@ -47,7 +76,7 @@ namespace WebMaze.Controllers
         public IActionResult AddStuffForHero(long stuffId)
         {
             var model = _mapper.Map<StuffForHeroViewModel>(_staffForHeroRepository.Get(stuffId))
-                ?? new StuffForHeroViewModel(); 
+                ?? new StuffForHeroViewModel();
             return View(model);
         }
 

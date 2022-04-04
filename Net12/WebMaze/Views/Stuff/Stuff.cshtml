@@ -1,57 +1,116 @@
-﻿@model List<StuffForHeroViewModel>
+﻿@model StuffForHeroIndexViewModel
 
-@section Scripts{ 
+@section Scripts{
     <link rel="stylesheet" href="~/css/AddStuffForHero.css" />
 }
 
-<div class="background stuff">
-    <div class="intro">
-        Design exclusive features for your HERO
-    </div>
-    <div class="create-button">
-        <a class="button" href="/Stuff/AddStuffForHero">
-            Create stuff
-        </a>
-    </div>
+<div class="intro">
+    Design exclusive features for your HERO
+</div>
+<div class="create-button">
+    <a class="button" href="/Stuff/AddStuffForHero">
+        Create stuff
+    </a>
+</div>
 
-    @foreach (var stuff in Model)
+<div class="stuff-pagger-block">
+    @for (int i = 1; i <= Model.PaggerViewModel.TotalPageCount; i++)
+    {
+        if (i != Model.PaggerViewModel.CurrPage)
+        {
+            <a href="/Stuff/Stuff?page=@i&perPage=@Model.PaggerViewModel.PerPage&typeSorted=@Model.LastSort&isDescending=@Model.IsDescending">
+                Page @i
+            </a>
+        }
+        else
+        {
+            <span>Page @i</span>
+        }
+    }
+</div>
+
+
+<div>
+    @for (int i = 0; i < Model.PaggerViewModel.Records.Count(); i += 2)
     {
         <div class="stuff-list">
-            <div class="stuff stuff--1">
-                <div class="picture">
-                    <img class="gun" src='@stuff.PictureLink' />
-                </div>
-                <div class="info">
-                    <div class="name">
-                        Name: @stuff.Name
-                    </div>
-                    <div class="description">
-                        Description:  @stuff.Description
-                    </div>
-                    <div class="price">
-                        Price: @stuff.Price
-                    </div>
-                    <div>
-                        Author: @stuff.Proposer
-                    </div>
-                    <div>
-                        Rating: @stuff.GlobalUserRating
-                    </div>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                <div>
-                    <a href="@Url.Action("Wonderful","Stuff", new {@stuffId = stuff.Id})" class="good-button">Wonderful</a>
-                    <a href="@Url.Action("Awful","Stuff", new {@stuffId = stuff.Id})" class="bad-button">Awful</a>
+            @for (int k = i; k < 2 + i; k++)
+            {
+                var stuff = Model.PaggerViewModel.Records[k];
 
-                </div>
-                    }
-                    <div>
-                        <a href="/Stuff/RemoveStuff?stuffId=@stuff.Id">X</a>
-                        <a href="/Stuff/AddStuffForHero?stuffId=@stuff.Id">E</a>
+                <div class="stuff">
+
+                    <div class="picture">
+
+                        <img class="gun" src='@stuff.PictureLink' />
                     </div>
 
+                    <div class="info">
+
+                        <span>
+                            <a href="@Url.Action("Stuff","Stuff", new {
+                                        page = Model.PaggerViewModel.CurrPage,
+                                        perPage = Model.PaggerViewModel.PerPage,
+                                        typeSorted = nameof(stuff.Name),
+                                        isDescending = (Model.LastSort == nameof(stuff.Name) && !Model.IsDescending)})">
+
+                                Name: @stuff.Name
+                            </a>
+                        </span>
+
+                        <span class="description">
+                            Description:  @stuff.Description
+                        </span>
+
+                        <span>
+                            <a href="@Url.Action("Stuff", "Stuff", new {
+                                        page = Model.PaggerViewModel.CurrPage,
+                                        perPage = Model.PaggerViewModel.PerPage,
+                                        typeSorted = nameof(stuff.Price),
+                                        isDescending = (Model.LastSort == nameof(stuff.Price) && !Model.IsDescending)})">
+
+                                Price: @stuff.Price
+                            </a>
+                        </span>
+
+                        <span>
+                            <a href="@Url.Action("Stuff", "Stuff", new {
+                                        page = Model.PaggerViewModel.CurrPage,
+                                        perPage = Model.PaggerViewModel.PerPage,
+                                        typeSorted = "Proposer.Name",
+                                        isDescending = (Model.LastSort == "Proposer.Name" && !Model.IsDescending)})">
+
+                                Author: @stuff.Proposer
+                            </a>
+                        </span>
+
+                        <span>
+                            <a href="@Url.Action("Stuff", "Stuff", new {
+                                        page = Model.PaggerViewModel.CurrPage,
+                                        perPage = Model.PaggerViewModel.PerPage,
+                                        typeSorted = "Proposer.GlobalUserRating",
+                                        isDescending = !(Model.LastSort == "Proposer.GlobalUserRating" && Model.IsDescending)})">
+
+                                Rating: @stuff.GlobalUserRating
+                            </a>
+                        </span>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="stuff-rating-block">
+                                <a href="@Url.Action("Wonderful","Stuff", new {@stuffId = stuff.Id})" class="good-button">Wonderful</a>
+                                <a href="@Url.Action("Awful","Stuff", new {@stuffId = stuff.Id})" class="bad-button">Awful</a>
+
+                            </div>
+
+                            <div>
+                                <a href="/Stuff/RemoveStuff?stuffId=@stuff.Id">X</a>
+                                <a href="/Stuff/AddStuffForHero?stuffId=@stuff.Id">E</a>
+                            </div>
+                        }
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     }
 </div>

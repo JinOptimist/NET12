@@ -80,6 +80,7 @@ namespace WebMaze.EfStuff.Repositories
                     enemyModel.Obj2 = mod.Obj2;
                     enemyModel.X = mod.X;
                     enemyModel.Y = mod.Y;
+                    enemyModel.Hp = mod.Hp;
                     enemyModel.IsActive = true;
                 }
             }

@@ -9,6 +9,9 @@ namespace WebMaze.EfStuff.DbModel.SeaBattle
     {
         public long UserId { get; set; }
         public virtual User User { get; set; }
+        public int TwoSizeShip { get; set; }
+        public int ThreeSizeShip { get; set; }
+        public int FourSizeShip { get; set; }
         public virtual List<SeaBattleField> Fields { get; set; }
     }
 }
