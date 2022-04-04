@@ -291,6 +291,7 @@ namespace WebMaze.Controllers
 
                    mutexObjGoMaze.WaitOne();
 
+                   maze.EnemiesStep();
                    dataMaze.ChangeModel(myModel, maze, _mapper);
                    dataMaze.Save(myModel);
                    var viewModels = _mapper.Map<MazeLevelViewModel>(myModel);
