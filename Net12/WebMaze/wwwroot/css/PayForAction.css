@@ -1,47 +1,40 @@
 ﻿.good-button {
     background-color: white;
-    color: #01B636;
+    color: forestgreen;
     font-size: 16px;
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: 12px;
-    border: 2px solid #01B636;
+    border: 2px solid forestgreen;
     text-decoration: none;
-    font-style: normal;
-    margin-block: 2px;
-    margin-right: 5px
+    font-style: normal;  
 }
 
-    .good-button:hover {
-        background-color: #01B636;
-        color: white;
-        font-size: 16px;
-        padding: 3px 10px;
-        border-radius: 12px;
-        border: 2px solid white;
-        text-decoration: none;
-        margin-block: 2px;
-        margin-right: 5px
-    }
+.good-button:hover {
+    background-color: forestgreen;
+    color: white;
+    font-size: 16px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    border: 2px solid white;
+    text-decoration: none;      
+}
 
 .bad-button {
     background-color: white;
     color: red;
     font-size: 16px;
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: 12px;
     border: 2px solid red;
     text-decoration: none;
-    margin-block: 2px;
 }
 
-    .bad-button:hover {
-        background-color: red;
-        color: white;
-        font-size: 16px;
-        padding: 3px 10px;
-        border-radius: 12px;
-        border: 2px solid white;
-        text-decoration: none;
-        margin-block: 2px;
-    }
-
+.bad-button:hover {
+    background-color: red;
+    color: white;
+    font-size: 16px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    border: 2px solid white;
+    text-decoration: none;
+}

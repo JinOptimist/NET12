@@ -19,7 +19,8 @@ namespace WebMaze.EfStuff
         public const string DefaultAdminName = "admin";
         public const string DefaultMazeDifficultName = "Default";
         public const string DefaultNewsTitle = "TestNews";
-        public const string DefaultImageDesc = "Default admin image";       
+        public const string DefaultImageDesc = "Admin image";
+
         public static IHost Seed(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
@@ -196,67 +197,7 @@ namespace WebMaze.EfStuff
                 image = new Image()
                 {
                     Description = DefaultImageDesc,
-                    Picture = "/images/galleryImg/defaultGalleryFoto1.png",
-                    Assessment = 9,
-                    Author = author,
-                    IsActive = true
-                };
-                imageRepository.Save(image);
-
-                image = new Image()
-                {
-                    Description = "\"Play 15\" ",
-                    Picture = "/images/galleryImg/defaultGalleryFoto2.jpg",
-                    Assessment = 9,
-                    Author = author,
-                    IsActive = true
-                };
-                imageRepository.Save(image);
-
-                image = new Image()
-                {
-                    Description = "Miner!",
-                    Picture = "/images/galleryImg/defaultGalleryFoto3.png",
-                    Assessment = 9,
-                    Author = author,
-                    IsActive = true
-                };
-                imageRepository.Save(image);
-
-                image = new Image()
-                {
-                    Description = "Three In Row",
-                    Picture = "/images/galleryImg/defaultGalleryFoto4.jpg",
-                    Assessment = 9,
-                    Author = author,
-                    IsActive = true
-                };
-                imageRepository.Save(image);
-
-                image = new Image()
-                {
-                    Description = "Zuma",
-                    Picture = "/images/galleryImg/defaultGalleryFoto5.jpg",
-                    Assessment = 9,
-                    Author = author,
-                    IsActive = true
-                };
-                imageRepository.Save(image);
-
-                image = new Image()
-                {
-                    Description = "Couple",
-                    Picture = "/images/galleryImg/defaultGalleryFoto6.jpg",
-                    Assessment = 9,
-                    Author = author,
-                    IsActive = true
-                };
-                imageRepository.Save(image);
-
-                image = new Image()
-                {
-                    Description = "Sea battle",
-                    Picture = "/images/galleryImg/defaultGalleryFoto7.jpg",
+                    Picture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvgRMad98wVTdc-qAMIhYEF6tJ0QVKdJ03oA&usqp=CAU",
                     Assessment = 9,
                     Author = author,
                     IsActive = true

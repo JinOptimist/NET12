@@ -1,57 +1,26 @@
 ﻿@model ImageViewModel
 
-@section Scripts{    
-    <script src="~/js/galleryAddImage.js"></script>
-    <link rel="stylesheet" href="~/css/galleryAddImage.css" />
-}
-
 <div class="add">
     <div class="add-text">
         Fill out the form to add your picture
     </div>
-    
     <form action="/Gallery/AddImage" method="post" class="form" enctype="multipart/form-data">
-        <div class="ios-toggle">
-            <input type="checkbox" id="ios-toggle" name="IsUploadByURL" value="true" /><label for="ios-toggle" />
-        </div>
-
-        <div class="choose-how">
-            <div class="pic-upload">
-                <div>
-                    Upload picture
-                </div>
-                <div>
-                    <input type="file" name="@nameof(ImageViewModel.ImageFile)" class="file" />
-                </div>
-            </div>
-
-            <div class="pic-url">
-                <div>
-                    Picture URL
-                </div>
-                <div>
-                    @Html.TextBoxFor(x => x.Picture, new { Class = "addFieldURL", disabled = "disabled" })
-                </div>
-            </div>
-        </div>
-        
-        <div class="form-for-pic">
-            Foto description's
-            @Html.TextBoxFor(x => x.Description, new { Class = "addField" })
-        </div>
-
-        <div class="form-for-pic">
-            Assessment
-            @Html.TextBoxFor(x => x.Assessment, new { @type = "number", Class = "addField" })
-        </div>
-
         <div>
             @Html.ValidationSummary(true)
         </div>
-
-        <div>
-            <input type="submit" value="Save" class="good-button" />
+        <div class="form-for-pic">
+            Picture URL
+            <input type="file" name="@nameof(ImageViewModel.ImageFile)" />
         </div>
-    </form>    
+        <div class="form-for-pic">
+            Foto description's @Html.TextBoxFor(x => x.Description)
+        </div>
+        <div class="form-for-pic">
+            Assessment @Html.TextBoxFor(x => x.Assessment, new { @type = "number" })
+        </div>
+        <div>
+            <input type="submit" value="Save" class="form-button" />
+        </div>
+    </form>
 </div>
 
