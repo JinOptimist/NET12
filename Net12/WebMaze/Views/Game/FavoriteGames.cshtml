@@ -1,5 +1,9 @@
 ﻿@model List<GameViewModel>
 
+@section Scripts{
+    <script src="~/js/favGamesSorting.js"></script>
+}
+
 @{
     Layout = "~/Views/Shared/_LayoutFavGames.cshtml";
 }
@@ -53,20 +57,28 @@
     <div class="main-title-hint">click the letters!</div>
 
     <div class="sorting">
-        <div class="sorting-sort-by">
-            Sort by:
+        <div class="sorting-part1">
+            <div class="sorting-sort-by">
+                Sort by:
+            </div>
+            <div class="sorting-buttons">
+                <a href="/Game/FavoriteGames?gameFilter=Name&ascDirection=true" id="sorting-button0" class="sorting-button"><b>Title</b></a>
+                <a href="/Game/FavoriteGames?gameFilter=YearOfProd&ascDirection=true" id="sorting-button1" class="sorting-button"><b>Release Date</b></a>
+                <a href="/Game/FavoriteGames?gameFilter=Rating&ascDirection=true" id="sorting-button2" class="sorting-button"><b>Rating</b></a>
+                <a href="/Game/FavoriteGames?gameFilter=Creater.Age&ascDirection=true" id="sorting-button3" class="sorting-button"><b>Author's Age</b></a>
+                <a href="/Game/FavoriteGames?gameFilter=Creater.GlobalUserRating&ascDirection=true" id="sorting-button4" class="sorting-button"><b>User rating</b></a>
+</div>
         </div>
-        <div class="sorting-buttons">
-            <button class="sorting-button"><b>Title</b></button>
-            <button class="sorting-button"><b>Release Date</b></button>
-            <button class="sorting-button"><b>Rating</b></button>
-            <button class="sorting-button"><b>Author's Username</b></button>
-            <button class="sorting-button"><b>Author's Age</b></button>
+
+        <div class="sorting-part2">
+            <div class="asc-button"><input class="asc-button1" type="radio" name="sortBy" value="asc" checked>Ascending</div>
+            <div class="desc-button"><input class="desc-button1" type="radio" name="sortBy" value="desc">Descending</div>
         </div>
     </div>
 
     <div class="favGames-block">
         @foreach (var game in Model)
+             
         {
             <div class="each-favGame">
 
@@ -86,20 +98,21 @@
                             <b>Rating:</b> @game.Rating/10
                         </div>
                     </div>
-                    <div class="favGame-description"  >
+                    <div class="favGame-description">
                         <b>Description:</b> @game.Desc
-                    <div>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <br>
-                            <a href="@Url.Action("Wonderful","Game", new { @gameId = game.Id})" class="good-button">Wonderful</a>
-                            <a href="@Url.Action("Awful","Game", new {@gameId = game.Id})" class="bad-button">Awful</a>
-                        }
-                    </div>
+                        <div>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <br>
+                                <a href="@Url.Action("Wonderful","Game", new { @gameId = game.Id})" class="good-button">Wonderful</a>
+                                <a href="@Url.Action("Awful","Game", new {@gameId = game.Id})" class="bad-button">Awful</a>
+                            }
+                        </div>
                     </div>
                     <div class="favGame-user-elements">
                         <div><b>Username:</b> @game.Username</div>
                         <div><b>Age:</b> @game.Age</div>
+                        <div><b>User rating:</b> @game.GlobalUserRating</div>
                     </div>
                 </div>
 

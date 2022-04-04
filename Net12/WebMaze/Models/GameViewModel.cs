@@ -19,15 +19,15 @@ namespace WebMaze.Models
         public string Genre { get; set; }
 
         [CheckYear]
-        public int YearOfProd { get; set; }
+        public string YearOfProd { get; set; }
 
         [MinLength(2, ErrorMessage = "The smallest description's  size is 2 letters")]
         [MaxLength(500, ErrorMessage = "The biggest description's  size is 500 letters")]
         public string Desc { get; set; }
 
-        public int Rating { get; set; }
+        public string Rating { get; set; }
         public string Username { get; set; }
-        public int Age { get; set; }
-        public int GlobalUserRating { get; set; }
+        public string Age { get; set; }
+        public string GlobalUserRating { get; set; }
     }
 }
