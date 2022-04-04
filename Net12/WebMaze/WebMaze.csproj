@@ -46,6 +46,7 @@
     <Folder Include="wwwroot\images\NewCellImg\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
     <Folder Include="wwwroot\createdDocuments\" />
+    <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
 
   <ItemGroup>

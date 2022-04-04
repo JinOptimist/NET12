@@ -1,4 +1,8 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Codystar&display=swap');
+﻿
+@font-face {
+    font-family: "Codystar";
+    src: url("../fonts/Codystar-Light.ttf");
+}
 
 body {
     background-image: url(/imgFavGames/favGamesBackground.jpg);
@@ -108,8 +112,6 @@ body {
     margin: 5px 0 10px 0;
 }
 
-
-
 .main-title-favGames {
     margin-top: 2%;
     display: flex;
@@ -168,7 +170,6 @@ input[type="checkbox"]:checked ~ div {
     }
 }
 
-
 .main-title-hint {
     display: flex;
     justify-content: center;
@@ -176,8 +177,6 @@ input[type="checkbox"]:checked ~ div {
     font-size: 20px;
     font-style: italic;
 }
-
-
 
 .add-favGame-title {
     justify-content: center;
@@ -202,8 +201,6 @@ input[type="checkbox"]:checked ~ div {
         text-shadow: 0 0 20px blueviolet, 0 0 30px blueviolet, 0 0 40px blueviolet, 0 0 50px blueviolet, 0 0 60px blueviolet, 0 0 70px blueviolet, 0 0 80px blueviolet, 0 1 90px blueviolet;
     }
 }
-
-
 
 .all-about-favGame {
     display: flex;
