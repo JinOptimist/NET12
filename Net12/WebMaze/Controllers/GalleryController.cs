@@ -83,10 +83,7 @@ namespace WebMaze.Controllers
             if (!ModelState.IsValid)
             {
                 return View(imageViewModel);
-            }
-
-            /*ModelState.AddModelError(string.Empty, "valid????");
-            return View(imageViewModel);*/
+            }            
 
             var dbImage = _mapper.Map<Image>(imageViewModel);
             dbImage.Author = _userService.GetCurrentUser();           
