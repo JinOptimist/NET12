@@ -368,7 +368,8 @@ namespace WebMaze
                 HeroY = maze.Hero.Y,
                 Message = maze.Message,
                 HeroMoney = maze.Hero.Money,
-                MessageExitStatus = maze.MessageExitStatus
+                ExitStatus = maze.ExitStatus,
+                MazeStatus = maze.MazeStatus
             };
             return model;
         }
@@ -379,9 +380,9 @@ namespace WebMaze
                 Height = model.Height,
                 Width = model.Width,
                 Message = model.Message,
-                MessageExitStatus = model.MessageExitStatus,
-                CoinsToOpenTheDoor = model.DifficultProfile.CoinsToOpenTheDoor
-
+                ExitStatus = model.ExitStatus,
+                CoinsToOpenTheDoor = model.DifficultProfile.CoinsToOpenTheDoor,
+                MazeStatus = model.MazeStatus
             };
             maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroMaxHp)
             { Money = model.HeroMoney, CurrentFatigue = model.HeroNowFatigure, MaxFatigue = model.HeroMaxFatigure };

@@ -2,7 +2,7 @@
 
 namespace WebMaze.Migrations
 {
-    public partial class AddConnections : Migration
+    public partial class AddStatusExitStatusMaze : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,6 +11,27 @@ namespace WebMaze.Migrations
                 table: "MazeLevelsUser",
                 type: "bigint",
                 nullable: true);
+
+            migrationBuilder.AddColumn<bool>(
+                name: "ExitStatus",
+                table: "MazeLevelsUser",
+                type: "bit",
+                nullable: false,
+                defaultValue: false);
+
+            migrationBuilder.AddColumn<int>(
+                name: "MazeStatus",
+                table: "MazeLevelsUser",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
+
+            migrationBuilder.AddColumn<int>(
+                name: "CoinsToOpenTheDoor",
+                table: "MazeDifficultProfiles",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.CreateIndex(
                 name: "IX_MazeLevelsUser_DifficultProfileId",
@@ -39,6 +60,18 @@ namespace WebMaze.Migrations
             migrationBuilder.DropColumn(
                 name: "DifficultProfileId",
                 table: "MazeLevelsUser");
+
+            migrationBuilder.DropColumn(
+                name: "ExitStatus",
+                table: "MazeLevelsUser");
+
+            migrationBuilder.DropColumn(
+                name: "MazeStatus",
+                table: "MazeLevelsUser");
+
+            migrationBuilder.DropColumn(
+                name: "CoinsToOpenTheDoor",
+                table: "MazeDifficultProfiles");
         }
     }
 }

@@ -440,6 +440,9 @@ namespace WebMaze.Migrations
                     b.Property<long?>("DifficultProfileId")
                         .HasColumnType("bigint");
 
+                    b.Property<bool>("ExitStatus")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Height")
                         .HasColumnType("int");
 
@@ -467,10 +470,10 @@ namespace WebMaze.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MazeStatus")
+                        .HasColumnType("int");
 
-                    b.Property<string>("MessageExitStatus")
+                    b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")

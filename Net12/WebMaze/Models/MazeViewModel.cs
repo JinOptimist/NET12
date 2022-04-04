@@ -15,7 +15,6 @@ namespace WebMaze.Models
         public int Height { get; set; }
         public int HeroMaxHp { get; set; }
         public int HeroMaxFatigure { get; set; }
-
         public int HeroX { get; set; }
         public int HeroY { get; set; }
         public int HeroNowHp { get; set; }

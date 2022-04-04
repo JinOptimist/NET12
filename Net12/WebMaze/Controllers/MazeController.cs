@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
 using Net12.Maze;
 using Net12.Maze.Cells;
+using Net12.Maze.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -146,12 +147,12 @@ namespace WebMaze.Controllers
             }
             else
             {
-
                 _userService.GetCurrentUser().Coins -= complixity.CoinCount;
 
                 var maze = new MazeBuilder().Build(complixity.Width, complixity.Height, complixity.HeroMaxHp, complixity.HeroMaxHp, GetCoinsFromMaze, false);
                 maze.Hero.MaxFatigue = complixity.HeroMaxFatigue;
                 maze.Hero.Money = complixity.HeroMoney;
+
 
                 var model = _mapper.Map<MazeLevelWeb>(maze);
                 model.IsActive = true;
@@ -159,6 +160,7 @@ namespace WebMaze.Controllers
                 model.HeroMoney = maze.Hero.Money;
                 model.DifficultProfile = complixity;
                 model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
+                model.MazeStatus = MazeStatusEnum.InProgress;
                 _mazeLevelRepository.Save(model);
 
                 _chatHub.Clients.All.SendAsync("BuyMaze", _userService.GetCurrentUser().Name, complixity.Name, complixity.CoinCount);
@@ -258,19 +260,23 @@ namespace WebMaze.Controllers
             _mazeLevelRepository.Save(mazeLevelDbModel);
 
             var viewModel = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);
-            if (viewModel.Message != "WASTED")
-            {
-                if (viewModel.Message != "You won!")
-                {
-                    return Json(viewModel);
-                }
 
-                user.Coins += viewModel.HeroMoney * 2;
-                _userRepository.Save(user);
-                return Json(viewModel);
+            switch (viewModel.MazeStatus)
+            {
+
+                case MazeStatusEnum.Wasted:
+                    user.Coins += viewModel.HeroMoney;
+                    _userRepository.Save(user);
+                   break;
+
+                case MazeStatusEnum.YouWin:
+                    user.Coins += viewModel.HeroMoney * 2;
+                    _userRepository.Save(user);
+                    break;
+
+                case MazeStatusEnum.InProgress:
+                    break;
             }
-            user.Coins += viewModel.HeroMoney;
-            _userRepository.Save(user);
             return Json(viewModel);
         }
         public IActionResult Wonderful(long difficultId)

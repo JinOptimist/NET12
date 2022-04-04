@@ -10,8 +10,8 @@ using WebMaze.EfStuff;
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    [Migration("20220331235402_AddCoinsToOpenTheDoor")]
-    partial class AddCoinsToOpenTheDoor
+    [Migration("20220404184241_AddStatusExit+StatusMaze")]
+    partial class AddStatusExitStatusMaze
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -439,6 +439,12 @@ namespace WebMaze.Migrations
                     b.Property<long?>("CreatorId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("DifficultProfileId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("ExitStatus")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Height")
                         .HasColumnType("int");
 
@@ -466,10 +472,10 @@ namespace WebMaze.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MazeStatus")
+                        .HasColumnType("int");
 
-                    b.Property<string>("MessageExitStatus")
+                    b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -481,6 +487,8 @@ namespace WebMaze.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
+
+                    b.HasIndex("DifficultProfileId");
 
                     b.ToTable("MazeLevelsUser");
                 });
@@ -1303,7 +1311,13 @@ namespace WebMaze.Migrations
                         .WithMany("ListMazeLevels")
                         .HasForeignKey("CreatorId");
 
+                    b.HasOne("WebMaze.EfStuff.DbModel.MazeDifficultProfile", "DifficultProfile")
+                        .WithMany("Mazes")
+                        .HasForeignKey("DifficultProfileId");
+
                     b.Navigation("Creator");
+
+                    b.Navigation("DifficultProfile");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerCell", b =>
@@ -1528,6 +1542,11 @@ namespace WebMaze.Migrations
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GuessTheNumber.GuessTheNumberGameParameters", b =>
                 {
                     b.Navigation("Games");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
+                {
+                    b.Navigation("Mazes");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelWeb", b =>

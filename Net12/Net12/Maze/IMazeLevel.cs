@@ -1,5 +1,6 @@
 ﻿using Net12.Maze.Cells;
 using Net12.Maze.Cells.Enemies;
+using Net12.Maze.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -14,8 +15,8 @@ namespace Net12.Maze
         IHero Hero { get; set; }
         string Message { get; set; }
         int Width { get; set; }
-        public string MessageExitStatus { get; set; }
-
+        bool ExitStatus { get; set; }
+        MazeStatusEnum MazeStatus { get; set; }
         IBaseCell GetCellOrUnit(int x, int y);
         void HeroStep(Direction direction);
         void ReplaceCell(BaseCell baseCell);

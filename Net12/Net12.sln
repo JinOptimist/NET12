@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net12", "Net12\Net12.csproj", "{ED319EE9-5E5D-401F-B571-E1E39F1CBE6D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Net12.Test", "Net12.Test\Net12.Test.csproj", "{4300F3E2-EC31-4A33-9696-4A33140B2621}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2D5E609B-6F46-473E-AE7B-D931BB2C4521} = {2D5E609B-6F46-473E-AE7B-D931BB2C4521}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoolFormulaString", "CoolFormulaString\CoolFormulaString.csproj", "{A7012974-6E54-470C-B771-4047A7189E96}"
 EndProject

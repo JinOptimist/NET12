@@ -12,14 +12,13 @@ namespace Net12.Maze.Cells
 
         public override bool TryToStep()
         {
-            if (Maze.MessageExitStatus != "Exit is open")
+            if (Maze.ExitStatus)
             {
-                return false;
-            } 
-
                 Maze.Message = "You won!";                
+                return true;
+            } 
             
-            return true;
+            return false;
         }
     }
 }

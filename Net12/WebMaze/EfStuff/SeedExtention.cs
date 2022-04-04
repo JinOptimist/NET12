@@ -107,8 +107,8 @@ namespace WebMaze.EfStuff
                     Height = 20,
                     HeroMoney = 10,
                     HeroMaxHp = 50,
-                    HeroMaxFatigue = 40,
-                    CoinCount = 15,
+                    HeroMaxFatigue = 30,
+                    CoinCount = 5,
                     IsActive = true,
                     Creater = userRepository.GetUserByName(DefaultAdminName),
                     CoinsToOpenTheDoor = 50

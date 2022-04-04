@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Net12.Maze.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebMaze.Models.Enums;
 
 namespace WebMaze.Models
 {
@@ -15,7 +17,8 @@ namespace WebMaze.Models
         public int HeroMaxFatigure { get; set; }
         public int HeroMoney { get; set; }
         public string Message { get; set; }
-        public string MessageExitStatus { get; set; }
+        public bool ExitStatus { get; set; }
+        public MazeStatusEnum MazeStatus { get; set; }
         public List<MazeCellViewModel> Cells { get; set; }
     }
 }
