@@ -45,6 +45,7 @@
 
 .seabattle-field {
     border: 5px solid green;
+    max-width: max-content;
 }
 
 .seabattle-margin {
@@ -61,4 +62,9 @@
 
 .manage-seabattle-difficult * {
     margin-right: 10px;
+}
+
+.seabattle-enemy-ship {
+    min-width: max-content;
+    padding: 10px;
 }
