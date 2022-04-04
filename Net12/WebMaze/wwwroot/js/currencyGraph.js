@@ -13,11 +13,10 @@
 
             for (var i = 0; i < rateList.length; i++) {
                 let rate = rateList[i].cur_OfficialRate;
-                let date = rateList[i].date.split('T')[0];
+                let date = rateList[i].date;
 
                 rates.push(rate);
                 dates.push(date);
-                console.log("1");
             }
 
             const data = {

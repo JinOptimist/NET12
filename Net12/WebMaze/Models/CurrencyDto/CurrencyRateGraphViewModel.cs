@@ -2,9 +2,9 @@
 
 namespace WebMaze.Models.CurrencyDto
 {
-    public class CurrencyRateGraph
+    public class CurrencyRateGraphViewModel
     {
         public double Cur_OfficialRate { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
     }
 }

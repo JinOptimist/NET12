@@ -29,41 +29,41 @@ namespace WebMaze.Services
             }
         }
 
-        public async Task<List<CurrencyRate>> GetAllCurrencies()
+        public async Task<List<CurrencyRateViewModel>> GetAllCurrencies()
         {
             var uri = "https://www.nbrb.by/api/exrates/rates?periodicity=0";
 
-            var currencies = await CallAPI<List<CurrencyRate>>(uri);
+            var currencies = await CallAPI<List<CurrencyRateViewModel>>(uri);
 
             return currencies;
         }
 
-        public async Task<CurrencyRate> GetRateById(int cur_Id)
+        public async Task<CurrencyRateViewModel> GetRateById(int cur_Id)
         {
             var uri = $"https://www.nbrb.by/api/exrates/rates/{cur_Id}";
 
-            var rate = await CallAPI<CurrencyRate>(uri);
+            var rate = await CallAPI<CurrencyRateViewModel>(uri);
 
             return rate;
         }
 
-        public async Task<CurrencyRate> GetRateByIdOnDate(int cur_Id, DateTime date)
+        public async Task<CurrencyRateViewModel> GetRateByIdOnDate(int cur_Id, DateTime date)
         {
             var onDate = date.ToString("yyyy-M-d");
             var uri = $"https://www.nbrb.by/api/exrates/rates/{cur_Id}?ondate={onDate}";
             
-            var rate = await CallAPI<CurrencyRate>(uri);
+            var rate = await CallAPI<CurrencyRateViewModel>(uri);
 
             return rate;
         }
 
-        public async Task<List<CurrencyRateGraph>> GetRateByIdOnPeriod(int cur_Id, DateTime onStartDate, DateTime onEndDate)
+        public async Task<List<CurrencyRateGraphViewModel>> GetRateByIdOnPeriod(int cur_Id, DateTime onStartDate, DateTime onEndDate)
         {
             var startDate = onStartDate.ToString("yyyy-M-d");
             var endDate = onEndDate.ToString("yyyy-M-d");
             var uri = $"https://www.nbrb.by/API/ExRates/Rates/Dynamics/{cur_Id}?startDate={startDate}&endDate={endDate}";
 
-            var rateList = await CallAPI<List<CurrencyRateGraph>>(uri);
+            var rateList = await CallAPI<List<CurrencyRateGraphViewModel>>(uri);
 
             return rateList;
         }

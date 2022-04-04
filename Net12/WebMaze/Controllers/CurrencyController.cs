@@ -43,6 +43,11 @@ namespace WebMaze.Controllers
         public async Task<IActionResult> GetRateByIdOnPeriodJson(int currencyId, DateTime onStartDate, DateTime onEndDate)
         {
             var rateList = await _currenceService.GetRateByIdOnPeriod(currencyId, onStartDate, onEndDate);
+            foreach (var rate in rateList)
+            {
+                var date = rate.Date.Split("T");
+                rate.Date = date[0];
+            }
 
             return Json(rateList);
         }
