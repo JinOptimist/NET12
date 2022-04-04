@@ -19,7 +19,7 @@ namespace WebMaze.ResourceLocalization {
     // с помощью такого средства, как ResGen или Visual Studio.
     // Чтобы добавить или удалить член, измените файл .ResX и снова запустите ResGen
     // с параметром /str или перестройте свой проект VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class SeaBattle {
@@ -66,15 +66,6 @@ namespace WebMaze.ResourceLocalization {
         public static string ContinueGame {
             get {
                 return ResourceManager.GetString("ContinueGame", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Defeat.
-        /// </summary>
-        public static string Defeat {
-            get {
-                return ResourceManager.GetString("Defeat", resourceCulture);
             }
         }
         
@@ -129,6 +120,15 @@ namespace WebMaze.ResourceLocalization {
         public static string Return {
             get {
                 return ResourceManager.GetString("Return", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Surrender.
+        /// </summary>
+        public static string Surrender {
+            get {
+                return ResourceManager.GetString("Surrender", resourceCulture);
             }
         }
         
