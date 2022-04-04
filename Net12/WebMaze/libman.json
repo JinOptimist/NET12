@@ -9,6 +9,10 @@
       "files": [
         "dist/browser/signalr.min.js"
       ]
+    },
+    {
+      "library": "Chart.js@3.7.1",
+      "destination": "wwwroot/lib/Chart.js/"
     }
   ]
 }

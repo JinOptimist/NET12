@@ -1,22 +1,18 @@
 ﻿$(document).ready(function () {
 
     $('.type').change(function () {
-
+        $('.GetById').hide();
+        $('.GetOnDate').hide();
+        $('.GetOnPeriod').hide();
         switch ($('select[name="typeOfRequest"]').val()) {
             case "1":
                 $('.GetById').show();
-                $('.GetOnDate').hide();
-                $('.GetOnPeriod').hide();
                 break;
             case "2":
                 $('.GetOnDate').show();
-                $('.GetById').hide();
-                $('.GetOnPeriod').hide();
                 break;
             case "3":
                 $('.GetOnPeriod').show()
-                $('.GetById').hide();
-                $('.GetOnDate').hide();;
                 break;
             default:
                 break;

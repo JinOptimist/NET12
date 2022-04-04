@@ -6,3 +6,8 @@
 .GetOnPeriod {
     display: none;
 }
+
+.graph {
+    position: relative;
+    margin: auto;
+}
