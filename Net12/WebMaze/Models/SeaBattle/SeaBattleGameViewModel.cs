@@ -10,5 +10,8 @@ namespace WebMaze.Models
         public long Id { get; set; }
         public SeaBattleFieldViewModel MyField { get; set; }
         public SeaBattleFieldViewModel EnemyField { get; set; }
+        public int TwoSizeShip { get; set; }
+        public int ThreeSizeShip { get; set; }
+        public int FourSizeShip { get; set; }
     }
 }

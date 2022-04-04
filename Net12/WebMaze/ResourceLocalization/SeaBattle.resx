@@ -120,9 +120,6 @@
   <data name="ContinueGame" xml:space="preserve">
     <value>Continue Game</value>
   </data>
-  <data name="Defeat" xml:space="preserve">
-    <value>Defeat</value>
-  </data>
   <data name="FourSizeShip" xml:space="preserve">
     <value>FourSizeShip Count:</value>
   </data>
@@ -140,6 +137,9 @@
   </data>
   <data name="Return" xml:space="preserve">
     <value>Return</value>
+  </data>
+  <data name="Surrender" xml:space="preserve">
+    <value>Surrender</value>
   </data>
   <data name="ThreeSizeShip" xml:space="preserve">
     <value>ThreeSizeShip Count:</value>
