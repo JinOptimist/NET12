@@ -15,7 +15,6 @@
                 url: '/Gallery/Wonderful',
                 data: { imageId: $(this).attr('data-id') }
             })
-            
         }
         
     });
@@ -35,6 +34,5 @@
             url: '/Gallery/Awful',
             data: { imageId: $(this).attr('data-id') }
         })
-        
     });
 });
