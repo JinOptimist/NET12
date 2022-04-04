@@ -27,7 +27,7 @@ namespace WebMaze.Services
 
         public static List<SeaBattleTaskModel> SeaBattleTasks = new List<SeaBattleTaskModel>();
         private const int MAX_SECONDS_USER_INACTIVE = 100;
-        public const int SECONDS_TO_ENEMY_TURN = 50;
+        public const int SECONDS_TO_ENEMY_TURN = 10;
 
         public SeaBattleService(UserService userService,
                                 SeaBattleCellRepository seaBattleCellRepository,
