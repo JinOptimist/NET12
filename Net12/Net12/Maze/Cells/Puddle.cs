@@ -12,7 +12,8 @@ namespace Net12.Maze.Cells
 
         public override bool TryToStep()
         {
-            Maze.Message = "wap wap";
+            Maze.Hero.CurrentFatigue++;
+            Maze.Message = "+1Fatigue";
             return true;
         }
     }

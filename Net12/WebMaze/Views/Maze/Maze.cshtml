@@ -15,31 +15,33 @@
 </div>
 
 <div>
-    <a>My HP: @Model.Hero.Hp</a>
-    <a>My Fatigue: @Model.Hero.CurrentFatigue</a>
-    <a>My Money: @Model.Hero.Money</a>
+    <span class="myHealth">My Health: @Model.Hero.Hp/@Model.Hero.Max_hp</span>
+    <span class="myFatigue">My Fatigue: @Model.Hero.CurrentFatigue/@Model.Hero.MaxFatigue</span>
+    <span>My Money: @Model.Hero.Money</span>
+    <span class="myStatus">Game Status: @Model.Message</span>
 </div>
+<div class="endGame">TheEnd</div>
 <div class="text-center">
-    <h1>Maze</h1>
+    <h1 class="maze">Maze</h1>
     @for (int y = 0; y < Model.Height; y++)
     {
-        <div data-y="@y">
+        <div class="fild" data-y="@y">
             @for (int x = 0; x < Model.Width; x++)
             {
                 <span data-x="@x" data-y="@y">
                     @if (Model.Hero.X == x && Model.Hero.Y == y)
                     {
-                        <img class="cell" src="~/images/cells/spriteHero.png" />
+                        <img class="cellMaze" src="~/images/cells/Hero.jpg" />
                     }
                     else if (Model.Enemies.Any(e => e.X == x && e.Y == y))
                     {
-                        <img class="cell"
-                 src="~/images/Enemies/@(Model
+                        <img class="cell" 
+                             src="~/images/Enemies/@(Model
                             .Enemies.First(e => e.X == x && e.Y == y).GetType().Name).jpg" />
                     }
                     else if (Model[x, y] is BaseCell)
                     {
-                        <img class="cell" src="~/images/cells/@(Model[x,y].GetType().Name).jpg" />
+                        <img class="cellMaze" src="~/images/cells/@(Model[x,y].GetType().Name).jpg" />
                     }
                 </span>
             }

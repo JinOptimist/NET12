@@ -1,0 +1,13 @@
+﻿.GetById {
+}
+.GetOnDate {
+    display: none;
+}
+.GetOnPeriod {
+    display: none;
+}
+
+.graph {
+    position: relative;
+    margin: auto;
+}

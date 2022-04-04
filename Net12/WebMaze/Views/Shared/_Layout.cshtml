@@ -19,8 +19,7 @@
     <link rel="stylesheet" href="~/css/Teleport_in_out.css" />
     <link rel='stylesheet' href='~/css/goldmine.css'>
     <link rel="stylesheet" href="~/css/bugReports.css" />
-    <link rel="stylesheet" href="~/css/gameDevices.css" />
-    <link rel="stylesheet" href="~/css/gallery.css" />
+    <link rel="stylesheet" href="~/css/gameDevices.css" />    
     <link rel="stylesheet" href="~/css/maze.css" />
     <link rel="stylesheet" href="~/css/Bed.css" />
     <link rel="stylesheet" href="~/css/Goblin.css" />
@@ -31,6 +30,7 @@
     <link rel="stylesheet" href="~/css/miner.css" />
     <link rel="stylesheet" href="~/css/seaBattle.css" />
     <link rel="stylesheet" href="~/css/documentPreparation.css" />
+    <link rel="stylesheet" href="~/css/currency.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
     <script src="~/js/Language.js"></script>
@@ -135,10 +135,10 @@
                             Books
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            @if (User.Identity.IsAuthenticated) 
+                            @if (User.Identity.IsAuthenticated)
                             {
-                                <a class="dropdown-item" href="/Home/AddBook">Add Book</a> 
-                            }                                
+                                <a class="dropdown-item" href="/Home/AddBook">Add Book</a>
+                            }
                             <a class="dropdown-item" href="/Home/Book">Books</a>
                         </div>
                     </li>
@@ -147,26 +147,48 @@
                         <a class="nav-link" href="/GameDevices/GameDevices">Game devices</a>
                     </li>
 
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Gallery
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
-                                <a class="dropdown-item" href="/Gallery/GalleryCarousel">Carousel</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Gallery
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
+                            <a class="dropdown-item" href="/Gallery/GalleryCarousel">Carousel</a>
+                            
+                            @if (User.Identity.IsAuthenticated)
+                            {
                                 <a class="dropdown-item" href="/Gallery/AddImage">Add Image</a>
-                            </div>
-                        </li>
-                    }
+                            }
+                        </div>
+                    </li>
+
+                    @*@if (User.Identity.IsAuthenticated)
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Gallery
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/Gallery/Index">Gallery</a>
+                    <a class="dropdown-item" href="/Gallery/GalleryCarousel">Carousel</a>
+                    <a class="dropdown-item" href="/Gallery/AddImage">Add Image</a>
+                </div>
+            </li>
+        }*@
 
                     <li class="nav-item">
                         <a class="nav-link" href="/ThreeInRow/WelcomePage">Three In Row</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/GetDocument/Index">Get document</a>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Get documents
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="nav-link" href="/GetDocument/Index">Get document</a>
+                            <a class="nav-link" href="/GetPDF/Index">Get PDF</a>
+                        </div>
                     </li>
 
                     @if (User.Identity.IsAuthenticated)
@@ -186,6 +208,10 @@
                         <a class="nav-link" href="/Play15/Start">15</a>
                     </li>
 
+                     <li class="nav-item">
+                        <a class="nav-link" asp-controller="Currency" asp-action="Index">Currency</a>
+                    </li>
+                    
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             FavoriteGames
@@ -226,10 +252,11 @@
         <div class="container">
             &copy; 2021 - WebMaze
         </div>
-        @if(!User.Identity.IsAuthenticated){
-        <div class="language-selection">
-            <select class="Language-Selector"></select>
-        </div>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="language-selection">
+                <select class="Language-Selector"></select>
+            </div>
         }
     </footer>
 </body>

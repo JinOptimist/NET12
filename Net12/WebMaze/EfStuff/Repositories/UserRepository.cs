@@ -19,7 +19,8 @@ namespace WebMaze.EfStuff.Repositories
         private CellRepository _cellRepository;
         private MazeEnemyRepository _mazeEnemyRepository;
         private ILogger<UserRepository> _logger;
-        
+
+        private Random _random = new Random();
 
         public UserRepository(WebContext webContext,
             ReviewRepository reviewRepository,
@@ -34,7 +35,7 @@ namespace WebMaze.EfStuff.Repositories
             _mazeLevelRepository = mazeLevelRepository;
             _cellRepository = cellRepository;
             _mazeEnemyRepository = mazeEnemyRepository;
-            _logger = logger;            
+            _logger = logger;
         }
 
         public User GetByNameAndPassword(string login, string password)
@@ -46,6 +47,8 @@ namespace WebMaze.EfStuff.Repositories
         {
             return GetAllQueryable().First();
         }
+
+        public User GetFullRandomUser() => GetAllQueryable().Skip(_random.Next(Count())).First();
 
         public User GetUserByName(string name)
         {
@@ -119,7 +122,7 @@ FROM   users U
                                             )
                    GROUP  BY id) R
                ON U.id = R.id 
-    ")               
+    ")
                 .ToList();
         }
 
@@ -127,7 +130,7 @@ FROM   users U
         {
             return _webContext.Users
                 .ToList()
-                .Where(x=>x.IsActive)
+                .Where(x => x.IsActive)
                 .OrderBy(x => x.Id)
                 .GroupBy(x => x.Name)
                 .SelectMany(gr => gr.Skip(1))

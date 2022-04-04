@@ -1,0 +1,14 @@
+﻿@using WebMaze.Models.CurrencyDto
+@model List<CurrencyRateViewModel>
+
+@section Scripts{
+    <script src="~/lib/chart/chart.js"></script>
+    <script src="~/js/currencyGraph.js"></script>
+}
+
+<div>
+    <a href="/Currency/Index">Back</a>
+</div>
+<div class="graph">
+    <canvas id="myChart"></canvas>
+</div>
