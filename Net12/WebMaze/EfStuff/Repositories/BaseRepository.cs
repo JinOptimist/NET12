@@ -94,6 +94,33 @@ namespace WebMaze.EfStuff.Repositories
             var condition = Expression.Lambda<Func<Template, object>>(Expression.Convert(member, typeof(object)), table);
             return _dbSet.OrderBy(condition).ToList();
         }
+
+        public IQueryable<Template> SortedBy(string sortingName, bool isDescending)
+        {
+            var table = Expression.Parameter(typeof(Template), "obj");
+
+            var ListOfProperty = sortingName.Split(".");
+
+            var member = Expression.Property(table, ListOfProperty[0]);
+
+            for (int i = 1; i < ListOfProperty.Length; i++)
+            {
+                var item = ListOfProperty[i];
+                var next = Expression.Property(member, item);
+                member = next;
+            }
+
+            var condition = Expression.Lambda<Func<Template, object>>(Expression.Convert(member, typeof(object)), table);
+
+            if (isDescending)
+            {
+                return _dbSet.OrderByDescending(condition);
+            }
+            else
+            {
+                return _dbSet.OrderBy(condition);
+            }
+        }
     }
 
 

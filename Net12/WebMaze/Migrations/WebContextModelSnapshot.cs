@@ -443,6 +443,9 @@ namespace WebMaze.Migrations
                     b.Property<int>("HeroMaxHp")
                         .HasColumnType("int");
 
+                    b.Property<int>("HeroMoney")
+                        .HasColumnType("int");
+
                     b.Property<int>("HeroNowFatigure")
                         .HasColumnType("int");
 
@@ -457,6 +460,9 @@ namespace WebMaze.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -844,8 +850,17 @@ namespace WebMaze.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("FourSizeShip")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<int>("ThreeSizeShip")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TwoSizeShip")
+                        .HasColumnType("int");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -1586,15 +1601,15 @@ namespace WebMaze.Migrations
 
                     b.Navigation("NewsComments");
 
+                    b.Navigation("RequestCreators");
+
+                    b.Navigation("RequestRecipients");
+
                     b.Navigation("SeaBattleGame");
 
                     b.Navigation("ThreeInRowGameFields");
 
                     b.Navigation("UsersInGroup");
-
-                    b.Navigation("RequestCreators");
-
-                    b.Navigation("RequestRecipients");
 
                     b.Navigation("ZumaGameDifficults");
 
