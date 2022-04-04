@@ -45,3 +45,12 @@
         margin-block: 2px;
     }
 
+.change-color-good {
+    background-color: #01B636;
+    color: white;
+}
+
+.change-color-bad {
+    background-color: red;
+    color: white;
+}

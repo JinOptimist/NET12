@@ -25,7 +25,7 @@
             residue = checkPossibilityToWin();
 
         } while (residue == 1);
-
+        
         for (let row = 0; row < 4; row++) {        
             for (let column = 0; column < 4; column++) {
                 if (places[row][column]) {
@@ -103,7 +103,7 @@
     }  
 
     function checkWin() {
-        for (var place = 0; place < 14; place++) {
+        for (var place = 0; place < 15; place++) {
             let number = place + 1;
             cell = getRowAndColumnByPlace(place);
 
