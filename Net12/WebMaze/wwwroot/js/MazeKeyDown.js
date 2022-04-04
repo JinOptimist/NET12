@@ -1,5 +1,20 @@
 ﻿$(document).ready(function () {
 
+    const hubConnectionEnemies = new signalR.HubConnectionBuilder()
+        .withUrl("/mazeEnemies")
+        .build();
+
+    hubConnectionEnemies.on("ChangingMazeCells", function (mazeData) {
+        console.log("MESSAGE MAN");
+        for (var i = 0; i < mazeData.cells.length; i++) {
+            let cell = mazeData.cells[i];
+
+            $(`[data-x=${cell.x}][data-y=${cell.y}] img`)
+                .attr('src', `/images/cells/${cell.cellType}.jpg`);
+        }
+    });
+    hubConnectionEnemies.start();
+
     document.addEventListener('keydown', function (event) {
         switch (event.code) {
             case "ArrowDown":
@@ -45,4 +60,7 @@
                 }
             });
     }
+
+
+
 });
