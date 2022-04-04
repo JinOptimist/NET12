@@ -37,7 +37,8 @@ namespace WebMaze.Controllers
         private IHubContext<ChatHub> _chatHub;
         private IHubContext<MazeHub> _mazeHub;
         private IHostEnvironment _environment;
-        private List<UserMazeActivity> _userMazeActivities = new List<UserMazeActivity>();
+
+        private static List<UserMazeActivity> _userMazeActivities = new List<UserMazeActivity>();
 
         private const int DELAY_MOVING_ENEMIES = 1; // sec
         private const int MAX_TIME_ACTIVITY = 5; // sec
@@ -105,7 +106,7 @@ namespace WebMaze.Controllers
         [Authorize]
         public IActionResult Maze(long Id, int turn)
         {
-            _userMazeActivities.Where(u => u.MazeId == Id).ToList().ForEach(u => u.CancellationTokenSource.Cancel());
+            _userMazeActivities.Where(u => u.MazeId == Id).ToList().ForEach(u => u.IsActive = false);
             var myModel = _mazeLevelRepository.Get(Id);
             var maze = _mapper.Map<MazeLevel>(myModel);
             maze.GetCoins = GetCoinsFromMaze;
@@ -133,40 +134,6 @@ namespace WebMaze.Controllers
             return View(maze);
         }
 
-        [Authorize]
-        public void GoEnemies(long mazeId)
-        {
-            Console.WriteLine("START MULTHREADING");
-            mutexObjGoMaze.WaitOne();
-            var dataMaze = (MazeLevelRepository)HttpContext.RequestServices.GetService(typeof(MazeLevelRepository));
-
-            var myModel = dataMaze.Get(mazeId);
-            mutexObjGoMaze.ReleaseMutex();
-            var mazeActivity = _userMazeActivities.First(u => u.MazeId == mazeId);
-
-
-            var maze = _mapper.Map<MazeLevel>(myModel);
-            maze.GetCoins = GetCoinsFromMaze;
-
-            while ((DateTime.Now - mazeActivity.LastActivity).TotalSeconds < MAX_TIME_ACTIVITY)
-            {
-                Thread.Sleep(DELAY_MOVING_ENEMIES * 1000);
-
-
-                Console.WriteLine("GO THREAD ENEMIES");
-                maze.EnemiesStep();
-
-                dataMaze.ChangeModel(myModel, maze, _mapper);
-
-                dataMaze.Save(myModel);
-
-
-
-
-            }
-            Console.WriteLine("END THREAD");
-
-        }
         [Authorize]
         [HttpGet]
         public IActionResult CreateMaze()
@@ -273,10 +240,11 @@ namespace WebMaze.Controllers
 
 
         [Authorize]
-        public IActionResult GetMazeData(long mazeId, int stepDirection)
+        public async Task<IActionResult> GetMazeDataAsync(long mazeId, int stepDirection)
         {
-            _userMazeActivities.Where(u => u.MazeId == mazeId).ToList().ForEach(u => u.CancellationTokenSource.Cancel());
-            _userMazeActivities.Remove(_userMazeActivities.SingleOrDefault(m => m.MazeId == mazeId));
+
+            _userMazeActivities.Where(u => u.MazeId == mazeId).ToList().ForEach(u => u.IsActive = false);
+
 
             var mazeLevelDbModel = _mazeLevelRepository.Get(mazeId);
             var maze = _mapper.Map<MazeLevel>(mazeLevelDbModel);
@@ -299,72 +267,46 @@ namespace WebMaze.Controllers
             }
 
             _mazeLevelRepository.ChangeModel(mazeLevelDbModel, maze, _mapper);
-
             _mazeLevelRepository.Save(mazeLevelDbModel);
 
             var viewModel = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);
 
             CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
             CancellationToken token = cancelTokenSource.Token;
-            var mazeActivity = new UserMazeActivity() { MazeId = maze.Id, CancellationTokenSource = cancelTokenSource, LastActivity = DateTime.Now };
-            _userMazeActivities.Add(mazeActivity);
 
-            //Task t_Enemies = new Task(() => GoEnemies(mazeId), token);
-            //t_Enemies.Start();
-            //var s = HttpContext.User.Identity.Name;
-            //do
-            //{
-            //    mutexObjGoMaze.WaitOne();
-            //    var mazeLevelDbModel_cycle = _mazeLevelRepository.Get(mazeId);
-            //    mutexObjGoMaze.ReleaseMutex();
-
-            //    var viewModel_cycle = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);
-            //    yield return Json(viewModel_cycle);
-            //    _mazeHub.Clients.User(s).SendAsync("ChangingMazeCells", viewModel_cycle);
-            //    Thread.Sleep(1 * DELAY_MOVING_ENEMIES);
-            //} while (_userMazeActivities.Where(u => u.MazeId == mazeId).Any() || !t_Enemies.IsCompleted || !t_Enemies.IsCanceled);
-            //_userMazeActivities.Where(u => u.MazeId == mazeId).ToList().ForEach(u => u.CancellationTokenSource.Cancel());
-
-            //yield break;
-            var threadContext = HttpContext;
-
-            var result = Task.Run(() =>
+            var mazeEnemiesActivity = new UserMazeActivity() { IsActive = true, LastActivity = DateTime.Now, MazeId = mazeId };
+            _userMazeActivities.Add(mazeEnemiesActivity);
+            await Task.Run(() =>
            {
                var s = HttpContext.User.Identity.Name;
                var dataMaze = (MazeLevelRepository)HttpContext.RequestServices.GetService(typeof(MazeLevelRepository));
-
-               var myModel = dataMaze.Get(mazeId);
-               mutexObjGoMaze.ReleaseMutex();
-               var mazeActivity = _userMazeActivities.First(u => u.MazeId == mazeId);
-
-
+               var myModel = mazeLevelDbModel;
                var maze = _mapper.Map<MazeLevel>(myModel);
                maze.GetCoins = GetCoinsFromMaze;
 
-               while ((DateTime.Now - mazeActivity.LastActivity).TotalSeconds < MAX_TIME_ACTIVITY)
+
+               while ((DateTime.Now - mazeEnemiesActivity.LastActivity).TotalSeconds < MAX_TIME_ACTIVITY && mazeEnemiesActivity.IsActive)
                {
+
+
+                   mutexObjGoMaze.WaitOne();
+
+                   maze.EnemiesStep();
+                   dataMaze.ChangeModel(myModel, maze, _mapper);
+                   dataMaze.Save(myModel);
+                   var viewModels = _mapper.Map<MazeLevelViewModel>(myModel);
+                   _mazeHub.Clients.User(s).SendAsync("ChangingMazeCells", viewModels);
+
+                   mutexObjGoMaze.ReleaseMutex();
                    Thread.Sleep(DELAY_MOVING_ENEMIES * 1000);
 
-
-                   Console.WriteLine("GO THREAD ENEMIES");
-                   maze.EnemiesStep();
-
-                   dataMaze.ChangeModel(myModel, maze, _mapper);
-
-                   dataMaze.Save(myModel);
                }
-               var mazeLevelDbModel_cycle = _mazeLevelRepository.Get(mazeId);
+           }, token);
 
-               var viewModel_cycle = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);
-               _mazeHub.Clients.User(s).SendAsync("ChangingMazeCells", viewModel_cycle);
-               Thread.Sleep(1 * DELAY_MOVING_ENEMIES);
-
-           });
-           
-
-
+            return null;
 
         }
+
         public IActionResult Wonderful(long difficultId)
         {
             var diffcult = _mazeDifficultRepository.Get(difficultId);

@@ -7,6 +7,6 @@ namespace WebMaze.Models
     {
         public long MazeId { get; set; }
         public DateTime LastActivity { get; set; }
-        public CancellationTokenSource CancellationTokenSource { get; set; }
+        public bool IsActive { get; set; }
     }
 }
