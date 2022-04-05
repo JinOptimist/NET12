@@ -139,6 +139,7 @@ namespace WebMaze.EfStuff
                     userRepository.Save(testUser);
                 }
             }
+        }
 
         private static void SeedMazeDifficult(IServiceScope scope)
         {
