@@ -57,7 +57,7 @@ namespace WebMaze.Services
             return rate;
         }
 
-        public async Task<List<CurrencyRateGraphViewModel>> GetRateByIdOnPeriod(int cur_Id, DateTime onStartDate, DateTime onEndDate)
+        public async Task<List<CurrencyRateGraphViewModel>> GetRateByIdOnPeriod(int[] cur_Id, DateTime onStartDate, DateTime onEndDate)
         {
             var startDate = onStartDate.ToString("yyyy-M-d");
             var endDate = onEndDate.ToString("yyyy-M-d");
