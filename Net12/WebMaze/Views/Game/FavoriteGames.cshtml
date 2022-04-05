@@ -18,38 +18,13 @@
     <div class="main-title-favGames">
 
         <ul>
-            <li>
-                <input type="checkbox" />
-                <div class="letter">F</div>
-            </li>
-            <li>
-                <input type="checkbox" />
-                <div class="letter">a</div>
-            </li>
-            <li>
-                <input type="checkbox" />
-                <div class="letter">v</div>
-            </li>
-            <li>
-                <input type="checkbox" />
-                <div class="letter">G</div>
-            </li>
-            <li>
-                <input type="checkbox" />
-                <div class="letter">a</div>
-            </li>
-            <li>
-                <input type="checkbox" />
-                <div class="letter">m</div>
-            </li>
-            <li>
-                <input type="checkbox" />
-                <div class="letter">e</div>
-            </li>
-            <li>
-                <input type="checkbox" />
-                <div class="letter">s</div>
-            </li>
+            @foreach (var letter in "FavGames".ToCharArray())
+            {
+                <li>
+                    <input type="checkbox" />
+                    <div class="letter">@letter</div>
+                </li>
+            }
         </ul>
 
     </div>
@@ -57,22 +32,22 @@
     <div class="main-title-hint">click the letters!</div>
 
     <div class="sorting">
-        <div class="sorting-part1">
+        <div class="sorting-part-choose-column">
             <div class="sorting-sort-by">
                 Sort by:
             </div>
             <div class="sorting-buttons">
-                <a href="/Game/FavoriteGames?gameFilter=Name&ascDirection=true" id="sorting-button0" class="sorting-button"><b>Title</b></a>
-                <a href="/Game/FavoriteGames?gameFilter=YearOfProd&ascDirection=true" id="sorting-button1" class="sorting-button"><b>Release Date</b></a>
-                <a href="/Game/FavoriteGames?gameFilter=Rating&ascDirection=true" id="sorting-button2" class="sorting-button"><b>Rating</b></a>
-                <a href="/Game/FavoriteGames?gameFilter=Creater.Age&ascDirection=true" id="sorting-button3" class="sorting-button"><b>Author's Age</b></a>
-                <a href="/Game/FavoriteGames?gameFilter=Creater.GlobalUserRating&ascDirection=true" id="sorting-button4" class="sorting-button"><b>User rating</b></a>
+                <a href="/Game/FavoriteGames?gameFilter=Name&ascDirection=true" class="sorting-button"><b>Title</b></a>
+                <a href="/Game/FavoriteGames?gameFilter=YearOfProd&ascDirection=true" class="sorting-button"><b>Release Date</b></a>
+                <a href="/Game/FavoriteGames?gameFilter=Rating&ascDirection=true" class="sorting-button"><b>Rating</b></a>
+                <a href="/Game/FavoriteGames?gameFilter=Creater.Age&ascDirection=true" class="sorting-button"><b>Author's Age</b></a>
+                <a href="/Game/FavoriteGames?gameFilter=Creater.GlobalUserRating&ascDirection=true" class="sorting-button"><b>User rating</b></a>
 </div>
         </div>
 
-        <div class="sorting-part2">
-            <div class="asc-button"><input class="asc-button1" type="radio" name="sortBy" value="asc" checked>Ascending</div>
-            <div class="desc-button"><input class="desc-button1" type="radio" name="sortBy" value="desc">Descending</div>
+        <div class="sorting-part-direction">
+            <div class="asc-button"><input class="asc-button-press" type="radio" name="sortBy" checked>Ascending</div>
+            <div class="desc-button"><input class="desc-button-press" type="radio" name="sortBy">Descending</div>
         </div>
     </div>
 

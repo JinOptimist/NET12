@@ -1,25 +1,21 @@
 ﻿$(document).ready(function () {
-    $(".asc-button1").click(function () {
+    $(".asc-button-press").click(function () {
 
-        let count = $(".sorting-buttons a").length;
-
-        for (let i = 0; i < count; i++) {
-            let template = $("#sorting-button"+i).attr('href');
+        $(".sorting-button").each(function (link) {
+            let template = $(this).attr('href');
             template = template.substring(0, template.indexOf('&'));
-            $("#sorting-button"+i).attr('href', template + "&ascDirection=true");
-        }
+            $(this).attr('href', template + "&ascDirection=true");
+        })
 
     });
 
-    $(".desc-button1").click(function () {
+    $(".desc-button-press").click(function () {
 
-        let count = $(".sorting-buttons a").length;
-
-        for (let i = 0; i < count; i++) {
-            let template = $("#sorting-button" + i).attr('href');
+        $(".sorting-button").each(function () {
+            let template = $(this).attr('href');
             template = template.substring(0, template.indexOf('&'));
-            $("#sorting-button" + i).attr('href', template + "&ascDirection=false");
-        }
+            $(this).attr('href', template + "&ascDirection=false");
+        })
 
     });
 

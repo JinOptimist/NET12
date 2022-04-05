@@ -10,12 +10,12 @@ body {
     background-attachment: fixed;
 }
 
-.sorting-part1 {
+.sorting-part-choose-column {
     display: flex;
     justify-content: space-around;
 }
 
-.sorting-part2 {
+.sorting-part-direction {
     display: flex;
     justify-content: center;
     font-size: 25px;
@@ -32,12 +32,12 @@ body {
     text-shadow: 1px 5px 1px #3c0845, 0 0 3em #681177, 0 0 0.9em #6c175f;
 }
 
-.asc-button1 {
+.asc-button-press {
     height: 17px;
     width: 17px;
 }
 
-.desc-button1 {
+.desc-button-press {
     height: 17px;
     width: 17px;
 }
@@ -185,22 +185,8 @@ input[type="checkbox"]:checked ~ div {
     margin: 50px 250px 20px 250px;
     font-family: 'Codystar';
     font-weight: bold;
-    -webkit-animation: glow2 2s ease-in-out infinite alternate;
-    -moz-animation: glow2 2s ease-in-out infinite alternate;
-    animation: glow2 2s ease-in-out infinite alternate;
 }
 
-@-webkit-keyframes glow2 {
-    from {
-        color: white;
-        text-shadow: 0 0 10px blueviolet, 0 0 20px blueviolet, 0 0 30px blueviolet, 0 0 40px blueviolet, 0 0 50px blueviolet, 0 0 60px blueviolet, 0 0 70px blueviolet, 0 0 90px blueviolet;
-    }
-
-    to {
-        color: gray;
-        text-shadow: 0 0 20px blueviolet, 0 0 30px blueviolet, 0 0 40px blueviolet, 0 0 50px blueviolet, 0 0 60px blueviolet, 0 0 70px blueviolet, 0 0 80px blueviolet, 0 1 90px blueviolet;
-    }
-}
 
 .all-about-favGame {
     display: flex;

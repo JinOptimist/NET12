@@ -19,7 +19,9 @@ namespace WebMaze.EfStuff
         public const string DefaultAdminName = "admin";
         public const string DefaultMazeDifficultName = "Default";
         public const string DefaultNewsTitle = "TestNews";
-        public const string DefaultImageDesc = "Admin image";       
+        public const string DefaultImageDesc = "Admin image";
+        public static List<string> testUsernames = new List<string> { "Alice77", "JackieCool", "Ian1995", "Katee11" };
+
         public static IHost Seed(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
@@ -89,6 +91,27 @@ namespace WebMaze.EfStuff
                 };
 
                 userRepository.Save(admin);
+            }
+
+            var random = new Random();
+
+            for (int i = 0; i < testUsernames.Count; i++)
+            {
+                if (userRepository.GetUserByName(testUsernames[i]) == null)
+                {
+                    var testUser = new User()
+                    {
+                        Name = testUsernames[i],
+                        Password = "qwer1234",
+                        Coins = 100,
+                        Age = 18 + random.Next(10),
+                        IsActive = true,
+                        GlobalUserRating = 100
+                    };
+
+                    userRepository.Save(testUser);
+                }
+
             }
         }
 
@@ -185,27 +208,7 @@ namespace WebMaze.EfStuff
 
             if (favGamesRepository.Count() < testGamesCount)
             {
-                var testUsernames = new List<string>() { "Alice77", "JackieCool", "Ian1995", "Katee11" };
                 var random = new Random();
-
-                for (int i = 0; i < testUsernames.Count; i++)
-                {
-                    if (userRepository.GetUserByName(testUsernames[i]) == null)
-                    {
-                        var testUser = new User()
-                        {
-                            Name = testUsernames[i],
-                            Password = "qwer1234",
-                            Coins = 100,
-                            Age = 18 + random.Next(10),
-                            IsActive = true,
-                            GlobalUserRating = 100
-                        };
-
-                        userRepository.Save(testUser);
-                    }
-
-                }
 
                 var testYearsOfProduction = new List<int>() { 2009, 2010, 2013, 2014 };
 
