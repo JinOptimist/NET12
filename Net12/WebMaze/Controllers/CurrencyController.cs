@@ -36,20 +36,29 @@ namespace WebMaze.Controllers
 
             return View(rate);
         }
-        public IActionResult GetRateByIdOnPeriod(int currencyId, DateTime onStartDate, DateTime onEndDate)
+        public IActionResult GetRateByIdOnPeriod(int[] currencyId, DateTime onStartDate, DateTime onEndDate)
         {
             return View();
         }
         public async Task<IActionResult> GetRateByIdOnPeriodJson(int[] currencyId, DateTime onStartDate, DateTime onEndDate)
         {
-            var rateList = await _currenceService.GetRateByIdOnPeriod(currencyId, onStartDate, onEndDate);
-            foreach (var rate in rateList)
+            var arrayOfrateList = new List<List<CurrencyRateGraphViewModel>>();
+            foreach (var cur_Id in currencyId)
             {
-                var date = rate.Date.Split("T");
-                rate.Date = date[0];
+                var rateList = await _currenceService.GetRateByIdOnPeriod(cur_Id, onStartDate, onEndDate);
+                arrayOfrateList.Add(rateList);
+            }
+            
+            foreach (var rateList in arrayOfrateList)
+            {
+                foreach (var rate in rateList)
+                {
+                    var date = rate.Date.Split("T");
+                    rate.Date = date[0];
+                }                
             }
 
-            return Json(rateList);
+            return Json(arrayOfrateList);
         }
     }
 }

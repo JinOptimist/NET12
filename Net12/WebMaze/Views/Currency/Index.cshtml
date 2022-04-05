@@ -11,8 +11,8 @@
 }
 
 @section Scripts{
-    <script src="~/js/currency.js"></script>
-    <script src="~/js/currencyOnPeriod.js"></script>
+<script src="~/js/Currency/currency.js"></script>
+<script src="~/js/Currency/currencyOnPeriod.js"></script>
 }
 
 
@@ -51,6 +51,12 @@
             Add
         </div>
         <div class="fields">
+        </div>
+        <div class="dates">
+            startDate:<input name="startDate" value="@minDatePeriod" type="date" min="@minDatePeriod" max="@dateToday" />
+            endDate:<input name="endDate" value="@dateToday" type="date" min="@minDatePeriod" max="@dateToday" />
+        </div>
+        <div>
 
         </div>
         <input class="getOnPeriod" type="button" value="Get" />
@@ -59,14 +65,13 @@
         </div>
     </div>
 
+
     <div class="getOnPeriod-field base">
-            <select name="currency">
-                @foreach (var item in Model)
-                {
-                    <option value="@item.Cur_ID">@item.Cur_Name</option>
-                }
-            </select>
-            startDate:<input name="startDate" value="@minDatePeriod" type="date" min="@minDatePeriod" max="@dateToday" />
-            endDate:<input name="endDate" value="@dateToday" type="date" min="@minDatePeriod" max="@dateToday" />
-        </div> 
+        <select name="currency">
+            @foreach (var item in Model)
+            {
+                <option value="@item.Cur_ID">@item.Cur_Name</option>
+            }
+        </select>
+    </div>
 </div>

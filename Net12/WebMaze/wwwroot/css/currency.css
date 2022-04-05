@@ -9,6 +9,9 @@
 .getOnPeriod-field {
     display: none
 }
+.dates {
+    display: none;
+}
 .getOnPeriod{
     display: none;
 }
