@@ -19,7 +19,9 @@ namespace WebMaze.EfStuff
         public const string DefaultAdminName = "admin";
         public const string DefaultMazeDifficultName = "Default";
         public const string DefaultNewsTitle = "TestNews";
-        public const string DefaultImageDesc = "Default admin image";       
+        public const string DefaultImageDesc = "Admin image";
+        public static List<string> testUsernames = new List<string> { "Alice77", "JackieCool", "Ian1995", "Katee11" };
+
         public static IHost Seed(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
@@ -29,6 +31,7 @@ namespace WebMaze.EfStuff
                 SeedNews(scope);
                 SeedPermissions(scope);
                 SeedGallery(scope);
+                SeedFavGames(scope);
                 SeedZumaGameDifficult(scope);
                 SeedGuessTheNumberGameParametersRecords(scope);
                 SeedNewCellSugg(scope);
@@ -116,6 +119,24 @@ namespace WebMaze.EfStuff
                         GlobalUserRating = random.Next(-1000, 1000)
                     };
                     userRepository.Save(randomUser);
+                }
+            }
+
+            for (int i = 0; i < testUsernames.Count; i++)
+            {
+                if (userRepository.GetUserByName(testUsernames[i]) == null)
+                {
+                    var testUser = new User()
+                    {
+                        Name = testUsernames[i],
+                        Password = "qwer1234",
+                        Coins = 100,
+                        Age = 18 + random.Next(10),
+                        IsActive = true,
+                        GlobalUserRating = 100
+                    };
+
+                    userRepository.Save(testUser);
                 }
             }
         }
@@ -262,6 +283,37 @@ namespace WebMaze.EfStuff
                     IsActive = true
                 };
                 imageRepository.Save(image);
+            }
+        } 
+        
+        private static void SeedFavGames(IServiceScope scope)
+        {
+            var favGamesRepository = scope.ServiceProvider.GetService<FavGamesRepository>();
+            var userRepository = scope.ServiceProvider.GetService<UserRepository>();
+            int testGamesCount = 5; 
+
+            if (favGamesRepository.Count() < testGamesCount)
+            {
+                var random = new Random();
+
+                var testYearsOfProduction = new List<int>() { 2009, 2010, 2013, 2014 };
+
+                for (int i = 0; i < testGamesCount; i++)
+                {
+                    var testFavGame = new Game()
+                    {
+                        Name = $"Test Sims {i}",
+                        Genre = "Life Simulation",
+                        YearOfProd = testYearsOfProduction[random.Next(testYearsOfProduction.Count)],
+                        Desc = "Strategic life simulation video game developed by Maxis and published by Electronic Arts. It is a simulation of the daily activities of one or more virtual people (sims) in a suburban household near a fictional city. Players control customizable Sims as they pursue career and relationship goals. Players can also use their Sims' income to renovate their living space, purchase home furnishings, or clothing for their household. Players can also choose to pursue a social and successful life.",
+                        Rating = random.Next(11),
+                        IsActive = true,
+                        Creater = userRepository.GetUserByName(testUsernames[random.Next(testUsernames.Count)])
+                    };
+
+                    favGamesRepository.Save(testFavGame);
+                }
+
             }
         }
 
