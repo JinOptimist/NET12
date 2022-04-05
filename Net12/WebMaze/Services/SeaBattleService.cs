@@ -20,9 +20,10 @@ namespace WebMaze.Services
         private SeaBattleCellRepository _seaBattleCellRepository;
         private SeaBattleFieldRepository _seaBattleFieldRepository;
         private IHttpContextAccessor _httpContextAccessor;
+        private IHubContext<SeaBattleHub> _seaBattleHub;
+        private SeaBattleGameRepository _seaBattleGameRepository;
         private Random _random = new Random();
         private int shipNumber;
-        private IHubContext<SeaBattleHub> _seaBattleHub;
 
         public static List<SeaBattleTaskModel> SeaBattleTasks = new List<SeaBattleTaskModel>();
         private const int MAX_SECONDS_USER_INACTIVE = 100;
@@ -32,13 +33,15 @@ namespace WebMaze.Services
                                 SeaBattleCellRepository seaBattleCellRepository,
                                 SeaBattleFieldRepository seaBattleFieldRepository,
                                 IHubContext<SeaBattleHub> seaBattleHub,
-                                IHttpContextAccessor httpContextAccessor)
+                                IHttpContextAccessor httpContextAccessor, 
+                                SeaBattleGameRepository seaBattleGameRepository)
         {
             _userService = userService;
             _seaBattleCellRepository = seaBattleCellRepository;
             _seaBattleFieldRepository = seaBattleFieldRepository;
             _seaBattleHub = seaBattleHub;
             _httpContextAccessor = httpContextAccessor;
+            _seaBattleGameRepository = seaBattleGameRepository;
         }
 
         public SeaBattleGame CreateGame(SeaBattleDifficult difficult)
@@ -50,8 +53,12 @@ namespace WebMaze.Services
             var game = new SeaBattleGame()
             {
                 User = _userService.GetCurrentUser(),
-                Fields = new List<SeaBattleField>()
+                Fields = new List<SeaBattleField>(),
+                TwoSizeShip = difficult.TwoSizeShip,
+                ThreeSizeShip = difficult.ThreeSizeShip,
+                FourSizeShip = difficult.FourSizeShip
             };
+
             game.Fields.Add(myField);
             game.Fields.Add(enemyField);
 
@@ -256,6 +263,14 @@ namespace WebMaze.Services
 
         public void FillNearKilledShips(SeaBattleField field)
         {
+            var game = field.Game;
+
+            if (field.IsEnemyField)
+            {
+                game.TwoSizeShip = 0;
+                game.ThreeSizeShip = 0;
+                game.FourSizeShip = 0;
+            }
 
             for (int i = 1; i < field.ShipCount; i++)
             {
@@ -287,7 +302,30 @@ namespace WebMaze.Services
                         }
                     }
                 }
+                else
+                {
+                    if (field.IsEnemyField)
+                    {
+
+                        switch (shipLenght)
+                        {
+                            case 2:
+                                game.TwoSizeShip += 1;
+                                break;
+                            case 3:
+                                game.ThreeSizeShip += 1;
+                                break;
+                            case 4:
+                                game.FourSizeShip += 1;
+                                break;
+                            default:
+                                throw new Exception();
+                        }
+                    }
+                }
             }
+
+            _seaBattleGameRepository.Save(game);
         }
 
         public void RandomHit(SeaBattleField myField)
@@ -536,7 +574,7 @@ namespace WebMaze.Services
                     taskModel.LastActiveUserDateTime = DateTime.Now;
                     taskModel.IsActiveUser = false;
                 }
-                
+
                 _seaBattleHub.Clients.All.SendAsync(taskModel.Id.ToString(), taskModel.SecondsToEnemyTurn);
 
                 if (taskModel.SecondsToEnemyTurn == 0)

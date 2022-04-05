@@ -1,13 +1,14 @@
 ﻿@using WebMaze.Models.CurrencyDto
-@model List<CurrencyRate>
+@model List<CurrencyRateViewModel>
+
+@section Scripts{
+    <script src="~/lib/chart/chart.js"></script>
+    <script src="~/js/currencyGraph.js"></script>
+}
 
 <div>
-    @foreach (var rate in @Model)
-    {
-        <div>
-            On date: @rate.Date - Currency rate: @rate.Cur_OfficialRate
-        </div>
-    }
     <a href="/Currency/Index">Back</a>
-
+</div>
+<div class="graph">
+    <canvas id="myChart"></canvas>
 </div>

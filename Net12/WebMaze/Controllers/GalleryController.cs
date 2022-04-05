@@ -17,8 +17,7 @@ using WebMaze.Models.Enums;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers
-{
-    [Authorize]
+{    
     public class GalleryController : Controller
     {
         private readonly ImageRepository _repository;
@@ -70,6 +69,7 @@ namespace WebMaze.Controllers
             return View(imageViewModels);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult AddImage()
         {
@@ -83,21 +83,25 @@ namespace WebMaze.Controllers
             if (!ModelState.IsValid)
             {
                 return View(imageViewModel);
-            }
+            }            
 
             var dbImage = _mapper.Map<Image>(imageViewModel);
-            dbImage.Author = _userService.GetCurrentUser();
-            _repository.Save(dbImage);
+            dbImage.Author = _userService.GetCurrentUser();           
 
-            var fileName = $"{dbImage.Id}.jpg";
-            dbImage.Picture = "/images/gallery/" + fileName;
-            _repository.Save(dbImage);
-
-            var filePath = Path.Combine(_hostEnvironment.WebRootPath, "images", "gallery", fileName);
-            using (var fileStream = System.IO.File.Create(filePath))
+            if (!imageViewModel.IsUploadByURL)
             {
-                imageViewModel.ImageFile.CopyTo(fileStream);
+                var fileName = $"{dbImage.Id}.jpg";
+                dbImage.Picture = "/images/gallery/" + fileName;
+                
+
+                var filePath = Path.Combine(_hostEnvironment.WebRootPath, "images", "gallery", fileName);
+                using (var fileStream = System.IO.File.Create(filePath))
+                {
+                    imageViewModel.ImageFile.CopyTo(fileStream);
+                }
             }
+
+            _repository.Save(dbImage);
 
             return RedirectToAction("Index", "Gallery");
         }

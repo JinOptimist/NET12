@@ -14,7 +14,7 @@ namespace WebMaze.Models
         public string Description { get; set; }
         public string Picture { get; set; }
         public int Assessment { get; set; }
-
         public IFormFile ImageFile { get; set; }
+        public bool IsUploadByURL { get; set; }
     }
 }

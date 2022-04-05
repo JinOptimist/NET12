@@ -577,7 +577,10 @@ namespace WebMaze
             {
                 endpoints.MapHub<ChatHub>("/chat");
             });
-
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<MazeHub>("/mazeEnemies");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<DocumentPreparationHub>("/documentUpdateStatusById");

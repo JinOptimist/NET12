@@ -36,6 +36,7 @@ namespace WebMaze.EfStuff
                 SeedGuessTheNumberGameParametersRecords(scope);
                 SeedNewCellSugg(scope);
                 SeedSeaBattleDifficult(scope);
+                SeedStuffForHero(scope);
             }
 
             return host;
@@ -78,6 +79,9 @@ namespace WebMaze.EfStuff
         {
             var userRepository = scope.ServiceProvider.GetService<UserRepository>();
             var admin = userRepository.GetUserByName(DefaultAdminName);
+            var randomNames = new List<string> { "Silaterr", "Yestio", "Whindali", "Shlongi", "Beroldek" };
+            var random = new Random();
+
             if (admin == null)
             {
                 admin = new User()
@@ -93,7 +97,30 @@ namespace WebMaze.EfStuff
                 userRepository.Save(admin);
             }
 
-            var random = new Random();
+            if (userRepository.Count() < 10)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    string randomName;
+
+                    do
+                    {
+                        randomName = randomNames[random.Next(randomNames.Count())] + random.Next(100);
+                    }
+                    while (userRepository.GetUserByName(randomName) != null);
+
+                    var randomUser = new User()
+                    {
+                        Name = randomName,
+                        Password = "123",
+                        Coins = random.Next(10000),
+                        Age = random.Next(18, 60),
+                        IsActive = true,
+                        GlobalUserRating = random.Next(-1000, 1000)
+                    };
+                    userRepository.Save(randomUser);
+                }
+            }
 
             for (int i = 0; i < testUsernames.Count; i++)
             {
@@ -111,9 +138,7 @@ namespace WebMaze.EfStuff
 
                     userRepository.Save(testUser);
                 }
-
             }
-        }
 
         private static void SeedMazeDifficult(IServiceScope scope)
         {
@@ -191,7 +216,67 @@ namespace WebMaze.EfStuff
                 image = new Image()
                 {
                     Description = DefaultImageDesc,
-                    Picture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvgRMad98wVTdc-qAMIhYEF6tJ0QVKdJ03oA&usqp=CAU",
+                    Picture = "/images/galleryImg/defaultGalleryFoto1.png",
+                    Assessment = 9,
+                    Author = author,
+                    IsActive = true
+                };
+                imageRepository.Save(image);
+
+                image = new Image()
+                {
+                    Description = "\"Play 15\" ",
+                    Picture = "/images/galleryImg/defaultGalleryFoto2.jpg",
+                    Assessment = 9,
+                    Author = author,
+                    IsActive = true
+                };
+                imageRepository.Save(image);
+
+                image = new Image()
+                {
+                    Description = "Miner!",
+                    Picture = "/images/galleryImg/defaultGalleryFoto3.png",
+                    Assessment = 9,
+                    Author = author,
+                    IsActive = true
+                };
+                imageRepository.Save(image);
+
+                image = new Image()
+                {
+                    Description = "Three In Row",
+                    Picture = "/images/galleryImg/defaultGalleryFoto4.jpg",
+                    Assessment = 9,
+                    Author = author,
+                    IsActive = true
+                };
+                imageRepository.Save(image);
+
+                image = new Image()
+                {
+                    Description = "Zuma",
+                    Picture = "/images/galleryImg/defaultGalleryFoto5.jpg",
+                    Assessment = 9,
+                    Author = author,
+                    IsActive = true
+                };
+                imageRepository.Save(image);
+
+                image = new Image()
+                {
+                    Description = "Couple",
+                    Picture = "/images/galleryImg/defaultGalleryFoto6.jpg",
+                    Assessment = 9,
+                    Author = author,
+                    IsActive = true
+                };
+                imageRepository.Save(image);
+
+                image = new Image()
+                {
+                    Description = "Sea battle",
+                    Picture = "/images/galleryImg/defaultGalleryFoto7.jpg",
                     Assessment = 9,
                     Author = author,
                     IsActive = true
@@ -329,7 +414,7 @@ namespace WebMaze.EfStuff
 
                 }
 
-                var random = new Random(); 
+                var random = new Random();
 
                 for (int i = 0; i < countTestEntry; i++)
                 {
@@ -420,6 +505,34 @@ namespace WebMaze.EfStuff
                     IsActive = true
                 };
                 seaBattleDifficult.Save(defaultDifficult);
+            }
+        }
+
+        private static void SeedStuffForHero(IServiceScope scope)
+        {
+            var userRepository = scope.ServiceProvider.GetService<UserRepository>();
+
+            var stuffForHeroRepository = scope.ServiceProvider.GetService<StuffRepository>();
+
+            if (stuffForHeroRepository.Count() < 100)
+            {
+                var randomNames = new List<string> { "Bow", "Dager", "Sword", "Mace", "Axe" };
+                var random = new Random();
+
+                for (int i = 0; i < 100; i++)
+                {
+                    var stuffForHero = new StuffForHero()
+                    {
+                        Name = randomNames[random.Next(randomNames.Count())]+ random.Next(1000),
+                        Description = "no need to filter, so standard for everyone",
+                        Price = random.Next(1000),
+                        PictureLink = "https://rozetked.me/images/uploads/dwoilp3BVjlE.jpg",
+                        Proposer = userRepository.GetFullRandomUser(),
+                        IsActive = true
+                    };
+
+                    stuffForHeroRepository.Save(stuffForHero);
+                }
             }
         }
 

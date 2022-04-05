@@ -25,5 +25,12 @@ namespace Net12.Maze.Cells.Enemies
             return null;
         }
 
+        public override bool TryToStep()
+        {
+            Maze.Hero.Hp -= 5;
+            Maze.Hero.CurrentFatigue++;
+            return true;
+        }
+
     }
 }

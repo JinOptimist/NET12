@@ -2,7 +2,7 @@
 
 namespace WebMaze.Models.CurrencyDto
 {
-    public class CurrencyRate
+    public class CurrencyRateViewModel
     {
         public int Cur_ID { get; set; }
         public string Cur_Name { get; set; }
