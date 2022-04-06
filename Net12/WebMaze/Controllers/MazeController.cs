@@ -163,7 +163,7 @@ namespace WebMaze.Controllers
                 var maze = new MazeBuilder().Build(complixity.Width, complixity.Height, complixity.HeroMaxHp, complixity.HeroMaxHp, GetCoinsFromMaze, false);
                 maze.Hero.MaxFatigue = complixity.HeroMaxFatigue;
                 maze.Hero.Money = complixity.HeroMoney;
-
+                maze.CoinsToOpenTheDoor = complixity.CoinsToOpenTheDoor;
 
                 var model = _mapper.Map<MazeLevelWeb>(maze);
                 model.IsActive = true;
