@@ -275,6 +275,24 @@ namespace WebMaze.Controllers
 
             var viewModel = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);
 
+            switch (viewModel.MazeStatus)
+            {
+
+                case MazeStatusEnum.Wasted:
+                    user.Coins += viewModel.HeroMoney;
+                    _userRepository.Save(user);
+                   break;
+
+                case MazeStatusEnum.YouWin:
+                    user.Coins += viewModel.HeroMoney * 2;
+                    _userRepository.Save(user);
+                    break;
+
+                case MazeStatusEnum.InProgress:
+                    break;
+            }
+            return Json(viewModel);
+
             CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
             CancellationToken token = cancelTokenSource.Token;
 
@@ -308,23 +326,6 @@ namespace WebMaze.Controllers
 
             return null;
 
-            switch (viewModel.MazeStatus)
-            {
-
-                case MazeStatusEnum.Wasted:
-                    user.Coins += viewModel.HeroMoney;
-                    _userRepository.Save(user);
-                   break;
-
-                case MazeStatusEnum.YouWin:
-                    user.Coins += viewModel.HeroMoney * 2;
-                    _userRepository.Save(user);
-                    break;
-
-                case MazeStatusEnum.InProgress:
-                    break;
-            }
-            return Json(viewModel);
         }
 
         public IActionResult Wonderful(long difficultId)

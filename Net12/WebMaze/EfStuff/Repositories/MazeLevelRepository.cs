@@ -51,7 +51,7 @@ namespace WebMaze.EfStuff.Repositories
             model.HeroY = maze.Hero.Y;
             model.Message = maze.Message;
             model.HeroMoney = maze.Hero.Money;
-            model.ExitStatus = maze.ExitStatus;
+            model.ExitIsOpen = maze.ExitIsOpen;
             model.MazeStatus = maze.MazeStatus;
 
             foreach (var cell in maze.Cells)

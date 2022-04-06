@@ -26,7 +26,7 @@ namespace WebMaze.EfStuff.DbModel
         public int HeroMoney { get; set; }
 
         public string Message { get; set; }
-        public bool ExitStatus { get; set; }
+        public bool ExitIsOpen { get; set; }
         public MazeStatusEnum MazeStatus { get; set; }
     }
 }

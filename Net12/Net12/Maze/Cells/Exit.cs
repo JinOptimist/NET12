@@ -12,8 +12,9 @@ namespace Net12.Maze.Cells
 
         public override bool TryToStep()
         {
-            if (Maze.ExitStatus)
+            if (Maze.ExitIsOpen)
             {
+                Maze.MazeStatus = Enums.MazeStatusEnum.YouWin;
                 Maze.Message = "You won!";                
                 return true;
             } 

@@ -10,7 +10,7 @@ using WebMaze.EfStuff;
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    [Migration("20220404184241_AddStatusExit+StatusMaze")]
+    [Migration("20220405065148_AddStatusExit+StatusMaze")]
     partial class AddStatusExitStatusMaze
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -401,6 +401,9 @@ namespace WebMaze.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Hp")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -442,7 +445,7 @@ namespace WebMaze.Migrations
                     b.Property<long?>("DifficultProfileId")
                         .HasColumnType("bigint");
 
-                    b.Property<bool>("ExitStatus")
+                    b.Property<bool>("ExitIsOpen")
                         .HasColumnType("bit");
 
                     b.Property<int>("Height")
@@ -866,8 +869,17 @@ namespace WebMaze.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("FourSizeShip")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<int>("ThreeSizeShip")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TwoSizeShip")
+                        .HasColumnType("int");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");

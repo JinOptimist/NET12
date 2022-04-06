@@ -24,7 +24,7 @@ namespace Net12.Maze
 
         public IHero Hero { get; set; }
 
-        public bool ExitStatus { get; set; }
+        public bool ExitIsOpen { get; set; }
         public string Message { get; set; } = "Play";
         public int CoinsToOpenTheDoor { get; set; }
         public MazeStatusEnum MazeStatus { get; set; }
@@ -107,20 +107,14 @@ namespace Net12.Maze
 
             }
 
-            if (Hero.Money < CoinsToOpenTheDoor)
-            {
-                ExitStatus = false;
-            }
-            else
-            {
-                ExitStatus = true;
-            }
+
             if (Hero.CurrentFatigue < Hero.MaxFatigue && Hero.Hp > 0)
             {
                 Hero.CurrentFatigue++;
             }
             else
             {
+                MazeStatus = MazeStatusEnum.Wasted;
                 Message = "WASTED";
                 return;
             }
@@ -131,6 +125,7 @@ namespace Net12.Maze
             {
                 Hero.X = heroPositionX;
                 Hero.Y = heroPositionY;
+                ExitIsOpen = Hero.Money >= CoinsToOpenTheDoor;
             }
 
             Enemies.ForEach(x => x.GoStep());

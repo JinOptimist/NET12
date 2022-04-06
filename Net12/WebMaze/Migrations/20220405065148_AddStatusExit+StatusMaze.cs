@@ -13,7 +13,7 @@ namespace WebMaze.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
-                name: "ExitStatus",
+                name: "ExitIsOpen",
                 table: "MazeLevelsUser",
                 type: "bit",
                 nullable: false,
@@ -22,6 +22,13 @@ namespace WebMaze.Migrations
             migrationBuilder.AddColumn<int>(
                 name: "MazeStatus",
                 table: "MazeLevelsUser",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
+
+            migrationBuilder.AddColumn<int>(
+                name: "Hp",
+                table: "MazeEnemyWeb",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
@@ -62,12 +69,16 @@ namespace WebMaze.Migrations
                 table: "MazeLevelsUser");
 
             migrationBuilder.DropColumn(
-                name: "ExitStatus",
+                name: "ExitIsOpen",
                 table: "MazeLevelsUser");
 
             migrationBuilder.DropColumn(
                 name: "MazeStatus",
                 table: "MazeLevelsUser");
+
+            migrationBuilder.DropColumn(
+                name: "Hp",
+                table: "MazeEnemyWeb");
 
             migrationBuilder.DropColumn(
                 name: "CoinsToOpenTheDoor",

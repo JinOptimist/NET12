@@ -368,7 +368,7 @@ namespace WebMaze
                 HeroY = maze.Hero.Y,
                 Message = maze.Message,
                 HeroMoney = maze.Hero.Money,
-                ExitStatus = maze.ExitStatus,
+                ExitIsOpen = maze.ExitIsOpen,
                 MazeStatus = maze.MazeStatus
             };
             return model;
@@ -380,7 +380,7 @@ namespace WebMaze
                 Height = model.Height,
                 Width = model.Width,
                 Message = model.Message,
-                ExitStatus = model.ExitStatus,
+                ExitIsOpen = model.ExitIsOpen,
                 CoinsToOpenTheDoor = model.DifficultProfile.CoinsToOpenTheDoor,
                 MazeStatus = model.MazeStatus
             };

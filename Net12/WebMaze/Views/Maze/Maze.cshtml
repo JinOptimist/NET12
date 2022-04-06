@@ -19,7 +19,7 @@
     <span class="myFatigue">My Fatigue: @Model.Hero.CurrentFatigue/@Model.Hero.MaxFatigue</span>
     <span class="myMoney">My Money: @Model.Hero.Money</span>
     <span class="myStatus">Game Status: @Model.Message</span>
-    @if (Model.ExitStatus)
+    @if (Model.ExitIsOpen)
     {
         <span class="exitStatus">Exit Status: Open</span>
     }

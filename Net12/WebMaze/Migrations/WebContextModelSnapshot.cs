@@ -443,7 +443,7 @@ namespace WebMaze.Migrations
                     b.Property<long?>("DifficultProfileId")
                         .HasColumnType("bigint");
 
-                    b.Property<bool>("ExitStatus")
+                    b.Property<bool>("ExitIsOpen")
                         .HasColumnType("bit");
 
                     b.Property<int>("Height")
