@@ -1,7 +1,6 @@
 ﻿using Net12.Maze;
 using Net12.Maze.Enums;
 using System.Collections.Generic;
-using WebMaze.Models.Enums;
 
 namespace WebMaze.EfStuff.DbModel
 {
@@ -28,5 +27,6 @@ namespace WebMaze.EfStuff.DbModel
         public string Message { get; set; }
         public bool ExitIsOpen { get; set; }
         public MazeStatusEnum MazeStatus { get; set; }
+
     }
 }

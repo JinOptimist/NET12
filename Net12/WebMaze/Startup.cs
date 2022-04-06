@@ -343,7 +343,7 @@ namespace WebMaze
                 .ForMember(nameof(RequestForMoneyViewModel.RequestCreator),
                     opt => opt.MapFrom(r => r.RequestCreator.Name));
             provider.CreateMap<RequestForMoneyViewModel,
-                RequestForMoney>();
+                RequestForMoney>();           
 
             var mapperConfiguration = new MapperConfiguration(provider);
 
@@ -368,8 +368,6 @@ namespace WebMaze
                 HeroY = maze.Hero.Y,
                 Message = maze.Message,
                 HeroMoney = maze.Hero.Money,
-                ExitIsOpen = maze.ExitIsOpen,
-                MazeStatus = maze.MazeStatus
             };
             return model;
         }
@@ -380,12 +378,11 @@ namespace WebMaze
                 Height = model.Height,
                 Width = model.Width,
                 Message = model.Message,
-                ExitIsOpen = model.ExitIsOpen,
-                CoinsToOpenTheDoor = model.DifficultProfile.CoinsToOpenTheDoor,
-                MazeStatus = model.MazeStatus
+
+
             };
             maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroMaxHp)
-            { Money = model.HeroMoney, CurrentFatigue = model.HeroNowFatigure, MaxFatigue = model.HeroMaxFatigure };
+            { Money = maze.Hero.Money, CurrentFatigue = model.HeroNowFatigure, MaxFatigue = model.HeroMaxFatigure };
             return maze;
         }
         private MazeCellWeb inCellModel(BaseCell cell)
