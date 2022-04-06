@@ -12,7 +12,6 @@
 
 @section Scripts{
 <script src="~/js/Currency/currency.js"></script>
-<script src="~/js/Currency/currencyOnPeriod.js"></script>
 }
 
 
@@ -51,15 +50,13 @@
             Add
         </div>
         <div class="fields">
+
         </div>
         <div class="dates">
             startDate:<input name="startDate" value="@minDatePeriod" type="date" min="@minDatePeriod" max="@dateToday" />
             endDate:<input name="endDate" value="@dateToday" type="date" min="@minDatePeriod" max="@dateToday" />
         </div>
-        <div>
-
-        </div>
-        <input class="getOnPeriod" type="button" value="Get" />
+        <input class="getOnPeriod-button" type="button" value="Get" />
         <div class="remove">
             Remove
         </div>

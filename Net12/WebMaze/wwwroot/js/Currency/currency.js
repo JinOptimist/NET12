@@ -35,7 +35,6 @@
         window.location.replace(url);
     });
 
-    console.log("On period")
     let index = 0;
     $('.add').click(function () {
         console.log("222");
@@ -43,7 +42,7 @@
         index++;
         $('.fields').append(field);
         $('.dates').show();
-        $('.getOnPeriod').show();
+        $('.getOnPeriod-button').show();
     });
 
     $('.remove').click(function () {
@@ -52,12 +51,12 @@
         index--;
 
         if (index == 0) {
-            $('.getOnPeriod').hide();
+            $('.getOnPeriod-button').hide();
             $('.dates').hide();
         }
     });
 
-    $('.getOnPeriod').click(function (evt) {
+    $('.getOnPeriod-button').click(function (evt) {
         evt.preventDefault();
 
         let url = "/Currency/GetRateByIdOnPeriod?"

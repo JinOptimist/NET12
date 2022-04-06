@@ -9,10 +9,10 @@
             break;
         }
         currencyIds.push(currencyId);
-        index++;        
-    }    
+        index++;
+    }
     const onStartDate = paramsUrl.get("onStartDate");
-    const onEndDate = paramsUrl.get("onEndDate");       
+    const onEndDate = paramsUrl.get("onEndDate");
 
     let url = "/Currency/GetRateByIdOnPeriodJson?"
     for (var i = 0; i < currencyIds.length; i++) {
@@ -23,43 +23,42 @@
 
     $.get(url)
         .done(function (arrayOfrateList) {
+            let rateList = [];
             let dates = [];
-            let rates0 = [];
-            let rates1 = []
 
             for (var i = 0; i < arrayOfrateList.length; i++) {
+                let ratesArr = [];
+                rateList.push(ratesArr);
                 for (var j = 0; j < arrayOfrateList[i].length; j++) {
-                    if (i == 0) {
-                        let rate0 = arrayOfrateList[i][j].cur_OfficialRate;
-                        rates0.push(rate0);
-                        let date = arrayOfrateList[i][j].date;
-                        dates.push(date);
-                    }
-                    if (i == 1) {
-                        let rate1 = arrayOfrateList[i][j].cur_OfficialRate;
-                        rates1.push(rate1);
-                    }                    
+                    let rate = arrayOfrateList[i][j].cur_OfficialRate;
+                    rateList[i].push(rate);
                 }
+            }
+            let index = 0;
+            for (var j = 0; j < arrayOfrateList[index].length; j++) {
+                let date = arrayOfrateList[index][j].date;
+                dates.push(date);
+            }
+
+            class datasetFromService {
+                constructor(label, data) {
+                    this.label = label;
+                    this.data = data;
+                };
+                fill = false;
+                borderColor = 'rgb(75, 192, 192)';
+                tension = 0.1;
+            }
+
+            let listOfdatasets = [];
+            for (var i = 0; i < rateList.length; i++) {
+                let dataset = new datasetFromService(`Rate${i}`, rateList[i]);
+                listOfdatasets.push(dataset);
             }
 
             const data = {
                 labels: dates,
-                datasets: [
-                    {
-                    label: 'Rate0',
-                    data: rates0,//fill from service
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                    },
-                    {
-                        label: 'Rate1',
-                        data: rates1,//fill from service
-                        fill: false,
-                        borderColor: 'rgb(88, 19, 33)',
-                        tension: 0.1
-                    }
-                ]
+                datasets: listOfdatasets,
             };
 
             const ctx = document.getElementById('myChart').getContext('2d');
@@ -70,5 +69,5 @@
                     responsive: true,
                 }
             });
-        }); 
+        });
 });
