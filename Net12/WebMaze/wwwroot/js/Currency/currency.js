@@ -66,7 +66,6 @@
         }
         url = url + `onStartDate=${$('input[name="startDate"]').val()}&onEndDate=${$('input[name="endDate"]').val()}`;
 
-        //`Currency/GetRateByIdOnPeriod?currencyId=${$('select[name="currency"]').val()}&onStartDate=${$('input[name="startDate"]').val()}&onEndDate=${$('input[name="endDate"]').val()}`
         window.location.replace(url);
     });
 });

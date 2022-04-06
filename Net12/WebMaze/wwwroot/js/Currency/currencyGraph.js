@@ -38,21 +38,12 @@
             for (var j = 0; j < arrayOfrateList[index].length; j++) {
                 let date = arrayOfrateList[index][j].date;
                 dates.push(date);
-            }
-
-            class datasetFromService {
-                constructor(label, data) {
-                    this.label = label;
-                    this.data = data;
-                };
-                fill = false;
-                borderColor = 'rgb(75, 192, 192)';
-                tension = 0.1;
-            }
+            }            
 
             let listOfdatasets = [];
             for (var i = 0; i < rateList.length; i++) {
-                let dataset = new datasetFromService(`Rate${i}`, rateList[i]);
+                let color = random_rgb();
+                let dataset = new datasetFromService(`Rate${i}`, rateList[i], color);
                 listOfdatasets.push(dataset);
             }
 
@@ -70,4 +61,19 @@
                 }
             });
         });
+
+    class datasetFromService {
+        constructor(label, data, borderColor) {
+            this.label = label;
+            this.data = data;
+            this.borderColor = borderColor;
+        };
+        fill = false;
+        tension = 0.1;
+    }
+
+    function random_rgb() {
+        var o = Math.round, r = Math.random, s = 255;
+        return 'rgb(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ')';
+    }
 });

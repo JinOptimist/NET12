@@ -44,8 +44,6 @@ namespace WebMaze.Controllers
         {
             var rateListArray = new Task<List<CurrencyRateGraphViewModel>>[currencyId.Length];
 
-            //var rate0 = _currenceService.GetRateByIdOnPeriod(currencyId[0], onStartDate, onEndDate);
-            //var rate1 = _currenceService.GetRateByIdOnPeriod(currencyId[1], onStartDate, onEndDate);
             var index = 0;
             foreach (var id in currencyId)
             {                
