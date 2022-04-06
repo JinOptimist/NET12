@@ -24,14 +24,7 @@ namespace WebMaze.Migrations
                 table: "MazeLevelsUser",
                 type: "int",
                 nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.AddColumn<int>(
-                name: "Hp",
-                table: "MazeEnemyWeb",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
+                defaultValue: 0);           
 
             migrationBuilder.AddColumn<int>(
                 name: "CoinsToOpenTheDoor",
@@ -74,11 +67,7 @@ namespace WebMaze.Migrations
 
             migrationBuilder.DropColumn(
                 name: "MazeStatus",
-                table: "MazeLevelsUser");
-
-            migrationBuilder.DropColumn(
-                name: "Hp",
-                table: "MazeEnemyWeb");
+                table: "MazeLevelsUser");            
 
             migrationBuilder.DropColumn(
                 name: "CoinsToOpenTheDoor",

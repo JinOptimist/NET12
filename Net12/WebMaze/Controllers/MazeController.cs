@@ -249,11 +249,11 @@ namespace WebMaze.Controllers
 
             _userMazeActivities.Where(u => u.MazeId == mazeId).ToList().ForEach(u => u.IsActive = false);
 
-
             var user = _userService.GetCurrentUser();
             var mazeLevelDbModel = _mazeLevelRepository.Get(mazeId);
             var maze = _mapper.Map<MazeLevel>(mazeLevelDbModel);
             maze.GetCoins = GetCoinsFromMaze;
+
             switch (stepDirection)
             {
                 case 1:
@@ -273,25 +273,7 @@ namespace WebMaze.Controllers
             _mazeLevelRepository.ChangeModel(mazeLevelDbModel, maze, _mapper);
             _mazeLevelRepository.Save(mazeLevelDbModel);
 
-            var viewModel = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);
-
-            switch (viewModel.MazeStatus)
-            {
-
-                case MazeStatusEnum.Wasted:
-                    user.Coins += viewModel.HeroMoney;
-                    _userRepository.Save(user);
-                   break;
-
-                case MazeStatusEnum.YouWin:
-                    user.Coins += viewModel.HeroMoney * 2;
-                    _userRepository.Save(user);
-                    break;
-
-                case MazeStatusEnum.InProgress:
-                    break;
-            }
-            return Json(viewModel);
+            var viewModel = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);            
 
             CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
             CancellationToken token = cancelTokenSource.Token;
@@ -310,7 +292,6 @@ namespace WebMaze.Controllers
                while ((DateTime.Now - mazeEnemiesActivity.LastActivity).TotalSeconds < MAX_TIME_ACTIVITY && mazeEnemiesActivity.IsActive)
                {
 
-
                    mutexObjGoMaze.WaitOne();
 
                    dataMaze.ChangeModel(myModel, maze, _mapper);
@@ -324,7 +305,23 @@ namespace WebMaze.Controllers
                }
            }, token);
 
-            return null;
+            switch (viewModel.MazeStatus)
+            {
+
+                case MazeStatusEnum.Wasted:
+                    user.Coins += viewModel.HeroMoney;
+                    _userRepository.Save(user);
+                    break;
+
+                case MazeStatusEnum.YouWin:
+                    user.Coins += viewModel.HeroMoney * 2;
+                    _userRepository.Save(user);
+                    break;
+
+                case MazeStatusEnum.InProgress:
+                    break;
+            }
+            return Json(viewModel);
 
         }
 
