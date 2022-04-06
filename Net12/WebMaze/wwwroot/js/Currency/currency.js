@@ -37,18 +37,18 @@
 
     let index = 0;
     $('.add').click(function () {
-        console.log("222");
         let field = $('.getOnPeriod-field.base').clone().css("display", "block").removeClass("base").addClass(`fieldId${index}`);
         index++;
+
         $('.fields').append(field);
         $('.dates').show();
         $('.getOnPeriod-button').show();
     });
 
     $('.remove').click(function () {
-        console.log("333");
-        let field = $(`.getOnPeriod-field.fieldId${index - 1}`).remove();
         index--;
+        $(`.getOnPeriod-field.fieldId${index}`).remove();
+        /*index--;*/
 
         if (index == 0) {
             $('.getOnPeriod-button').hide();

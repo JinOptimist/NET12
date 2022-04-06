@@ -16,40 +16,40 @@
 
     let url = "/Currency/GetRateByIdOnPeriodJson?"
     for (var i = 0; i < currencyIds.length; i++) {
-        let cur_id = `currencyId[${i}]=${currencyIds[i]}&`;
-        url = url + cur_id;
+        let cur_idUrl = `currencyId[${i}]=${currencyIds[i]}&`;
+        url = url + cur_idUrl;
     }
     url = url + `onStartDate=${onStartDate}&onEndDate=${onEndDate}`;
 
     $.get(url)
-        .done(function (arrayOfrateList) {
-            let rateList = [];
+        .done(function (arrayOfratesList) {
+            let ratesListArray = [];
             let dates = [];
 
-            for (var i = 0; i < arrayOfrateList.length; i++) {
-                let ratesArr = [];
-                rateList.push(ratesArr);
-                for (var j = 0; j < arrayOfrateList[i].length; j++) {
-                    let rate = arrayOfrateList[i][j].cur_OfficialRate;
-                    rateList[i].push(rate);
+            for (var i = 0; i < arrayOfratesList.length; i++) {
+                let ratesList = [];
+                ratesListArray.push(ratesList);
+                for (var j = 0; j < arrayOfratesList[i].length; j++) {
+                    let rate = arrayOfratesList[i][j].cur_OfficialRate;
+                    ratesListArray[i].push(rate);
                 }
             }
             let index = 0;
-            for (var j = 0; j < arrayOfrateList[index].length; j++) {
-                let date = arrayOfrateList[index][j].date;
+            for (var j = 0; j < arrayOfratesList[index].length; j++) {
+                let date = arrayOfratesList[index][j].date;
                 dates.push(date);
             }            
 
-            let listOfdatasets = [];
-            for (var i = 0; i < rateList.length; i++) {
+            let datasetsArray = [];
+            for (var i = 0; i < ratesListArray.length; i++) {
                 let color = random_rgb();
-                let dataset = new datasetFromService(`Rate${i}`, rateList[i], color);
-                listOfdatasets.push(dataset);
+                let dataset = new Dataset(`Rate${i}`, ratesListArray[i], color);
+                datasetsArray.push(dataset);
             }
 
             const data = {
                 labels: dates,
-                datasets: listOfdatasets,
+                datasets: datasetsArray,
             };
 
             const ctx = document.getElementById('myChart').getContext('2d');
@@ -62,7 +62,7 @@
             });
         });
 
-    class datasetFromService {
+    class Dataset {
         constructor(label, data, borderColor) {
             this.label = label;
             this.data = data;

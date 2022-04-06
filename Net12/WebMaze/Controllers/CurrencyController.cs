@@ -42,19 +42,19 @@ namespace WebMaze.Controllers
         }
         public async Task<IActionResult> GetRateByIdOnPeriodJson(int[] currencyId, DateTime onStartDate, DateTime onEndDate)
         {
-            var rateListArray = new Task<List<CurrencyRateGraphViewModel>>[currencyId.Length];
+            var taskArrayOfratesList = new Task<List<CurrencyRateGraphViewModel>>[currencyId.Length];
 
             var index = 0;
             foreach (var id in currencyId)
             {                
                 var rate = _currenceService.GetRateByIdOnPeriod(id, onStartDate, onEndDate);
-                rateListArray[index] = rate;
+                taskArrayOfratesList[index] = rate;
                 index++;
             }
 
-            var result = await Task.WhenAll(rateListArray);
+            var arrayOfratesList = await Task.WhenAll(taskArrayOfratesList);
             
-            foreach (var rateList in result)
+            foreach (var rateList in arrayOfratesList)
             {
                 foreach (var rate in rateList)
                 {
@@ -63,7 +63,7 @@ namespace WebMaze.Controllers
                 }                
             }
 
-            return Json(result);
+            return Json(arrayOfratesList);
         }
     }
 }
