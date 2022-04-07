@@ -36,16 +36,17 @@ namespace WebMaze.Controllers
             _userService = userService;
         }
 
-        public IActionResult FavoriteGames()
+        public IActionResult FavoriteGames(string gameFilter, bool ascDirection)
         {
-            var GamesViewModels = new List<GameViewModel>();
-            GamesViewModels = _favGamesRepository
-               .GetAll()
+            var GamesViewModels = _favGamesRepository
+               .GetFavGamesSortedByProperty(gameFilter, ascDirection)
                .Select(dbModel => _mapper.Map<GameViewModel>(dbModel))
                .ToList();
 
             return View(GamesViewModels);
         }
+
+
 
         [Authorize]
         [HttpGet]

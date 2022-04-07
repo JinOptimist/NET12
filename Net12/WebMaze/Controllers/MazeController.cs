@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
@@ -34,18 +35,23 @@ namespace WebMaze.Controllers
         private MazeEnemyRepository _mazeEnemyRepository;
         private readonly PayForActionService _payForActionService;
         private IHubContext<ChatHub> _chatHub;
-
+        private IHubContext<MazeHub> _mazeHub;
         private IHostEnvironment _environment;
 
+        private static List<UserMazeActivity> _userMazeActivities = new List<UserMazeActivity>();
 
+        private const int DELAY_MOVING_ENEMIES = 1; // sec
+        private const int MAX_TIME_ACTIVITY = 5; // sec
+
+        Mutex mutexObjGoMaze = new Mutex();
         public MazeController(MazeDifficultRepository mazzeDifficultRepository,
             MazeLevelRepository mazeLevelRepository, IMapper mapper,
             UserService userService, CellRepository cellRepository,
             UserRepository userRepository,
-            MazeEnemyRepository mazeEnemyRepository, 
+            MazeEnemyRepository mazeEnemyRepository,
             PayForActionService payForActionService,
             IHubContext<ChatHub> chatHub,
-            IHostEnvironment environment)
+            IHostEnvironment environment, IHubContext<MazeHub> mazeHub)
         {
             _mazeDifficultRepository = mazzeDifficultRepository;
             _mapper = mapper;
@@ -57,6 +63,7 @@ namespace WebMaze.Controllers
             _payForActionService = payForActionService;
             _chatHub = chatHub;
             _environment = environment;
+            _mazeHub = mazeHub;
         }
 
         [HttpGet]
@@ -91,6 +98,7 @@ namespace WebMaze.Controllers
 
             _chatHub.Clients.All.SendAsync("StartMaze", _userService.GetCurrentUser().Name);
 
+
             return View(maz);
         }
 
@@ -98,6 +106,7 @@ namespace WebMaze.Controllers
         [Authorize]
         public IActionResult Maze(long Id, int turn)
         {
+            _userMazeActivities.Where(u => u.MazeId == Id).ToList().ForEach(u => u.IsActive = false);
             var myModel = _mazeLevelRepository.Get(Id);
             var maze = _mapper.Map<MazeLevel>(myModel);
             maze.GetCoins = GetCoinsFromMaze;
@@ -119,10 +128,12 @@ namespace WebMaze.Controllers
             }
 
             _mazeLevelRepository.ChangeModel(myModel, maze, _mapper);
-
             _mazeLevelRepository.Save(myModel);
+
+
             return View(maze);
         }
+
         [Authorize]
         [HttpGet]
         public IActionResult CreateMaze()
@@ -156,8 +167,8 @@ namespace WebMaze.Controllers
                 model.Name = viewMaze.Name;
                 model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
                 _mazeLevelRepository.Save(model);
-
                 _chatHub.Clients.All.SendAsync("BuyMaze", _userService.GetCurrentUser().Name, complixity.Name, complixity.CoinCount);
+
                 return RedirectToAction("Index");
             }
         }
@@ -197,7 +208,7 @@ namespace WebMaze.Controllers
             if (!ModelState.IsValid)
             {
                 return View(mazeDifficultProfileViewModel);
-            }            
+            }
 
             var dbMazeDifficult = _mapper.Map<MazeDifficultProfile>(mazeDifficultProfileViewModel);
             dbMazeDifficult.IsActive = true;
@@ -224,6 +235,76 @@ namespace WebMaze.Controllers
         {
             _mazeDifficultRepository.Remove(Id);
             return RedirectToAction("ManageMazeDifficult", "Maze");
+        }
+
+
+
+        [Authorize]
+        public async Task<IActionResult> GetMazeDataAsync(long mazeId, int stepDirection)
+        {
+
+            _userMazeActivities.Where(u => u.MazeId == mazeId).ToList().ForEach(u => u.IsActive = false);
+
+
+            var mazeLevelDbModel = _mazeLevelRepository.Get(mazeId);
+            var maze = _mapper.Map<MazeLevel>(mazeLevelDbModel);
+            maze.GetCoins = GetCoinsFromMaze;
+
+            switch (stepDirection)
+            {
+                case 1:
+                    maze.HeroStep(Direction.Up);
+                    break;
+                case 2:
+                    maze.HeroStep(Direction.Down);
+                    break;
+                case 3:
+                    maze.HeroStep(Direction.Left);
+                    break;
+                case 4:
+                    maze.HeroStep(Direction.Right);
+                    break;
+            }
+
+            _mazeLevelRepository.ChangeModel(mazeLevelDbModel, maze, _mapper);
+            _mazeLevelRepository.Save(mazeLevelDbModel);
+
+            var viewModel = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);
+
+            CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+            CancellationToken token = cancelTokenSource.Token;
+
+            var mazeEnemiesActivity = new UserMazeActivity() { IsActive = true, LastActivity = DateTime.Now, MazeId = mazeId };
+            _userMazeActivities.Add(mazeEnemiesActivity);
+            await Task.Run(() =>
+           {
+               var s = HttpContext.User.Identity.Name;
+               var dataMaze = (MazeLevelRepository)HttpContext.RequestServices.GetService(typeof(MazeLevelRepository));
+               var myModel = mazeLevelDbModel;
+               var maze = _mapper.Map<MazeLevel>(myModel);
+               maze.GetCoins = GetCoinsFromMaze;
+
+
+               while ((DateTime.Now - mazeEnemiesActivity.LastActivity).TotalSeconds < MAX_TIME_ACTIVITY && mazeEnemiesActivity.IsActive)
+               {
+
+
+                   mutexObjGoMaze.WaitOne();
+
+                   maze.EnemiesStep();
+                   dataMaze.ChangeModel(myModel, maze, _mapper);
+                   dataMaze.Save(myModel);
+                   var viewModels = _mapper.Map<MazeLevelViewModel>(myModel);
+                   _mazeHub.Clients.User(s).SendAsync("ChangingMazeCells", viewModels);
+
+                   mutexObjGoMaze.ReleaseMutex();
+                   Thread.Sleep(DELAY_MOVING_ENEMIES * 1000);
+
+               }
+           }, token);
+
+            return null;
+
         }
 
         public IActionResult Wonderful(long difficultId)

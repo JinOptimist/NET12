@@ -3,7 +3,7 @@
     $('.image').click(function () {
         
         let colorBlock = $('.cell-normal');
-        colorBlock.toggleClass('background');
+        colorBlock.toggleClass('background_vitality');
         
     });
 })

@@ -21,6 +21,9 @@ namespace WebMaze.EfStuff.DbModel
         public int HeroNowHp { get; set; }
         public int HeroNowFatigure { get; set; }
 
+        public int HeroMoney { get; set; }
+
+        public string Message { get; set; }
 
     }
 }
