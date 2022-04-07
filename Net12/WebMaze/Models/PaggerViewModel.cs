@@ -13,7 +13,7 @@ namespace WebMaze.Models
         public int PerPage { get; set; }
 
         public List<int> PerPageOptions
-            => new List<int> { 7, 13, 50 };
+            => new List<int> { 3, 6, 10 };
 
         public int TotalPageCount
         {

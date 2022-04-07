@@ -44,9 +44,9 @@ namespace WebMaze.Controllers
             _chatHub = chatHub;
         }
 
-        public IActionResult Index(int page = 1, int perPage = 13, string typeSorted = "CreationDate")
+        public IActionResult Index(int page = 1, int perPage = 3, string typeSorted = "CreationDate")
         {
-            var test = _newsRepository.GetAllSorted();
+            //var test = _newsRepository.GetAllSorted();
 
             var newsViewModels = new List<NewsViewModel>();
             newsViewModels = _newsRepository
@@ -72,7 +72,7 @@ namespace WebMaze.Controllers
             var paggerViewModel = new PaggerViewModel<NewsViewModel>();
             paggerViewModel.Records = _mapper.Map<List<NewsViewModel>>(MyList);
             paggerViewModel.TotalRecordsCount = _newsRepository.Count();
-            paggerViewModel.PerPage = 13;
+            paggerViewModel.PerPage = 2;
             paggerViewModel.CurrPage = 1;
 
             return View(paggerViewModel);

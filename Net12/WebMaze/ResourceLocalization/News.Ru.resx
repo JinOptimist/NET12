@@ -142,7 +142,7 @@
     <value>Дата события</value>
   </data>
   <data name="Download" xml:space="preserve">
-    <value>скачать недавние новости</value>
+    <value>Скачать недавние новости</value>
   </data>
   <data name="Location" xml:space="preserve">
     <value>Место события</value>
