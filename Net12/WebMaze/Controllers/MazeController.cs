@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
 using Net12.Maze;
 using Net12.Maze.Cells;
+using Net12.Maze.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -161,11 +162,16 @@ namespace WebMaze.Controllers
 
                 var maze = new MazeBuilder().Build(complixity.Width, complixity.Height, complixity.HeroMaxHp, complixity.HeroMaxHp, GetCoinsFromMaze, false);
                 maze.Hero.MaxFatigue = complixity.HeroMaxFatigue;
+                maze.Hero.Money = complixity.HeroMoney;
+                maze.CoinsToOpenTheDoor = complixity.CoinsToOpenTheDoor;
 
                 var model = _mapper.Map<MazeLevelWeb>(maze);
                 model.IsActive = true;
                 model.Name = viewMaze.Name;
+                model.HeroMoney = maze.Hero.Money;
+                model.DifficultProfile = complixity;
                 model.Creator = _userRepository.Get(_userService.GetCurrentUser().Id);
+                model.MazeStatus = MazeStatusEnum.InProgress;
                 _mazeLevelRepository.Save(model);
                 _chatHub.Clients.All.SendAsync("BuyMaze", _userService.GetCurrentUser().Name, complixity.Name, complixity.CoinCount);
 
@@ -237,15 +243,13 @@ namespace WebMaze.Controllers
             return RedirectToAction("ManageMazeDifficult", "Maze");
         }
 
-
-
         [Authorize]
         public async Task<IActionResult> GetMazeDataAsync(long mazeId, int stepDirection)
         {
 
             _userMazeActivities.Where(u => u.MazeId == mazeId).ToList().ForEach(u => u.IsActive = false);
 
-
+            var user = _userService.GetCurrentUser();
             var mazeLevelDbModel = _mazeLevelRepository.Get(mazeId);
             var maze = _mapper.Map<MazeLevel>(mazeLevelDbModel);
             maze.GetCoins = GetCoinsFromMaze;
@@ -269,7 +273,7 @@ namespace WebMaze.Controllers
             _mazeLevelRepository.ChangeModel(mazeLevelDbModel, maze, _mapper);
             _mazeLevelRepository.Save(mazeLevelDbModel);
 
-            var viewModel = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);
+            var viewModel = _mapper.Map<MazeLevelViewModel>(mazeLevelDbModel);            
 
             CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
             CancellationToken token = cancelTokenSource.Token;
@@ -288,7 +292,6 @@ namespace WebMaze.Controllers
                while ((DateTime.Now - mazeEnemiesActivity.LastActivity).TotalSeconds < MAX_TIME_ACTIVITY && mazeEnemiesActivity.IsActive)
                {
 
-
                    mutexObjGoMaze.WaitOne();
 
                    maze.EnemiesStep();
@@ -303,7 +306,23 @@ namespace WebMaze.Controllers
                }
            }, token);
 
-            return null;
+            switch (viewModel.MazeStatus)
+            {
+
+                case MazeStatusEnum.Wasted:
+                    user.Coins += viewModel.HeroMoney;
+                    _userRepository.Save(user);
+                    break;
+
+                case MazeStatusEnum.YouWin:
+                    user.Coins += viewModel.HeroMoney * 2;
+                    _userRepository.Save(user);
+                    break;
+
+                case MazeStatusEnum.InProgress:
+                    break;
+            }
+            return Json(viewModel);
 
         }
 
@@ -338,15 +357,15 @@ namespace WebMaze.Controllers
 
         public IActionResult CoupleWin(int CardsCount, int Steps)
         {
-
             return Json(true);
         }
 
         public void GetCoinsFromMaze(int coins)
         {
-            var user = _userService.GetCurrentUser();
-            user.Coins += coins;
-            _userRepository.Save(user);
+            //var user = _userService.GetCurrentUser();
+            // user.Coins += coins;
+            //_userRepository.Save(user);
         }
+
     }
 }

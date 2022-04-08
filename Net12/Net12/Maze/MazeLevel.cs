@@ -1,5 +1,6 @@
 ﻿using Net12.Maze.Cells;
 using Net12.Maze.Cells.Enemies;
+using Net12.Maze.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,16 @@ namespace Net12.Maze
 
         public List<BaseEnemy> Enemies { get; set; } = new List<BaseEnemy>();
 
+
         public int Width { get; set; }
         public int Height { get; set; }
 
         public IHero Hero { get; set; }
 
+        public bool ExitIsOpen { get; set; }
         public string Message { get; set; } = "Play";
-
+        public int CoinsToOpenTheDoor { get; set; }
+        public MazeStatusEnum MazeStatus { get; set; }
         public Action<int> GetCoins { get; set; }
 
         public IBaseCell GetCellOrUnit(int x, int y)
@@ -73,18 +77,10 @@ namespace Net12.Maze
 
         public void HeroStep(Direction direction)
         {
+
             Message = "Step";
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;
-            if (Hero.CurrentFatigue < Hero.MaxFatigue && Hero.Hp > 0)
-            {
-                Hero.CurrentFatigue++;
-            }
-            else
-            {
-                Message = "WASTED";
-                return;
-            }
 
             switch (direction)
             {
@@ -111,12 +107,25 @@ namespace Net12.Maze
 
             }
 
+
+            if (Hero.CurrentFatigue < Hero.MaxFatigue && Hero.Hp > 0)
+            {
+                Hero.CurrentFatigue++;
+            }
+            else
+            {
+                MazeStatus = MazeStatusEnum.Wasted;
+                Message = "WASTED";
+                return;
+            }
+
             var cellToStep = GetCellOrUnit(heroPositionX, heroPositionY);
 
             if (cellToStep?.TryToStep() ?? false)
             {
                 Hero.X = heroPositionX;
                 Hero.Y = heroPositionY;
+                ExitIsOpen = Hero.Money >= CoinsToOpenTheDoor;
             }
 
             Enemies.ForEach(x => x.GoStep());

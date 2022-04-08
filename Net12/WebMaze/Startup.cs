@@ -368,6 +368,7 @@ namespace WebMaze
                 HeroY = maze.Hero.Y,
                 Message = maze.Message,
                 HeroMoney = maze.Hero.Money,
+                MazeStatus = maze.MazeStatus
             };
             return model;
         }
@@ -378,11 +379,10 @@ namespace WebMaze
                 Height = model.Height,
                 Width = model.Width,
                 Message = model.Message,
-
-
+                MazeStatus=model.MazeStatus
             };
             maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroMaxHp)
-            { Money = model.Creator.Coins, CurrentFatigue = model.HeroNowFatigure, MaxFatigue = model.HeroMaxFatigure };
+            { Money = maze.Hero.Money, CurrentFatigue = model.HeroNowFatigure, MaxFatigue = model.HeroMaxFatigure };
             return maze;
         }
         private MazeCellWeb inCellModel(BaseCell cell)

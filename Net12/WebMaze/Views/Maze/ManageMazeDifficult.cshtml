@@ -8,43 +8,46 @@
 
     @foreach (var difficult in Model)
     {
-        <div class="manage-maze-difficult">
-            <div>
-                Author: @difficult.Author
-            </div>
-            <div>
-                Rating: @difficult.GlobalUserRating
-            </div>
-            <div>
-                Name: @difficult.Name
-            </div>
-            <div>
-                Width: @difficult.Width
-            </div>
-            <div>
-                Height: @difficult.Height
-            </div>
-            <div>
-                HeroMoney: @difficult.HeroMoney
-            </div>
-            <div>
-                HeroMaxHp: @difficult.HeroMaxHp
-            </div>
-            <div>
-                HeroMaxFatigue: @difficult.HeroMaxFatigue
-            </div>
-            <div>
-                CoinCount: @difficult.CoinCount
-            </div>
-            <a href="/Maze/RemoveMazeDifficult?Id=@difficult.Id">X</a>
-            <a href="/Maze/AddMazeDifficult?Id=@difficult.Id">E</a>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <div>
-                    <a href="@Url.Action("Wonderful","Maze", new {@difficultId = difficult.Id })" class="good-button">Wonderful</a>
-                    <a href="@Url.Action("Awful","Maze", new {@difficultId = difficult.Id})" class="bad-button">Awful</a>
-                </div>
-            }
+    <div class="manage-maze-difficult">
+        <div>
+            Author: @difficult.Author
         </div>
+        <div>
+            Rating: @difficult.GlobalUserRating
+        </div>
+        <div>
+            Name: @difficult.Name
+        </div>
+        <div>
+            Width: @difficult.Width
+        </div>
+        <div>
+            Height: @difficult.Height
+        </div>
+        <div>
+            HeroMoney: @difficult.HeroMoney
+        </div>
+        <div>
+            HeroMaxHp: @difficult.HeroMaxHp
+        </div>
+        <div>
+            HeroMaxFatigue: @difficult.HeroMaxFatigue
+        </div>
+        <div>
+            CoinCount: @difficult.CoinCount
+        </div>
+        <div>
+            CoinsToOpenTheDoor: @difficult.CoinsToOpenTheDoor
+        </div>
+        <a href="/Maze/RemoveMazeDifficult?Id=@difficult.Id">X</a>
+        <a href="/Maze/AddMazeDifficult?Id=@difficult.Id">E</a>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div>
+                <a href="@Url.Action("Wonderful","Maze", new {@difficultId = difficult.Id })" class="good-button">Wonderful</a>
+                <a href="@Url.Action("Awful","Maze", new {@difficultId = difficult.Id})" class="bad-button">Awful</a>
+            </div>
+        }
+    </div>
     }
 </div>

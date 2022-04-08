@@ -22,6 +22,7 @@ namespace WebMaze.Models
         public int CoinCount { get; set; }
         public string Author { get; set; }
         public int GlobalUserRating { get; set; }
+        public int CoinsToOpenTheDoor { get; set; }
 
     }
 }
