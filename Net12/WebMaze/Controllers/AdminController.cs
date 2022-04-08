@@ -47,24 +47,20 @@ namespace WebMaze.Controllers
             return View(permissionViewModels);
         }
 
-
+        [HttpGet]
         public IActionResult EditingUsers()
         {
             var Users = _userRepository.GetFullAll();
             var viewModel = new AdminMenuViewModel()
             {
                 Users = Users != null ? _mapper.Map<List<UserViewModel>>(Users) : new List<UserViewModel>(),
-                currUser = _mapper.Map<UserViewModel>(_userService.GetCurrentUser()) 
-        };
-
+                currUser = _mapper.Map<UserViewModel>(_userService.GetCurrentUser())
+            };
 
             return View(viewModel);
 
-            //////////////////////////////////////////////////////
-
-            
         }
-
+       
         public IActionResult ReflectionPages()
         {
             var controllers = Assembly

@@ -66,14 +66,6 @@
             <!-- Проверка -->
             <div>
                  <div class=submitChanges> Submit </div>
-                 @foreach (var user in Model.Users)
-                {
-                    <div>
-                    @Html.RadioButton($"UserId {user.Id} {user.UserName}", @user.Id, false )
-                    @user.Id
-                    @user.UserName
-                    </div>
-                }
             </div>
             <!-- Проверка -->
     </div>
