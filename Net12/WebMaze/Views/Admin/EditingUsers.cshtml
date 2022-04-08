@@ -18,29 +18,31 @@
                     Permissions
                 </div>
             </div>
+            <div class="HeaderUnderline"></div>
             <div class="MainTableNames">
                 <table>
                     <tr>
-                        <td width= 7%><div class="ZeroColumn">Id</div></td>
-                        <td width= 28%><div class="FirstColumn"></div></td>
-                        <td width= 17%><div class="SecondColumn">Admin</div></td>
-                        <td width= 17%><div class="ThirdColumn">News Creator</div></td>
-                        <td width= 17%><div class="FourthColumn">Forum Moderator</div></td>
-                        <td width= 17%><div class="FifthColumn">Ban</div></td>
+                        <td width= 7%><div class="FirstColumn">Id</div></td>
+                        <td width= 28%><div class="SecondColumn">User Name</div></td>
+                        <td width= 17%><div class="ThirdColumn">Admin</div></td>
+                        <td width= 17%><div class="FourthColumn">News Creator</div></td>
+                        <td width= 17%><div class="FifthColumn">Forum Moderator</div></td>
+                        <td width= 17%><div class="SixthColumn">Ban</div></td>
                     </tr>
                 </table>
             </div>
+            <div class="HeaderUnderline"></div>
             <div class="MainTable">
                 <table>
                     @foreach (var user in Model.Users)
                     {
                     <tr>
-                        <td width= 7%><div id="Scc-@user.Id" class="IdColumn">@user.Id</div></td>
+                        <td width= 7%><div id="Column_1_Line_@user.Id" class="FirstColumn">@user.Id</div></td>
                         <td width= 28%>
-                            <div id="Ftc-@user.Id" class="FirstColumn">
+                            <div id="Column_2_Line_@user.Id" class="SecondColumn">
                                     @if (@user.Id == @Model.currUser.Id)
                                     {
-                                       <text>@user.UserName (You)</text>
+                                       <text>@user.UserName &nbsp;<font color="#7B68EE"> (You)</font></text>
                                     }
                                     @if (@user.Id != @Model.currUser.Id)
                                     {
@@ -48,11 +50,11 @@
                                     }
                             </div>
                             </td>
-                        <td width= 17%><div id="Scc-@user.Id" class="SecondColumn"><input class="apple-switch" type="checkbox"></div></td>
-                        <td width= 17%><div id="Thc-@user.Id" class="ThirdColumn"><input class="apple-switch" type="checkbox"></div></td>
-                        <td width= 17%><div id="Foc-@user.Id" class="FourthColumn"><input class="apple-switch" type="checkbox"></div></td>
+                        <td width= 17%><div id="Column_3_Line_@user.Id" class="ThirdColumn"><input class="apple-switch" type="checkbox"></div></td>
+                        <td width= 17%><div id="Column_4_Line_@user.Id" class="FourthColumn"><input class="apple-switch" type="checkbox"></div></td>
+                        <td width= 17%><div id="Column_5_Line_@user.Id" class="FifthColumn"><input class="apple-switch" type="checkbox"></div></td>
                         <td width= 17%>
-                            <div id="Ffc-@user.Id" class="FifthColumn"><input class="apple-switch-red"
+                            <div id="Column_6_Line_@user.Id" class="SixthColumn"><input class="apple-switch-red"
                                 @if (!@user.IsActive){
                                     <text>checked</text>
                                 }
