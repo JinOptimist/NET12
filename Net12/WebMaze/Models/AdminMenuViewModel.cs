@@ -9,5 +9,6 @@ namespace WebMaze.Models
     public class AdminMenuViewModel
     {
         public List<UserViewModel> Users { get; set; }
+        public UserViewModel currUser { get; set; }
     }
 }

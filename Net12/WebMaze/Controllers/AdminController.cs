@@ -28,13 +28,15 @@ namespace WebMaze.Controllers
         private PermissionRepository _permissionRepository;
         private IMapper _mapper;
         private UserRepository _userRepository;
+         private UserService _userService;
         private CellInfoHelperService _cellInfoHelperService;
-        public AdminController(PermissionRepository permissionRepository, IMapper mapper, UserRepository userRepository, CellInfoHelperService cellInfoHelperService)
+        public AdminController(PermissionRepository permissionRepository, IMapper mapper, UserRepository userRepository, CellInfoHelperService cellInfoHelperService, UserService userService)
         {
             _permissionRepository = permissionRepository;
             _mapper = mapper;
             _userRepository = userRepository;
             _cellInfoHelperService = cellInfoHelperService;
+            _userService = userService;
         }
 
         public IActionResult ViewPermission()
@@ -46,15 +48,21 @@ namespace WebMaze.Controllers
         }
 
 
-        public ActionResult EditingUsers()
+        public IActionResult EditingUsers()
         {
             var Users = _userRepository.GetFullAll();
             var viewModel = new AdminMenuViewModel()
             {
-                Users = Users != null ? _mapper.Map<List<UserViewModel>>(Users) : new List<UserViewModel>()
-            };
+                Users = Users != null ? _mapper.Map<List<UserViewModel>>(Users) : new List<UserViewModel>(),
+                currUser = _mapper.Map<UserViewModel>(_userService.GetCurrentUser()) 
+        };
+
 
             return View(viewModel);
+
+            //////////////////////////////////////////////////////
+
+            
         }
 
         public IActionResult ReflectionPages()
@@ -230,5 +238,6 @@ namespace WebMaze.Controllers
                 }
             }
         }
+
     }
 }
