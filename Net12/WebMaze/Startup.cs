@@ -368,6 +368,9 @@ namespace WebMaze
                 HeroY = maze.Hero.Y,
                 Message = maze.Message,
                 HeroMoney = maze.Hero.Money,
+                MazeStatus = maze.MazeStatus,
+                ExitIsOpen = maze.ExitIsOpen
+                
             };
             return model;
         }
@@ -377,12 +380,14 @@ namespace WebMaze
             {
                 Height = model.Height,
                 Width = model.Width,
-                Message = model.Message,
-
+                Message = model.Message,                
+                MazeStatus = model.MazeStatus,
+                ExitIsOpen = model.ExitIsOpen,
+                
 
             };
             maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroMaxHp)
-            { Money = model.Creator.Coins, CurrentFatigue = model.HeroNowFatigure, MaxFatigue = model.HeroMaxFatigure };
+            { Money = model.HeroMoney, CurrentFatigue = model.HeroNowFatigure, MaxFatigue = model.HeroMaxFatigure };
             return maze;
         }
         private MazeCellWeb inCellModel(BaseCell cell)

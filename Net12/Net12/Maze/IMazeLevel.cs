@@ -1,5 +1,6 @@
 ﻿using Net12.Maze.Cells;
 using Net12.Maze.Cells.Enemies;
+using Net12.Maze.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -19,5 +20,8 @@ namespace Net12.Maze
         void HeroStep(Direction direction);
         void ReplaceCell(BaseCell baseCell);
         Action<int> GetCoins { get; set; }
+        bool ExitIsOpen { get; set; }
+        int CoinsToOpenTheDoor { get; set; }
+        MazeStatusEnum MazeStatus { get; set; }
     }
 }

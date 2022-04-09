@@ -1,5 +1,6 @@
 ﻿using Net12.Maze.Cells;
 using Net12.Maze.Cells.Enemies;
+using Net12.Maze.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,10 @@ namespace Net12.Maze
         public string Message { get; set; } = "Play";
 
         public Action<int> GetCoins { get; set; }
+
+        public bool ExitIsOpen { get; set; }
+        public int CoinsToOpenTheDoor { get; set; }
+        public MazeStatusEnum MazeStatus { get; set; }
 
         public IBaseCell GetCellOrUnit(int x, int y)
         {
@@ -82,6 +87,7 @@ namespace Net12.Maze
             }
             else
             {
+                MazeStatus = MazeStatusEnum.Wasted;
                 Message = "WASTED";
                 return;
             }
@@ -115,6 +121,7 @@ namespace Net12.Maze
 
             if (cellToStep?.TryToStep() ?? false)
             {
+                ExitIsOpen = Hero.Money >= CoinsToOpenTheDoor;
                 Hero.X = heroPositionX;
                 Hero.Y = heroPositionY;
             }

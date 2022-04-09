@@ -358,6 +358,9 @@ namespace WebMaze.Migrations
                     b.Property<int>("CoinCount")
                         .HasColumnType("int");
 
+                    b.Property<int>("CoinsToOpenTheDoor")
+                        .HasColumnType("int");
+
                     b.Property<long?>("CreaterId")
                         .HasColumnType("bigint");
 
@@ -437,6 +440,12 @@ namespace WebMaze.Migrations
                     b.Property<long?>("CreatorId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("DifficultProfileId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("ExitIsOpen")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Height")
                         .HasColumnType("int");
 
@@ -464,6 +473,9 @@ namespace WebMaze.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int>("MazeStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
@@ -476,6 +488,8 @@ namespace WebMaze.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
+
+                    b.HasIndex("DifficultProfileId");
 
                     b.ToTable("MazeLevelsUser");
                 });
@@ -1307,7 +1321,13 @@ namespace WebMaze.Migrations
                         .WithMany("ListMazeLevels")
                         .HasForeignKey("CreatorId");
 
+                    b.HasOne("WebMaze.EfStuff.DbModel.MazeDifficultProfile", "DifficultProfile")
+                        .WithMany("Mazes")
+                        .HasForeignKey("DifficultProfileId");
+
                     b.Navigation("Creator");
+
+                    b.Navigation("DifficultProfile");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MinerCell", b =>
@@ -1532,6 +1552,11 @@ namespace WebMaze.Migrations
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.GuessTheNumber.GuessTheNumberGameParameters", b =>
                 {
                     b.Navigation("Games");
+                });
+
+            modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeDifficultProfile", b =>
+                {
+                    b.Navigation("Mazes");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.MazeLevelWeb", b =>

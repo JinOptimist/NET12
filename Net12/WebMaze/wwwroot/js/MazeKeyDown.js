@@ -73,6 +73,7 @@
                     $('.myHealth').text(`My Health: ${mazeData.heroNowHp}/${mazeData.heroMaxHp}`);
                     $('.myFatigue').text(`My Fatigue: ${mazeData.heroNowFatigure}/${mazeData.heroMaxFatigure}`);
                     $('.myStatus').text(`Game Status: ${mazeData.message}`);
+                    $('.myMoney').text(`My Money: ${mazeData.heroMoney}`);
                 });
         }
 
