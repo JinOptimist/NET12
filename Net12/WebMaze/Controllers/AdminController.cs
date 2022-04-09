@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using WebMaze.Controllers.AuthAttribute;
+using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
 using WebMaze.Services;
@@ -48,19 +49,70 @@ namespace WebMaze.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditingUsers()
+
+        public IActionResult AdminMenu()
         {
             var Users = _userRepository.GetFullAll();
-            var viewModel = new AdminMenuViewModel()
+            var adminMenuViewModel = new AdminMenuViewModel()
             {
                 Users = Users != null ? _mapper.Map<List<UserViewModel>>(Users) : new List<UserViewModel>(),
                 currUser = _mapper.Map<UserViewModel>(_userService.GetCurrentUser())
             };
 
-            return View(viewModel);
+            return View(adminMenuViewModel);
 
         }
-       
+        /*
+         
+        ----Взато из HomeController
+         
+        [HttpGet]
+
+        public IActionResult AddUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddUser(UserViewModel userViewModel)
+        {
+            var dbUser = new User()
+            {
+                Name = userViewModel.UserName,
+                Password = userViewModel.Password,
+                Coins = userViewModel.Coins,
+                Age = DateTime.Now.Second % 10 + 20,
+                IsActive = true
+            };
+
+            _userRepository.Save(dbUser);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        ----Взято из AddUser----
+
+        @model UserViewModel
+
+        <div class="text-center">
+            <form action="/Home/AddUser" method="post">
+                <div>
+                    Name @Html.TextBoxFor(x => x.UserName)
+                </div>
+                <div>
+                    Password @Html.TextBoxFor(x => x.Password)
+                </div>
+                <div>
+                    Coin @Html.TextBoxFor(x => x.Coins)
+                </div>
+                <div>
+                    <input type="submit" value="Save" />
+                </div>
+            </form>
+        </div>
+
+
+        */
         public IActionResult ReflectionPages()
         {
             var controllers = Assembly

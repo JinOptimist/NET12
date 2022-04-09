@@ -116,13 +116,13 @@ namespace WebMaze.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddUser(UserViewModel userViewMode)
+        public IActionResult AddUser(UserViewModel userViewModel)
         {
             var dbUser = new User()
             {
-                Name = userViewMode.UserName,
-                Password = userViewMode.Password,
-                Coins = userViewMode.Coins,
+                Name = userViewModel.UserName,
+                Password = userViewModel.Password,
+                Coins = userViewModel.Coins,
                 Age = DateTime.Now.Second % 10 + 20,
                 IsActive = true
             };
