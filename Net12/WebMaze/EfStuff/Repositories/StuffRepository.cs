@@ -11,5 +11,11 @@ namespace WebMaze.EfStuff.Repositories
         public StuffRepository(WebContext webContext) : base(webContext)
         {
         }
+
+        public override void Remove(StuffForHero model)
+        {
+            _dbSet.Remove(model);
+            _webContext.SaveChanges();
+        }
     }
 }

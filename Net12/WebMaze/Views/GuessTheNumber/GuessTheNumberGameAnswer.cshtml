@@ -1,0 +1,87 @@
+﻿@using WebMaze.Models.GuessTheNumber;
+@using WebMaze.Services.GuessTheNumber;
+@using WebMaze.ResourceLocalization;
+@model GuessTheNumberGameAnswerViewModel
+<div>
+    <span style="font-size:30px;">
+        @GuessTheNumber.Hi @Model.Game.PlayerName
+    </span>
+</div>
+
+<div>
+    @foreach (var answer in Model.Game.Answers.Reverse<GuessTheNumberGameAnswerViewModel>
+       ())
+    {
+        if (answer.IntroducedAnswer == Model.Game.GuessedNumber)
+        {
+            <div>
+                @answer.IntroducedAnswer @GuessTheNumber.Hidden_Number
+            </div>
+        }
+        else
+        {
+            var sign = answer.IntroducedAnswer > Model.Game.GuessedNumber ? ">" : "<";
+
+            <div>
+                @answer.IntroducedAnswer <b>@(sign)</b> @GuessTheNumber.Target
+            </div>
+        }
+    }
+</div>
+
+@switch (Model.Game.GameStatus)
+{
+    case GuessTheNumberGameStatus.NotFinished:
+
+<div>
+    @GuessTheNumber.Enter_Number @GuessTheNumber.From_To_Range @Model.Game.Parameters.MinRangeNumber
+    @GuessTheNumber.To @Model.Game.Parameters.MaxRangeNumber
+</div>
+<div>
+    @GuessTheNumber.Still_Have @Model.Game.AttemptNumber @GuessTheNumber.Attempts @GuessTheNumber.From @Model.Game.Parameters.MaxAttempts
+</div>
+
+        <form action="/GuessTheNumber/GuessTheNumberGameAnswer" method="post">
+            @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.GameId)
+            <div>
+                @GuessTheNumber.Enter_Answer @Html.TextBoxFor(x => x.IntroducedAnswer, new { @type = "number" })
+            </div>
+            <div>
+                @Html.ValidationMessageFor(x => x.IntroducedAnswer)
+            </div>
+            <div>
+                <input type="submit" value="@GuessTheNumber.Confirm_Answer" />
+            </div>
+        </form>
+        <div>
+            <a href="/GuessTheNumber/IGiveUp"><input type="submit" value="@GuessTheNumber.Give_Up" /></a>
+        </div>
+
+        break;
+
+    case GuessTheNumberGameStatus.Loss:
+
+<span style="font-size:30px;">
+    @GuessTheNumber.Loss 
+</span>
+
+        break;
+
+    case GuessTheNumberGameStatus.Win:
+
+<span style="font-size:30px;">
+    @GuessTheNumber.Win 
+</span>
+
+        break;
+
+    default:
+
+<span style="font-size:30px;">
+    @GuessTheNumber.Error
+</span>
+
+        break;
+
+}

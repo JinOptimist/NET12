@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.15.0" />
+    <PackageReference Include="itext7" Version="7.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.12" />
@@ -14,6 +15,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="PdfSharp" Version="1.50.5147" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
   </ItemGroup>
 
@@ -22,9 +24,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Logs\**" />
     <Compile Remove="wwwroot\Новая папка1\**" />
+    <Content Remove="Logs\**" />
     <Content Remove="wwwroot\Новая папка1\**" />
+    <EmbeddedResource Remove="Logs\**" />
     <EmbeddedResource Remove="wwwroot\Новая папка1\**" />
+    <None Remove="Logs\**" />
     <None Remove="wwwroot\Новая папка1\**" />
   </ItemGroup>
 
@@ -37,8 +43,10 @@
     <Folder Include="wwwroot\images\gallery\" />
     <Folder Include="wwwroot\images\play15Img\" />
     <Folder Include="wwwroot\images\SuggestedEnemies\" />
+    <Folder Include="wwwroot\images\NewCellImg\" />
     <Folder Include="wwwroot\imgYellowTeam\" />
-    <Folder Include="Logs\" />
+    <Folder Include="wwwroot\createdDocuments\" />
+    <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +59,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ResourceLocalization\InfoMessageLocalize.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InfoMessageLocalize.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ResourceLocalization\GuessTheNumber.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GuessTheNumber.resx</DependentUpon>
+    </Compile>
     <Compile Update="ResourceLocalization\Home.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -66,7 +84,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MySystem.resx</DependentUpon>
     </Compile>
-    <Compile Update="ResourceLocalization\Maze.Designer.cs">
+    <Compile Update="ResourceLocalization\SeaBattle.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SeaBattle.resx</DependentUpon>
+    </Compile>
+    <Compile Update="ResourceLocalization\ZumaGame.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Maze.resx</DependentUpon>
@@ -79,6 +102,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="ResourceLocalization\InfoMessageLocalize.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>InfoMessageLocalize.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\InfoMessageLocalize.Ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\GuessTheNumber.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GuessTheNumber.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\GuessTheNumber.Ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\Home.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Home.Designer.cs</LastGenOutput>
@@ -89,6 +126,13 @@
     <EmbeddedResource Update="ResourceLocalization\MySystem.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MySystem.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\SeaBattle.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SeaBattle.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResourceLocalization\SeaBattle.Ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\ZumaGame.resx">
       <LastGenOutput>Maze.Designer.cs</LastGenOutput>

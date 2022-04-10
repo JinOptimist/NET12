@@ -17,8 +17,7 @@ using WebMaze.Models.Enums;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers
-{
-    [Authorize]
+{    
     public class GalleryController : Controller
     {
         private readonly ImageRepository _repository;
@@ -45,13 +44,13 @@ namespace WebMaze.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string value = "0", string columnName = "Assessment", SortType sortType = SortType.GreaterThan)
         {
             var imageViewModels = new List<ImageViewModel>();
 
             if (_userRepository.GetAll().Any())
             {
-                imageViewModels = _repository.GetAll().Select(image => _mapper.Map<ImageViewModel>(image)).ToList();
+                imageViewModels = _repository.GetSorted(value, columnName, sortType).Select(image => _mapper.Map<ImageViewModel>(image)).ToList();
             }
 
             return View(imageViewModels);
@@ -70,6 +69,7 @@ namespace WebMaze.Controllers
             return View(imageViewModels);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult AddImage()
         {
@@ -83,29 +83,43 @@ namespace WebMaze.Controllers
             if (!ModelState.IsValid)
             {
                 return View(imageViewModel);
-            }
+            }            
 
             var dbImage = _mapper.Map<Image>(imageViewModel);
-            dbImage.Author = _userService.GetCurrentUser();
-            _repository.Save(dbImage);
+            dbImage.Author = _userService.GetCurrentUser();           
 
-            var fileName = $"{dbImage.Id}.jpg";
-            dbImage.Picture = "/images/gallery/" + fileName;
-            _repository.Save(dbImage);
-
-            var filePath = Path.Combine(_hostEnvironment.WebRootPath, "images", "gallery", fileName);
-            using (var fileStream = System.IO.File.Create(filePath))
+            if (!imageViewModel.IsUploadByURL)
             {
-                imageViewModel.ImageFile.CopyTo(fileStream);
+                var fileName = $"{dbImage.Id}.jpg";
+                dbImage.Picture = "/images/gallery/" + fileName;
+                
+
+                var filePath = Path.Combine(_hostEnvironment.WebRootPath, "images", "gallery", fileName);
+                using (var fileStream = System.IO.File.Create(filePath))
+                {
+                    imageViewModel.ImageFile.CopyTo(fileStream);
+                }
             }
+
+            _repository.Save(dbImage);
 
             return RedirectToAction("Index", "Gallery");
         }
 
         public IActionResult Wonderful(long imageId)
         {
+            var reward = 10;
             var image = _repository.Get(imageId);
-            _payForActionService.CreatorEarnMoney(image.Author.Id, 10);
+            _payForActionService.CreatorEarnMoney(image.Author.Id, reward);
+
+            return RedirectToAction("Index", "Gallery");
+        }
+
+        public IActionResult Awful(long imageId)
+        {            
+            var image = _repository.Get(imageId);
+
+            _payForActionService.CreatorDislikeFine(image.Author.Id, TypesOfPayment.Fine);
 
             return RedirectToAction("Index", "Gallery");
         }

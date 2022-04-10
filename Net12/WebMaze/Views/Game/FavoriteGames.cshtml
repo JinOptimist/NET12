@@ -1,5 +1,9 @@
 ﻿@model List<GameViewModel>
 
+@section Scripts{
+    <script src="~/js/favGamesSorting.js"></script>
+}
+
 @{
     Layout = "~/Views/Shared/_LayoutFavGames.cshtml";
 }
@@ -10,12 +14,46 @@
         <a href="/Home/Index" class="favGame-link">Back to Home</a>
         <a href="/Game/AddGame" class="favGame-link">Add FavGame</a>
     </div>
-    <div class="title-favGames">
-        Favorite Games
+
+    <div class="main-title-favGames">
+
+        <ul>
+            @foreach (var letter in "FavGames".ToCharArray())
+            {
+                <li>
+                    <input type="checkbox" />
+                    <div class="letter">@letter</div>
+                </li>
+            }
+        </ul>
+
+    </div>
+
+    <div class="main-title-hint">click the letters!</div>
+
+    <div class="sorting">
+        <div class="sorting-part-choose-column">
+            <div class="sorting-sort-by">
+                Sort by:
+            </div>
+            <div class="sorting-buttons">
+                <a href="/Game/FavoriteGames?gameFilter=Name&ascDirection=true" class="sorting-button"><b>Title</b></a>
+                <a href="/Game/FavoriteGames?gameFilter=YearOfProd&ascDirection=true" class="sorting-button"><b>Release Date</b></a>
+                <a href="/Game/FavoriteGames?gameFilter=Rating&ascDirection=true" class="sorting-button"><b>Rating</b></a>
+                <a href="/Game/FavoriteGames?gameFilter=Creater.Age&ascDirection=true" class="sorting-button"><b>Author's Age</b></a>
+                <a href="/Game/FavoriteGames?gameFilter=Creater.GlobalUserRating&ascDirection=true" class="sorting-button"><b>User rating</b></a>
+</div>
+        </div>
+
+        <div class="sorting-part-direction">
+            <div class="asc-button"><input class="asc-button-press" type="radio" name="sortBy" checked>Ascending</div>
+            <div class="desc-button"><input class="desc-button-press" type="radio" name="sortBy">Descending</div>
+        </div>
     </div>
 
     <div class="favGames-block">
         @foreach (var game in Model)
+             
         {
             <div class="each-favGame">
 
@@ -35,20 +73,21 @@
                             <b>Rating:</b> @game.Rating/10
                         </div>
                     </div>
-                    <div class="favGame-description"  >
+                    <div class="favGame-description">
                         <b>Description:</b> @game.Desc
                         <div>
                             @if (User.Identity.IsAuthenticated)
                             {
-                            <br>
-                                <a href="@Url.Action("Wonderful","Game", new { @gameId = game.Id})" class="good-button">Wonderful</a>                                
-                                <button class="bad-button">Awful</button> 
+                                <br>
+                                <a href="@Url.Action("Wonderful","Game", new { @gameId = game.Id})" class="good-button">Wonderful</a>
+                                <a href="@Url.Action("Awful","Game", new {@gameId = game.Id})" class="bad-button">Awful</a>
                             }
                         </div>
                     </div>
                     <div class="favGame-user-elements">
                         <div><b>Username:</b> @game.Username</div>
                         <div><b>Age:</b> @game.Age</div>
+                        <div><b>User rating:</b> @game.GlobalUserRating</div>
                     </div>
                 </div>
 

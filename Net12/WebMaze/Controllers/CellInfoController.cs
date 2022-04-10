@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,9 +12,9 @@ namespace WebMaze.Controllers
 {
     public class CellInfoController : Controller
     {
-        private IHostingEnvironment _environment;
+        private IHostEnvironment _environment;
 
-        public CellInfoController(IHostingEnvironment environment)
+        public CellInfoController(IHostEnvironment environment)
         {
             _environment = environment;
         }
@@ -262,7 +263,7 @@ namespace WebMaze.Controllers
 
         public IActionResult GetImage()
         {
-            var path = Path.Combine(_environment.WebRootPath, "images\\cells");
+            var path = Path.Combine(_environment.ContentRootPath, "wwwroot", "images", "cells");
             var urls =
                 Directory.GetFiles(path,"*.jpg")
                     .Select(x => Path.GetFileName(x))

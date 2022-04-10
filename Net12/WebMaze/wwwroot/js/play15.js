@@ -12,16 +12,20 @@
     init();
     checkWin();
 
-    function init () {
-        for (var number = 1; number < 16; number++) {
-            do {                
-                let randomPlace = getRandomInt(0, 16);
-                cell = getRowAndColumnByPlace(randomPlace);
-            } while (places[cell.row][cell.column] !== undefined);
+    function init() {               
+        var residue;
 
-            places[cell.row][cell.column] = number;
-        }
+        do {            
+            for (var place = 0; place < 16; place++) {
+                let cell = getRowAndColumnByPlace(place);
+                places[cell.row][cell.column] = undefined;
+            }
 
+            choosePlaceForNumber();
+            residue = checkPossibilityToWin();
+
+        } while (residue == 1);
+        
         for (let row = 0; row < 4; row++) {        
             for (let column = 0; column < 4; column++) {
                 if (places[row][column]) {
@@ -40,6 +44,44 @@
                 } 
             }
         }
+    }
+
+    function choosePlaceForNumber() {
+        for (var number = 1; number < 16; number++) {
+            do {
+                let randomPlace = getRandomInt(0, 16);
+                cell = getRowAndColumnByPlace(randomPlace);
+            } while (places[cell.row][cell.column] !== undefined);
+
+            places[cell.row][cell.column] = number;
+        }
+    }
+
+    function checkPossibilityToWin() {
+        var sum = 0;
+
+        for (var place = 0; place < 16; place++) {
+            let cell = getRowAndColumnByPlace(place);
+            let numberTemp = places[cell.row][cell.column];
+
+            if (numberTemp === undefined) {
+                sum += (cell.row + 1);
+                console.log('undefined, sum = ' + sum);
+                continue;
+            }
+
+            for (var i = place; i < 16; i++) {
+                cell = getRowAndColumnByPlace(i);
+                if (places[cell.row][cell.column] < numberTemp) {
+                    sum += 1;
+                }
+            }
+
+        }
+        
+        var residue = sum % 2;
+        console.log('sum = ' + sum + ' residue = ' + residue);
+        return residue;
     }
 
     function step(row, column) {
@@ -61,7 +103,7 @@
     }  
 
     function checkWin() {
-        for (var place = 0; place < 14; place++) {
+        for (var place = 0; place < 15; place++) {
             let number = place + 1;
             cell = getRowAndColumnByPlace(place);
 

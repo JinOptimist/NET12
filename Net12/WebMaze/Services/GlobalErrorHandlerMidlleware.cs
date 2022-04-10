@@ -25,13 +25,13 @@ namespace WebMaze.Services
             {
                 await _next(context);
             }
-            catch (SecretLinkException e)
+            catch (SecretLinkException)
             {
                 context.Response.Redirect("/Home/SecreteError");
             }
             catch (Exception)
             {
-                context.Response.Redirect("/Home/BoringError");
+                throw;
             }
         }
     }

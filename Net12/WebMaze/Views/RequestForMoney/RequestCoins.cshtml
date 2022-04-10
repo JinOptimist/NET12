@@ -1,0 +1,95 @@
+﻿@using WebMaze.Services
+@model List<RequestForMoneyViewModel>
+@inject UserService userService
+
+
+<div class="text-center">
+    <h3>
+        Request Coins
+    </h3>
+
+    <div>
+        <a href="/RequestForMoney/AddRequestCoins">Add Request Coins</a>
+    </div>
+   
+    <div>
+        @foreach (var request in Model)
+
+        {
+            var user = userService.GetCurrentUser();
+            if (request.IsActive == true)
+
+            {
+                if (request.RequestStatus == RequestStatusEnums.WaitingForAnAnswer
+            && request.RequestRecipient == user.Name)
+                {
+
+                    <div>
+                        User @request.RequestCreator asks you to transfer @request.RequestAmount coins to him
+
+                    </div>
+
+                    <div>
+                        @if (request.MassegeErrors == WebMaze.Services.RequestForMoney.MassegeErrorsRequestEnums.NotEnoughCoins)
+                        {
+                            <a>
+                                You don't have enough coins
+                            </a>
+                        }
+                        else
+                        {
+
+                            <a href="/RequestForMoney/AcceptRequestCoins?requestId=@request.Id"><input type="button" value="Accept" /></a>
+
+                        }
+                        <a href="/RequestForMoney/RejectRequestCoins?requestId=@request.Id"><input type="button" value="Reject" /></a>
+                    </div>
+                }
+
+                if (request.RequestStatus == RequestStatusEnums.WaitingForAnAnswer
+                && request.RequestCreator == user.Name)
+                {
+                    <div>
+                        You ask @request.RequestRecipient for @request.RequestAmount coins
+                    </div>
+
+                    <div>
+                        <a href="/RequestForMoney/RemoveRequestCoins?requestId=@request.Id"><input type="button" value="Delete" /></a>
+                        <a href="/RequestForMoney/AddRequestCoins?requestId=@request.Id"><input type="button" value="Edit" /></a>
+                    </div>
+                }
+                if (request.RequestStatus == RequestStatusEnums.RequestApproved
+                    && request.RequestCreator == user.Name)
+                {
+                    <div>
+                        @request.RequestRecipient approved your request to transfer @request.RequestAmount coins
+                    </div>
+                }
+
+                if (request.RequestStatus == RequestStatusEnums.RequestApproved
+                    && request.RequestRecipient == user.Name)
+
+                {
+                    <div>
+                        You approved the transfer of @request.RequestAmount coins to @request.RequestCreator
+                    </div>
+                }
+
+                if (request.RequestStatus == RequestStatusEnums.RequestDenied
+                    && request.RequestCreator == user.Name)
+                {
+                    <div>
+                        @request.RequestRecipient refused a request to transfer @request.RequestAmount coins
+                    </div>
+                }
+                if (request.RequestStatus == RequestStatusEnums.RequestDenied
+                    && request.RequestRecipient == user.Name)
+                {
+                    <div>
+                        You refused to transfer @request.RequestAmount coins to @request.RequestCreator
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>

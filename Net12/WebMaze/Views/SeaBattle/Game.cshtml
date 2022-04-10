@@ -1,0 +1,84 @@
+﻿@using WebMaze.ResourceLocalization
+
+@model SeaBattleGameViewModel
+
+@section Scripts{
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/seaBattle.js"></script>
+}
+
+
+<div class="big-center-font">
+    @SeaBattle.LetsGo
+</div>
+
+<div class="seaBattleTimer big-center-font">
+    --
+</div>
+
+<div class="seabattle-game" gameId=@Model.Id>
+
+    <div class="seabattle-field">
+        @for (int y = 0; y < Model.MyField.Height; y++)
+        {
+            <div class="seabattle-field-row">
+                @for (int x = 0; x < Model.MyField.Width; x++)
+                {
+                    var cell = Model.MyField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
+
+                    <span class="@(cell.IsShip
+                    ? cell.Hit ? "seabattle-damadge-ship-cell" : "seabattle-normal-ship-cell"
+                    : cell.Hit ? "seabattle-hit-cell" : "seabattle-empty-cell")">
+                    </span>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="seabattle-field-row">
+
+        <div class="seabattle-field">
+            @for (int y = 0; y < Model.EnemyField.Height; y++)
+            {
+                <div class="seabattle-field-row">
+                    @for (int x = 0; x < Model.EnemyField.Width; x++)
+                    {
+                        var cell = Model.EnemyField.Cells.SingleOrDefault(c => c.X == x && c.Y == y);
+
+                        if (cell.Hit)
+                        {
+                            <span class="@(cell.IsShip ? "seabattle-damadge-ship-cell" : "seabattle-hit-cell")">
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="@(cell.IsShip ? "seabattle-normal-ship-cell" : "seabattle-empty-cell")">
+                                <a href="/SeaBattle/ClickOnCell?id=@cell.Id"></a>
+                            </span>
+                        }
+
+
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="seabattle-enemy-ship">
+            <div>
+                @SeaBattle.TwoSizeShip @Model.TwoSizeShip
+            </div>
+            <div>
+                @SeaBattle.ThreeSizeShip @Model.ThreeSizeShip
+            </div>
+            <div>
+                @SeaBattle.FourSizeShip @Model.FourSizeShip
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="big-center-font">
+    <a href="/SeaBattle/LoseGame?gameId=@Model.Id">@SeaBattle.Surrender</a>
+</div>
+

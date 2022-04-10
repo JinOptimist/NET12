@@ -1,0 +1,30 @@
+﻿@using WebMaze.Models.GenerationDocument;
+@model List<DocumentStatus>
+
+@section Scripts{ 
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/documentUpdateStatusAll.js"></script>
+}
+
+<div class="content">       
+    <div class="content-title">   
+        Get document
+    </div>
+
+    <div class="doc">
+        @foreach (var document in Model)
+       {
+           <div class="doc-info-@document.Id">
+               Document ID: @document.Id 
+                @if (document.Pages == document.Percent)
+                {
+                    <span> is ready</span>
+                }
+            </div>
+       }
+    </div>
+
+    <div>   
+        <a href="/GetDocument/StartPreparation"> Start preparation</a>
+    </div>
+</div>

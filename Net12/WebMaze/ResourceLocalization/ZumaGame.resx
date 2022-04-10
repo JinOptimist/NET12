@@ -144,6 +144,9 @@
   <data name="NewGame" xml:space="preserve">
     <value>New Game</value>
   </data>
+  <data name="Page" xml:space="preserve">
+    <value>Page</value>
+  </data>
   <data name="Price" xml:space="preserve">
     <value>Price:</value>
   </data>

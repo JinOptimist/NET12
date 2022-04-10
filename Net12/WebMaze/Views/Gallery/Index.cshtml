@@ -1,34 +1,68 @@
 ﻿@model List<ImageViewModel>
+@using WebMaze.Models.Enums;
+
+
+@section Scripts{
+    <script src="~/js/galleryAjax.js"></script>
+    <link rel="stylesheet" href="~/css/gallery.css" />
+}
 
 <div class="whole-page">
+    <div class="g-name">Users gallery</div>
 
-        <div class="text-center">
-            <h1>Users gallery</h1>
+    <div class="g-page">
+        <div class="form-style">
+            <div class="form-text">Sort by:</div>
+            <div class="form-input">
+                <form action="/Gallery/Index" method="get" class="f-input">
+                    <input type="hidden" name="columnName" value="Assessment" />
+                    <input type="hidden" name="sortType" value="@SortType.GreaterThan" />
+                    <input type="number" name="value" placeholder="Min assessment" class="form">
+                    <input type="submit" value="Sort" class="good-button" data-id="sortButton"/>
+                </form>
 
-            <div class="pic-to-gallery">
-                @foreach (var image in Model)
-                {
-                    <div>
-                        <div>
-                            <img class="image" src="@image.Picture">
-                        </div>
-                        <div class="t-to-gallery">
-                            @image.Assessment
-                        </div>
-                        <div class="t-to-gallery">
-                            @image.Description
-                        </div>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <div>
-                                <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" class="good-button">Wonderful</a>
-                                <button class="bad-button">Awful</button>
-                            </div>
-                        }
-
-                    </div>
-
-                }
+                <form action="/Gallery/Index" method="get" class="f-input">
+                    <input type="hidden" name="columnName" value="Author.Name" />
+                    <input type="hidden" name="sortType" value="@SortType.Equal" />
+                    <input type="text" name="value" placeholder="Author name" class="form">
+                    <input type="submit" value="Send" class="good-button" data-id="sortButton"/>
+                </form>
             </div>
         </div>
+
+        <div class="pic-to-gallery">
+            @foreach (var image in Model)
+            {
+                <div>
+                    <div class="g-user">
+                        <img src="~/images/galleryImg/userFotoDefault.png" alt="User Foto">
+                        @image.AuthorName
+                    </div>
+
+                    <div>
+                        <img class="g-image" src="@image.Picture">
+                    </div>
+
+                    <div class="for-g-text">
+                        <div class="g-text">Rating:</div>
+                        @image.Assessment
+                    </div>
+
+                    <div class="for-g-text">
+                        <div class="g-text">Description:</div>
+                        @image.Description
+                    </div>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div>
+                            <a href="@Url.Action("Wonderful","Gallery", new {@imageId = image.Id})" data-id="@image.Id" class="good-button">Wonderful</a>
+                            <a href="@Url.Action("Awful","Gallery", new {@imageId = image.Id})" data-id="@image.Id" class="bad-button">Awful</a>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
     </div>
+</div>
+

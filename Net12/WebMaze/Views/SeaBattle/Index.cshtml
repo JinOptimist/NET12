@@ -1,0 +1,48 @@
+﻿@using WebMaze.ResourceLocalization
+
+
+@model SeaBattleIndexViewModel
+
+
+<div class="seabattle-margin">
+    <div class="big-center-font">
+        @SeaBattle.Welcome
+    </div>
+
+    <div class="big-center-font">
+        @if (Model.IsContinue)
+        {
+            <a href="/SeaBattle/ContinueGame">@SeaBattle.ContinueGame</a>
+        }
+    </div>
+
+    <div>
+        @foreach (var difficult in Model.SeaBattleDifficultViewModels)
+        {
+            <div class="manage-seabattle-difficult">
+                <div>
+                    <a href="/SeaBattle/Index?typeSorted=Width">
+                        @SeaBattle.Width @difficult.Width
+                </div>
+                <div>
+                    <a href="/SeaBattle/Index?typeSorted=Height">
+                        @SeaBattle.Height @difficult.Height
+                </div>
+                <div>
+                    @SeaBattle.TwoSizeShip @difficult.TwoSizeShip
+                </div>
+                <div>
+                    @SeaBattle.ThreeSizeShip @difficult.ThreeSizeShip
+                </div>
+                <div>
+                    @SeaBattle.FourSizeShip @difficult.FourSizeShip
+                </div>
+
+                @if (!Model.IsContinue)
+                {
+                    <a href="/SeaBattle/NewGame?difficultId=@difficult.Id">@SeaBattle.NewGame</a>
+                }
+            </div>
+        }
+    </div>
+</div>

@@ -1,7 +1,97 @@
-﻿body {
+﻿
+@font-face {
+    font-family: "Codystar";
+    src: url("../fonts/Codystar-Light.ttf");
+}
+
+body {
     background-image: url(/imgFavGames/favGamesBackground.jpg);
     background-size: cover;
     background-attachment: fixed;
+}
+
+.sorting-part-choose-column {
+    display: flex;
+    justify-content: space-around;
+}
+
+.sorting-part-direction {
+    display: flex;
+    justify-content: center;
+    font-size: 25px;
+    accent-color: pink;
+}
+
+.asc-button {
+    margin-right: 15px;
+    text-shadow: 1px 5px 1px #3c0845, 0 0 3em #681177, 0 0 0.9em #6c175f;
+}
+
+.desc-button {
+    margin-left: 15px;
+    text-shadow: 1px 5px 1px #3c0845, 0 0 3em #681177, 0 0 0.9em #6c175f;
+}
+
+.asc-button-press {
+    height: 17px;
+    width: 17px;
+}
+
+.desc-button-press {
+    height: 17px;
+    width: 17px;
+}
+
+.sorting-sort-by {
+    background: linear-gradient(to right, #c81a9a 0, white 10%, #c81a9a 20%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s infinite linear;
+    -webkit-text-size-adjust: none;
+    font-weight: 600;
+    font-size: 50px;
+    white-space: nowrap;
+    -webkit-text-stroke: 1px white;
+}
+
+@keyframes shine {
+
+    0% {
+        background-position: 0
+    }
+    60% {
+        background-position: 160px
+    }
+    100% {
+        background-position: 180px
+    }
+}
+
+.sorting-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-right: 18%;
+    font-size: 20px;
+}
+
+.sorting-button {
+    border-radius: 100px;
+    background-color: #8b08ba;
+    color: white;
+    border: white solid 2px;
+    padding: 10px;
+    margin: 20px;
+    font-size: 17px;
+    font-style: italic;
+    box-shadow: rgb(147 30 159 / 88%) 0 -25px 20px -14px inset, rgb(200 35 202 / 67%) 0 1px 2px, rgb(128 11 140 / 62%) 0 2px 4px, rgb(135 12 153 / 81%) 0 4px 8px, rgb(162 15 177 / 88%) 0 8px 16px, rgb(227 78 230 / 90%) 0 16px 32px;
+}
+
+.sorting-button:hover {
+    background-color: white;
+    color: #8b08ba;
+    border: #8b08ba solid 2px;
+    box-shadow: rgb(147 30 159 / 88%) 0 -25px 20px -14px inset, rgb(200 35 202 / 67%) 0 1px 2px, rgb(128 11 140 / 62%) 0 2px 4px, rgb(135 12 153 / 81%) 0 4px 8px, rgb(162 15 177 / 88%) 0 8px 16px, rgb(227 78 230 / 90%) 0 16px 32px;
+    transform: scale(1.1);
 }
 
 .title-favGame {
@@ -11,14 +101,81 @@
     padding: 0 10px 0 10px;
     backdrop-filter: blur(5px) brightness(40%);
     box-shadow: 0 0 4px 5px #fff;
+    border-radius: 30px;
 }
 
 .title-favGames {
     display: flex;
     justify-content: center;
     font-size: 90px;
-    font-style: italic; 
+    font-style: italic;
     margin: 5px 0 10px 0;
+}
+
+.main-title-favGames {
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ul {
+    position: relative;
+    display: flex;
+}
+
+li {
+    list-style: none;
+}
+
+label {
+    position: relative;
+}
+
+input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 170px;
+    width: 100px;
+    z-index: 100;
+}
+
+.letter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 150px;
+    cursor: pointer;
+    height: 170px;
+    width: 100px;
+    margin: 0 7px;
+    border-radius: 50px;
+    box-shadow: -1px -1px 4px rgba(255, 255, 255, 0.05), 4px 4px 6px rgba(0, 0, 0, 0.2), inset -1px -1px 4px rgba(255, 255, 255, 0.05), inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+input[type="checkbox"]:checked ~ div {
+    color: yellow;
+    text-shadow: 0 0 15px yellow, 0 0 25px yellow;
+    animation: glow 1.5s linear infinite;
+}
+
+@keyframes glow {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
+.main-title-hint {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-style: italic;
 }
 
 .add-favGame-title {
@@ -26,7 +183,10 @@
     color: white;
     font-size: 90px;
     margin: 50px 250px 20px 250px;
+    font-family: 'Codystar';
+    font-weight: bold;
 }
+
 
 .all-about-favGame {
     display: flex;
@@ -46,7 +206,6 @@
 }
 
 .favGame-description {
-    /*display: flex;*/
     margin: auto 40px auto 40px;
     padding: 10px;
     border-radius: 30px;
@@ -96,6 +255,13 @@
     border-radius: 15px;
 }
 
+.textarea::placeholder {
+    color: dimgray;
+    font-size: 20px;
+    font-style: italic;
+    line-height: 30px;
+}
+
 .input {
     font-size: 25px;
     margin: 30px 0 0 0;
@@ -105,18 +271,22 @@
     color: white;
 }
 
+.favGame-link:hover {
+    color: blueviolet;
+    text-shadow: 0 0 10px black, 0 2px 0 #BFE2FF;
+}
+
 .favGame-links {
     text-align: left;
     font-size: 30px;
-    color: white;
     left: 0;
     top: 0;
     position: absolute;
-    backdrop-filter: blur(5px) brightness(20%);
 }
 
 .favGames-page {
     color: white;
+    font-family: cursive;
 }
 
 .bottom-favGames {
@@ -147,3 +317,63 @@
     justify-content: space-between;
     margin-top: 20px;
 }
+
+.add-favGame-preview {
+    display: inline;
+    flex-direction: column;
+}
+
+.add-favGame-objects {
+    display: flex;
+    justify-content: space-around;
+}
+
+.favGame-preview-title-main-wrap {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.favGame-preview-title-main {
+    margin-top: -12px;
+    align-self: center;
+    transform: perspective(300px) rotateX(15deg) scaleY(0.8);
+    transition: all 0.5s;
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 90px;
+    letter-spacing: 3px;
+    color: #b841df;
+    text-shadow: 0 0 10px rgb(129 25 110 / 90%), 0 10px 0 #c81a9a;
+}
+
+.favGame-preview-title-main-wrap:hover .favGame-preview-title-main {
+    transform: perspective(1000px) rotateX(15deg) scale(1.07);
+    text-shadow: 0 0 10px black, 0 2px 0 #BFE2FF;
+}
+
+.favGame-preview-genre {
+    font-size: 20px;
+    color: white;
+}
+
+.all-preview-elements {
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.title-favGame, .favGame-preview-title {
+    display: inline-flex;
+    font-size: 40px;
+    margin: 30px 40px 10px 40px;
+    padding: 0 10px 0 10px;
+    backdrop-filter: blur(5px) brightness(40%);
+    box-shadow: 0 0 4px 5px #fff;
+    border-radius: 30px;
+    width: fit-content;
+    align-self: center;
+}
+

@@ -2,9 +2,7 @@ using AutoMapper;
 using AutoMapper.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Net12.Maze;
@@ -14,21 +12,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.DbModel.Maze;
+using WebMaze.EfStuff.DbModel.ThreeInRow;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.ThreeInRow;
 using WebMaze.Services;
 using WebMaze.SignalRHubs;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WebMaze.EfStuff.DbModel.GuessTheNumber;
+using WebMaze.Models.GuessTheNumber;
+using WebMaze.EfStuff.DbModel.SeaBattle;
+using WebMaze.Services.RequestForMoney;
+using WebMaze.Models.GenerationDocument;
+using WebMaze.Controllers;
 
 namespace WebMaze
 {
@@ -59,14 +59,19 @@ namespace WebMaze
             RegisterRepositoriesAuto(services);
 
             RegisterMapper(services);
-
             services.AddScoped<UserService>();
             services.AddScoped<MinerFiledBuilder>();
             services.AddScoped<ZumaGameService>();
+            services.AddScoped<ThreeInRowService>();
+            services.AddScoped<SeaBattleService>();
 
             services.AddScoped<PayForActionService>();
 
+            services.AddScoped<CurrenceService>();
+
             services.AddScoped<PayForAddActionFilter>();
+            services.AddScoped<CellInfoHelperService>();
+            services.AddScoped<TransactionRequestCoins>();
 
             services.AddHttpContextAccessor();
 
@@ -160,6 +165,14 @@ namespace WebMaze
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true));
 
+            provider.CreateMap<Book, BookViewModel>()
+                .ForMember(dest => dest.CreatorName, opt => opt.MapFrom(src => src.Creator.Name));
+
+            provider.CreateMap<BookViewModel, Book>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => true))
+                .ForMember(dest => dest.Creator, opt => opt.Ignore());
+
             provider.CreateMap<UserViewModel, User>();
 
             provider.CreateMap<NewCellSuggestion, NewCellSuggestionViewModel>()
@@ -185,7 +198,8 @@ namespace WebMaze
                 .ForMember(nameof(GameViewModel.GlobalUserRating), opt => opt.MapFrom(db => db.Creater.GlobalUserRating));
             provider.CreateMap<GameViewModel, Game>();
 
-            provider.CreateMap<MinerField, MinerFieldViewModel>();
+            provider.CreateMap<MinerField, MinerFieldViewModel>()
+                .ForMember(nameof(MinerFieldViewModel.Username), opt => opt.MapFrom(dbField => dbField.Gamer.Name));
             provider.CreateMap<MinerCell, MinerCellViewModel>();
 
             provider.CreateMap<MazeLevelWeb, MazeViewModel>();
@@ -204,6 +218,11 @@ namespace WebMaze
             provider.CreateMap<ZumaGameDifficult, ZumaGameDifficultViewModel>()
                 .ForMember(nameof(ZumaGameDifficultViewModel.Author), opt => opt.MapFrom(db => db.Author.Name));
             provider.CreateMap<ZumaGameDifficultViewModel, ZumaGameDifficult>();
+
+            provider.CreateMap<ThreeInRowGameField, ThreeInRowGameFieldViewModel>();
+            provider.CreateMap<ThreeInRowGameFieldViewModel, ThreeInRowGameField>();
+            provider.CreateMap<ThreeInRowCell, ThreeInRowCellViewModel>();
+            provider.CreateMap<ThreeInRowCellViewModel, ThreeInRowCell>();
 
             provider.CreateMap<Perrmission, PermissionViewModel>()
             .ForMember(nameof(PermissionViewModel.Count), opt => opt.MapFrom(db => db.UsersWhichHasThePermission.Count));
@@ -247,6 +266,27 @@ namespace WebMaze
                      }
                  });
 
+            provider.CreateMap<MazeLevelWeb, MazeLevelViewModel>();
+            provider.CreateMap<MazeCellWeb, MazeCellViewModel>()
+                .ForMember(nameof(MazeCellViewModel.CellType), opt => opt.MapFrom(dbModel => dbModel.TypeCell.ToString()))
+                .AfterMap((dbModel, viewModel) =>
+                {
+                    var enemy = dbModel
+                        .MazeLevel
+                        .Enemies
+                        .FirstOrDefault(x => x.X == dbModel.X && x.Y == dbModel.Y);
+
+                    if (dbModel.MazeLevel.HeroX == dbModel.X
+                        && dbModel.MazeLevel.HeroY == dbModel.Y)
+                    {
+                        viewModel.CellType = typeof(Hero).Name;
+                    }
+                    else if (enemy != null)
+                    {
+                        viewModel.CellType = enemy.TypeEnemy.ToString();
+                    }
+                });
+
             provider.CreateMap<MazeCellWeb, BaseCell>()
                 .ConstructUsing(x => inBaseCell(x));
 
@@ -259,6 +299,51 @@ namespace WebMaze
             provider.CreateMap<BaseEnemy, MazeEnemyWeb>()
                 .ConstructUsing(x => inEnemyWeb(x));
 
+            provider.CreateMap<UserInGroup, UserInGroupViewModel>();
+            provider.CreateMap<UserInGroupViewModel, UserInGroup>();
+
+            provider.CreateMap<GroupList, GroupListViewModel>();
+
+            provider.CreateMap<GroupListViewModel, GroupList>();
+            provider.CreateMap<GuessTheNumberGameParameters,
+                GuessTheNumberGameParametersViewModel>()
+                .ReverseMap();
+
+            provider.CreateMap<GuessTheNumberGame, GuessTheNumberGameViewModel>()
+                .ForMember(
+                    nameof(GuessTheNumberGameViewModel.PlayerName),
+                    opt => opt.MapFrom(game => game.Player.Name));
+            provider.CreateMap<GuessTheNumberGameViewModel, GuessTheNumberGame>();
+
+            provider.CreateMap<GuessTheNumberGameAnswer, GuessTheNumberGameAnswerViewModel>()
+                .ForMember(
+                    nameof(GuessTheNumberGameAnswerViewModel.GameId),
+                    opt => opt.MapFrom(game => game.Game.Id));
+            provider.CreateMap<GuessTheNumberGameAnswerViewModel,
+                GuessTheNumberGameAnswer>();
+
+            provider.CreateMap<SeaBattleCell, SeaBattleCellViewModel>();
+            provider.CreateMap<SeaBattleCellViewModel, SeaBattleCell>()
+                .ForMember(nameof(SeaBattleCell.IsShip), opt => opt.Ignore());
+
+            provider.CreateMap<SeaBattleField, SeaBattleFieldViewModel>()
+                .ForMember(nameof(SeaBattleFieldViewModel.Cells), opt => opt.MapFrom(db => db.Cells));
+            provider.CreateMap<SeaBattleFieldViewModel, SeaBattleField>();
+
+            provider.CreateMap<SeaBattleGame, SeaBattleGameViewModel>()
+                .ForMember(nameof(SeaBattleGameViewModel.MyField), opt => opt.MapFrom(db => db.Fields.Where(x => !x.IsEnemyField).Single()))
+                .ForMember(nameof(SeaBattleGameViewModel.EnemyField), opt => opt.MapFrom(db => db.Fields.Where(x => x.IsEnemyField).Single()));
+            provider.CreateMap<SeaBattleGameViewModel, SeaBattleGame>();
+
+            provider.CreateMap<SeaBattleDifficult, SeaBattleDifficultViewModel>();
+            provider.CreateMap<SeaBattleDifficultViewModel, SeaBattleDifficult>();
+            provider.CreateMap<RequestForMoney, RequestForMoneyViewModel>()
+                .ForMember(nameof(RequestForMoneyViewModel.RequestRecipient),
+                    opt => opt.MapFrom(r => r.RequestRecipient.Name))
+                .ForMember(nameof(RequestForMoneyViewModel.RequestCreator),
+                    opt => opt.MapFrom(r => r.RequestCreator.Name));
+            provider.CreateMap<RequestForMoneyViewModel,
+                RequestForMoney>();           
 
             var mapperConfiguration = new MapperConfiguration(provider);
 
@@ -268,6 +353,7 @@ namespace WebMaze
             services.AddScoped<IMapper>(x => mapper);
 
         }
+
         private MazeLevelWeb inMazeModel(MazeLevel maze)
         {
             var model = new MazeLevelWeb()
@@ -280,8 +366,8 @@ namespace WebMaze
                 HeroNowHp = maze.Hero.Hp,
                 HeroX = maze.Hero.X,
                 HeroY = maze.Hero.Y,
-
-
+                Message = maze.Message,
+                HeroMoney = maze.Hero.Money,
             };
             return model;
         }
@@ -291,7 +377,8 @@ namespace WebMaze
             {
                 Height = model.Height,
                 Width = model.Width,
-                
+                Message = model.Message,
+
 
             };
             maze.Hero = new Hero(model.HeroX, model.HeroY, maze, model.HeroNowHp, model.HeroMaxHp)
@@ -304,7 +391,7 @@ namespace WebMaze
             {
                 { typeof(Wall), MazeCellInfo.Wall},
                 { typeof(WeakWall), MazeCellInfo.WeakWall},
-                { typeof(Ground), MazeCellInfo.Grow},
+                { typeof(Ground), MazeCellInfo.Ground},
                 { typeof(GoldMine), MazeCellInfo.Goldmine},
                 { typeof(Coin), MazeCellInfo.Coin},
                 { typeof(Bed),MazeCellInfo.Bed},
@@ -319,6 +406,7 @@ namespace WebMaze
                 { typeof(WolfPit), MazeCellInfo.WolfPit},
                 { typeof(Tavern), MazeCellInfo.Tavern},
                 { typeof(Healer), MazeCellInfo.Healer},
+                { typeof(Exit), MazeCellInfo.Exit}
 
             };
             var model = new MazeCellWeb();
@@ -357,7 +445,7 @@ namespace WebMaze
         {
             switch (model.TypeCell)
             {
-                case MazeCellInfo.Grow:
+                case MazeCellInfo.Ground:
                     return new Ground(model.X, model.Y, null) { Id = model.Id };
                 case MazeCellInfo.Wall:
                     return new Wall(model.X, model.Y, null) { Id = model.Id };
@@ -391,6 +479,8 @@ namespace WebMaze
                     return new Bless(model.X, model.Y, null) { Id = model.Id };
                 case MazeCellInfo.WolfPit:
                     return new WolfPit(model.X, model.Y, null) { Id = model.Id };
+                case MazeCellInfo.Exit:
+                    return new Exit(model.X, model.Y, null) { Id = model.Id };
                 default:
                     return new Ground(model.X, model.Y, null) { Id = model.Id };
             }
@@ -414,7 +504,6 @@ namespace WebMaze
             }
             return null;
         }
-
         private MazeEnemyWeb inEnemyWeb(BaseEnemy enemy)
         {
             var dict = new Dictionary<Type, MazeEnemyInfo>()
@@ -453,11 +542,11 @@ namespace WebMaze
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
-            IApplicationBuilder app, 
+            IApplicationBuilder app,
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddFile("Logs/Info-{Date}.txt", 
+            loggerFactory.AddFile("Logs/Info-{Date}.txt",
                 outputTemplate: "[{Level}] Smile {Timestamp:o} {Message} {NewLine}{Exception}");
             loggerFactory.AddFile("Logs/ERROR-{Date}.txt", LogLevel.Error);
 
@@ -476,10 +565,10 @@ namespace WebMaze
 
             app.UseRouting();
 
-            // Êòî ÿ?
+            // ÃŠÃ²Ã® Ã¿?
             app.UseAuthentication();
 
-            //Êóäà ìíå ìîæíî?
+            //ÃŠÃ³Ã¤Ã  Ã¬Ã­Ã¥ Ã¬Ã®Ã¦Ã­Ã®?
             app.UseAuthorization();
 
             app.UseMiddleware<LocalizeMidlleware>();
@@ -487,6 +576,34 @@ namespace WebMaze
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ChatHub>("/chat");
+            });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<MazeHub>("/mazeEnemies");
+            });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<DocumentPreparationHub>("/documentUpdateStatusById");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<DocumentPreparationHub>("/documentUpdateStatusAll");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<SeaBattleHub>("/seaBattle");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<PDFPreparationHub>("/pdfPreparation");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<PDFPreparationHub>("/pdfPreparationInTheIndex");
             });
 
             app.UseEndpoints(endpoints =>

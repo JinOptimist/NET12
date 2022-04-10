@@ -44,17 +44,41 @@ namespace WebMaze.Controllers
             _chatHub = chatHub;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int perPage = 13, string typeSorted = "CreationDate")
         {
+
+            var test = _newsRepository.GetAllSorted();
+
+
             var newsViewModels = new List<NewsViewModel>();
             newsViewModels = _newsRepository
-                .GetAll()
+                .GetForPagination(perPage, page, typeSorted)
                 .Select(dbModel => _mapper.Map<NewsViewModel>(dbModel))
                 .ToList();
 
-            return View(newsViewModels);
+            var paggerViewModel = new PaggerViewModel<NewsViewModel>();
+
+            paggerViewModel.Records = newsViewModels;
+            paggerViewModel.TotalRecordsCount = _newsRepository.Count();
+            paggerViewModel.PerPage = perPage;
+            paggerViewModel.CurrPage = page;
+
+            return View(paggerViewModel);
         }
 
+        [HttpPost]
+        public IActionResult Index(string ColumnName, int typeSearch, string textSearch)
+        {
+            var MyList = _newsRepository.GetFiltList(typeSearch, ColumnName, textSearch);
+
+            var paggerViewModel = new PaggerViewModel<NewsViewModel>();
+            paggerViewModel.Records = _mapper.Map<List<NewsViewModel>>(MyList);
+            paggerViewModel.TotalRecordsCount = _newsRepository.Count();
+            paggerViewModel.PerPage = 13;
+            paggerViewModel.CurrPage = 1;
+
+            return View(paggerViewModel);
+        }
         [IsAdmin]
         [HttpGet]
         public IActionResult AddNews(long newsId)
@@ -96,6 +120,15 @@ namespace WebMaze.Controllers
         {
             var news = _newsRepository.Get(newsId);
             _payForActionService.CreatorEarnMoney(news.Author.Id, 10);
+
+            return RedirectToAction("Index", "News");
+        }
+
+        public IActionResult Awful(long newsId)
+        {
+            var news = _newsRepository.Get(newsId);
+
+            _payForActionService.CreatorDislikeFine(news.Author.Id, TypesOfPayment.Fine);
 
             return RedirectToAction("Index", "News");
         }

@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 
 namespace Net12.Maze
-{   
-  
+{
+
     public class MazeLevel : IMazeLevel
 
     {
@@ -22,7 +22,7 @@ namespace Net12.Maze
 
         public IHero Hero { get; set; }
 
-        public string Message { get; set; } = "";
+        public string Message { get; set; } = "Play";
 
         public Action<int> GetCoins { get; set; }
 
@@ -73,7 +73,7 @@ namespace Net12.Maze
 
         public void HeroStep(Direction direction)
         {
-            Message = "";
+            Message = "Step";
             var heroPositionX = Hero.X;
             var heroPositionY = Hero.Y;
             if (Hero.CurrentFatigue < Hero.MaxFatigue && Hero.Hp > 0)
@@ -125,6 +125,10 @@ namespace Net12.Maze
             //{
             //    enemy.Step();
             //}
+        }
+        public void EnemiesStep()
+        {
+            Enemies.ForEach(x => x.GoStep());
         }
     }
 }
