@@ -22,14 +22,14 @@ namespace WebMaze.ResourceLocalization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class MySystem {
+    public class Maze {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal MySystem() {
+        internal Maze() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace WebMaze.ResourceLocalization {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WebMaze.ResourceLocalization.MySystem", typeof(MySystem).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WebMaze.ResourceLocalization.Maze", typeof(Maze).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,11 @@ namespace WebMaze.ResourceLocalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Откуда эта ссылка?.
+        ///   Looks up a localized string similar to Cool maze.
         /// </summary>
-        public static string SecreteLinkMessage {
+        public static string MazeGreetings {
             get {
-                return ResourceManager.GetString("SecreteLinkMessage", resourceCulture);
+                return ResourceManager.GetString("MazeGreetings", resourceCulture);
             }
         }
     }

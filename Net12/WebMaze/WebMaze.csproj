@@ -66,10 +66,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MySystem.resx</DependentUpon>
     </Compile>
-    <Compile Update="ResourceLocalization\ZumaGame.Designer.cs">
+    <Compile Update="ResourceLocalization\Maze.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ZumaGame.resx</DependentUpon>
+      <DependentUpon>Maze.resx</DependentUpon>
     </Compile>
     <Compile Update="ResourceLocalization\News.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -91,7 +91,7 @@
       <LastGenOutput>MySystem.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\ZumaGame.resx">
-      <LastGenOutput>ZumaGame.Designer.cs</LastGenOutput>
+      <LastGenOutput>Maze.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\ZumaGame.Ru.resx">
@@ -99,7 +99,7 @@
     </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\Maze.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ZumaGame.Designer.cs</LastGenOutput>
+      <LastGenOutput>Maze.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="ResourceLocalization\Maze.Ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
