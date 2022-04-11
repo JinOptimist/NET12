@@ -66,6 +66,23 @@ namespace WebMaze.Controllers
             return View(indexViewModel);
         }
 
+        public IActionResult SortedIndex(int min = 0, int max = 0)
+        {
+            var indexViewModel = new SeaBattleIndexViewModel
+            {
+                SeaBattleDifficultViewModels = _seaBattleDifficultRepository.GetFilteredSeaBattles(min, max)
+                                                                            .Select(x => _mapper.Map<SeaBattleDifficultViewModel>(x))
+                                                                            .ToList()
+            };
+
+            if (_userService.GetCurrentUser().SeaBattleGame != null)
+            {
+                indexViewModel.IsContinue = true;
+            }
+
+            return View(indexViewModel);
+        }
+
         public IActionResult NewGame(long difficultId)
         {
             var user = _userService.GetCurrentUser();
