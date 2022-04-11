@@ -57,7 +57,7 @@ namespace WebMaze.EfStuff.Repositories
 
         public User GetUserById(long Id)
         {
-            return GetAllQueryable().FirstOrDefault(x => x.Id == Id);
+            return GetAllQueryable().SingleOrDefault(x => x.Id == Id);
         }
 
         public override void Remove(User user)

@@ -1,6 +1,7 @@
 ﻿@model AdminMenuViewModel
 @section Scripts{
 <link rel="stylesheet" href="~/css/AdminMenu.css" />
+<script src="/js/AdminMenu.js"></script>
 }
 
 <div class="PageBody">
@@ -22,12 +23,12 @@
             <div class="MainTableNames">
                 <table>
                     <tr>
-                        <td width= 7%><div class="FirstColumn">Id</div></td>
-                        <td width= 28%><div class="SecondColumn">User Name</div></td>
-                        <td width= 17%><div class="ThirdColumn">Admin</div></td>
-                        <td width= 17%><div class="FourthColumn">News Creator</div></td>
-                        <td width= 17%><div class="FifthColumn">Forum Moderator</div></td>
-                        <td width= 17%><div class="SixthColumn">Ban</div></td>
+                        <td width=7%><div class="FirstColumn">Id</div></td>
+                        <td width=28%><div class="SecondColumn">User Name</div></td>
+                        <td width=17%><div class="ThirdColumn">Admin</div></td>
+                        <td width=17%><div class="FourthColumn">News Creator</div></td>
+                        <td width=17%><div class="FifthColumn">Forum Moderator</div></td>
+                        <td width=17%><div class="SixthColumn">Ban</div></td>
                     </tr>
                 </table>
             </div>
@@ -36,75 +37,78 @@
                 <table>
                     @foreach (var user in Model.Users)
                     {
-                    <tr>
-                        <td width= 7%><div id="Column_1_Line_@user.Id" class="FirstColumn">@user.Id</div></td>
-                        <td width= 28%>
-                            <div id="Column_2_Line_@user.Id" class="SecondColumn">
+                        <tr>
+                            <td width=7%><div id="Column_1_Line_@user.Id" class="FirstColumn ">@user.Id</div></td>
+                            <td width=28%>
+                                <div id="Column_2_Line_@user.Id" class="SecondColumn">
                                     @if (@user.Id == @Model.currUser.Id)
                                     {
-                                       <text>@user.UserName &nbsp;<font color="#7B68EE"> (You)</font></text>
+                                        <text>@user.UserName &nbsp;<font color="#7B68EE"> (You)</font></text>
                                     }
                                     @if (@user.Id != @Model.currUser.Id)
                                     {
                                         <text>@user.UserName</text>
                                     }
-                            </div>
+                                </div>
                             </td>
-                        <td width= 17%><div id="Column_3_Line_@user.Id" class="ThirdColumn"><input class="apple-switch" type="checkbox"></div></td>
-                        <td width= 17%><div id="Column_4_Line_@user.Id" class="FourthColumn"><input class="apple-switch" type="checkbox"></div></td>
-                        <td width= 17%>
-                            <div id="Column_5_Line_@user.Id" class="FifthColumn"><input class="apple-switch"
-                                checked
-                                type="checkbox">
-                            </div>
-                        </td>
-                        <td width= 17%>
-                            <div id="Column_6_Line_@user.Id" class="SixthColumn"><input class="apple-switch-red"
-                                @if (!@user.IsActive){
-                                    <text>checked</text>
+                            <td width=17%>
+                                <div id="Column_3_Line_@user.Id" class="ThirdColumn">
+                                    <input class="apple-switch switch" data-url="/Admin/ChangeUser?userId=@(user.Id)&change=Admin" type="checkbox"
+                                       @if (@user.Perrmissions.Any(p => p.Name == "Admin")){
+                                <text>checked</text>
+                                }>
+                                </div>
+                            </td>
+                            <td width=17%>
+                                <div id="Column_4_Line_@user.Id" class="FourthColumn">
+                                    <input class="apple-switch switch" data-url="/Admin/ChangeUser?userId=@(user.Id)&change=NewsCreator" type="checkbox"
+                                       @if (@user.Perrmissions.Any(p => p.Name == "NewsCreator")){
+                                <text>checked</text>
+                                }>
+                                </div>
+                            </td>
+                            <td width=17%>
+                                <div id="Column_5_Line_@user.Id" class="FifthColumn">
+                                    <input class="apple-switch switch"
+                                       data-url="/Admin/ChangeUser?userId=@(user.Id)&change=ForumModerator"
+                                       type="checkbox"
+                                    @if (@user.Perrmissions.Any(p => p.Name == "ForumModerator"))
+                                    {
+                                        <text>checked</text>
+                                    }>
+                                </div>
+                            </td>
+                            <td width=17%>
+                                <div id="Column_6_Line_@user.Id" class="SixthColumn">
+                                    <input class="apple-switch-red switch" data-url="/Admin/BanUser?userId=@(user.Id)"
+                                       @if (!@user.IsActive){
+                                <text>checked</text>
                                 }
-                            type="checkbox">
-                        </div>
-                        </td>
-                    </tr>
+                                type="checkbox">
+                                </div>
+                            </td>
+                        </tr>
                     }
                 </table>
             </div>
             <!-- Проверка -->
-            <div>
-                 <div class=submitChanges> Submit </div>
-            </div>
-
             <!-- Проверка -->
 
             <div>
-                <form action="/Admin/GetUserCoinStatus">   
+                <form action="/Admin/GetUserCoinStatus">
 
                     <select id="Id" name="Id">
-                    @foreach (var user in Model.Users)
-                    {
-                        <option value="@user.Id">@user.Id : @user.UserName</option>
-                    }
+                        @foreach (var user in Model.Users)
+                        {
+                            <option value="@user.Id">@user.Id : @user.UserName</option>
+                        }
                     </select>
                     @Html.TextBoxFor(x => x.Coins, new { @placeholder="Coin Count"})
                     <input type="submit" value="отправить данные" />
                 </form>
             </div>
 
-            <!-- Проверка -->
-@*
-            <div>
-                <div class="text-center">
-                    <h3>Administration: View permission</h3>
-                    @foreach (var x in Model.permissionViewModels)
-                    {
-                        <div>@x.Name</div>
-                        <div>@x.Count</div>
-                    }
-                </div>
-
-            </div>*@
+        </div>
     </div>
-</div>
 
 

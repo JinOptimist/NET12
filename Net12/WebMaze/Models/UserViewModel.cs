@@ -17,5 +17,7 @@ namespace WebMaze.Models
         public bool NotReapitUsersName { get; set; }
         public List<NewsViewModel> News { get; set; }
         public bool IsActive { get; set; }
+        public  List<PermissionViewModel> Perrmissions { get; set; }
+
     }
 }

@@ -19,6 +19,7 @@ using WebMaze.Controllers.AuthAttribute;
 using WebMaze.EfStuff.DbModel;
 using WebMaze.EfStuff.Repositories;
 using WebMaze.Models;
+using WebMaze.Models.Enums;
 using WebMaze.Services;
 
 namespace WebMaze.Controllers
@@ -60,24 +61,40 @@ namespace WebMaze.Controllers
 
             return View(adminMenuViewModel);
 
-            //var permissionViewModels = new List<PermissionViewModel>();
-            //permissionViewModels = _permissionRepository.GetAll()
-            //    .Select(x => _mapper.Map<PermissionViewModel>(x)).ToList();
-            //return View(permissionViewModels);
         }
 
-        [HttpGet]
         [Authorize]
-        public IActionResult GetAdminMenu()
+        public IActionResult ChangeUser(long userId, Roles change)
         {
-            return View();
+            var user = _userRepository.Get(userId);
+            if(user == null)
+            {
+                return NotFound();
+            }
+            var nameOfRole = change.GetDisplayName();
+            if (user.Perrmissions.Any(p => p.Name == nameOfRole))
+            {
+                user.Perrmissions.Remove(user.Perrmissions.SingleOrDefault(p => p.Name == nameOfRole));
+            } else
+            {
+                var perm = _permissionRepository.GetAll().SingleOrDefault(p => p.Name == nameOfRole);
+                user.Perrmissions.Add(perm);
+            }
+            _userRepository.Save(user);
+            return Ok(); 
         }
-
-        [HttpPost]
         [Authorize]
-        public IActionResult PostAdminMenu()
+        public IActionResult BanUser(long userId)
         {
-            return View();
+            var user = _userRepository.Get(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.IsActive = user.IsActive ? false : true;
+            _userRepository.Save(user);
+            return Ok();
         }
 
         [HttpGet]
