@@ -1,0 +1,243 @@
+﻿/*Header of internal page*/
+
+.PageBody {
+    background: #9c9c9c;
+}
+
+.PageBodyContainer {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+
+.HeaderOfPageBody {
+    width: 100%;
+    float: left;
+    text-align: center;
+    color: #A9A9A9;
+    font-size: 80px;
+    font-variant: small-caps;
+    font-weight: 900;
+    background-color: #414141;
+    border-radius: 0 0 10px 10px;
+    margin-bottom: 2%;
+    text-shadow: 0px 9px 14px rgba(0, 0, 0, 0.57);
+}
+
+.MainPageBodyPart {
+    width: 100%;
+    float: left;
+    text-align: left;
+    color: #A9A9A9;
+    font-size: 60px;
+    font-variant: small-caps;
+    font-weight: 900;
+    background-color: #414141;
+    border-radius: 10px 10px 0px 0px;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-bottom: 1%;
+    text-shadow: 0px 9px 14px rgba(0, 0, 0, 0.57);
+}
+
+/*Table*/
+
+/*Header of the table*/
+
+.MainHeader {
+    display: flex;
+}
+
+.HeaderUnderline {
+    border-radius: 4px;
+    width: 100%;
+    height: 8px;
+    background-color: #9c9c9c;
+    display: flex;
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+}
+
+.UserListName {
+    width: 32%;
+    display: flex;
+    float: left;
+    color: #A9A9A9;
+    text-align: left;
+    font-size: 60px;
+    align-items: center;
+    justify-content: center;
+}
+
+.PermissionsName {
+    width: 68%;
+    display: flex;
+    float: right;
+    color: #A9A9A9;
+    text-align: left;
+    font-size: 60px;
+    align-items: center;
+    justify-content: center;
+}
+
+.MainTableNames{
+    font-size: 30px;
+    display: flex;
+    align-items: stretch;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/*Main table*/
+
+.MainTable {
+    display: flex;
+    font-size: 30px;
+    align-items: stretch;
+}
+
+.FirstColumn {
+    display: flex;
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+}
+
+.SecondColumn {
+    display: flex;
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+}
+
+.ThirdColumn {
+    display: flex;
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+}
+
+.FourthColumn {
+    display: flex;
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+}
+
+.FifthColumn {
+    display: flex;
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+}
+
+.SixthColumn {
+    display: flex;
+    word-wrap: break-word;
+    align-items: center;
+    justify-content: center;
+}
+
+/*
+    Header and footer preset
+*/
+.footer.border-top.footer.text-muted.bottom {
+    background: #ffffff;
+    visibility: hidden;
+}
+
+body {
+    position: absolute;
+    background: #9c9c9c;
+}
+
+
+/* buttons*/
+input.apple-switch {
+    position: relative;
+    appearance: none;
+    outline: none;
+    width: 50px;
+    height: 30px;
+    background-color: #ffffff;
+    border: 1px solid #D9DADC;
+    border-radius: 50px;
+    box-shadow: inset -20px 0 0 0 #ffffff;
+    transition-duration: 200ms;
+}
+
+input.apple-switch:after {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 26px;
+    height: 26px;
+    background-color: transparent;
+    border-radius: 50%;
+    box-shadow: 2px 4px 6px rgba(0,0,0,0.2);
+}
+
+input.apple-switch:checked {
+    border-color: #4ED164;
+    box-shadow: inset 20px 0 0 0 #4ED164;
+}
+
+input.apple-switch:checked:after {
+    left: 20px;
+    box-shadow: -2px 4px 3px rgba(0,0,0,0.05);
+}
+
+/*Remove button*/
+
+input.apple-switch-red {
+    position: relative;
+    appearance: none;
+    outline: none;
+    width: 50px;
+    height: 30px;
+    background-color: #ffffff;
+    border: 1px solid #D9DADC;
+    border-radius: 50px;
+    box-shadow: inset -20px 0 0 0 #ffffff;
+    transition-duration: 200ms;
+}
+
+    input.apple-switch-red:after {
+        content: "";
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        width: 26px;
+        height: 26px;
+        background-color: transparent;
+        border-radius: 50%;
+        box-shadow: 2px 4px 6px rgba(0,0,0,0.2);
+    }
+
+    input.apple-switch-red:checked {
+        border-color: #FF6347;
+        box-shadow: inset 20px 0 0 0 #FF6347;
+    }
+
+        input.apple-switch-red:checked:after {
+            left: 20px;
+            box-shadow: -2px 4px 3px rgba(0,0,0,0.05);
+        }
+
+
+.submitChanges {
+    width: 100%;
+    float: left;
+    text-align: center;
+    color: #A9A9A9;
+    font-size: 80px;
+    font-variant: small-caps;
+    font-weight: 900;
+    background-color: #414141;
+    border-radius: 0 0 10px 10px;
+    margin-bottom: 2%;
+    text-shadow: 0px 9px 14px rgba(0, 0, 0, 0.57);
+}
