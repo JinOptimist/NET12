@@ -1,0 +1,21 @@
+﻿@model List<User>
+@using WebMaze.EfStuff.DbModel
+@section Scripts{
+    <script src="~/js/cellInfoHelper.js"></script>
+    <link rel="stylesheet" href="~/css/cellInfoHelper.css" />
+}
+
+<div class="text-center">
+    <h3>Administration: Cell suggestion winner</h3>
+    <div>The winners of the competition are:  </div>
+    <a href="#" class="spoiler-botton" style="text-decoration: none">Click here</a>
+
+    <div class="spoiler-body">
+        @foreach (var item in Model)
+        {
+            <div><span>@item.Id</span><span> @item.Name</span></div>
+           
+        }
+    </div>
+
+</div>

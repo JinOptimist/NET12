@@ -19,6 +19,7 @@ namespace Net12.Maze.Cells.Enemies
         {
             _leftwallX = X - 1;
             _leftwallY = Y;
+       
         }
 
         public override BaseCell BeforeStep()

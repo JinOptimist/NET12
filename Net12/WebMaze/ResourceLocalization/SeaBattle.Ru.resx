@@ -120,9 +120,6 @@
   <data name="ContinueGame" xml:space="preserve">
     <value>Продолжить игру</value>
   </data>
-  <data name="Defeat" xml:space="preserve">
-    <value>Поражение</value>
-  </data>
   <data name="FourSizeShip" xml:space="preserve">
     <value>Четырехпалубных кораблей:</value>
   </data>
@@ -140,6 +137,9 @@
   </data>
   <data name="Return" xml:space="preserve">
     <value>Возврат</value>
+  </data>
+  <data name="Surrender" xml:space="preserve">
+    <value>Сдаться</value>
   </data>
   <data name="ThreeSizeShip" xml:space="preserve">
     <value>Трехпалубных кораблей:</value>

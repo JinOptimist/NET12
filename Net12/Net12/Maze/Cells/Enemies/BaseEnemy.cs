@@ -11,7 +11,7 @@ namespace Net12.Maze.Cells.Enemies
         {
             X = x;
             Y = y;
-            Hp = 50;
+            Hp = 100;
         }
 
 
@@ -19,8 +19,8 @@ namespace Net12.Maze.Cells.Enemies
         {
             if((Maze.Hero.X == X && Math.Abs(Maze.Hero.Y-Y) == 1) || (Maze.Hero.Y == Y && Math.Abs(Maze.Hero.X - X) == 1))
             {
-                Maze.Hero.Hp -= 10;
-                Hp -= 10;
+                Maze.Hero.Hp -= 5;
+                Hp -= 50;
                 if(Hp <= 0)
                 {
                     Maze.Enemies.Remove(this);
