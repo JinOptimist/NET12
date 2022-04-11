@@ -44,11 +44,9 @@ namespace WebMaze.Controllers
             _chatHub = chatHub;
         }
 
-        public IActionResult Index(int page = 1, int perPage = 13, string typeSorted = "CreationDate")
+        public IActionResult Index(int page = 1, int perPage = 3, string typeSorted = "CreationDate")
         {
-
-            var test = _newsRepository.GetAllSorted();
-
+            //var test = _newsRepository.GetAllSorted();
 
             var newsViewModels = new List<NewsViewModel>();
             newsViewModels = _newsRepository
@@ -74,7 +72,7 @@ namespace WebMaze.Controllers
             var paggerViewModel = new PaggerViewModel<NewsViewModel>();
             paggerViewModel.Records = _mapper.Map<List<NewsViewModel>>(MyList);
             paggerViewModel.TotalRecordsCount = _newsRepository.Count();
-            paggerViewModel.PerPage = 13;
+            paggerViewModel.PerPage = 2;
             paggerViewModel.CurrPage = 1;
 
             return View(paggerViewModel);
@@ -86,7 +84,8 @@ namespace WebMaze.Controllers
             var model = _mapper.Map<NewsViewModel>(_newsRepository.Get(newsId))
                 ?? new NewsViewModel()
                 {
-                    EventDate = DateTime.Now
+                    EventDate = DateTime.Now,
+                    DateTimeOfPublication=DateTime.Now
                 };
             return View(model);
         }
@@ -108,6 +107,7 @@ namespace WebMaze.Controllers
             dbNews.CreationDate = DateTime.Now.Date;
             dbNews.Author = author;
             dbNews.IsActive = true;
+            dbNews.IsPublished = dbNews.DateTimeOfPublication > DateTime.Now ? false : true;
 
             _newsRepository.Save(dbNews);
 

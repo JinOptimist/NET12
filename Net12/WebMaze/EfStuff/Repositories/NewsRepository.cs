@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -13,6 +14,11 @@ namespace WebMaze.EfStuff.Repositories
     {
         public NewsRepository(WebContext webContext) : base(webContext)
         {
+        }
+
+        public IQueryable<News> GetNotPublishedNews()
+        {
+            return _dbSet.Where(x => x.IsActive && x.DateTimeOfPublication <= DateTime.Today && x.IsPublished == false);
         }
 
         public List<News> GetAllSorted()
@@ -37,8 +43,9 @@ namespace WebMaze.EfStuff.Repositories
 
         public List<News> GetForPagination(int perPage, int page, string columnName = "CreationDate")
             => GetSortedNews(columnName)
+            .Where(x => x.IsActive == true && x.IsPublished == true)
             .Skip((page - 1) * perPage)
-            .Take(perPage)
+            .Take(perPage)        
             .ToList();
 
 

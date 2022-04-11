@@ -19,6 +19,7 @@ namespace WebMaze.EfStuff
         public const string DefaultAdminName = "admin";
         public const string DefaultMazeDifficultName = "Default";
         public const string DefaultNewsTitle = "TestNews";
+        public const string DefaultNewsCommentText = "Good";
         public const string DefaultImageDesc = "Admin image";
         public static List<string> testUsernames = new List<string> { "Alice77", "JackieCool", "Ian1995", "Katee11" };
 
@@ -29,6 +30,7 @@ namespace WebMaze.EfStuff
                 SeedUser(scope);
                 SeedMazeDifficult(scope);
                 SeedNews(scope);
+                SeedNewsComments(scope);
                 SeedPermissions(scope);
                 SeedGallery(scope);
                 SeedFavGames(scope);
@@ -173,12 +175,16 @@ namespace WebMaze.EfStuff
             var author = scope.ServiceProvider.GetService<UserRepository>().GetUserByName(DefaultAdminName);
             var newsRepository = scope.ServiceProvider.GetService<NewsRepository>();
             var testNews = newsRepository.GetNewsByName(DefaultNewsTitle);
+            var dateTimeToday = DateTime.Now;
+            var testDateTimeOfPublication = dateTimeToday;
             if (testNews == null)
             {
                 testNews = new News()
                 {
                     Title = DefaultNewsTitle,
                     IsActive = true,
+                    DateTimeOfPublication = testDateTimeOfPublication,
+                    IsPublished = testDateTimeOfPublication > dateTimeToday ? false : true,
                     Location = "Maze",
                     Text = "Attention! New cell is soon!",
                     Author = author,
@@ -188,10 +194,11 @@ namespace WebMaze.EfStuff
                 newsRepository.Save(testNews);
             }
 
-            if (newsRepository.Count() < 200)
+            if (newsRepository.Count() < 10)
             {
-                for (int i = 0; i < 200; i++)
+                for (int i = 1; i < 10; i++)
                 {
+                    var testDateOfPublication = DateTime.Today.AddDays(-1 * i);
                     var news = new News()
                     {
                         Title = DefaultNewsTitle + i,
@@ -200,10 +207,34 @@ namespace WebMaze.EfStuff
                         Text = $"Attention! {i}",
                         Author = author,
                         CreationDate = DateTime.Now.AddDays(-1 * i),
-                        EventDate = DateTime.Today.AddDays(-1 * i)
+                        EventDate = DateTime.Today.AddDays(-1 * i),
+                        DateTimeOfPublication = testDateOfPublication,
+                        IsPublished = testDateOfPublication > DateTime.Today ? false : true
                     };
                     newsRepository.Save(news);
                 }
+            }
+        }
+
+        private static void SeedNewsComments(IServiceScope scope)
+        {
+            var author = scope.ServiceProvider.GetService<UserRepository>().GetUserByName(DefaultAdminName);
+            var newsCommentsRepository = scope.ServiceProvider.GetService<NewsCommentRepository>();
+            var newsRepository = scope.ServiceProvider.GetService<NewsRepository>();
+            
+            var testNewsComments = newsCommentsRepository.GetNewsCommentByText(DefaultNewsCommentText);
+            var testNews = newsRepository.GetNewsByName(DefaultNewsTitle);
+            if (testNewsComments == null)
+            {
+                testNewsComments = new NewsComment()
+                {
+                    News=testNews,
+                    IsActive = true,
+                    Text = DefaultNewsCommentText,
+                    Author = author,
+                    CreationDate = DateTime.Now
+                };
+                newsCommentsRepository.Save(testNewsComments);
             }
         }
 

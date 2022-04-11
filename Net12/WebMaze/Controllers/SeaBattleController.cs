@@ -42,12 +42,35 @@ namespace WebMaze.Controllers
             _seaBattleHub = seaBattleHub;
         }
 
-        public IActionResult Index(string typeSorted = "Height")
+        public IActionResult Index(string typeSorted = "Height", int min = 0, int max = 0)
         {
+            var test = new SeaBattleIndexViewModel
+            {
+                SeaBattleDifficultViewModels = _seaBattleDifficultRepository.GetFilteredSeaBattles(min, max)
+                                                                            .Select(x => _mapper.Map<SeaBattleDifficultViewModel>(x))
+                                                                            .ToList()
+            };
 
             var indexViewModel = new SeaBattleIndexViewModel
             {
                 SeaBattleDifficultViewModels = _seaBattleDifficultRepository.GetSortedSeaBattles(typeSorted)
+                                                                            .Select(x => _mapper.Map<SeaBattleDifficultViewModel>(x))
+                                                                            .ToList()
+            };
+
+            if (_userService.GetCurrentUser().SeaBattleGame != null)
+            {
+                indexViewModel.IsContinue = true;
+            }
+
+            return View(indexViewModel);
+        }
+
+        public IActionResult SortedIndex(int min = 0, int max = 0)
+        {
+            var indexViewModel = new SeaBattleIndexViewModel
+            {
+                SeaBattleDifficultViewModels = _seaBattleDifficultRepository.GetFilteredSeaBattles(min, max)
                                                                             .Select(x => _mapper.Map<SeaBattleDifficultViewModel>(x))
                                                                             .ToList()
             };

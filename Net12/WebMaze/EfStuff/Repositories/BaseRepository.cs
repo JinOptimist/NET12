@@ -50,7 +50,7 @@ namespace WebMaze.EfStuff.Repositories
             {
                 _dbSet.Add(model);
             }
-            _webContext.SaveChanges();
+            _webContext.SaveChanges();            
         }
 
         public virtual void Remove(long id)
@@ -97,7 +97,7 @@ namespace WebMaze.EfStuff.Repositories
 
             }
             var condition = Expression.Lambda<Func<Template, object>>(Expression.Convert(member, typeof(object)), table);
-            return _dbSet.OrderBy(condition).ToList();
+            return _dbSet.Where(x=>x.IsActive==true).OrderBy(condition).ToList();
         }
 
         public IQueryable<Template> SortedBy(string sortingName, bool isDescending)

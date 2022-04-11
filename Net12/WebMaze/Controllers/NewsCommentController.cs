@@ -81,6 +81,22 @@ namespace WebMaze.Controllers
             return RedirectToAction("Index", "NewsComment", new { newsCommentViewModel.NewsId });
         }
 
+        public IActionResult ShowAllUserComments(string nameOfAuthor)
+        {
+            var result = new NewsAndCommentsUserViewModel();
+            var user = _userRepository.GetUserByName(nameOfAuthor);           
+            var news = _newsRepository.GetAll()
+                .Where(x => x.NewsComments.Exists(y => y.Author == user))
+                .Select(dbModel => _mapper.Map<NewsViewModel>(dbModel))
+                .ToList();
+            var newsComments=_newsCommentRepository.GetAllUser(user.Id)
+                .Select(dbModel => _mapper.Map<NewsCommentViewModel>(dbModel))
+                .ToList();
+            result.News = news;
+            result.NewsComments = newsComments;
+            return View(result);
+        }
+
         public IActionResult RemoveNewsComment(long commentId)
         {
             var newsId = _newsCommentRepository.Get(commentId).News.Id;

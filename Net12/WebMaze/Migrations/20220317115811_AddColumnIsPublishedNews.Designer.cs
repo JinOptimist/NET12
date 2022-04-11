@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebMaze.EfStuff;
 
 namespace WebMaze.Migrations
 {
     [DbContext(typeof(WebContext))]
-    partial class WebContextModelSnapshot : ModelSnapshot
+    [Migration("20220317115811_AddColumnIsPublishedNews")]
+    partial class AddColumnIsPublishedNews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,17 +46,11 @@ namespace WebMaze.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("CreatorId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Desc")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageLink")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
@@ -69,8 +65,6 @@ namespace WebMaze.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
 
                     b.ToTable("Books");
                 });
@@ -396,9 +390,6 @@ namespace WebMaze.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Hp")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -446,9 +437,6 @@ namespace WebMaze.Migrations
                     b.Property<int>("HeroMaxHp")
                         .HasColumnType("int");
 
-                    b.Property<int>("HeroMoney")
-                        .HasColumnType("int");
-
                     b.Property<int>("HeroNowFatigure")
                         .HasColumnType("int");
 
@@ -463,9 +451,6 @@ namespace WebMaze.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -859,17 +844,8 @@ namespace WebMaze.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("FourSizeShip")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
-
-                    b.Property<int>("ThreeSizeShip")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TwoSizeShip")
-                        .HasColumnType("int");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -1200,15 +1176,6 @@ namespace WebMaze.Migrations
                         .HasForeignKey("UsersWhichHasThePermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WebMaze.EfStuff.DbModel.Book", b =>
-                {
-                    b.HasOne("WebMaze.EfStuff.DbModel.User", "Creator")
-                        .WithMany("Books")
-                        .HasForeignKey("CreatorId");
-
-                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.BugReport", b =>
@@ -1575,8 +1542,6 @@ namespace WebMaze.Migrations
             modelBuilder.Entity("WebMaze.EfStuff.DbModel.User", b =>
                 {
                     b.Navigation("AddedSStuff");
-
-                    b.Navigation("Books");
 
                     b.Navigation("CellSuggestionsWhichIAprove");
 

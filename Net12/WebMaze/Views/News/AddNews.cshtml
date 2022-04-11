@@ -29,6 +29,16 @@
                     @Html.ValidationMessageFor(x => x.Location)
                 </div>
             </div>
+
+            <div>
+                <div>
+                    Date of Publication: @Html.TextBoxFor(x => x.DateTimeOfPublication)
+                </div>
+                <div>
+                    @Html.ValidationMessageFor(x => x.DateTimeOfPublication)
+                </div>
+            </div>
+
             <div>
                 <div>
                     Date of event: @Html.TextBoxFor(x => x.EventDate)

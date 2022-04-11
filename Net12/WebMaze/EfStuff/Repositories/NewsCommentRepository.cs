@@ -12,9 +12,19 @@ namespace WebMaze.EfStuff.Repositories
         {
         }
 
+        public NewsComment GetNewsCommentByText(string text)
+        {
+            return _dbSet.SingleOrDefault(x => x.Text == text);
+        }
+
         public List<NewsComment> GetAllId(long id)
         {
             return _dbSet.Where(x => x.News.Id == id && x.IsActive).ToList();
+        }
+
+        public List<NewsComment>GetAllUser(long userId)
+        {
+            return _dbSet.Where(x => x.Author.Id == userId && x.IsActive).ToList();
         }
     }
 }
