@@ -60,6 +60,10 @@ namespace WebMaze.Controllers
 
             return View(adminMenuViewModel);
 
+            //var permissionViewModels =           new List<PermissionViewModel>();
+            //permissionViewModels = _permissionRepository.GetAll()
+            //    .Select(x => _mapper.Map<PermissionViewModel>(x)).ToList();
+            //return View(permissionViewModels);
         }
 
         [HttpGet]
