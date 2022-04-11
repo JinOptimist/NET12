@@ -67,7 +67,25 @@
             <div>
                  <div class=submitChanges> Submit </div>
             </div>
+
             <!-- Проверка -->
+
+            <div>
+                <form action="/Admin/GetUserCoinStatus">   
+
+                    <select id="Id" name="Id">
+                    @foreach (var user in Model.Users)
+                    {
+                        <option value="@user.Id">@user.Id : @user.UserName</option>
+                    }
+                    </select>
+                    @Html.TextBoxFor(x => x.Coins, new { @placeholder="Coin Count"})
+                    <input type="submit" value="отправить данные" />
+                </form>
+            </div>
+
+            <!-- Проверка -->
+
     </div>
 </div>
 

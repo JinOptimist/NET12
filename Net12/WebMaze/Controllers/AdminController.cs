@@ -29,7 +29,7 @@ namespace WebMaze.Controllers
         private PermissionRepository _permissionRepository;
         private IMapper _mapper;
         private UserRepository _userRepository;
-         private UserService _userService;
+        private UserService _userService;
         private CellInfoHelperService _cellInfoHelperService;
         public AdminController(PermissionRepository permissionRepository, IMapper mapper, UserRepository userRepository, CellInfoHelperService cellInfoHelperService, UserService userService)
         {
@@ -48,8 +48,7 @@ namespace WebMaze.Controllers
             return View(permissionViewModels);
         }
 
-        [HttpGet]
-
+        [Authorize]
         public IActionResult AdminMenu()
         {
             var Users = _userRepository.GetFullAll();
@@ -62,57 +61,31 @@ namespace WebMaze.Controllers
             return View(adminMenuViewModel);
 
         }
-        /*
-         
-        ----Взато из HomeController
-         
-        [HttpGet]
 
-        public IActionResult AddUser()
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetAdminMenu()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult AddUser(UserViewModel userViewModel)
+        [Authorize]
+        public IActionResult PostAdminMenu()
         {
-            var dbUser = new User()
-            {
-                Name = userViewModel.UserName,
-                Password = userViewModel.Password,
-                Coins = userViewModel.Coins,
-                Age = DateTime.Now.Second % 10 + 20,
-                IsActive = true
-            };
-
-            _userRepository.Save(dbUser);
-
-            return RedirectToAction("Index", "Home");
+            return View();
         }
 
-        ----Взято из AddUser----
+        [HttpGet]
+        public IActionResult GetUserCoinStatus(int Id,int Coins)
+        {
+            var currUser = _userRepository.GetUserById(Id);
+            currUser.Coins = Coins;
+            _userRepository.Save(currUser);
+            return RedirectToAction("AdminMenu");
+        }
 
-        @model UserViewModel
-
-        <div class="text-center">
-            <form action="/Home/AddUser" method="post">
-                <div>
-                    Name @Html.TextBoxFor(x => x.UserName)
-                </div>
-                <div>
-                    Password @Html.TextBoxFor(x => x.Password)
-                </div>
-                <div>
-                    Coin @Html.TextBoxFor(x => x.Coins)
-                </div>
-                <div>
-                    <input type="submit" value="Save" />
-                </div>
-            </form>
-        </div>
-
-
-        */
+        ///////////////////////////////////////
         public IActionResult ReflectionPages()
         {
             var controllers = Assembly

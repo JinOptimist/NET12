@@ -10,5 +10,9 @@ namespace WebMaze.Models
     {
         public List<UserViewModel> Users { get; set; }
         public UserViewModel currUser { get; set; }
+        public UserViewModel Coins { get; set; }
+        public UserViewModel Id { get; set; }
+        public UserViewModel UserName { get; set; }
+
     }
 }
