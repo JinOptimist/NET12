@@ -30,6 +30,7 @@ using WebMaze.Services.RequestForMoney;
 using WebMaze.Models.GenerationDocument;
 using WebMaze.Controllers;
 
+
 namespace WebMaze
 {
     public class Startup

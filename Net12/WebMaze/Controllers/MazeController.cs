@@ -313,7 +313,6 @@ namespace WebMaze.Controllers
                {
 
 
-                   mutexObjGoMaze.WaitOne();
 
                    maze.EnemiesStep();
                    dataMaze.ChangeModel(myModel, maze, _mapper);
@@ -321,7 +320,6 @@ namespace WebMaze.Controllers
                    var viewModels = _mapper.Map<MazeLevelViewModel>(myModel);
                    _mazeHub.Clients.User(s).SendAsync("ChangingMazeCells", viewModels);
 
-                   mutexObjGoMaze.ReleaseMutex();
                    Thread.Sleep(DELAY_MOVING_ENEMIES * 1000);
 
                }
