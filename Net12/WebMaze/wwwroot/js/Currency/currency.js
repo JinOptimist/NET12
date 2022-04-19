@@ -30,7 +30,7 @@
     $('.getOnDate').click(function (evt) {
         evt.preventDefault();
 
-        const url = `/Currency/GetRateByIdOnDate?currencyId=${$('select[name="currency"]').val()}&date=${$('input[name="onDate"]').val()}`;
+        const url = `/Currency/GetRateByIdOnDate?currencyId=${$('select[name="currencyOnDate"]').val()}&date=${$('input[name="onDate"]').val()}`;
 
         window.location.replace(url);
     });
