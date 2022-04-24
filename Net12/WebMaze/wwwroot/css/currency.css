@@ -6,7 +6,15 @@
 .GetOnPeriod {
     display: none;
 }
-
+.getOnPeriod-field {
+    display: none
+}
+.dates {
+    display: none;
+}
+.getOnPeriod-button {
+    display: none;
+}
 .graph {
     position: relative;
     margin: auto;

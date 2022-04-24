@@ -11,7 +11,7 @@
 }
 
 @section Scripts{
-    <script src="~/js/currency.js"></script>
+<script src="~/js/Currency/currency.js"></script>
 }
 
 
@@ -34,26 +34,40 @@
     </div>
 
     <div class="GetOnDate">
-        <select name="currency">
+        <select name="currencyOnDate">
             @foreach (var item in Model)
             {
                 <option value="@item.Cur_ID">@item.Cur_Name</option>
             }
         </select>
         On date:<input name="onDate" value="@dateToday" type="date" min="@minOnDate" max="@dateToday" />
-
         <input class="getOnDate" type="button" value="Get" />
     </div>
 
     <div class="GetOnPeriod">
+        <div class="add">
+            Add
+        </div>
+        <div class="fields">
+
+        </div>
+        <div class="dates">
+            startDate:<input name="startDate" value="@minDatePeriod" type="date" min="@minDatePeriod" max="@dateToday" />
+            endDate:<input name="endDate" value="@dateToday" type="date" min="@minDatePeriod" max="@dateToday" />
+        </div>
+        <input class="getOnPeriod-button" type="button" value="Get" />
+        <div class="remove">
+            Remove
+        </div>
+    </div>
+
+
+    <div class="getOnPeriod-field base">
         <select name="currency">
             @foreach (var item in Model)
             {
                 <option value="@item.Cur_ID">@item.Cur_Name</option>
             }
         </select>
-        startDate:<input name="startDate" value="@minDatePeriod" type="date" min="@minDatePeriod" max="@dateToday" />
-        endDate:<input name="endDate" value="@dateToday" type="date" min="@minDatePeriod" max="@dateToday" />
-        <input class="getOnPeriod" type="button" value="Get" />
     </div>
 </div>
