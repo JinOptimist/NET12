@@ -96,15 +96,22 @@
 
             <div>
                 <form action="/Admin/GetUserCoinStatus">
-
-                    <select id="Id" name="Id">
-                        @foreach (var user in Model.Users)
-                        {
-                            <option value="@user.Id">@user.Id : @user.UserName</option>
-                        }
-                    </select>
-                    @Html.TextBoxFor(x => x.Coins, new { @placeholder="Coin Count"})
-                    <input type="submit" value="отправить данные" />
+                    <div id="CoinsContainer">
+                        <div>
+                            <select id="ListUsersCoin" name="Id">
+                                @foreach (var user in Model.Users)
+                                {
+                                    <option id="ListUsersCoin" value="@user.Id">@user.Id : @user.UserName</option>
+                                }
+                            </select>
+                        </div>
+                        <div>
+                            @Html.TextBoxFor(x => x.Coins, new { @placeholder="Coin Count", @id="ListUsersCoin", @width="30%"})
+                        </div>
+                        <div>
+                            <input id="ListUsersCoin" type="submit" value="отправить данные" />
+                        </div>
+                    </div>
                 </form>
             </div>
 

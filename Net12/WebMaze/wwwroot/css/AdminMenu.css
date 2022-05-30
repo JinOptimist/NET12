@@ -241,3 +241,22 @@ input.apple-switch-red {
     margin-bottom: 2%;
     text-shadow: 0px 9px 14px rgba(0, 0, 0, 0.57);
 }
+
+#CoinsContainer {
+    display: flex;
+    justify-content:center;
+    align-items:center;
+}
+
+#ListUsersCoin {
+    word-wrap: break-word;
+    height: 100px;
+    width: 100%;
+    text-align: left;
+    color: #A9A9A9;
+    font-size: 60px;
+    font-variant: small-caps;
+    font-weight: 600;
+    background-color: #414141;
+    border-radius: 15px;
+}
