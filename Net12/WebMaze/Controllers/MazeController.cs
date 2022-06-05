@@ -325,7 +325,7 @@ namespace WebMaze.Controllers
                }
            }, token);
 
-            return Json(viewModel);
+            return null;
 
         }
 
